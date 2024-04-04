@@ -1,9 +1,10 @@
-{ lib
-, stdenv
-, rustPlatform
-, fetchFromGitHub
-, pkg-config
-, wayland
+{
+  lib,
+  stdenv,
+  rustPlatform,
+  fetchFromGitHub,
+  pkg-config,
+  wayland,
 }:
 
 rustPlatform.buildRustPackage {
@@ -20,13 +21,9 @@ rustPlatform.buildRustPackage {
 
   cargoHash = "sha256-vNxNvJ5tA323EVArJ6glNslkq/Q6u7NsIpTYO1Q3GEw=";
 
-  nativeBuildInputs = [
-    pkg-config
-  ];
+  nativeBuildInputs = [ pkg-config ];
 
-  buildInputs = [
-    wayland
-  ];
+  buildInputs = [ wayland ];
 
   meta = with lib; {
     broken = stdenv.isDarwin;

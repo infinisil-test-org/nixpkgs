@@ -1,6 +1,7 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
 }:
 
 buildGoModule rec {
@@ -17,7 +18,8 @@ buildGoModule rec {
   vendorHash = "sha256-T8y7MPFebDU6skfz4Rqo0ElRRaldtfexOl99D7h+orU=";
 
   ldflags = [
-    "-s" "-w"
+    "-s"
+    "-w"
     "-X github.com/auth0/auth0-cli/internal/buildinfo.Version=v${version}"
     "-X github.com/auth0/auth0-cli/internal/buildinfo.Revision=0000000"
   ];

@@ -1,6 +1,28 @@
-{ lib, stdenv, fetchFromGitHub, cmake, kernel, installShellFiles, pkg-config
-, luajit, ncurses, perl, jsoncpp, openssl, curl, jq, gcc, elfutils, tbb, protobuf, grpc
-, yaml-cpp, nlohmann_json, re2, zstd, uthash
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  kernel,
+  installShellFiles,
+  pkg-config,
+  luajit,
+  ncurses,
+  perl,
+  jsoncpp,
+  openssl,
+  curl,
+  jq,
+  gcc,
+  elfutils,
+  tbb,
+  protobuf,
+  grpc,
+  yaml-cpp,
+  nlohmann_json,
+  re2,
+  zstd,
+  uthash,
 }:
 
 let
@@ -35,7 +57,12 @@ stdenv.mkDerivation rec {
     hash = "sha256-wvCnWzQbkkM8qEG93li22P67WX1bGX9orTk+2vsBHZY=";
   };
 
-  nativeBuildInputs = [ cmake perl installShellFiles pkg-config ];
+  nativeBuildInputs = [
+    cmake
+    perl
+    installShellFiles
+    pkg-config
+  ];
   buildInputs = [
     luajit
     ncurses
@@ -58,12 +85,14 @@ stdenv.mkDerivation rec {
   hardeningDisable = [ "pic" ];
 
   postUnpack = ''
-    cp -r ${fetchFromGitHub {
-      owner = "falcosecurity";
-      repo = "libs";
-      rev = libsRev;
-      hash = libsHash;
-    }} libs
+    cp -r ${
+      fetchFromGitHub {
+        owner = "falcosecurity";
+        repo = "libs";
+        rev = libsRev;
+        hash = libsHash;
+      }
+    } libs
     chmod -R +w libs
 
     substituteInPlace libs/userspace/libscap/libscap.pc.in libs/userspace/libsinsp/libsinsp.pc.in \
@@ -91,21 +120,24 @@ stdenv.mkDerivation rec {
   ] ++ lib.optional (kernel == null) "-DBUILD_DRIVER=OFF";
 
   env.NIX_CFLAGS_COMPILE =
-   # needed since luajit-2.1.0-beta3
-   "-DluaL_reg=luaL_Reg -DluaL_getn(L,i)=((int)lua_objlen(L,i)) " +
-   # fix compiler warnings been treated as errors
-   "-Wno-error";
+    # needed since luajit-2.1.0-beta3
+    "-DluaL_reg=luaL_Reg -DluaL_getn(L,i)=((int)lua_objlen(L,i)) "
+    +
+      # fix compiler warnings been treated as errors
+      "-Wno-error";
 
-  preConfigure = ''
-    if ! grep -q "${libsRev}" cmake/modules/falcosecurity-libs.cmake; then
-      echo "falcosecurity-libs checksum needs to be updated!"
-      exit 1
-    fi
-    cmakeFlagsArray+=(-DCMAKE_EXE_LINKER_FLAGS="-ltbb -lcurl -lzstd -labsl_synchronization")
-  '' + lib.optionalString (kernel != null) ''
-    export INSTALL_MOD_PATH="$out"
-    export KERNELDIR="${kernel.dev}/lib/modules/${kernel.modDirVersion}/build"
-  '';
+  preConfigure =
+    ''
+      if ! grep -q "${libsRev}" cmake/modules/falcosecurity-libs.cmake; then
+        echo "falcosecurity-libs checksum needs to be updated!"
+        exit 1
+      fi
+      cmakeFlagsArray+=(-DCMAKE_EXE_LINKER_FLAGS="-ltbb -lcurl -lzstd -labsl_synchronization")
+    ''
+    + lib.optionalString (kernel != null) ''
+      export INSTALL_MOD_PATH="$out"
+      export KERNELDIR="${kernel.dev}/lib/modules/${kernel.modDirVersion}/build"
+    '';
 
   postInstall =
     ''
@@ -133,12 +165,15 @@ stdenv.mkDerivation rec {
       fi
     '';
 
-
   meta = with lib; {
     description = "A tracepoint-based system tracing tool for Linux (with clients for other OSes)";
-    license = with licenses; [ asl20 gpl2 mit ];
-    maintainers = [maintainers.raskin];
-    platforms = ["x86_64-linux"] ++ platforms.darwin;
+    license = with licenses; [
+      asl20
+      gpl2
+      mit
+    ];
+    maintainers = [ maintainers.raskin ];
+    platforms = [ "x86_64-linux" ] ++ platforms.darwin;
     broken = kernel != null && versionOlder kernel.version "4.14";
     homepage = "https://sysdig.com/opensource/";
     downloadPage = "https://github.com/draios/sysdig/releases";

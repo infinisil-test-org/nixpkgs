@@ -1,11 +1,12 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, libnotify
-, makeWrapper
-, mpv
-, ncurses
-, pkg-config
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  libnotify,
+  makeWrapper,
+  mpv,
+  ncurses,
+  pkg-config,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -50,7 +51,12 @@ stdenv.mkDerivation (finalAttrs: {
   postFixup = ''
     for file in $out/bin/*; do
       wrapProgram $file \
-        --prefix PATH : ${lib.makeBinPath [ libnotify mpv ]}
+        --prefix PATH : ${
+          lib.makeBinPath [
+            libnotify
+            mpv
+          ]
+        }
     done
   '';
 

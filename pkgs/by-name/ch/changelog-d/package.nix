@@ -8,13 +8,12 @@
 let
   hsPkg = haskellPackages.changelog-d;
 
-  addCompletions = haskellPackages.generateOptparseApplicativeCompletions ["changelog-d"];
+  addCompletions = haskellPackages.generateOptparseApplicativeCompletions [ "changelog-d" ];
 
-  haskellModifications =
-    lib.flip lib.pipe [
-      addCompletions
-      haskell.lib.justStaticExecutables
-    ];
+  haskellModifications = lib.flip lib.pipe [
+    addCompletions
+    haskell.lib.justStaticExecutables
+  ];
 
   mkDerivationOverrides = finalAttrs: oldAttrs: {
 
@@ -32,7 +31,6 @@ let
       homepage = "https://codeberg.org/fgaz/changelog-d";
       maintainers = [ lib.maintainers.roberth ];
     };
-
   };
 in
-  (haskellModifications hsPkg).overrideAttrs mkDerivationOverrides
+(haskellModifications hsPkg).overrideAttrs mkDerivationOverrides

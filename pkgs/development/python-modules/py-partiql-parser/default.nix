@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pytestCheckHook
-, pythonOlder
-, setuptools
-, sure
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
+  sure,
 }:
 
 buildPythonPackage rec {
@@ -21,18 +22,14 @@ buildPythonPackage rec {
     hash = "sha256-b18PY5LCU2NOSmzOHh0NBFQFCJ2N9oAhusn6QTdlb7o=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   nativeCheckInputs = [
     pytestCheckHook
     sure
   ];
 
-  pythonImportsCheck = [
-    "py_partiql_parser"
-  ];
+  pythonImportsCheck = [ "py_partiql_parser" ];
 
   meta = with lib; {
     description = "A tokenizer/parser/executor for the PartiQL-language";

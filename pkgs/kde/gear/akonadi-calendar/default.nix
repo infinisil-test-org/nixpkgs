@@ -1,4 +1,1 @@
-{mkKdeDerivation}:
-mkKdeDerivation {
-  pname = "akonadi-calendar";
-}
+{ mkKdeDerivation }: mkKdeDerivation { pname = "akonadi-calendar"; }

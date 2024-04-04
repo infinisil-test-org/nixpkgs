@@ -1,28 +1,29 @@
-{ lib
-, backports-zoneinfo
-, buildPythonPackage
-, cached-property
-, defusedxml
-, dnspython
-, fetchFromGitHub
-, fetchpatch
-, flake8
-, isodate
-, lxml
-, oauthlib
-, psutil
-, pygments
-, python-dateutil
-, pythonOlder
-, pytz
-, pyyaml
-, requests
-, requests-ntlm
-, requests-oauthlib
-, requests-kerberos
-, requests-mock
-, tzdata
-, tzlocal
+{
+  lib,
+  backports-zoneinfo,
+  buildPythonPackage,
+  cached-property,
+  defusedxml,
+  dnspython,
+  fetchFromGitHub,
+  fetchpatch,
+  flake8,
+  isodate,
+  lxml,
+  oauthlib,
+  psutil,
+  pygments,
+  python-dateutil,
+  pythonOlder,
+  pytz,
+  pyyaml,
+  requests,
+  requests-ntlm,
+  requests-oauthlib,
+  requests-kerberos,
+  requests-mock,
+  tzdata,
+  tzlocal,
 }:
 
 buildPythonPackage rec {
@@ -62,9 +63,7 @@ buildPythonPackage rec {
     requests-kerberos
     tzdata
     tzlocal
-  ] ++ lib.optionals (pythonOlder "3.9") [
-    backports-zoneinfo
-  ];
+  ] ++ lib.optionals (pythonOlder "3.9") [ backports-zoneinfo ];
 
   nativeCheckInputs = [
     flake8
@@ -75,9 +74,7 @@ buildPythonPackage rec {
     requests-mock
   ];
 
-  pythonImportsCheck = [
-    "exchangelib"
-  ];
+  pythonImportsCheck = [ "exchangelib" ];
 
   meta = with lib; {
     description = "Client for Microsoft Exchange Web Services (EWS)";

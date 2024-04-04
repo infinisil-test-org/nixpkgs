@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, protobuf
-, pytestCheckHook
-, pythonOlder
-, pythonRelaxDepsHook
-, setuptools-scm
-, uharfbuzz
-, youseedee
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  protobuf,
+  pytestCheckHook,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  setuptools-scm,
+  uharfbuzz,
+  youseedee,
 }:
 
 buildPythonPackage rec {
@@ -26,17 +27,11 @@ buildPythonPackage rec {
   # ecosystem have begun upgrading from protobuf 3 to protobuf 4,
   # so we need to use protobuf 4 here as well to avoid a conflict
   # in the closure of fontbakery. It seems to be compatible enough.
-  pythonRelaxDeps = [
-    "protobuf"
-  ];
+  pythonRelaxDeps = [ "protobuf" ];
 
-  nativeBuildInputs = [
-    setuptools-scm
-  ];
+  nativeBuildInputs = [ setuptools-scm ];
 
-  propagatedBuildInputs = [
-    protobuf
-  ];
+  propagatedBuildInputs = [ protobuf ];
 
   nativeCheckInputs = [
     pythonRelaxDepsHook

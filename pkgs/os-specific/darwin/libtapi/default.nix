@@ -1,4 +1,12 @@
-{ lib, stdenv, fetchFromGitHub, pkgsBuildBuild, cmake, python3, ncurses }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  pkgsBuildBuild,
+  cmake,
+  python3,
+  ncurses,
+}:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "libtapi";
@@ -15,21 +23,25 @@ stdenv.mkDerivation (finalAttrs: {
 
   # Backported from newer llvm, fixes configure error when cross compiling.
   # Also means we don't have to manually fix the result with install_name_tool.
-  patches = [
-    ./disable-rpath.patch
-  ] ++ lib.optionals (stdenv.hostPlatform != stdenv.buildPlatform) [
-    # TODO: make unconditional and rebuild the world
-    # TODO: send upstream
-    ./native-clang-tblgen.patch
-  ];
+  patches =
+    [ ./disable-rpath.patch ]
+    ++ lib.optionals (stdenv.hostPlatform != stdenv.buildPlatform) [
+      # TODO: make unconditional and rebuild the world
+      # TODO: send upstream
+      ./native-clang-tblgen.patch
+    ];
 
-  nativeBuildInputs = [ cmake python3 ];
+  nativeBuildInputs = [
+    cmake
+    python3
+  ];
 
   # ncurses is required here to avoid a reference to bootstrap-tools, which is
   # not allowed for the stdenv.
   buildInputs = [ ncurses ];
 
-  cmakeFlags = [ "-DLLVM_INCLUDE_TESTS=OFF" ]
+  cmakeFlags =
+    [ "-DLLVM_INCLUDE_TESTS=OFF" ]
     ++ lib.optionals (stdenv.buildPlatform != stdenv.hostPlatform) [
       "-DCMAKE_CROSSCOMPILING=True"
       # This package could probably have a llvm_6 llvm-tblgen and clang-tblgen
@@ -50,7 +62,8 @@ stdenv.mkDerivation (finalAttrs: {
             "-DCMAKE_EXE_LINKER_FLAGS=-L${nativeLibcxxabi}/lib"
             "-DCMAKE_SHARED_LINKER_FLAGS=-L${nativeLibcxxabi}/lib"
           ];
-        in "-DCROSS_TOOLCHAIN_FLAGS_NATIVE:list=${lib.concatStringsSep ";" nativeToolchainFlags}"
+        in
+        "-DCROSS_TOOLCHAIN_FLAGS_NATIVE:list=${lib.concatStringsSep ";" nativeToolchainFlags}"
       )
     ];
 
@@ -64,9 +77,17 @@ stdenv.mkDerivation (finalAttrs: {
     cmakeFlagsArray+=(-DCMAKE_CXX_FLAGS="$INCLUDE_FIX")
   '';
 
-  buildFlags = [ "clangBasic" "libtapi" "tapi" ];
+  buildFlags = [
+    "clangBasic"
+    "libtapi"
+    "tapi"
+  ];
 
-  installTargets = [ "install-libtapi" "install-tapi-headers" "install-tapi" ];
+  installTargets = [
+    "install-libtapi"
+    "install-tapi-headers"
+    "install-tapi"
+  ];
 
   meta = with lib; {
     description = "Replaces the Mach-O Dynamic Library Stub files in Apple's SDKs to reduce the size";

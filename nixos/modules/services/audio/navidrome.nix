@@ -1,11 +1,17 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.services.navidrome;
-  settingsFormat = pkgs.formats.json {};
-in {
+  settingsFormat = pkgs.formats.json { };
+in
+{
   options = {
     services.navidrome = {
 
@@ -37,7 +43,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall [cfg.settings.Port];
+    networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall [ cfg.settings.Port ];
 
     systemd.services.navidrome = {
       description = "Navidrome Media Server";
@@ -56,12 +62,18 @@ in {
         BindPaths = lib.optional (cfg.settings ? DataFolder) cfg.settings.DataFolder;
         BindReadOnlyPaths = [
           # navidrome uses online services to download additional album metadata / covers
-          "${config.environment.etc."ssl/certs/ca-certificates.crt".source}:/etc/ssl/certs/ca-certificates.crt"
+          "${
+            config.environment.etc."ssl/certs/ca-certificates.crt".source
+          }:/etc/ssl/certs/ca-certificates.crt"
           builtins.storeDir
           "/etc"
         ] ++ lib.optional (cfg.settings ? MusicFolder) cfg.settings.MusicFolder;
         CapabilityBoundingSet = "";
-        RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" ];
+        RestrictAddressFamilies = [
+          "AF_UNIX"
+          "AF_INET"
+          "AF_INET6"
+        ];
         RestrictNamespaces = true;
         PrivateDevices = true;
         PrivateUsers = true;
@@ -72,7 +84,10 @@ in {
         ProtectKernelModules = true;
         ProtectKernelTunables = true;
         SystemCallArchitectures = "native";
-        SystemCallFilter = [ "@system-service" "~@privileged" ];
+        SystemCallFilter = [
+          "@system-service"
+          "~@privileged"
+        ];
         RestrictRealtime = true;
         LockPersonality = true;
         MemoryDenyWriteExecute = true;

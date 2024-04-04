@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, marshmallow
-, pytestCheckHook
-, isPy27
-, enum34
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  marshmallow,
+  pytestCheckHook,
+  isPy27,
+  enum34,
 }:
 
 buildPythonPackage rec {
@@ -23,13 +24,9 @@ buildPythonPackage rec {
     sed -i '/addopts/d' tox.ini
   '';
 
-  propagatedBuildInputs = [
-    marshmallow
-  ] ++ lib.optionals isPy27 [ enum34 ];
+  propagatedBuildInputs = [ marshmallow ] ++ lib.optionals isPy27 [ enum34 ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   disabledTests = [
     "test_custom_error_in_deserialize_by_name"

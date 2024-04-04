@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, setuptools
-, pythonOlder
-, aiohttp
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  setuptools,
+  pythonOlder,
+  aiohttp,
 }:
 
 buildPythonPackage rec {
@@ -20,17 +21,11 @@ buildPythonPackage rec {
     hash = "sha256-MoAh5YYaZLF99fTFgErXunaLGT9hgInaZTjlDJcpSEw=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [
-    aiohttp
-  ];
+  propagatedBuildInputs = [ aiohttp ];
 
-  pythonImportsCheck = [
-    "pytedee_async"
-  ];
+  pythonImportsCheck = [ "pytedee_async" ];
 
   # Module has no tests
   doCheck = false;

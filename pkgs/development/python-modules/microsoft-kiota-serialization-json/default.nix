@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, flit-core
-, microsoft-kiota-abstractions
-, pendulum
-, pytest-asyncio
-, pytest-mock
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  flit-core,
+  microsoft-kiota-abstractions,
+  pendulum,
+  pytest-asyncio,
+  pytest-mock,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -24,9 +25,7 @@ buildPythonPackage rec {
     hash = "sha256-DhuDIRTm6xATnXpQ+xLpMuaBcWxZHdr8dO1Rl8OvCKQ=";
   };
 
-  nativeBuildInputs = [
-    flit-core
-  ];
+  nativeBuildInputs = [ flit-core ];
 
   propagatedBuildInputs = [
     microsoft-kiota-abstractions
@@ -39,9 +38,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "kiota_serialization_json"
-  ];
+  pythonImportsCheck = [ "kiota_serialization_json" ];
 
   disabledTests = [
     # Test compare an output format

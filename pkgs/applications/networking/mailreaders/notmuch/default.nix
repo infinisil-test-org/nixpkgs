@@ -1,17 +1,34 @@
-{ fetchurl, lib, stdenv, makeWrapper
-, pkg-config, gnupg
-, xapian, gmime3, sfsexp, talloc, zlib
-, doxygen, perl, texinfo
-, notmuch
-, pythonPackages
-, emacs
-, ruby
-, testers
-, gitUpdater
-, which, dtach, openssl, bash, gdb, man, git
-, withEmacs ? true
-, withRuby ? true
-, withSfsexp ? true # also installs notmuch-git, which requires sexp-support
+{
+  fetchurl,
+  lib,
+  stdenv,
+  makeWrapper,
+  pkg-config,
+  gnupg,
+  xapian,
+  gmime3,
+  sfsexp,
+  talloc,
+  zlib,
+  doxygen,
+  perl,
+  texinfo,
+  notmuch,
+  pythonPackages,
+  emacs,
+  ruby,
+  testers,
+  gitUpdater,
+  which,
+  dtach,
+  openssl,
+  bash,
+  gdb,
+  man,
+  git,
+  withEmacs ? true,
+  withRuby ? true,
+  withSfsexp ? true, # also installs notmuch-git, which requires sexp-support
 }:
 
 stdenv.mkDerivation rec {
@@ -23,44 +40,52 @@ stdenv.mkDerivation rec {
     hash = "sha256-mvRsyA2li0MByiuu/MJaQNES0DFVB+YywPPw8IMo0FQ=";
   };
 
-  nativeBuildInputs = [
-    pkg-config
-    doxygen                   # (optional) api docs
-    pythonPackages.sphinx     # (optional) documentation -> doc/INSTALL
-    texinfo                   # (optional) documentation -> doc/INSTALL
-    pythonPackages.cffi
-  ] ++ lib.optional withEmacs emacs
+  nativeBuildInputs =
+    [
+      pkg-config
+      doxygen # (optional) api docs
+      pythonPackages.sphinx # (optional) documentation -> doc/INSTALL
+      texinfo # (optional) documentation -> doc/INSTALL
+      pythonPackages.cffi
+    ]
+    ++ lib.optional withEmacs emacs
     ++ lib.optional withRuby ruby
     ++ lib.optional withSfsexp makeWrapper;
 
   buildInputs = [
-    gnupg                     # undefined dependencies
-    xapian gmime3 talloc zlib  # dependencies described in INSTALL
+    gnupg # undefined dependencies
+    xapian
+    gmime3
+    talloc
+    zlib # dependencies described in INSTALL
     perl
     pythonPackages.python
-  ] ++ lib.optional withRuby ruby
-    ++ lib.optional withSfsexp sfsexp;
+  ] ++ lib.optional withRuby ruby ++ lib.optional withSfsexp sfsexp;
 
-  postPatch = ''
-    patchShebangs configure test/
+  postPatch =
+    ''
+      patchShebangs configure test/
 
-    substituteInPlace lib/Makefile.local \
-      --replace '-install_name $(libdir)' "-install_name $out/lib"
+      substituteInPlace lib/Makefile.local \
+        --replace '-install_name $(libdir)' "-install_name $out/lib"
 
-    # do not override CFLAGS of the Makefile created by mkmf
-    substituteInPlace bindings/Makefile.local \
-      --replace 'CFLAGS="$(CFLAGS) -pipe -fno-plt -fPIC"' ""
-  '' + lib.optionalString withEmacs ''
-    substituteInPlace emacs/notmuch-emacs-mua \
-      --replace 'EMACS:-emacs' 'EMACS:-${emacs}/bin/emacs' \
-      --replace 'EMACSCLIENT:-emacsclient' 'EMACSCLIENT:-${emacs}/bin/emacsclient'
-  '';
+      # do not override CFLAGS of the Makefile created by mkmf
+      substituteInPlace bindings/Makefile.local \
+        --replace 'CFLAGS="$(CFLAGS) -pipe -fno-plt -fPIC"' ""
+    ''
+    + lib.optionalString withEmacs ''
+      substituteInPlace emacs/notmuch-emacs-mua \
+        --replace 'EMACS:-emacs' 'EMACS:-${emacs}/bin/emacs' \
+        --replace 'EMACSCLIENT:-emacsclient' 'EMACSCLIENT:-${emacs}/bin/emacsclient'
+    '';
 
-  configureFlags = [
-    "--zshcompletiondir=${placeholder "out"}/share/zsh/site-functions"
-    "--bashcompletiondir=${placeholder "out"}/share/bash-completion/completions"
-    "--infodir=${placeholder "info"}/share/info"
-  ] ++ lib.optional (!withEmacs) "--without-emacs"
+  configureFlags =
+    [
+      "--zshcompletiondir=${placeholder "out"}/share/zsh/site-functions"
+      "--bashcompletiondir=${placeholder "out"}/share/bash-completion/completions"
+      "--infodir=${placeholder "info"}/share/info"
+    ]
+    ++ lib.optional (!withEmacs) "--without-emacs"
     ++ lib.optional withEmacs "--emacslispdir=${placeholder "emacs"}/share/emacs/site-lisp"
     ++ lib.optional (!withRuby) "--without-ruby";
 
@@ -75,9 +100,12 @@ stdenv.mkDerivation rec {
     cp bindings/python-cffi/_notmuch_config.py ${placeholder "bindingconfig"}/
   '';
 
-  outputs = [ "out" "man" "info" "bindingconfig" ]
-    ++ lib.optional withEmacs "emacs"
-    ++ lib.optional withRuby "ruby";
+  outputs = [
+    "out"
+    "man"
+    "info"
+    "bindingconfig"
+  ] ++ lib.optional withEmacs "emacs" ++ lib.optional withRuby "ruby";
 
   # if notmuch is built with s-expression support, the testsuite (T-850.sh) only
   # passes if notmuch-git can be executed, so we need to patch its shebang.
@@ -108,32 +136,43 @@ stdenv.mkDerivation rec {
 
   doCheck = !stdenv.hostPlatform.isDarwin && (lib.versionAtLeast gmime3.version "3.0.3");
   checkTarget = "test";
-  nativeCheckInputs = [
-    which dtach openssl bash
-    gdb man
-  ]
-  # for the test T-850.sh for notmuch-git, which is skipped when notmuch is
-  # built without sexp-support
-  ++ lib.optional withEmacs emacs
-  ++ lib.optional withSfsexp git;
+  nativeCheckInputs =
+    [
+      which
+      dtach
+      openssl
+      bash
+      gdb
+      man
+    ]
+    # for the test T-850.sh for notmuch-git, which is skipped when notmuch is
+    # built without sexp-support
+    ++ lib.optional withEmacs emacs
+    ++ lib.optional withSfsexp git;
 
-  installTargets = [ "install" "install-man" "install-info" ];
+  installTargets = [
+    "install"
+    "install-man"
+    "install-info"
+  ];
 
-  postInstall = lib.optionalString withEmacs ''
-    moveToOutput bin/notmuch-emacs-mua $emacs
-  '' + lib.optionalString withRuby ''
-    make -C bindings/ruby install \
-      vendordir=$ruby/lib/ruby \
-      SHELL=$SHELL \
-      $makeFlags "''${makeFlagsArray[@]}" \
-      $installFlags "''${installFlagsArray[@]}"
-  ''
-  # notmuch-git (https://notmuchmail.org/doc/latest/man1/notmuch-git.html) does not work without
-  # sexp-support, so there is no point in installing if we're building without it.
-  + lib.optionalString withSfsexp ''
-    cp notmuch-git $out/bin/notmuch-git
-    wrapProgram $out/bin/notmuch-git --prefix PATH : $out/bin:${lib.getBin git}/bin
-  '';
+  postInstall =
+    lib.optionalString withEmacs ''
+      moveToOutput bin/notmuch-emacs-mua $emacs
+    ''
+    + lib.optionalString withRuby ''
+      make -C bindings/ruby install \
+        vendordir=$ruby/lib/ruby \
+        SHELL=$SHELL \
+        $makeFlags "''${makeFlagsArray[@]}" \
+        $installFlags "''${installFlagsArray[@]}"
+    ''
+    # notmuch-git (https://notmuchmail.org/doc/latest/man1/notmuch-git.html) does not work without
+    # sexp-support, so there is no point in installing if we're building without it.
+    + lib.optionalString withSfsexp ''
+      cp notmuch-git $out/bin/notmuch-git
+      wrapProgram $out/bin/notmuch-git --prefix PATH : $out/bin:${lib.getBin git}/bin
+    '';
 
   passthru = {
     pythonSourceRoot = "notmuch-${version}/bindings/python";
@@ -148,11 +187,14 @@ stdenv.mkDerivation rec {
 
   meta = with lib; {
     description = "Mail indexer";
-    homepage    = "https://notmuchmail.org/";
-    changelog   = "https://git.notmuchmail.org/git?p=notmuch;a=blob_plain;f=NEWS;hb=${version}";
-    license     = licenses.gpl3Plus;
-    maintainers = with maintainers; [ flokli puckipedia ];
-    platforms   = platforms.unix;
+    homepage = "https://notmuchmail.org/";
+    changelog = "https://git.notmuchmail.org/git?p=notmuch;a=blob_plain;f=NEWS;hb=${version}";
+    license = licenses.gpl3Plus;
+    maintainers = with maintainers; [
+      flokli
+      puckipedia
+    ];
+    platforms = platforms.unix;
     mainProgram = "notmuch";
   };
 }

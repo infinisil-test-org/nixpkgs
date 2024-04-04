@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, django
-, freezegun
-, pythonOlder
-, qrcode
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  django,
+  freezegun,
+  pythonOlder,
+  qrcode,
 }:
 
 buildPythonPackage rec {
@@ -29,9 +30,7 @@ buildPythonPackage rec {
     qrcode
   ];
 
-  nativeCheckInputs = [
-    freezegun
-  ];
+  nativeCheckInputs = [ freezegun ];
 
   checkPhase = ''
     ./manage.py test django_otp

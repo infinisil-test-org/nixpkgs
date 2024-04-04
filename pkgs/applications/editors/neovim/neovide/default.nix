@@ -1,27 +1,28 @@
-{ lib
-, rustPlatform
-, clangStdenv
-, fetchFromGitHub
-, linkFarm
-, fetchgit
-, runCommand
-, gn
-, neovim
-, ninja
-, makeWrapper
-, pkg-config
-, python3
-, removeReferencesTo
-, xcbuild
-, SDL2
-, fontconfig
-, xorg
-, stdenv
-, darwin
-, libglvnd
-, libxkbcommon
-, enableWayland ? stdenv.isLinux
-, wayland
+{
+  lib,
+  rustPlatform,
+  clangStdenv,
+  fetchFromGitHub,
+  linkFarm,
+  fetchgit,
+  runCommand,
+  gn,
+  neovim,
+  ninja,
+  makeWrapper,
+  pkg-config,
+  python3,
+  removeReferencesTo,
+  xcbuild,
+  SDL2,
+  fontconfig,
+  xorg,
+  stdenv,
+  darwin,
+  libglvnd,
+  libxkbcommon,
+  enableWayland ? stdenv.isLinux,
+  wayland,
 }:
 
 rustPlatform.buildRustPackage.override { stdenv = clangStdenv; } rec {
@@ -47,16 +48,18 @@ rustPlatform.buildRustPackage.override { stdenv = clangStdenv; } rec {
         sha256 = "sha256-U75NuJnQa5+SNlOrsBmdlvflGdjo3el63EeIsbnE7ms=";
       };
       # The externals for skia are taken from skia/DEPS
-      externals = linkFarm "skia-externals" (lib.mapAttrsToList
-        (name: value: { inherit name; path = fetchgit value; })
-        (lib.importJSON ./skia-externals.json));
+      externals = linkFarm "skia-externals" (
+        lib.mapAttrsToList (name: value: {
+          inherit name;
+          path = fetchgit value;
+        }) (lib.importJSON ./skia-externals.json)
+      );
     in
     runCommand "source" { } ''
       cp -R ${repo} $out
       chmod -R +w $out
       ln -s ${externals} $out/third_party/externals
-    ''
-  ;
+    '';
 
   SKIA_GN_COMMAND = "${gn}/bin/gn";
   SKIA_NINJA_COMMAND = "${ninja}/bin/ninja";
@@ -74,25 +77,28 @@ rustPlatform.buildRustPackage.override { stdenv = clangStdenv; } rec {
     SDL2
     fontconfig
     rustPlatform.bindgenHook
-  ] ++ lib.optionals stdenv.isDarwin [
-    darwin.apple_sdk.frameworks.AppKit
-  ];
+  ] ++ lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.AppKit ];
 
   env = lib.optionalAttrs stdenv.isDarwin {
     # Work around https://github.com/NixOS/nixpkgs/issues/166205
     NIX_LDFLAGS = "-l${stdenv.cc.libcxx.cxxabi.libName}";
   };
 
-  postFixup = let
-    libPath = lib.makeLibraryPath ([
-      libglvnd
-      libxkbcommon
-      xorg.libXcursor
-      xorg.libXext
-      xorg.libXrandr
-      xorg.libXi
-    ] ++ lib.optionals enableWayland [ wayland ]);
-  in ''
+  postFixup =
+    let
+      libPath = lib.makeLibraryPath (
+        [
+          libglvnd
+          libxkbcommon
+          xorg.libXcursor
+          xorg.libXext
+          xorg.libXrandr
+          xorg.libXi
+        ]
+        ++ lib.optionals enableWayland [ wayland ]
+      );
+    in
+    ''
       # library skia embeds the path to its sources
       remove-references-to -t "$SKIA_SOURCE_DIR" \
         $out/bin/neovide
@@ -117,7 +123,10 @@ rustPlatform.buildRustPackage.override { stdenv = clangStdenv; } rec {
     homepage = "https://github.com/neovide/neovide";
     changelog = "https://github.com/neovide/neovide/releases/tag/${version}";
     license = with licenses; [ mit ];
-    maintainers = with maintainers; [ ck3d multisn8 ];
+    maintainers = with maintainers; [
+      ck3d
+      multisn8
+    ];
     platforms = platforms.all;
   };
 }

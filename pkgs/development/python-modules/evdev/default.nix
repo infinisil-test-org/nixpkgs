@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, linuxHeaders
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  linuxHeaders,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -17,9 +18,7 @@ buildPythonPackage rec {
     hash = "sha256-KZ24YozHOyN/wcxX08KUj6oHVuKli2GUtb+B3CCB8eM=";
   };
 
-  buildInputs = [
-    linuxHeaders
-  ];
+  buildInputs = [ linuxHeaders ];
 
   patchPhase = ''
     substituteInPlace setup.py \
@@ -28,9 +27,7 @@ buildPythonPackage rec {
 
   doCheck = false;
 
-  pythonImportsCheck = [
-    "evdev"
-  ];
+  pythonImportsCheck = [ "evdev" ];
 
   meta = with lib; {
     description = "Provides bindings to the generic input event interface in Linux";

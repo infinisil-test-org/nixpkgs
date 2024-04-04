@@ -1,15 +1,16 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, pythonOlder
-, rustPlatform
-, cmake
-, libiconv
-, fetchFromGitHub
-, typing-extensions
-, jemalloc
-, rust-jemalloc-sys
-, darwin
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  pythonOlder,
+  rustPlatform,
+  cmake,
+  libiconv,
+  fetchFromGitHub,
+  typing-extensions,
+  jemalloc,
+  rust-jemalloc-sys,
+  darwin,
 }:
 let
   pname = "polars";
@@ -21,9 +22,7 @@ let
     hash = "sha256-N/VIi0s5unYWqlR5Mpaq9cqXl2ccbzWPuOtE2UbmQw8=";
   };
   rust-jemalloc-sys' = rust-jemalloc-sys.override {
-    jemalloc = jemalloc.override {
-      disableInitExecTls = true;
-    };
+    jemalloc = jemalloc.override { disableInitExecTls = true; };
   };
 in
 buildPythonPackage {
@@ -41,41 +40,42 @@ buildPythonPackage {
     #sed -i 's/version = "0.18.0"/version = "${version}"/g' Cargo.lock
   '';
 
-  cargoDeps = rustPlatform.importCargoLock {
-    lockFile = ./Cargo.lock;
-  };
+  cargoDeps = rustPlatform.importCargoLock { lockFile = ./Cargo.lock; };
 
   buildAndTestSubdir = "py-polars";
 
   # Revisit this whenever package or Rust is upgraded
   RUSTC_BOOTSTRAP = 1;
 
-  propagatedBuildInputs = lib.optionals (pythonOlder "3.11") [
-    typing-extensions
-  ];
+  propagatedBuildInputs = lib.optionals (pythonOlder "3.11") [ typing-extensions ];
 
   # trick taken from the polars repo since there seems to be a problem
   # with simd enabled with our stable rust (instead of nightly).
-  maturinBuildFlags = [ "--no-default-features" "--features=all" ];
+  maturinBuildFlags = [
+    "--no-default-features"
+    "--features=all"
+  ];
 
   dontUseCmakeConfigure = true;
 
-  nativeBuildInputs = [
-    # needed for libz-ng-sys
-    # TODO: use pkgs.zlib-ng
-    cmake
-  ] ++ (with rustPlatform; [
-    cargoSetupHook
-    maturinBuildHook
-  ]);
+  nativeBuildInputs =
+    [
+      # needed for libz-ng-sys
+      # TODO: use pkgs.zlib-ng
+      cmake
+    ]
+    ++ (with rustPlatform; [
+      cargoSetupHook
+      maturinBuildHook
+    ]);
 
-  buildInputs = [
-    rust-jemalloc-sys'
-  ] ++ lib.optionals stdenv.isDarwin [
-    libiconv
-    darwin.apple_sdk.frameworks.Security
-    darwin.apple_sdk.frameworks.SystemConfiguration
-  ];
+  buildInputs =
+    [ rust-jemalloc-sys' ]
+    ++ lib.optionals stdenv.isDarwin [
+      libiconv
+      darwin.apple_sdk.frameworks.Security
+      darwin.apple_sdk.frameworks.SystemConfiguration
+    ];
 
   # nativeCheckInputs = [
   #   pytestCheckHook
@@ -87,9 +87,7 @@ buildPythonPackage {
   #   pydot
   # ];
 
-  pythonImportsCheck = [
-    "polars"
-  ];
+  pythonImportsCheck = [ "polars" ];
 
   meta = with lib; {
     description = "Fast multi-threaded DataFrame library";

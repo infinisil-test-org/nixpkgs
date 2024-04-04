@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, poetry-core
-, snowballstemmer
-, tomli
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  poetry-core,
+  snowballstemmer,
+  tomli,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -22,28 +23,18 @@ buildPythonPackage rec {
     hash = "sha256-MjRrnWu18f75OjsYIlOLJK437X3eXnlW8WkkX7vdS6k=";
   };
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
   postPatch = ''
     substituteInPlace pyproject.toml \
       --replace 'version = "0.0.0-dev"' 'version = "${version}"'
   '';
 
-  propagatedBuildInputs = [
-    snowballstemmer
-  ] ++ lib.optionals (pythonOlder "3.11") [
-    tomli
-  ];
+  propagatedBuildInputs = [ snowballstemmer ] ++ lib.optionals (pythonOlder "3.11") [ tomli ];
 
-  passthru.optional-dependencies.toml = [
-    tomli
-  ];
+  passthru.optional-dependencies.toml = [ tomli ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ] ++ passthru.optional-dependencies.toml;
+  nativeCheckInputs = [ pytestCheckHook ] ++ passthru.optional-dependencies.toml;
 
   disabledTestPaths = [
     "src/tests/test_integration.py" # runs pip install

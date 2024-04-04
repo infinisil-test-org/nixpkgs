@@ -1,4 +1,8 @@
-{ lib, stdenv, fetchurl }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+}:
 
 stdenv.mkDerivation rec {
   pname = "silc-server";
@@ -13,7 +17,7 @@ stdenv.mkDerivation rec {
     homepage = "http://silcnet.org/";
     description = "Secure Internet Live Conferencing server";
     license = lib.licenses.gpl2;
-    maintainers = with lib.maintainers; [viric];
+    maintainers = with lib.maintainers; [ viric ];
     platforms = with lib.platforms; linux;
   };
 }

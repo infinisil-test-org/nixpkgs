@@ -1,15 +1,16 @@
-{ lib
-, buildPythonPackage
-, cryptography
-, fetchPypi
-, fonttools
-, lxml
-, pillow
-, python-barcode
-, pythonOlder
-, qrcode
-, requests
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  cryptography,
+  fetchPypi,
+  fonttools,
+  lxml,
+  pillow,
+  python-barcode,
+  pythonOlder,
+  qrcode,
+  requests,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -35,9 +36,7 @@ buildPythonPackage rec {
     setuptools
   ];
 
-  pythonImportsCheck = [
-    "borb.pdf"
-  ];
+  pythonImportsCheck = [ "borb.pdf" ];
 
   doCheck = false;
 

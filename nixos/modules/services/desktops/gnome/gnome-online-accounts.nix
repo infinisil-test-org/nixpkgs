@@ -1,6 +1,11 @@
 # GNOME Online Accounts daemon.
 
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
@@ -13,8 +18,18 @@ with lib;
   # Added 2021-05-07
   imports = [
     (mkRenamedOptionModule
-      [ "services" "gnome3" "gnome-online-accounts" "enable" ]
-      [ "services" "gnome" "gnome-online-accounts" "enable" ]
+      [
+        "services"
+        "gnome3"
+        "gnome-online-accounts"
+        "enable"
+      ]
+      [
+        "services"
+        "gnome"
+        "gnome-online-accounts"
+        "enable"
+      ]
     )
   ];
 
@@ -32,11 +47,8 @@ with lib;
           a single sign-on framework for the GNOME desktop.
         '';
       };
-
     };
-
   };
-
 
   ###### implementation
 
@@ -45,7 +57,5 @@ with lib;
     environment.systemPackages = [ pkgs.gnome-online-accounts ];
 
     services.dbus.packages = [ pkgs.gnome-online-accounts ];
-
   };
-
 }

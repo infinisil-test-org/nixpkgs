@@ -1,13 +1,14 @@
-{ lib
-, stdenv
-, fetchFromGitea
-, acl
-, attr
-, autoreconfHook
-, libburn
-, libisofs
-, pkg-config
-, zlib
+{
+  lib,
+  stdenv,
+  fetchFromGitea,
+  acl,
+  attr,
+  autoreconfHook,
+  libburn,
+  libisofs,
+  pkg-config,
+  zlib,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -34,11 +35,15 @@ stdenv.mkDerivation (finalAttrs: {
     libisofs
   ];
 
-  propagatedBuildInputs = [
-    acl
-  ];
+  propagatedBuildInputs = [ acl ];
 
-  outputs = [ "out" "lib" "dev" "info" "man" ];
+  outputs = [
+    "out"
+    "lib"
+    "dev"
+    "info"
+    "man"
+  ];
 
   strictDeps = true;
 

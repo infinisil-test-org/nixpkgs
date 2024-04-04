@@ -1,4 +1,8 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+}:
 
 buildGoModule rec {
   pname = "kubectl-gadget";
@@ -16,14 +20,13 @@ buildGoModule rec {
   CGO_ENABLED = 0;
 
   ldflags = [
-    "-s" "-w"
+    "-s"
+    "-w"
     "-X main.version=v${version}"
     "-extldflags=-static"
   ];
 
-  tags = [
-    "withoutebpf"
-  ];
+  tags = [ "withoutebpf" ];
 
   subPackages = [ "cmd/kubectl-gadget" ];
 

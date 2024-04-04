@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
@@ -7,10 +12,12 @@ in
 {
   options = {
     hardware.brillo = {
-      enable = mkEnableOption (lib.mdDoc ''
-        brillo in userspace.
-        This will allow brightness control from users in the video group
-      '');
+      enable = mkEnableOption (
+        lib.mdDoc ''
+          brillo in userspace.
+          This will allow brightness control from users in the video group
+        ''
+      );
     };
   };
 

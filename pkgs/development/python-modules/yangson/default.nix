@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, setuptools-scm
-, elementpath
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  setuptools-scm,
+  elementpath,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -16,21 +17,13 @@ buildPythonPackage rec {
     hash = "sha256-rYUxv3TEdyr2D3UEmmHcJJtlG6gXJnp1c2pez4H13SU=";
   };
 
-  nativeBuildInputs = [
-    setuptools-scm
-  ];
+  nativeBuildInputs = [ setuptools-scm ];
 
-  propagatedBuildInputs = [
-    elementpath
-  ];
+  propagatedBuildInputs = [ elementpath ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "yangson"
-  ];
+  pythonImportsCheck = [ "yangson" ];
 
   meta = with lib; {
     description = "Library for working with data modelled in YANG";

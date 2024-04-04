@@ -1,11 +1,12 @@
-{ lib
-, stdenv
-, fetchurl
-, python3Packages
-, flex
-, texinfo
-, libiconv
-, libintl
+{
+  lib,
+  stdenv,
+  fetchurl,
+  python3Packages,
+  flex,
+  texinfo,
+  libiconv,
+  libintl,
 }:
 
 stdenv.mkDerivation rec {
@@ -18,7 +19,12 @@ stdenv.mkDerivation rec {
     hash = "sha256-eGqv1USFGisTsKN36sFQD4IM5iYVzMLmMLUB53Q7nzM=";
   };
 
-  nativeBuildInputs = [ python3Packages.python flex texinfo libiconv ];
+  nativeBuildInputs = [
+    python3Packages.python
+    flex
+    texinfo
+    libiconv
+  ];
 
   buildInputs = [ libintl ];
 
@@ -36,7 +42,10 @@ stdenv.mkDerivation rec {
     description = "Converts files between various character sets and usages";
     changelog = "https://github.com/rrthomas/recode/raw/v${version}/NEWS";
     platforms = lib.platforms.unix;
-    license = with lib.licenses; [ lgpl3Plus gpl3Plus ];
+    license = with lib.licenses; [
+      lgpl3Plus
+      gpl3Plus
+    ];
     maintainers = with lib.maintainers; [ jcumming ];
   };
 }

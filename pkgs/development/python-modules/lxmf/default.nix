@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, rns
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  rns,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -20,20 +21,14 @@ buildPythonPackage rec {
     hash = "sha256-sEim7bCLLkHo6A1onbDQruyNigVKtim5DDAQI8CYUVo=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [
-    rns
-  ];
+  propagatedBuildInputs = [ rns ];
 
   # Module has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "LXMF"
-  ];
+  pythonImportsCheck = [ "LXMF" ];
 
   meta = with lib; {
     description = "Lightweight Extensible Message Format for Reticulum";

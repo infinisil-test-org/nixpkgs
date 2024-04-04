@@ -1,14 +1,15 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, autoreconfHook
-, pkg-config
-, gnutls
-, keyutils
-, glib
-, libnl
-, systemd
-, withSystemd ? lib.meta.availableOn stdenv.hostPlatform systemd
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  autoreconfHook,
+  pkg-config,
+  gnutls,
+  keyutils,
+  glib,
+  libnl,
+  systemd,
+  withSystemd ? lib.meta.availableOn stdenv.hostPlatform systemd,
 }:
 
 stdenv.mkDerivation rec {
@@ -34,7 +35,10 @@ stdenv.mkDerivation rec {
     libnl
   ];
 
-  outputs = [ "out" "man" ];
+  outputs = [
+    "out"
+    "man"
+  ];
 
   configureFlags = lib.optional withSystemd [ "--with-systemd" ];
 

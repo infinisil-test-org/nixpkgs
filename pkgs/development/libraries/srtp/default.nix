@@ -1,11 +1,12 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, libpcap
-, meson
-, ninja
-, openssl
-, pkg-config
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  libpcap,
+  meson,
+  ninja,
+  openssl,
+  pkg-config,
 }:
 
 stdenv.mkDerivation rec {
@@ -19,7 +20,10 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-OvCw7oF1OuamP3qO2BsimeBSHq1rcXFLfK8KnbbgkMU=";
   };
 
-  outputs = [ "out" "dev" ];
+  outputs = [
+    "out"
+    "dev"
+  ];
 
   nativeBuildInputs = [
     meson

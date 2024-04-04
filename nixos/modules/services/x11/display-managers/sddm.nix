@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
@@ -7,9 +12,9 @@ let
   cfg = dmcfg.sddm;
   xEnv = config.systemd.services.display-manager.environment;
 
-  sddm = cfg.package.override(old: {
+  sddm = cfg.package.override (old: {
     withWayland = cfg.wayland.enable;
-    extraPackages = old.extraPackages or [] ++ cfg.extraPackages;
+    extraPackages = old.extraPackages or [ ] ++ cfg.extraPackages;
   });
 
   iniFmt = pkgs.formats.ini { };
@@ -28,76 +33,111 @@ let
     ${cfg.stopScript}
   '';
 
-  defaultConfig = {
-    General = {
-      HaltCommand = "/run/current-system/systemd/bin/systemctl poweroff";
-      RebootCommand = "/run/current-system/systemd/bin/systemctl reboot";
-      Numlock = if cfg.autoNumlock then "on" else "none"; # on, off none
+  defaultConfig =
+    {
+      General = {
+        HaltCommand = "/run/current-system/systemd/bin/systemctl poweroff";
+        RebootCommand = "/run/current-system/systemd/bin/systemctl reboot";
+        Numlock = if cfg.autoNumlock then "on" else "none"; # on, off none
 
-      # Implementation is done via pkgs/applications/display-managers/sddm/sddm-default-session.patch
-      DefaultSession = optionalString (dmcfg.defaultSession != null) "${dmcfg.defaultSession}.desktop";
+        # Implementation is done via pkgs/applications/display-managers/sddm/sddm-default-session.patch
+        DefaultSession = optionalString (dmcfg.defaultSession != null) "${dmcfg.defaultSession}.desktop";
 
-      DisplayServer = if cfg.wayland.enable then "wayland" else "x11";
+        DisplayServer = if cfg.wayland.enable then "wayland" else "x11";
+      };
+
+      Theme = {
+        Current = cfg.theme;
+        ThemeDir = "/run/current-system/sw/share/sddm/themes";
+        FacesDir = "/run/current-system/sw/share/sddm/faces";
+      };
+
+      Users = {
+        MaximumUid = config.ids.uids.nixbld;
+        HideUsers = concatStringsSep "," dmcfg.hiddenUsers;
+        HideShells = "/run/current-system/sw/bin/nologin";
+      };
+
+      X11 = {
+        MinimumVT = if xcfg.tty != null then xcfg.tty else 7;
+        ServerPath = toString xserverWrapper;
+        XephyrPath = "${pkgs.xorg.xorgserver.out}/bin/Xephyr";
+        SessionCommand = toString dmcfg.sessionData.wrapper;
+        SessionDir = "${dmcfg.sessionData.desktops}/share/xsessions";
+        XauthPath = "${pkgs.xorg.xauth}/bin/xauth";
+        DisplayCommand = toString Xsetup;
+        DisplayStopCommand = toString Xstop;
+        EnableHiDPI = cfg.enableHidpi;
+      };
+
+      Wayland = {
+        EnableHiDPI = cfg.enableHidpi;
+        SessionDir = "${dmcfg.sessionData.desktops}/share/wayland-sessions";
+        CompositorCommand = lib.optionalString cfg.wayland.enable cfg.wayland.compositorCommand;
+      };
+    }
+    // lib.optionalAttrs dmcfg.autoLogin.enable {
+      Autologin = {
+        User = dmcfg.autoLogin.user;
+        Session = autoLoginSessionName;
+        Relogin = cfg.autoLogin.relogin;
+      };
     };
 
-    Theme = {
-      Current = cfg.theme;
-      ThemeDir = "/run/current-system/sw/share/sddm/themes";
-      FacesDir = "/run/current-system/sw/share/sddm/faces";
-    };
+  cfgFile = iniFmt.generate "sddm.conf" (lib.recursiveUpdate defaultConfig cfg.settings);
 
-    Users = {
-      MaximumUid = config.ids.uids.nixbld;
-      HideUsers = concatStringsSep "," dmcfg.hiddenUsers;
-      HideShells = "/run/current-system/sw/bin/nologin";
-    };
-
-    X11 = {
-      MinimumVT = if xcfg.tty != null then xcfg.tty else 7;
-      ServerPath = toString xserverWrapper;
-      XephyrPath = "${pkgs.xorg.xorgserver.out}/bin/Xephyr";
-      SessionCommand = toString dmcfg.sessionData.wrapper;
-      SessionDir = "${dmcfg.sessionData.desktops}/share/xsessions";
-      XauthPath = "${pkgs.xorg.xauth}/bin/xauth";
-      DisplayCommand = toString Xsetup;
-      DisplayStopCommand = toString Xstop;
-      EnableHiDPI = cfg.enableHidpi;
-    };
-
-    Wayland = {
-      EnableHiDPI = cfg.enableHidpi;
-      SessionDir = "${dmcfg.sessionData.desktops}/share/wayland-sessions";
-      CompositorCommand = lib.optionalString cfg.wayland.enable cfg.wayland.compositorCommand;
-    };
-  } // lib.optionalAttrs dmcfg.autoLogin.enable {
-    Autologin = {
-      User = dmcfg.autoLogin.user;
-      Session = autoLoginSessionName;
-      Relogin = cfg.autoLogin.relogin;
-    };
-  };
-
-  cfgFile =
-    iniFmt.generate "sddm.conf" (lib.recursiveUpdate defaultConfig cfg.settings);
-
-  autoLoginSessionName =
-    "${dmcfg.sessionData.autologinSession}.desktop";
-
+  autoLoginSessionName = "${dmcfg.sessionData.autologinSession}.desktop";
 in
 {
   imports = [
-    (mkRemovedOptionModule
-      [ "services" "xserver" "displayManager" "sddm" "themes" ]
-      "Set the option `services.xserver.displayManager.sddm.package' instead.")
+    (mkRemovedOptionModule [
+      "services"
+      "xserver"
+      "displayManager"
+      "sddm"
+      "themes"
+    ] "Set the option `services.xserver.displayManager.sddm.package' instead.")
     (mkRenamedOptionModule
-      [ "services" "xserver" "displayManager" "sddm" "autoLogin" "enable" ]
-      [ "services" "xserver" "displayManager" "autoLogin" "enable" ])
+      [
+        "services"
+        "xserver"
+        "displayManager"
+        "sddm"
+        "autoLogin"
+        "enable"
+      ]
+      [
+        "services"
+        "xserver"
+        "displayManager"
+        "autoLogin"
+        "enable"
+      ]
+    )
     (mkRenamedOptionModule
-      [ "services" "xserver" "displayManager" "sddm" "autoLogin" "user" ]
-      [ "services" "xserver" "displayManager" "autoLogin" "user" ])
-    (mkRemovedOptionModule
-      [ "services" "xserver" "displayManager" "sddm" "extraConfig" ]
-      "Set the option `services.xserver.displayManager.sddm.settings' instead.")
+      [
+        "services"
+        "xserver"
+        "displayManager"
+        "sddm"
+        "autoLogin"
+        "user"
+      ]
+      [
+        "services"
+        "xserver"
+        "displayManager"
+        "autoLogin"
+        "user"
+      ]
+    )
+    (mkRemovedOptionModule [
+      "services"
+      "xserver"
+      "displayManager"
+      "sddm"
+      "extraConfig"
+    ] "Set the option `services.xserver.displayManager.sddm.settings' instead.")
   ];
 
   options = {
@@ -111,7 +151,10 @@ in
         '';
       };
 
-      package = mkPackageOption pkgs [ "plasma5Packages" "sddm" ] {};
+      package = mkPackageOption pkgs [
+        "plasma5Packages"
+        "sddm"
+      ] { };
 
       enableHidpi = mkOption {
         type = types.bool;
@@ -145,7 +188,7 @@ in
 
       extraPackages = mkOption {
         type = types.listOf types.package;
-        default = [];
+        default = [ ];
         defaultText = "[]";
         description = lib.mdDoc ''
           Extra Qt plugins / QML libraries to add to the environment.
@@ -212,18 +255,22 @@ in
 
           # This is basically the upstream default, but with Weston referenced by full path
           # and the configuration generated from NixOS options.
-          default = let westonIni = (pkgs.formats.ini {}).generate "weston.ini" {
-              libinput = {
-                enable-tap = xcfg.libinput.mouse.tapping;
-                left-handed = xcfg.libinput.mouse.leftHanded;
+          default =
+            let
+              westonIni = (pkgs.formats.ini { }).generate "weston.ini" {
+                libinput = {
+                  enable-tap = xcfg.libinput.mouse.tapping;
+                  left-handed = xcfg.libinput.mouse.leftHanded;
+                };
+                keyboard = {
+                  keymap_model = xcfg.xkb.model;
+                  keymap_layout = xcfg.xkb.layout;
+                  keymap_variant = xcfg.xkb.variant;
+                  keymap_options = xcfg.xkb.options;
+                };
               };
-              keyboard = {
-                keymap_model = xcfg.xkb.model;
-                keymap_layout = xcfg.xkb.layout;
-                keymap_variant = xcfg.xkb.variant;
-                keymap_options = xcfg.xkb.options;
-              };
-            }; in "${pkgs.weston}/bin/weston --shell=kiosk -c ${westonIni}";
+            in
+            "${pkgs.weston}/bin/weston --shell=kiosk -c ${westonIni}";
           description = lib.mdDoc "Command used to start the selected compositor";
         };
       };
@@ -294,9 +341,7 @@ in
     };
 
     environment.etc."sddm.conf".source = cfgFile;
-    environment.pathsToLink = [
-      "/share/sddm"
-    ];
+    environment.pathsToLink = [ "/share/sddm" ];
 
     users.groups.sddm.gid = config.ids.gids.sddm;
 
@@ -311,9 +356,7 @@ in
       "plymouth-quit.service"
       "systemd-logind.service"
     ];
-    systemd.services.display-manager.conflicts = [
-      "getty@tty7.service"
-    ];
+    systemd.services.display-manager.conflicts = [ "getty@tty7.service" ];
 
     # To enable user switching, allow sddm to allocate TTYs/displays dynamically.
     services.xserver.tty = null;

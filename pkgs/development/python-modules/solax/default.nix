@@ -1,14 +1,15 @@
-{ lib
-, aiohttp
-, async-timeout
-, buildPythonPackage
-, fetchPypi
-, pytest-asyncio
-, pytest-httpserver
-, pytestCheckHook
-, pythonOlder
-, setuptools-scm
-, voluptuous
+{
+  lib,
+  aiohttp,
+  async-timeout,
+  buildPythonPackage,
+  fetchPypi,
+  pytest-asyncio,
+  pytest-httpserver,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools-scm,
+  voluptuous,
 }:
 
 buildPythonPackage rec {
@@ -23,9 +24,7 @@ buildPythonPackage rec {
     hash = "sha256-PQ7qJCNfXGNF2RK6pHwf0U1DXgv2j2uQ64Nv/qh8f8s=";
   };
 
-  nativeBuildInputs = [
-    setuptools-scm
-  ];
+  nativeBuildInputs = [ setuptools-scm ];
 
   propagatedBuildInputs = [
     aiohttp
@@ -39,9 +38,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "solax"
-  ];
+  pythonImportsCheck = [ "solax" ];
 
   disabledTests = [
     # Tests require network access

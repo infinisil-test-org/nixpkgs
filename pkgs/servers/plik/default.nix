@@ -1,4 +1,10 @@
-{ lib, fetchurl, makeWrapper, runCommand, callPackage }:
+{
+  lib,
+  fetchurl,
+  makeWrapper,
+  runCommand,
+  callPackage,
+}:
 
 let
   version = "1.3.7";
@@ -9,7 +15,6 @@ let
     url = "https://github.com/root-gg/plik/releases/download/${version}/plik-${version}-linux-amd64.tar.gz";
     hash = "sha256-Uj3I/ohgMr/Ud5xAZiBjsIW8bSdUeXXv9NYKLu8Aym8=";
   };
-
 in
 {
 

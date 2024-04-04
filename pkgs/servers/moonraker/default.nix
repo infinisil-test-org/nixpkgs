@@ -1,8 +1,17 @@
-{ lib, stdenvNoCC, fetchFromGitHub, python3, makeWrapper, unstableGitUpdater, nixosTests, useGpiod ? false }:
+{
+  lib,
+  stdenvNoCC,
+  fetchFromGitHub,
+  python3,
+  makeWrapper,
+  unstableGitUpdater,
+  nixosTests,
+  useGpiod ? false,
+}:
 
 let
-  pythonEnv = python3.withPackages (packages:
-    with packages; [
+  pythonEnv = python3.withPackages (
+    packages: with packages; [
       tornado
       pyserial-asyncio
       pillow
@@ -21,7 +30,8 @@ let
       python-periphery
     ]
   );
-in stdenvNoCC.mkDerivation rec {
+in
+stdenvNoCC.mkDerivation rec {
   pname = "moonraker";
   version = "unstable-2023-12-27";
 

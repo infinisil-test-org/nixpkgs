@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, param
-, pyct
-, pytest-mpl
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  param,
+  pyct,
+  pytest-mpl,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -34,13 +35,9 @@ buildPythonPackage rec {
     ln -s $HOME/.config/matplotlib $HOME/.matplotlib
   '';
 
-  disabledTests = [
-    "matplotlib_default_colormap_plot"
-  ];
+  disabledTests = [ "matplotlib_default_colormap_plot" ];
 
-  pythonImportsCheck = [
-    "colorcet"
-  ];
+  pythonImportsCheck = [ "colorcet" ];
 
   meta = with lib; {
     description = "Collection of perceptually uniform colormaps";

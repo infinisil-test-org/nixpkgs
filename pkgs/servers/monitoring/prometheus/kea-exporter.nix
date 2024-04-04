@@ -1,4 +1,9 @@
-{ lib, python3Packages, fetchPypi, nixosTests }:
+{
+  lib,
+  python3Packages,
+  fetchPypi,
+  nixosTests,
+}:
 
 python3Packages.buildPythonApplication rec {
   pname = "kea-exporter";
@@ -10,9 +15,7 @@ python3Packages.buildPythonApplication rec {
     hash = "sha256-rNGA5XEx9xVUP1SeDPgXcaqgDhgX6JFhRX9GM454P5A=";
   };
 
-  nativeBuildInputs = with python3Packages; [
-    pdm-pep517
-  ];
+  nativeBuildInputs = with python3Packages; [ pdm-pep517 ];
 
   propagatedBuildInputs = with python3Packages; [
     click

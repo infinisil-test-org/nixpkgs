@@ -1,21 +1,22 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, cmake
-, pkg-config
-, qttools
-, wrapQtAppsHook
-, dtkwidget
-, qt5integration
-, qt5platform-plugins
-, qtbase
-, qtsvg
-, dde-qt-dbus-factory
-, kcodecs
-, syntax-highlighting
-, libchardet
-, libuchardet
-, libiconv
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  qttools,
+  wrapQtAppsHook,
+  dtkwidget,
+  qt5integration,
+  qt5platform-plugins,
+  qtbase,
+  qtsvg,
+  dde-qt-dbus-factory,
+  kcodecs,
+  syntax-highlighting,
+  libchardet,
+  libuchardet,
+  libiconv,
 }:
 
 stdenv.mkDerivation rec {

@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchPypi
-, python
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchPypi,
+  python,
 }:
 let
   version = "3.4.0";
@@ -11,13 +12,24 @@ let
 
   Srcs =
     let
-      getSrcFromPypi = { platform, dist, hash }: fetchPypi {
-        inherit version platform dist hash;
-        pname = "pulsar_client";
-        format = "wheel";
-        python = dist;
-        abi = dist;
-      };
+      getSrcFromPypi =
+        {
+          platform,
+          dist,
+          hash,
+        }:
+        fetchPypi {
+          inherit
+            version
+            platform
+            dist
+            hash
+            ;
+          pname = "pulsar_client";
+          format = "wheel";
+          python = dist;
+          abi = dist;
+        };
     in
     {
       "3.9-x86_64-linux" = getSrcFromPypi {
@@ -101,15 +113,16 @@ let
         hash = "sha256-9/jw/wr1oUD9pOadVAaMRL081iVMUXwVgnUMcG1UNvE=";
       };
     };
-
-in buildPythonPackage {
+in
+buildPythonPackage {
   pname = "pulsar-client";
   inherit version;
 
   format = "wheel";
 
-  src = Srcs."${pythonVersion}-${stdenv.hostPlatform.system}"
-    or (throw "Unsupported '${pythonVersion}-${stdenv.hostPlatform.system}' target");
+  src =
+    Srcs."${pythonVersion}-${stdenv.hostPlatform.system}"
+      or (throw "Unsupported '${pythonVersion}-${stdenv.hostPlatform.system}' target");
 
   meta = with lib; {
     description = "Client for pulsar";

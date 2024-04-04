@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, future
-, nose
-, pytestCheckHook
-, simplejson
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  future,
+  nose,
+  pytestCheckHook,
+  simplejson,
 }:
 
 buildPythonPackage rec {

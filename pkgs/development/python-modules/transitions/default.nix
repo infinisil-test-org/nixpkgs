@@ -1,15 +1,16 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchPypi
-, pythonAtLeast
-, six
-, pygraphviz
-, pytestCheckHook
-, mock
-, graphviz
-, pycodestyle
-, fontconfig
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchPypi,
+  pythonAtLeast,
+  six,
+  pygraphviz,
+  pytestCheckHook,
+  mock,
+  graphviz,
+  pycodestyle,
+  fontconfig,
 }:
 
 buildPythonPackage rec {
@@ -47,9 +48,7 @@ buildPythonPackage rec {
     "--deselect=tests/test_pygraphviz.py::TestPygraphvizNested::test_diagram"
   ];
 
-  pythonImportsCheck = [
-    "transitions"
-  ];
+  pythonImportsCheck = [ "transitions" ];
 
   meta = with lib; {
     homepage = "https://github.com/pytransitions/transitions";

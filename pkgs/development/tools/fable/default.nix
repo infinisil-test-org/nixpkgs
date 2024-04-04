@@ -13,6 +13,9 @@ buildDotnetGlobalTool {
     changelog = "https://github.com/fable-compiler/fable/releases/tag/v${version}";
     license = licenses.mit;
     platforms = platforms.linux;
-    maintainers = with maintainers; [ anpin mdarocha ];
+    maintainers = with maintainers; [
+      anpin
+      mdarocha
+    ];
   };
 }

@@ -1,17 +1,18 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
 
-# build-system
-, setuptools
+  # build-system
+  setuptools,
 
-# dependencies
-, django
-, mysqlclient
+  # dependencies
+  django,
+  mysqlclient,
 
-# tests
-, pytest-django
-, pytestCheckHook
+  # tests
+  pytest-django,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -26,9 +27,7 @@ buildPythonPackage rec {
     hash = "sha256-AieI6zUPFXQsrvoms5bu/Bb3J+DvfLA4rCCsjhYBEZQ=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   buildInputs = [
     django

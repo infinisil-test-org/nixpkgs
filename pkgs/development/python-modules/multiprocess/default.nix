@@ -1,7 +1,8 @@
-{ lib
-, buildPythonPackage
-, dill
-, fetchFromGitHub
+{
+  lib,
+  buildPythonPackage,
+  dill,
+  fetchFromGitHub,
 }:
 
 buildPythonPackage rec {
@@ -16,16 +17,12 @@ buildPythonPackage rec {
     hash = "sha256-fpyFBrQXy5TwbHmce3qg1RiM8JnH3J5skl3es1IQPiw=";
   };
 
-  propagatedBuildInputs = [
-    dill
-  ];
+  propagatedBuildInputs = [ dill ];
 
   # Python-version dependent tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "multiprocess"
-  ];
+  pythonImportsCheck = [ "multiprocess" ];
 
   meta = with lib; {
     description = "Multiprocessing and multithreading in Python";

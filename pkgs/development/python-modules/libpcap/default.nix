@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, dbus
-, pkgsLibpcap
-, pkg-about
-, setuptools
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  dbus,
+  pkgsLibpcap,
+  pkg-about,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -22,9 +23,7 @@ buildPythonPackage rec {
     hash = "sha256-gEWFqmeOJTVHdjcSOxfVLZtrNSO3CTY1L2VcXOu7q7k=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   # tox is listed in build requirements but not actually used to build
   # keeping it as a requirement breaks the build unnecessarily
@@ -45,9 +44,7 @@ buildPythonPackage rec {
   # Project has tests, but I can't get them to run even outside of nix
   doCheck = false;
 
-  pythonImportsCheck = [
-    "libpcap"
-  ];
+  pythonImportsCheck = [ "libpcap" ];
 
   meta = with lib; {
     description = "Python binding for the libpcap C library";

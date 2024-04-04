@@ -1,8 +1,18 @@
-{ lib, stdenv, fetchFromGitHub
-, autoreconfHook, pkg-config
-, glibcLocales, kmod, coreutils, perl
-, dmidecode, hwdata, sqlite, libtraceevent
-, nixosTests
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  autoreconfHook,
+  pkg-config,
+  glibcLocales,
+  kmod,
+  coreutils,
+  perl,
+  dmidecode,
+  hwdata,
+  sqlite,
+  libtraceevent,
+  nixosTests,
 }:
 
 stdenv.mkDerivation rec {
@@ -16,7 +26,10 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-BX3kc629FOh5cnD6Sa/69wKdhmhT3Rpz5ZvhnD4MclQ=";
   };
 
-  nativeBuildInputs = [ autoreconfHook pkg-config ];
+  nativeBuildInputs = [
+    autoreconfHook
+    pkg-config
+  ];
 
   buildInputs = [
     coreutils
@@ -25,9 +38,13 @@ stdenv.mkDerivation rec {
     kmod
     sqlite
     libtraceevent
-    (perl.withPackages (ps: with ps; [ DBI DBDSQLite ]))
-  ]
-  ++ lib.optionals (!stdenv.isAarch64) [ dmidecode ];
+    (perl.withPackages (
+      ps: with ps; [
+        DBI
+        DBDSQLite
+      ]
+    ))
+  ] ++ lib.optionals (!stdenv.isAarch64) [ dmidecode ];
 
   configureFlags = [
     "--sysconfdir=/etc"
@@ -54,29 +71,35 @@ stdenv.mkDerivation rec {
   # therefore, stripping these from the generated Makefile
   # (needed in the config flags because those set where the tools look for these)
 
-# easy way out, ends up installing /nix/store/...rasdaemon/bin in $out
+  # easy way out, ends up installing /nix/store/...rasdaemon/bin in $out
 
   postConfigure = ''
     substituteInPlace Makefile \
       --replace '"$(DESTDIR)/etc/ras/dimm_labels.d"' '"$(prefix)/etc/ras/dimm_labels.d"'
   '';
 
-  outputs = [ "out" "dev" "man" "inject" ];
+  outputs = [
+    "out"
+    "dev"
+    "man"
+    "inject"
+  ];
 
   postInstall = ''
     install -Dm 0755 contrib/edac-fake-inject $inject/bin/edac-fake-inject
     install -Dm 0755 contrib/edac-tests $inject/bin/edac-tests
   '';
 
-  postFixup = ''
-    # Fix dmidecode and modprobe paths
-    substituteInPlace $out/bin/ras-mc-ctl \
-      --replace 'find_prog ("modprobe")  or exit (1)' '"${kmod}/bin/modprobe"'
-  ''
-  + lib.optionalString (!stdenv.isAarch64) ''
-    substituteInPlace $out/bin/ras-mc-ctl \
-      --replace 'find_prog ("dmidecode")' '"${dmidecode}/bin/dmidecode"'
-  '';
+  postFixup =
+    ''
+      # Fix dmidecode and modprobe paths
+      substituteInPlace $out/bin/ras-mc-ctl \
+        --replace 'find_prog ("modprobe")  or exit (1)' '"${kmod}/bin/modprobe"'
+    ''
+    + lib.optionalString (!stdenv.isAarch64) ''
+      substituteInPlace $out/bin/ras-mc-ctl \
+        --replace 'find_prog ("dmidecode")' '"${dmidecode}/bin/dmidecode"'
+    '';
 
   passthru.tests = nixosTests.rasdaemon;
 

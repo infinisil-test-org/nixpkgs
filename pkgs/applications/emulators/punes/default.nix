@@ -1,20 +1,21 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, fetchpatch
-, gitUpdater
-, cmake
-, pkg-config
-, ffmpeg
-, libGLU
-, alsa-lib
-, libX11
-, libXrandr
-, sndio
-, qtbase
-, qtsvg
-, qttools
-, wrapQtAppsHook
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  fetchpatch,
+  gitUpdater,
+  cmake,
+  pkg-config,
+  ffmpeg,
+  libGLU,
+  alsa-lib,
+  libX11,
+  libXrandr,
+  sndio,
+  qtbase,
+  qtsvg,
+  qttools,
+  wrapQtAppsHook,
 }:
 
 stdenv.mkDerivation rec {
@@ -44,18 +45,19 @@ stdenv.mkDerivation rec {
     wrapQtAppsHook
   ];
 
-  buildInputs = [
-    ffmpeg
-    libGLU
-    qtbase
-    qtsvg
-  ] ++ lib.optionals stdenv.hostPlatform.isLinux [
-    alsa-lib
-    libX11
-    libXrandr
-  ] ++ lib.optionals stdenv.hostPlatform.isBSD [
-    sndio
-  ];
+  buildInputs =
+    [
+      ffmpeg
+      libGLU
+      qtbase
+      qtsvg
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isLinux [
+      alsa-lib
+      libX11
+      libXrandr
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isBSD [ sndio ];
 
   cmakeFlags = [
     "-DENABLE_GIT_INFO=OFF"
@@ -65,9 +67,7 @@ stdenv.mkDerivation rec {
     "-DENABLE_QT6_LIBS=${if lib.versionAtLeast qtbase.version "6.0" then "ON" else "OFF"}"
   ];
 
-  passthru.updateScript = gitUpdater {
-    rev-prefix = "v";
-  };
+  passthru.updateScript = gitUpdater { rev-prefix = "v"; };
 
   meta = with lib; {
     description = "Qt-based Nintendo Entertainment System emulator and NSF/NSFe Music Player";

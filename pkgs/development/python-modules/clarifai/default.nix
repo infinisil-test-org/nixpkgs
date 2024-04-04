@@ -1,24 +1,25 @@
-{ lib
-, buildPythonPackage
-, clarifai-grpc
-, fetchFromGitHub
-, inquirerpy
-, llama-index-core
-, numpy
-, opencv4
-, pandas
-, pillow
-, pycocotools
-, pypdf
-, pytestCheckHook
-, pythonOlder
-, pythonRelaxDepsHook
-, pyyaml
-, rich
-, schema
-, setuptools
-, tqdm
-, tritonclient
+{
+  lib,
+  buildPythonPackage,
+  clarifai-grpc,
+  fetchFromGitHub,
+  inquirerpy,
+  llama-index-core,
+  numpy,
+  opencv4,
+  pandas,
+  pillow,
+  pycocotools,
+  pypdf,
+  pytestCheckHook,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  pyyaml,
+  rich,
+  schema,
+  setuptools,
+  tqdm,
+  tritonclient,
 }:
 
 buildPythonPackage rec {
@@ -35,13 +36,9 @@ buildPythonPackage rec {
     hash = "sha256-/2PIsSsYr/R7DuTX/ndBAOX7C3IaFqPw16ZAX8E1Vk8=";
   };
 
-  pythonRelaxDeps = [
-    "clarifai-grpc"
-  ];
+  pythonRelaxDeps = [ "clarifai-grpc" ];
 
-  pythonRemoveDeps = [
-    "opencv-python"
-  ];
+  pythonRemoveDeps = [ "opencv-python" ];
 
   nativeBuildInputs = [
     pythonRelaxDepsHook
@@ -65,14 +62,10 @@ buildPythonPackage rec {
   ];
 
   passthru.optional-dependencies = {
-    all = [
-      pycocotools
-    ];
+    all = [ pycocotools ];
   };
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   preCheck = ''
     export HOME=$(mktemp -d)
@@ -96,9 +89,7 @@ buildPythonPackage rec {
     "clarifai/models/model_serving/repo_build/static_files/base_test.py"
   ];
 
-  pythonImportsCheck = [
-    "clarifai"
-  ];
+  pythonImportsCheck = [ "clarifai" ];
 
   meta = with lib; {
     description = "Clarifai Python Utilities";

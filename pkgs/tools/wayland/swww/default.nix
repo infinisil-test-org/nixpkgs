@@ -1,11 +1,12 @@
-{ lib
-, fetchFromGitHub
-, rustPlatform
-, pkg-config
-, lz4
-, libxkbcommon
-, installShellFiles
-, scdoc
+{
+  lib,
+  fetchFromGitHub,
+  rustPlatform,
+  pkg-config,
+  lz4,
+  libxkbcommon,
+  installShellFiles,
+  scdoc,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -51,7 +52,10 @@ rustPlatform.buildRustPackage rec {
     description = "Efficient animated wallpaper daemon for wayland, controlled at runtime";
     homepage = "https://github.com/LGFae/swww";
     license = licenses.gpl3;
-    maintainers = with maintainers; [ mateodd25 donovanglover ];
+    maintainers = with maintainers; [
+      mateodd25
+      donovanglover
+    ];
     platforms = platforms.linux;
     mainProgram = "swww";
   };

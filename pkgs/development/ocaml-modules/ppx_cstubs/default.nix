@@ -1,15 +1,16 @@
-{ lib
-, fetchFromGitHub
-, buildDunePackage
-, bigarray-compat
-, containers
-, cppo
-, ctypes
-, integers
-, num
-, ppxlib
-, re
-, findlib
+{
+  lib,
+  fetchFromGitHub,
+  buildDunePackage,
+  bigarray-compat,
+  containers,
+  cppo,
+  ctypes,
+  integers,
+  num,
+  ppxlib,
+  re,
+  findlib,
 }:
 
 buildDunePackage rec {
@@ -39,9 +40,7 @@ buildDunePackage rec {
     re
   ];
 
-  propagatedBuildInputs = [
-    ctypes
-  ];
+  propagatedBuildInputs = [ ctypes ];
 
   meta = with lib; {
     homepage = "https://github.com/fdopen/ppx_cstubs";

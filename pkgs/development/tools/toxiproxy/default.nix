@@ -1,8 +1,9 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
-, testers
-, toxiproxy
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  testers,
+  toxiproxy,
 }:
 
 buildGoModule rec {
@@ -20,12 +21,19 @@ buildGoModule rec {
 
   excludedPackages = [ "test/e2e" ];
 
-  ldflags = [ "-s" "-w" "-X github.com/Shopify/toxiproxy/v2.Version=${version}" ];
+  ldflags = [
+    "-s"
+    "-w"
+    "-X github.com/Shopify/toxiproxy/v2.Version=${version}"
+  ];
 
   # Fixes tests on Darwin
   __darwinAllowLocalNetworking = true;
 
-  checkFlags = [ "-short" "-skip=TestVersionEndpointReturnsVersion" ];
+  checkFlags = [
+    "-short"
+    "-skip=TestVersionEndpointReturnsVersion"
+  ];
 
   postInstall = ''
     mv $out/bin/cli $out/bin/toxiproxy-cli

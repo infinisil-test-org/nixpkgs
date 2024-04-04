@@ -1,9 +1,10 @@
-{ lib
-, stdenv
-, buildGoModule
-, fetchFromGitHub
-, trezor-udev-rules
-, AppKit
+{
+  lib,
+  stdenv,
+  buildGoModule,
+  fetchFromGitHub,
+  trezor-udev-rules,
+  AppKit,
 }:
 
 buildGoModule rec {
@@ -21,11 +22,13 @@ buildGoModule rec {
 
   vendorHash = "sha256-wXgAmZEXdM4FcMCQbAs+ydXshCAMu7nl/yVv/3sqaXE=";
 
-  propagatedBuildInputs = lib.optionals stdenv.isLinux [ trezor-udev-rules ]
+  propagatedBuildInputs =
+    lib.optionals stdenv.isLinux [ trezor-udev-rules ]
     ++ lib.optionals stdenv.isDarwin [ AppKit ];
 
   ldflags = [
-    "-s" "-w"
+    "-s"
+    "-w"
     "-X main.githash=${commit}"
   ];
 
@@ -33,7 +36,13 @@ buildGoModule rec {
     description = "Trezor Communication Daemon aka Trezor Bridge";
     homepage = "https://trezor.io";
     license = licenses.lgpl3Only;
-    maintainers = with maintainers; [ canndrew jb55 prusnak mmahut _1000101 ];
+    maintainers = with maintainers; [
+      canndrew
+      jb55
+      prusnak
+      mmahut
+      _1000101
+    ];
     mainProgram = "trezord-go";
   };
 }

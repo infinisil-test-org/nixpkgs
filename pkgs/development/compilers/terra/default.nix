@@ -1,6 +1,20 @@
-{ lib, stdenv, fetchFromGitHub, llvmPackages, ncurses, cmake, libxml2
-, symlinkJoin, breakpointHook, cudaPackages, enableCUDA ? false
-, libffi, libobjc, libpfm, Cocoa, Foundation
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  llvmPackages,
+  ncurses,
+  cmake,
+  libxml2,
+  symlinkJoin,
+  breakpointHook,
+  cudaPackages,
+  enableCUDA ? false,
+  libffi,
+  libobjc,
+  libpfm,
+  Cocoa,
+  Foundation,
 }:
 
 let
@@ -29,8 +43,8 @@ let
   cuda = cudaPackages.cudatoolkit_11;
 
   clangVersion = llvmPackages.clang-unwrapped.version;
-
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "terra";
   version = "1.1.0";
 
@@ -42,30 +56,44 @@ in stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ cmake ];
-  buildInputs = [ llvmMerged ncurses libffi libxml2 ]
+  buildInputs =
+    [
+      llvmMerged
+      ncurses
+      libffi
+      libxml2
+    ]
     ++ lib.optionals enableCUDA [ cuda ]
     ++ lib.optional (!stdenv.isDarwin) libpfm
-    ++ lib.optionals stdenv.isDarwin [ libobjc Cocoa Foundation ];
+    ++ lib.optionals stdenv.isDarwin [
+      libobjc
+      Cocoa
+      Foundation
+    ];
 
-  cmakeFlags = let
-    resourceDir = "${llvmMerged}/lib/clang/" + (
-      if lib.versionOlder clangVersion "16"
-      then
-        clangVersion
-      else
-        lib.versions.major clangVersion
-    );
-  in [
-    "-DHAS_TERRA_VERSION=0"
-    "-DTERRA_VERSION=${version}"
-    "-DTERRA_LUA=luajit"
-    "-DTERRA_SKIP_LUA_DOWNLOAD=ON"
-    "-DCLANG_RESOURCE_DIR=${resourceDir}"
-  ] ++ lib.optional enableCUDA "-DTERRA_ENABLE_CUDA=ON";
+  cmakeFlags =
+    let
+      resourceDir =
+        "${llvmMerged}/lib/clang/"
+        + (if lib.versionOlder clangVersion "16" then clangVersion else lib.versions.major clangVersion);
+    in
+    [
+      "-DHAS_TERRA_VERSION=0"
+      "-DTERRA_VERSION=${version}"
+      "-DTERRA_LUA=luajit"
+      "-DTERRA_SKIP_LUA_DOWNLOAD=ON"
+      "-DCLANG_RESOURCE_DIR=${resourceDir}"
+    ]
+    ++ lib.optional enableCUDA "-DTERRA_ENABLE_CUDA=ON";
 
   doCheck = true;
   hardeningDisable = [ "fortify" ];
-  outputs = [ "bin" "dev" "out" "static" ];
+  outputs = [
+    "bin"
+    "dev"
+    "out"
+    "static"
+  ];
 
   patches = [ ./nix-cflags.patch ];
 
@@ -94,7 +122,12 @@ in stdenv.mkDerivation rec {
     description = "A low-level counterpart to Lua";
     homepage = "https://terralang.org/";
     platforms = platforms.all;
-    maintainers = with maintainers; [ jb55 seylerius thoughtpolice elliottslaughter ];
+    maintainers = with maintainers; [
+      jb55
+      seylerius
+      thoughtpolice
+      elliottslaughter
+    ];
     license = licenses.mit;
     # never built on aarch64-darwin since first introduction in nixpkgs
     # Linux Aarch64 broken above LLVM11

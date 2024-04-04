@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, which
-, enableStatic ? stdenv.hostPlatform.isStatic
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  which,
+  enableStatic ? stdenv.hostPlatform.isStatic,
 }:
 
 stdenv.mkDerivation rec {
@@ -37,9 +38,7 @@ stdenv.mkDerivation rec {
   installTargets = [
     "install"
     "install-lib-headers"
-  ] ++ lib.optionals (!enableStatic) [
-    "install-lib-so-link"
-  ];
+  ] ++ lib.optionals (!enableStatic) [ "install-lib-so-link" ];
 
   meta = with lib; {
     homepage = "https://rhash.sourceforge.net/";

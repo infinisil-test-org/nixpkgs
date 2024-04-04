@@ -1,11 +1,12 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, uthash
-, meson
-, ninja
-, pkg-config
-, check
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  uthash,
+  meson,
+  ninja,
+  pkg-config,
+  check,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -21,8 +22,11 @@ stdenv.mkDerivation (finalAttrs: {
 
   buildInputs = [ uthash ];
 
-  nativeBuildInputs = [ meson ninja pkg-config ]
-    ++ lib.optionals (finalAttrs.finalPackage.doCheck) [ check ];
+  nativeBuildInputs = [
+    meson
+    ninja
+    pkg-config
+  ] ++ lib.optionals (finalAttrs.finalPackage.doCheck) [ check ];
 
   mesonBuildType = "release";
 

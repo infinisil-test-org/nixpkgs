@@ -1,13 +1,14 @@
-{ lib
-, stdenv
-, fetchurl
-, acl
-, attr
-, bzip2
-, libcdio
-, libiconv
-, readline
-, zlib
+{
+  lib,
+  stdenv,
+  fetchurl,
+  acl,
+  attr,
+  bzip2,
+  libcdio,
+  libiconv,
+  readline,
+  zlib,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -19,19 +20,23 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-B7lV3n3e1aF7yJsLxwi8C8m3sBmUUePpCV9KfWRuTm0=";
   };
 
-  buildInputs = [
-    bzip2
-    libcdio
-    libiconv
-    readline
-    zlib
-  ]
-  ++ lib.optionals stdenv.isLinux [
-    acl
-    attr
-  ];
+  buildInputs =
+    [
+      bzip2
+      libcdio
+      libiconv
+      readline
+      zlib
+    ]
+    ++ lib.optionals stdenv.isLinux [
+      acl
+      attr
+    ];
 
-  outputs = [ "out" "man" ];
+  outputs = [
+    "out"
+    "man"
+  ];
 
   env.NIX_CFLAGS_COMPILE = lib.optionalString stdenv.isDarwin "-include unistd.h";
 

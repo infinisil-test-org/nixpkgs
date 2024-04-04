@@ -1,14 +1,15 @@
-{ lib
-, aioconsole
-, aiohttp
-, buildPythonPackage
-, fetchFromGitHub
-, pytest-asyncio
-, pytest-mock
-, pytestCheckHook
-, pythonOlder
-, setuptools
-, websockets
+{
+  lib,
+  aioconsole,
+  aiohttp,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pytest-asyncio,
+  pytest-mock,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
+  websockets,
 }:
 
 buildPythonPackage rec {
@@ -25,9 +26,7 @@ buildPythonPackage rec {
     hash = "sha256-0NJsZex054CWfKX2wyJRd6Cnxa89mNrZN59VqIV2MD8=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     aioconsole

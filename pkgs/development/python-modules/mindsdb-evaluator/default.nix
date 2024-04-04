@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, poetry-core
-, dataprep-ml
-, numpy
-, pandas
-, scikit-learn
-, type-infer
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  poetry-core,
+  dataprep-ml,
+  numpy,
+  pandas,
+  scikit-learn,
+  type-infer,
 }:
 
 buildPythonPackage rec {
@@ -24,9 +25,7 @@ buildPythonPackage rec {
     hash = "sha256-pEfY+ocLEE8qcDjf6AzJxtXo1cqD2LhcBmlLjN0llTA=";
   };
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
   propagatedBuildInputs = [
     dataprep-ml

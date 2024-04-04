@@ -1,17 +1,18 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, setuptools
-, setuptools-scm
-, pyasn1
-, pyasn1-modules
-, cryptography
-, joblib
-, gitpython
-, sqlalchemy
-, pygount
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  setuptools,
+  setuptools-scm,
+  pyasn1,
+  pyasn1-modules,
+  cryptography,
+  joblib,
+  gitpython,
+  sqlalchemy,
+  pygount,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -43,9 +44,7 @@ buildPythonPackage rec {
     pygount
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   disabledTests = [
     # requires network access

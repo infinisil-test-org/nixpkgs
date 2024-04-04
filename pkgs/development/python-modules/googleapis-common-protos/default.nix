@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, setuptools
-, grpc
-, protobuf
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  setuptools,
+  grpc,
+  protobuf,
 }:
 
 buildPythonPackage rec {
@@ -16,9 +17,7 @@ buildPythonPackage rec {
     hash = "sha256-imSGapf2MEpxeYc6Rl1u7pe3ok7Gz9eOD1delrghJAs=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     grpc

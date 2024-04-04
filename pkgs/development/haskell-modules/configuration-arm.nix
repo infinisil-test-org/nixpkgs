@@ -27,7 +27,8 @@ in
 
 with haskellLib;
 
-self: super: {
+self: super:
+{
   # COMMON ARM OVERRIDES
 
   # moved here from configuration-common.nix, no reason given.
@@ -39,11 +40,17 @@ self: super: {
   happy_1_19_12 = doDistribute (dontCheck super.happy_1_19_12);
 
   # add arm specific library
-  wiringPi = overrideCabal ({librarySystemDepends ? [], ...}: {
-    librarySystemDepends = librarySystemDepends ++ [pkgs.wiringpi];
-  }) super.wiringPi;
-
-} // lib.optionalAttrs pkgs.stdenv.hostPlatform.isAarch64 {
+  wiringPi = overrideCabal (
+    {
+      librarySystemDepends ? [ ],
+      ...
+    }:
+    {
+      librarySystemDepends = librarySystemDepends ++ [ pkgs.wiringpi ];
+    }
+  ) super.wiringPi;
+}
+// lib.optionalAttrs pkgs.stdenv.hostPlatform.isAarch64 {
   # AARCH64-SPECIFIC OVERRIDES
 
   # Corrupted store path https://github.com/NixOS/nixpkgs/pull/272097#issuecomment-1848414265
@@ -121,7 +128,8 @@ self: super: {
   hls-rename-plugin = dontCheck super.hls-rename-plugin;
   hls-fourmolu-plugin = dontCheck super.hls-fourmolu-plugin;
   hls-floskell-plugin = dontCheck super.hls-floskell-plugin;
-} // lib.optionalAttrs pkgs.stdenv.hostPlatform.isAarch32 {
+}
+// lib.optionalAttrs pkgs.stdenv.hostPlatform.isAarch32 {
   # AARCH32-SPECIFIC OVERRIDES
 
   # KAT/ECB/D2 test segfaults on armv7l

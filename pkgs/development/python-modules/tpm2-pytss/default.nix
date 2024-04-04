@@ -1,20 +1,21 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, asn1crypto
-, cffi
-, cryptography
-, pkgconfig # see nativeBuildInputs
-, pkg-config # see nativeBuildInputs
-, pycparser
-, pytestCheckHook
-, python
-, pyyaml
-, setuptools-scm
-, tpm2-tss
-, tpm2-tools
-, swtpm
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  asn1crypto,
+  cffi,
+  cryptography,
+  pkgconfig, # see nativeBuildInputs
+  pkg-config, # see nativeBuildInputs
+  pycparser,
+  pytestCheckHook,
+  python,
+  pyyaml,
+  setuptools-scm,
+  tpm2-tss,
+  tpm2-tools,
+  swtpm,
 }:
 
 buildPythonPackage rec {
@@ -42,9 +43,7 @@ buildPythonPackage rec {
   # due to pycparsing handling it poorly.
   # See https://github.com/NixOS/nixpkgs/issues/252023
   # for more details.
-  hardeningDisable = [
-    "fortify"
-  ];
+  hardeningDisable = [ "fortify" ];
 
   nativeBuildInputs = [
     cffi
@@ -53,9 +52,7 @@ buildPythonPackage rec {
     setuptools-scm
   ];
 
-  buildInputs = [
-    tpm2-tss
-  ];
+  buildInputs = [ tpm2-tss ];
 
   propagatedBuildInputs = [
     cffi
@@ -72,9 +69,7 @@ buildPythonPackage rec {
     swtpm
   ];
 
-  pythonImportsCheck = [
-    "tpm2_pytss"
-  ];
+  pythonImportsCheck = [ "tpm2_pytss" ];
 
   meta = with lib; {
     homepage = "https://github.com/tpm2-software/tpm2-pytss";

@@ -1,13 +1,14 @@
-{ lib
-, stdenv
-, fetchurl
-, openjdk
-, libnotify
-, makeWrapper
-, tor
-, p7zip
-, bash
-, writeScript
+{
+  lib,
+  stdenv,
+  fetchurl,
+  openjdk,
+  libnotify,
+  makeWrapper,
+  tor,
+  p7zip,
+  bash,
+  writeScript,
 }:
 let
 
@@ -15,7 +16,6 @@ let
     #! ${bash}/bin/bash
     exec ${tor}/bin/tor "$@"
   '';
-
 in
 stdenv.mkDerivation rec {
   pname = "briar-desktop";
@@ -38,9 +38,7 @@ stdenv.mkDerivation rec {
     cp ${src} $out/lib/briar-desktop.jar
     makeWrapper ${openjdk}/bin/java $out/bin/briar-desktop \
       --add-flags "-jar $out/lib/briar-desktop.jar" \
-      --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath [
-        libnotify
-      ]}"
+      --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath [ libnotify ]}"
   '';
 
   fixupPhase = ''

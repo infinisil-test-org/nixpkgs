@@ -1,22 +1,23 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchpatch
-, buildPythonPackage
-, cryptography
-, click
-, construct
-, ecdsa
-, flit-core
-, hidapi
-, intelhex
-, pillow
-, protobuf3
-, requests
-, setuptools
-, tabulate
-, toml
-, AppKit
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  buildPythonPackage,
+  cryptography,
+  click,
+  construct,
+  ecdsa,
+  flit-core,
+  hidapi,
+  intelhex,
+  pillow,
+  protobuf3,
+  requests,
+  setuptools,
+  tabulate,
+  toml,
+  AppKit,
 }:
 
 buildPythonPackage rec {
@@ -31,7 +32,10 @@ buildPythonPackage rec {
     hash = "sha256-IcStYYkKEdZxwgJKL8l2Y1BtO/Oncd4aKUAZD8umbHs=";
   };
 
-  buildInputs = [ flit-core setuptools ] ++ lib.optionals stdenv.isDarwin [ AppKit ];
+  buildInputs = [
+    flit-core
+    setuptools
+  ] ++ lib.optionals stdenv.isDarwin [ AppKit ];
   propagatedBuildInputs = [
     cryptography
     click
@@ -52,6 +56,9 @@ buildPythonPackage rec {
     homepage = "https://github.com/LedgerHQ/ledgerctl";
     description = "A library to control Ledger devices";
     license = licenses.mit;
-    maintainers = with maintainers; [ d-xo erdnaxe ];
+    maintainers = with maintainers; [
+      d-xo
+      erdnaxe
+    ];
   };
 }

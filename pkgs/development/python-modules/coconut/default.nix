@@ -1,18 +1,19 @@
-{ lib
-, anyio
-, async-generator
-, buildPythonPackage
-, fetchFromGitHub
-, cpyparsing
-, ipykernel
-, mypy
-, pexpect
-, pygments
-, pytestCheckHook
-, prompt-toolkit
-, setuptools
-, tkinter
-, watchdog
+{
+  lib,
+  anyio,
+  async-generator,
+  buildPythonPackage,
+  fetchFromGitHub,
+  cpyparsing,
+  ipykernel,
+  mypy,
+  pexpect,
+  pygments,
+  pytestCheckHook,
+  prompt-toolkit,
+  setuptools,
+  tkinter,
+  watchdog,
 }:
 
 buildPythonPackage rec {
@@ -27,9 +28,7 @@ buildPythonPackage rec {
     hash = "sha256-TIYep9EuCfcN8bp0vkaoB5W626lrD4PVh+oYKmVrfeY=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     anyio
@@ -50,13 +49,9 @@ buildPythonPackage rec {
   ];
 
   # Currently most tests have performance issues
-  pytestFlagsArray = [
-    "coconut/tests/constants_test.py"
-  ];
+  pytestFlagsArray = [ "coconut/tests/constants_test.py" ];
 
-  pythonImportsCheck = [
-    "coconut"
-  ];
+  pythonImportsCheck = [ "coconut" ];
 
   meta = with lib; {
     description = "Simple, elegant, Pythonic functional programming";

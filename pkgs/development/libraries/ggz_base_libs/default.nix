@@ -1,4 +1,12 @@
-{ lib, stdenv, fetchurl, intltool, openssl, expat, libgcrypt }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  intltool,
+  openssl,
+  expat,
+  libgcrypt,
+}:
 
 stdenv.mkDerivation rec {
   pname = "ggz-base-libs";
@@ -10,7 +18,11 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ intltool ];
-  buildInputs = [ openssl expat libgcrypt ];
+  buildInputs = [
+    openssl
+    expat
+    libgcrypt
+  ];
 
   patchPhase = ''
     substituteInPlace configure \
@@ -18,16 +30,11 @@ stdenv.mkDerivation rec {
       --replace "/usr/local/ssl/lib" "${lib.getLib openssl}/lib"
   '';
 
-  configureFlags = [
-    "--with-tls"
-  ];
+  configureFlags = [ "--with-tls" ];
 
   meta = with lib; {
     description = "GGZ Gaming zone libraries";
-    maintainers = with maintainers;
-    [
-      raskin
-    ];
+    maintainers = with maintainers; [ raskin ];
     platforms = platforms.linux;
     license = licenses.gpl2;
     downloadPage = "http://www.ggzgamingzone.org/releases/";

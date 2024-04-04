@@ -1,9 +1,10 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchPypi
-, file
-, pythonOlder
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchPypi,
+  file,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -30,9 +31,7 @@ buildPythonPackage rec {
   # No tests in archive
   doCheck = false;
 
-  pythonImportsCheck = [
-    "sqlmap"
-  ];
+  pythonImportsCheck = [ "sqlmap" ];
 
   meta = with lib; {
     description = "Automatic SQL injection and database takeover tool";

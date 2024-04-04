@@ -1,25 +1,26 @@
-{ lib
-, stdenv
-, callPackage
-, fetchFromGitHub
-, rocmUpdateScript
-, makeWrapper
-, cmake
-, perl
-, clang
-, hip-common
-, hipcc
-, rocm-device-libs
-, rocm-comgr
-, rocm-runtime
-, roctracer
-, rocminfo
-, rocm-smi
-, numactl
-, libGL
-, libxml2
-, libX11
-, python3Packages
+{
+  lib,
+  stdenv,
+  callPackage,
+  fetchFromGitHub,
+  rocmUpdateScript,
+  makeWrapper,
+  cmake,
+  perl,
+  clang,
+  hip-common,
+  hipcc,
+  rocm-device-libs,
+  rocm-comgr,
+  rocm-runtime,
+  roctracer,
+  rocminfo,
+  rocm-smi,
+  numactl,
+  libGL,
+  libxml2,
+  libX11,
+  python3Packages,
 }:
 
 let
@@ -33,7 +34,8 @@ let
     "--set HSA_PATH ${rocm-runtime}"
     "--set ROCM_PATH $out"
   ];
-in stdenv.mkDerivation (finalAttrs: {
+in
+stdenv.mkDerivation (finalAttrs: {
   pname = "clr";
   version = "5.7.1";
 
@@ -158,9 +160,7 @@ in stdenv.mkDerivation (finalAttrs: {
         inherit rocm-smi;
         clr = finalAttrs.finalPackage;
       };
-      opencl-example = callPackage ./test-opencl-example.nix {
-        clr = finalAttrs.finalPackage;
-      };
+      opencl-example = callPackage ./test-opencl-example.nix { clr = finalAttrs.finalPackage; };
     };
   };
 
@@ -170,6 +170,8 @@ in stdenv.mkDerivation (finalAttrs: {
     license = with licenses; [ mit ];
     maintainers = with maintainers; [ lovesegfault ] ++ teams.rocm.members;
     platforms = platforms.linux;
-    broken = versions.minor finalAttrs.version != versions.minor stdenv.cc.version || versionAtLeast finalAttrs.version "6.0.0";
+    broken =
+      versions.minor finalAttrs.version != versions.minor stdenv.cc.version
+      || versionAtLeast finalAttrs.version "6.0.0";
   };
 })

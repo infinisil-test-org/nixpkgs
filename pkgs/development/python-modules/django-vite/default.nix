@@ -1,8 +1,9 @@
-{ lib
-, fetchFromGitHub
-, buildPythonPackage
-, django
-, pythonOlder
+{
+  lib,
+  fetchFromGitHub,
+  buildPythonPackage,
+  django,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -19,16 +20,12 @@ buildPythonPackage rec {
     hash = "sha256-FH42auBm/YRfGgjL9TGQLed/p0P8POb7DOLmpUK1d9c=";
   };
 
-  propagatedBuildInputs = [
-    django
-  ];
+  propagatedBuildInputs = [ django ];
 
   # Package doesn’t have any tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "django_vite"
-  ];
+  pythonImportsCheck = [ "django_vite" ];
 
   meta = with lib; {
     description = "Integration of ViteJS in a Django project";

@@ -1,15 +1,16 @@
-{ lib
-, stdenvNoCC
-, fetchzip
-, autoPatchelfHook
-, makeWrapper
-, makeDesktopItem
-, copyDesktopItems
-, wrapGAppsHook
-, gobject-introspection
-, gdk-pixbuf
-, jre
-, android-tools
+{
+  lib,
+  stdenvNoCC,
+  fetchzip,
+  autoPatchelfHook,
+  makeWrapper,
+  makeDesktopItem,
+  copyDesktopItems,
+  wrapGAppsHook,
+  gobject-introspection,
+  gdk-pixbuf,
+  jre,
+  android-tools,
 }:
 
 stdenvNoCC.mkDerivation rec {
@@ -59,7 +60,12 @@ stdenvNoCC.mkDerivation rec {
     desktopName = "Android GPU Inspector";
     exec = "agi";
     icon = "agi";
-    categories = [ "Development" "Debugger" "Graphics" "3DGraphics" ];
+    categories = [
+      "Development"
+      "Debugger"
+      "Graphics"
+      "3DGraphics"
+    ];
   });
 
   meta = with lib; {
@@ -68,7 +74,10 @@ stdenvNoCC.mkDerivation rec {
     changelog = "https://github.com/google/agi/releases/tag/v${version}";
     platforms = [ "x86_64-linux" ];
     license = licenses.asl20;
-    maintainers = with maintainers; [ ivar kashw2 ];
+    maintainers = with maintainers; [
+      ivar
+      kashw2
+    ];
     sourceProvenance = with sourceTypes; [
       binaryBytecode
       binaryNativeCode

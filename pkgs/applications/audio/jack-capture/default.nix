@@ -1,4 +1,11 @@
-{ lib, stdenv, fetchFromGitHub, libjack2, libsndfile, pkg-config }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  libjack2,
+  libsndfile,
+  pkg-config,
+}:
 
 stdenv.mkDerivation rec {
   pname = "jack_capture";
@@ -12,7 +19,10 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ pkg-config ];
-  buildInputs = [ libjack2 libsndfile ];
+  buildInputs = [
+    libjack2
+    libsndfile
+  ];
 
   buildPhase = "PREFIX=$out make jack_capture";
 
@@ -27,7 +37,10 @@ stdenv.mkDerivation rec {
     description = "A program for recording soundfiles with jack";
     homepage = "https://github.com/kmatheussen/jack_capture/";
     license = licenses.gpl2;
-    maintainers = with maintainers; [ goibhniu orivej ];
+    maintainers = with maintainers; [
+      goibhniu
+      orivej
+    ];
     platforms = lib.platforms.linux;
   };
 }

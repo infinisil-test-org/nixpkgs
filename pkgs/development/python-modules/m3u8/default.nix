@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, iso8601
-, bottle
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  iso8601,
+  bottle,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -21,9 +22,7 @@ buildPythonPackage rec {
     hash = "sha256-JLYRkibcvmNct2eIBfBP7z3gR680xhZL/Kn/1S7feoo=";
   };
 
-  propagatedBuildInputs = [
-    iso8601
-  ];
+  propagatedBuildInputs = [ iso8601 ];
 
   nativeCheckInputs = [
     bottle
@@ -37,9 +36,7 @@ buildPythonPackage rec {
     "test_load_should_remember_redirect"
   ];
 
-  pythonImportsCheck = [
-    "m3u8"
-  ];
+  pythonImportsCheck = [ "m3u8" ];
 
   meta = with lib; {
     description = "Python m3u8 parser";

@@ -1,8 +1,9 @@
 {
   lib,
   stdenvNoCC,
-  fetchFromGitLab
-}: stdenvNoCC.mkDerivation {
+  fetchFromGitLab,
+}:
+stdenvNoCC.mkDerivation {
   pname = "xr-hardware";
   version = "unstable-2023-11-08";
 

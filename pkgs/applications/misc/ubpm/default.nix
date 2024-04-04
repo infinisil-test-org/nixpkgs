@@ -1,5 +1,15 @@
-{ stdenv, lib, fetchFromGitea, qmake, qttools, qtbase, qtserialport
-, qtconnectivity, qtcharts, wrapQtAppsHook }:
+{
+  stdenv,
+  lib,
+  fetchFromGitea,
+  qmake,
+  qttools,
+  qtbase,
+  qtserialport,
+  qtconnectivity,
+  qtcharts,
+  wrapQtAppsHook,
+}:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "ubpm";
@@ -34,12 +44,21 @@ stdenv.mkDerivation (finalAttrs: {
     wrapQtApp $out/bin/ubpm
   '';
 
-  nativeBuildInputs = [ qmake qttools wrapQtAppsHook ];
+  nativeBuildInputs = [
+    qmake
+    qttools
+    wrapQtAppsHook
+  ];
 
   # *.so plugins are being wrapped automatically which breaks them
   dontWrapQtApps = true;
 
-  buildInputs = [ qtbase qtserialport qtconnectivity qtcharts ];
+  buildInputs = [
+    qtbase
+    qtserialport
+    qtconnectivity
+    qtcharts
+  ];
 
   meta = with lib; {
     homepage = "https://codeberg.org/LazyT/ubpm";

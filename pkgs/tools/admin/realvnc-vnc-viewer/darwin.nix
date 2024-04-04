@@ -1,10 +1,11 @@
-{ lib
-, stdenvNoCC
-, fetchurl
-, undmg
-, pname
-, version
-, meta
+{
+  lib,
+  stdenvNoCC,
+  fetchurl,
+  undmg,
+  pname,
+  version,
+  meta,
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   inherit pname version meta;

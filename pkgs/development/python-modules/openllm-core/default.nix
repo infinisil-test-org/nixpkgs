@@ -1,25 +1,26 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, pythonRelaxDepsHook
-, accelerate
-, attrs
-, bitsandbytes
-, bentoml
-, cattrs
-, click-option-group
-, datasets
-, deepmerge
-, hatch-fancy-pypi-readme
-, hatch-vcs
-, hatchling
-, inflection
-, mypy-extensions
-, orjson
-, peft
-, transformers
-, typing-extensions
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  accelerate,
+  attrs,
+  bitsandbytes,
+  bentoml,
+  cattrs,
+  click-option-group,
+  datasets,
+  deepmerge,
+  hatch-fancy-pypi-readme,
+  hatch-vcs,
+  hatchling,
+  inflection,
+  mypy-extensions,
+  orjson,
+  peft,
+  transformers,
+  typing-extensions,
 }:
 
 buildPythonPackage rec {
@@ -38,9 +39,7 @@ buildPythonPackage rec {
 
   sourceRoot = "${src.name}/openllm-core";
 
-  nativeBuildInputs = [
-    pythonRelaxDepsHook
-  ];
+  nativeBuildInputs = [ pythonRelaxDepsHook ];
 
   postPatch = ''
     substituteInPlace pyproject.toml \
@@ -48,9 +47,7 @@ buildPythonPackage rec {
       --replace "hatchling==1.18.0" "hatchling"
   '';
 
-  pythonRelaxDeps = [
-    "cattrs"
-  ];
+  pythonRelaxDeps = [ "cattrs" ];
 
   build-system = [
     hatch-fancy-pypi-readme
@@ -74,9 +71,7 @@ buildPythonPackage rec {
     vllm = [
       # vllm
     ];
-    bentoml = [
-      bentoml
-    ];
+    bentoml = [ bentoml ];
     fine-tune = [
       accelerate
       bitsandbytes
@@ -84,13 +79,15 @@ buildPythonPackage rec {
       peft
       transformers
       # trl
-    ] ++ transformers.optional-dependencies.torch
-      ++ transformers.optional-dependencies.tokenizers;
-    full = with optional-dependencies; (
-      vllm
-      # use absolute path to disambiguate with derivbation argument
-      ++ optional-dependencies.bentoml
-      ++ fine-tune );
+    ] ++ transformers.optional-dependencies.torch ++ transformers.optional-dependencies.tokenizers;
+    full =
+      with optional-dependencies;
+      (
+        vllm
+        # use absolute path to disambiguate with derivbation argument
+        ++ optional-dependencies.bentoml
+        ++ fine-tune
+      );
   };
 
   # there is no tests

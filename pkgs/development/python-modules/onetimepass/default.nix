@@ -1,4 +1,10 @@
-{ lib, buildPythonPackage, fetchFromGitHub, six, timecop }:
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  six,
+  timecop,
+}:
 
 buildPythonPackage rec {
   pname = "onetimepass";
@@ -12,13 +18,9 @@ buildPythonPackage rec {
     sha256 = "0wmv62l3r8r4428gdzyj80lhgadfqvj220khz1wnm9alyzg60wkh";
   };
 
-  propagatedBuildInputs = [
-    six
-  ];
+  propagatedBuildInputs = [ six ];
 
-  nativeCheckInputs = [
-    timecop
-  ];
+  nativeCheckInputs = [ timecop ];
 
   pythonImportsCheck = [ "onetimepass" ];
 

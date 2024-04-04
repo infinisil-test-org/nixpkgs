@@ -1,11 +1,15 @@
-{ lib, stdenv, fetchFromGitHub, pkg-config
-, meson
-, ninja
-, libnvme
-, json_c
-, zlib
-, libhugetlbfs
-, python3Packages
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  pkg-config,
+  meson,
+  ninja,
+  libnvme,
+  json_c,
+  zlib,
+  libhugetlbfs,
+  python3Packages,
 }:
 
 stdenv.mkDerivation rec {
@@ -19,9 +23,7 @@ stdenv.mkDerivation rec {
     hash = "sha256-Gm+1tb/Nh+Yg2PgSUn/1hR4CZYnfTWRwcQU0A8UeQwI=";
   };
 
-  mesonFlags = [
-    "-Dversion-tag=${version}"
-  ];
+  mesonFlags = [ "-Dversion-tag=${version}" ];
 
   nativeBuildInputs = [
     meson
@@ -48,7 +50,10 @@ stdenv.mkDerivation rec {
     '';
     license = licenses.gpl2Plus;
     platforms = platforms.linux;
-    maintainers = with maintainers; [ mic92 vifino ];
+    maintainers = with maintainers; [
+      mic92
+      vifino
+    ];
     mainProgram = "nvme";
   };
 }

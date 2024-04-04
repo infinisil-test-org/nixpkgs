@@ -1,4 +1,8 @@
-{ lib, rustPlatform, fetchFromGitHub }:
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "typstfmt";
@@ -23,7 +27,10 @@ rustPlatform.buildRustPackage rec {
     homepage = "https://github.com/astrale-sharp/typstfmt";
     changelog = "https://github.com/astrale-sharp/typstfmt/blob/${src.rev}/CHANGELOG.md";
     license = licenses.mit;
-    maintainers = with maintainers; [ figsoda geri1701 ];
+    maintainers = with maintainers; [
+      figsoda
+      geri1701
+    ];
     mainProgram = "typstfmt";
   };
 }

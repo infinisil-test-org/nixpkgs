@@ -1,18 +1,19 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, rcssmin
-, rjsmin
-, django-appconf
-, beautifulsoup4
-, brotli
-, pytestCheckHook
-, django-sekizai
-, pytest-django
-, csscompressor
-, calmjs
-, jinja2
-, python
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  rcssmin,
+  rjsmin,
+  django-appconf,
+  beautifulsoup4,
+  brotli,
+  pytestCheckHook,
+  django-sekizai,
+  pytest-django,
+  csscompressor,
+  calmjs,
+  jinja2,
+  python,
 }:
 
 buildPythonPackage rec {
@@ -47,9 +48,7 @@ buildPythonPackage rec {
   # Getting error: compressor.exceptions.OfflineGenerationError: You have
   # offline compression enabled but key "..." is missing from offline manifest.
   # You may need to run "python manage.py compress"
-  disabledTestPaths = [
-    "compressor/tests/test_offline.py"
-  ];
+  disabledTestPaths = [ "compressor/tests/test_offline.py" ];
 
   pythonImportsCheck = [ "compressor" ];
 

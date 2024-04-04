@@ -1,5 +1,11 @@
-{ lib, buildDunePackage, fetchurl
-, astring, ptime, rresult, qcheck
+{
+  lib,
+  buildDunePackage,
+  fetchurl,
+  astring,
+  ptime,
+  rresult,
+  qcheck,
 }:
 
 buildDunePackage rec {
@@ -21,9 +27,7 @@ buildDunePackage rec {
   ];
 
   doCheck = true;
-  checkInputs = [
-    qcheck
-  ];
+  checkInputs = [ qcheck ];
 
   meta = with lib; {
     description = "Syslog message parser";

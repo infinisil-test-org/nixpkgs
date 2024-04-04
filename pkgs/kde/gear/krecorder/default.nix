@@ -1,9 +1,6 @@
-{
-  mkKdeDerivation,
-  qtmultimedia,
-}:
+{ mkKdeDerivation, qtmultimedia }:
 mkKdeDerivation {
   pname = "krecorder";
 
-  extraBuildInputs = [qtmultimedia];
+  extraBuildInputs = [ qtmultimedia ];
 }

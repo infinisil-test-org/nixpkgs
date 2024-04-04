@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, httpretty
-, pyjwt
-, pytestCheckHook
-, python-dateutil
-, requests
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  httpretty,
+  pyjwt,
+  pytestCheckHook,
+  python-dateutil,
+  requests,
 }:
 
 buildPythonPackage rec {
@@ -40,9 +41,7 @@ buildPythonPackage rec {
     "test_failed_request"
   ];
 
-  pythonImportsCheck = [
-    "adal"
-  ];
+  pythonImportsCheck = [ "adal" ];
 
   meta = with lib; {
     description = "Python module to authenticate to Azure Active Directory (AAD) in order to access AAD protected web resources";

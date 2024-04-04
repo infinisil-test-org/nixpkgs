@@ -1,9 +1,10 @@
-{ lib
-, stdenv
-, fetchurl
-, appimageTools
-, tor
-, trezord
+{
+  lib,
+  stdenv,
+  fetchurl,
+  appimageTools,
+  tor,
+  trezord,
 }:
 
 let
@@ -11,23 +12,25 @@ let
   version = "24.2.4";
   name = "${pname}-${version}";
 
-  suffix = {
-    aarch64-linux = "linux-arm64";
-    x86_64-linux  = "linux-x86_64";
-  }.${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
+  suffix =
+    {
+      aarch64-linux = "linux-arm64";
+      x86_64-linux = "linux-x86_64";
+    }
+    .${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
 
   src = fetchurl {
     url = "https://github.com/trezor/${pname}/releases/download/v${version}/Trezor-Suite-${version}-${suffix}.AppImage";
-    hash = { # curl -Lfs https://github.com/trezor/trezor-suite/releases/latest/download/latest-linux{-arm64,}.yml | grep ^sha512 | sed 's/: /-/'
-      aarch64-linux = "sha512-25nyubEf4Vkjz6jumoQwmqTppJdby0vBVztF2eGZmLA81qysx9cpHboVKqQM3dEPBlYO7EVNSeW9d7qEenweBA==";
-      x86_64-linux  = "sha512-oI7D6eRSzUzMphgJByYFsQ1xcHTKj+SOuDG+8Pb7nX8HVb8tiRqKY+ZZ87LAJppM75eXvf3X1hRNRk5PlI2ELA==";
-    }.${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
+    hash =
+      {
+        # curl -Lfs https://github.com/trezor/trezor-suite/releases/latest/download/latest-linux{-arm64,}.yml | grep ^sha512 | sed 's/: /-/'
+        aarch64-linux = "sha512-25nyubEf4Vkjz6jumoQwmqTppJdby0vBVztF2eGZmLA81qysx9cpHboVKqQM3dEPBlYO7EVNSeW9d7qEenweBA==";
+        x86_64-linux = "sha512-oI7D6eRSzUzMphgJByYFsQ1xcHTKj+SOuDG+8Pb7nX8HVb8tiRqKY+ZZ87LAJppM75eXvf3X1hRNRk5PlI2ELA==";
+      }
+      .${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
   };
 
-  appimageContents = appimageTools.extractType2 {
-    inherit name src;
-  };
-
+  appimageContents = appimageTools.extractType2 { inherit name src; };
 in
 
 appimageTools.wrapType2 rec {
@@ -58,7 +61,10 @@ appimageTools.wrapType2 rec {
     changelog = "https://github.com/trezor/trezor-suite/releases/tag/v${version}";
     license = licenses.unfree;
     maintainers = with maintainers; [ prusnak ];
-    platforms = [ "aarch64-linux" "x86_64-linux" ];
+    platforms = [
+      "aarch64-linux"
+      "x86_64-linux"
+    ];
     mainProgram = "trezor-suite";
   };
 }

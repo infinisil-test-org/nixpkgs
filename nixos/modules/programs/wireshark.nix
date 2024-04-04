@@ -1,11 +1,17 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.programs.wireshark;
   wireshark = cfg.package;
-in {
+in
+{
   options = {
     programs.wireshark = {
       enable = mkOption {
@@ -16,15 +22,13 @@ in {
           setcap wrapper for 'dumpcap' for users in the 'wireshark' group.
         '';
       };
-      package = mkPackageOption pkgs "wireshark-cli" {
-        example = "wireshark";
-      };
+      package = mkPackageOption pkgs "wireshark-cli" { example = "wireshark"; };
     };
   };
 
   config = mkIf cfg.enable {
     environment.systemPackages = [ wireshark ];
-    users.groups.wireshark = {};
+    users.groups.wireshark = { };
 
     security.wrappers.dumpcap = {
       source = "${wireshark}/bin/dumpcap";

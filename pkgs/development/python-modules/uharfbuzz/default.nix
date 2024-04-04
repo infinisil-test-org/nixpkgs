@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, cython
-, setuptools-scm
-, pytestCheckHook
-, ApplicationServices
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  cython,
+  setuptools-scm,
+  pytestCheckHook,
+  ApplicationServices,
 }:
 
 buildPythonPackage rec {
@@ -31,9 +32,7 @@ buildPythonPackage rec {
 
   buildInputs = lib.optionals stdenv.isDarwin [ ApplicationServices ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   pythonImportsCheck = [ "uharfbuzz" ];
 

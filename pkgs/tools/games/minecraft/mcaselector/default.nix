@@ -1,8 +1,9 @@
-{ lib
-, stdenvNoCC
-, fetchurl
-, makeWrapper
-, jre
+{
+  lib,
+  stdenvNoCC,
+  fetchurl,
+  makeWrapper,
+  jre,
 }:
 
 stdenvNoCC.mkDerivation (finalAttrs: {
@@ -17,7 +18,10 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   dontUnpack = true;
   dontBuild = true;
 
-  nativeBuildInputs = [ jre makeWrapper ];
+  nativeBuildInputs = [
+    jre
+    makeWrapper
+  ];
 
   installPhase = ''
     runHook preInstall

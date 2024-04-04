@@ -1,11 +1,12 @@
-{ lib
-, azure-common
-, azure-mgmt-core
-, buildPythonPackage
-, fetchPypi
-, isodate
-, pythonOlder
-, setuptools
+{
+  lib,
+  azure-common,
+  azure-mgmt-core,
+  buildPythonPackage,
+  fetchPypi,
+  isodate,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -20,9 +21,7 @@ buildPythonPackage rec {
     hash = "sha256-0B+K8u9M/z3edwlc8LNR8DeqV9y6vIVCmevoUIWN0YM=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     azure-common
@@ -33,9 +32,7 @@ buildPythonPackage rec {
   # has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "azure.mgmt.datafactory"
-  ];
+  pythonImportsCheck = [ "azure.mgmt.datafactory" ];
 
   meta = with lib; {
     description = "This is the Microsoft Azure Data Factory Management Client Library";

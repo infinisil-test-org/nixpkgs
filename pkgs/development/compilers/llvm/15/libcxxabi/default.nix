@@ -1,14 +1,24 @@
-{ lib, stdenv, llvm_meta, cmake, ninja, python3
-, monorepoSrc, runCommand, fetchpatch
-, cxx-headers, libunwind, version
-, enableShared ? !stdenv.hostPlatform.isStatic
+{
+  lib,
+  stdenv,
+  llvm_meta,
+  cmake,
+  ninja,
+  python3,
+  monorepoSrc,
+  runCommand,
+  fetchpatch,
+  cxx-headers,
+  libunwind,
+  version,
+  enableShared ? !stdenv.hostPlatform.isStatic,
 }:
 
 stdenv.mkDerivation rec {
   pname = "libcxxabi";
   inherit version;
 
-  src = runCommand "${pname}-src-${version}" {} ''
+  src = runCommand "${pname}-src-${version}" { } ''
     mkdir -p "$out"
     cp -r ${monorepoSrc}/cmake "$out"
     cp -r ${monorepoSrc}/${pname} "$out"
@@ -24,13 +34,18 @@ stdenv.mkDerivation rec {
 
   sourceRoot = "${src.name}/runtimes";
 
-  outputs = [ "out" "dev" ];
+  outputs = [
+    "out"
+    "dev"
+  ];
 
-  postUnpack = lib.optionalString stdenv.isDarwin ''
-    export TRIPLE=x86_64-apple-darwin
-  '' + lib.optionalString stdenv.hostPlatform.isWasm ''
-    patch -p1 -d llvm -i ${../../common/libcxxabi/wasm.patch}
-  '';
+  postUnpack =
+    lib.optionalString stdenv.isDarwin ''
+      export TRIPLE=x86_64-apple-darwin
+    ''
+    + lib.optionalString stdenv.hostPlatform.isWasm ''
+      patch -p1 -d llvm -i ${../../common/libcxxabi/wasm.patch}
+    '';
 
   prePatch = ''
     cd ../${pname}
@@ -52,33 +67,39 @@ stdenv.mkDerivation rec {
     cd ../runtimes
   '';
 
-  nativeBuildInputs = [ cmake ninja python3 ];
+  nativeBuildInputs = [
+    cmake
+    ninja
+    python3
+  ];
   buildInputs = lib.optional (!stdenv.isDarwin && !stdenv.hostPlatform.isWasm) libunwind;
 
-  cmakeFlags = [
-    "-DLLVM_ENABLE_RUNTIMES=libcxxabi"
-    "-DLIBCXXABI_LIBCXX_INCLUDES=${cxx-headers}/include/c++/v1"
+  cmakeFlags =
+    [
+      "-DLLVM_ENABLE_RUNTIMES=libcxxabi"
+      "-DLIBCXXABI_LIBCXX_INCLUDES=${cxx-headers}/include/c++/v1"
 
-    # `libcxxabi`'s build does not need a toolchain with a c++ stdlib attached
-    # (we specify the headers it should use explicitly above).
-    #
-    # CMake however checks for this anyways; this flag tells it not to. See:
-    # https://github.com/llvm/llvm-project/blob/4bd3f3759259548e159aeba5c76efb9a0864e6fa/llvm/runtimes/CMakeLists.txt#L243
-    "-DCMAKE_CXX_COMPILER_WORKS=ON"
-  ] ++ lib.optionals (stdenv.hostPlatform.useLLVM or false) [
-    "-DLLVM_ENABLE_LIBCXX=ON"
-    "-DLIBCXXABI_USE_LLVM_UNWINDER=ON"
-    # libcxxabi's CMake looks as though it treats -nostdlib++ as implying -nostdlib,
-    # but that does not appear to be the case for example when building
-    # pkgsLLVM.libcxxabi (which uses clangNoCompilerRtWithLibc).
-    "-DCMAKE_EXE_LINKER_FLAGS=-nostdlib"
-    "-DCMAKE_SHARED_LINKER_FLAGS=-nostdlib"
-  ] ++ lib.optionals stdenv.hostPlatform.isWasm [
-    "-DLIBCXXABI_ENABLE_THREADS=OFF"
-    "-DLIBCXXABI_ENABLE_EXCEPTIONS=OFF"
-  ] ++ lib.optionals (!enableShared) [
-    "-DLIBCXXABI_ENABLE_SHARED=OFF"
-  ];
+      # `libcxxabi`'s build does not need a toolchain with a c++ stdlib attached
+      # (we specify the headers it should use explicitly above).
+      #
+      # CMake however checks for this anyways; this flag tells it not to. See:
+      # https://github.com/llvm/llvm-project/blob/4bd3f3759259548e159aeba5c76efb9a0864e6fa/llvm/runtimes/CMakeLists.txt#L243
+      "-DCMAKE_CXX_COMPILER_WORKS=ON"
+    ]
+    ++ lib.optionals (stdenv.hostPlatform.useLLVM or false) [
+      "-DLLVM_ENABLE_LIBCXX=ON"
+      "-DLIBCXXABI_USE_LLVM_UNWINDER=ON"
+      # libcxxabi's CMake looks as though it treats -nostdlib++ as implying -nostdlib,
+      # but that does not appear to be the case for example when building
+      # pkgsLLVM.libcxxabi (which uses clangNoCompilerRtWithLibc).
+      "-DCMAKE_EXE_LINKER_FLAGS=-nostdlib"
+      "-DCMAKE_SHARED_LINKER_FLAGS=-nostdlib"
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isWasm [
+      "-DLIBCXXABI_ENABLE_THREADS=OFF"
+      "-DLIBCXXABI_ENABLE_EXCEPTIONS=OFF"
+    ]
+    ++ lib.optionals (!enableShared) [ "-DLIBCXXABI_ENABLE_SHARED=OFF" ];
 
   preInstall = lib.optionalString stdenv.isDarwin ''
     for file in lib/*.dylib; do
@@ -107,7 +128,10 @@ stdenv.mkDerivation rec {
     '';
     # "All of the code in libc++abi is dual licensed under the MIT license and
     # the UIUC License (a BSD-like license)":
-    license = with lib.licenses; [ mit ncsa ];
+    license = with lib.licenses; [
+      mit
+      ncsa
+    ];
     maintainers = llvm_meta.maintainers ++ [ lib.maintainers.vlstill ];
   };
 }

@@ -1,15 +1,16 @@
-{ lib
-, aiohttp
-, buildPythonPackage
-, fetchPypi
-, maxminddb
-, mocket
-, pytestCheckHook
-, pythonAtLeast
-, pythonOlder
-, requests
-, requests-mock
-, urllib3
+{
+  lib,
+  aiohttp,
+  buildPythonPackage,
+  fetchPypi,
+  maxminddb,
+  mocket,
+  pytestCheckHook,
+  pythonAtLeast,
+  pythonOlder,
+  requests,
+  requests-mock,
+  urllib3,
 }:
 
 buildPythonPackage rec {
@@ -37,16 +38,14 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "geoip2"
-  ];
+  pythonImportsCheck = [ "geoip2" ];
 
-  disabledTests = lib.optionals (pythonAtLeast "3.11") [
-    # https://github.com/maxmind/GeoIP2-python/pull/136
-    "TestAsyncClient"
-  ] ++ lib.optionals (pythonAtLeast "3.10") [
-    "test_request"
-  ];
+  disabledTests =
+    lib.optionals (pythonAtLeast "3.11") [
+      # https://github.com/maxmind/GeoIP2-python/pull/136
+      "TestAsyncClient"
+    ]
+    ++ lib.optionals (pythonAtLeast "3.10") [ "test_request" ];
 
   meta = with lib; {
     description = "GeoIP2 webservice client and database reader";

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   inherit (lib) types;
 
@@ -13,9 +18,7 @@ in
 {
   options = {
     services.ollama = {
-      enable = lib.mkEnableOption (
-        lib.mdDoc "Server for local large language models"
-      );
+      enable = lib.mkEnableOption (lib.mdDoc "Server for local large language models");
       listenAddress = lib.mkOption {
         type = types.str;
         default = "127.0.0.1:11434";
@@ -24,7 +27,12 @@ in
         '';
       };
       acceleration = lib.mkOption {
-        type = types.nullOr (types.enum [ "rocm" "cuda" ]);
+        type = types.nullOr (
+          types.enum [
+            "rocm"
+            "cuda"
+          ]
+        );
         default = null;
         example = "rocm";
         description = lib.mdDoc ''
@@ -61,5 +69,8 @@ in
     environment.systemPackages = [ ollamaPackage ];
   };
 
-  meta.maintainers = with lib.maintainers; [ abysssol onny ];
+  meta.maintainers = with lib.maintainers; [
+    abysssol
+    onny
+  ];
 }

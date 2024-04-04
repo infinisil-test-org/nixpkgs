@@ -1,4 +1,9 @@
-{ lib, buildKodiAddon, fetchzip, addonUpdateScript }:
+{
+  lib,
+  buildKodiAddon,
+  fetchzip,
+  addonUpdateScript,
+}:
 
 buildKodiAddon rec {
   pname = "somafm";
@@ -12,9 +17,7 @@ buildKodiAddon rec {
 
   passthru = {
     pythonPath = "resources/lib";
-    updateScript = addonUpdateScript {
-      attrPath = "kodi.packages.somafm";
-    };
+    updateScript = addonUpdateScript { attrPath = "kodi.packages.somafm"; };
   };
 
   meta = with lib; {

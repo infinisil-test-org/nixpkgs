@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, aiobotocore
-, aiohttp
-, buildPythonPackage
-, docutils
-, fetchPypi
-, fsspec
-, pythonOlder
+{
+  lib,
+  stdenv,
+  aiobotocore,
+  aiohttp,
+  buildPythonPackage,
+  docutils,
+  fetchPypi,
+  fsspec,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -25,9 +26,7 @@ buildPythonPackage rec {
     sed -i 's/fsspec==.*/fsspec/' requirements.txt
   '';
 
-  buildInputs = [
-    docutils
-  ];
+  buildInputs = [ docutils ];
 
   propagatedBuildInputs = [
     aiobotocore
@@ -40,9 +39,7 @@ buildPythonPackage rec {
   # pythonPackages.
   doCheck = false;
 
-  pythonImportsCheck = [
-    "s3fs"
-  ];
+  pythonImportsCheck = [ "s3fs" ];
 
   meta = with lib; {
     broken = stdenv.isDarwin;

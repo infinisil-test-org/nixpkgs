@@ -1,24 +1,25 @@
-{ stdenv
-, lib
-, fetchFromGitLab
-, fetchpatch
-, gitUpdater
-, testers
-, boost
-, cmake
-, cmake-extras
-, dbus
-, dbus-cpp
-, gtest
-, libapparmor
-, libelf
-, pkg-config
-, process-cpp
-, properties-cpp
-, qtbase
-, qtdeclarative
-, sqlite
-, validatePkgConfig
+{
+  stdenv,
+  lib,
+  fetchFromGitLab,
+  fetchpatch,
+  gitUpdater,
+  testers,
+  boost,
+  cmake,
+  cmake-extras,
+  dbus,
+  dbus-cpp,
+  gtest,
+  libapparmor,
+  libelf,
+  pkg-config,
+  process-cpp,
+  properties-cpp,
+  qtbase,
+  qtdeclarative,
+  sqlite,
+  validatePkgConfig,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -37,16 +38,18 @@ stdenv.mkDerivation (finalAttrs: {
     "dev"
   ];
 
-  postPatch = ''
-    # Uses pkg_get_variable, cannot substitute prefix with that
-    substituteInPlace data/CMakeLists.txt \
-      --replace 'pkg_get_variable(SYSTEMD_SYSTEM_UNIT_DIR systemd systemdsystemunitdir)' 'set(SYSTEMD_SYSTEM_UNIT_DIR "''${CMAKE_INSTALL_PREFIX}/lib/systemd/system")'
+  postPatch =
+    ''
+      # Uses pkg_get_variable, cannot substitute prefix with that
+      substituteInPlace data/CMakeLists.txt \
+        --replace 'pkg_get_variable(SYSTEMD_SYSTEM_UNIT_DIR systemd systemdsystemunitdir)' 'set(SYSTEMD_SYSTEM_UNIT_DIR "''${CMAKE_INSTALL_PREFIX}/lib/systemd/system")'
 
-    substituteInPlace src/biometry/qml/Biometryd/CMakeLists.txt \
-      --replace "\''${CMAKE_INSTALL_LIBDIR}/qt5/qml" "\''${CMAKE_INSTALL_PREFIX}/${qtbase.qtQmlPrefix}"
-  '' + lib.optionalString (!finalAttrs.doCheck) ''
-    sed -i -e '/add_subdirectory(tests)/d' CMakeLists.txt
-  '';
+      substituteInPlace src/biometry/qml/Biometryd/CMakeLists.txt \
+        --replace "\''${CMAKE_INSTALL_LIBDIR}/qt5/qml" "\''${CMAKE_INSTALL_PREFIX}/${qtbase.qtQmlPrefix}"
+    ''
+    + lib.optionalString (!finalAttrs.doCheck) ''
+      sed -i -e '/add_subdirectory(tests)/d' CMakeLists.txt
+    '';
 
   strictDeps = true;
 
@@ -71,9 +74,7 @@ stdenv.mkDerivation (finalAttrs: {
     sqlite
   ];
 
-  checkInputs = [
-    gtest
-  ];
+  checkInputs = [ gtest ];
 
   dontWrapQtApps = true;
 
@@ -108,8 +109,6 @@ stdenv.mkDerivation (finalAttrs: {
     maintainers = teams.lomiri.members;
     mainProgram = "biometryd";
     platforms = platforms.linux;
-    pkgConfigModules = [
-      "biometryd"
-    ];
+    pkgConfigModules = [ "biometryd" ];
   };
 })

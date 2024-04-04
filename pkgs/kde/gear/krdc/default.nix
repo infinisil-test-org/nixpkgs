@@ -7,5 +7,9 @@
 mkKdeDerivation {
   pname = "krdc";
 
-  extraBuildInputs = [libssh libvncserver freerdp];
+  extraBuildInputs = [
+    libssh
+    libvncserver
+    freerdp
+  ];
 }

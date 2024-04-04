@@ -1,28 +1,29 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, numpy
-, pydantic
-, redis
-, requests
-, aiohttp
-, sqlitedict
-, tenacity
-, tiktoken
-, xxhash
-, # optional dependencies
-  accelerate
-, flask
-, sentence-transformers
-, torch
-, transformers
-, fastapi
-, uvicorn
-, pillow
-, pg8000
-, sqlalchemy
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  numpy,
+  pydantic,
+  redis,
+  requests,
+  aiohttp,
+  sqlitedict,
+  tenacity,
+  tiktoken,
+  xxhash,
+  # optional dependencies
+  accelerate,
+  flask,
+  sentence-transformers,
+  torch,
+  transformers,
+  fastapi,
+  uvicorn,
+  pillow,
+  pg8000,
+  sqlalchemy,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -67,9 +68,7 @@ buildPythonPackage rec {
       fastapi
       uvicorn
     ];
-    diffusers = [
-      pillow
-    ];
+    diffusers = [ pillow ];
     gcp = [
       pg8000
       # cloud-sql-python-connector
@@ -77,9 +76,7 @@ buildPythonPackage rec {
     ];
   };
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   preCheck = ''
     export HOME=$TMPDIR
@@ -101,9 +98,7 @@ buildPythonPackage rec {
     "test_timing"
   ];
 
-  pythonImportsCheck = [
-    "manifest"
-  ];
+  pythonImportsCheck = [ "manifest" ];
 
   meta = with lib; {
     description = "Manifest for Prompting Foundation Models";

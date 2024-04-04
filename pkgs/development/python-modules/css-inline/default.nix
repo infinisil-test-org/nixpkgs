@@ -1,18 +1,19 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchFromGitHub
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchFromGitHub,
 
-# build-system
-, rustPlatform
+  # build-system
+  rustPlatform,
 
-# native darwin dependencies
-, libiconv
-, Security
+  # native darwin dependencies
+  libiconv,
+  Security,
 
-# tests
-, pytestCheckHook
-, hypothesis
+  # tests
+  pytestCheckHook,
+  hypothesis,
 }:
 
 buildPythonPackage rec {
@@ -54,9 +55,7 @@ buildPythonPackage rec {
     Security
   ];
 
-  pythonImportsCheck = [
-    "css_inline"
-  ];
+  pythonImportsCheck = [ "css_inline" ];
 
   nativeCheckInputs = [
     hypothesis

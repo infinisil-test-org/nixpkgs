@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitLab
-, fetchpatch
-, pytestCheckHook
-, pythonOlder
-, setuptools-scm
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitLab,
+  fetchpatch,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools-scm,
 }:
 
 buildPythonPackage rec {
@@ -21,22 +22,16 @@ buildPythonPackage rec {
     hash = "sha256-2OQaJR70bx8qWs1IPErF+B3X1iRvHW74axTqtdvum3U=";
   };
 
-  nativeBuildInputs = [
-    setuptools-scm
-  ];
+  nativeBuildInputs = [ setuptools-scm ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   disabledTests = [
     # Test requires network access
     "test_discovery"
   ];
 
-  pythonImportsCheck = [
-    "tololib"
-  ];
+  pythonImportsCheck = [ "tololib" ];
 
   meta = with lib; {
     description = "Python Library for Controlling TOLO Sauna/Steam Bath Devices";

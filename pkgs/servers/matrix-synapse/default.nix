@@ -1,14 +1,15 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, python3
-, openssl
-, libiconv
-, cargo
-, rustPlatform
-, rustc
-, nixosTests
-, callPackage
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  python3,
+  openssl,
+  libiconv,
+  cargo,
+  rustPlatform,
+  rustc,
+  nixosTests,
+  callPackage,
 }:
 
 let
@@ -56,88 +57,66 @@ python3.pkgs.buildPythonApplication rec {
     rustc
   ];
 
-  buildInputs = [
-    openssl
-  ] ++ lib.optionals stdenv.isDarwin [
-    libiconv
-  ];
+  buildInputs = [ openssl ] ++ lib.optionals stdenv.isDarwin [ libiconv ];
 
-  propagatedBuildInputs = with python3.pkgs; [
-    attrs
-    bcrypt
-    bleach
-    canonicaljson
-    cryptography
-    ijson
-    immutabledict
-    jinja2
-    jsonschema
-    matrix-common
-    msgpack
-    netaddr
-    packaging
-    phonenumbers
-    pillow
-    prometheus-client
-    pyasn1
-    pyasn1-modules
-    pydantic
-    pymacaroons
-    pyopenssl
-    pyyaml
-    service-identity
-    signedjson
-    sortedcontainers
-    treq
-    twisted
-    typing-extensions
-    unpaddedbase64
-  ]
-  ++ twisted.optional-dependencies.tls;
+  propagatedBuildInputs =
+    with python3.pkgs;
+    [
+      attrs
+      bcrypt
+      bleach
+      canonicaljson
+      cryptography
+      ijson
+      immutabledict
+      jinja2
+      jsonschema
+      matrix-common
+      msgpack
+      netaddr
+      packaging
+      phonenumbers
+      pillow
+      prometheus-client
+      pyasn1
+      pyasn1-modules
+      pydantic
+      pymacaroons
+      pyopenssl
+      pyyaml
+      service-identity
+      signedjson
+      sortedcontainers
+      treq
+      twisted
+      typing-extensions
+      unpaddedbase64
+    ]
+    ++ twisted.optional-dependencies.tls;
 
   passthru.optional-dependencies = with python3.pkgs; {
-    postgres = if isPyPy then [
-      psycopg2cffi
-    ] else [
-      psycopg2
-    ];
-    saml2 = [
-      pysaml2
-    ];
-    oidc = [
-      authlib
-    ];
-    systemd = [
-      systemd
-    ];
-    url-preview = [
-      lxml
-    ];
-    sentry = [
-      sentry-sdk
-    ];
-    jwt = [
-      authlib
-    ];
+    postgres = if isPyPy then [ psycopg2cffi ] else [ psycopg2 ];
+    saml2 = [ pysaml2 ];
+    oidc = [ authlib ];
+    systemd = [ systemd ];
+    url-preview = [ lxml ];
+    sentry = [ sentry-sdk ];
+    jwt = [ authlib ];
     redis = [
       hiredis
       txredisapi
     ];
-    cache-memory = [
-      pympler
-    ];
-    user-search = [
-      pyicu
-    ];
+    cache-memory = [ pympler ];
+    user-search = [ pyicu ];
   };
 
-  nativeCheckInputs = [
-    openssl
-  ] ++ (with python3.pkgs; [
-    mock
-    parameterized
-  ])
-  ++ lib.flatten (lib.attrValues passthru.optional-dependencies);
+  nativeCheckInputs =
+    [ openssl ]
+    ++ (with python3.pkgs; [
+      mock
+      parameterized
+    ])
+    ++ lib.flatten (lib.attrValues passthru.optional-dependencies);
 
   doCheck = !stdenv.isDarwin;
 
@@ -160,7 +139,9 @@ python3.pkgs.buildPythonApplication rec {
   '';
 
   passthru = {
-    tests = { inherit (nixosTests) matrix-synapse matrix-synapse-workers; };
+    tests = {
+      inherit (nixosTests) matrix-synapse matrix-synapse-workers;
+    };
     inherit plugins tools;
     python = python3;
   };

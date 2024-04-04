@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 let
   cfg = config.programs.nix-ld;
 
@@ -36,7 +41,9 @@ in
 {
   meta.maintainers = [ lib.maintainers.mic92 ];
   options.programs.nix-ld = {
-    enable = lib.mkEnableOption (lib.mdDoc ''nix-ld, Documentation: <https://github.com/Mic92/nix-ld>'');
+    enable = lib.mkEnableOption (
+      lib.mdDoc ''nix-ld, Documentation: <https://github.com/Mic92/nix-ld>''
+    );
     package = lib.mkPackageOption pkgs "nix-ld" { };
     libraries = lib.mkOption {
       type = lib.types.listOf lib.types.package;

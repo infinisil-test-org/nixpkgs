@@ -1,4 +1,9 @@
-{ config, lib, pkgs, options }:
+{
+  config,
+  lib,
+  pkgs,
+  options,
+}:
 
 with lib;
 
@@ -23,15 +28,28 @@ in
       '';
     };
     bindVersion = mkOption {
-      type = types.enum [ "xml.v2" "xml.v3" "auto" ];
+      type = types.enum [
+        "xml.v2"
+        "xml.v3"
+        "auto"
+      ];
       default = "auto";
       description = lib.mdDoc ''
         BIND statistics version. Can be detected automatically.
       '';
     };
     bindGroups = mkOption {
-      type = types.listOf (types.enum [ "server" "view" "tasks" ]);
-      default = [ "server" "view" ];
+      type = types.listOf (
+        types.enum [
+          "server"
+          "view"
+          "tasks"
+        ]
+      );
+      default = [
+        "server"
+        "view"
+      ];
       description = lib.mdDoc ''
         List of statistics to collect. Available: [server, view, tasks]
       '';

@@ -9,6 +9,11 @@
 mkKdeDerivation {
   pname = "discover";
 
-  extraNativeBuildInputs = [pkg-config];
-  extraBuildInputs = [qtwebview discount flatpak fwupd];
+  extraNativeBuildInputs = [ pkg-config ];
+  extraBuildInputs = [
+    qtwebview
+    discount
+    flatpak
+    fwupd
+  ];
 }

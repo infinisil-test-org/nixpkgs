@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 {
   options.programs.bcc.enable = lib.mkEnableOption (lib.mdDoc "bcc");
 

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.virtualisation.incus;
@@ -11,22 +16,22 @@ in
 
   options = {
     virtualisation.incus = {
-      enable = lib.mkEnableOption (lib.mdDoc ''
-        incusd, a daemon that manages containers and virtual machines.
+      enable = lib.mkEnableOption (
+        lib.mdDoc ''
+          incusd, a daemon that manages containers and virtual machines.
 
-        Users in the "incus-admin" group can interact with
-        the daemon (e.g. to start or stop containers) using the
-        {command}`incus` command line tool, among others.
-      '');
+          Users in the "incus-admin" group can interact with
+          the daemon (e.g. to start or stop containers) using the
+          {command}`incus` command line tool, among others.
+        ''
+      );
 
       package = lib.mkPackageOption pkgs "incus" { };
 
       lxcPackage = lib.mkPackageOption pkgs "lxc" { };
 
       preseed = lib.mkOption {
-        type = lib.types.nullOr (
-          lib.types.submodule { freeformType = preseedFormat.type; }
-        );
+        type = lib.types.nullOr (lib.types.submodule { freeformType = preseedFormat.type; });
 
         default = null;
 
@@ -101,7 +106,10 @@ in
       ui = {
         enable = lib.mkEnableOption (lib.mdDoc "(experimental) Incus UI");
 
-        package = lib.mkPackageOption pkgs [ "incus" "ui" ] { };
+        package = lib.mkPackageOption pkgs [
+          "incus"
+          "ui"
+        ] { };
       };
     };
   };
@@ -109,7 +117,12 @@ in
   config = lib.mkIf cfg.enable {
     assertions = [
       {
-        assertion = !(config.networking.firewall.enable && !config.networking.nftables.enable && config.virtualisation.incus.enable);
+        assertion =
+          !(
+            config.networking.firewall.enable
+            && !config.networking.nftables.enable
+            && config.virtualisation.incus.enable
+          );
         message = "Incus on NixOS is unsupported using iptables. Set `networking.nftables.enable = true;`";
       }
     ];
@@ -164,31 +177,29 @@ in
         "network-online.target"
         "lxcfs.service"
         "incus.socket"
-      ]
-        ++ lib.optional config.virtualisation.vswitch.enable "ovs-vswitchd.service";
+      ] ++ lib.optional config.virtualisation.vswitch.enable "ovs-vswitchd.service";
 
       requires = [
         "lxcfs.service"
         "incus.socket"
-      ]
-        ++ lib.optional config.virtualisation.vswitch.enable "ovs-vswitchd.service";
+      ] ++ lib.optional config.virtualisation.vswitch.enable "ovs-vswitchd.service";
 
-      wants = [
-        "network-online.target"
-      ];
+      wants = [ "network-online.target" ];
 
-      path = lib.optionals config.boot.zfs.enabled [
-        config.boot.zfs.package
-        "${config.boot.zfs.package}/lib/udev"
-      ]
+      path =
+        lib.optionals config.boot.zfs.enabled [
+          config.boot.zfs.package
+          "${config.boot.zfs.package}/lib/udev"
+        ]
         ++ lib.optional config.virtualisation.vswitch.enable config.virtualisation.vswitch.package;
 
-      environment = lib.mkMerge [ {
-        # Override Path to the LXC template configuration directory
-        INCUS_LXC_TEMPLATE_CONFIG = "${pkgs.lxcfs}/share/lxc/config";
-      } (lib.mkIf (cfg.ui.enable) {
-        "INCUS_UI" = cfg.ui.package;
-      }) ];
+      environment = lib.mkMerge [
+        {
+          # Override Path to the LXC template configuration directory
+          INCUS_LXC_TEMPLATE_CONFIG = "${pkgs.lxcfs}/share/lxc/config";
+        }
+        (lib.mkIf (cfg.ui.enable) { "INCUS_UI" = cfg.ui.package; })
+      ];
 
       serviceConfig = {
         ExecStart = "${cfg.package}/bin/incusd --group incus-admin";
@@ -222,15 +233,13 @@ in
     systemd.services.incus-preseed = lib.mkIf (cfg.preseed != null) {
       description = "Incus initialization with preseed file";
 
-      wantedBy = ["incus.service"];
-      after = ["incus.service"];
-      bindsTo = ["incus.service"];
-      partOf = ["incus.service"];
+      wantedBy = [ "incus.service" ];
+      after = [ "incus.service" ];
+      bindsTo = [ "incus.service" ];
+      partOf = [ "incus.service" ];
 
       script = ''
-        ${cfg.package}/bin/incus admin init --preseed <${
-          preseedFormat.generate "incus-preseed.yaml" cfg.preseed
-        }
+        ${cfg.package}/bin/incus admin init --preseed <${preseedFormat.generate "incus-preseed.yaml" cfg.preseed}
       '';
 
       serviceConfig = {

@@ -1,27 +1,28 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
 
-# build-system
-, hatchling
-, hatch-fancy-pypi-readme
+  # build-system
+  hatchling,
+  hatch-fancy-pypi-readme,
 
-# native dependencies
-, libxcrypt
+  # native dependencies
+  libxcrypt,
 
-# dependencies
-, annotated-types
-, pydantic-core
-, typing-extensions
+  # dependencies
+  annotated-types,
+  pydantic-core,
+  typing-extensions,
 
-# tests
-, cloudpickle
-, email-validator
-, dirty-equals
-, faker
-, pytestCheckHook
-, pytest-mock
+  # tests
+  cloudpickle,
+  email-validator,
+  dirty-equals,
+  faker,
+  pytestCheckHook,
+  pytest-mock,
 }:
 
 buildPythonPackage rec {
@@ -38,9 +39,7 @@ buildPythonPackage rec {
     hash = "sha256-YTNV67uKGRag6ICkNjjY9YrOiKFB1hSZkKcUXjSrhwM=";
   };
 
-  buildInputs = lib.optionals (pythonOlder "3.9") [
-    libxcrypt
-  ];
+  buildInputs = lib.optionals (pythonOlder "3.9") [ libxcrypt ];
 
   nativeBuildInputs = [
     hatch-fancy-pypi-readme
@@ -54,9 +53,7 @@ buildPythonPackage rec {
   ];
 
   passthru.optional-dependencies = {
-    email = [
-      email-validator
-    ];
+    email = [ email-validator ];
   };
 
   nativeCheckInputs = [

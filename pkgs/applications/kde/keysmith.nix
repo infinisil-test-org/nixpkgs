@@ -1,15 +1,16 @@
-{ lib
-, mkDerivation
+{
+  lib,
+  mkDerivation,
 
-, cmake
-, extra-cmake-modules
+  cmake,
+  extra-cmake-modules,
 
-, kdbusaddons
-, ki18n
-, kirigami2
-, kwindowsystem
-, libsodium
-, qtquickcontrols2
+  kdbusaddons,
+  ki18n,
+  kirigami2,
+  kwindowsystem,
+  libsodium,
+  qtquickcontrols2,
 }:
 
 mkDerivation rec {
@@ -33,7 +34,10 @@ mkDerivation rec {
     description = "OTP client for Plasma Mobile and Desktop";
     license = licenses.gpl3;
     homepage = "https://github.com/KDE/keysmith";
-    maintainers = with maintainers; [ samueldr shamilton ];
+    maintainers = with maintainers; [
+      samueldr
+      shamilton
+    ];
     platforms = platforms.linux;
   };
 }

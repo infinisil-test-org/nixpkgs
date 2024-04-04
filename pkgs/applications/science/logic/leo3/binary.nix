@@ -1,4 +1,10 @@
-{lib, stdenv, fetchurl, openjdk, runtimeShell}:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  openjdk,
+  runtimeShell,
+}:
 stdenv.mkDerivation rec {
   pname = "leo3";
   version = "1.2";
@@ -22,7 +28,7 @@ stdenv.mkDerivation rec {
     description = "An automated theorem prover for classical higher-order logic with choice";
     sourceProvenance = with sourceTypes; [ binaryBytecode ];
     license = licenses.bsd3;
-    maintainers = [maintainers.raskin];
+    maintainers = [ maintainers.raskin ];
     platforms = platforms.linux;
     homepage = "https://page.mi.fu-berlin.de/lex/leo3/";
   };

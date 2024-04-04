@@ -1,16 +1,17 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, absl-py
-, cloudpickle
-, dm-tree
-, jax
-, jaxlib
-, numpy
-, pytestCheckHook
-, toolz
-, typing-extensions
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  absl-py,
+  cloudpickle,
+  dm-tree,
+  jax,
+  jaxlib,
+  numpy,
+  pytestCheckHook,
+  toolz,
+  typing-extensions,
 }:
 
 buildPythonPackage rec {
@@ -36,9 +37,7 @@ buildPythonPackage rec {
     typing-extensions
   ];
 
-  pythonImportsCheck = [
-    "chex"
-  ];
+  pythonImportsCheck = [ "chex" ];
 
   nativeCheckInputs = [
     cloudpickle

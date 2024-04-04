@@ -1,6 +1,7 @@
-{ lib
-, fetchFromGitHub
-, python3
+{
+  lib,
+  fetchFromGitHub,
+  python3,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -15,27 +16,30 @@ python3.pkgs.buildPythonApplication rec {
     hash = "sha256-l9py+qMI8t5L+FcUmJYXwemjUy/pcugbvhdW3oUOZMo=";
   };
 
-  propagatedBuildInputs = with python3.pkgs; [
-    appdirs
-    cached-property
-    chardet
-    click
-    colorama
-    configparser
-    diff-cover
-    jinja2
-    oyaml
-    pathspec
-    pytest
-    regex
-    tblib
-    toml
-    tqdm
-    typing-extensions
-  ] ++ lib.optionals (pythonOlder "3.8") [
-    backports.cached-property
-    importlib_metadata
-  ];
+  propagatedBuildInputs =
+    with python3.pkgs;
+    [
+      appdirs
+      cached-property
+      chardet
+      click
+      colorama
+      configparser
+      diff-cover
+      jinja2
+      oyaml
+      pathspec
+      pytest
+      regex
+      tblib
+      toml
+      tqdm
+      typing-extensions
+    ]
+    ++ lib.optionals (pythonOlder "3.8") [
+      backports.cached-property
+      importlib_metadata
+    ];
 
   nativeCheckInputs = with python3.pkgs; [
     hypothesis
@@ -57,9 +61,7 @@ python3.pkgs.buildPythonApplication rec {
     "test__rules__std_file_dbt"
   ];
 
-  pythonImportsCheck = [
-    "sqlfluff"
-  ];
+  pythonImportsCheck = [ "sqlfluff" ];
 
   meta = with lib; {
     description = "SQL linter and auto-formatter";

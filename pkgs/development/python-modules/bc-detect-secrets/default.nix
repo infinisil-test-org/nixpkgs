@@ -1,17 +1,18 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, gibberish-detector
-, mock
-, pkgs
-, pyahocorasick
-, pytestCheckHook
-, pythonOlder
-, pyyaml
-, requests
-, responses
-, setuptools
-, unidiff
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  gibberish-detector,
+  mock,
+  pkgs,
+  pyahocorasick,
+  pytestCheckHook,
+  pythonOlder,
+  pyyaml,
+  requests,
+  responses,
+  setuptools,
+  unidiff,
 }:
 
 buildPythonPackage rec {
@@ -28,9 +29,7 @@ buildPythonPackage rec {
     hash = "sha256-Gm8PYN9vqYkGaGKpLZkx0Ehd1P3G2d5LkSjWXxpPerI=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     pyyaml
@@ -39,12 +38,8 @@ buildPythonPackage rec {
   ];
 
   passthru.optional-dependencies = {
-    word_list = [
-      pyahocorasick
-    ];
-    gibberish = [
-      gibberish-detector
-    ];
+    word_list = [ pyahocorasick ];
+    gibberish = [ gibberish-detector ];
   };
 
   nativeCheckInputs = [
@@ -71,9 +66,7 @@ buildPythonPackage rec {
     "TestModifiesBaselineFromVersionChange"
   ];
 
-  pythonImportsCheck = [
-    "detect_secrets"
-  ];
+  pythonImportsCheck = [ "detect_secrets" ];
 
   meta = with lib; {
     description = "Tool to detect secrets in the code";
@@ -82,4 +75,3 @@ buildPythonPackage rec {
     maintainers = with maintainers; [ fab ];
   };
 }
-

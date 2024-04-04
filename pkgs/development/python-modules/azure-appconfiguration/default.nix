@@ -1,9 +1,10 @@
-{ lib
-, pythonOlder
-, isodate
-, fetchPypi
-, buildPythonPackage
-, azure-core
+{
+  lib,
+  pythonOlder,
+  isodate,
+  fetchPypi,
+  buildPythonPackage,
+  azure-core,
 }:
 
 buildPythonPackage rec {
@@ -26,9 +27,7 @@ buildPythonPackage rec {
   # Tests are not shipped
   doCheck = false;
 
-  pythonImportsCheck = [
-    "azure.appconfiguration"
-  ];
+  pythonImportsCheck = [ "azure.appconfiguration" ];
 
   meta = with lib; {
     description = "Microsoft App Configuration Data Library for Python";

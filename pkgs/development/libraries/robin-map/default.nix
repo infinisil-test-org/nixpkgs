@@ -1,7 +1,8 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
 }:
 
 stdenv.mkDerivation rec {
@@ -15,9 +16,7 @@ stdenv.mkDerivation rec {
     hash = "sha256-axVMJHTnGW2c4kGcYhEEAvKbVKYA2oxiYfwjiz7xh6Q=";
   };
 
-  nativeBuildInputs = [
-    cmake
-  ];
+  nativeBuildInputs = [ cmake ];
 
   meta = with lib; {
     description = "C++ implementation of a fast hash map and hash set using robin hood hashing";

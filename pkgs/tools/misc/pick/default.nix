@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchFromGitHub, ncurses }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  ncurses,
+}:
 
 stdenv.mkDerivation rec {
   pname = "pick";
@@ -23,5 +28,4 @@ stdenv.mkDerivation rec {
     platforms = platforms.linux ++ platforms.darwin;
     mainProgram = "pick";
   };
-
 }

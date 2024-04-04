@@ -1,20 +1,21 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, flit-core
-, astroid
-, pytestCheckHook
-, docstring-parser
-, marshmallow
-, sphinx
-, hypothesis
-, vaa
-, deal-solver
-, pygments
-, typeguard
-, urllib3
-, flake8
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  flit-core,
+  astroid,
+  pytestCheckHook,
+  docstring-parser,
+  marshmallow,
+  sphinx,
+  hypothesis,
+  vaa,
+  deal-solver,
+  pygments,
+  typeguard,
+  urllib3,
+  flake8,
 }:
 
 buildPythonPackage rec {
@@ -39,9 +40,7 @@ buildPythonPackage rec {
       --replace "\"--cov-report=term-missing:skip-covered\"," ""
   '';
 
-  nativeBuildInputs = [
-    flit-core
-  ];
+  nativeBuildInputs = [ flit-core ];
 
   propagatedBuildInputs = [
     astroid

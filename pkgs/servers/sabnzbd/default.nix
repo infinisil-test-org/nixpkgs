@@ -1,52 +1,64 @@
-{ lib, stdenv
-, coreutils
-, fetchFromGitHub
-, python3
-, par2cmdline-turbo
-, unzip
-, unrar
-, p7zip
-, util-linux
-, makeWrapper
-, nixosTests
+{
+  lib,
+  stdenv,
+  coreutils,
+  fetchFromGitHub,
+  python3,
+  par2cmdline-turbo,
+  unzip,
+  unrar,
+  p7zip,
+  util-linux,
+  makeWrapper,
+  nixosTests,
 }:
 
 let
-  pythonEnv = python3.withPackages(ps: with ps; [
-    babelfish
-    cffi
-    chardet
-    cheetah3
-    cheroot
-    cherrypy
-    configobj
-    cryptography
-    feedparser
-    guessit
-    jaraco-classes
-    jaraco-collections
-    jaraco-context
-    jaraco-functools
-    jaraco-text
-    more-itertools
-    notify2
-    orjson
-    portend
-    puremagic
-    pycparser
-    pysocks
-    python-dateutil
-    pytz
-    rebulk
-    sabctools
-    sabyenc3
-    sgmllib3k
-    six
-    tempora
-    zc-lockfile
-  ]);
-  path = lib.makeBinPath [ coreutils par2cmdline-turbo unrar unzip p7zip util-linux ];
-in stdenv.mkDerivation rec {
+  pythonEnv = python3.withPackages (
+    ps: with ps; [
+      babelfish
+      cffi
+      chardet
+      cheetah3
+      cheroot
+      cherrypy
+      configobj
+      cryptography
+      feedparser
+      guessit
+      jaraco-classes
+      jaraco-collections
+      jaraco-context
+      jaraco-functools
+      jaraco-text
+      more-itertools
+      notify2
+      orjson
+      portend
+      puremagic
+      pycparser
+      pysocks
+      python-dateutil
+      pytz
+      rebulk
+      sabctools
+      sabyenc3
+      sgmllib3k
+      six
+      tempora
+      zc-lockfile
+    ]
+  );
+  path = lib.makeBinPath [
+    coreutils
+    par2cmdline-turbo
+    unrar
+    unzip
+    p7zip
+    util-linux
+  ];
+in
+stdenv.mkDerivation rec {
   version = "4.2.3";
   pname = "sabnzbd";
 
@@ -82,7 +94,11 @@ in stdenv.mkDerivation rec {
     homepage = "https://sabnzbd.org";
     license = licenses.gpl2Plus;
     platforms = platforms.linux;
-    maintainers = with lib.maintainers; [ fridh jojosch adamcstephens ];
+    maintainers = with lib.maintainers; [
+      fridh
+      jojosch
+      adamcstephens
+    ];
     mainProgram = "sabnzbd";
   };
 }

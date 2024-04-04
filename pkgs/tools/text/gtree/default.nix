@@ -1,8 +1,9 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
-, testers
-, gtree
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  testers,
+  gtree,
 }:
 
 buildGoModule rec {
@@ -18,9 +19,7 @@ buildGoModule rec {
 
   vendorHash = "sha256-5biKUOzYaVY+52f0ewvHslAnb+BM0BuqGrU8wwA3t+E=";
 
-  subPackages = [
-    "cmd/gtree"
-  ];
+  subPackages = [ "cmd/gtree" ];
 
   ldflags = [
     "-s"
@@ -30,9 +29,7 @@ buildGoModule rec {
   ];
 
   passthru.tests = {
-    version = testers.testVersion {
-      package = gtree;
-    };
+    version = testers.testVersion { package = gtree; };
   };
 
   meta = with lib; {

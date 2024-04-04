@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -17,13 +18,9 @@ buildPythonPackage rec {
     hash = "sha256-/HXyYVkUgVqOTLFQGzpRN0XLZu8P1fxvufjD+jSB94k=";
   };
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "shortuuid"
-  ];
+  pythonImportsCheck = [ "shortuuid" ];
 
   meta = with lib; {
     description = "Library to generate concise, unambiguous and URL-safe UUIDs";

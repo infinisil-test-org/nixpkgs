@@ -1,5 +1,10 @@
 # rygel service.
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -11,8 +16,18 @@ with lib;
   imports = [
     # Added 2021-05-07
     (mkRenamedOptionModule
-      [ "services" "gnome3" "rygel" "enable" ]
-      [ "services" "gnome" "rygel" "enable" ]
+      [
+        "services"
+        "gnome3"
+        "rygel"
+        "enable"
+      ]
+      [
+        "services"
+        "gnome"
+        "rygel"
+        "enable"
+      ]
     )
   ];
 

@@ -7,5 +7,9 @@
 mkKdeDerivation {
   pname = "konversation";
 
-  extraBuildInputs = [qtmultimedia qt5compat qttools];
+  extraBuildInputs = [
+    qtmultimedia
+    qt5compat
+    qttools
+  ];
 }

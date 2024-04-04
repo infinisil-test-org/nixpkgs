@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pytestCheckHook
-, pythonOlder
-, setuptools
-, simpleeval
-, wcmatch
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
+  simpleeval,
+  wcmatch,
 }:
 
 buildPythonPackage rec {
@@ -22,22 +23,16 @@ buildPythonPackage rec {
     hash = "sha256-ebmCcu4OvDI7k4K6Jk5BgmXi5HtLMAV3PMkLd2LC0pY=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     simpleeval
     wcmatch
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "casbin"
-  ];
+  pythonImportsCheck = [ "casbin" ];
 
   meta = with lib; {
     description = "Authorization library that supports access control models like ACL, RBAC and ABAC";

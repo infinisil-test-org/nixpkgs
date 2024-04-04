@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchPypi
-, setuptools
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchPypi,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -15,9 +16,7 @@ buildPythonPackage rec {
     hash = "sha256-na/lSzSgKOr9lQOdXl1IUaE3NFQPEzEGDTHJkW5xR6g=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   postFixup = lib.optionalString (!stdenv.hostPlatform.isWindows) ''
     find $out -name '*.exe' -delete

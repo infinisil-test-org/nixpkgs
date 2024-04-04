@@ -1,4 +1,9 @@
-{ lib, stdenv, skawarePackages, targetPackages }:
+{
+  lib,
+  stdenv,
+  skawarePackages,
+  targetPackages,
+}:
 
 with skawarePackages;
 
@@ -10,7 +15,13 @@ buildPackage {
   description = "A service manager for s6-based systems";
   platforms = lib.platforms.unix;
 
-  outputs = [ "bin" "lib" "dev" "doc" "out" ];
+  outputs = [
+    "bin"
+    "lib"
+    "dev"
+    "doc"
+    "out"
+  ];
 
   configureFlags = [
     "--libdir=\${lib}/lib"
@@ -57,5 +68,4 @@ buildPackage {
     mv doc $doc/share/doc/s6-rc/html
     mv examples $doc/share/doc/s6-rc/examples
   '';
-
 }

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -13,15 +18,17 @@ let
       description = lib.mdDoc "UUID(s) of VGPU device. You can generate one with `libossp_uuid`.";
     };
   };
-
-in {
+in
+{
   options = {
     virtualisation.kvmgt = {
-      enable = mkEnableOption (lib.mdDoc ''
-        KVMGT (iGVT-g) VGPU support. Allows Qemu/KVM guests to share host's Intel integrated graphics card.
-        Currently only one graphical device can be shared. To allow users to access the device without root add them
-        to the kvm group: `users.extraUsers.<yourusername>.extraGroups = [ "kvm" ];`
-      '');
+      enable = mkEnableOption (
+        lib.mdDoc ''
+          KVMGT (iGVT-g) VGPU support. Allows Qemu/KVM guests to share host's Intel integrated graphics card.
+          Currently only one graphical device can be shared. To allow users to access the device without root add them
+          to the kvm group: `users.extraUsers.<yourusername>.extraGroups = [ "kvm" ];`
+        ''
+      );
       # multi GPU support is under the question
       device = mkOption {
         type = types.str;
@@ -29,7 +36,7 @@ in {
         description = lib.mdDoc "PCI ID of graphics card. You can figure it with {command}`ls /sys/class/mdev_bus`.";
       };
       vgpus = mkOption {
-        default = {};
+        default = { };
         type = with types; attrsOf (submodule [ { options = vgpuOptions; } ]);
         description = lib.mdDoc ''
           Virtual GPUs to be used in Qemu. You can find devices via {command}`ls /sys/bus/pci/devices/*/mdev_supported_types`
@@ -55,13 +62,25 @@ in {
       SUBSYSTEM=="vfio", OWNER="root", GROUP="kvm"
     '';
 
-    systemd = let
-      vgpus = listToAttrs (flatten (mapAttrsToList
-        (mdev: opt: map (id: nameValuePair "kvmgt-${id}" { inherit mdev; uuid = id; }) opt.uuid)
-        cfg.vgpus));
-    in {
-      paths = mapAttrs (_: opt:
-        {
+    systemd =
+      let
+        vgpus = listToAttrs (
+          flatten (
+            mapAttrsToList (
+              mdev: opt:
+              map (
+                id:
+                nameValuePair "kvmgt-${id}" {
+                  inherit mdev;
+                  uuid = id;
+                }
+              ) opt.uuid
+            ) cfg.vgpus
+          )
+        );
+      in
+      {
+        paths = mapAttrs (_: opt: {
           description = "KVMGT VGPU ${opt.uuid} path";
           wantedBy = [ "multi-user.target" ];
           pathConfig = {
@@ -69,8 +88,7 @@ in {
           };
         }) vgpus;
 
-      services = mapAttrs (_: opt:
-        {
+        services = mapAttrs (_: opt: {
           description = "KVMGT VGPU ${opt.uuid}";
           serviceConfig = {
             Type = "oneshot";
@@ -79,7 +97,7 @@ in {
             ExecStop = "${pkgs.runtimeShell} -c 'echo 1 > /sys/bus/pci/devices/${cfg.device}/${opt.uuid}/remove'";
           };
         }) vgpus;
-    };
+      };
   };
 
   meta.maintainers = with maintainers; [ patryk27 ];

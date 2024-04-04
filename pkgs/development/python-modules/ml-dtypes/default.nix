@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, setuptools
-, numpy
-, pytestCheckHook
-, absl-py
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  setuptools,
+  numpy,
+  pytestCheckHook,
+  absl-py,
 }:
 
 buildPythonPackage rec {
@@ -34,13 +35,9 @@ buildPythonPackage rec {
       --replace "setuptools~=68.1.0" "setuptools"
   '';
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [
-    numpy
-  ];
+  propagatedBuildInputs = [ numpy ];
 
   nativeCheckInputs = [
     pytestCheckHook
@@ -53,15 +50,16 @@ buildPythonPackage rec {
     rm -rf ./ml_dtypes
   '';
 
-  pythonImportsCheck = [
-    "ml_dtypes"
-  ];
+  pythonImportsCheck = [ "ml_dtypes" ];
 
   meta = with lib; {
     description = "A stand-alone implementation of several NumPy dtype extensions used in machine learning libraries";
     homepage = "https://github.com/jax-ml/ml_dtypes";
     changelog = "https://github.com/jax-ml/ml_dtypes/releases/tag/v${version}";
     license = licenses.asl20;
-    maintainers = with maintainers; [ GaetanLepage samuela ];
+    maintainers = with maintainers; [
+      GaetanLepage
+      samuela
+    ];
   };
 }

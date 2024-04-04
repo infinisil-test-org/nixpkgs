@@ -1,7 +1,8 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
-, installShellFiles
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  installShellFiles,
 }:
 
 buildGoModule rec {
@@ -37,6 +38,9 @@ buildGoModule rec {
     description = "A command-line interface for Hetzner Cloud, a provider for cloud virtual private servers";
     homepage = "https://github.com/hetznercloud/cli";
     license = licenses.mit;
-    maintainers = with maintainers; [ zauberpony techknowlogick ];
+    maintainers = with maintainers; [
+      zauberpony
+      techknowlogick
+    ];
   };
 }

@@ -1,4 +1,8 @@
-{ lib, fetchFromGitHub, ocamlPackages }:
+{
+  lib,
+  fetchFromGitHub,
+  ocamlPackages,
+}:
 
 with ocamlPackages;
 
@@ -28,7 +32,10 @@ buildDunePackage rec {
   meta = with lib; {
     homepage = "https://github.com/ocaml-opam/${pname}";
     description = "A tool to ease contributions to opam repositories";
-    license = with licenses; [ lgpl21Only ocamlLgplLinkingException ];
+    license = with licenses; [
+      lgpl21Only
+      ocamlLgplLinkingException
+    ];
     maintainers = with maintainers; [ niols ];
   };
 }

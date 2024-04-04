@@ -1,9 +1,23 @@
-{ config, lib, pkgs, utils, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  utils,
+  ...
+}:
 
 let
-  inherit (lib) mkDefault mkEnableOption mkIf mkOption types mkPackageOption;
+  inherit (lib)
+    mkDefault
+    mkEnableOption
+    mkIf
+    mkOption
+    types
+    mkPackageOption
+    ;
   cfg = config.services.engelsystem;
-in {
+in
+{
   options = {
     services.engelsystem = {
       enable = mkOption {
@@ -85,18 +99,21 @@ in {
     services.mysql = mkIf cfg.createDatabase {
       enable = true;
       package = mkDefault pkgs.mariadb;
-      ensureUsers = [{
-        name = "engelsystem";
-        ensurePermissions = { "engelsystem.*" = "ALL PRIVILEGES"; };
-      }];
+      ensureUsers = [
+        {
+          name = "engelsystem";
+          ensurePermissions = {
+            "engelsystem.*" = "ALL PRIVILEGES";
+          };
+        }
+      ];
       ensureDatabases = [ "engelsystem" ];
     };
 
-    environment.etc."engelsystem/config.php".source =
-      pkgs.writeText "config.php" ''
-        <?php
-        return json_decode(file_get_contents("/var/lib/engelsystem/config.json"), true);
-      '';
+    environment.etc."engelsystem/config.php".source = pkgs.writeText "config.php" ''
+      <?php
+      return json_decode(file_get_contents("/var/lib/engelsystem/config.json"), true);
+    '';
 
     services.phpfpm.pools.engelsystem = {
       phpPackage = pkgs.php81;
@@ -141,12 +158,16 @@ in {
 
     systemd.services."engelsystem-init" = {
       wantedBy = [ "multi-user.target" ];
-      serviceConfig = { Type = "oneshot"; };
+      serviceConfig = {
+        Type = "oneshot";
+      };
       script =
         let
-          genConfigScript = pkgs.writeScript "engelsystem-gen-config.sh"
-            (utils.genJqSecretsReplacementSnippet cfg.config "config.json");
-        in ''
+          genConfigScript = pkgs.writeScript "engelsystem-gen-config.sh" (
+            utils.genJqSecretsReplacementSnippet cfg.config "config.json"
+          );
+        in
+        ''
           umask 077
           mkdir -p /var/lib/engelsystem/storage/app
           mkdir -p /var/lib/engelsystem/storage/cache/views
@@ -154,7 +175,7 @@ in {
           ${genConfigScript}
           chmod 400 config.json
           chown -R engelsystem .
-      '';
+        '';
     };
     systemd.services."engelsystem-migrate" = {
       wantedBy = [ "multi-user.target" ];
@@ -166,10 +187,12 @@ in {
       script = ''
         ${cfg.package}/bin/migrate
       '';
-      after = [ "engelsystem-init.service" "mysql.service" ];
+      after = [
+        "engelsystem-init.service"
+        "mysql.service"
+      ];
     };
-    systemd.services."phpfpm-engelsystem".after =
-      [ "engelsystem-migrate.service" ];
+    systemd.services."phpfpm-engelsystem".after = [ "engelsystem-migrate.service" ];
 
     users.users.engelsystem = {
       isSystemUser = true;

@@ -1,7 +1,9 @@
-{ lib
-, fetchFromGitHub
-, unstableGitUpdater
-, buildLua }:
+{
+  lib,
+  fetchFromGitHub,
+  unstableGitUpdater,
+  buildLua,
+}:
 
 buildLua rec {
   pname = "mpv-reload";
@@ -9,11 +11,11 @@ buildLua rec {
   version = "unstable-2023-12-19";
   src = fetchFromGitHub {
     owner = "4e6";
-    repo  = pname;
-    rev   = "133d596f6d369f320b4595bbed1f4a157b7b9ee5";
-    hash  = "sha256-B+4TCmf1T7MuwtbL+hGZoN1ktI31hnO5yayMG1zW8Ng=";
+    repo = pname;
+    rev = "133d596f6d369f320b4595bbed1f4a157b7b9ee5";
+    hash = "sha256-B+4TCmf1T7MuwtbL+hGZoN1ktI31hnO5yayMG1zW8Ng=";
   };
-  passthru.updateScript = unstableGitUpdater {};
+  passthru.updateScript = unstableGitUpdater { };
 
   meta = {
     description = "Manual & automatic reloading of videos";

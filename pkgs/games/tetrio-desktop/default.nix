@@ -1,23 +1,24 @@
-{ stdenv
-, lib
-, fetchurl
-, dpkg
-, autoPatchelfHook
-, wrapGAppsHook
-, alsa-lib
-, cups
-, libGL
-, libX11
-, libXScrnSaver
-, libXtst
-, mesa
-, nss
-, gtk3
-, libpulseaudio
-, systemd
-, callPackage
-, withTetrioPlus ? false
-, tetrio-plus ? callPackage ./tetrio-plus.nix { }
+{
+  stdenv,
+  lib,
+  fetchurl,
+  dpkg,
+  autoPatchelfHook,
+  wrapGAppsHook,
+  alsa-lib,
+  cups,
+  libGL,
+  libX11,
+  libXScrnSaver,
+  libXtst,
+  mesa,
+  nss,
+  gtk3,
+  libpulseaudio,
+  systemd,
+  callPackage,
+  withTetrioPlus ? false,
+  tetrio-plus ? callPackage ./tetrio-plus.nix { },
 }:
 
 stdenv.mkDerivation rec {

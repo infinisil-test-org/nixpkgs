@@ -1,4 +1,12 @@
-{ lib, stdenv, fetchFromGitHub, rustPlatform, pkg-config, openssl, Security }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  rustPlatform,
+  pkg-config,
+  openssl,
+  Security,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "cargo-whatfeatures";
@@ -15,13 +23,18 @@ rustPlatform.buildRustPackage rec {
 
   nativeBuildInputs = [ pkg-config ];
 
-  buildInputs = [ openssl ]
-    ++ lib.optionals stdenv.isDarwin [ Security ];
+  buildInputs = [ openssl ] ++ lib.optionals stdenv.isDarwin [ Security ];
 
   meta = with lib; {
     description = "A simple cargo plugin to get a list of features for a specific crate";
     homepage = "https://github.com/museun/cargo-whatfeatures";
-    license = with licenses; [ mit asl20 ];
-    maintainers = with maintainers; [ ivan-babrou matthiasbeyer ];
+    license = with licenses; [
+      mit
+      asl20
+    ];
+    maintainers = with maintainers; [
+      ivan-babrou
+      matthiasbeyer
+    ];
   };
 }

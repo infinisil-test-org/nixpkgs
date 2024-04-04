@@ -6,5 +6,8 @@
 mkKdeDerivation {
   pname = "plasma-welcome";
 
-  extraBuildInputs = [qtsvg kuserfeedback];
+  extraBuildInputs = [
+    qtsvg
+    kuserfeedback
+  ];
 }

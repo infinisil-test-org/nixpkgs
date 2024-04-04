@@ -1,25 +1,28 @@
-{ stdenv
-, lib
-, fetchurl
-, autoPatchelfHook
-, makeWrapper
-, writeScript
-, glibcLocales
-, python3Packages
-, gtk-sharp-2_0
-, gtk2-x11
-, screen
-, buildUnstable ? false
+{
+  stdenv,
+  lib,
+  fetchurl,
+  autoPatchelfHook,
+  makeWrapper,
+  writeScript,
+  glibcLocales,
+  python3Packages,
+  gtk-sharp-2_0,
+  gtk2-x11,
+  screen,
+  buildUnstable ? false,
 }:
 
 let
-  pythonLibs = with python3Packages; makePythonPath [
-    construct
-    psutil
-    pyyaml
-    requests
-    robotframework
-  ];
+  pythonLibs =
+    with python3Packages;
+    makePythonPath [
+      construct
+      psutil
+      pyyaml
+      requests
+      robotframework
+    ];
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "renode";
@@ -71,10 +74,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   passthru.updateScript =
     let
-      versionRegex =
-        if buildUnstable
-        then "[0-9\.\+]+[^\+]*."
-        else "[0-9\.]+[^\+]*.";
+      versionRegex = if buildUnstable then "[0-9\.\+]+[^\+]*." else "[0-9\.]+[^\+]*.";
     in
     writeScript "${finalAttrs.pname}-updater" ''
       #!/usr/bin/env nix-shell

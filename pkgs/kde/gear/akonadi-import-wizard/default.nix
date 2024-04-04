@@ -1,4 +1,1 @@
-{mkKdeDerivation}:
-mkKdeDerivation {
-  pname = "akonadi-import-wizard";
-}
+{ mkKdeDerivation }: mkKdeDerivation { pname = "akonadi-import-wizard"; }

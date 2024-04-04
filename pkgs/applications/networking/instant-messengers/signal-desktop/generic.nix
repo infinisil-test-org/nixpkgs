@@ -1,63 +1,66 @@
-{ stdenv
-, lib
-, fetchurl
-, autoPatchelfHook
-, dpkg
-, wrapGAppsHook
-, makeWrapper
-, nixosTests
-, gtk3
-, atk
-, at-spi2-atk
-, cairo
-, pango
-, pipewire
-, gdk-pixbuf
-, glib
-, freetype
-, fontconfig
-, dbus
-, libX11
-, xorg
-, libXi
-, libXcursor
-, libXdamage
-, libXrandr
-, libXcomposite
-, libXext
-, libXfixes
-, libXrender
-, libXtst
-, libXScrnSaver
-, nss
-, nspr
-, alsa-lib
-, cups
-, expat
-, libuuid
-, at-spi2-core
-, libappindicator-gtk3
-, mesa
+{
+  stdenv,
+  lib,
+  fetchurl,
+  autoPatchelfHook,
+  dpkg,
+  wrapGAppsHook,
+  makeWrapper,
+  nixosTests,
+  gtk3,
+  atk,
+  at-spi2-atk,
+  cairo,
+  pango,
+  pipewire,
+  gdk-pixbuf,
+  glib,
+  freetype,
+  fontconfig,
+  dbus,
+  libX11,
+  xorg,
+  libXi,
+  libXcursor,
+  libXdamage,
+  libXrandr,
+  libXcomposite,
+  libXext,
+  libXfixes,
+  libXrender,
+  libXtst,
+  libXScrnSaver,
+  nss,
+  nspr,
+  alsa-lib,
+  cups,
+  expat,
+  libuuid,
+  at-spi2-core,
+  libappindicator-gtk3,
+  mesa,
   # Runtime dependencies:
-, systemd
-, libnotify
-, libdbusmenu
-, libpulseaudio
-, xdg-utils
-, wayland
+  systemd,
+  libnotify,
+  libdbusmenu,
+  libpulseaudio,
+  xdg-utils,
+  wayland,
 }:
 
-{ pname
-, dir
-, version
-, hash
-, url
+{
+  pname,
+  dir,
+  version,
+  hash,
+  url,
 }:
 
 let
   inherit (stdenv) targetPlatform;
   ARCH = if targetPlatform.isAarch64 then "arm64" else "x64";
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   inherit pname version;
 
   # Please backport all updates to the stable channel.
@@ -68,9 +71,7 @@ in stdenv.mkDerivation rec {
   # (Alternatively we could try to patch the asar archive, but that requires a
   # few additional steps and might not be the best idea.)
 
-  src = fetchurl {
-    inherit url hash;
-  };
+  src = fetchurl { inherit url hash; };
 
   nativeBuildInputs = [
     autoPatchelfHook
@@ -158,7 +159,12 @@ in stdenv.mkDerivation rec {
 
   preFixup = ''
     gappsWrapperArgs+=(
-      --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath [ stdenv.cc.cc pipewire ] }"
+      --prefix LD_LIBRARY_PATH : "${
+        lib.makeLibraryPath [
+          stdenv.cc.cc
+          pipewire
+        ]
+      }"
       --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform-hint=auto --enable-features=WaylandWindowDecorations}}"
       --suffix PATH : ${lib.makeBinPath [ xdg-utils ]}
     )
@@ -166,7 +172,12 @@ in stdenv.mkDerivation rec {
     # Fix the desktop link and fix showing application icon in tray
     substituteInPlace $out/share/applications/${pname}.desktop \
       --replace "/opt/${dir}/${pname}" $out/bin/${pname} \
-      ${if pname == "signal-desktop" then "--replace \"bin/signal-desktop\" \"bin/signal-desktop --use-tray-icon\"" else ""}
+      ${
+        if pname == "signal-desktop" then
+          "--replace \"bin/signal-desktop\" \"bin/signal-desktop --use-tray-icon\""
+        else
+          ""
+      }
 
     autoPatchelf --no-recurse -- "$out/lib/${dir}/"
     patchelf --add-needed ${libpulseaudio}/lib/libpulse.so "$out/lib/${dir}/resources/app.asar.unpacked/node_modules/@signalapp/ringrtc/build/linux/libringrtc-${ARCH}.node"
@@ -187,9 +198,18 @@ in stdenv.mkDerivation rec {
     homepage = "https://signal.org/";
     changelog = "https://github.com/signalapp/Signal-Desktop/releases/tag/v${version}";
     license = lib.licenses.agpl3Only;
-    maintainers = with lib.maintainers; [ eclairevoyant mic92 equirosa urandom bkchr ];
+    maintainers = with lib.maintainers; [
+      eclairevoyant
+      mic92
+      equirosa
+      urandom
+      bkchr
+    ];
     mainProgram = pname;
-    platforms = [ "x86_64-linux" "aarch64-linux" ];
+    platforms = [
+      "x86_64-linux"
+      "aarch64-linux"
+    ];
     sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
   };
 }

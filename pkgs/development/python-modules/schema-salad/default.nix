@@ -1,17 +1,18 @@
-{ lib
-, black
-, buildPythonPackage
-, cachecontrol
-, fetchFromGitHub
-, importlib-resources
-, mistune
-, mypy-extensions
-, pytestCheckHook
-, pythonOlder
-, rdflib
-, requests
-, ruamel-yaml
-, setuptools-scm
+{
+  lib,
+  black,
+  buildPythonPackage,
+  cachecontrol,
+  fetchFromGitHub,
+  importlib-resources,
+  mistune,
+  mypy-extensions,
+  pytestCheckHook,
+  pythonOlder,
+  rdflib,
+  requests,
+  ruamel-yaml,
+  setuptools-scm,
 }:
 
 buildPythonPackage rec {
@@ -28,25 +29,21 @@ buildPythonPackage rec {
     hash = "sha256-bjeVgV9ovIVvGvSay24vKkzSXBbzgV05BkO5DojTX3o=";
   };
 
-  nativeBuildInputs = [
-    setuptools-scm
-  ];
+  nativeBuildInputs = [ setuptools-scm ];
 
-  propagatedBuildInputs = [
-    cachecontrol
-    mistune
-    mypy-extensions
-    rdflib
-    requests
-    ruamel-yaml
-  ] ++ cachecontrol.optional-dependencies.filecache
-  ++ lib.optionals (pythonOlder "3.9") [
-    importlib-resources
-  ];
+  propagatedBuildInputs =
+    [
+      cachecontrol
+      mistune
+      mypy-extensions
+      rdflib
+      requests
+      ruamel-yaml
+    ]
+    ++ cachecontrol.optional-dependencies.filecache
+    ++ lib.optionals (pythonOlder "3.9") [ importlib-resources ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ] ++ passthru.optional-dependencies.pycodegen;
+  nativeCheckInputs = [ pytestCheckHook ] ++ passthru.optional-dependencies.pycodegen;
 
   preCheck = ''
     rm tox.ini
@@ -62,14 +59,10 @@ buildPythonPackage rec {
     "test_bad_schemas"
   ];
 
-  pythonImportsCheck = [
-    "schema_salad"
-  ];
+  pythonImportsCheck = [ "schema_salad" ];
 
   passthru.optional-dependencies = {
-    pycodegen = [
-      black
-    ];
+    pycodegen = [ black ];
   };
 
   meta = with lib; {

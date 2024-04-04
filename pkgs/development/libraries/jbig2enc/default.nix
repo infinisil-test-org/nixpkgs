@@ -1,16 +1,17 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchpatch
-, python3
-, leptonica
-, zlib
-, libwebp
-, giflib
-, libjpeg
-, libpng
-, libtiff
-, autoreconfHook
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  python3,
+  leptonica,
+  zlib,
+  libwebp,
+  giflib,
+  libjpeg,
+  libpng,
+  libtiff,
+  autoreconfHook,
 }:
 
 stdenv.mkDerivation rec {

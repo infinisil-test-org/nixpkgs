@@ -1,7 +1,8 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
-, installShellFiles
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  installShellFiles,
 }:
 
 buildGoModule rec {
@@ -10,14 +11,17 @@ buildGoModule rec {
 
   src = fetchFromGitHub {
     owner = "nat-418";
-    repo ="knock";
+    repo = "knock";
     rev = "refs/tags/v${version}";
     hash = "sha256-VXrWphfBDGDNsz4iuUdwwd46oqnmhJ9i3TtzMqHoSJk=";
   };
 
   vendorHash = "sha256-wkSXdIgfkHbVJYsgm/hLAeKA9geof92U3mzSzt7eJE8=";
 
-  outputs = [ "out" "man" ];
+  outputs = [
+    "out"
+    "man"
+  ];
 
   nativeBuildInputs = [ installShellFiles ];
 

@@ -1,17 +1,18 @@
-{ lib
-, aiofiles
-, aiohttp
-, async-generator
-, buildPythonPackage
-, fetchFromGitHub
-, pypubsub
-, pyserial
-, pyserial-asyncio
-, pytestCheckHook
-, pythonOlder
-, setuptools
-, voluptuous
-, wheel
+{
+  lib,
+  aiofiles,
+  aiohttp,
+  async-generator,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pypubsub,
+  pyserial,
+  pyserial-asyncio,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
+  voluptuous,
+  wheel,
 }:
 
 buildPythonPackage rec {
@@ -47,9 +48,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "pyinsteon"
-  ];
+  pythonImportsCheck = [ "pyinsteon" ];
 
   meta = with lib; {
     description = "Python library to support Insteon home automation projects";

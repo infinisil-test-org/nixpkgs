@@ -1,33 +1,34 @@
-{ lib
-, stdenv
-, altair
-, blinker
-, buildPythonPackage
-, cachetools
-, click
-, fetchPypi
-, gitpython
-, importlib-metadata
-, numpy
-, packaging
-, pandas
-, pillow
-, protobuf
-, pyarrow
-, pydeck
-, pympler
-, python-dateutil
-, pythonOlder
-, setuptools
-, requests
-, rich
-, tenacity
-, toml
-, tornado
-, typing-extensions
-, tzlocal
-, validators
-, watchdog
+{
+  lib,
+  stdenv,
+  altair,
+  blinker,
+  buildPythonPackage,
+  cachetools,
+  click,
+  fetchPypi,
+  gitpython,
+  importlib-metadata,
+  numpy,
+  packaging,
+  pandas,
+  pillow,
+  protobuf,
+  pyarrow,
+  pydeck,
+  pympler,
+  python-dateutil,
+  pythonOlder,
+  setuptools,
+  requests,
+  rich,
+  tenacity,
+  toml,
+  tornado,
+  typing-extensions,
+  tzlocal,
+  validators,
+  watchdog,
 }:
 
 buildPythonPackage rec {
@@ -42,9 +43,7 @@ buildPythonPackage rec {
     hash = "sha256-7GQASW9niFIUPLwjxMQ4ifeLbJPC4nVv2OBgzM3kuP0=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     altair
@@ -70,16 +69,12 @@ buildPythonPackage rec {
     typing-extensions
     tzlocal
     validators
-  ] ++ lib.optionals (!stdenv.isDarwin) [
-    watchdog
-  ];
+  ] ++ lib.optionals (!stdenv.isDarwin) [ watchdog ];
 
   # pypi package does not include the tests, but cannot be built with fetchFromGitHub
   doCheck = false;
 
-  pythonImportsCheck = [
-    "streamlit"
-  ];
+  pythonImportsCheck = [ "streamlit" ];
 
   postInstall = ''
     rm $out/bin/streamlit.cmd # remove windows helper
@@ -89,7 +84,10 @@ buildPythonPackage rec {
     homepage = "https://streamlit.io/";
     changelog = "https://github.com/streamlit/streamlit/releases/tag/${version}";
     description = "The fastest way to build custom ML tools";
-    maintainers = with maintainers; [ natsukium yrashk ];
+    maintainers = with maintainers; [
+      natsukium
+      yrashk
+    ];
     license = licenses.asl20;
   };
 }

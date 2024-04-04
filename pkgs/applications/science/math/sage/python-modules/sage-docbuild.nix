@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, sage-src
-, jupyter-sphinx
-, sphinx
-, sphinx-copybutton
+{
+  lib,
+  buildPythonPackage,
+  sage-src,
+  jupyter-sphinx,
+  sphinx,
+  sphinx-copybutton,
 }:
 
 buildPythonPackage rec {

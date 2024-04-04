@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, llama-index-agent-openai
-, llama-index-core
-, llama-index-llms-openai
-, poetry-core
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  llama-index-agent-openai,
+  llama-index-core,
+  llama-index-llms-openai,
+  poetry-core,
 }:
 
 buildPythonPackage rec {
@@ -16,9 +17,7 @@ buildPythonPackage rec {
 
   sourceRoot = "${src.name}/llama-index-integrations/program/${pname}";
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
   propagatedBuildInputs = [
     llama-index-agent-openai
@@ -26,7 +25,5 @@ buildPythonPackage rec {
     llama-index-llms-openai
   ];
 
-  pythonImportsCheck = [
-    "llama_index.program.openai"
-  ];
+  pythonImportsCheck = [ "llama_index.program.openai" ];
 }

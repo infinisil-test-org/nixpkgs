@@ -1,9 +1,16 @@
-{ jdk11, jdk17, jdk21 }:
+{
+  jdk11,
+  jdk17,
+  jdk21,
+}:
 
 rec {
   gen =
 
-    { version, nativeVersion, hash,
+    {
+      version,
+      nativeVersion,
+      hash,
 
       # The default JDK/JRE that will be used for derived Gradle packages.
       # A current LTS version of a JDK is a good choice.
@@ -23,17 +30,24 @@ rec {
         "x86_64-darwin"
         "x86_64-linux"
         "x86_64-windows"
-      ]
+      ],
     }:
 
-    { lib, stdenv, fetchurl, makeWrapper, unzip, ncurses5, ncurses6,
+    {
+      lib,
+      stdenv,
+      fetchurl,
+      makeWrapper,
+      unzip,
+      ncurses5,
+      ncurses6,
 
       # The JDK/JRE used for running Gradle.
       java ? defaultJava,
 
       # Additional JDK/JREs to be registered as toolchains.
       # See https://docs.gradle.org/current/userguide/toolchains.html
-      javaToolchains ? [ ]
+      javaToolchains ? [ ],
     }:
 
     stdenv.mkDerivation rec {
@@ -42,28 +56,31 @@ rec {
 
       src = fetchurl {
         inherit hash;
-        url =
-          "https://services.gradle.org/distributions/gradle-${version}-bin.zip";
+        url = "https://services.gradle.org/distributions/gradle-${version}-bin.zip";
       };
 
       dontBuild = true;
 
-      nativeBuildInputs = [ makeWrapper unzip ];
+      nativeBuildInputs = [
+        makeWrapper
+        unzip
+      ];
       buildInputs = [ java ];
 
-      installPhase = with builtins;
+      installPhase =
+        with builtins;
         let
           toolchain = rec {
             prefix = x: "JAVA_TOOLCHAIN_NIX_${toString x}";
-            varDefs  = (lib.imap0 (i: x: "${prefix i} ${x}") javaToolchains);
+            varDefs = (lib.imap0 (i: x: "${prefix i} ${x}") javaToolchains);
             varNames = lib.imap0 (i: x: prefix i) javaToolchains;
-            property = " -Porg.gradle.java.installations.fromEnv='${
-                 concatStringsSep "," varNames
-               }'";
+            property = " -Porg.gradle.java.installations.fromEnv='${concatStringsSep "," varNames}'";
           };
-          varDefs = concatStringsSep "\n" (map (x: "  --set ${x} \\")
-            ([ "JAVA_HOME ${java}" ] ++ toolchain.varDefs));
-        in ''
+          varDefs = concatStringsSep "\n" (
+            map (x: "  --set ${x} \\") ([ "JAVA_HOME ${java}" ] ++ toolchain.varDefs)
+          );
+        in
+        ''
           mkdir -pv $out/lib/gradle/
           cp -rv lib/ $out/lib/gradle/
 
@@ -76,28 +93,37 @@ rec {
 
       dontFixup = !stdenv.isLinux;
 
-      fixupPhase = let arch = if stdenv.is64bit then "amd64" else "i386";
-      in ''
-        for variant in "" "-ncurses5" "-ncurses6"; do
-          mkdir "patching$variant"
-          pushd "patching$variant"
-          jar xf $out/lib/gradle/lib/native-platform-linux-${arch}$variant-${nativeVersion}.jar
-          patchelf \
-            --set-rpath "${stdenv.cc.cc.lib}/lib64:${lib.makeLibraryPath [ stdenv.cc.cc ncurses5 ncurses6 ]}" \
-            net/rubygrapefruit/platform/linux-${arch}$variant/libnative-platform*.so
-          jar cf native-platform-linux-${arch}$variant-${nativeVersion}.jar .
-          mv native-platform-linux-${arch}$variant-${nativeVersion}.jar $out/lib/gradle/lib/
-          popd
-        done
+      fixupPhase =
+        let
+          arch = if stdenv.is64bit then "amd64" else "i386";
+        in
+        ''
+          for variant in "" "-ncurses5" "-ncurses6"; do
+            mkdir "patching$variant"
+            pushd "patching$variant"
+            jar xf $out/lib/gradle/lib/native-platform-linux-${arch}$variant-${nativeVersion}.jar
+            patchelf \
+              --set-rpath "${stdenv.cc.cc.lib}/lib64:${
+                lib.makeLibraryPath [
+                  stdenv.cc.cc
+                  ncurses5
+                  ncurses6
+                ]
+              }" \
+              net/rubygrapefruit/platform/linux-${arch}$variant/libnative-platform*.so
+            jar cf native-platform-linux-${arch}$variant-${nativeVersion}.jar .
+            mv native-platform-linux-${arch}$variant-${nativeVersion}.jar $out/lib/gradle/lib/
+            popd
+          done
 
-        # The scanner doesn't pick up the runtime dependency in the jar.
-        # Manually add a reference where it will be found.
-        mkdir $out/nix-support
-        echo ${stdenv.cc.cc} > $out/nix-support/manual-runtime-dependencies
-        # Gradle will refuse to start without _both_ 5 and 6 versions of ncurses.
-        echo ${ncurses5} >> $out/nix-support/manual-runtime-dependencies
-        echo ${ncurses6} >> $out/nix-support/manual-runtime-dependencies
-      '';
+          # The scanner doesn't pick up the runtime dependency in the jar.
+          # Manually add a reference where it will be found.
+          mkdir $out/nix-support
+          echo ${stdenv.cc.cc} > $out/nix-support/manual-runtime-dependencies
+          # Gradle will refuse to start without _both_ 5 and 6 versions of ncurses.
+          echo ${ncurses5} >> $out/nix-support/manual-runtime-dependencies
+          echo ${ncurses6} >> $out/nix-support/manual-runtime-dependencies
+        '';
 
       meta = with lib; {
         inherit platforms;
@@ -118,7 +144,10 @@ rec {
           binaryNativeCode
         ];
         license = licenses.asl20;
-        maintainers = with maintainers; [ lorenzleutgeb liff ];
+        maintainers = with maintainers; [
+          lorenzleutgeb
+          liff
+        ];
         mainProgram = "gradle";
       };
     };

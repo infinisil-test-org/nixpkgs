@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, dnspython
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  dnspython,
 }:
 
 buildPythonPackage rec {
@@ -17,9 +18,7 @@ buildPythonPackage rec {
     hash = "sha256-Mdqx8+HQzdV+jfAbZF9S1DzBtlPtOv1TXSiR9PxPlxI=";
   };
 
-  propagatedBuildInputs = [
-    dnspython
-  ];
+  propagatedBuildInputs = [ dnspython ];
 
   # Tests call a running mongodb instance
   doCheck = false;

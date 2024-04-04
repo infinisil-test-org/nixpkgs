@@ -1,28 +1,29 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
 
-# build-system
-, hatchling
+  # build-system
+  hatchling,
 
-# dependencies
-, anyio
-, typing-extensions
+  # dependencies
+  anyio,
+  typing-extensions,
 
-# optional dependencies
-, itsdangerous
-, jinja2
-, python-multipart
-, pyyaml
-, httpx
+  # optional dependencies
+  itsdangerous,
+  jinja2,
+  python-multipart,
+  pyyaml,
+  httpx,
 
-# tests
-, pytestCheckHook
-, pythonOlder
-, trio
+  # tests
+  pytestCheckHook,
+  pythonOlder,
+  trio,
 
-# reverse dependencies
-, fastapi
+  # reverse dependencies
+  fastapi,
 }:
 
 buildPythonPackage rec {
@@ -39,15 +40,9 @@ buildPythonPackage rec {
     hash = "sha256-ynT1KowVJ1QdKLSOXYWVe5Q/PrYEWQDUbj395ebfk6Y=";
   };
 
-  nativeBuildInputs = [
-    hatchling
-  ];
+  nativeBuildInputs = [ hatchling ];
 
-  propagatedBuildInputs = [
-    anyio
-  ] ++ lib.optionals (pythonOlder "3.10") [
-    typing-extensions
-  ];
+  propagatedBuildInputs = [ anyio ] ++ lib.optionals (pythonOlder "3.10") [ typing-extensions ];
 
   passthru.optional-dependencies.full = [
     itsdangerous
@@ -64,13 +59,13 @@ buildPythonPackage rec {
   ] ++ lib.flatten (lib.attrValues passthru.optional-dependencies);
 
   pytestFlagsArray = [
-    "-W" "ignore::DeprecationWarning"
-    "-W" "ignore::trio.TrioDeprecationWarning"
+    "-W"
+    "ignore::DeprecationWarning"
+    "-W"
+    "ignore::trio.TrioDeprecationWarning"
   ];
 
-  pythonImportsCheck = [
-    "starlette"
-  ];
+  pythonImportsCheck = [ "starlette" ];
 
   passthru.tests = {
     inherit fastapi;

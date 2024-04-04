@@ -1,24 +1,29 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, meson
-, ninja
-, pkg-config
-, gtk-doc
-, docbook-xsl-nons
-, docbook_xml_dtd_43
-, wayland-scanner
-, wayland
-, gtk3
-, gobject-introspection
-, vala
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  meson,
+  ninja,
+  pkg-config,
+  gtk-doc,
+  docbook-xsl-nons,
+  docbook_xml_dtd_43,
+  wayland-scanner,
+  wayland,
+  gtk3,
+  gobject-introspection,
+  vala,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "gtk-layer-shell";
   version = "0.8.2";
 
-  outputs = [ "out" "dev" "devdoc" ];
+  outputs = [
+    "out"
+    "dev"
+    "devdoc"
+  ];
   outputBin = "devdoc"; # for demo
 
   src = fetchFromGitHub {
@@ -30,9 +35,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   strictDeps = true;
 
-  depsBuildBuild = [
-    pkg-config
-  ];
+  depsBuildBuild = [ pkg-config ];
 
   nativeBuildInputs = [
     meson
@@ -60,7 +63,10 @@ stdenv.mkDerivation (finalAttrs: {
     description = "A library to create panels and other desktop components for Wayland using the Layer Shell protocol";
     homepage = "https://github.com/wmww/gtk-layer-shell";
     license = licenses.lgpl3Plus;
-    maintainers = with maintainers; [ eonpatapon donovanglover ];
+    maintainers = with maintainers; [
+      eonpatapon
+      donovanglover
+    ];
     platforms = platforms.linux;
   };
 })

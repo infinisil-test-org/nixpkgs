@@ -1,18 +1,19 @@
-{ lib
-, stdenv
-, fetchurl
+{
+  lib,
+  stdenv,
+  fetchurl,
 
-, autoPatchelfHook
-, dpkg
-, makeWrapper
-, undmg
-, wrapGAppsHook
+  autoPatchelfHook,
+  dpkg,
+  makeWrapper,
+  undmg,
+  wrapGAppsHook,
 
-, libappindicator
-, libnotify
-, libsecret
-, mpv-unwrapped
-, xdg-user-dirs
+  libappindicator,
+  libnotify,
+  libsecret,
+  mpv-unwrapped,
+  xdg-user-dirs,
 }:
 
 let
@@ -31,11 +32,16 @@ let
     license = lib.licenses.bsdOriginal;
     mainProgram = "spotube";
     maintainers = with lib.maintainers; [ tomasajt ];
-    platforms = [ "x86_64-linux" "x86_64-darwin" "aarch64-darwin" ];
+    platforms = [
+      "x86_64-linux"
+      "x86_64-darwin"
+      "aarch64-darwin"
+    ];
     sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
   };
 
-  fetchArtifact = { filename, hash }:
+  fetchArtifact =
+    { filename, hash }:
     fetchurl {
       url = "https://github.com/KRTirtho/spotube/releases/download/v${version}/${filename}";
       inherit hash;

@@ -1,29 +1,30 @@
-{ lib
-, aiohttp
-, asgiref
-, buildPythonPackage
-, django
-, djangorestframework
-, falcon
-, fetchFromGitHub
-, flask
-, httpx
-, isodate
-, jsonschema
-, jsonschema-spec
-, more-itertools
-, openapi-schema-validator
-, openapi-spec-validator
-, parse
-, poetry-core
-, pytest-aiohttp
-, pytestCheckHook
-, pythonOlder
-, responses
-, requests
-, starlette
-, webob
-, werkzeug
+{
+  lib,
+  aiohttp,
+  asgiref,
+  buildPythonPackage,
+  django,
+  djangorestframework,
+  falcon,
+  fetchFromGitHub,
+  flask,
+  httpx,
+  isodate,
+  jsonschema,
+  jsonschema-spec,
+  more-itertools,
+  openapi-schema-validator,
+  openapi-spec-validator,
+  parse,
+  poetry-core,
+  pytest-aiohttp,
+  pytestCheckHook,
+  pythonOlder,
+  responses,
+  requests,
+  starlette,
+  webob,
+  werkzeug,
 }:
 
 buildPythonPackage rec {
@@ -44,9 +45,7 @@ buildPythonPackage rec {
     sed -i "/--cov/d" pyproject.toml
   '';
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
   propagatedBuildInputs = [
     isodate
@@ -61,21 +60,11 @@ buildPythonPackage rec {
   ];
 
   passthru.optional-dependencies = {
-    aiohttp = [
-      aiohttp
-    ];
-    django = [
-      django
-    ];
-    falcon = [
-      falcon
-    ];
-    flask = [
-      flask
-    ];
-    requests = [
-      requests
-    ];
+    aiohttp = [ aiohttp ];
+    django = [ django ];
+    falcon = [ falcon ];
+    flask = [ flask ];
+    requests = [ requests ];
     starlette = [
       httpx
       starlette

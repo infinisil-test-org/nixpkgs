@@ -1,4 +1,9 @@
-{ lib, buildPythonPackage, python, gurobi }:
+{
+  lib,
+  buildPythonPackage,
+  python,
+  gurobi,
+}:
 
 buildPythonPackage {
   pname = "gurobipy";

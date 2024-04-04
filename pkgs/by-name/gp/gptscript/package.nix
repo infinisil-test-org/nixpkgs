@@ -30,8 +30,8 @@ buildGo122Module rec {
     homepage = "https://gptscript.ai";
     changelog = "https://github.com/gptscript-ai/gptscript/releases/tag/v{version}";
     description = "Natural Language Programming";
-    license = with licenses; [asl20];
-    maintainers = with maintainers; [jamiemagee];
+    license = with licenses; [ asl20 ];
+    maintainers = with maintainers; [ jamiemagee ];
     mainProgram = "gptscript";
   };
 }

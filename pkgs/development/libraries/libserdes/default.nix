@@ -1,15 +1,17 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, perl
-, which
-, boost
-, rdkafka
-, jansson
-, curl
-, avro-c
-, avro-cpp
-, nix-update-script }:
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  perl,
+  which,
+  boost,
+  rdkafka,
+  jansson,
+  curl,
+  avro-c,
+  avro-cpp,
+  nix-update-script,
+}:
 
 stdenv.mkDerivation rec {
   pname = "libserdes";
@@ -22,22 +24,37 @@ stdenv.mkDerivation rec {
     hash = "sha256-rg4SWa9nIDT6JrnnCDwdiFE1cvpUn0HWHn+bPkXMHQ4=";
   };
 
-  outputs = [ "dev" "out" ];
+  outputs = [
+    "dev"
+    "out"
+  ];
 
-  nativeBuildInputs = [ perl which ];
+  nativeBuildInputs = [
+    perl
+    which
+  ];
 
-  buildInputs = [ boost rdkafka jansson curl avro-c avro-cpp ];
+  buildInputs = [
+    boost
+    rdkafka
+    jansson
+    curl
+    avro-c
+    avro-cpp
+  ];
 
   makeFlags = [ "GEN_PKG_CONFIG=y" ];
 
-  postPatch = ''
-    patchShebangs configure lds-gen.pl
-  '' + lib.optionalString (stdenv.cc.libcxx != null) ''
-    # fix for https://github.com/NixOS/nixpkgs/issues/166205
-    # llvm12+ isn't adding libc++abi
-    substituteInPlace src-cpp/Makefile \
-      --replace "LIBS += -lstdc++" "LIBS += -lc++ -l${stdenv.cc.libcxx.cxxabi.libName}"
-  '';
+  postPatch =
+    ''
+      patchShebangs configure lds-gen.pl
+    ''
+    + lib.optionalString (stdenv.cc.libcxx != null) ''
+      # fix for https://github.com/NixOS/nixpkgs/issues/166205
+      # llvm12+ isn't adding libc++abi
+      substituteInPlace src-cpp/Makefile \
+        --replace "LIBS += -lstdc++" "LIBS += -lc++ -l${stdenv.cc.libcxx.cxxabi.libName}"
+    '';
 
   # Has a configure script but it’s not Autoconf so steal some bits from multiple-outputs.sh:
   setOutputFlags = false;

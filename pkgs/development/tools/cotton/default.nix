@@ -1,8 +1,9 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, stdenv
-, CoreServices
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  stdenv,
+  CoreServices,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -30,6 +31,9 @@ rustPlatform.buildRustPackage rec {
     description = "A package manager for JavaScript projects";
     homepage = "https://github.com/danielhuang/cotton";
     license = licenses.gpl3Only;
-    maintainers = with maintainers; [ dit7ya figsoda ];
+    maintainers = with maintainers; [
+      dit7ya
+      figsoda
+    ];
   };
 }

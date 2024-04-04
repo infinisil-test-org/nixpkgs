@@ -1,28 +1,29 @@
-{ stdenv
-, fetchurl
-, alsa-lib
-, atk
-, cairo
-, dpkg
-, ffmpeg
-, freetype
-, gdk-pixbuf
-, glib
-, gtk3
-, harfbuzz
-, lib
-, libglvnd
-, libjack2
-, libjpeg
-, libxkbcommon
-, makeWrapper
-, pango
-, pipewire
-, pulseaudio
-, wrapGAppsHook
-, xdg-utils
-, xorg
-, zlib
+{
+  stdenv,
+  fetchurl,
+  alsa-lib,
+  atk,
+  cairo,
+  dpkg,
+  ffmpeg,
+  freetype,
+  gdk-pixbuf,
+  glib,
+  gtk3,
+  harfbuzz,
+  lib,
+  libglvnd,
+  libjack2,
+  libjpeg,
+  libxkbcommon,
+  makeWrapper,
+  pango,
+  pipewire,
+  pulseaudio,
+  wrapGAppsHook,
+  xdg-utils,
+  xorg,
+  zlib,
 }:
 
 stdenv.mkDerivation rec {
@@ -34,7 +35,11 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-1/iKezOD2HCym6JBXRa9rGpjolJjrxRZA4vwfgZyVng=";
   };
 
-  nativeBuildInputs = [ dpkg makeWrapper wrapGAppsHook ];
+  nativeBuildInputs = [
+    dpkg
+    makeWrapper
+    wrapGAppsHook
+  ];
 
   unpackCmd = ''
     mkdir -p root
@@ -121,6 +126,10 @@ stdenv.mkDerivation rec {
     homepage = "https://www.bitwig.com/";
     license = licenses.unfree;
     platforms = [ "x86_64-linux" ];
-    maintainers = with maintainers; [ bfortz michalrus mrVanDalo ];
+    maintainers = with maintainers; [
+      bfortz
+      michalrus
+      mrVanDalo
+    ];
   };
 }

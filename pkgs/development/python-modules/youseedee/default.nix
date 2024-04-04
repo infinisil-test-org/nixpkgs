@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, substituteAll
-, requests
-, unicode-character-database
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  substituteAll,
+  requests,
+  unicode-character-database,
 }:
 
 buildPythonPackage rec {
@@ -25,9 +26,7 @@ buildPythonPackage rec {
     })
   ];
 
-  propagatedBuildInputs = [
-    requests
-  ];
+  propagatedBuildInputs = [ requests ];
 
   doCheck = true;
   # Package has no unit tests, but we can check an example as per README.rst:

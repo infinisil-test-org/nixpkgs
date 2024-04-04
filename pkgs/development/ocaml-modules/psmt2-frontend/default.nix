@@ -1,4 +1,9 @@
-{ lib, fetchFromGitHub, buildDunePackage, menhir }:
+{
+  lib,
+  fetchFromGitHub,
+  buildDunePackage,
+  menhir,
+}:
 
 buildDunePackage rec {
   version = "0.4.0";
@@ -21,5 +26,4 @@ buildDunePackage rec {
     maintainers = [ lib.maintainers.vbgl ];
     inherit (src.meta) homepage;
   };
-
 }

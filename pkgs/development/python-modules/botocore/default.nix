@@ -1,15 +1,16 @@
-{ lib
-, awscrt
-, buildPythonPackage
-, fetchPypi
-, jmespath
-, jsonschema
-, pytestCheckHook
-, python-dateutil
-, pythonOlder
-, pythonRelaxDepsHook
-, setuptools
-, urllib3
+{
+  lib,
+  awscrt,
+  buildPythonPackage,
+  fetchPypi,
+  jmespath,
+  jsonschema,
+  pytestCheckHook,
+  python-dateutil,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  setuptools,
+  urllib3,
 }:
 
 buildPythonPackage rec {
@@ -24,9 +25,7 @@ buildPythonPackage rec {
     hash = "sha256-2JQQvGBnPq/xaZ8/H9yw46Xh96agSMDYjDzlw1SUM+w=";
   };
 
-  pythonRelaxDeps = [
-    "urllib3"
-  ];
+  pythonRelaxDeps = [ "urllib3" ];
 
   nativeBuildInputs = [
     pythonRelaxDepsHook
@@ -52,14 +51,10 @@ buildPythonPackage rec {
     "tests/functional"
   ];
 
-  pythonImportsCheck = [
-    "botocore"
-  ];
+  pythonImportsCheck = [ "botocore" ];
 
   passthru.optional-dependencies = {
-    crt = [
-      awscrt
-    ];
+    crt = [ awscrt ];
   };
 
   meta = with lib; {

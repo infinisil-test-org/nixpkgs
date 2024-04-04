@@ -1,18 +1,19 @@
-{ stdenv
-, lib
-, buildPythonPackage
-, docutils
-, fetchFromGitHub
-, importlib-metadata
-, mock
-, pydantic
-, pytest-mock
-, pytestCheckHook
-, pythonOlder
-, setuptools
-, setuptools-scm
-, typing-extensions
-, wheel
+{
+  stdenv,
+  lib,
+  buildPythonPackage,
+  docutils,
+  fetchFromGitHub,
+  importlib-metadata,
+  mock,
+  pydantic,
+  pytest-mock,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
+  setuptools-scm,
+  typing-extensions,
+  wheel,
 }:
 
 buildPythonPackage rec {
@@ -39,13 +40,15 @@ buildPythonPackage rec {
     NIX_CFLAGS_COMPILE = lib.optionalString stdenv.cc.isClang "-Wno-strict-prototypes";
   };
 
-  propagatedBuildInputs = [
-    docutils
-    pydantic
-  ] ++ lib.optionals (pythonOlder "3.9") [
-    importlib-metadata
-    typing-extensions
-  ];
+  propagatedBuildInputs =
+    [
+      docutils
+      pydantic
+    ]
+    ++ lib.optionals (pythonOlder "3.9") [
+      importlib-metadata
+      typing-extensions
+    ];
 
   nativeCheckInputs = [
     mock
@@ -58,9 +61,7 @@ buildPythonPackage rec {
     "test_check_yaml_returns_error_on_bad_code_block"
   ];
 
-  pythonImportsCheck = [
-    "rstcheck_core"
-  ];
+  pythonImportsCheck = [ "rstcheck_core" ];
 
   meta = with lib; {
     description = "Library for checking syntax of reStructuredText";

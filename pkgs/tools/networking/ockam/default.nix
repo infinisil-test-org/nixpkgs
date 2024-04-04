@@ -1,13 +1,14 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, rustPlatform
-, git
-, nix-update-script
-, pkg-config
-, openssl
-, dbus
-, Security
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  rustPlatform,
+  git,
+  nix-update-script,
+  pkg-config,
+  openssl,
+  dbus,
+  Security,
 }:
 
 let
@@ -25,9 +26,14 @@ rustPlatform.buildRustPackage {
   };
 
   cargoHash = "sha256-bgB1AYjDvpIsHKQUyRlPZHXKo3egmPdCBioCuDYPTaI=";
-  nativeBuildInputs = [ git pkg-config ];
-  buildInputs = [ openssl dbus ]
-    ++ lib.optionals stdenv.isDarwin [ Security ];
+  nativeBuildInputs = [
+    git
+    pkg-config
+  ];
+  buildInputs = [
+    openssl
+    dbus
+  ] ++ lib.optionals stdenv.isDarwin [ Security ];
 
   passthru.updateScript = nix-update-script { };
 

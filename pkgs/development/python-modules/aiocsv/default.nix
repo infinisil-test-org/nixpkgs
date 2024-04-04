@@ -1,12 +1,13 @@
-{ lib
-, aiofiles
-, buildPythonPackage
-, cython
-, fetchFromGitHub
-, pytest-asyncio
-, pytestCheckHook
-, pythonOlder
-, setuptools
+{
+  lib,
+  aiofiles,
+  buildPythonPackage,
+  cython,
+  fetchFromGitHub,
+  pytest-asyncio,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -38,9 +39,7 @@ buildPythonPackage rec {
     export CYTHONIZE=1
   '';
 
-  pythonImportsCheck = [
-    "aiocsv"
-  ];
+  pythonImportsCheck = [ "aiocsv" ];
 
   disabledTestPaths = [
     # Import issue

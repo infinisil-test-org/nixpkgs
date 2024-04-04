@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, flit-core
-, requests
-, pytestCheckHook
-, responses
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  flit-core,
+  requests,
+  pytestCheckHook,
+  responses,
 }:
 
 buildPythonPackage rec {
@@ -23,22 +24,16 @@ buildPythonPackage rec {
     hash = "sha256-eRRlG3GJX3WeKTNJVWgNTTHY56qiUGOlxtvEZ2xObLA=";
   };
 
-  nativeBuildInputs = [
-    flit-core
-  ];
+  nativeBuildInputs = [ flit-core ];
 
-  propagatedBuildInputs = [
-    requests
-  ];
+  propagatedBuildInputs = [ requests ];
 
   nativeCheckInputs = [
     pytestCheckHook
     responses
   ];
 
-  disabledTestPaths = [
-    "tests/integration"
-  ];
+  disabledTestPaths = [ "tests/integration" ];
 
   pythonImportsCheck = [ "msgraph.core" ];
 

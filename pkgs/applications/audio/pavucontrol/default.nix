@@ -1,15 +1,16 @@
-{ fetchurl
-, lib
-, stdenv
-, pkg-config
-, intltool
-, libpulseaudio
-, gtkmm3
-, libsigcxx
-, libcanberra-gtk3
-, json-glib
-, gnome
-, wrapGAppsHook
+{
+  fetchurl,
+  lib,
+  stdenv,
+  pkg-config,
+  intltool,
+  libpulseaudio,
+  gtkmm3,
+  libsigcxx,
+  libcanberra-gtk3,
+  json-glib,
+  gnome,
+  wrapGAppsHook,
 }:
 
 stdenv.mkDerivation rec {
@@ -30,7 +31,11 @@ stdenv.mkDerivation rec {
     gnome.adwaita-icon-theme
   ];
 
-  nativeBuildInputs = [ pkg-config intltool wrapGAppsHook ];
+  nativeBuildInputs = [
+    pkg-config
+    intltool
+    wrapGAppsHook
+  ];
 
   configureFlags = [ "--disable-lynx" ];
 

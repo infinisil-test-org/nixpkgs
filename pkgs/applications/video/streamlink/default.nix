@@ -1,7 +1,8 @@
-{ lib
-, python3Packages
-, fetchPypi
-, ffmpeg
+{
+  lib,
+  python3Packages,
+  fetchPypi,
+  ffmpeg,
 }:
 
 python3Packages.buildPythonApplication rec {
@@ -23,22 +24,22 @@ python3Packages.buildPythonApplication rec {
     pytest-trio
   ];
 
-  propagatedBuildInputs = (with python3Packages; [
-    certifi
-    isodate
-    lxml
-    pycountry
-    pycryptodome
-    pysocks
-    requests
-    trio
-    trio-websocket
-    typing-extensions
-    urllib3
-    websocket-client
-  ]) ++ [
-    ffmpeg
-  ];
+  propagatedBuildInputs =
+    (with python3Packages; [
+      certifi
+      isodate
+      lxml
+      pycountry
+      pycryptodome
+      pysocks
+      requests
+      trio
+      trio-websocket
+      typing-extensions
+      urllib3
+      websocket-client
+    ])
+    ++ [ ffmpeg ];
 
   meta = with lib; {
     changelog = "https://github.com/streamlink/streamlink/raw/${version}/CHANGELOG.md";
@@ -53,6 +54,10 @@ python3Packages.buildPythonApplication rec {
     '';
     license = licenses.bsd2;
     mainProgram = "streamlink";
-    maintainers = with maintainers; [ dezgeg zraexy DeeUnderscore ];
+    maintainers = with maintainers; [
+      dezgeg
+      zraexy
+      DeeUnderscore
+    ];
   };
 }

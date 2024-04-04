@@ -1,23 +1,24 @@
-{ lib
-, anyio
-, buildPythonPackage
-, certifi
-, fetchFromGitHub
-, hatchling
-, hatch-fancy-pypi-readme
-, h11
-, h2
-, pproxy
-, pytest-asyncio
-, pytest-httpbin
-, pytest-trio
-, pytestCheckHook
-, pythonOlder
-, socksio
-, trio
-# for passthru.tests
-, httpx
-, httpx-socks
+{
+  lib,
+  anyio,
+  buildPythonPackage,
+  certifi,
+  fetchFromGitHub,
+  hatchling,
+  hatch-fancy-pypi-readme,
+  h11,
+  h2,
+  pproxy,
+  pytest-asyncio,
+  pytest-httpbin,
+  pytest-trio,
+  pytestCheckHook,
+  pythonOlder,
+  socksio,
+  trio,
+  # for passthru.tests
+  httpx,
+  httpx-socks,
 }:
 
 buildPythonPackage rec {
@@ -45,18 +46,10 @@ buildPythonPackage rec {
   ];
 
   passthru.optional-dependencies = {
-    asyncio = [
-      anyio
-    ];
-    http2 = [
-      h2
-    ];
-    socks = [
-      socksio
-    ];
-    trio = [
-      trio
-    ];
+    asyncio = [ anyio ];
+    http2 = [ h2 ];
+    socks = [ socksio ];
+    trio = [ trio ];
   };
 
   nativeCheckInputs = [
@@ -67,9 +60,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ] ++ lib.flatten (builtins.attrValues passthru.optional-dependencies);
 
-  pythonImportsCheck = [
-    "httpcore"
-  ];
+  pythonImportsCheck = [ "httpcore" ];
 
   __darwinAllowLocalNetworking = true;
 

@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchzip, unstableGitUpdater }:
+{
+  lib,
+  stdenv,
+  fetchzip,
+  unstableGitUpdater,
+}:
 
 stdenv.mkDerivation {
   pname = "mmc-utils";
@@ -10,7 +15,10 @@ stdenv.mkDerivation {
     sha256 = "QU4r8eajrrhT6u6WHEf1xtB1iyecBeHxu4vS+QcwAgM=";
   };
 
-  makeFlags = [ "CC=${stdenv.cc.targetPrefix}cc" "prefix=$(out)" ];
+  makeFlags = [
+    "CC=${stdenv.cc.targetPrefix}cc"
+    "prefix=$(out)"
+  ];
 
   # causes redefinition of _FORTIFY_SOURCE
   hardeningDisable = [ "fortify3" ];

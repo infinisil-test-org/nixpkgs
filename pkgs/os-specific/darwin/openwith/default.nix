@@ -1,4 +1,12 @@
-{ lib, stdenv, fetchFromGitHub, swift, AppKit, Foundation, UniformTypeIdentifiers }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  swift,
+  AppKit,
+  Foundation,
+  UniformTypeIdentifiers,
+}:
 
 let
   arch = if stdenv.isAarch64 then "arm64" else "x86_64";
@@ -16,7 +24,11 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ swift ];
 
-  buildInputs = [ AppKit Foundation UniformTypeIdentifiers ];
+  buildInputs = [
+    AppKit
+    Foundation
+    UniformTypeIdentifiers
+  ];
 
   makeFlags = [ "openwith_${arch}" ];
 
@@ -31,7 +43,10 @@ stdenv.mkDerivation rec {
     homepage = "https://github.com/jdek/openwith";
     license = licenses.unlicense;
     maintainers = with maintainers; [ zowoq ];
-    platforms = [ "aarch64-darwin" "x86_64-darwin" ];
+    platforms = [
+      "aarch64-darwin"
+      "x86_64-darwin"
+    ];
     broken = stdenv.isx86_64; # https://hydra.nixos.org/build/219354133/nixlog/3
   };
 }

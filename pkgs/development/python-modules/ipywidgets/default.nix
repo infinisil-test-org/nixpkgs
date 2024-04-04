@@ -1,17 +1,18 @@
-{ buildPythonPackage
-, fetchPypi
-, setuptools
-, wheel
-, comm
-, ipykernel
-, ipython
-, jsonschema
-, jupyterlab-widgets
-, lib
-, pytestCheckHook
-, pytz
-, traitlets
-, widgetsnbextension
+{
+  buildPythonPackage,
+  fetchPypi,
+  setuptools,
+  wheel,
+  comm,
+  ipykernel,
+  ipython,
+  jsonschema,
+  jupyterlab-widgets,
+  lib,
+  pytestCheckHook,
+  pytz,
+  traitlets,
+  widgetsnbextension,
 }:
 
 buildPythonPackage rec {

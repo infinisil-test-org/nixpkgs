@@ -6,5 +6,8 @@
 mkKdeDerivation {
   pname = "kmousetool";
 
-  extraBuildInputs = [qtmultimedia xorg.libXt];
+  extraBuildInputs = [
+    qtmultimedia
+    xorg.libXt
+  ];
 }

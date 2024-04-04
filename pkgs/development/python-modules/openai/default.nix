@@ -1,27 +1,28 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, hatchling
-# propagated
-, httpx
-, pydantic
-, typing-extensions
-, anyio
-, distro
-, sniffio
-, cached-property
-, tqdm
-# optional
-, numpy
-, pandas
-, pandas-stubs
-# tests
-, pytestCheckHook
-, pytest-asyncio
-, pytest-mock
-, respx
-, dirty-equals
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  hatchling,
+  # propagated
+  httpx,
+  pydantic,
+  typing-extensions,
+  anyio,
+  distro,
+  sniffio,
+  cached-property,
+  tqdm,
+  # optional
+  numpy,
+  pandas,
+  pandas-stubs,
+  # tests
+  pytestCheckHook,
+  pytest-asyncio,
+  pytest-mock,
+  respx,
+  dirty-equals,
 }:
 
 buildPythonPackage rec {
@@ -38,9 +39,7 @@ buildPythonPackage rec {
     hash = "sha256-8SHXUrPLZ7lgvB0jqZlcvKq5Zv2d2UqXjJpgiBpR8P8=";
   };
 
-  nativeBuildInputs = [
-    hatchling
-  ];
+  nativeBuildInputs = [ hatchling ];
 
   propagatedBuildInputs = [
     httpx
@@ -50,9 +49,7 @@ buildPythonPackage rec {
     distro
     sniffio
     tqdm
-  ] ++ lib.optionals (pythonOlder "3.8") [
-    cached-property
-  ];
+  ] ++ lib.optionals (pythonOlder "3.8") [ cached-property ];
 
   passthru.optional-dependencies = {
     datalib = [
@@ -62,9 +59,7 @@ buildPythonPackage rec {
     ];
   };
 
-  pythonImportsCheck = [
-    "openai"
-  ];
+  pythonImportsCheck = [ "openai" ];
 
   nativeCheckInputs = [
     pytestCheckHook
@@ -75,7 +70,8 @@ buildPythonPackage rec {
   ];
 
   pytestFlagsArray = [
-    "-W" "ignore::DeprecationWarning"
+    "-W"
+    "ignore::DeprecationWarning"
   ];
 
   disabledTests = [

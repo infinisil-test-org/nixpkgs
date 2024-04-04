@@ -1,4 +1,11 @@
-{ lib, buildGoModule, fetchFromGitHub, fetchpatch, testers, docker-credential-gcr }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  fetchpatch,
+  testers,
+  docker-credential-gcr,
+}:
 
 buildGoModule rec {
   pname = "docker-credential-gcr";

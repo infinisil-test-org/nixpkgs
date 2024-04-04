@@ -1,8 +1,9 @@
-{ lib
-, aiohttp
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
+{
+  lib,
+  aiohttp,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -18,16 +19,12 @@ buildPythonPackage rec {
     hash = "sha256-ymynaOKvnqqHIEuQc+5CagsaH5cHnQit8ileoUO6G+I=";
   };
 
-  propagatedBuildInputs = [
-    aiohttp
-  ];
+  propagatedBuildInputs = [ aiohttp ];
 
   # Module has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "AIOAladdinConnect"
-  ];
+  pythonImportsCheck = [ "AIOAladdinConnect" ];
 
   meta = with lib; {
     description = "Library for controlling Genie garage doors connected to Aladdin Connect devices";

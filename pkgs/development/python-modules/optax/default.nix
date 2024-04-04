@@ -1,12 +1,13 @@
-{ lib
-, absl-py
-, buildPythonPackage
-, chex
-, fetchFromGitHub
-, jaxlib
-, numpy
-, callPackage
-, pythonOlder
+{
+  lib,
+  absl-py,
+  buildPythonPackage,
+  chex,
+  fetchFromGitHub,
+  jaxlib,
+  numpy,
+  callPackage,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -28,9 +29,7 @@ buildPythonPackage rec {
     "testsout"
   ];
 
-  buildInputs = [
-    jaxlib
-  ];
+  buildInputs = [ jaxlib ];
 
   propagatedBuildInputs = [
     absl-py
@@ -43,9 +42,7 @@ buildPythonPackage rec {
     cp -R examples $testsout/examples
   '';
 
-  pythonImportsCheck = [
-    "optax"
-  ];
+  pythonImportsCheck = [ "optax" ];
 
   # check in passthru.tests.pytest to escape infinite recursion with flax
   doCheck = false;

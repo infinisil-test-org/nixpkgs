@@ -1,10 +1,11 @@
-{ lib
-, gcc9Stdenv
-, fetchFromGitHub
-, autoreconfHook
-, cmake
-, ncurses6
-, runtimeShell
+{
+  lib,
+  gcc9Stdenv,
+  fetchFromGitHub,
+  autoreconfHook,
+  cmake,
+  ncurses6,
+  runtimeShell,
 }:
 
 let
@@ -72,7 +73,10 @@ gcc9Stdenv.mkDerivation rec {
     '';
     platforms = platforms.unix;
     badPlatforms = [ "aarch64-darwin" ];
-    maintainers = with maintainers; [ aciceri kenran ];
+    maintainers = with maintainers; [
+      aciceri
+      kenran
+    ];
     license = licenses.gpl3Plus;
   };
 }

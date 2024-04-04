@@ -1,6 +1,7 @@
-{ lib
-, rustPlatform
-, fetchCrate
+{
+  lib,
+  rustPlatform,
+  fetchCrate,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -17,7 +18,10 @@ rustPlatform.buildRustPackage rec {
   meta = with lib; {
     description = "Converts Specr lang code to Rust";
     homepage = "https://github.com/RalfJung/minirust-tooling";
-    license = with licenses; [ asl20 mit ];
+    license = with licenses; [
+      asl20
+      mit
+    ];
     maintainers = with maintainers; [ figsoda ];
   };
 }

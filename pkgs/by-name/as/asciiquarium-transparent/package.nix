@@ -14,21 +14,23 @@ stdenv.mkDerivation {
     rev = "653cd99a611080c776d18fc7991ae5dd924c72ce";
     hash = "sha256-72LRFydbObFDXJllmlRjr5O8qjDqtlp3JunE3kwb5aU=";
   };
-  nativeBuildInputs = [makeWrapper];
-  buildInputs = [perlPackages.perl];
+  nativeBuildInputs = [ makeWrapper ];
+  buildInputs = [ perlPackages.perl ];
   installPhase = ''
     runHook preInstall
     mkdir -p $out/bin
     cp asciiquarium $out/bin/asciiquarium
-    wrapProgram $out/bin/asciiquarium --set PERL5LIB ${perlPackages.makeFullPerlPath [perlPackages.TermAnimation]}
+    wrapProgram $out/bin/asciiquarium --set PERL5LIB ${
+      perlPackages.makeFullPerlPath [ perlPackages.TermAnimation ]
+    }
     runHook postInstall
   '';
   meta = with lib; {
     description = "An aquarium/sea animation in ASCII art (with option of transparent background)";
     mainProgram = "asciiquarium";
     homepage = "https://github.com/nothub/asciiquarium";
-    license = with licenses; [gpl2Only];
+    license = with licenses; [ gpl2Only ];
     platforms = platforms.unix;
-    maintainers = with maintainers; [quantenzitrone];
+    maintainers = with maintainers; [ quantenzitrone ];
   };
 }

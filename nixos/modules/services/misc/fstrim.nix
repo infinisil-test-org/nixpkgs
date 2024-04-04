@@ -1,12 +1,17 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
 
   cfg = config.services.fstrim;
-
-in {
+in
+{
 
   options = {
 
@@ -25,7 +30,6 @@ in {
         '';
       };
     };
-
   };
 
   config = mkIf cfg.enable {
@@ -34,11 +38,13 @@ in {
 
     systemd.timers.fstrim = {
       timerConfig = {
-        OnCalendar = [ "" cfg.interval ];
+        OnCalendar = [
+          ""
+          cfg.interval
+        ];
       };
       wantedBy = [ "timers.target" ];
     };
-
   };
 
   meta.maintainers = with maintainers; [ ];

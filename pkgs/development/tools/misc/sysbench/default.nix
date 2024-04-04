@@ -1,23 +1,31 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, autoreconfHook
-, pkg-config
-, libmysqlclient
-, libaio
-, libck
-, luajit
-# For testing:
-, testers
-, sysbench
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  autoreconfHook,
+  pkg-config,
+  libmysqlclient,
+  libaio,
+  libck,
+  luajit,
+  # For testing:
+  testers,
+  sysbench,
 }:
 
 stdenv.mkDerivation rec {
   pname = "sysbench";
   version = "1.0.20";
 
-  nativeBuildInputs = [ autoreconfHook pkg-config ];
-  buildInputs = [ libmysqlclient luajit libck ] ++ lib.optionals stdenv.isLinux [ libaio ];
+  nativeBuildInputs = [
+    autoreconfHook
+    pkg-config
+  ];
+  buildInputs = [
+    libmysqlclient
+    luajit
+    libck
+  ] ++ lib.optionals stdenv.isLinux [ libaio ];
   depsBuildBuild = [ pkg-config ];
 
   src = fetchFromGitHub {
@@ -39,9 +47,7 @@ stdenv.mkDerivation rec {
   ];
 
   passthru.tests = {
-    versionTest = testers.testVersion {
-      package = sysbench;
-    };
+    versionTest = testers.testVersion { package = sysbench; };
   };
 
   meta = {

@@ -1,14 +1,15 @@
-{ lib
-, aiohttp
-, buildPythonPackage
-, fetchFromGitHub
-, freezegun
-, metar
-, pytest-aiohttp
-, pytest-asyncio
-, pytest-cov
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  aiohttp,
+  buildPythonPackage,
+  fetchFromGitHub,
+  freezegun,
+  metar,
+  pytest-aiohttp,
+  pytest-asyncio,
+  pytest-cov,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {

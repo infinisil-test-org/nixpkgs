@@ -1,33 +1,34 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, cairocffi
-, dbus-next
-, dbus-python
-, glib
-, iwlib
-, libdrm
-, libinput
-, libxkbcommon
-, mpd2
-, pango
-, pixman
-, pkg-config
-, psutil
-, pulsectl-asyncio
-, pygobject3
-, python-dateutil
-, pywayland
-, pywlroots
-, pyxdg
-, setuptools
-, setuptools-scm
-, wayland
-, wlroots
-, xcbutilcursor
-, xcbutilwm
-, xcffib
-, xkbcommon
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  cairocffi,
+  dbus-next,
+  dbus-python,
+  glib,
+  iwlib,
+  libdrm,
+  libinput,
+  libxkbcommon,
+  mpd2,
+  pango,
+  pixman,
+  pkg-config,
+  psutil,
+  pulsectl-asyncio,
+  pygobject3,
+  python-dateutil,
+  pywayland,
+  pywlroots,
+  pyxdg,
+  setuptools,
+  setuptools-scm,
+  wayland,
+  wlroots,
+  xcbutilcursor,
+  xcbutilwm,
+  xcffib,
+  xkbcommon,
 }:
 
 buildPythonPackage rec {
@@ -96,6 +97,9 @@ buildPythonPackage rec {
     license = licenses.mit;
     description = "A small, flexible, scriptable tiling window manager written in Python";
     platforms = platforms.linux;
-    maintainers = with maintainers; [ kamilchm arjan-s ];
+    maintainers = with maintainers; [
+      kamilchm
+      arjan-s
+    ];
   };
 }

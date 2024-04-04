@@ -1,7 +1,8 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -21,9 +22,7 @@ buildPythonPackage rec {
   # Tests require network access and Docker support
   doCheck = false;
 
-  pythonImportsCheck = [
-    "mitogen"
-  ];
+  pythonImportsCheck = [ "mitogen" ];
 
   meta = with lib; {
     description = "Python Library for writing distributed self-replicating programs";

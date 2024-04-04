@@ -1,4 +1,13 @@
-{ fetchFromGitHub, lib, rustPlatform, pkg-config, openssl, stdenv, Security, SystemConfiguration }:
+{
+  fetchFromGitHub,
+  lib,
+  rustPlatform,
+  pkg-config,
+  openssl,
+  stdenv,
+  Security,
+  SystemConfiguration,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "vrc-get";
@@ -13,7 +22,12 @@ rustPlatform.buildRustPackage rec {
 
   nativeBuildInputs = [ pkg-config ];
 
-  buildInputs = [ openssl ] ++ lib.optionals stdenv.isDarwin [ Security SystemConfiguration ];
+  buildInputs =
+    [ openssl ]
+    ++ lib.optionals stdenv.isDarwin [
+      Security
+      SystemConfiguration
+    ];
 
   # Make openssl-sys use pkg-config.
   OPENSSL_NO_VENDOR = 1;

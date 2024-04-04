@@ -1,7 +1,8 @@
-{ lib
-, nix-update-script
-, python3
-, fetchFromGitHub
+{
+  lib,
+  nix-update-script,
+  python3,
+  fetchFromGitHub,
 }:
 
 python3.pkgs.buildPythonApplication rec {

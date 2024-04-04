@@ -1,19 +1,20 @@
-{ lib
-, platformdirs
-, buildPythonPackage
-, docutils
-, fetchFromGitHub
-, flaky
-, installShellFiles
-, pycurl
-, pytest-asyncio
-, pytest-httpbin
-, pytestCheckHook
-, pythonOlder
-, setuptools
-, structlog
-, tomli
-, tornado
+{
+  lib,
+  platformdirs,
+  buildPythonPackage,
+  docutils,
+  fetchFromGitHub,
+  flaky,
+  installShellFiles,
+  pycurl,
+  pytest-asyncio,
+  pytest-httpbin,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
+  structlog,
+  tomli,
+  tornado,
 }:
 
 buildPythonPackage rec {
@@ -41,9 +42,7 @@ buildPythonPackage rec {
     platformdirs
     tornado
     pycurl
-  ] ++ lib.optionals (pythonOlder "3.11") [
-    tomli
-  ];
+  ] ++ lib.optionals (pythonOlder "3.11") [ tomli ];
 
   __darwinAllowLocalNetworking = true;
 
@@ -63,13 +62,9 @@ buildPythonPackage rec {
     installManPage docs/_build/man/nvchecker.1
   '';
 
-  pythonImportsCheck = [
-    "nvchecker"
-  ];
+  pythonImportsCheck = [ "nvchecker" ];
 
-  pytestFlagsArray = [
-    "-m 'not needs_net'"
-  ];
+  pytestFlagsArray = [ "-m 'not needs_net'" ];
 
   meta = with lib; {
     description = "New version checker for software";

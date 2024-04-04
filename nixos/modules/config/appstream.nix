@@ -21,5 +21,4 @@ with lib;
       "/share/appdata"
     ];
   };
-
 }

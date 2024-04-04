@@ -1,4 +1,1 @@
-{mkKdeDerivation}:
-mkKdeDerivation {
-  pname = "telly-skout";
-}
+{ mkKdeDerivation }: mkKdeDerivation { pname = "telly-skout"; }

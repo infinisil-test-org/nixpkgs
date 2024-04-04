@@ -1,4 +1,8 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+}:
 
 buildGoModule {
   pname = "protoc-gen-twirp_typescript";
@@ -20,6 +24,9 @@ buildGoModule {
     description = "Protobuf Plugin for Generating a Twirp Typescript Client";
     homepage = "https://github.com/larrymyers/protoc-gen-twirp_typescript";
     license = licenses.mit;
-    maintainers = with maintainers; [ jojosch dgollings ];
+    maintainers = with maintainers; [
+      jojosch
+      dgollings
+    ];
   };
 }

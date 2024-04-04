@@ -1,17 +1,18 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, importlib-metadata
-, jinja2
-, markdown
-, markupsafe
-, mkdocs
-, mkdocs-autorefs
-, pdm-backend
-, pymdown-extensions
-, pytestCheckHook
-, pythonOlder
-, typing-extensions
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  importlib-metadata,
+  jinja2,
+  markdown,
+  markupsafe,
+  mkdocs,
+  mkdocs-autorefs,
+  pdm-backend,
+  pymdown-extensions,
+  pytestCheckHook,
+  pythonOlder,
+  typing-extensions,
 }:
 
 buildPythonPackage rec {
@@ -33,29 +34,25 @@ buildPythonPackage rec {
       --replace 'dynamic = ["version"]' 'version = "${version}"'
   '';
 
-  nativeBuildInputs = [
-    pdm-backend
-  ];
+  nativeBuildInputs = [ pdm-backend ];
 
-  propagatedBuildInputs = [
-    jinja2
-    markdown
-    markupsafe
-    mkdocs
-    mkdocs-autorefs
-    pymdown-extensions
-  ] ++ lib.optionals (pythonOlder "3.10") [
-    importlib-metadata
-    typing-extensions
-  ];
+  propagatedBuildInputs =
+    [
+      jinja2
+      markdown
+      markupsafe
+      mkdocs
+      mkdocs-autorefs
+      pymdown-extensions
+    ]
+    ++ lib.optionals (pythonOlder "3.10") [
+      importlib-metadata
+      typing-extensions
+    ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "mkdocstrings"
-  ];
+  pythonImportsCheck = [ "mkdocstrings" ];
 
   disabledTestPaths = [
     # Circular dependencies

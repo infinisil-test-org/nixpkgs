@@ -1,6 +1,7 @@
-{ lib
-, python3
-, fetchFromGitHub
+{
+  lib,
+  python3,
+  fetchFromGitHub,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -20,9 +21,7 @@ python3.pkgs.buildPythonApplication rec {
       --replace " --cov-append --cov-report term --cov depscan" ""
   '';
 
-  nativeBuildInputs = with python3.pkgs; [
-    setuptools
-  ];
+  nativeBuildInputs = with python3.pkgs; [ setuptools ];
 
   propagatedBuildInputs = with python3.pkgs; [
     appthreat-vulnerability-db
@@ -44,9 +43,7 @@ python3.pkgs.buildPythonApplication rec {
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "depscan"
-  ];
+  pythonImportsCheck = [ "depscan" ];
 
   preCheck = ''
     export HOME=$(mktemp -d)

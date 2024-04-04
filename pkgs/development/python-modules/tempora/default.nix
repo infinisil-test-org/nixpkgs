@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, freezegun
-, jaraco-functools
-, pytest-freezegun
-, pytestCheckHook
-, pythonOlder
-, pytz
-, setuptools-scm
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  freezegun,
+  jaraco-functools,
+  pytest-freezegun,
+  pytestCheckHook,
+  pythonOlder,
+  pytz,
+  setuptools-scm,
 }:
 
 buildPythonPackage rec {
@@ -22,9 +23,7 @@ buildPythonPackage rec {
     hash = "sha256-E+T8yZfQUJwzBtaEHwPpOBt+Xkayvr+ukVGvkAhfDCY=";
   };
 
-  nativeBuildInputs = [
-    setuptools-scm
-  ];
+  nativeBuildInputs = [ setuptools-scm ];
 
   propagatedBuildInputs = [
     jaraco-functools

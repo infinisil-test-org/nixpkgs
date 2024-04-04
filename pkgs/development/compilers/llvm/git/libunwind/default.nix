@@ -1,9 +1,14 @@
-{ lib, stdenv, llvm_meta, version
-, monorepoSrc, runCommand
-, cmake
-, ninja
-, python3
-, enableShared ? !stdenv.hostPlatform.isStatic
+{
+  lib,
+  stdenv,
+  llvm_meta,
+  version,
+  monorepoSrc,
+  runCommand,
+  cmake,
+  ninja,
+  python3,
+  enableShared ? !stdenv.hostPlatform.isStatic,
 }:
 
 stdenv.mkDerivation rec {
@@ -12,7 +17,7 @@ stdenv.mkDerivation rec {
 
   # I am not so comfortable giving libc++ and friends the whole monorepo as
   # requested, so I filter it to what is needed.
-  src = runCommand "${pname}-src-${version}" {} ''
+  src = runCommand "${pname}-src-${version}" { } ''
     mkdir -p "$out"
     cp -r ${monorepoSrc}/cmake "$out"
     cp -r ${monorepoSrc}/${pname} "$out"
@@ -41,9 +46,16 @@ stdenv.mkDerivation rec {
     ln -s $out/lib/libunwind.so $out/lib/libunwind_shared.so
   '';
 
-  outputs = [ "out" "dev" ];
+  outputs = [
+    "out"
+    "dev"
+  ];
 
-  nativeBuildInputs = [ cmake ninja python3 ];
+  nativeBuildInputs = [
+    cmake
+    ninja
+    python3
+  ];
 
   cmakeFlags = [
     "-DLLVM_ENABLE_RUNTIMES=libunwind"

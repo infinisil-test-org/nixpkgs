@@ -1,4 +1,8 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+}:
 
 buildGoModule rec {
   pname = "go-toml";
@@ -13,9 +17,15 @@ buildGoModule rec {
 
   vendorHash = "sha256-XOcCsb3zUChiYLTfOCbRQF71E2khzSt/ApFI8NAS13U=";
 
-  excludedPackages = [ "cmd/gotoml-test-decoder" "cmd/tomltestgen" ];
+  excludedPackages = [
+    "cmd/gotoml-test-decoder"
+    "cmd/tomltestgen"
+  ];
 
-  ldflags = [ "-s" "-w" ];
+  ldflags = [
+    "-s"
+    "-w"
+  ];
 
   meta = with lib; {
     description = "Go library for the TOML language";

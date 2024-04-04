@@ -1,11 +1,12 @@
-{ stdenv
-, lib
-, fetchFromGitLab
-, fetchpatch
-, gobject-introspection
-, intltool
-, python3
-, wrapGAppsHook
+{
+  stdenv,
+  lib,
+  fetchFromGitLab,
+  fetchpatch,
+  gobject-introspection,
+  intltool,
+  python3,
+  wrapGAppsHook,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -55,4 +56,3 @@ python3.pkgs.buildPythonApplication rec {
     maintainers = with maintainers; [ milran ];
   };
 }
-

@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, matplotlib
-, palettable
-, pandas
-, pytestCheckHook
-, pythonOlder
-, scipy
-, setuptools-scm
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  matplotlib,
+  palettable,
+  pandas,
+  pytestCheckHook,
+  pythonOlder,
+  scipy,
+  setuptools-scm,
 }:
 
 buildPythonPackage rec {
@@ -24,9 +25,7 @@ buildPythonPackage rec {
     hash = "sha256-4xk8FCUiNOp5n512asYKcjAS7fsyExyMQiWg14XWwHY=";
   };
 
-  nativeBuildInputs = [
-    setuptools-scm
-  ];
+  nativeBuildInputs = [ setuptools-scm ];
 
   propagatedBuildInputs = [
     matplotlib
@@ -35,18 +34,14 @@ buildPythonPackage rec {
     scipy
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   postPatch = ''
     substituteInPlace pyproject.toml \
       --replace " --cov=mizani --cov-report=xml" ""
   '';
 
-  pythonImportsCheck = [
-    "mizani"
-  ];
+  pythonImportsCheck = [ "mizani" ];
 
   meta = with lib; {
     description = "Scales for Python";

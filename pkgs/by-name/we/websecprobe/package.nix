@@ -1,6 +1,7 @@
-{ lib
-, python3
-, fetchPypi
+{
+  lib,
+  python3,
+  fetchPypi,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -14,9 +15,7 @@ python3.pkgs.buildPythonApplication rec {
     hash = "sha256-OKbKz3HSTtwyx/JNUtLJBTaHQcxkUWroMg9/msVWgk4=";
   };
 
-  nativeBuildInputs = with python3.pkgs; [
-    setuptools
-  ];
+  nativeBuildInputs = with python3.pkgs; [ setuptools ];
 
   propagatedBuildInputs = with python3.pkgs; [
     requests
@@ -27,9 +26,7 @@ python3.pkgs.buildPythonApplication rec {
     mv $out/bin/WebSecProbe $out/bin/$pname
   '';
 
-  pythonImportsCheck = [
-    "WebSecProbe"
-  ];
+  pythonImportsCheck = [ "WebSecProbe" ];
 
   meta = with lib; {
     description = "Web Security Assessment Tool";

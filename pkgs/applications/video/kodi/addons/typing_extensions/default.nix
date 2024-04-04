@@ -1,4 +1,9 @@
-{ lib, buildKodiAddon, fetchzip, addonUpdateScript }:
+{
+  lib,
+  buildKodiAddon,
+  fetchzip,
+  addonUpdateScript,
+}:
 buildKodiAddon rec {
   pname = "typing_extensions";
   namespace = "script.module.typing_extensions";
@@ -11,9 +16,7 @@ buildKodiAddon rec {
 
   passthru = {
     pythonPath = "lib";
-    updateScript = addonUpdateScript {
-      attrPath = "kodi.packages.typing_extensions";
-    };
+    updateScript = addonUpdateScript { attrPath = "kodi.packages.typing_extensions"; };
   };
 
   meta = with lib; {

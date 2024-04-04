@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, freezegun
-, pytestCheckHook
-, python-utils
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  freezegun,
+  pytestCheckHook,
+  python-utils,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -23,18 +24,14 @@ buildPythonPackage rec {
     sed -i "/-cov/d" pytest.ini
   '';
 
-  propagatedBuildInputs = [
-    python-utils
-  ];
+  propagatedBuildInputs = [ python-utils ];
 
   nativeCheckInputs = [
     freezegun
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "progressbar"
-  ];
+  pythonImportsCheck = [ "progressbar" ];
 
   meta = with lib; {
     description = "Text progressbar library";

@@ -1,17 +1,18 @@
-{ lib
-, stdenv
-, fetchpatch
-, fetchurl
-, meson
-, python3
-, ninja
-, fixedPoint ? false
-, withCustomModes ? true
-, withIntrinsics ? stdenv.hostPlatform.isAarch || stdenv.hostPlatform.isx86
-, withAsm ? false
+{
+  lib,
+  stdenv,
+  fetchpatch,
+  fetchurl,
+  meson,
+  python3,
+  ninja,
+  fixedPoint ? false,
+  withCustomModes ? true,
+  withIntrinsics ? stdenv.hostPlatform.isAarch || stdenv.hostPlatform.isx86,
+  withAsm ? false,
 
-# tests
-, ffmpeg-headless
+  # tests
+  ffmpeg-headless,
 }:
 
 stdenv.mkDerivation rec {
@@ -39,7 +40,10 @@ stdenv.mkDerivation rec {
     patchShebangs meson/
   '';
 
-  outputs = [ "out" "dev" ];
+  outputs = [
+    "out"
+    "dev"
+  ];
 
   nativeBuildInputs = [
     meson

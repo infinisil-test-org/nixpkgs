@@ -1,4 +1,8 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+}:
 
 buildGoModule rec {
   pname = "shopify-themekit";
@@ -13,7 +17,10 @@ buildGoModule rec {
 
   vendorHash = "sha256-8QpkYj0fQb4plzvk6yCrZho8rq9VBiLft/EO3cczciI=";
 
-  ldflags = [ "-s" "-w" ];
+  ldflags = [
+    "-s"
+    "-w"
+  ];
 
   postInstall = ''
     # Keep `theme` only

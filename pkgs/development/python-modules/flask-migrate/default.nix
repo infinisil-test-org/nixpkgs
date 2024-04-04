@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, alembic
-, flask
-, flask-script
-, flask-sqlalchemy
-, pytestCheckHook
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  alembic,
+  flask,
+  flask-script,
+  flask-sqlalchemy,
+  pytestCheckHook,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -24,9 +25,7 @@ buildPythonPackage rec {
     hash = "sha256-fdnoX7ypTpH2mQ+7Xuhzdh706Of7PIVhHQGVbe0jv1s=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     alembic
@@ -34,9 +33,7 @@ buildPythonPackage rec {
     flask-sqlalchemy
   ];
 
-  pythonImportsCheck = [
-    "flask_migrate"
-  ];
+  pythonImportsCheck = [ "flask_migrate" ];
 
   nativeCheckInputs = [
     pytestCheckHook

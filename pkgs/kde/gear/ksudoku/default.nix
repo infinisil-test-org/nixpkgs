@@ -1,9 +1,6 @@
-{
-  mkKdeDerivation,
-  qtsvg,
-}:
+{ mkKdeDerivation, qtsvg }:
 mkKdeDerivation {
   pname = "ksudoku";
 
-  extraBuildInputs = [qtsvg];
+  extraBuildInputs = [ qtsvg ];
 }

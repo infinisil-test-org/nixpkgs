@@ -1,9 +1,10 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, installShellFiles
-, darwin
-, stdenv
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  installShellFiles,
+  darwin,
+  stdenv,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -20,9 +21,7 @@ rustPlatform.buildRustPackage rec {
   cargoHash = "sha256-UbmeEcmUr3zx05Hk36tjsl0Y9ay7DNM1u/3lPqlXN2o=";
 
   nativeBuildInputs = [ installShellFiles ];
-  buildInputs = lib.optionals stdenv.isDarwin [
-    darwin.apple_sdk.frameworks.AppKit
-  ];
+  buildInputs = lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.AppKit ];
 
   postInstall = ''
     OUT_DIR=$releaseDir/build/iamb-*/out

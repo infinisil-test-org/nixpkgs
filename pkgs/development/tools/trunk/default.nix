@@ -1,13 +1,14 @@
-{ lib,
-stdenv,
-rustPlatform,
-fetchFromGitHub,
-pkg-config,
-openssl,
-jq,
-moreutils,
-CoreServices,
-SystemConfiguration
+{
+  lib,
+  stdenv,
+  rustPlatform,
+  fetchFromGitHub,
+  pkg-config,
+  openssl,
+  jq,
+  moreutils,
+  CoreServices,
+  SystemConfiguration,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -22,9 +23,14 @@ rustPlatform.buildRustPackage rec {
   };
 
   nativeBuildInputs = [ pkg-config ];
-  buildInputs = if stdenv.isDarwin
-    then [ CoreServices SystemConfiguration ]
-    else [ openssl ];
+  buildInputs =
+    if stdenv.isDarwin then
+      [
+        CoreServices
+        SystemConfiguration
+      ]
+    else
+      [ openssl ];
   # requires network
   checkFlags = [ "--skip=tools::tests::download_and_install_binaries" ];
 

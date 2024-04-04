@@ -1,11 +1,36 @@
-{ lib, stdenv, fetchFromGitLab, fetchFromGitHub, fetchpatch, writeText
-# docs deps
-, libxslt, docbook_xml_dtd_412, docbook_xml_dtd_43, docbook_xsl, xmlto
-# runtime deps
-, resholve, bash, coreutils, dbus, file, gawk, glib, gnugrep, gnused, jq, nettools, procmail, procps, xdg-user-dirs
-, perl, perlPackages
-, mimiSupport ? false
-, withXdgOpenUsePortalPatch ? true }:
+{
+  lib,
+  stdenv,
+  fetchFromGitLab,
+  fetchFromGitHub,
+  fetchpatch,
+  writeText,
+  # docs deps
+  libxslt,
+  docbook_xml_dtd_412,
+  docbook_xml_dtd_43,
+  docbook_xsl,
+  xmlto,
+  # runtime deps
+  resholve,
+  bash,
+  coreutils,
+  dbus,
+  file,
+  gawk,
+  glib,
+  gnugrep,
+  gnused,
+  jq,
+  nettools,
+  procmail,
+  procps,
+  xdg-user-dirs,
+  perl,
+  perlPackages,
+  mimiSupport ? false,
+  withXdgOpenUsePortalPatch ? true,
+}:
 
 let
   # A much better xdg-open
@@ -17,7 +42,12 @@ let
   };
 
   # Required by the common desktop detection code
-  commonDeps = [ dbus coreutils gnugrep gnused ];
+  commonDeps = [
+    dbus
+    coreutils
+    gnugrep
+    gnused
+  ];
   # These are all faked because the current desktop is detected
   # based on their presence, so we want them to be missing by default.
   commonFakes = [
@@ -37,13 +67,11 @@ let
       scripts = [ "bin/xdg-desktop-icon" ];
       interpreter = "${bash}/bin/bash";
       inputs = commonDeps ++ [ xdg-user-dirs ];
-      execer = [
-        "cannot:${xdg-user-dirs}/bin/xdg-user-dir"
-      ];
+      execer = [ "cannot:${xdg-user-dirs}/bin/xdg-user-dir" ];
       # These are desktop-specific, so we don't want xdg-utils to be able to
       # call them when in a different setup.
       fake.external = commonFakes ++ [
-        "gconftool-2"   # GNOME2
+        "gconftool-2" # GNOME2
       ];
       keep."$KDE_SESSION_VERSION" = true;
       prologue = commonPrologue;
@@ -61,7 +89,11 @@ let
     {
       scripts = [ "bin/xdg-email" ];
       interpreter = "${bash}/bin/bash";
-      inputs = commonDeps ++ [ gawk glib.bin "${placeholder "out"}/bin" ];
+      inputs = commonDeps ++ [
+        gawk
+        glib.bin
+        "${placeholder "out"}/bin"
+      ];
       execer = [
         "cannot:${placeholder "out"}/bin/xdg-mime"
         "cannot:${placeholder "out"}/bin/xdg-open"
@@ -69,13 +101,13 @@ let
       # These are desktop-specific, so we don't want xdg-utils to be able to
       # call them when in a different setup.
       fake.external = commonFakes ++ [
-        "exo-open"           # XFCE
-        "gconftool-2"        # GNOME
-        "gio"                # GNOME (new)
-        "gnome-open"         # GNOME (very old)
-        "gvfs-open"          # GNOME (old)
-        "qtxdg-mat"          # LXQT
-        "xdg-email-hook.sh"  # user-defined hook that may be available ambiently
+        "exo-open" # XFCE
+        "gconftool-2" # GNOME
+        "gio" # GNOME (new)
+        "gnome-open" # GNOME (very old)
+        "gvfs-open" # GNOME (old)
+        "qtxdg-mat" # LXQT
+        "xdg-email-hook.sh" # user-defined hook that may be available ambiently
       ];
       fix."/bin/echo" = true;
       keep = {
@@ -98,22 +130,25 @@ let
     {
       scripts = [ "bin/xdg-mime" ];
       interpreter = "${bash}/bin/bash";
-      inputs = commonDeps ++ [ file gawk ];
+      inputs = commonDeps ++ [
+        file
+        gawk
+      ];
       # These are desktop-specific, so we don't want xdg-utils to be able to
       # call them when in a different setup.
       fake.external = commonFakes ++ [
-        "gio"                # GNOME (new)
-        "gnomevfs-info"      # GNOME (very old)
-        "gvfs-info"          # GNOME (old)
-        "kde4-config"        # Plasma 4
-        "kfile"              # KDE 3
-        "kmimetypefinder"    # Plasma (generic)
-        "kmimetypefinder5"   # Plasma 5
-        "ktraderclient"      # KDE 3
-        "ktradertest"        # KDE 3
-        "mimetype"           # alternative tool for file, pulls in perl, avoid
-        "qtpaths"            # Plasma
-        "qtxdg-mat"          # LXQT
+        "gio" # GNOME (new)
+        "gnomevfs-info" # GNOME (very old)
+        "gvfs-info" # GNOME (old)
+        "kde4-config" # Plasma 4
+        "kfile" # KDE 3
+        "kmimetypefinder" # Plasma (generic)
+        "kmimetypefinder5" # Plasma 5
+        "ktraderclient" # KDE 3
+        "ktradertest" # KDE 3
+        "mimetype" # alternative tool for file, pulls in perl, avoid
+        "qtpaths" # Plasma
+        "qtxdg-mat" # LXQT
       ];
       fix."/usr/bin/file" = true;
       keep = {
@@ -126,30 +161,32 @@ let
     {
       scripts = [ "bin/xdg-open" ];
       interpreter = "${bash}/bin/bash";
-      inputs = commonDeps ++ [ nettools glib.bin "${placeholder "out"}/bin" ];
-      execer = [
-        "cannot:${placeholder "out"}/bin/xdg-mime"
+      inputs = commonDeps ++ [
+        nettools
+        glib.bin
+        "${placeholder "out"}/bin"
       ];
+      execer = [ "cannot:${placeholder "out"}/bin/xdg-mime" ];
       # These are desktop-specific, so we don't want xdg-utils to be able to
       # call them when in a different setup.
       fake.external = commonFakes ++ [
-        "cygstart"            # Cygwin
-        "dde-open"            # Deepin
-        "enlightenment_open"  # Enlightenment
-        "exo-open"            # XFCE
-        "gio"                 # GNOME (new)
-        "gnome-open"          # GNOME (very old)
-        "gvfs-open"           # GNOME (old)
-        "kde-open"            # Plasma
-        "kfmclient"           # KDE3
-        "mate-open"           # MATE
-        "mimeopen"            # alternative tool for file, pulls in perl, avoid
-        "open"                # macOS
-        "pcmanfm"             # LXDE
-        "qtxdg-mat"           # LXQT
-        "run-mailcap"         # generic
-        "rundll32.exe"        # WSL
-        "wslpath"             # WSL
+        "cygstart" # Cygwin
+        "dde-open" # Deepin
+        "enlightenment_open" # Enlightenment
+        "exo-open" # XFCE
+        "gio" # GNOME (new)
+        "gnome-open" # GNOME (very old)
+        "gvfs-open" # GNOME (old)
+        "kde-open" # Plasma
+        "kfmclient" # KDE3
+        "mate-open" # MATE
+        "mimeopen" # alternative tool for file, pulls in perl, avoid
+        "open" # macOS
+        "pcmanfm" # LXDE
+        "qtxdg-mat" # LXQT
+        "run-mailcap" # generic
+        "rundll32.exe" # WSL
+        "wslpath" # WSL
       ];
       fix."$printf" = [ "printf" ];
       keep = {
@@ -162,15 +199,20 @@ let
     {
       scripts = [ "bin/xdg-screensaver" ];
       interpreter = "${bash}/bin/bash";
-      inputs = commonDeps ++ [ nettools perl procmail procps ];
+      inputs = commonDeps ++ [
+        nettools
+        perl
+        procmail
+        procps
+      ];
       # These are desktop-specific, so we don't want xdg-utils to be able to
       # call them when in a different setup.
       fake.external = commonFakes ++ [
-        "dcop"                      # KDE3
-        "mate-screensaver-command"  # MATE
-        "xautolock"                 # Xautolock
-        "xscreensaver-command"      # Xscreensaver
-        "xset"                      # generic-ish X
+        "dcop" # KDE3
+        "mate-screensaver-command" # MATE
+        "xautolock" # Xautolock
+        "xscreensaver-command" # Xscreensaver
+        "xset" # generic-ish X
       ];
       fix."$lockfile_command" = [ "lockfile" ];
       keep = {
@@ -178,7 +220,15 @@ let
         "$XPROP" = true;
       };
       prologue = "${writeText "xdg-screensaver-prologue" ''
-        export PERL5LIB=${with perlPackages; makePerlPath [ NetDBus XMLTwig XMLParser X11Protocol ]}
+        export PERL5LIB=${
+          with perlPackages;
+          makePerlPath [
+            NetDBus
+            XMLTwig
+            XMLParser
+            X11Protocol
+          ]
+        }
         export PATH=$PATH:${coreutils}/bin
       ''}";
     }
@@ -186,22 +236,23 @@ let
     {
       scripts = [ "bin/xdg-settings" ];
       interpreter = "${bash}/bin/bash";
-      inputs = commonDeps ++ [ jq "${placeholder "out"}/bin" ];
-      execer = [
-        "cannot:${placeholder "out"}/bin/xdg-mime"
+      inputs = commonDeps ++ [
+        jq
+        "${placeholder "out"}/bin"
       ];
+      execer = [ "cannot:${placeholder "out"}/bin/xdg-mime" ];
       # These are desktop-specific, so we don't want xdg-utils to be able to
       # call them when in a different setup.
       fake.external = commonFakes ++ [
-        "gconftool-2"    # GNOME
-        "kreadconfig"    # Plasma (generic)
-        "kreadconfig5"   # Plasma 5
-        "kreadconfig6"   # Plasma 6
-        "ktradertest"    # KDE3
-        "kwriteconfig"   # Plasma (generic)
-        "kwriteconfig5"  # Plasma 5
-        "kwriteconfig6"  # Plasma 6
-        "qtxdg-mat"      # LXQT
+        "gconftool-2" # GNOME
+        "kreadconfig" # Plasma (generic)
+        "kreadconfig5" # Plasma 5
+        "kreadconfig6" # Plasma 6
+        "ktradertest" # KDE3
+        "kwriteconfig" # Plasma (generic)
+        "kwriteconfig5" # Plasma 5
+        "kwriteconfig6" # Plasma 6
+        "qtxdg-mat" # LXQT
       ];
       keep = {
         "$KDE_SESSION_VERSION" = true;
@@ -231,7 +282,13 @@ stdenv.mkDerivation rec {
   ];
 
   # just needed when built from git
-  nativeBuildInputs = [ libxslt docbook_xml_dtd_412 docbook_xml_dtd_43 docbook_xsl xmlto ];
+  nativeBuildInputs = [
+    libxslt
+    docbook_xml_dtd_412
+    docbook_xml_dtd_43
+    docbook_xsl
+    xmlto
+  ];
 
   # explicitly provide a runtime shell so patchShebangs is consistent across build platforms
   buildInputs = [ bash ];
@@ -240,7 +297,9 @@ stdenv.mkDerivation rec {
     cp ${mimisrc}/xdg-open $out/bin/xdg-open
   '';
 
-  preFixup = lib.concatStringsSep "\n" (map (resholve.phraseSolution "xdg-utils-resholved") solutions);
+  preFixup = lib.concatStringsSep "\n" (
+    map (resholve.phraseSolution "xdg-utils-resholved") solutions
+  );
 
   meta = with lib; {
     homepage = "https://www.freedesktop.org/wiki/Software/xdg-utils/";

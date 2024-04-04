@@ -11,53 +11,61 @@
 }:
 
 let
-  common = { name, npmBuildScript, installPhase }: buildNpmPackage rec {
-    pname = name;
-    version = "2023.10.0";
-    nodejs = nodejs_18;
+  common =
+    {
+      name,
+      npmBuildScript,
+      installPhase,
+    }:
+    buildNpmPackage rec {
+      pname = name;
+      version = "2023.10.0";
+      nodejs = nodejs_18;
 
-    src = fetchFromGitHub {
-      owner = "bitwarden";
-      repo = "directory-connector";
-      rev = "v${version}";
-      hash = "sha256-PlOtTh+rpTxAv8ajHBDHZuL7yeeLVpbAfKEDPQlejIg=";
+      src = fetchFromGitHub {
+        owner = "bitwarden";
+        repo = "directory-connector";
+        rev = "v${version}";
+        hash = "sha256-PlOtTh+rpTxAv8ajHBDHZuL7yeeLVpbAfKEDPQlejIg=";
+      };
+
+      postPatch = ''
+        ${lib.getExe buildPackages.jq} 'del(.scripts.preinstall)' package.json > package.json.tmp
+        mv -f package.json{.tmp,}
+
+        substituteInPlace electron-builder.json \
+          --replace-fail '"afterSign": "scripts/notarize.js",' "" \
+          --replace-fail "AppImage" "dir"
+      '';
+
+      npmDepsHash = "sha256-jBAWWY12qeX2EDhUvT3TQpnQvYXRsIilRrXGpVzxYvw=";
+
+      env.ELECTRON_SKIP_BINARY_DOWNLOAD = "1";
+
+      makeCacheWritable = true;
+      inherit npmBuildScript installPhase;
+
+      buildInputs = [ libsecret ];
+
+      nativeBuildInputs = [
+        python3
+        pkg-config
+      ];
+
+      meta = with lib; {
+        description = "LDAP connector for Bitwarden";
+        homepage = "https://github.com/bitwarden/directory-connector";
+        license = licenses.gpl3Only;
+        maintainers = with maintainers; [
+          Silver-Golden
+          SuperSandro2000
+        ];
+        platforms = platforms.linux;
+        mainProgram = name;
+      };
     };
-
-    postPatch = ''
-      ${lib.getExe buildPackages.jq} 'del(.scripts.preinstall)' package.json > package.json.tmp
-      mv -f package.json{.tmp,}
-
-      substituteInPlace electron-builder.json \
-        --replace-fail '"afterSign": "scripts/notarize.js",' "" \
-        --replace-fail "AppImage" "dir"
-    '';
-
-    npmDepsHash = "sha256-jBAWWY12qeX2EDhUvT3TQpnQvYXRsIilRrXGpVzxYvw=";
-
-    env.ELECTRON_SKIP_BINARY_DOWNLOAD = "1";
-
-    makeCacheWritable = true;
-    inherit npmBuildScript installPhase;
-
-    buildInputs = [
-      libsecret
-    ];
-
-    nativeBuildInputs = [
-      python3
-      pkg-config
-    ];
-
-    meta = with lib; {
-      description = "LDAP connector for Bitwarden";
-      homepage = "https://github.com/bitwarden/directory-connector";
-      license = licenses.gpl3Only;
-      maintainers = with maintainers; [ Silver-Golden SuperSandro2000 ];
-      platforms = platforms.linux;
-      mainProgram = name;
-    };
-  };
-in {
+in
+{
   bitwarden-directory-connector = common {
     name = "bitwarden-directory-connector";
     npmBuildScript = "build:dist";

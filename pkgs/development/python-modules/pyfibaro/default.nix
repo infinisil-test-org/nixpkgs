@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pytestCheckHook
-, pythonOlder
-, requests
-, requests-mock
-, setuptools
-, wheel
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pytestCheckHook,
+  pythonOlder,
+  requests,
+  requests-mock,
+  setuptools,
+  wheel,
 }:
 
 buildPythonPackage rec {
@@ -28,18 +29,14 @@ buildPythonPackage rec {
     wheel
   ];
 
-  propagatedBuildInputs = [
-    requests
-  ];
+  propagatedBuildInputs = [ requests ];
 
   nativeCheckInputs = [
     pytestCheckHook
     requests-mock
   ];
 
-  pythonImportsCheck = [
-    "pyfibaro"
-  ];
+  pythonImportsCheck = [ "pyfibaro" ];
 
   meta = with lib; {
     description = "Library to access FIBARO Home center";

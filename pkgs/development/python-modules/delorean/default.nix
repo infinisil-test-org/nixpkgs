@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, babel
-, humanize
-, python-dateutil
-, pytz
-, tzlocal
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  babel,
+  humanize,
+  python-dateutil,
+  pytz,
+  tzlocal,
 }:
 
 buildPythonPackage rec {
@@ -26,9 +27,7 @@ buildPythonPackage rec {
     tzlocal
   ];
 
-  pythonImportsCheck = [
-    "delorean"
-  ];
+  pythonImportsCheck = [ "delorean" ];
 
   # test data not included
   doCheck = false;

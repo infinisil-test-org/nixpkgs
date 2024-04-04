@@ -1,11 +1,12 @@
-{ lib
-, python3Packages
-, fetchFromGitHub
-, writeText
-, copyDesktopItems
-, makeDesktopItem
-, makeWrapper
-, onedrive
+{
+  lib,
+  python3Packages,
+  fetchFromGitHub,
+  writeText,
+  copyDesktopItems,
+  makeDesktopItem,
+  makeWrapper,
+  onedrive,
 }:
 
 let
@@ -21,7 +22,6 @@ let
       ],
     )
   '';
-
 in
 python3Packages.buildPythonApplication rec {
   pname = "onedrivegui";
@@ -34,9 +34,15 @@ python3Packages.buildPythonApplication rec {
     hash = "sha256-HutziAzhIDYP8upNPieL2GNrxPBHUCVs09FFxdSqeBs=";
   };
 
-  nativeBuildInputs = [ copyDesktopItems makeWrapper ];
+  nativeBuildInputs = [
+    copyDesktopItems
+    makeWrapper
+  ];
 
-  propagatedBuildInputs = with python3Packages; [ pyside6 requests ];
+  propagatedBuildInputs = with python3Packages; [
+    pyside6
+    requests
+  ];
 
   # wrap manually to avoid having a bash script in $out/bin with a .py extension
   dontWrapPythonPrograms = true;
@@ -73,7 +79,9 @@ python3Packages.buildPythonApplication rec {
 
     makeWrapper ${python3Packages.python.interpreter} $out/bin/onedrivegui \
       --prefix PATH : ${lib.makeBinPath [ onedrive ]} \
-      --prefix PYTHONPATH : ${python3Packages.makePythonPath (propagatedBuildInputs ++ [(placeholder "out")])} \
+      --prefix PYTHONPATH : ${
+        python3Packages.makePythonPath (propagatedBuildInputs ++ [ (placeholder "out") ])
+      } \
       --add-flags $out/${python3Packages.python.sitePackages}/OneDriveGUI.py
   '';
 

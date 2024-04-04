@@ -1,10 +1,11 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, gfortran
-, pkg-config
-, json-fortran
-, cmake
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  gfortran,
+  pkg-config,
+  json-fortran,
+  cmake,
 }:
 
 stdenv.mkDerivation rec {
@@ -18,11 +19,18 @@ stdenv.mkDerivation rec {
     hash = "sha256-AXjg/ZsitdDf9fNoGVmVal1iZ4/sxjJb7A9W4yye/rg=";
   };
 
-  nativeBuildInputs = [ gfortran pkg-config cmake ];
+  nativeBuildInputs = [
+    gfortran
+    pkg-config
+    cmake
+  ];
 
   buildInputs = [ json-fortran ];
 
-  outputs = [ "out" "dev" ];
+  outputs = [
+    "out"
+    "dev"
+  ];
 
   # Fix the Pkg-Config files for doubled store paths
   postPatch = ''
@@ -30,9 +38,7 @@ stdenv.mkDerivation rec {
       --replace "\''${prefix}/" ""
   '';
 
-  cmakeFlags = [
-    "-DBUILD_SHARED_LIBS=${if stdenv.hostPlatform.isStatic then "OFF" else "ON"}"
-  ];
+  cmakeFlags = [ "-DBUILD_SHARED_LIBS=${if stdenv.hostPlatform.isStatic then "OFF" else "ON"}" ];
 
   doCheck = true;
 

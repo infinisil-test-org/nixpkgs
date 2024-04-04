@@ -1,18 +1,19 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, autoreconfHook
-, pkg-config
-, gnutls
-, libgcrypt
-, libpar2
-, libcap
-, libsigcxx
-, libxml2
-, ncurses
-, openssl
-, zlib
-, nixosTests
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  autoreconfHook,
+  pkg-config,
+  gnutls,
+  libgcrypt,
+  libpar2,
+  libcap,
+  libsigcxx,
+  libxml2,
+  ncurses,
+  openssl,
+  zlib,
+  nixosTests,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -26,7 +27,10 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-JJML5mtAog5xC7DkthCtoyn5QeC2Z+fdzSuEa/Te0Ew=";
   };
 
-  nativeBuildInputs = [ autoreconfHook pkg-config ];
+  nativeBuildInputs = [
+    autoreconfHook
+    pkg-config
+  ];
 
   buildInputs = [
     gnutls
@@ -46,7 +50,9 @@ stdenv.mkDerivation (finalAttrs: {
 
   enableParallelBuilding = true;
 
-  passthru.tests = { inherit (nixosTests) nzbget; };
+  passthru.tests = {
+    inherit (nixosTests) nzbget;
+  };
 
   meta = with lib; {
     homepage = "https://nzbget-ng.github.io/";

@@ -1,16 +1,17 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, pkg-config
-, openssl
-, xorg
-, stdenv
-, python3
-, libsixel
-, mpv
-, CoreFoundation
-, Security
-, AppKit
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  pkg-config,
+  openssl,
+  xorg,
+  stdenv,
+  python3,
+  libsixel,
+  mpv,
+  CoreFoundation,
+  Security,
+  AppKit,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -36,16 +37,18 @@ rustPlatform.buildRustPackage rec {
     python3
   ];
 
-  buildInputs = [
-    openssl
-    xorg.libxcb
-    libsixel
-    mpv
-  ] ++ lib.optionals stdenv.isDarwin [
-    CoreFoundation
-    Security
-    AppKit
-  ];
+  buildInputs =
+    [
+      openssl
+      xorg.libxcb
+      libsixel
+      mpv
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      CoreFoundation
+      Security
+      AppKit
+    ];
 
   meta = with lib; {
     description = "An aesthetically pleasing YouTube TUI written in Rust";

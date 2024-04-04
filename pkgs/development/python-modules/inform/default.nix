@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, flit-core
-, arrow
-, six
-, hypothesis
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  flit-core,
+  arrow,
+  six,
+  hypothesis,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -23,9 +24,7 @@ buildPythonPackage rec {
     hash = "sha256-RA8/or3HTS/rQmG4A/Eg5j24YElaTEpnHa1yksARVMQ=";
   };
 
-  nativeBuildInputs = [
-    flit-core
-  ];
+  nativeBuildInputs = [ flit-core ];
 
   propagatedBuildInputs = [
     arrow
@@ -37,9 +36,7 @@ buildPythonPackage rec {
     hypothesis
   ];
 
-  disabledTests = [
-    "test_prostrate"
-  ];
+  disabledTests = [ "test_prostrate" ];
 
   meta = with lib; {
     description = "Print and logging utilities";

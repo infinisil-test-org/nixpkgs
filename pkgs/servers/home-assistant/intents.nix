@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
 
-# build-system
-, setuptools
+  # build-system
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -25,16 +26,12 @@ buildPythonPackage rec {
       'requires = ["setuptools"]'
   '';
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   # sdist does not ship tests
   doCheck = false;
 
-  pytestFlagsArray = [
-    "intents/tests"
-  ];
+  pytestFlagsArray = [ "intents/tests" ];
 
   meta = with lib; {
     description = "Intents to be used with Home Assistant";

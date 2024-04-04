@@ -1,33 +1,34 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, pkg-config
-, runtimeShell
-, catch2
-, elfutils
-, libselinux
-, libsepol
-, libunwind
-, libusb1
-, libuuid
-, libzip
-, orc
-, pcre
-, zstd
-, glib
-, gobject-introspection
-, gst_all_1
-, wrapGAppsHook
-, withDoc ? true
-, sphinx
-, graphviz
-, withAravis ? true
-, aravis
-, meson
-, withAravisUsbVision ? withAravis
-, withGui ? true
-, qt5
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  runtimeShell,
+  catch2,
+  elfutils,
+  libselinux,
+  libsepol,
+  libunwind,
+  libusb1,
+  libuuid,
+  libzip,
+  orc,
+  pcre,
+  zstd,
+  glib,
+  gobject-introspection,
+  gst_all_1,
+  wrapGAppsHook,
+  withDoc ? true,
+  sphinx,
+  graphviz,
+  withAravis ? true,
+  aravis,
+  meson,
+  withAravisUsbVision ? withAravis,
+  withGui ? true,
+  qt5,
 }:
 
 stdenv.mkDerivation rec {
@@ -56,19 +57,19 @@ stdenv.mkDerivation rec {
       --replace "typically /usr/share/theimagingsource/tiscamera/uvc-extension/" ""
   '';
 
-  nativeBuildInputs = [
-    cmake
-    pkg-config
-    wrapGAppsHook
-    gobject-introspection
-  ] ++ lib.optionals withDoc [
-    sphinx
-    graphviz
-  ] ++ lib.optionals withAravis [
-    meson
-  ] ++ lib.optionals withGui [
-    qt5.wrapQtAppsHook
-  ];
+  nativeBuildInputs =
+    [
+      cmake
+      pkg-config
+      wrapGAppsHook
+      gobject-introspection
+    ]
+    ++ lib.optionals withDoc [
+      sphinx
+      graphviz
+    ]
+    ++ lib.optionals withAravis [ meson ]
+    ++ lib.optionals withGui [ qt5.wrapQtAppsHook ];
 
   buildInputs = [
     elfutils
@@ -87,11 +88,7 @@ stdenv.mkDerivation rec {
     gst_all_1.gst-plugins-good
     gst_all_1.gst-plugins-bad
     gst_all_1.gst-plugins-ugly
-  ] ++ lib.optionals withAravis [
-    aravis
-  ] ++ lib.optionals withGui [
-    qt5.qtbase
-  ];
+  ] ++ lib.optionals withAravis [ aravis ] ++ lib.optionals withGui [ qt5.qtbase ];
 
   hardeningDisable = [ "format" ];
 

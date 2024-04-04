@@ -1,37 +1,44 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, python
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  python,
 
-# build-system
-, libclang
-, psutil
-, setuptools
-, swig
+  # build-system
+  libclang,
+  psutil,
+  setuptools,
+  swig,
 
-# native dependencies
-, freetype
-, harfbuzz
-, openjpeg
-, jbig2dec
-, libjpeg_turbo
-, gumbo
-, memstreamHook
+  # native dependencies
+  freetype,
+  harfbuzz,
+  openjpeg,
+  jbig2dec,
+  libjpeg_turbo,
+  gumbo,
+  memstreamHook,
 
-# dependencies
-, mupdf
+  # dependencies
+  mupdf,
 
-# tests
-, fonttools
-, pytestCheckHook
+  # tests
+  fonttools,
+  pytestCheckHook,
 }:
 
 let
   # PyMuPDF needs the C++ bindings generated
-  mupdf-cxx = mupdf.override { enableOcr = true; enableCxx = true; enablePython = true; python3 = python; };
-in buildPythonPackage rec {
+  mupdf-cxx = mupdf.override {
+    enableOcr = true;
+    enableCxx = true;
+    enablePython = true;
+    python3 = python;
+  };
+in
+buildPythonPackage rec {
   pname = "pymupdf";
   version = "1.23.7";
   pyproject = true;
@@ -67,13 +74,9 @@ in buildPythonPackage rec {
     jbig2dec
     libjpeg_turbo
     gumbo
-  ] ++ lib.optionals (stdenv.system == "x86_64-darwin") [
-    memstreamHook
-  ];
+  ] ++ lib.optionals (stdenv.system == "x86_64-darwin") [ memstreamHook ];
 
-  propagatedBuildInputs = [
-    mupdf-cxx
-  ];
+  propagatedBuildInputs = [ mupdf-cxx ];
 
   env = {
     # force using system MuPDF (must be defined in environment and empty)
@@ -95,15 +98,17 @@ in buildPythonPackage rec {
     fonttools
   ];
 
-  disabledTests = [
-    # fails for indeterminate reasons
-    "test_color_count"
-    "test_2753"
-    "test_2548"
-  ] ++ lib.optionals stdenv.isDarwin [
-    # darwin does not support OCR right now
-    "test_tesseract"
-  ];
+  disabledTests =
+    [
+      # fails for indeterminate reasons
+      "test_color_count"
+      "test_2753"
+      "test_2548"
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      # darwin does not support OCR right now
+      "test_tesseract"
+    ];
 
   pythonImportsCheck = [
     "fitz"

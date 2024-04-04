@@ -1,41 +1,42 @@
-{ cmake
-, fetchFromGitHub
-, fetchgit
-, git
-, lib
-, libffi
-, llvmPackages_9
-, makeWrapper
-, ncurses
-, python3
-, runCommand
-, zlib
+{
+  cmake,
+  fetchFromGitHub,
+  fetchgit,
+  git,
+  lib,
+  libffi,
+  llvmPackages_9,
+  makeWrapper,
+  ncurses,
+  python3,
+  runCommand,
+  zlib,
 
-# *NOT* from LLVM 9!
-# The compiler used to compile Cling may affect the runtime include and lib
-# directories it expects to be run with. Cling builds against (a fork of) Clang,
-# so we prefer to use Clang as the compiler as well for consistency.
-# It would be cleanest to use LLVM 9's clang, but it errors. So, we use a later
-# version of Clang to compile, but we check out the Cling fork of Clang 9 to
-# build Cling against.
-, clangStdenv
+  # *NOT* from LLVM 9!
+  # The compiler used to compile Cling may affect the runtime include and lib
+  # directories it expects to be run with. Cling builds against (a fork of) Clang,
+  # so we prefer to use Clang as the compiler as well for consistency.
+  # It would be cleanest to use LLVM 9's clang, but it errors. So, we use a later
+  # version of Clang to compile, but we check out the Cling fork of Clang 9 to
+  # build Cling against.
+  clangStdenv,
 
-# For runtime C++ standard library
-, gcc-unwrapped
+  # For runtime C++ standard library
+  gcc-unwrapped,
 
-# Build with debug symbols
-, debug ? false
+  # Build with debug symbols
+  debug ? false,
 
-# Build with libc++ (LLVM) rather than stdlibc++ (GCC).
-# This is experimental and not all features work.
-, useLLVMLibcxx ? false
+  # Build with libc++ (LLVM) rather than stdlibc++ (GCC).
+  # This is experimental and not all features work.
+  useLLVMLibcxx ? false,
 }:
 
 let
   stdenv = clangStdenv;
 
   # The LLVM 9 headers have a couple bugs we need to patch
-  fixedLlvmDev = runCommand "llvm-dev-${llvmPackages_9.llvm.version}" { buildInputs = [git]; } ''
+  fixedLlvmDev = runCommand "llvm-dev-${llvmPackages_9.llvm.version}" { buildInputs = [ git ]; } ''
     mkdir $out
     cp -r ${llvmPackages_9.llvm.dev}/include $out
     cd $out
@@ -76,36 +77,45 @@ let
       ./force-install-cling-targets.patch
     ];
 
-    nativeBuildInputs = [ python3 git cmake ];
-    buildInputs = [ libffi ncurses zlib ];
+    nativeBuildInputs = [
+      python3
+      git
+      cmake
+    ];
+    buildInputs = [
+      libffi
+      ncurses
+      zlib
+    ];
 
     strictDeps = true;
 
-    cmakeFlags = [
-      "-DLLVM_BINARY_DIR=${llvmPackages_9.llvm.out}"
-      "-DLLVM_CONFIG=${llvmPackages_9.llvm.dev}/bin/llvm-config"
-      "-DLLVM_LIBRARY_DIR=${llvmPackages_9.llvm.lib}/lib"
-      "-DLLVM_MAIN_INCLUDE_DIR=${fixedLlvmDev}/include"
-      "-DLLVM_TABLEGEN_EXE=${llvmPackages_9.llvm.out}/bin/llvm-tblgen"
-      "-DLLVM_TOOLS_BINARY_DIR=${llvmPackages_9.llvm.out}/bin"
-      "-DLLVM_BUILD_TOOLS=Off"
-      "-DLLVM_TOOL_CLING_BUILD=ON"
+    cmakeFlags =
+      [
+        "-DLLVM_BINARY_DIR=${llvmPackages_9.llvm.out}"
+        "-DLLVM_CONFIG=${llvmPackages_9.llvm.dev}/bin/llvm-config"
+        "-DLLVM_LIBRARY_DIR=${llvmPackages_9.llvm.lib}/lib"
+        "-DLLVM_MAIN_INCLUDE_DIR=${fixedLlvmDev}/include"
+        "-DLLVM_TABLEGEN_EXE=${llvmPackages_9.llvm.out}/bin/llvm-tblgen"
+        "-DLLVM_TOOLS_BINARY_DIR=${llvmPackages_9.llvm.out}/bin"
+        "-DLLVM_BUILD_TOOLS=Off"
+        "-DLLVM_TOOL_CLING_BUILD=ON"
 
-      "-DLLVM_TARGETS_TO_BUILD=host;NVPTX"
-      "-DLLVM_ENABLE_RTTI=ON"
+        "-DLLVM_TARGETS_TO_BUILD=host;NVPTX"
+        "-DLLVM_ENABLE_RTTI=ON"
 
-      # Setting -DCLING_INCLUDE_TESTS=ON causes the cling/tools targets to be built;
-      # see cling/tools/CMakeLists.txt
-      "-DCLING_INCLUDE_TESTS=ON"
-      "-DCLANG-TOOLS=OFF"
-    ] ++ lib.optionals debug [
-      "-DCMAKE_BUILD_TYPE=Debug"
-    ] ++ lib.optionals useLLVMLibcxx [
-      "-DLLVM_ENABLE_LIBCXX=ON"
-      "-DLLVM_ENABLE_LIBCXXABI=ON"
-    ];
+        # Setting -DCLING_INCLUDE_TESTS=ON causes the cling/tools targets to be built;
+        # see cling/tools/CMakeLists.txt
+        "-DCLING_INCLUDE_TESTS=ON"
+        "-DCLANG-TOOLS=OFF"
+      ]
+      ++ lib.optionals debug [ "-DCMAKE_BUILD_TYPE=Debug" ]
+      ++ lib.optionals useLLVMLibcxx [
+        "-DLLVM_ENABLE_LIBCXX=ON"
+        "-DLLVM_ENABLE_LIBCXXABI=ON"
+      ];
 
-    CPPFLAGS = if useLLVMLibcxx then [ "-stdlib=libc++" ] else [];
+    CPPFLAGS = if useLLVMLibcxx then [ "-stdlib=libc++" ] else [ ];
 
     postInstall = lib.optionalString (!stdenv.isDarwin) ''
       mkdir -p $out/share/Jupyter
@@ -117,21 +127,33 @@ let
     meta = with lib; {
       description = "The Interactive C++ Interpreter";
       homepage = "https://root.cern/cling/";
-      license = with licenses; [ lgpl21 ncsa ];
+      license = with licenses; [
+        lgpl21
+        ncsa
+      ];
       maintainers = with maintainers; [ thomasjm ];
       platforms = platforms.unix;
     };
   };
 
   # Runtime flags for the C++ standard library
-  cxxFlags = if useLLVMLibcxx then [
-    "-I" "${lib.getDev llvmPackages_9.libcxx}/include/c++/v1"
-    "-L" "${llvmPackages_9.libcxx}/lib"
-    "-l" "${llvmPackages_9.libcxx}/lib/libc++.so"
-  ] else [
-    "-I" "${gcc-unwrapped}/include/c++/${gcc-unwrapped.version}"
-    "-I" "${gcc-unwrapped}/include/c++/${gcc-unwrapped.version}/x86_64-unknown-linux-gnu"
-  ];
+  cxxFlags =
+    if useLLVMLibcxx then
+      [
+        "-I"
+        "${lib.getDev llvmPackages_9.libcxx}/include/c++/v1"
+        "-L"
+        "${llvmPackages_9.libcxx}/lib"
+        "-l"
+        "${llvmPackages_9.libcxx}/lib/libc++.so"
+      ]
+    else
+      [
+        "-I"
+        "${gcc-unwrapped}/include/c++/${gcc-unwrapped.version}"
+        "-I"
+        "${gcc-unwrapped}/include/c++/${gcc-unwrapped.version}/x86_64-unknown-linux-gnu"
+      ];
 
   # The flags passed to the wrapped cling should
   # a) prevent it from searching for system include files and libs, and
@@ -144,28 +166,33 @@ let
   # Thus, if you're packaging a Jupyter kernel, you either need to pass these flags as extra
   # args to xcpp (for xeus-cling) or put them in the environment variable CLING_OPTS
   # (for jupyter-cling-kernel).
-  flags = [
-    "-nostdinc"
-    "-nostdinc++"
+  flags =
+    [
+      "-nostdinc"
+      "-nostdinc++"
 
-    "-isystem" "${lib.getLib unwrapped}/lib/clang/9.0.1/include"
-  ]
-  ++ cxxFlags
-  ++ [
-    # System libc
-    "-isystem" "${lib.getDev stdenv.cc.libc}/include"
+      "-isystem"
+      "${lib.getLib unwrapped}/lib/clang/9.0.1/include"
+    ]
+    ++ cxxFlags
+    ++ [
+      # System libc
+      "-isystem"
+      "${lib.getDev stdenv.cc.libc}/include"
 
-    # cling includes
-    "-isystem" "${lib.getDev unwrapped}/include"
-  ];
-
+      # cling includes
+      "-isystem"
+      "${lib.getDev unwrapped}/include"
+    ];
 in
 
-runCommand "cling-${unwrapped.version}" {
-  nativeBuildInputs = [ makeWrapper ];
-  inherit unwrapped flags;
-  inherit (unwrapped) meta;
-} ''
-  makeWrapper $unwrapped/bin/cling $out/bin/cling \
-    --add-flags "$flags"
-''
+runCommand "cling-${unwrapped.version}"
+  {
+    nativeBuildInputs = [ makeWrapper ];
+    inherit unwrapped flags;
+    inherit (unwrapped) meta;
+  }
+  ''
+    makeWrapper $unwrapped/bin/cling $out/bin/cling \
+      --add-flags "$flags"
+  ''

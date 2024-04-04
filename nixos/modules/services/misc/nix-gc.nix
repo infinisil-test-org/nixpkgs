@@ -67,11 +67,8 @@ in
           Options given to [`nix-collect-garbage`](https://nixos.org/manual/nix/stable/command-ref/nix-collect-garbage) when the garbage collector is run automatically.
         '';
       };
-
     };
-
   };
-
 
   ###### implementation
 
@@ -96,7 +93,5 @@ in
         Persistent = cfg.persistent;
       };
     };
-
   };
-
 }

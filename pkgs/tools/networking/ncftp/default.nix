@@ -1,4 +1,10 @@
-{ lib, stdenv, fetchurl, ncurses, coreutils }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  ncurses,
+  coreutils,
+}:
 
 stdenv.mkDerivation rec {
   pname = "ncftp";

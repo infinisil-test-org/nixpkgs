@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, flask
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  flask,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -20,21 +21,13 @@ buildPythonPackage rec {
     hash = "sha256-9633YLHMF9S1DLK7ZS4qmCOzslXdHLSgpKoJFNvkXlA=";
   };
 
-  propagatedBuildInputs = [
-    flask
-  ];
+  propagatedBuildInputs = [ flask ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "flask_paginate"
-  ];
+  pythonImportsCheck = [ "flask_paginate" ];
 
-  pytestFlagsArray = [
-    "tests/tests.py"
-  ];
+  pytestFlagsArray = [ "tests/tests.py" ];
 
   meta = with lib; {
     description = "Pagination support for Flask";

@@ -1,7 +1,8 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -14,13 +15,9 @@ buildPythonPackage rec {
     hash = "sha256-j9WJbocYpDcvDqnMnZb2QXybmG4jpNEW3aJrYswp0EY=";
   };
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "pkginfo"
-  ];
+  pythonImportsCheck = [ "pkginfo" ];
 
   meta = with lib; {
     description = "Query metadatdata from sdists, bdists or installed packages";

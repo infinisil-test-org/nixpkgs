@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, fetchzip
-, autoPatchelfHook
-, dotnet-runtime
-, ffmpeg
-, libglvnd
-, makeWrapper
-, openal
+{
+  lib,
+  stdenv,
+  fetchzip,
+  autoPatchelfHook,
+  dotnet-runtime,
+  ffmpeg,
+  libglvnd,
+  makeWrapper,
+  openal,
 }:
 
 stdenv.mkDerivation rec {

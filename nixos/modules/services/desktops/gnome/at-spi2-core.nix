@@ -1,6 +1,11 @@
 # at-spi2-core daemon.
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -15,8 +20,18 @@ with lib;
   # Added 2021-05-07
   imports = [
     (mkRenamedOptionModule
-      [ "services" "gnome3" "at-spi2-core" "enable" ]
-      [ "services" "gnome" "at-spi2-core" "enable" ]
+      [
+        "services"
+        "gnome3"
+        "at-spi2-core"
+        "enable"
+      ]
+      [
+        "services"
+        "gnome"
+        "at-spi2-core"
+        "enable"
+      ]
     )
   ];
 
@@ -35,11 +50,8 @@ with lib;
           `The name org.a11y.Bus was not provided by any .service files`.
         '';
       };
-
     };
-
   };
-
 
   ###### implementation
 

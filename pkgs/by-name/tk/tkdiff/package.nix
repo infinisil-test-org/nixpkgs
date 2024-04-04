@@ -1,11 +1,20 @@
-{ diffutils, fetchzip, lib, makeBinaryWrapper, stdenv, tk }:
+{
+  diffutils,
+  fetchzip,
+  lib,
+  makeBinaryWrapper,
+  stdenv,
+  tk,
+}:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "tkdiff";
   version = "5.6";
 
   src = fetchzip {
-    url = "mirror://sourceforge/tkdiff/tkdiff-${builtins.replaceStrings ["."] ["-"] finalAttrs.version}.zip";
+    url = "mirror://sourceforge/tkdiff/tkdiff-${
+      builtins.replaceStrings [ "." ] [ "-" ] finalAttrs.version
+    }.zip";
     hash = "sha256-EpbIdjsejkkTaSpoZRM5AHz0r1Cio+YzRryK0BoghBk=";
   };
 
@@ -27,7 +36,12 @@ stdenv.mkDerivation (finalAttrs: {
 
     install -Dm755 -t $out/bin tkdiff
     wrapProgram $out/bin/tkdiff \
-      --prefix PATH : ${lib.makeBinPath [ diffutils tk ]}
+      --prefix PATH : ${
+        lib.makeBinPath [
+          diffutils
+          tk
+        ]
+      }
 
     runHook postInstall
   '';

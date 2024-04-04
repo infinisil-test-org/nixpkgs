@@ -1,15 +1,16 @@
-{ lib
-, aiohttp
-, buildPythonPackage
-, fetchFromGitHub
-, furl
-, hatchling
-, jsonschema
-, pytest-asyncio
-, pytestCheckHook
-, pythonOlder
-, requests
-, xmltodict
+{
+  lib,
+  aiohttp,
+  buildPythonPackage,
+  fetchFromGitHub,
+  furl,
+  hatchling,
+  jsonschema,
+  pytest-asyncio,
+  pytestCheckHook,
+  pythonOlder,
+  requests,
+  xmltodict,
 }:
 
 buildPythonPackage rec {
@@ -26,9 +27,7 @@ buildPythonPackage rec {
     hash = "sha256-0sS2QJcshMuxxCGlrcVHeIQnVMZbBoJfLsRIxpvl7pM=";
   };
 
-  nativeBuildInputs = [
-    hatchling
-  ];
+  nativeBuildInputs = [ hatchling ];
 
   propagatedBuildInputs = [
     aiohttp
@@ -43,9 +42,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "pook"
-  ];
+  pythonImportsCheck = [ "pook" ];
 
   disabledTestPaths = [
     # Don't test integrations

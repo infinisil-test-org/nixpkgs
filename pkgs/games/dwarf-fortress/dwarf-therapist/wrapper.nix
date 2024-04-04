@@ -1,11 +1,15 @@
-{ stdenv, dwarf-therapist, dwarf-fortress, substituteAll, coreutils, wrapQtAppsHook }:
+{
+  stdenv,
+  dwarf-therapist,
+  dwarf-fortress,
+  substituteAll,
+  coreutils,
+  wrapQtAppsHook,
+}:
 
 let
-  platformSlug =
-    if stdenv.hostPlatform.is32bit then
-      "linux32" else "linux64";
+  platformSlug = if stdenv.hostPlatform.is32bit then "linux32" else "linux64";
   inifile = "linux/v0.${dwarf-fortress.baseVersion}.${dwarf-fortress.patchVersion}_${platformSlug}.ini";
-
 in
 
 stdenv.mkDerivation {
@@ -27,7 +31,9 @@ stdenv.mkDerivation {
 
   nativeBuildInputs = [ wrapQtAppsHook ];
 
-  passthru = { inherit dwarf-fortress dwarf-therapist; };
+  passthru = {
+    inherit dwarf-fortress dwarf-therapist;
+  };
 
   buildCommand = ''
     mkdir -p $out/bin

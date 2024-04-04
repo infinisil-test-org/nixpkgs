@@ -1,11 +1,12 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchpatch
-, autoreconfHook
-, perl
-, nixosTests
-, withDebug ? false
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  autoreconfHook,
+  perl,
+  nixosTests,
+  withDebug ? false,
 }:
 
 stdenv.mkDerivation rec {
@@ -28,10 +29,15 @@ stdenv.mkDerivation rec {
   ];
 
   # perl is needed for man page generation.
-  nativeBuildInputs = [ autoreconfHook perl ];
+  nativeBuildInputs = [
+    autoreconfHook
+    perl
+  ];
 
   configureFlags = lib.optionals withDebug [ "--enable-debug" ]; # Enable debugging support code and methods.
-  passthru.tests = { inherit (nixosTests) tinyproxy; };
+  passthru.tests = {
+    inherit (nixosTests) tinyproxy;
+  };
 
   meta = with lib; {
     homepage = "https://tinyproxy.github.io/";

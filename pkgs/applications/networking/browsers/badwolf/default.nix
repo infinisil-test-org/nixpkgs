@@ -1,13 +1,14 @@
-{ stdenv
-, lib
-, fetchgit
-, pkg-config
-, wrapGAppsHook
-, webkitgtk
-, libxml2
-, glib
-, glib-networking
-, gettext
+{
+  stdenv,
+  lib,
+  fetchgit,
+  pkg-config,
+  wrapGAppsHook,
+  webkitgtk,
+  libxml2,
+  glib,
+  glib-networking,
+  gettext,
 }:
 stdenv.mkDerivation rec {
   pname = "badwolf";
@@ -23,9 +24,18 @@ stdenv.mkDerivation rec {
     export PREFIX=$out
   '';
 
-  nativeBuildInputs = [ pkg-config wrapGAppsHook ];
+  nativeBuildInputs = [
+    pkg-config
+    wrapGAppsHook
+  ];
 
-  buildInputs = [ webkitgtk libxml2 gettext glib glib-networking ];
+  buildInputs = [
+    webkitgtk
+    libxml2
+    gettext
+    glib
+    glib-networking
+  ];
 
   meta = with lib; {
     description = "Minimalist and privacy-oriented WebKitGTK+ browser";
@@ -34,5 +44,4 @@ stdenv.mkDerivation rec {
     platforms = platforms.linux;
     maintainers = with maintainers; [ laalsaas ];
   };
-
 }

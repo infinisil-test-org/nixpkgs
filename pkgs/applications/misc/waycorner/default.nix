@@ -1,10 +1,10 @@
-{ lib
-, makeWrapper
-, rustPlatform
-, pkg-config
-, fetchFromGitHub
-, wayland
-,
+{
+  lib,
+  makeWrapper,
+  rustPlatform,
+  pkg-config,
+  fetchFromGitHub,
+  wayland,
 }:
 rustPlatform.buildRustPackage rec {
   pname = "waycorner";
@@ -16,9 +16,7 @@ rustPlatform.buildRustPackage rec {
     hash = "sha256-xvmvtn6dMqt8kUwvn5d5Nl1V84kz1eWa9BSIN/ONkSQ=";
   };
   cargoHash = "sha256-Dl+GhJywWhaC4QMS70klazPsFipGVRW+6jrXH2XsEAI=";
-  buildInputs = [
-    wayland
-  ];
+  buildInputs = [ wayland ];
   nativeBuildInputs = [
     pkg-config
     makeWrapper

@@ -1,10 +1,16 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
-let cfg = config.services.touchegg;
-
-in {
+let
+  cfg = config.services.touchegg;
+in
+{
   meta = {
     maintainers = teams.pantheon.members;
   };

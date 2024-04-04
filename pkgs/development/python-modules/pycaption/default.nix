@@ -1,14 +1,15 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, setuptools
-, beautifulsoup4
-, lxml
-, cssutils
-, nltk
-, pytest-lazy-fixture
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  setuptools,
+  beautifulsoup4,
+  lxml,
+  cssutils,
+  nltk,
+  pytest-lazy-fixture,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -26,9 +27,7 @@ buildPythonPackage rec {
     hash = "sha256-aUhNvqeSNtbnRVp4yxsk4q3szNfR0m1zo0MpkBOCokY=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     beautifulsoup4

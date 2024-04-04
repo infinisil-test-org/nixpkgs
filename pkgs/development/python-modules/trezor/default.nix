@@ -1,25 +1,26 @@
-{ stdenv
-, lib
-, buildPythonPackage
-, fetchPypi
-, isPy3k
-, installShellFiles
-, attrs
-, click
-, construct
-, construct-classes
-, ecdsa
-, hidapi
-, libusb1
-, mnemonic
-, pillow
-, protobuf
-, requests
-, shamir-mnemonic
-, simple-rlp
-, typing-extensions
-, trezor-udev-rules
-, pytestCheckHook
+{
+  stdenv,
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  isPy3k,
+  installShellFiles,
+  attrs,
+  click,
+  construct,
+  construct-classes,
+  ecdsa,
+  hidapi,
+  libusb1,
+  mnemonic,
+  pillow,
+  protobuf,
+  requests,
+  shamir-mnemonic,
+  simple-rlp,
+  typing-extensions,
+  trezor-udev-rules,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -51,9 +52,7 @@ buildPythonPackage rec {
     shamir-mnemonic
     simple-rlp
     typing-extensions
-  ] ++ lib.optionals stdenv.isLinux [
-    trezor-udev-rules
-  ];
+  ] ++ lib.optionals stdenv.isLinux [ trezor-udev-rules ];
 
   nativeCheckInputs = [ pytestCheckHook ];
 
@@ -82,6 +81,10 @@ buildPythonPackage rec {
     description = "Python library for communicating with Trezor Hardware Wallet";
     homepage = "https://github.com/trezor/trezor-firmware/tree/master/python";
     license = licenses.gpl3;
-    maintainers = with maintainers; [ np prusnak mmahut ];
+    maintainers = with maintainers; [
+      np
+      prusnak
+      mmahut
+    ];
   };
 }

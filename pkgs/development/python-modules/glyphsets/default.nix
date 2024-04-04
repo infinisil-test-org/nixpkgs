@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, defcon
-, fonttools
-, glyphslib
-, pytestCheckHook
-, setuptools
-, setuptools-scm
-, unicodedata2
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  defcon,
+  fonttools,
+  glyphslib,
+  pytestCheckHook,
+  setuptools,
+  setuptools-scm,
+  unicodedata2,
 }:
 
 buildPythonPackage rec {
@@ -35,14 +36,10 @@ buildPythonPackage rec {
     setuptools
     unicodedata2
   ];
-  nativeBuildInputs = [
-    setuptools-scm
-  ];
+  nativeBuildInputs = [ setuptools-scm ];
 
   doCheck = true;
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
   preCheck = ''
     export PATH="$out/bin:$PATH"
   '';

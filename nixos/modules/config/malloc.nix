@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 
 let
@@ -22,21 +27,25 @@ let
       '';
     };
 
-    scudo = let
-      platformMap = {
-        aarch64-linux = "aarch64";
-        x86_64-linux  = "x86_64";
-      };
+    scudo =
+      let
+        platformMap = {
+          aarch64-linux = "aarch64";
+          x86_64-linux = "x86_64";
+        };
 
-      systemPlatform = platformMap.${pkgs.stdenv.hostPlatform.system} or (throw "scudo not supported on ${pkgs.stdenv.hostPlatform.system}");
-    in {
-      libPath = "${pkgs.llvmPackages_14.compiler-rt}/lib/linux/libclang_rt.scudo-${systemPlatform}.so";
-      description = ''
-        A user-mode allocator based on LLVM Sanitizer’s CombinedAllocator,
-        which aims at providing additional mitigations against heap based
-        vulnerabilities, while maintaining good performance.
-      '';
-    };
+        systemPlatform =
+          platformMap.${pkgs.stdenv.hostPlatform.system}
+            or (throw "scudo not supported on ${pkgs.stdenv.hostPlatform.system}");
+      in
+      {
+        libPath = "${pkgs.llvmPackages_14.compiler-rt}/lib/linux/libclang_rt.scudo-${systemPlatform}.so";
+        description = ''
+          A user-mode allocator based on LLVM Sanitizer’s CombinedAllocator,
+          which aims at providing additional mitigations against heap based
+          vulnerabilities, while maintaining good performance.
+        '';
+      };
 
     mimalloc = {
       libPath = "${pkgs.mimalloc}/lib/libmimalloc.so";
@@ -52,17 +61,18 @@ let
 
   # An output that contains only the shared library, to avoid
   # needlessly bloating the system closure
-  mallocLib = pkgs.runCommand "malloc-provider-${cfg.provider}"
-    rec {
-      preferLocalBuild = true;
-      allowSubstitutes = false;
-      origLibPath = providerConf.libPath;
-      libName = baseNameOf origLibPath;
-    }
-    ''
-      mkdir -p $out/lib
-      cp -L $origLibPath $out/lib/$libName
-    '';
+  mallocLib =
+    pkgs.runCommand "malloc-provider-${cfg.provider}"
+      rec {
+        preferLocalBuild = true;
+        allowSubstitutes = false;
+        origLibPath = providerConf.libPath;
+        libName = baseNameOf origLibPath;
+      }
+      ''
+        mkdir -p $out/lib
+        cp -L $origLibPath $out/lib/$libName
+      '';
 
   # The full path to the selected provider shlib.
   providerLibPath = "${mallocLib}/lib/${mallocLib.libName}";
@@ -83,9 +93,11 @@ in
         Briefly, the system-wide memory allocator providers are:
 
         - `libc`: the standard allocator provided by libc
-        ${concatStringsSep "\n" (mapAttrsToList
-            (name: value: "- `${name}`: ${replaceStrings [ "\n" ] [ " " ] value.description}")
-            providers)}
+        ${concatStringsSep "\n" (
+          mapAttrsToList (
+            name: value: "- `${name}`: ${replaceStrings [ "\n" ] [ " " ] value.description}"
+          ) providers
+        )}
 
         ::: {.warning}
         Selecting an alternative allocator (i.e., anything other than
@@ -104,10 +116,12 @@ in
       "abstractions/base" = ''
         r /etc/ld-nix.so.preload,
         r ${config.environment.etc."ld-nix.so.preload".source},
-        include "${pkgs.apparmorRulesFromClosure {
+        include "${
+          pkgs.apparmorRulesFromClosure {
             name = "mallocLib";
-            baseRules = ["mr $path/lib/**.so*"];
-          } [ mallocLib ] }"
+            baseRules = [ "mr $path/lib/**.so*" ];
+          } [ mallocLib ]
+        }"
       '';
     };
   };

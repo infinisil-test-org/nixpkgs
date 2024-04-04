@@ -1,4 +1,9 @@
-{ lib, stdenv, buildGoModule, fetchFromGitHub }:
+{
+  lib,
+  stdenv,
+  buildGoModule,
+  fetchFromGitHub,
+}:
 
 buildGoModule rec {
   pname = "phlare";
@@ -14,17 +19,20 @@ buildGoModule rec {
   proxyVendor = true;
   vendorHash = "sha256-y8IWS5OQkDYRTt5xOzzbjb1ya6AiFtvAc0YNH99KZBA=";
 
-  ldflags = let
-    prefix = "github.com/grafana/phlare/pkg/util/build";
-  in [
-    "-s" "-w"
-    # https://github.com/grafana/phlare/blob/v0.6.1/Makefile#L32
-    "-X ${prefix}.Version=${version}"
-    "-X ${prefix}.Branch=v${version}"
-    "-X ${prefix}.Revision=v${version}"
-    "-X ${prefix}.BuildUser=nix"
-    "-X ${prefix}.BuildDate=1980-01-01T00:00:00Z"
-  ];
+  ldflags =
+    let
+      prefix = "github.com/grafana/phlare/pkg/util/build";
+    in
+    [
+      "-s"
+      "-w"
+      # https://github.com/grafana/phlare/blob/v0.6.1/Makefile#L32
+      "-X ${prefix}.Version=${version}"
+      "-X ${prefix}.Branch=v${version}"
+      "-X ${prefix}.Revision=v${version}"
+      "-X ${prefix}.BuildUser=nix"
+      "-X ${prefix}.BuildDate=1980-01-01T00:00:00Z"
+    ];
 
   subPackages = [
     "cmd/phlare"

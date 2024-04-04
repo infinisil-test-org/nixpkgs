@@ -1,5 +1,14 @@
-{ lib, stdenv, fetchFromGitHub, SDL_gfx, SDL, libjpeg, libpng, opencv
-, pkg-config }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  SDL_gfx,
+  SDL,
+  libjpeg,
+  libpng,
+  opencv,
+  pkg-config,
+}:
 
 stdenv.mkDerivation {
   pname = "quirc";
@@ -13,7 +22,13 @@ stdenv.mkDerivation {
   };
 
   nativeBuildInputs = [ pkg-config ];
-  buildInputs = [ SDL SDL_gfx libjpeg libpng opencv ];
+  buildInputs = [
+    SDL
+    SDL_gfx
+    libjpeg
+    libpng
+    opencv
+  ];
 
   makeFlags = [ "PREFIX=$(out)" ];
   env.NIX_CFLAGS_COMPILE = "-I${lib.getDev SDL}/include/SDL -I${SDL_gfx}/include/SDL";
@@ -48,6 +63,9 @@ stdenv.mkDerivation {
     description = "A small QR code decoding library";
     license = lib.licenses.isc;
     maintainers = [ lib.maintainers.raskin ];
-    platforms = lib.platforms.linux ++ [ "x86_64-darwin" "aarch64-darwin" ];
+    platforms = lib.platforms.linux ++ [
+      "x86_64-darwin"
+      "aarch64-darwin"
+    ];
   };
 }

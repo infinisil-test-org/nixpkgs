@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, dulwich
-, fetchFromGitHub
-, mock
-, pytestCheckHook
-, pythonOlder
-, six
+{
+  lib,
+  buildPythonPackage,
+  dulwich,
+  fetchFromGitHub,
+  mock,
+  pytestCheckHook,
+  pythonOlder,
+  six,
 }:
 
 buildPythonPackage rec {
@@ -29,9 +30,7 @@ buildPythonPackage rec {
     six
   ];
 
-  pythonImportsCheck = [
-    "simplekv"
-  ];
+  pythonImportsCheck = [ "simplekv" ];
 
   disabledTests = [
     # Issue with fixture

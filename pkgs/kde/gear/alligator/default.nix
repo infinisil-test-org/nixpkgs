@@ -1,4 +1,1 @@
-{mkKdeDerivation}:
-mkKdeDerivation {
-  pname = "alligator";
-}
+{ mkKdeDerivation }: mkKdeDerivation { pname = "alligator"; }

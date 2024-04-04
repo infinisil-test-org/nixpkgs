@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, click
-, fetchFromGitHub
-, jsonschema
-, pytestCheckHook
-, pythonOlder
-, requests
-, testers
-, cve
+{
+  lib,
+  buildPythonPackage,
+  click,
+  fetchFromGitHub,
+  jsonschema,
+  pytestCheckHook,
+  pythonOlder,
+  requests,
+  testers,
+  cve,
 }:
 
 buildPythonPackage rec {
@@ -30,13 +31,9 @@ buildPythonPackage rec {
     requests
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "cvelib"
-  ];
+  pythonImportsCheck = [ "cvelib" ];
 
   passthru.tests.version = testers.testVersion { package = cve; };
 

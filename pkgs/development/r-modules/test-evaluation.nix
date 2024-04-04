@@ -16,6 +16,5 @@ let
   rWrapper = pkgs.rWrapper.override {
     packages = pkgs.lib.filter pkgs.lib.isDerivation (pkgs.lib.attrValues pkgs.rPackages);
   };
-
 in
-  rWrapper
+rWrapper

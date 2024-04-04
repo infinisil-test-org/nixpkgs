@@ -1,4 +1,10 @@
-testModuleArgs@{ config, lib, hostPkgs, nodes, ... }:
+testModuleArgs@{
+  config,
+  lib,
+  hostPkgs,
+  nodes,
+  ...
+}:
 
 let
   inherit (lib)
@@ -8,7 +14,8 @@ let
     mdDoc
     mkDefault
     mkIf
-    mkOption mkForce
+    mkOption
+    mkForce
     optional
     optionalAttrs
     types
@@ -17,8 +24,8 @@ let
   inherit (hostPkgs) hostPlatform;
 
   guestSystem =
-    if hostPlatform.isLinux
-    then hostPlatform.system
+    if hostPlatform.isLinux then
+      hostPlatform.system
     else
       let
         hostToGuest = {
@@ -28,40 +35,43 @@ let
 
         supportedHosts = lib.concatStringsSep ", " (lib.attrNames hostToGuest);
 
-        message =
-          "NixOS Test: don't know which VM guest system to pair with VM host system: ${hostPlatform.system}. Perhaps you intended to run the tests on a Linux host, or one of the following systems that may run NixOS tests: ${supportedHosts}";
+        message = "NixOS Test: don't know which VM guest system to pair with VM host system: ${hostPlatform.system}. Perhaps you intended to run the tests on a Linux host, or one of the following systems that may run NixOS tests: ${supportedHosts}";
       in
-        hostToGuest.${hostPlatform.system} or (throw message);
+      hostToGuest.${hostPlatform.system} or (throw message);
 
-  baseOS =
-    import ../eval-config.nix {
-      inherit lib;
-      system = null; # use modularly defined system
-      inherit (config.node) specialArgs;
-      modules = [ config.defaults ];
-      baseModules = (import ../../modules/module-list.nix) ++
-        [
-          ./nixos-test-base.nix
-          { key = "nodes"; _module.args.nodes = config.nodesCompat; }
-          ({ config, ... }:
-            {
-              virtualisation.qemu.package = testModuleArgs.config.qemu.package;
-              virtualisation.host.pkgs = hostPkgs;
-            })
-          ({ options, ... }: {
-            key = "nodes.nix-pkgs";
-            config = optionalAttrs (!config.node.pkgsReadOnly) (
-              mkIf (!options.nixpkgs.pkgs.isDefined) {
-                # TODO: switch to nixpkgs.hostPlatform and make sure containers-imperative test still evaluates.
-                nixpkgs.system = guestSystem;
-              }
-            );
-          })
-          testModuleArgs.config.extraBaseModules
-        ];
-    };
-
-
+  baseOS = import ../eval-config.nix {
+    inherit lib;
+    system = null; # use modularly defined system
+    inherit (config.node) specialArgs;
+    modules = [ config.defaults ];
+    baseModules = (import ../../modules/module-list.nix) ++ [
+      ./nixos-test-base.nix
+      {
+        key = "nodes";
+        _module.args.nodes = config.nodesCompat;
+      }
+      (
+        { config, ... }:
+        {
+          virtualisation.qemu.package = testModuleArgs.config.qemu.package;
+          virtualisation.host.pkgs = hostPkgs;
+        }
+      )
+      (
+        { options, ... }:
+        {
+          key = "nodes.nix-pkgs";
+          config = optionalAttrs (!config.node.pkgsReadOnly) (
+            mkIf (!options.nixpkgs.pkgs.isDefined) {
+              # TODO: switch to nixpkgs.hostPlatform and make sure containers-imperative test still evaluates.
+              nixpkgs.system = guestSystem;
+            }
+          );
+        }
+      )
+      testModuleArgs.config.extraBaseModules
+    ];
+  };
 in
 
 {
@@ -149,14 +159,15 @@ in
 
   config = {
     _module.args.nodes = config.nodesCompat;
-    nodesCompat =
-      mapAttrs
-        (name: config: config // {
-          config = lib.warnIf (lib.isInOldestRelease 2211)
-            "Module argument `nodes.${name}.config` is deprecated. Use `nodes.${name}` instead."
-            config;
-        })
-        config.nodes;
+    nodesCompat = mapAttrs (
+      name: config:
+      config
+      // {
+        config = lib.warnIf (lib.isInOldestRelease
+          2211
+        ) "Module argument `nodes.${name}.config` is deprecated. Use `nodes.${name}` instead." config;
+      }
+    ) config.nodes;
 
     passthru.nodes = config.nodesCompat;
 
@@ -164,6 +175,5 @@ in
       nixpkgs.pkgs = config.node.pkgs;
       imports = [ ../../modules/misc/nixpkgs/read-only.nix ];
     };
-
   };
 }

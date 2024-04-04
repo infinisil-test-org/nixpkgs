@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, commentjson
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  commentjson,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -38,9 +39,7 @@ buildPythonPackage rec {
     "same-package"
   ];
 
-  pythonImportsCheck = [
-    "resolvelib"
-  ];
+  pythonImportsCheck = [ "resolvelib" ];
 
   meta = with lib; {
     description = "Resolve abstract dependencies into concrete ones";

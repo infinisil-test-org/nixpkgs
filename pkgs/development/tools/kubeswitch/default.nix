@@ -1,4 +1,10 @@
-{ lib, buildGoModule, fetchFromGitHub, testers, kubeswitch }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  testers,
+  kubeswitch,
+}:
 
 buildGoModule rec {
   pname = "kubeswitch";
@@ -16,15 +22,13 @@ buildGoModule rec {
   subPackages = [ "cmd/main.go" ];
 
   ldflags = [
-    "-s" "-w"
+    "-s"
+    "-w"
     "-X github.com/danielfoehrkn/kubeswitch/cmd/switcher.version=${version}"
     "-X github.com/danielfoehrkn/kubeswitch/cmd/switcher.buildDate=1970-01-01"
-
   ];
 
-  passthru.tests.version = testers.testVersion {
-    package = kubeswitch;
-  };
+  passthru.tests.version = testers.testVersion { package = kubeswitch; };
 
   postInstall = ''
     mv $out/bin/main $out/bin/switch

@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, cryptography
-, fetchFromGitHub
-, pythonOlder
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  cryptography,
+  fetchFromGitHub,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -20,17 +21,11 @@ buildPythonPackage rec {
     hash = "sha256-MOZw+7oFHeH7Vaj6pylR7wqe3ZyHcsiG+n8jnRAQ8PA=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [
-    cryptography
-  ];
+  propagatedBuildInputs = [ cryptography ];
 
-  pythonImportsCheck = [
-    "linknlink"
-  ];
+  pythonImportsCheck = [ "linknlink" ];
 
   # Module has no test
   doCheck = false;

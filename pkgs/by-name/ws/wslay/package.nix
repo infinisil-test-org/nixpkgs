@@ -1,4 +1,10 @@
-{ stdenv, lib, fetchFromGitHub, cmake, cunit }:
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  cmake,
+  cunit,
+}:
 
 stdenv.mkDerivation rec {
   pname = "wslay";
@@ -15,9 +21,7 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ cmake ];
 
-  cmakeFlags = [
-    (lib.cmakeBool "WSLAY_TESTS" true)
-  ];
+  cmakeFlags = [ (lib.cmakeBool "WSLAY_TESTS" true) ];
 
   doCheck = true;
 

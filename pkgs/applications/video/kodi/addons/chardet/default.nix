@@ -1,4 +1,9 @@
-{ lib, buildKodiAddon, fetchzip, addonUpdateScript }:
+{
+  lib,
+  buildKodiAddon,
+  fetchzip,
+  addonUpdateScript,
+}:
 buildKodiAddon rec {
   pname = "chardet";
   namespace = "script.module.chardet";
@@ -11,9 +16,7 @@ buildKodiAddon rec {
 
   passthru = {
     pythonPath = "lib";
-    updateScript = addonUpdateScript {
-      attrPath = "kodi.packages.chardet";
-    };
+    updateScript = addonUpdateScript { attrPath = "kodi.packages.chardet"; };
   };
 
   meta = with lib; {

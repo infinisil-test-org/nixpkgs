@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchPypi
-, marshmallow
-, packaging
-, sqlalchemy
-, pytest-lazy-fixture
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchPypi,
+  marshmallow,
+  packaging,
+  sqlalchemy,
+  pytest-lazy-fixture,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -27,9 +28,7 @@ buildPythonPackage rec {
     sqlalchemy
   ];
 
-  pythonImportsCheck = [
-    "marshmallow_sqlalchemy"
-  ];
+  pythonImportsCheck = [ "marshmallow_sqlalchemy" ];
 
   nativeCheckInputs = [
     pytest-lazy-fixture

@@ -1,4 +1,8 @@
-{ lib, fetchurl, appimageTools }:
+{
+  lib,
+  fetchurl,
+  appimageTools,
+}:
 
 let
   pname = "buttercup-desktop";
@@ -8,8 +12,8 @@ let
     sha256 = "sha256-usyq9qf6bBJHKreGzKzMdZYNmpZGtkUQScHyk1nvFQI=";
   };
   appimageContents = appimageTools.extractType2 { inherit pname src version; };
-
-in appimageTools.wrapType2 {
+in
+appimageTools.wrapType2 {
   inherit pname src version;
 
   extraPkgs = pkgs: (appimageTools.defaultFhsEnvArgs.multiPkgs pkgs) ++ [ pkgs.libsecret ];

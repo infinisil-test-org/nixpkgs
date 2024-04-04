@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, fetchzip
-, jre
-, makeWrapper
+{
+  lib,
+  stdenv,
+  fetchzip,
+  jre,
+  makeWrapper,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -35,7 +36,11 @@ stdenv.mkDerivation (finalAttrs: {
     description = "Database schema discovery and comprehension tool";
     homepage = "https://www.schemacrawler.com/";
     sourceProvenance = with sourceTypes; [ binaryBytecode ];
-    license = with licenses; [ epl10 gpl3Only lgpl3Only ];
+    license = with licenses; [
+      epl10
+      gpl3Only
+      lgpl3Only
+    ];
     platforms = platforms.unix;
     maintainers = with maintainers; [ elohmeier ];
   };

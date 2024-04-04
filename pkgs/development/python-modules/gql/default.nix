@@ -1,23 +1,24 @@
-{ lib
-, aiofiles
-, aiohttp
-, backoff
-, botocore
-, buildPythonPackage
-, fetchFromGitHub
-, graphql-core
-, mock
-, parse
-, pytest-asyncio
-, pytest-console-scripts
-, pytestCheckHook
-, pythonOlder
-, requests
-, requests-toolbelt
-, urllib3
-, vcrpy
-, websockets
-, yarl
+{
+  lib,
+  aiofiles,
+  aiohttp,
+  backoff,
+  botocore,
+  buildPythonPackage,
+  fetchFromGitHub,
+  graphql-core,
+  mock,
+  parse,
+  pytest-asyncio,
+  pytest-console-scripts,
+  pytestCheckHook,
+  pythonOlder,
+  requests,
+  requests-toolbelt,
+  urllib3,
+  vcrpy,
+  websockets,
+  yarl,
 }:
 
 buildPythonPackage rec {
@@ -65,29 +66,21 @@ buildPythonPackage rec {
       urllib3
       websockets
     ];
-    aiohttp = [
-      aiohttp
-    ];
+    aiohttp = [ aiohttp ];
     requests = [
       requests
       requests-toolbelt
       urllib3
     ];
-    websockets = [
-      websockets
-    ];
-    botocore = [
-      botocore
-    ];
+    websockets = [ websockets ];
+    botocore = [ botocore ];
   };
 
   preCheck = ''
     export PATH=$out/bin:$PATH
   '';
 
-  pytestFlagsArray = [
-    "--asyncio-mode=auto"
-  ];
+  pytestFlagsArray = [ "--asyncio-mode=auto" ];
 
   disabledTests = [
     # Tests requires network access
@@ -117,9 +110,7 @@ buildPythonPackage rec {
     "tests/test_websocket_subscription.py"
   ];
 
-  pythonImportsCheck = [
-    "gql"
-  ];
+  pythonImportsCheck = [ "gql" ];
 
   meta = with lib; {
     description = "GraphQL client in Python";

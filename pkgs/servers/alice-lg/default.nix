@@ -1,12 +1,13 @@
-{ lib
-, fetchFromGitHub
-, buildGoModule
-, fetchYarnDeps
-, stdenv
-, yarn
-, nodejs
-, nixosTests
-, prefetch-yarn-deps
+{
+  lib,
+  fetchFromGitHub,
+  buildGoModule,
+  fetchYarnDeps,
+  stdenv,
+  yarn,
+  nodejs,
+  nixosTests,
+  prefetch-yarn-deps,
 }:
 
 buildGoModule rec {
@@ -32,7 +33,11 @@ buildGoModule rec {
       hash = "sha256-PwByNIegKYTOT8Yg3nDMDFZiLRVkbX07z99YaDiBsIY=";
     };
 
-    nativeBuildInputs = [ nodejs yarn prefetch-yarn-deps ];
+    nativeBuildInputs = [
+      nodejs
+      yarn
+      prefetch-yarn-deps
+    ];
     configurePhase = ''
       runHook preConfigure
 

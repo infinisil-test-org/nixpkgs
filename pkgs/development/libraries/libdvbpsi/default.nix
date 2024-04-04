@@ -1,4 +1,8 @@
-{lib, stdenv, fetchurl}:
+{
+  lib,
+  stdenv,
+  fetchurl,
+}:
 
 stdenv.mkDerivation rec {
   pname = "libdvbpsi";
@@ -15,5 +19,4 @@ stdenv.mkDerivation rec {
     platforms = lib.platforms.unix;
     license = lib.licenses.lgpl21;
   };
-
 }

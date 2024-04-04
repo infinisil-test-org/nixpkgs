@@ -1,10 +1,11 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, meson
-, ninja
-, libev
-, openssl
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  meson,
+  ninja,
+  libev,
+  openssl,
 }:
 stdenv.mkDerivation {
   pname = "mbidled";
@@ -22,11 +23,13 @@ stdenv.mkDerivation {
   '';
 
   nativeBuildInputs = [
-    meson ninja
+    meson
+    ninja
   ];
 
   buildInputs = [
-    libev openssl
+    libev
+    openssl
   ];
 
   meta = with lib; {

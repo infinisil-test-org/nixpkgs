@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, hatchling
-, platformdirs
-, traitlets
-, pip
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  hatchling,
+  platformdirs,
+  traitlets,
+  pip,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -23,13 +24,9 @@ buildPythonPackage rec {
     hash = "sha256-Uh7slD8mQg2R++wltXrYiPSJnmM5w9tej8GN/0GMBmA=";
   };
 
-  patches = [
-    ./tests_respect_pythonpath.patch
-  ];
+  patches = [ ./tests_respect_pythonpath.patch ];
 
-  nativeBuildInputs = [
-    hatchling
-  ];
+  nativeBuildInputs = [ hatchling ];
 
   propagatedBuildInputs = [
     platformdirs

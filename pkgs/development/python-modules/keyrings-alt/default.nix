@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, jaraco-classes
-, keyring
-, pytestCheckHook
-, pythonOlder
-, setuptools-scm
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  jaraco-classes,
+  keyring,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools-scm,
 }:
 
 buildPythonPackage rec {
@@ -21,22 +22,16 @@ buildPythonPackage rec {
     hash = "sha256-nURstHu86pD/ouzD6AA6z0FXP8IBv0S0vxO9DhFISCg=";
   };
 
-  nativeBuildInputs = [
-    setuptools-scm
-  ];
+  nativeBuildInputs = [ setuptools-scm ];
 
-  propagatedBuildInputs = [
-    jaraco-classes
-  ];
+  propagatedBuildInputs = [ jaraco-classes ];
 
   nativeCheckInputs = [
     pytestCheckHook
     keyring
   ];
 
-  pythonImportsCheck = [
-    "keyrings.alt"
-  ];
+  pythonImportsCheck = [ "keyrings.alt" ];
 
   meta = with lib; {
     description = "Alternate keyring implementations";

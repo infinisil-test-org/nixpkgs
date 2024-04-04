@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, flit-core
-, jinja2
-, sphinxcontrib-serializinghtml
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  flit-core,
+  jinja2,
+  sphinxcontrib-serializinghtml,
 }:
 
 buildPythonPackage rec {
@@ -17,9 +18,7 @@ buildPythonPackage rec {
     hash = "sha256-1ZK+jhEmG7vGRmjyWO/E/ULJOrYXQRFDtSRf4wxjPYw=";
   };
 
-  nativeBuildInputs = [
-    flit-core
-  ];
+  nativeBuildInputs = [ flit-core ];
 
   propagatedBuildInputs = [
     jinja2

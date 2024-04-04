@@ -1,19 +1,20 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, setuptools-scm
-, pytestCheckHook
-, xorgserver
-, imagemagick
-, gobject-introspection
-, pulseaudio
-, pytest-asyncio
-, pytest-lazy-fixture
-, qtile
-, keyring
-, requests
-, librsvg
-, gtk3
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  setuptools-scm,
+  pytestCheckHook,
+  xorgserver,
+  imagemagick,
+  gobject-introspection,
+  pulseaudio,
+  pytest-asyncio,
+  pytest-lazy-fixture,
+  qtile,
+  keyring,
+  requests,
+  librsvg,
+  gtk3,
 }:
 
 buildPythonPackage rec {
@@ -74,9 +75,7 @@ buildPythonPackage rec {
     sed -i 's#/usr/bin/sleep#sleep#' test/widget/test_snapcast.py
   '';
 
-  propagatedBuildInputs = [
-    gtk3
-  ];
+  propagatedBuildInputs = [ gtk3 ];
 
   pythonImportsCheck = [ "qtile_extras" ];
 

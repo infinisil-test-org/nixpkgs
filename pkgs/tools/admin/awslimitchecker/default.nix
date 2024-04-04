@@ -1,4 +1,8 @@
-{ lib, python3Packages, fetchFromGitHub }:
+{
+  lib,
+  python3Packages,
+  fetchFromGitHub,
+}:
 
 python3Packages.buildPythonApplication rec {
   pname = "awslimitchecker";
@@ -32,9 +36,7 @@ python3Packages.buildPythonApplication rec {
     ./version.patch
   ];
 
-  pytestFlagsArray = [
-    "awslimitchecker/tests"
-  ];
+  pytestFlagsArray = [ "awslimitchecker/tests" ];
 
   disabledTestPaths = [
     # AWS tests that use the network

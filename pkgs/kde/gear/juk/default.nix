@@ -6,5 +6,8 @@
 mkKdeDerivation {
   pname = "juk";
 
-  extraBuildInputs = [qtsvg taglib];
+  extraBuildInputs = [
+    qtsvg
+    taglib
+  ];
 }

@@ -1,18 +1,19 @@
-{ lib
-, stdenv
-, rustPlatform
-, fetchFromGitHub
-, pkg-config
-, openssl
+{
+  lib,
+  stdenv,
+  rustPlatform,
+  fetchFromGitHub,
+  pkg-config,
+  openssl,
 
-# darwin
-, Security
-, SystemConfiguration
+  # darwin
+  Security,
+  SystemConfiguration,
 
-# tests
-, firefox-esr-unwrapped
-, firefox-unwrapped
-, thunderbird-unwrapped
+  # tests
+  firefox-esr-unwrapped,
+  firefox-unwrapped,
+  thunderbird-unwrapped,
 }:
 
 let
@@ -32,20 +33,16 @@ rustPlatform.buildRustPackage {
   cargoSha256 = "sha256-I5CfrLWVTUwOtZrje3eATFen5u9MEH79Rk30ZNhaG98=";
 
   # Workaround for https://github.com/nixos/nixpkgs/issues/166205
-  env = lib.optionalAttrs stdenv.cc.isClang {
-    NIX_LDFLAGS = "-l${stdenv.cc.libcxx.cxxabi.libName}";
-  };
+  env = lib.optionalAttrs stdenv.cc.isClang { NIX_LDFLAGS = "-l${stdenv.cc.libcxx.cxxabi.libName}"; };
 
-  nativeBuildInputs = [
-    pkg-config
-  ];
+  nativeBuildInputs = [ pkg-config ];
 
-  buildInputs = [
-    openssl
-  ] ++ lib.optionals (stdenv.isDarwin) [
-    Security
-    SystemConfiguration
-  ];
+  buildInputs =
+    [ openssl ]
+    ++ lib.optionals (stdenv.isDarwin) [
+      Security
+      SystemConfiguration
+    ];
 
   checkFlags = [
     # Disable tests that require network access

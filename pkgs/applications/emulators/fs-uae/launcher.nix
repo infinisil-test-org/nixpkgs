@@ -1,10 +1,11 @@
-{ lib
-, stdenv
-, fetchurl
-, gettext
-, python3
-, wrapQtAppsHook
-, fsuae
+{
+  lib,
+  stdenv,
+  fetchurl,
+  gettext,
+  python3,
+  wrapQtAppsHook,
+  fsuae,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -47,8 +48,13 @@ stdenv.mkDerivation (finalAttrs: {
     homepage = "https://fs-uae.net";
     description = "Graphical front-end for the FS-UAE emulator";
     license = lib.licenses.gpl2Plus;
-    maintainers = with lib.maintainers; [ sander AndersonTorres ];
-    platforms = [ "i686-linux" "x86_64-linux" ];
+    maintainers = with lib.maintainers; [
+      sander
+      AndersonTorres
+    ];
+    platforms = [
+      "i686-linux"
+      "x86_64-linux"
+    ];
   };
 })
-

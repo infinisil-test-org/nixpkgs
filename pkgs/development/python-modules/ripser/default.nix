@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, cython
-, fetchPypi
-, numpy
-, persim
-, pytestCheckHook
-, pythonOlder
-, scikit-learn
-, scipy
+{
+  lib,
+  buildPythonPackage,
+  cython,
+  fetchPypi,
+  numpy,
+  persim,
+  pytestCheckHook,
+  pythonOlder,
+  scikit-learn,
+  scipy,
 }:
 
 buildPythonPackage rec {
@@ -22,9 +23,7 @@ buildPythonPackage rec {
     hash = "sha256-UuxI1bA6H8s2D9xWVwCecXEHkCV0rhkxuoooaer/a8A=";
   };
 
-  nativeBuildInputs = [
-    cython
-  ];
+  nativeBuildInputs = [ cython ];
 
   propagatedBuildInputs = [
     numpy
@@ -33,9 +32,7 @@ buildPythonPackage rec {
     persim
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   preCheck = ''
     # specifically needed for darwin
@@ -44,9 +41,7 @@ buildPythonPackage rec {
     echo "backend: ps" > $HOME/.matplotlib/matplotlibrc
   '';
 
-  pythonImportsCheck = [
-    "ripser"
-  ];
+  pythonImportsCheck = [ "ripser" ];
 
   meta = with lib; {
     description = "A Lean Persistent Homology Library for Python";

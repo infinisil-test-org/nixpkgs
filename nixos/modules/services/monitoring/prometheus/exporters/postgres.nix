@@ -1,4 +1,9 @@
-{ config, lib, pkgs, options }:
+{
+  config,
+  lib,
+  pkgs,
+  options,
+}:
 
 with lib;
 
@@ -63,7 +68,6 @@ in
         this exporter is running.
       '';
     };
-
   };
   serviceOpts = {
     environment.DATA_SOURCE_NAME = cfg.dataSourceName;

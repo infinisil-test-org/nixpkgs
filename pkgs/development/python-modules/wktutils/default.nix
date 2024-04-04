@@ -1,19 +1,20 @@
-{ lib
-, buildPythonPackage
-, dateparser
-, defusedxml
-, fetchFromGitHub
-, fiona
-, geomet
-, geopandas
-, kml2geojson
-, pyshp
-, pythonOlder
-, pyyaml
-, regex
-, requests
-, shapely
-, scikit-learn
+{
+  lib,
+  buildPythonPackage,
+  dateparser,
+  defusedxml,
+  fetchFromGitHub,
+  fiona,
+  geomet,
+  geopandas,
+  kml2geojson,
+  pyshp,
+  pythonOlder,
+  pyyaml,
+  regex,
+  requests,
+  shapely,
+  scikit-learn,
 }:
 
 buildPythonPackage rec {
@@ -53,9 +54,7 @@ buildPythonPackage rec {
   # Module doesn't have tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "WKTUtils"
-  ];
+  pythonImportsCheck = [ "WKTUtils" ];
 
   meta = with lib; {
     description = "Collection of tools for handling WKTs";

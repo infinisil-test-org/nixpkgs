@@ -1,9 +1,6 @@
-{
-  mkKdeDerivation,
-  qtspeech,
-}:
+{ mkKdeDerivation, qtspeech }:
 mkKdeDerivation {
   pname = "kanagram";
 
-  extraBuildInputs = [qtspeech];
+  extraBuildInputs = [ qtspeech ];
 }

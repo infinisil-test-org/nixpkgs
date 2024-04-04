@@ -1,34 +1,35 @@
-{ buildPythonPackage
-, fetchFromGitHub
-, lib
-, writeShellScriptBin
-, cmake
-, doxygen
-, draco
-, graphviz-nox
-, ninja
-, setuptools
-, pyqt6
-, pyopengl
-, jinja2
-, pyside6
-, boost
-, numpy
-, git
-, tbb
-, opensubdiv
-, openimageio
-, opencolorio
-, osl
-, ptex
-, embree
-, alembic
-, imath
-, flex
-, bison
-, qt6
-, python
-, darwin
+{
+  buildPythonPackage,
+  fetchFromGitHub,
+  lib,
+  writeShellScriptBin,
+  cmake,
+  doxygen,
+  draco,
+  graphviz-nox,
+  ninja,
+  setuptools,
+  pyqt6,
+  pyopengl,
+  jinja2,
+  pyside6,
+  boost,
+  numpy,
+  git,
+  tbb,
+  opensubdiv,
+  openimageio,
+  opencolorio,
+  osl,
+  ptex,
+  embree,
+  alembic,
+  imath,
+  flex,
+  bison,
+  qt6,
+  python,
+  darwin,
 }:
 let
   # Matches the pyside6-uic implementation
@@ -47,12 +48,12 @@ buildPythonPackage rec {
     hash = "sha256-5zQrfB14kXs75WbL3s4eyhxELglhLNxU2L2aVXiyVjg=";
   };
 
-  stdenv = if python.stdenv.isDarwin then
-    darwin.apple_sdk_11_0.stdenv
-  else
-    python.stdenv;
+  stdenv = if python.stdenv.isDarwin then darwin.apple_sdk_11_0.stdenv else python.stdenv;
 
-  outputs = ["out" "doc"];
+  outputs = [
+    "out"
+    "doc"
+  ];
 
   format = "other";
 
@@ -91,29 +92,30 @@ buildPythonPackage rec {
     doxygen
     graphviz-nox
   ];
-  buildInputs = [
-    tbb
-    opensubdiv
-    openimageio
-    opencolorio
-    osl
-    ptex
-    embree
-    alembic.dev
-    imath
-    flex
-    bison
-    boost
-    draco
-    qt6.qtbase
-  ]
+  buildInputs =
+    [
+      tbb
+      opensubdiv
+      openimageio
+      opencolorio
+      osl
+      ptex
+      embree
+      alembic.dev
+      imath
+      flex
+      bison
+      boost
+      draco
+      qt6.qtbase
+    ]
     ++ lib.optionals stdenv.isLinux [ qt6.qtwayland ]
-    ++ lib.optionals stdenv.isDarwin (with darwin.apple_sdk_11_0.frameworks; [
-      Cocoa
-    ])
-  ;
+    ++ lib.optionals stdenv.isDarwin (with darwin.apple_sdk_11_0.frameworks; [ Cocoa ]);
 
-  pythonImportsCheck = [ "pxr" "pxr.Usd" ];
+  pythonImportsCheck = [
+    "pxr"
+    "pxr.Usd"
+  ];
 
   postInstall = ''
     # Make python lib properly accessible

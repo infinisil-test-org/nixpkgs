@@ -1,6 +1,7 @@
-{ lib
-, python3
-, fetchFromGitHub
+{
+  lib,
+  python3,
+  fetchFromGitHub,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -17,9 +18,7 @@ python3.pkgs.buildPythonApplication rec {
     fetchLFS = true;
   };
 
-  nativeBuildInputs = [
-    python3.pkgs.poetry-core
-  ];
+  nativeBuildInputs = [ python3.pkgs.poetry-core ];
 
   propagatedBuildInputs = with python3.pkgs; [
     pyfluidsynth

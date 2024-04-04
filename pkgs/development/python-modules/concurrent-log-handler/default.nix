@@ -1,7 +1,8 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, portalocker
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  portalocker,
 }:
 
 buildPythonPackage rec {
@@ -14,13 +15,9 @@ buildPythonPackage rec {
     hash = "sha256-APVkbG5fb8Y2VFNvO0Sqorm3SyMkXhT1JY7ZHOOdEuI=";
   };
 
-  propagatedBuildInputs = [
-    portalocker
-  ];
+  propagatedBuildInputs = [ portalocker ];
 
-  pythonImportsCheck = [
-    "concurrent_log_handler"
-  ];
+  pythonImportsCheck = [ "concurrent_log_handler" ];
 
   doCheck = false; # upstream has no tests
 

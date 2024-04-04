@@ -1,9 +1,10 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
-, installShellFiles
-, kubescape
-, testers
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  installShellFiles,
+  kubescape,
+  testers,
 }:
 
 buildGoModule rec {
@@ -20,9 +21,7 @@ buildGoModule rec {
 
   vendorHash = "sha256-zcv8oYm6srwkwT3pUECtTewyqVVpCIcs3i0VRTRft68=";
 
-  nativeBuildInputs = [
-    installShellFiles
-  ];
+  nativeBuildInputs = [ installShellFiles ];
 
   ldflags = [
     "-s"
@@ -85,6 +84,9 @@ buildGoModule rec {
       Jenkins, CircleCI and Github workflows.
     '';
     license = licenses.asl20;
-    maintainers = with maintainers; [ fab jk ];
+    maintainers = with maintainers; [
+      fab
+      jk
+    ];
   };
 }

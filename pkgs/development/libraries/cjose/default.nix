@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, autoreconfHook
-, pkg-config
-, doxygen
-, check
-, jansson
-, openssl
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  autoreconfHook,
+  pkg-config,
+  doxygen,
+  check,
+  jansson,
+  openssl,
 }:
 
 stdenv.mkDerivation rec {
@@ -20,8 +21,15 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-vDvCxMpgCdteGvNxy2HCNRaxbhxOuTadL0nM2wkFHtk=";
   };
 
-  nativeBuildInputs = [ autoreconfHook pkg-config doxygen ];
-  buildInputs = [ jansson openssl ];
+  nativeBuildInputs = [
+    autoreconfHook
+    pkg-config
+    doxygen
+  ];
+  buildInputs = [
+    jansson
+    openssl
+  ];
   nativeCheckInputs = [ check ];
 
   configureFlags = [

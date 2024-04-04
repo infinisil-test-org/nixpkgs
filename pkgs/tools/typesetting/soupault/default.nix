@@ -1,8 +1,9 @@
-{ lib
-, fetchFromGitea
-, ocamlPackages
-, soupault
-, testers
+{
+  lib,
+  fetchFromGitea,
+  ocamlPackages,
+  soupault,
+  testers,
 }:
 
 let

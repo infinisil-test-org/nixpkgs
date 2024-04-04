@@ -1,13 +1,14 @@
-{ lib
-, async-timeout
-, click
-, fetchPypi
-, buildPythonPackage
-, pythonOlder
-, ifaddr
-, inquirerpy
-, bitstring
-, setuptools
+{
+  lib,
+  async-timeout,
+  click,
+  fetchPypi,
+  buildPythonPackage,
+  pythonOlder,
+  ifaddr,
+  inquirerpy,
+  bitstring,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -22,9 +23,7 @@ buildPythonPackage rec {
     hash = "sha256-r42M7aqKKLdGgRaCym44M1nvu0vTGK7ricBp/AsbFRk=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     async-timeout
@@ -37,9 +36,7 @@ buildPythonPackage rec {
   # Module has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "aiolifx"
-  ];
+  pythonImportsCheck = [ "aiolifx" ];
 
   meta = with lib; {
     description = "Module for local communication with LIFX devices over a LAN";

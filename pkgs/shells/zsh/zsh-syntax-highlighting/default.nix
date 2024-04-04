@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchFromGitHub, zsh }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  zsh,
+}:
 
 # To make use of this derivation, use the `programs.zsh.enableSyntaxHighlighting` option
 

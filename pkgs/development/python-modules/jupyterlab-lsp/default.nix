@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, setuptools
-, jupyterlab
-, jupyter-lsp
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  setuptools,
+  jupyterlab,
+  jupyter-lsp,
 }:
 
 buildPythonPackage rec {
@@ -16,9 +17,7 @@ buildPythonPackage rec {
     hash = "sha256-qcijpkZJS+SE1+MXSrHSQV7WD0dzzshHmqW6N+XwS8k=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     jupyterlab

@@ -1,9 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
-  cfg  = config.programs.ausweisapp;
+  cfg = config.programs.ausweisapp;
 in
 {
   options.programs.ausweisapp = {

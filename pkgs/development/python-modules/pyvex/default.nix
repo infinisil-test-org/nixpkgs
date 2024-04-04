@@ -1,14 +1,15 @@
-{ lib
-, stdenv
-, archinfo
-, bitstring
-, buildPythonPackage
-, cffi
-, fetchPypi
-, future
-, pycparser
-, pythonOlder
-, setuptools
+{
+  lib,
+  stdenv,
+  archinfo,
+  bitstring,
+  buildPythonPackage,
+  cffi,
+  fetchPypi,
+  future,
+  pycparser,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -23,9 +24,7 @@ buildPythonPackage rec {
     hash = "sha256-asTvaSwoT1yD6nqHTr6vICeukynMq1WRRn3gEvvnoVA=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     archinfo
@@ -55,14 +54,16 @@ buildPythonPackage rec {
   # Switch to GitHub release after all angr parts are present
   doCheck = false;
 
-  pythonImportsCheck = [
-    "pyvex"
-  ];
+  pythonImportsCheck = [ "pyvex" ];
 
   meta = with lib; {
     description = "Python interface to libVEX and VEX IR";
     homepage = "https://github.com/angr/pyvex";
-    license = with licenses; [ bsd2 gpl3Plus lgpl3Plus ];
+    license = with licenses; [
+      bsd2
+      gpl3Plus
+      lgpl3Plus
+    ];
     maintainers = with maintainers; [ fab ];
   };
 }

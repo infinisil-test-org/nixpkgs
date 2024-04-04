@@ -1,34 +1,37 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, fetchpatch
-, cmake
-, pkg-config
-, check
-, libxcrypt
-, subunit
-, python3Packages
-, nix-update-script
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  fetchpatch,
+  cmake,
+  pkg-config,
+  check,
+  libxcrypt,
+  subunit,
+  python3Packages,
+  nix-update-script,
 
-, withDoc ? false
-, graphviz-nox
+  withDoc ? false,
+  graphviz-nox,
 
-, withExamples ? false
+  withExamples ? false,
 
-, withEncryption ? false # or "openssl" or "mbedtls"
-, openssl
-, mbedtls
+  withEncryption ? false, # or "openssl" or "mbedtls"
+  openssl,
+  mbedtls,
 
-, withPubSub ? false
+  withPubSub ? false,
 
-# for passthru.tests only
-, open62541
+  # for passthru.tests only
+  open62541,
 }:
 
 let
-  encryptionBackend = {
-    inherit openssl mbedtls;
-  }."${withEncryption}" or (throw "Unsupported encryption backend: ${withEncryption}");
+  encryptionBackend =
+    {
+      inherit openssl mbedtls;
+    }
+    ."${withEncryption}" or (throw "Unsupported encryption backend: ${withEncryption}");
 in
 
 stdenv.mkDerivation (finalAttrs: {
@@ -51,30 +54,33 @@ stdenv.mkDerivation (finalAttrs: {
     })
   ];
 
-  cmakeFlags = [
-    "-DOPEN62541_VERSION=v${finalAttrs.version}"
+  cmakeFlags =
+    [
+      "-DOPEN62541_VERSION=v${finalAttrs.version}"
 
-    "-DBUILD_SHARED_LIBS=${if stdenv.hostPlatform.isStatic then "OFF" else "ON"}"
-    "-DUA_NAMESPACE_ZERO=FULL"
+      "-DBUILD_SHARED_LIBS=${if stdenv.hostPlatform.isStatic then "OFF" else "ON"}"
+      "-DUA_NAMESPACE_ZERO=FULL"
 
-    "-DUA_BUILD_UNIT_TESTS=${if finalAttrs.finalPackage.doCheck then "ON" else "OFF"}"
-  ]
-  ++ lib.optional withExamples "-DUA_BUILD_EXAMPLES=ON"
-  ++ lib.optional (withEncryption != false)
-    "-DUA_ENABLE_ENCRYPTION=${lib.toUpper withEncryption}"
-  ++ lib.optional withPubSub "-DUA_ENABLE_PUBSUB=ON"
-  ;
+      "-DUA_BUILD_UNIT_TESTS=${if finalAttrs.finalPackage.doCheck then "ON" else "OFF"}"
+    ]
+    ++ lib.optional withExamples "-DUA_BUILD_EXAMPLES=ON"
+    ++ lib.optional (withEncryption != false) "-DUA_ENABLE_ENCRYPTION=${lib.toUpper withEncryption}"
+    ++ lib.optional withPubSub "-DUA_ENABLE_PUBSUB=ON";
 
-  nativeBuildInputs = [
-    cmake
-    pkg-config
-    python3Packages.python
-  ]
-  ++ lib.optionals withDoc (with python3Packages; [
-    sphinx
-    sphinx_rtd_theme
-    graphviz-nox
-  ]);
+  nativeBuildInputs =
+    [
+      cmake
+      pkg-config
+      python3Packages.python
+    ]
+    ++ lib.optionals withDoc (
+      with python3Packages;
+      [
+        sphinx
+        sphinx_rtd_theme
+        graphviz-nox
+      ]
+    );
 
   buildInputs = lib.optional (withEncryption != false) encryptionBackend;
 
@@ -91,58 +97,66 @@ stdenv.mkDerivation (finalAttrs: {
   # Tests must run sequentially to avoid port collisions on localhost
   enableParallelChecking = false;
 
-  preCheck = let
-    disabledTests = lib.optionals withPubSub [
-      # "Cannot set socket option IP_ADD_MEMBERSHIP"
-      "pubsub_publish"
-      "check_pubsub_get_state"
-      "check_pubsub_publish_rt_levels"
-      "check_pubsub_subscribe_config_freeze"
-      "check_pubsub_subscribe_rt_levels"
-      "check_pubsub_multiple_subscribe_rt_levels"
-    ];
-    regex = "^(${builtins.concatStringsSep "|" disabledTests})\$";
-  in lib.optionalString (disabledTests != []) ''
-    checkFlagsArray+=(ARGS="-E ${lib.escapeRegex regex}")
-  '';
+  preCheck =
+    let
+      disabledTests = lib.optionals withPubSub [
+        # "Cannot set socket option IP_ADD_MEMBERSHIP"
+        "pubsub_publish"
+        "check_pubsub_get_state"
+        "check_pubsub_publish_rt_levels"
+        "check_pubsub_subscribe_config_freeze"
+        "check_pubsub_subscribe_rt_levels"
+        "check_pubsub_multiple_subscribe_rt_levels"
+      ];
+      regex = "^(${builtins.concatStringsSep "|" disabledTests})\$";
+    in
+    lib.optionalString (disabledTests != [ ]) ''
+      checkFlagsArray+=(ARGS="-E ${lib.escapeRegex regex}")
+    '';
 
-  postInstall = lib.optionalString withDoc ''
-    # excluded files, see doc/CMakeLists.txt
-    rm -r doc/{_sources/,CMakeFiles/,cmake_install.cmake}
+  postInstall =
+    lib.optionalString withDoc ''
+      # excluded files, see doc/CMakeLists.txt
+      rm -r doc/{_sources/,CMakeFiles/,cmake_install.cmake}
 
-    # doc is not installed automatically
-    mkdir -p $out/share/doc/open62541
-    cp -r doc/ $out/share/doc/open62541/html
-  '' + lib.optionalString withExamples ''
-    # install sources of examples
-    mkdir -p $out/share/open62541
-    cp -r ../examples $out/share/open62541
+      # doc is not installed automatically
+      mkdir -p $out/share/doc/open62541
+      cp -r doc/ $out/share/doc/open62541/html
+    ''
+    + lib.optionalString withExamples ''
+      # install sources of examples
+      mkdir -p $out/share/open62541
+      cp -r ../examples $out/share/open62541
 
-    ${lib.optionalString (!stdenv.hostPlatform.isWindows) ''
-    # remove .exe suffix
-    mv -v $out/bin/ua_server_ctt.exe $out/bin/ua_server_ctt
-    ''}
+      ${lib.optionalString (!stdenv.hostPlatform.isWindows) ''
+        # remove .exe suffix
+        mv -v $out/bin/ua_server_ctt.exe $out/bin/ua_server_ctt
+      ''}
 
-    # remove duplicate libraries in build/bin/, which cause forbidden
-    # references to /build/ in ua_server_ctt
-    rm -r bin/libopen62541*
-  '';
+      # remove duplicate libraries in build/bin/, which cause forbidden
+      # references to /build/ in ua_server_ctt
+      rm -r bin/libopen62541*
+    '';
 
   passthru.updateScript = nix-update-script { };
 
-  passthru.tests = let
-    open62541Full = encBackend: open62541.override {
-      withDoc = true;
-      # if (withExamples && withPubSub), one of the example currently fails to build
-      #withExamples = true;
-      withEncryption = encBackend;
-      withPubSub = true;
+  passthru.tests =
+    let
+      open62541Full =
+        encBackend:
+        open62541.override {
+          withDoc = true;
+          # if (withExamples && withPubSub), one of the example currently fails to build
+          #withExamples = true;
+          withEncryption = encBackend;
+          withPubSub = true;
+        };
+    in
+    {
+      open62541Full = open62541Full false;
+      open62541Full-openssl = open62541Full "openssl";
+      open62541Full-mbedtls = open62541Full "mbedtls";
     };
-  in {
-    open62541Full = open62541Full false;
-    open62541Full-openssl = open62541Full "openssl";
-    open62541Full-mbedtls = open62541Full "mbedtls";
-  };
 
   meta = with lib; {
     description = "Open source implementation of OPC UA";

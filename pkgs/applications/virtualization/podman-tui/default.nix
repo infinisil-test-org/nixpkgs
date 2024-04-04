@@ -1,4 +1,11 @@
-{ lib, stdenv, fetchFromGitHub, buildGoModule, testers, podman-tui }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  buildGoModule,
+  testers,
+  podman-tui,
+}:
 
 buildGoModule rec {
   pname = "podman-tui";
@@ -15,16 +22,19 @@ buildGoModule rec {
 
   CGO_ENABLED = 0;
 
-  tags = [ "containers_image_openpgp" "remote" ]
-    ++ lib.optional stdenv.isDarwin "darwin";
+  tags = [
+    "containers_image_openpgp"
+    "remote"
+  ] ++ lib.optional stdenv.isDarwin "darwin";
 
-  ldflags = [ "-s" "-w" ];
+  ldflags = [
+    "-s"
+    "-w"
+  ];
 
   preCheck =
     let
-      skippedTests = [
-        "TestDialogs"
-      ];
+      skippedTests = [ "TestDialogs" ];
     in
     ''
       export USER=$(whoami)

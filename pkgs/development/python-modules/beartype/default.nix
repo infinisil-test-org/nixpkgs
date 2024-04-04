@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, setuptools
-, pytestCheckHook
-, pythonOlder
-, typing-extensions
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  setuptools,
+  pytestCheckHook,
+  pythonOlder,
+  typing-extensions,
 }:
 
 buildPythonPackage rec {
@@ -19,18 +20,14 @@ buildPythonPackage rec {
     hash = "sha256-6RHhrn3kvM0VdF92Q2CdhzL2TeXC+4ROicu+0cWo1JU=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   nativeCheckInputs = [
     pytestCheckHook
     typing-extensions
   ];
 
-  pythonImportsCheck = [
-    "beartype"
-  ];
+  pythonImportsCheck = [ "beartype" ];
 
   meta = with lib; {
     description = "Fast runtime type checking for Python";

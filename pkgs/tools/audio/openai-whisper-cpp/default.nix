@@ -1,19 +1,20 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, SDL2
-, makeWrapper
-, wget
-, which
-, Accelerate
-, CoreGraphics
-, CoreML
-, CoreVideo
-, MetalKit
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  SDL2,
+  makeWrapper,
+  wget,
+  which,
+  Accelerate,
+  CoreGraphics,
+  CoreML,
+  CoreVideo,
+  MetalKit,
 
-, config
-, cudaSupport ? config.cudaSupport
-, cudaPackages ? {}
+  config,
+  cudaSupport ? config.cudaSupport,
+  cudaPackages ? { },
 }:
 
 let
@@ -29,7 +30,7 @@ effectiveStdenv.mkDerivation (finalAttrs: {
   src = fetchFromGitHub {
     owner = "ggerganov";
     repo = "whisper.cpp";
-    rev = "refs/tags/v${finalAttrs.version}" ;
+    rev = "refs/tags/v${finalAttrs.version}";
     hash = "sha256-9H2Mlua5zx2WNXbz2C5foxIteuBgeCNALdq5bWyhQCk=";
   };
 
@@ -39,54 +40,69 @@ effectiveStdenv.mkDerivation (finalAttrs: {
   # the models to the current directory of where it is being run from.
   patches = [ ./download-models.patch ];
 
-  nativeBuildInputs = [
+  nativeBuildInputs =
+    [
       which
       makeWrapper
-    ] ++ lib.optionals cudaSupport ( with cudaPackages ;[
-      cuda_nvcc
+    ]
+    ++ lib.optionals cudaSupport (
+      with cudaPackages;
+      [
+        cuda_nvcc
 
-      # TODO: Replace with autoAddDriverRunpath
-      # once https://github.com/NixOS/nixpkgs/pull/275241 has been merged
-      autoAddOpenGLRunpathHook
-    ]);
+        # TODO: Replace with autoAddDriverRunpath
+        # once https://github.com/NixOS/nixpkgs/pull/275241 has been merged
+        autoAddOpenGLRunpathHook
+      ]
+    );
 
-  buildInputs = [
-      SDL2
-    ] ++ lib.optionals stdenv.isDarwin [
+  buildInputs =
+    [ SDL2 ]
+    ++ lib.optionals stdenv.isDarwin [
       Accelerate
       CoreGraphics
       CoreML
       CoreVideo
       MetalKit
-    ] ++ lib.optionals cudaSupport ( with cudaPackages; [
+    ]
+    ++ lib.optionals cudaSupport (
+      with cudaPackages;
+      [
 
-      # A temporary hack for reducing the closure size, remove once cudaPackages
-      # have stopped using lndir: https://github.com/NixOS/nixpkgs/issues/271792
-      cuda_cccl.dev # provides nv/target
-      cuda_cudart.dev
-      cuda_cudart.lib
-      cuda_cudart.static
-      libcublas.dev
-      libcublas.lib
-      libcublas.static
-    ]);
+        # A temporary hack for reducing the closure size, remove once cudaPackages
+        # have stopped using lndir: https://github.com/NixOS/nixpkgs/issues/271792
+        cuda_cccl.dev # provides nv/target
+        cuda_cudart.dev
+        cuda_cudart.lib
+        cuda_cudart.static
+        libcublas.dev
+        libcublas.lib
+        libcublas.static
+      ]
+    );
 
-  postPatch = let
-    cudaOldStr = "-lcuda ";
-    cudaNewStr = "-lcuda -L${cudaPackages.cuda_cudart.lib}/lib/stubs ";
-  in lib.optionalString cudaSupport ''
-    substituteInPlace Makefile \
-      --replace '${cudaOldStr}' '${cudaNewStr}'
-  '';
+  postPatch =
+    let
+      cudaOldStr = "-lcuda ";
+      cudaNewStr = "-lcuda -L${cudaPackages.cuda_cudart.lib}/lib/stubs ";
+    in
+    lib.optionalString cudaSupport ''
+      substituteInPlace Makefile \
+        --replace '${cudaOldStr}' '${cudaNewStr}'
+    '';
 
-  env = lib.optionalAttrs stdenv.isDarwin {
-    WHISPER_COREML = "1";
-    WHISPER_COREML_ALLOW_FALLBACK = "1";
-  } // lib.optionalAttrs cudaSupport {
-    WHISPER_CUBLAS = "1";
-  };
+  env =
+    lib.optionalAttrs stdenv.isDarwin {
+      WHISPER_COREML = "1";
+      WHISPER_COREML_ALLOW_FALLBACK = "1";
+    }
+    // lib.optionalAttrs cudaSupport { WHISPER_CUBLAS = "1"; };
 
-  makeFlags = [ "main" "stream" "command" ];
+  makeFlags = [
+    "main"
+    "stream"
+    "command"
+  ];
 
   installPhase = ''
     runHook preInstall
@@ -99,7 +115,7 @@ effectiveStdenv.mkDerivation (finalAttrs: {
     cp models/download-ggml-model.sh $out/bin/whisper-cpp-download-ggml-model
 
     wrapProgram $out/bin/whisper-cpp-download-ggml-model \
-      --prefix PATH : ${lib.makeBinPath [wget]}
+      --prefix PATH : ${lib.makeBinPath [ wget ]}
 
     ${lib.optionalString stdenv.isDarwin ''
       install -Dt $out/share/whisper-cpp ggml-metal.metal
@@ -122,6 +138,9 @@ effectiveStdenv.mkDerivation (finalAttrs: {
     homepage = "https://github.com/ggerganov/whisper.cpp";
     license = licenses.mit;
     platforms = platforms.all;
-    maintainers = with maintainers; [ dit7ya hughobrien ];
+    maintainers = with maintainers; [
+      dit7ya
+      hughobrien
+    ];
   };
 })

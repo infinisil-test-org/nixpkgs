@@ -6,5 +6,8 @@
 mkKdeDerivation {
   pname = "elisa";
 
-  extraBuildInputs = [qtmultimedia vlc];
+  extraBuildInputs = [
+    qtmultimedia
+    vlc
+  ];
 }

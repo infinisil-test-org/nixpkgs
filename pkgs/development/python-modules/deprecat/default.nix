@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pytestCheckHook
-, pythonOlder
-, setuptools-scm
-, wrapt
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools-scm,
+  wrapt,
 }:
 
 buildPythonPackage rec {
@@ -21,21 +22,13 @@ buildPythonPackage rec {
     hash = "sha256-3Xl/IC+ImFUxxLry15MIIVRf6aR+gA9K5S2IQomkv+o=";
   };
 
-  nativeBuildInputs = [
-    setuptools-scm
-  ];
+  nativeBuildInputs = [ setuptools-scm ];
 
-  propagatedBuildInputs = [
-    wrapt
-  ];
+  propagatedBuildInputs = [ wrapt ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "deprecat"
-  ];
+  pythonImportsCheck = [ "deprecat" ];
 
   meta = with lib; {
     description = "Decorator to deprecate old python classes, functions or methods";

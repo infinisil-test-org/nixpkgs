@@ -1,4 +1,9 @@
-{ lib, python3, fetchFromGitHub, plugins ? [ ] }:
+{
+  lib,
+  python3,
+  fetchFromGitHub,
+  plugins ? [ ],
+}:
 
 python3.pkgs.buildPythonApplication rec {
   pname = "instawow";
@@ -12,32 +17,35 @@ python3.pkgs.buildPythonApplication rec {
     sha256 = "sha256-eBpX+ojlrWwRXuMijnmb4lNlxIJ40Q9RUqS6txPBDiM=";
   };
 
-  extras = [ ];  # Disable GUI, most dependencies are not packaged.
+  extras = [ ]; # Disable GUI, most dependencies are not packaged.
 
   nativeBuildInputs = with python3.pkgs; [
     poetry-core
     poetry-dynamic-versioning
   ];
-  propagatedBuildInputs = with python3.pkgs; [
-    aiohttp
-    aiohttp-client-cache
-    alembic
-    attrs
-    cattrs
-    click
-    iso8601
-    loguru
-    mako
-    packaging
-    pluggy
-    prompt-toolkit
-    questionary
-    rapidfuzz
-    sqlalchemy
-    truststore
-    typing-extensions
-    yarl
-  ] ++ plugins;
+  propagatedBuildInputs =
+    with python3.pkgs;
+    [
+      aiohttp
+      aiohttp-client-cache
+      alembic
+      attrs
+      cattrs
+      click
+      iso8601
+      loguru
+      mako
+      packaging
+      pluggy
+      prompt-toolkit
+      questionary
+      rapidfuzz
+      sqlalchemy
+      truststore
+      typing-extensions
+      yarl
+    ]
+    ++ plugins;
 
   meta = with lib; {
     homepage = "https://github.com/layday/instawow";

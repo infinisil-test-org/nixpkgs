@@ -1,28 +1,29 @@
-{ lib
-, stdenv
-, azure-datalake-store
-, azure-identity
-, azure-storage-blob
-, boto3
-, buildPythonPackage
-, click
-, entrypoints
-, fetchFromGitHub
-, gcsfs
-, ipykernel
-, moto
-, nbclient
-, nbformat
-, pyarrow
-, pygithub
-, pytest-mock
-, pytestCheckHook
-, pythonOlder
-, pyyaml
-, requests
-, setuptools
-, tenacity
-, tqdm
+{
+  lib,
+  stdenv,
+  azure-datalake-store,
+  azure-identity,
+  azure-storage-blob,
+  boto3,
+  buildPythonPackage,
+  click,
+  entrypoints,
+  fetchFromGitHub,
+  gcsfs,
+  ipykernel,
+  moto,
+  nbclient,
+  nbformat,
+  pyarrow,
+  pygithub,
+  pytest-mock,
+  pytestCheckHook,
+  pythonOlder,
+  pyyaml,
+  requests,
+  setuptools,
+  tenacity,
+  tqdm,
 }:
 
 buildPythonPackage rec {
@@ -39,9 +40,7 @@ buildPythonPackage rec {
     hash = "sha256-x6f5hhTdOPDVFiBvRhfrXq1wd5keYiuUshXnT0IkjX0=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     click
@@ -60,26 +59,20 @@ buildPythonPackage rec {
       azure-identity
       azure-storage-blob
     ];
-    gcs = [
-      gcsfs
-    ];
-    github = [
-      pygithub
-    ];
-    hdfs = [
-      pyarrow
-    ];
-    s3 = [
-      boto3
-    ];
+    gcs = [ gcsfs ];
+    github = [ pygithub ];
+    hdfs = [ pyarrow ];
+    s3 = [ boto3 ];
   };
 
-  nativeCheckInputs = [
-    ipykernel
-    moto
-    pytest-mock
-    pytestCheckHook
-  ] ++ passthru.optional-dependencies.azure
+  nativeCheckInputs =
+    [
+      ipykernel
+      moto
+      pytest-mock
+      pytestCheckHook
+    ]
+    ++ passthru.optional-dependencies.azure
     ++ passthru.optional-dependencies.s3
     ++ passthru.optional-dependencies.gcs;
 
@@ -87,9 +80,7 @@ buildPythonPackage rec {
     export HOME=$(mktemp -d)
   '';
 
-  pythonImportsCheck = [
-    "papermill"
-  ];
+  pythonImportsCheck = [ "papermill" ];
 
   disabledTests = lib.optionals stdenv.isDarwin [
     # might fail due to the sandbox

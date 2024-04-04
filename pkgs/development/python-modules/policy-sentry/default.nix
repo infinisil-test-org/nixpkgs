@@ -1,13 +1,14 @@
-{ lib
-, beautifulsoup4
-, buildPythonPackage
-, click
-, fetchFromGitHub
-, pytestCheckHook
-, pythonOlder
-, pyyaml
-, requests
-, schema
+{
+  lib,
+  beautifulsoup4,
+  buildPythonPackage,
+  click,
+  fetchFromGitHub,
+  pytestCheckHook,
+  pythonOlder,
+  pyyaml,
+  requests,
+  schema,
 }:
 
 buildPythonPackage rec {
@@ -32,13 +33,9 @@ buildPythonPackage rec {
     schema
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "policy_sentry"
-  ];
+  pythonImportsCheck = [ "policy_sentry" ];
 
   meta = with lib; {
     description = "Python module for generating IAM least privilege policies";

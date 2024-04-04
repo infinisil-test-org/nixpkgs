@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, google-api-core
-, proto-plus
-, protobuf
-, pytest-asyncio
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  google-api-core,
+  proto-plus,
+  protobuf,
+  pytest-asyncio,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -37,9 +38,7 @@ buildPythonPackage rec {
     rm -r google
   '';
 
-  pythonImportsCheck = [
-    "google.cloud.orgpolicy"
-  ];
+  pythonImportsCheck = [ "google.cloud.orgpolicy" ];
 
   meta = with lib; {
     description = "Protobufs for Google Cloud Organization Policy";

@@ -14,8 +14,8 @@ let
     rev = "v2.9.1.0.1";
     sha256 = "nZzzQFMUPmIgPS3aAIgcORr/TSpaLf8UtzBUFD7blt8=";
   };
-
-in buildPackage {
+in
+buildPackage {
   inherit version;
 
   pname = "execline";
@@ -23,7 +23,14 @@ in buildPackage {
 
   description = "A small scripting language, to be used in place of a shell in non-interactive scripts";
 
-  outputs = [ "bin" "man" "lib" "dev" "doc" "out" ];
+  outputs = [
+    "bin"
+    "man"
+    "lib"
+    "dev"
+    "doc"
+    "out"
+  ];
 
   # TODO: nsss support
   configureFlags = [

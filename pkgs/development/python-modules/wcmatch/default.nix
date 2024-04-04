@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, hatchling
-, pytestCheckHook
-, bracex
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  hatchling,
+  pytestCheckHook,
+  bracex,
 }:
 
 buildPythonPackage rec {
@@ -16,9 +17,7 @@ buildPythonPackage rec {
     hash = "sha256-wAiMf2Qmz2vyflMOK3tzQDGQX35JBHX9g8fFAIq1gbM=";
   };
 
-  nativeBuildInputs = [
-    hatchling
-  ];
+  nativeBuildInputs = [ hatchling ];
 
   propagatedBuildInputs = [ bracex ];
 
@@ -28,9 +27,7 @@ buildPythonPackage rec {
     export HOME=$(mktemp -d)
   '';
 
-  disabledTests = [
-    "TestTilde"
-  ];
+  disabledTests = [ "TestTilde" ];
 
   pythonImportsCheck = [ "wcmatch" ];
 

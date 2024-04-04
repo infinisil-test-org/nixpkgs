@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pytestCheckHook
-, pythonOlder
-, nix-update-script
-, hatch-vcs
-, hatchling
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pytestCheckHook,
+  pythonOlder,
+  nix-update-script,
+  hatch-vcs,
+  hatchling,
 }:
 
 buildPythonPackage rec {

@@ -1,17 +1,18 @@
-{ lib
-, buildPythonPackage
-, cryptography
-, fetchFromGitHub
-, more-itertools
-, pendulum
-, pyjwt
-, pytestCheckHook
-, pythonOlder
-, pytz
-, requests
-, responses
-, setuptools
-, zeep
+{
+  lib,
+  buildPythonPackage,
+  cryptography,
+  fetchFromGitHub,
+  more-itertools,
+  pendulum,
+  pyjwt,
+  pytestCheckHook,
+  pythonOlder,
+  pytz,
+  requests,
+  responses,
+  setuptools,
+  zeep,
 }:
 
 buildPythonPackage rec {
@@ -28,9 +29,7 @@ buildPythonPackage rec {
     hash = "sha256-mj7lbBGEybsEzWo4TYmPrN3mBXItdo/JomVIYmzIDAY=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     cryptography
@@ -47,9 +46,7 @@ buildPythonPackage rec {
     responses
   ];
 
-  pythonImportsCheck = [
-    "simple_salesforce"
-  ];
+  pythonImportsCheck = [ "simple_salesforce" ];
 
   meta = with lib; {
     description = "A very simple Salesforce.com REST API client for Python";
@@ -58,5 +55,4 @@ buildPythonPackage rec {
     license = licenses.asl20;
     maintainers = with maintainers; [ ];
   };
-
 }

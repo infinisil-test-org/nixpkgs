@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, fetchpatch
-, setuptools-scm
-, six
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  fetchpatch,
+  setuptools-scm,
+  six,
 }:
 
 buildPythonPackage rec {
@@ -44,7 +45,10 @@ buildPythonPackage rec {
   meta = with lib; {
     description = "Powerful extensions to the standard datetime module";
     homepage = "https://github.com/dateutil/dateutil/";
-    license = with licenses; [ asl20 bsd3 ];
+    license = with licenses; [
+      asl20
+      bsd3
+    ];
     maintainers = with maintainers; [ dotlambda ];
   };
 }

@@ -1,9 +1,10 @@
-{ lib
-, stdenv
-, fetchFromGitea
-, cmake
-, pkg-config
-, libusb1
+{
+  lib,
+  stdenv,
+  fetchFromGitea,
+  cmake,
+  pkg-config,
+  libusb1,
 }:
 
 stdenv.mkDerivation rec {
@@ -27,7 +28,10 @@ stdenv.mkDerivation rec {
       --replace 'MODE:="0666"' 'ENV{ID_SOFTWARE_RADIO}="1", MODE="0660", GROUP="plugdev"'
   '';
 
-  nativeBuildInputs = [ pkg-config cmake ];
+  nativeBuildInputs = [
+    pkg-config
+    cmake
+  ];
 
   propagatedBuildInputs = [ libusb1 ];
 
@@ -39,10 +43,10 @@ stdenv.mkDerivation rec {
   meta = with lib; {
     description = "Software to turn the RTL2832U into a SDR receiver";
     longDescription = ''
-    This packages the rtl-sdr library by the Osmocom project. This is the upstream codebase of the unsuffixed "rtl-sdr" package, which is a downstream fork. A list of differences can be found here:
-    https://github.com/librtlsdr/librtlsdr/blob/master/README_improvements.md
+      This packages the rtl-sdr library by the Osmocom project. This is the upstream codebase of the unsuffixed "rtl-sdr" package, which is a downstream fork. A list of differences can be found here:
+      https://github.com/librtlsdr/librtlsdr/blob/master/README_improvements.md
 
-    The Osmocom upstream has a regular release schedule, so this package will likely support newer SDR dongles. It should be compatible with most software that currently depends on the "rtl-sdr" nixpkg, but comptabiliy should be manually confirmed.
+      The Osmocom upstream has a regular release schedule, so this package will likely support newer SDR dongles. It should be compatible with most software that currently depends on the "rtl-sdr" nixpkg, but comptabiliy should be manually confirmed.
     '';
     homepage = "https://gitea.osmocom.org/sdr/rtl-sdr";
     license = licenses.gpl2Plus;

@@ -1,31 +1,32 @@
-{ stdenv
-, lib
-, buildPythonPackage
-, fetchFromGitHub
-, autoreconfHook
-, pkg-config
-, mpiCheckPhaseHook
-, gfortran
-, mpi
-, blas
-, lapack
-, fftw
-, hdf5-mpi
-, swig
-, gsl
-, harminv
-, libctl
-, libGDSII
-, openssh
-, guile
-, python
-, numpy
-, scipy
-, matplotlib
-, h5py-mpi
-, cython
-, autograd
-, mpi4py
+{
+  stdenv,
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  autoreconfHook,
+  pkg-config,
+  mpiCheckPhaseHook,
+  gfortran,
+  mpi,
+  blas,
+  lapack,
+  fftw,
+  hdf5-mpi,
+  swig,
+  gsl,
+  harminv,
+  libctl,
+  libGDSII,
+  openssh,
+  guile,
+  python,
+  numpy,
+  scipy,
+  matplotlib,
+  h5py-mpi,
+  cython,
+  autograd,
+  mpi4py,
 }:
 
 assert !blas.isILP64;
@@ -99,17 +100,22 @@ buildPythonPackage rec {
     "--enable-maintainer-mode"
   ];
 
-  passthru = { inherit mpi; };
+  passthru = {
+    inherit mpi;
+  };
 
   /*
-  This test is taken from the MEEP tutorial "Fields in a Waveguide" at
-  <https://meep.readthedocs.io/en/latest/Python_Tutorials/Basics/>.
-  It is important, that the test actually performs a calculation
-  (calls `sim.run()`), as only then MPI will be initialised and MPI linking
-  errors can be caught.
+    This test is taken from the MEEP tutorial "Fields in a Waveguide" at
+    <https://meep.readthedocs.io/en/latest/Python_Tutorials/Basics/>.
+    It is important, that the test actually performs a calculation
+    (calls `sim.run()`), as only then MPI will be initialised and MPI linking
+    errors can be caught.
   */
   doCheck = true;
-  nativeCheckInputs = [ mpiCheckPhaseHook openssh ];
+  nativeCheckInputs = [
+    mpiCheckPhaseHook
+    openssh
+  ];
   checkPhase = ''
     runHook preCheck
 
@@ -145,6 +151,9 @@ buildPythonPackage rec {
     homepage = "https://meep.readthedocs.io/en/latest/";
     license = licenses.gpl2Only;
     platforms = platforms.linux;
-    maintainers = with maintainers; [ sheepforce markuskowa ];
+    maintainers = with maintainers; [
+      sheepforce
+      markuskowa
+    ];
   };
 }

@@ -1,10 +1,12 @@
-{ stdenv
-, callPackage
-, channel ? "stable"
-, fetchurl
-, lib
-# This is only relevant for Linux, so we need to pass it through
-, polkitPolicyOwners ? [ ] }:
+{
+  stdenv,
+  callPackage,
+  channel ? "stable",
+  fetchurl,
+  lib,
+  # This is only relevant for Linux, so we need to pass it through
+  polkitPolicyOwners ? [ ],
+}:
 
 let
 
@@ -50,20 +52,39 @@ let
     };
   };
 
-  src = fetchurl {
-    inherit (sources.${channel}.${stdenv.system}) url hash;
-  };
+  src = fetchurl { inherit (sources.${channel}.${stdenv.system}) url hash; };
 
   meta = with lib; {
     description = "Multi-platform password manager";
     homepage = "https://1password.com/";
     sourceProvenance = with sourceTypes; [ binaryNativeCode ];
     license = licenses.unfree;
-    maintainers = with maintainers; [ timstott savannidgerinel amaxine sebtm ];
+    maintainers = with maintainers; [
+      timstott
+      savannidgerinel
+      amaxine
+      sebtm
+    ];
     platforms = builtins.attrNames sources.${channel};
     mainProgram = "1password";
   };
-
-in if stdenv.isDarwin
-then callPackage ./darwin.nix { inherit pname version src meta; }
-else callPackage ./linux.nix { inherit pname version src meta polkitPolicyOwners; }
+in
+if stdenv.isDarwin then
+  callPackage ./darwin.nix {
+    inherit
+      pname
+      version
+      src
+      meta
+      ;
+  }
+else
+  callPackage ./linux.nix {
+    inherit
+      pname
+      version
+      src
+      meta
+      polkitPolicyOwners
+      ;
+  }

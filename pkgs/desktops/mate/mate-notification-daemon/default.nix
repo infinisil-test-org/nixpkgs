@@ -1,18 +1,19 @@
-{ lib
-, stdenv
-, fetchurl
-, pkg-config
-, gettext
-, glib
-, libcanberra-gtk3
-, libnotify
-, libwnck
-, gtk3
-, libxml2
-, mate-desktop
-, mate-panel
-, wrapGAppsHook
-, mateUpdateScript
+{
+  lib,
+  stdenv,
+  fetchurl,
+  pkg-config,
+  gettext,
+  glib,
+  libcanberra-gtk3,
+  libnotify,
+  libwnck,
+  gtk3,
+  libxml2,
+  mate-desktop,
+  mate-panel,
+  wrapGAppsHook,
+  mateUpdateScript,
 }:
 
 stdenv.mkDerivation rec {
@@ -49,7 +50,10 @@ stdenv.mkDerivation rec {
   meta = with lib; {
     description = "Notification daemon for MATE Desktop";
     homepage = "https://github.com/mate-desktop/mate-notification-daemon";
-    license = with licenses; [ gpl2Plus gpl3Plus ];
+    license = with licenses; [
+      gpl2Plus
+      gpl3Plus
+    ];
     platforms = platforms.unix;
     maintainers = teams.mate.members;
   };

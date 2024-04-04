@@ -1,23 +1,24 @@
-{ lib
-, stdenv
-, qtbase
-, libpwquality
-, hicolor-icon-theme
-, fetchFromGitHub
-, wrapQtAppsHook
-, cmake
-, pkg-config
-, libgcrypt
-, cryfs
-, encfs
-, fscrypt-experimental
-, gocryptfs
-, securefs
-, sshfs
-, libsecret
-, kwallet
-, withKWallet ? true
-, withLibsecret ? true
+{
+  lib,
+  stdenv,
+  qtbase,
+  libpwquality,
+  hicolor-icon-theme,
+  fetchFromGitHub,
+  wrapQtAppsHook,
+  cmake,
+  pkg-config,
+  libgcrypt,
+  cryfs,
+  encfs,
+  fscrypt-experimental,
+  gocryptfs,
+  securefs,
+  sshfs,
+  libsecret,
+  kwallet,
+  withKWallet ? true,
+  withLibsecret ? true,
 }:
 
 stdenv.mkDerivation rec {
@@ -42,10 +43,7 @@ stdenv.mkDerivation rec {
     gocryptfs
     securefs
     sshfs
-  ]
-  ++ lib.optionals withKWallet [ libsecret ]
-  ++ lib.optionals withLibsecret [ kwallet ]
-  ;
+  ] ++ lib.optionals withKWallet [ libsecret ] ++ lib.optionals withLibsecret [ kwallet ];
 
   nativeBuildInputs = [
     wrapQtAppsHook
@@ -54,14 +52,16 @@ stdenv.mkDerivation rec {
   ];
 
   qtWrapperArgs = [
-    ''--prefix PATH : ${lib.makeBinPath [
-      cryfs
-      encfs
-      fscrypt-experimental
-      gocryptfs
-      securefs
-      sshfs
-    ]}''
+    ''--prefix PATH : ${
+      lib.makeBinPath [
+        cryfs
+        encfs
+        fscrypt-experimental
+        gocryptfs
+        securefs
+        sshfs
+      ]
+    }''
   ];
 
   postPatch = ''

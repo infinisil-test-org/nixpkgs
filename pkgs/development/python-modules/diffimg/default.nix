@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pillow
-, unittestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pillow,
+  unittestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -24,15 +25,11 @@ buildPythonPackage rec {
       --replace "from diff import diff" "from diffimg.diff import diff"
   '';
 
-  propagatedBuildInputs = [
-    pillow
-  ];
+  propagatedBuildInputs = [ pillow ];
 
   pythonImportsCheck = [ "diffimg" ];
 
-  nativeCheckInputs = [
-    unittestCheckHook
-  ];
+  nativeCheckInputs = [ unittestCheckHook ];
 
   meta = with lib; {
     description = "Differentiate images in python - get a ratio or percentage difference, and generate a diff image";

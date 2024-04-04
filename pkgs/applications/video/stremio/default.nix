@@ -1,5 +1,14 @@
-{ lib, stdenv, fetchurl, fetchFromGitHub, qmake, wrapQtAppsHook
-, mpv, qtwebengine, qtwebchannel, nodejs
+{
+  lib,
+  stdenv,
+  fetchurl,
+  fetchFromGitHub,
+  qmake,
+  wrapQtAppsHook,
+  mpv,
+  qtwebengine,
+  qtwebchannel,
+  nodejs,
 }:
 
 stdenv.mkDerivation rec {
@@ -19,9 +28,15 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-52Pg0PrV15arGqhD3rXYCl1J6kcoL+/BHRvgiQBO/OA=";
   };
 
-  buildInputs = [ qtwebengine mpv ];
+  buildInputs = [
+    qtwebengine
+    mpv
+  ];
 
-  nativeBuildInputs = [ qmake wrapQtAppsHook ];
+  nativeBuildInputs = [
+    qmake
+    wrapQtAppsHook
+  ];
 
   postInstall = ''
     mkdir -p $out/{bin,share/applications}
@@ -39,7 +54,10 @@ stdenv.mkDerivation rec {
     # (Server-side) web UI is closed source now, apparently they work on open-sourcing it.
     # server.js appears to be MIT-licensed, but I can't find how they actually build it.
     # https://www.reddit.com/r/StremioAddons/comments/n2ob04/a_summary_of_how_stremio_works_internally_and/
-    license = with licenses; [ gpl3 mit ];
+    license = with licenses; [
+      gpl3
+      mit
+    ];
     maintainers = with maintainers; [ abbradar ];
     platforms = platforms.linux;
   };

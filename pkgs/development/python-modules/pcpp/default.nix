@@ -1,6 +1,7 @@
-{ buildPythonPackage
-, fetchFromGitHub
-, lib
+{
+  buildPythonPackage,
+  fetchFromGitHub,
+  lib,
 }:
 
 buildPythonPackage rec {
@@ -21,5 +22,5 @@ buildPythonPackage rec {
     description = "A C99 preprocessor written in pure Python";
     license = licenses.bsd0;
     maintainers = with maintainers; [ rakesh4g ];
- };
+  };
 }

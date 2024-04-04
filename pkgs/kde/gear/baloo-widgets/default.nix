@@ -1,4 +1,1 @@
-{mkKdeDerivation}:
-mkKdeDerivation {
-  pname = "baloo-widgets";
-}
+{ mkKdeDerivation }: mkKdeDerivation { pname = "baloo-widgets"; }

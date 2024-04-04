@@ -1,4 +1,8 @@
-{ substituteAll, unzip, zip }:
+{
+  substituteAll,
+  unzip,
+  zip,
+}:
 
 substituteAll {
   name = "canonicalize-jar";

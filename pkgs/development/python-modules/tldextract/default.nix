@@ -1,16 +1,17 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, filelock
-, idna
-, pytest-mock
-, pytestCheckHook
-, pythonOlder
-, requests
-, requests-file
-, responses
-, setuptools
-, setuptools-scm
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  filelock,
+  idna,
+  pytest-mock,
+  pytestCheckHook,
+  pythonOlder,
+  requests,
+  requests-file,
+  responses,
+  setuptools,
+  setuptools-scm,
 }:
 
 buildPythonPackage rec {
@@ -45,9 +46,7 @@ buildPythonPackage rec {
     responses
   ];
 
-  pythonImportsCheck = [
-    "tldextract"
-  ];
+  pythonImportsCheck = [ "tldextract" ];
 
   meta = with lib; {
     description = "Python module to accurately separate the TLD from the domain of an URL";

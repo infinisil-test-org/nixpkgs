@@ -1,17 +1,18 @@
-{ lib
-, fetchFromGitHub
-, buildPythonPackage
-, certifi
-, geckodriver
-, pytestCheckHook
-, pythonOlder
-, trio
-, trio-websocket
-, urllib3
-, pytest-trio
-, nixosTests
-, stdenv
-, python
+{
+  lib,
+  fetchFromGitHub,
+  buildPythonPackage,
+  certifi,
+  geckodriver,
+  pytestCheckHook,
+  pythonOlder,
+  trio,
+  trio-websocket,
+  urllib3,
+  pytest-trio,
+  nixosTests,
+  stdenv,
+  python,
 }:
 
 buildPythonPackage rec {
@@ -33,22 +34,25 @@ buildPythonPackage rec {
     cd py
   '';
 
-  postInstall = ''
-    DST_PREFIX=$out/${python.sitePackages}/selenium/webdriver/
-    DST_REMOTE=$DST_PREFIX/remote/
-    DST_FF=$DST_PREFIX/firefox
-    cp ../rb/lib/selenium/webdriver/atoms/getAttribute.js $DST_REMOTE
-    cp ../rb/lib/selenium/webdriver/atoms/isDisplayed.js $DST_REMOTE
-    cp ../rb/lib/selenium/webdriver/atoms/findElements.js $DST_REMOTE
-    cp ../javascript/cdp-support/mutation-listener.js $DST_REMOTE
-    cp ../third_party/js/selenium/webdriver.json $DST_FF/webdriver_prefs.json
-  '' + lib.optionalString stdenv.isDarwin ''
-    mkdir -p $DST_PREFIX/common/macos
-    cp ../common/manager/macos/selenium-manager $DST_PREFIX/common/macos
-  '' + lib.optionalString stdenv.isLinux ''
-    mkdir -p $DST_PREFIX/common/linux/
-    cp ../common/manager/linux/selenium-manager $DST_PREFIX/common/linux/
-  '';
+  postInstall =
+    ''
+      DST_PREFIX=$out/${python.sitePackages}/selenium/webdriver/
+      DST_REMOTE=$DST_PREFIX/remote/
+      DST_FF=$DST_PREFIX/firefox
+      cp ../rb/lib/selenium/webdriver/atoms/getAttribute.js $DST_REMOTE
+      cp ../rb/lib/selenium/webdriver/atoms/isDisplayed.js $DST_REMOTE
+      cp ../rb/lib/selenium/webdriver/atoms/findElements.js $DST_REMOTE
+      cp ../javascript/cdp-support/mutation-listener.js $DST_REMOTE
+      cp ../third_party/js/selenium/webdriver.json $DST_FF/webdriver_prefs.json
+    ''
+    + lib.optionalString stdenv.isDarwin ''
+      mkdir -p $DST_PREFIX/common/macos
+      cp ../common/manager/macos/selenium-manager $DST_PREFIX/common/macos
+    ''
+    + lib.optionalString stdenv.isLinux ''
+      mkdir -p $DST_PREFIX/common/linux/
+      cp ../common/manager/linux/selenium-manager $DST_PREFIX/common/linux/
+    '';
 
   propagatedBuildInputs = [
     certifi

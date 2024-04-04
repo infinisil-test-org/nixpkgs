@@ -1,14 +1,15 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
 
-# build-system
-, cython
-, setuptools
+  # build-system
+  cython,
+  setuptools,
 
-# tests
-, numpy
-, unittestCheckHook
+  # tests
+  numpy,
+  unittestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -28,9 +29,7 @@ buildPythonPackage rec {
     setuptools
   ];
 
-  pythonImportsCheck = [
-    "faster_fifo"
-  ];
+  pythonImportsCheck = [ "faster_fifo" ];
 
   nativeCheckInputs = [
     numpy

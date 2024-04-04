@@ -1,17 +1,18 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, asn1tools
-, coincurve
-, eth-hash
-, eth-typing
-, eth-utils
-, factory-boy
-, hypothesis
-, isPyPy
-, pyasn1
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  asn1tools,
+  coincurve,
+  eth-hash,
+  eth-typing,
+  eth-utils,
+  factory-boy,
+  hypothesis,
+  isPyPy,
+  pyasn1,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -32,15 +33,17 @@ buildPythonPackage rec {
     eth-utils
   ];
 
-  nativeCheckInputs = [
-    asn1tools
-    factory-boy
-    hypothesis
-    pyasn1
-    pytestCheckHook
-  ] ++ passthru.optional-dependencies.coincurve
-  ++ lib.optional (!isPyPy) eth-hash.optional-dependencies.pysha3
-  ++ lib.optional isPyPy eth-hash.optional-dependencies.pycryptodome;
+  nativeCheckInputs =
+    [
+      asn1tools
+      factory-boy
+      hypothesis
+      pyasn1
+      pytestCheckHook
+    ]
+    ++ passthru.optional-dependencies.coincurve
+    ++ lib.optional (!isPyPy) eth-hash.optional-dependencies.pysha3
+    ++ lib.optional isPyPy eth-hash.optional-dependencies.pycryptodome;
 
   disabledTests = [
     # tests are broken

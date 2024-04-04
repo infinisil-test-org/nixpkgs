@@ -1,4 +1,10 @@
-{ lib, stdenv, fetchFromGitHub, cmake, SDL2}:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  SDL2,
+}:
 
 #TODO: tests
 
@@ -13,7 +19,7 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-O2hnv74Uj3PJCmca9Ynz+jjeJXBw2zbGEWlqax3WfjA=";
   };
 
-  nativeBuildInputs = [cmake];
+  nativeBuildInputs = [ cmake ];
 
   buildInputs = [ SDL2 ];
 

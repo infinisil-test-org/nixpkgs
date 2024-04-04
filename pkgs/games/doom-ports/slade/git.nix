@@ -1,21 +1,22 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, pkg-config
-, which
-, zip
-, wxGTK
-, gtk3
-, sfml
-, fluidsynth
-, curl
-, freeimage
-, ftgl
-, glew
-, lua
-, mpg123
-, unstableGitUpdater
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  which,
+  zip,
+  wxGTK,
+  gtk3,
+  sfml,
+  fluidsynth,
+  curl,
+  freeimage,
+  ftgl,
+  glew,
+  lua,
+  mpg123,
+  unstableGitUpdater,
 }:
 
 stdenv.mkDerivation rec {
@@ -53,15 +54,11 @@ stdenv.mkDerivation rec {
     mpg123
   ];
 
-  cmakeFlags = [
-    "-DwxWidgets_LIBRARIES=${wxGTK}/lib"
-  ];
+  cmakeFlags = [ "-DwxWidgets_LIBRARIES=${wxGTK}/lib" ];
 
   env.NIX_CFLAGS_COMPILE = "-Wno-narrowing";
 
-  passthru.updateScript = unstableGitUpdater {
-    url = "https://github.com/sirjuddington/SLADE.git";
-  };
+  passthru.updateScript = unstableGitUpdater { url = "https://github.com/sirjuddington/SLADE.git"; };
 
   meta = with lib; {
     description = "Doom editor";

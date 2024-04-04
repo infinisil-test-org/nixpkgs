@@ -1,5 +1,17 @@
-{ stdenv, lib, fetchFromGitHub, perl, gmp, mpfr, ppl, ocaml, findlib, camlidl, mlgmpidl
-, flint, pplite
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  perl,
+  gmp,
+  mpfr,
+  ppl,
+  ocaml,
+  findlib,
+  camlidl,
+  mlgmpidl,
+  flint,
+  pplite,
 }:
 
 stdenv.mkDerivation rec {
@@ -12,14 +24,28 @@ stdenv.mkDerivation rec {
     hash = "sha256-e8bSf0FPB6E3MFHHoSrE0x/6nrUStO+gOKxJ4LDHBi0=";
   };
 
-  nativeBuildInputs = [ ocaml findlib perl ];
-  buildInputs = [ gmp mpfr ppl camlidl flint pplite ];
+  nativeBuildInputs = [
+    ocaml
+    findlib
+    perl
+  ];
+  buildInputs = [
+    gmp
+    mpfr
+    ppl
+    camlidl
+    flint
+    pplite
+  ];
   propagatedBuildInputs = [ mlgmpidl ];
 
   # TODO: Doesn't produce the library correctly if true
   strictDeps = false;
 
-  outputs = [ "out" "dev" ];
+  outputs = [
+    "out"
+    "dev"
+  ];
 
   configurePhase = ''
     runHook preConfigure

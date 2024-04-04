@@ -1,4 +1,9 @@
-{ lib, buildGoModule, fetchFromGitHub, nixosTests }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  nixosTests,
+}:
 
 buildGoModule rec {
   pname = "consul";
@@ -23,7 +28,10 @@ buildGoModule rec {
 
   # This corresponds to paths with package main - normally unneeded but consul
   # has a split module structure in one repo
-  subPackages = ["." "connect/certgen"];
+  subPackages = [
+    "."
+    "connect/certgen"
+  ];
 
   vendorHash = "sha256-pNFjLXjtgsK8fjCCmjYclZw1GM4BfyzkTuaRCRIMJ3c=";
 
@@ -41,7 +49,12 @@ buildGoModule rec {
     homepage = "https://www.consul.io/";
     platforms = platforms.linux ++ platforms.darwin;
     license = licenses.bsl11;
-    maintainers = with maintainers; [ pradeepchhetri vdemeester nh2 techknowlogick];
+    maintainers = with maintainers; [
+      pradeepchhetri
+      vdemeester
+      nh2
+      techknowlogick
+    ];
     mainProgram = "consul";
   };
 }

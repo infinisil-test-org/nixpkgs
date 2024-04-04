@@ -1,9 +1,10 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, nix-update-script
-, makeWrapper
-, rr
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  nix-update-script,
+  makeWrapper,
+  rr,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -33,6 +34,9 @@ rustPlatform.buildRustPackage rec {
     description = "Cargo subcommand \"rr\": a light wrapper around rr, the time-travelling debugger";
     homepage = "https://github.com/danielzfranklin/cargo-rr";
     license = with licenses; [ mit ];
-    maintainers = with maintainers; [ otavio matthiasbeyer ];
+    maintainers = with maintainers; [
+      otavio
+      matthiasbeyer
+    ];
   };
 }

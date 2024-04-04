@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, rustPlatform
-, darwin
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  rustPlatform,
+  darwin,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -17,9 +18,7 @@ rustPlatform.buildRustPackage rec {
   };
   cargoHash = "sha256-aqAa0F1NSJI1nckTjG5C7VLxaLjJgD+9yK/IpclSMqs=";
 
-  buildInputs = lib.optionals stdenv.isDarwin [
-    darwin.apple_sdk.frameworks.CoreServices
-  ];
+  buildInputs = lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.CoreServices ];
 
   checkFlags = [
     # accesses /usr/bin/env

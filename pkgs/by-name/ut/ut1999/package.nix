@@ -1,27 +1,48 @@
-{ lib, stdenv, requireFile, autoPatchelfHook, fetchurl, makeDesktopItem, copyDesktopItems, imagemagick
-, runCommand, libgcc, wxGTK32, innoextract, libGL, SDL2, openal, libmpg123, libxmp }:
+{
+  lib,
+  stdenv,
+  requireFile,
+  autoPatchelfHook,
+  fetchurl,
+  makeDesktopItem,
+  copyDesktopItems,
+  imagemagick,
+  runCommand,
+  libgcc,
+  wxGTK32,
+  innoextract,
+  libGL,
+  SDL2,
+  openal,
+  libmpg123,
+  libxmp,
+}:
 
 let
-  unpackGog = runCommand "ut1999-gog" {
-    src = requireFile rec {
-      name = "setup_ut_goty_2.0.0.5.exe";
-      sha256 = "00v8jbqhgb1fry7jvr0i3mb5jscc19niigzjc989qrcp9pamghjc";
-      message = ''
-        Unreal Tournament 1999 requires the official GOG package, version 2.0.0.5.
+  unpackGog =
+    runCommand "ut1999-gog"
+      {
+        src = requireFile rec {
+          name = "setup_ut_goty_2.0.0.5.exe";
+          sha256 = "00v8jbqhgb1fry7jvr0i3mb5jscc19niigzjc989qrcp9pamghjc";
+          message = ''
+            Unreal Tournament 1999 requires the official GOG package, version 2.0.0.5.
 
-        Once you download the file, run the following command:
+            Once you download the file, run the following command:
 
-        nix-prefetch-url file://\$PWD/${name}
+            nix-prefetch-url file://\$PWD/${name}
+          '';
+        };
+
+        buildInputs = [ innoextract ];
+      }
+      ''
+        innoextract --extract --exclude-temp "$src"
+        mkdir $out
+        cp -r app/* $out
       '';
-    };
-
-    buildInputs = [ innoextract ];
-  } ''
-    innoextract --extract --exclude-temp "$src"
-    mkdir $out
-    cp -r app/* $out
-  '';
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   name = "ut1999";
   version = "469d";
   sourceRoot = ".";

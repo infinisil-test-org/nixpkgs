@@ -1,17 +1,26 @@
-{ config, lib, pkgs, ... }: let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
   cfg = config.boot.bcache;
-in {
+in
+{
   options.boot.bcache.enable = lib.mkEnableOption (lib.mdDoc "bcache mount support") // {
     default = true;
     example = false;
   };
-  options.boot.initrd.services.bcache.enable = lib.mkEnableOption (lib.mdDoc "bcache support in the initrd") // {
-    description = lib.mdDoc ''
-      *This will only be used when systemd is used in stage 1.*
+  options.boot.initrd.services.bcache.enable =
+    lib.mkEnableOption (lib.mdDoc "bcache support in the initrd")
+    // {
+      description = lib.mdDoc ''
+        *This will only be used when systemd is used in stage 1.*
 
-      Whether to enable bcache support in the initrd.
-    '';
-  };
+        Whether to enable bcache support in the initrd.
+      '';
+    };
 
   config = lib.mkIf cfg.enable {
 

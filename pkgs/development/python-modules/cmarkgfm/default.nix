@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, cffi
-, fetchPypi
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  cffi,
+  fetchPypi,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -18,21 +19,13 @@ buildPythonPackage rec {
     hash = "sha256-k9msdxbqkBygv9GK47aPH2v1HeCDDD8jPvc0/NUqB5k=";
   };
 
-  propagatedNativeBuildInputs = [
-    cffi
-  ];
+  propagatedNativeBuildInputs = [ cffi ];
 
-  propagatedBuildInputs = [
-    cffi
-  ];
+  propagatedBuildInputs = [ cffi ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "cmarkgfm"
-  ];
+  pythonImportsCheck = [ "cmarkgfm" ];
 
   meta = with lib; {
     description = "Minimal bindings to GitHub's fork of cmark";

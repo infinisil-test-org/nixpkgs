@@ -1,17 +1,18 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, cython
-, joblib
-, numpy
-, pandas
-, scikit-learn
-, scipy
-, statsmodels
-, urllib3
-, pythonOlder
-, python
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  cython,
+  joblib,
+  numpy,
+  pandas,
+  scikit-learn,
+  scipy,
+  statsmodels,
+  urllib3,
+  pythonOlder,
+  python,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -47,7 +48,7 @@ buildPythonPackage rec {
   '';
 
   nativeCheckInputs = [ pytestCheckHook ];
-  disabledTests= [
+  disabledTests = [
     # touches internet
     "test_load_from_web"
   ];

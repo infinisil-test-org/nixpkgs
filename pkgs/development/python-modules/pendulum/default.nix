@@ -1,9 +1,13 @@
-{ lib, fetchPypi, buildPythonPackage, pythonOlder
-, python-dateutil
-, importlib-metadata
-, poetry-core
-, pytzdata
-, typing
+{
+  lib,
+  fetchPypi,
+  buildPythonPackage,
+  pythonOlder,
+  python-dateutil,
+  importlib-metadata,
+  poetry-core,
+  pytzdata,
+  typing,
 }:
 
 buildPythonPackage rec {
@@ -21,9 +25,13 @@ buildPythonPackage rec {
   '';
 
   build-system = [ poetry-core ];
-  dependencies = [ python-dateutil pytzdata ]
-  ++ lib.optional (pythonOlder "3.5") typing
-  ++ lib.optionals (pythonOlder "3.8") [ importlib-metadata ];
+  dependencies =
+    [
+      python-dateutil
+      pytzdata
+    ]
+    ++ lib.optional (pythonOlder "3.5") typing
+    ++ lib.optionals (pythonOlder "3.8") [ importlib-metadata ];
 
   # No tests
   doCheck = false;

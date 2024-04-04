@@ -1,4 +1,10 @@
-{ lib, fetchzip, buildDunePackage, camomile, result }:
+{
+  lib,
+  fetchzip,
+  buildDunePackage,
+  camomile,
+  result,
+}:
 
 buildDunePackage rec {
   pname = "charInfo_width";

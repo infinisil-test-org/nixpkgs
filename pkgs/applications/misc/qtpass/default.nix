@@ -1,7 +1,17 @@
-{ lib, mkDerivation, fetchFromGitHub
-, git, gnupg, pass, pwgen, qrencode
-, fetchpatch
-, qtbase, qtsvg, qttools, qmake
+{
+  lib,
+  mkDerivation,
+  fetchFromGitHub,
+  git,
+  gnupg,
+  pass,
+  pwgen,
+  qrencode,
+  fetchpatch,
+  qtbase,
+  qtsvg,
+  qttools,
+  qmake,
 }:
 
 mkDerivation rec {
@@ -9,9 +19,9 @@ mkDerivation rec {
   version = "1.3.2";
 
   src = fetchFromGitHub {
-    owner  = "IJHack";
-    repo   = "QtPass";
-    rev    = "v${version}";
+    owner = "IJHack";
+    repo = "QtPass";
+    rev = "v${version}";
     sha256 = "0748hjvhjrybi33ci3c8hcr74k9pdrf5jv8npf9hrsrmdyy1kr9x";
   };
 
@@ -20,9 +30,18 @@ mkDerivation rec {
       --replace "/usr/bin/qrencode" "${qrencode}/bin/qrencode"
   '';
 
-  buildInputs = [ git gnupg pass qtbase qtsvg ];
+  buildInputs = [
+    git
+    gnupg
+    pass
+    qtbase
+    qtsvg
+  ];
 
-  nativeBuildInputs = [ qmake qttools ];
+  nativeBuildInputs = [
+    qmake
+    qttools
+  ];
 
   patches = [
     # Fix path to pass-otp plugin `/usr/lib/password-store/extensions/otp.bash` being hardcoded.
@@ -43,7 +62,14 @@ mkDerivation rec {
   ];
 
   qtWrapperArgs = [
-    "--suffix PATH : ${lib.makeBinPath [ git gnupg pass pwgen ]}"
+    "--suffix PATH : ${
+      lib.makeBinPath [
+        git
+        gnupg
+        pass
+        pwgen
+      ]
+    }"
   ];
 
   postInstall = ''

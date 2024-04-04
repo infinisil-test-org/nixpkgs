@@ -1,15 +1,27 @@
-{ lib, mkFranzDerivation, fetchurl, xorg, nix-update-script, stdenv }:
+{
+  lib,
+  mkFranzDerivation,
+  fetchurl,
+  xorg,
+  nix-update-script,
+  stdenv,
+}:
 
 let
-  arch = {
-    x86_64-linux = "amd64";
-    aarch64-linux = "arm64";
-  }."${stdenv.hostPlatform.system}" or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
-  hash = {
-    amd64-linux_hash = "sha256-ERAMFb69Y2kWiHIBn4ITEZJlx+YIpzqDye80vchOXl0=";
-    arm64-linux_hash = "sha256-B3zlhxJQaDoZ69nu/dXUbY2qxJ6FAp4CqU8+TLoNwsg=";
-  }."${arch}-linux_hash";
-in mkFranzDerivation rec {
+  arch =
+    {
+      x86_64-linux = "amd64";
+      aarch64-linux = "arm64";
+    }
+    ."${stdenv.hostPlatform.system}" or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
+  hash =
+    {
+      amd64-linux_hash = "sha256-ERAMFb69Y2kWiHIBn4ITEZJlx+YIpzqDye80vchOXl0=";
+      arm64-linux_hash = "sha256-B3zlhxJQaDoZ69nu/dXUbY2qxJ6FAp4CqU8+TLoNwsg=";
+    }
+    ."${arch}-linux_hash";
+in
+mkFranzDerivation rec {
   pname = "ferdium";
   name = "Ferdium";
   version = "6.7.1";
@@ -29,7 +41,10 @@ in mkFranzDerivation rec {
     homepage = "https://ferdium.org/";
     license = licenses.asl20;
     maintainers = with maintainers; [ magnouvean ];
-    platforms = [ "x86_64-linux" "aarch64-linux" ];
+    platforms = [
+      "x86_64-linux"
+      "aarch64-linux"
+    ];
     hydraPlatforms = [ ];
   };
 }

@@ -1,4 +1,10 @@
-{ lib, stdenv, fetchurl, makeWrapper, jre }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  makeWrapper,
+  jre,
+}:
 
 stdenv.mkDerivation rec {
   pname = "flink";
@@ -33,6 +39,9 @@ stdenv.mkDerivation rec {
     downloadPage = "https://flink.apache.org/downloads.html";
     license = licenses.asl20;
     platforms = platforms.all;
-    maintainers = with maintainers; [ mbode autophagy ];
+    maintainers = with maintainers; [
+      mbode
+      autophagy
+    ];
   };
 }

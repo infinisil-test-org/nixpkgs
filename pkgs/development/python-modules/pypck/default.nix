@@ -1,14 +1,15 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchFromGitHub
-, fetchpatch
-, pytest-asyncio
-, pytest-timeout
-, pytestCheckHook
-, pythonOlder
-, setuptools
-, wheel
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchFromGitHub,
+  fetchpatch,
+  pytest-asyncio,
+  pytest-timeout,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
+  wheel,
 }:
 
 buildPythonPackage rec {
@@ -45,19 +46,13 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pytestFlagsArray = [
-    "--asyncio-mode=auto"
-  ];
+  pytestFlagsArray = [ "--asyncio-mode=auto" ];
 
-  disabledTests = lib.optionals stdenv.isDarwin [
-    "test_connection_lost"
-  ];
+  disabledTests = lib.optionals stdenv.isDarwin [ "test_connection_lost" ];
 
   __darwinAllowLocalNetworking = true;
 
-  pythonImportsCheck = [
-    "pypck"
-  ];
+  pythonImportsCheck = [ "pypck" ];
 
   meta = with lib; {
     description = "LCN-PCK library written in Python";

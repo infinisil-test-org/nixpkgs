@@ -1,7 +1,8 @@
-{ lib
-, fetchFromGitHub
-, crystal
-, gobject-introspection
+{
+  lib,
+  fetchFromGitHub,
+  crystal,
+  gobject-introspection,
 }:
 crystal.buildCrystalPackage rec {
   pname = "gi-crystal";
@@ -16,7 +17,10 @@ crystal.buildCrystalPackage rec {
 
   # Make sure gi-crystal picks up the name of the so or dylib and not the leading nix store path
   # when the package name happens to start with “lib”.
-  patches = [ ./src.patch ./store-friendly-library-name.patch ];
+  patches = [
+    ./src.patch
+    ./store-friendly-library-name.patch
+  ];
 
   nativeBuildInputs = [ gobject-introspection ];
   buildTargets = [ "generator" ];

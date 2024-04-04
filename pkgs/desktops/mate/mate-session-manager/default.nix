@@ -1,21 +1,22 @@
-{ lib
-, stdenv
-, fetchurl
-, pkg-config
-, gettext
-, xtrans
-, dbus-glib
-, systemd
-, libSM
-, libXtst
-, gtk3
-, libepoxy
-, polkit
-, hicolor-icon-theme
-, mate
-, wrapGAppsHook
-, fetchpatch
-, mateUpdateScript
+{
+  lib,
+  stdenv,
+  fetchurl,
+  pkg-config,
+  gettext,
+  xtrans,
+  dbus-glib,
+  systemd,
+  libSM,
+  libXtst,
+  gtk3,
+  libepoxy,
+  polkit,
+  hicolor-icon-theme,
+  mate,
+  wrapGAppsHook,
+  fetchpatch,
+  mateUpdateScript,
 }:
 
 stdenv.mkDerivation rec {
@@ -68,7 +69,10 @@ stdenv.mkDerivation rec {
   meta = with lib; {
     description = "MATE Desktop session manager";
     homepage = "https://github.com/mate-desktop/mate-session-manager";
-    license = with licenses; [ gpl2Plus lgpl2Plus ];
+    license = with licenses; [
+      gpl2Plus
+      lgpl2Plus
+    ];
     platforms = platforms.unix;
     maintainers = teams.mate.members;
   };

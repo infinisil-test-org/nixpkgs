@@ -1,29 +1,30 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, isPyPy
-, fetchFromGitHub
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  isPyPy,
+  fetchFromGitHub,
 
-# build
-, cython
-, setuptools
+  # build
+  cython,
+  setuptools,
 
-# tests
-, aiofiles
-, cbor2
-, httpx
-, msgpack
-, mujson
-, orjson
-, pytest-asyncio
-, pytestCheckHook
-, pyyaml
-, rapidjson
-, requests
-, testtools
-, ujson
-, uvicorn
-, websockets
+  # tests
+  aiofiles,
+  cbor2,
+  httpx,
+  msgpack,
+  mujson,
+  orjson,
+  pytest-asyncio,
+  pytestCheckHook,
+  pyyaml,
+  rapidjson,
+  requests,
+  testtools,
+  ujson,
+  uvicorn,
+  websockets,
 }:
 
 buildPythonPackage rec {
@@ -39,11 +40,7 @@ buildPythonPackage rec {
     hash = "sha256-5Lhz4qI/x7yK9tqQg4CvYNug+fp9l6ErNGH1pVybZ6c=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ] ++ lib.optionals (!isPyPy) [
-    cython
-  ];
+  nativeBuildInputs = [ setuptools ] ++ lib.optionals (!isPyPy) [ cython ];
 
   __darwinAllowLocalNetworking = true;
 
@@ -77,13 +74,9 @@ buildPythonPackage rec {
     msgpack
     mujson
     ujson
-  ] ++ lib.optionals (pythonOlder "3.10") [
-    testtools
-  ];
+  ] ++ lib.optionals (pythonOlder "3.10") [ testtools ];
 
-  pytestFlagsArray = [
-    "tests"
-  ];
+  pytestFlagsArray = [ "tests" ];
 
   disabledTestPaths = [
     # needs a running server
@@ -96,5 +89,4 @@ buildPythonPackage rec {
     license = licenses.asl20;
     maintainers = with maintainers; [ desiderius ];
   };
-
 }

@@ -1,4 +1,13 @@
-{ lib, stdenv, fetchurl, jre, makeWrapper, copyDesktopItems, makeDesktopItem, unzip }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  jre,
+  makeWrapper,
+  copyDesktopItems,
+  makeDesktopItem,
+  unzip,
+}:
 
 stdenv.mkDerivation rec {
   pname = "logisim-evolution";
@@ -11,7 +20,11 @@ stdenv.mkDerivation rec {
 
   dontUnpack = true;
 
-  nativeBuildInputs = [ makeWrapper copyDesktopItems unzip ];
+  nativeBuildInputs = [
+    makeWrapper
+    copyDesktopItems
+    unzip
+  ];
 
   desktopItems = [
     (makeDesktopItem {

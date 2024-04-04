@@ -1,20 +1,21 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, fetchpatch
-, pytest-xdist
-, pytestCheckHook
-, absl-py
-, cvxpy
-, jax
-, jaxlib
-, matplotlib
-, numpy
-, optax
-, scipy
-, scikit-learn
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  fetchpatch,
+  pytest-xdist,
+  pytestCheckHook,
+  absl-py,
+  cvxpy,
+  jax,
+  jaxlib,
+  matplotlib,
+  numpy,
+  optax,
+  scipy,
+  scikit-learn,
 }:
 
 buildPythonPackage rec {

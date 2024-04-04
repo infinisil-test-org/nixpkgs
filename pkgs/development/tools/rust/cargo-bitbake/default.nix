@@ -1,4 +1,10 @@
-{ lib, pkg-config, rustPlatform, fetchFromGitHub, openssl }:
+{
+  lib,
+  pkg-config,
+  rustPlatform,
+  fetchFromGitHub,
+  openssl,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "cargo-bitbake";
@@ -19,7 +25,10 @@ rustPlatform.buildRustPackage rec {
   meta = with lib; {
     description = "Cargo extension that can generate BitBake recipes utilizing the classes from meta-rust";
     homepage = "https://github.com/meta-rust/cargo-bitbake";
-    license = with licenses; [ mit asl20 ];
+    license = with licenses; [
+      mit
+      asl20
+    ];
     maintainers = with maintainers; [ rvarago ];
     platforms = [ "x86_64-linux" ];
   };

@@ -1,21 +1,22 @@
-{ lib
-, fetchFromGitHub
-, mkDerivation
-, cmake
-, pkg-config
-, protobuf
-, python3
-, ffmpeg_6
-, libopus
-, qtbase
-, qtmultimedia
-, qtsvg
-, SDL2
-, libevdev
-, udev
-, hidapi
-, fftw
-, speexdsp
+{
+  lib,
+  fetchFromGitHub,
+  mkDerivation,
+  cmake,
+  pkg-config,
+  protobuf,
+  python3,
+  ffmpeg_6,
+  libopus,
+  qtbase,
+  qtmultimedia,
+  qtsvg,
+  SDL2,
+  libevdev,
+  udev,
+  hidapi,
+  fftw,
+  speexdsp,
 }:
 
 mkDerivation rec {
@@ -55,9 +56,7 @@ mkDerivation rec {
     speexdsp
   ];
 
-  pythonPath = [
-    python3.pkgs.requests
-  ];
+  pythonPath = [ python3.pkgs.requests ];
 
   postInstall = ''
     install -Dm755 $src/scripts/psn-account-id.py $out/bin/psn-account-id

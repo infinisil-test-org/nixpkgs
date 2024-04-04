@@ -1,4 +1,9 @@
-{ lib, fetchFromGitHub, fetchpatch, crystal }:
+{
+  lib,
+  fetchFromGitHub,
+  fetchpatch,
+  crystal,
+}:
 
 crystal.buildCrystalPackage rec {
   pname = "ameba";

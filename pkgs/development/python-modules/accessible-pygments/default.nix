@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, pygments
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  pygments,
 }:
 
 buildPythonPackage rec {
@@ -17,9 +18,7 @@ buildPythonPackage rec {
     hash = "sha256-57V6mxWVjpYBx+nrB6RAyBMoNUWiCXPyV0pfRT0OlT4=";
   };
 
-  propagatedBuildInputs = [
-    pygments
-  ];
+  propagatedBuildInputs = [ pygments ];
 
   # Tests only execute pygments with these styles
   doCheck = false;

@@ -1,4 +1,8 @@
-{ lib, appimageTools, fetchurl, makeDesktopItem
+{
+  lib,
+  appimageTools,
+  fetchurl,
+  makeDesktopItem,
 }:
 
 let
@@ -12,9 +16,7 @@ let
     inherit sha256;
   };
 
-  appimageContents = appimageTools.extractType2 {
-    inherit name src;
-  };
+  appimageContents = appimageTools.extractType2 { inherit name src; };
 
   desktopItem = makeDesktopItem {
     name = pname;
@@ -24,8 +26,8 @@ let
     icon = "mycrypto";
     categories = [ "Finance" ];
   };
-
-in appimageTools.wrapType2 rec {
+in
+appimageTools.wrapType2 rec {
   inherit name src;
 
   multiArch = false; # no p32bit needed

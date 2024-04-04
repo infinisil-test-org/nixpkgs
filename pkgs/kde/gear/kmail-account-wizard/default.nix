@@ -1,4 +1,1 @@
-{mkKdeDerivation}:
-mkKdeDerivation {
-  pname = "kmail-account-wizard";
-}
+{ mkKdeDerivation }: mkKdeDerivation { pname = "kmail-account-wizard"; }

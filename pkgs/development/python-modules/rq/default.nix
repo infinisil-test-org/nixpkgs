@@ -1,9 +1,10 @@
-{ lib
-, fetchFromGitHub
-, buildPythonPackage
-, pythonOlder
-, click
-, redis
+{
+  lib,
+  fetchFromGitHub,
+  buildPythonPackage,
+  pythonOlder,
+  click,
+  redis,
 }:
 
 buildPythonPackage rec {
@@ -28,9 +29,7 @@ buildPythonPackage rec {
   # Tests require a running Redis rerver
   doCheck = false;
 
-  pythonImportsCheck = [
-    "rq"
-  ];
+  pythonImportsCheck = [ "rq" ];
 
   meta = with lib; {
     description = "Library for creating background jobs and processing them";
@@ -40,4 +39,3 @@ buildPythonPackage rec {
     maintainers = with maintainers; [ mrmebelman ];
   };
 }
-

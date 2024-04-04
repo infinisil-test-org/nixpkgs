@@ -1,6 +1,7 @@
-{ lib
-, fetchFromGitHub
-, python3
+{
+  lib,
+  fetchFromGitHub,
+  python3,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -24,9 +25,7 @@ python3.pkgs.buildPythonApplication rec {
       --replace "pyyaml==" "pyyaml>="
   '';
 
-  nativeBuildInputs = with python3.pkgs; [
-    hatchling
-  ];
+  nativeBuildInputs = with python3.pkgs; [ hatchling ];
 
   propagatedBuildInputs = with python3.pkgs; [
     certifi

@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, requests
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  requests,
 }:
 
 buildPythonPackage rec {
@@ -19,16 +20,12 @@ buildPythonPackage rec {
     hash = "sha256-T+rXJy+9haepF6TKSoOjb6o75YQwQnzAaWRtLMwfGOw=";
   };
 
-  propagatedBuildInputs = [
-    requests
-  ];
+  propagatedBuildInputs = [ requests ];
 
   # Project has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "prayer_times_calculator"
-  ];
+  pythonImportsCheck = [ "prayer_times_calculator" ];
 
   meta = with lib; {
     description = "Python client for the Prayer Times API";

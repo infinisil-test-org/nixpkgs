@@ -1,17 +1,18 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, setuptools-scm
-, matplotlib
-, mizani
-, pandas
-, patsy
-, scipy
-, statsmodels
-, geopandas
-, pytestCheckHook
-, scikit-misc
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  setuptools-scm,
+  matplotlib,
+  mizani,
+  pandas,
+  patsy,
+  scipy,
+  statsmodels,
+  geopandas,
+  pytestCheckHook,
+  scikit-misc,
 }:
 
 buildPythonPackage rec {
@@ -28,9 +29,7 @@ buildPythonPackage rec {
     hash = "sha256-GgkaFiRRVpr0TreAetpaiOjpsyLV2wfGQWvUdHJN2mg=";
   };
 
-  nativeBuildInputs = [
-    setuptools-scm
-  ];
+  nativeBuildInputs = [ setuptools-scm ];
 
   postPatch = ''
     substituteInPlace pyproject.toml \
@@ -56,9 +55,7 @@ buildPythonPackage rec {
     export HOME=$(mktemp -d)
   '';
 
-  pythonImportsCheck = [
-    "plotnine"
-  ];
+  pythonImportsCheck = [ "plotnine" ];
 
   disabledTestPaths = [
     # Assertion Errors:

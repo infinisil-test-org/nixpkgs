@@ -1,13 +1,14 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, ninja
-, unzip
-, wrapQtAppsHook
-, libxcrypt
-, qtbase
-, nixosTests
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  ninja,
+  unzip,
+  wrapQtAppsHook,
+  libxcrypt,
+  qtbase,
+  nixosTests,
 }:
 
 stdenv.mkDerivation (finalAttrs: {

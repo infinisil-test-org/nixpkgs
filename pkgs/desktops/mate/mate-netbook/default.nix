@@ -1,15 +1,16 @@
-{ lib
-, stdenv
-, fetchurl
-, pkg-config
-, gettext
-, gtk3
-, libwnck
-, libfakekey
-, libXtst
-, mate
-, wrapGAppsHook
-, mateUpdateScript
+{
+  lib,
+  stdenv,
+  fetchurl,
+  pkg-config,
+  gettext,
+  gtk3,
+  libwnck,
+  libfakekey,
+  libXtst,
+  mate,
+  wrapGAppsHook,
+  mateUpdateScript,
 }:
 
 stdenv.mkDerivation rec {
@@ -49,7 +50,10 @@ stdenv.mkDerivation rec {
       devices with low resolution displays.
     '';
     homepage = "https://mate-desktop.org";
-    license = with licenses; [ gpl3Only lgpl2Plus ];
+    license = with licenses; [
+      gpl3Only
+      lgpl2Plus
+    ];
     platforms = platforms.unix;
     maintainers = teams.mate.members;
   };

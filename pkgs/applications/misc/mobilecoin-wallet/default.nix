@@ -1,4 +1,8 @@
-{ lib, fetchurl, appimageTools }:
+{
+  lib,
+  fetchurl,
+  appimageTools,
+}:
 
 let
   pname = "mobilecoin-wallet";
@@ -9,8 +13,8 @@ let
     hash = "sha256-XGU/xxsMhOBAh+MeMtL2S707yH8HnoO9w5l7zqjO6rs=";
   };
   appimageContents = appimageTools.extractType2 { inherit name src; };
-
-in appimageTools.wrapType2 {
+in
+appimageTools.wrapType2 {
   inherit name src;
 
   extraPkgs = pkgs: (appimageTools.defaultFhsEnvArgs.multiPkgs pkgs) ++ [ pkgs.libsecret ];

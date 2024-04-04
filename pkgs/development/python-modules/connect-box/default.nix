@@ -1,10 +1,11 @@
-{ lib
-, aiohttp
-, attrs
-, buildPythonPackage
-, defusedxml
-, fetchPypi
-, pythonOlder
+{
+  lib,
+  aiohttp,
+  attrs,
+  buildPythonPackage,
+  defusedxml,
+  fetchPypi,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -29,9 +30,7 @@ buildPythonPackage rec {
   # No tests are present
   doCheck = false;
 
-  pythonImportsCheck = [
-    "connect_box"
-  ];
+  pythonImportsCheck = [ "connect_box" ];
 
   meta = with lib; {
     description = "Interact with a Compal CH7465LG cable modem/router";

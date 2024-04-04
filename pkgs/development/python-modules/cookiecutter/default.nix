@@ -1,11 +1,24 @@
-{ lib, buildPythonPackage, fetchPypi, isPyPy
-, setuptools
-, pytest, pytest-cov, pytest-mock, freezegun, safety, pre-commit
-, jinja2, binaryornot, click, jinja2-time, requests
-, python-slugify
-, pyyaml
-, arrow
-, rich
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  isPyPy,
+  setuptools,
+  pytest,
+  pytest-cov,
+  pytest-mock,
+  freezegun,
+  safety,
+  pre-commit,
+  jinja2,
+  binaryornot,
+  click,
+  jinja2-time,
+  requests,
+  python-slugify,
+  pyyaml,
+  arrow,
+  rich,
 }:
 
 buildPythonPackage rec {
@@ -21,9 +34,7 @@ buildPythonPackage rec {
     hash = "sha256-5h6QNHSOP0G4vSwR8A0DB4S0hxHE1cQjY8UJiaZTMew=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   nativeCheckInputs = [
     pytest

@@ -1,4 +1,11 @@
-{ lib, stdenv, fetchurl, fetchpatch, zlib, ncurses }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  fetchpatch,
+  zlib,
+  ncurses,
+}:
 
 stdenv.mkDerivation rec {
   pname = "aewan";
@@ -20,7 +27,10 @@ stdenv.mkDerivation rec {
     })
   ];
 
-  buildInputs = [ zlib ncurses ];
+  buildInputs = [
+    zlib
+    ncurses
+  ];
 
   meta = {
     description = "Ascii-art Editor Without A Name";

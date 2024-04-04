@@ -1,11 +1,12 @@
-{ lib
-, stdenv
-, fetchurl
-, fetchpatch
-, meson
-, ninja
-, gettext
-, mateUpdateScript
+{
+  lib,
+  stdenv,
+  fetchurl,
+  fetchpatch,
+  meson,
+  ninja,
+  gettext,
+  mateUpdateScript,
 }:
 
 stdenv.mkDerivation rec {
@@ -37,7 +38,10 @@ stdenv.mkDerivation rec {
   meta = with lib; {
     description = "Background images and data for MATE";
     homepage = "https://mate-desktop.org";
-    license = with licenses; [ gpl2Plus cc-by-sa-40 ];
+    license = with licenses; [
+      gpl2Plus
+      cc-by-sa-40
+    ];
     platforms = platforms.unix;
     maintainers = teams.mate.members;
   };

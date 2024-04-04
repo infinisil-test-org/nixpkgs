@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, setuptools
-, setuptools-scm
-, wheel
-, py
-, pytest
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  setuptools,
+  setuptools-scm,
+  wheel,
+  py,
+  pytest,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -31,13 +32,9 @@ buildPythonPackage rec {
     wheel
   ];
 
-  buildInputs = [
-    pytest
-  ];
+  buildInputs = [ pytest ];
 
-  propagatedBuildInputs = [
-    py
-  ];
+  propagatedBuildInputs = [ py ];
 
   nativeCheckInputs = [
     py

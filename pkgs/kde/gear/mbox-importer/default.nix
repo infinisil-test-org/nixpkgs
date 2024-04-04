@@ -1,4 +1,1 @@
-{mkKdeDerivation}:
-mkKdeDerivation {
-  pname = "mbox-importer";
-}
+{ mkKdeDerivation }: mkKdeDerivation { pname = "mbox-importer"; }

@@ -1,4 +1,12 @@
-{ lib, stdenv, fetchzip, cmake, tbb, python3, ispc }:
+{
+  lib,
+  stdenv,
+  fetchzip,
+  cmake,
+  tbb,
+  python3,
+  ispc,
+}:
 
 stdenv.mkDerivation rec {
   pname = "openimagedenoise";
@@ -10,7 +18,11 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-i73w/Vkr5TPLB1ulPbPU4OVGwdNlky1brfarueD7akE=";
   };
 
-  nativeBuildInputs = [ cmake python3 ispc ];
+  nativeBuildInputs = [
+    cmake
+    python3
+    ispc
+  ];
   buildInputs = [ tbb ];
 
   cmakeFlags = [

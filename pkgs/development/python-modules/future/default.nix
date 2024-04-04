@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, fetchpatch
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  fetchpatch,
 
-# build-system
-, setuptools
+  # build-system
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -28,9 +29,7 @@ buildPythonPackage rec {
     })
   ];
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   pythonImportsCheck = [
     "future.builtins"

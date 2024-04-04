@@ -1,4 +1,9 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 
 let
   cfg = config.services.envfs;
@@ -7,21 +12,30 @@ let
       device = "none";
       fsType = "envfs";
       options = [
-        "fallback-path=${pkgs.runCommand "fallback-path" {} (''
-          mkdir -p $out
-          ln -s ${config.environment.usrbinenv} $out/env
-          ln -s ${config.environment.binsh} $out/sh
-        '' + cfg.extraFallbackPathCommands)}"
+        "fallback-path=${
+          pkgs.runCommand "fallback-path" { } (
+            ''
+              mkdir -p $out
+              ln -s ${config.environment.usrbinenv} $out/env
+              ln -s ${config.environment.binsh} $out/sh
+            ''
+            + cfg.extraFallbackPathCommands
+          )
+        }"
         "nofail"
       ];
     };
     "/bin" = {
       device = "/usr/bin";
       fsType = "none";
-      options = [ "bind" "nofail" ];
+      options = [
+        "bind"
+        "nofail"
+      ];
     };
   };
-in {
+in
+{
   options = {
     services.envfs = {
       enable = lib.mkEnableOption (lib.mdDoc "Envfs filesystem") // {

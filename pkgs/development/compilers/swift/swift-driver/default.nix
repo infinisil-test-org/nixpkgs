@@ -1,15 +1,16 @@
-{ lib
-, stdenv
-, callPackage
-, fetchpatch
-, swift
-, swiftpm
-, swiftpm2nix
-, Foundation
-, XCTest
-, sqlite
-, ncurses
-, substituteAll
+{
+  lib,
+  stdenv,
+  callPackage,
+  fetchpatch,
+  swift,
+  swiftpm,
+  swiftpm2nix,
+  Foundation,
+  XCTest,
+  sqlite,
+  ncurses,
+  substituteAll,
 }:
 let
   sources = callPackage ../sources.nix { };
@@ -27,7 +28,10 @@ stdenv.mkDerivation {
   inherit (sources) version;
   src = sources.swift-driver;
 
-  nativeBuildInputs = [ swift swiftpm ];
+  nativeBuildInputs = [
+    swift
+    swiftpm
+  ];
   buildInputs = [
     Foundation
     XCTest
@@ -52,10 +56,12 @@ stdenv.mkDerivation {
     })
   ];
 
-  configurePhase = generated.configure + ''
-    swiftpmMakeMutable swift-tools-support-core
-    patch -p1 -d .build/checkouts/swift-tools-support-core -i ${./patches/force-unwrap-file-handles.patch}
-  '';
+  configurePhase =
+    generated.configure
+    + ''
+      swiftpmMakeMutable swift-tools-support-core
+      patch -p1 -d .build/checkouts/swift-tools-support-core -i ${./patches/force-unwrap-file-handles.patch}
+    '';
 
   # TODO: Tests depend on indexstore-db being provided by an existing Swift
   # toolchain. (ie. looks for `../lib/libIndexStore.so` relative to swiftc.
@@ -75,6 +81,12 @@ stdenv.mkDerivation {
     homepage = "https://github.com/apple/swift-driver";
     platforms = with lib.platforms; linux ++ darwin;
     license = lib.licenses.asl20;
-    maintainers = with lib.maintainers; [ dtzWill trepetti dduan trundle stephank ];
+    maintainers = with lib.maintainers; [
+      dtzWill
+      trepetti
+      dduan
+      trundle
+      stephank
+    ];
   };
 }

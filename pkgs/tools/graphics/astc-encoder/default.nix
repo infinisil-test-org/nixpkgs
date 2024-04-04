@@ -1,30 +1,53 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, simdExtensions ? null
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  simdExtensions ? null,
 }:
 
 with rec {
   # SIMD instruction sets to compile for. If none are specified by the user,
   # an appropriate one is selected based on the detected host system
-  isas = with stdenv.hostPlatform;
-    if simdExtensions != null then lib.toList simdExtensions
-    else if avx2Support then [ "AVX2" ]
-    else if sse4_1Support then [ "SSE41" ]
-    else if isx86_64 then [ "SSE2" ]
-    else if isAarch64 then [ "NEON" ]
-    else [ "NONE" ];
+  isas =
+    with stdenv.hostPlatform;
+    if simdExtensions != null then
+      lib.toList simdExtensions
+    else if avx2Support then
+      [ "AVX2" ]
+    else if sse4_1Support then
+      [ "SSE41" ]
+    else if isx86_64 then
+      [ "SSE2" ]
+    else if isAarch64 then
+      [ "NEON" ]
+    else
+      [ "NONE" ];
 
   # CMake Build flags for the selected ISAs. For a list of flags, see
   # https://github.com/ARM-software/astc-encoder/blob/main/Docs/Building.md
-  isaFlags = map ( isa: "-DASTCENC_ISA_${isa}=ON" ) isas;
+  isaFlags = map (isa: "-DASTCENC_ISA_${isa}=ON") isas;
 
   # The suffix of the binary to link as 'astcenc'
-  mainBinary = builtins.replaceStrings
-    [ "AVX2" "SSE41"  "SSE2" "NEON" "NONE" "NATIVE" ]
-    [ "avx2" "sse4.1" "sse2" "neon" "none" "native" ]
-    ( builtins.head isas );
+  mainBinary =
+    builtins.replaceStrings
+      [
+        "AVX2"
+        "SSE41"
+        "SSE2"
+        "NEON"
+        "NONE"
+        "NATIVE"
+      ]
+      [
+        "avx2"
+        "sse4.1"
+        "sse2"
+        "neon"
+        "none"
+        "native"
+      ]
+      (builtins.head isas);
 };
 
 stdenv.mkDerivation rec {
@@ -42,9 +65,7 @@ stdenv.mkDerivation rec {
 
   cmakeBuildType = "RelWithDebInfo";
 
-  cmakeFlags = isaFlags ++ [
-    "-DASTCENC_UNIVERSAL_BUILD=OFF"
-  ];
+  cmakeFlags = isaFlags ++ [ "-DASTCENC_UNIVERSAL_BUILD=OFF" ];
 
   # Set a fixed build year to display within help output (otherwise, it would be 1980)
   postPatch = ''

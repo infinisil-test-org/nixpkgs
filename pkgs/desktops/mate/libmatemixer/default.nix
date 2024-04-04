@@ -1,16 +1,17 @@
-{ config
-, lib
-, stdenv
-, fetchurl
-, pkg-config
-, gettext
-, glib
-, alsaSupport ? stdenv.isLinux
-, alsa-lib
-, pulseaudioSupport ? config.pulseaudio or true
-, libpulseaudio
-, ossSupport ? false
-, mateUpdateScript
+{
+  config,
+  lib,
+  stdenv,
+  fetchurl,
+  pkg-config,
+  gettext,
+  glib,
+  alsaSupport ? stdenv.isLinux,
+  alsa-lib,
+  pulseaudioSupport ? config.pulseaudio or true,
+  libpulseaudio,
+  ossSupport ? false,
+  mateUpdateScript,
 }:
 
 stdenv.mkDerivation rec {
@@ -29,9 +30,7 @@ stdenv.mkDerivation rec {
 
   buildInputs = [
     glib
-  ]
-  ++ lib.optional alsaSupport alsa-lib
-  ++ lib.optional pulseaudioSupport libpulseaudio;
+  ] ++ lib.optional alsaSupport alsa-lib ++ lib.optional pulseaudioSupport libpulseaudio;
 
   configureFlags = lib.optional ossSupport "--enable-oss";
 

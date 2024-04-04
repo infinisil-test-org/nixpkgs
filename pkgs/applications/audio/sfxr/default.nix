@@ -1,12 +1,14 @@
-{ lib, stdenv
-, fetchurl
-, fetchpatch
-, pkg-config
-, desktop-file-utils
-, SDL
-, gtk3
-, gsettings-desktop-schemas
-, wrapGAppsHook
+{
+  lib,
+  stdenv,
+  fetchurl,
+  fetchpatch,
+  pkg-config,
+  desktop-file-utils,
+  SDL,
+  gtk3,
+  gsettings-desktop-schemas,
+  wrapGAppsHook,
 }:
 
 stdenv.mkDerivation (finalAttrs: {

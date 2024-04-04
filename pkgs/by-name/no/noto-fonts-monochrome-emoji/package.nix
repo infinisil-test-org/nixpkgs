@@ -1,6 +1,7 @@
-{ lib
-, stdenvNoCC
-, fetchurl
+{
+  lib,
+  stdenvNoCC,
+  fetchurl,
 }:
 
 # Metadata fetched from
@@ -25,13 +26,14 @@ stdenvNoCC.mkDerivation {
         "700" = "Bold";
       };
     in
-    lib.mapAttrsToList
-      (variant: url: fetchurl {
+    lib.mapAttrsToList (
+      variant: url:
+      fetchurl {
         name = "NotoEmoji-${weightNames.${variant}}.ttf";
         hash = urlHashes.${url};
         inherit url;
-      })
-      metadata.files;
+      }
+    ) metadata.files;
 
   installPhase = ''
     runHook preInstall

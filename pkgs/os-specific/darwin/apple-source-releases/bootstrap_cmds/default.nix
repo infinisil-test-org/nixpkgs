@@ -1,16 +1,24 @@
-{ lib, appleDerivation, stdenv, bison, flex }:
+{
+  lib,
+  appleDerivation,
+  stdenv,
+  bison,
+  flex,
+}:
 
 let
 
   # Hard to get CC to pull this off without infinite recursion
-  targetTargetPrefix = lib.optionalString
-    (with stdenv; hostPlatform != targetPlatform)
-    (stdenv.targetPlatform.config + "-");
-
+  targetTargetPrefix = lib.optionalString (with stdenv; hostPlatform != targetPlatform) (
+    stdenv.targetPlatform.config + "-"
+  );
 in
 
 appleDerivation {
-  nativeBuildInputs = [ bison flex ];
+  nativeBuildInputs = [
+    bison
+    flex
+  ];
 
   buildPhase = ''
     cd migcom.tproj

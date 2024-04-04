@@ -1,4 +1,8 @@
-{ lib, rustPlatform, fetchCrate }:
+{
+  lib,
+  rustPlatform,
+  fetchCrate,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "dotslash";
@@ -24,7 +28,10 @@ rustPlatform.buildRustPackage rec {
       your developers seamlessly get the tools they need, ensuring consistent
       builds across platforms.
     '';
-    license = with licenses; [ asl20 /* or */ mit ];
+    license = with licenses; [
+      asl20 # or
+      mit
+    ];
     mainProgram = "dotslash";
     maintainers = with maintainers; [ thoughtpolice ];
   };

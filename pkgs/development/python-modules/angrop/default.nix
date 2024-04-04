@@ -1,11 +1,12 @@
-{ lib
-, angr
-, buildPythonPackage
-, fetchFromGitHub
-, progressbar
-, pythonOlder
-, setuptools
-, tqdm
+{
+  lib,
+  angr,
+  buildPythonPackage,
+  fetchFromGitHub,
+  progressbar,
+  pythonOlder,
+  setuptools,
+  tqdm,
 }:
 
 buildPythonPackage rec {
@@ -22,9 +23,7 @@ buildPythonPackage rec {
     hash = "sha256-zmWdGbFzwLDP7MUqEprZcIgA7lAdCrafWYohAehJyh0=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     angr
@@ -36,9 +35,7 @@ buildPythonPackage rec {
   # cle is executing the tests with the angr binaries already and is a requirement of angr
   doCheck = false;
 
-  pythonImportsCheck = [
-    "angrop"
-  ];
+  pythonImportsCheck = [ "angrop" ];
 
   meta = with lib; {
     description = "ROP gadget finder and chain builder";

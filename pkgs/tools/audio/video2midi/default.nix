@@ -1,12 +1,20 @@
-{ lib, fetchFromGitHub, pythonPackages, opencv4 }:
+{
+  lib,
+  fetchFromGitHub,
+  pythonPackages,
+  opencv4,
+}:
 
 let
-  opencv4_ = pythonPackages.toPythonModule (opencv4.override {
-    inherit pythonPackages;
-    enablePython = true;
-    enableFfmpeg = true;
-  });
-in pythonPackages.buildPythonApplication rec {
+  opencv4_ = pythonPackages.toPythonModule (
+    opencv4.override {
+      inherit pythonPackages;
+      enablePython = true;
+      enableFfmpeg = true;
+    }
+  );
+in
+pythonPackages.buildPythonApplication rec {
   pname = "video2midi";
   version = "0.4.7.2";
 
@@ -19,7 +27,12 @@ in pythonPackages.buildPythonApplication rec {
     sha256 = "sha256-lM3SBgGUW5MTUtsywy57fBiHEg58a8Fcpqb+EcRaYQ4=";
   };
 
-  propagatedBuildInputs = with pythonPackages; [ opencv4_ midiutil pygame pyopengl ];
+  propagatedBuildInputs = with pythonPackages; [
+    opencv4_
+    midiutil
+    pygame
+    pyopengl
+  ];
 
   installPhase = ''
     install -Dm755 v2m.py $out/bin/v2m.py

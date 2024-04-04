@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, setuptools
-, pyyaml
-, twine
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  setuptools,
+  pyyaml,
+  twine,
 }:
 
 buildPythonPackage rec {
@@ -17,9 +18,7 @@ buildPythonPackage rec {
     hash = "sha256-GQopIO8F+G5iDz4NF2GTHCpXo4uqKHdHIzffacihylM=";
   };
 
-  nativeBuildInput = [
-    setuptools
-  ];
+  nativeBuildInput = [ setuptools ];
 
   propagatedBuildInputs = [
     pyyaml

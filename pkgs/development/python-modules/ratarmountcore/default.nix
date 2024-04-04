@@ -1,16 +1,17 @@
-{ lib
-, buildPythonPackage
-, fetchgit
-, pythonOlder
-, pytestCheckHook
-, indexed-bzip2
-, indexed-gzip
-, indexed-zstd
-, python-xz
-, rapidgzip
-, rarfile
-, zstandard     # Python bindings
-, zstd          # System tool
+{
+  lib,
+  buildPythonPackage,
+  fetchgit,
+  pythonOlder,
+  pytestCheckHook,
+  indexed-bzip2,
+  indexed-gzip,
+  indexed-zstd,
+  python-xz,
+  rapidgzip,
+  rarfile,
+  zstandard, # Python bindings
+  zstd, # System tool
 }:
 
 buildPythonPackage rec {
@@ -33,11 +34,22 @@ buildPythonPackage rec {
 
   sourceRoot = "${src.name}/core";
 
-  propagatedBuildInputs = [ indexed-gzip indexed-bzip2 indexed-zstd python-xz rapidgzip rarfile ];
+  propagatedBuildInputs = [
+    indexed-gzip
+    indexed-bzip2
+    indexed-zstd
+    python-xz
+    rapidgzip
+    rarfile
+  ];
 
   pythonImportsCheck = [ "ratarmountcore" ];
 
-  nativeCheckInputs = [ pytestCheckHook zstandard zstd ];
+  nativeCheckInputs = [
+    pytestCheckHook
+    zstandard
+    zstd
+  ];
 
   meta = with lib; {
     description = "Library for accessing archives by way of indexing";

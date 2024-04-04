@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pytestCheckHook
-, pythonOlder
-, build
-, hatchling
-, tomli
-, typing-extensions
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pytestCheckHook,
+  pythonOlder,
+  build,
+  hatchling,
+  tomli,
+  typing-extensions,
 }:
 
 buildPythonPackage rec {
@@ -22,17 +23,12 @@ buildPythonPackage rec {
     hash = "sha256-sd9EBjCUrx6CSM6s1HqSyc8xPWuYI79mr4qSfDlgKH0=";
   };
 
-  nativeBuildInputs = [
-    hatchling
-  ];
+  nativeBuildInputs = [ hatchling ];
 
-  propagatedBuildInputs = [
-    hatchling
-  ] ++ lib.optionals (pythonOlder "3.11") [
-    tomli
-  ] ++ lib.optionals (pythonOlder "3.8") [
-    typing-extensions
-  ];
+  propagatedBuildInputs =
+    [ hatchling ]
+    ++ lib.optionals (pythonOlder "3.11") [ tomli ]
+    ++ lib.optionals (pythonOlder "3.8") [ typing-extensions ];
 
   nativeCheckInputs = [
     build
@@ -41,13 +37,11 @@ buildPythonPackage rec {
 
   # Requires network connection
   disabledTests = [
-    "test_build"  # Requires internet
+    "test_build" # Requires internet
     "test_invalid_config"
   ];
 
-  pythonImportsCheck = [
-    "hatch_fancy_pypi_readme"
-  ];
+  pythonImportsCheck = [ "hatch_fancy_pypi_readme" ];
 
   meta = with lib; {
     description = "Fancy PyPI READMEs with Hatch";

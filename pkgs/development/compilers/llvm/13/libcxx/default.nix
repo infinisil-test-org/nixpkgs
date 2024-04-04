@@ -1,14 +1,23 @@
-{ lib, stdenv, llvm_meta, src, cmake, python3, fixDarwinDylibNames, version
-, cxxabi ? if stdenv.hostPlatform.isFreeBSD then libcxxrt else libcxxabi
-, libcxxabi, libcxxrt
-, enableShared ? !stdenv.hostPlatform.isStatic
+{
+  lib,
+  stdenv,
+  llvm_meta,
+  src,
+  cmake,
+  python3,
+  fixDarwinDylibNames,
+  version,
+  cxxabi ? if stdenv.hostPlatform.isFreeBSD then libcxxrt else libcxxabi,
+  libcxxabi,
+  libcxxrt,
+  enableShared ? !stdenv.hostPlatform.isStatic,
 
-# If headersOnly is true, the resulting package would only include the headers.
-# Use this to break the circular dependency between libcxx and libcxxabi.
-#
-# Some context:
-# https://reviews.llvm.org/rG1687f2bbe2e2aaa092f942d4a97d41fad43eedfb
-, headersOnly ? false
+  # If headersOnly is true, the resulting package would only include the headers.
+  # Use this to break the circular dependency between libcxx and libcxxabi.
+  #
+  # Some context:
+  # https://reviews.llvm.org/rG1687f2bbe2e2aaa092f942d4a97d41fad43eedfb
+  headersOnly ? false,
 }:
 
 assert stdenv.isDarwin -> cxxabi.pname == "libcxxabi";
@@ -24,27 +33,31 @@ stdenv.mkDerivation rec {
 
   patches = [
     ./gnu-install-dirs.patch
-  ] ++ lib.optionals stdenv.hostPlatform.isMusl [
-    ../../common/libcxx/libcxx-0001-musl-hacks.patch
-  ];
+  ] ++ lib.optionals stdenv.hostPlatform.isMusl [ ../../common/libcxx/libcxx-0001-musl-hacks.patch ];
 
   preConfigure = lib.optionalString stdenv.hostPlatform.isMusl ''
     patchShebangs utils/cat_files.py
   '';
 
-  nativeBuildInputs = [ cmake python3 ]
-    ++ lib.optional stdenv.isDarwin fixDarwinDylibNames;
+  nativeBuildInputs = [
+    cmake
+    python3
+  ] ++ lib.optional stdenv.isDarwin fixDarwinDylibNames;
 
   buildInputs = lib.optionals (!headersOnly) [ cxxabi ];
 
-  cmakeFlags = [ "-DLIBCXX_CXX_ABI=${cxxabi.pname}" ]
-    ++ lib.optional (stdenv.hostPlatform.isMusl || stdenv.hostPlatform.isWasi) "-DLIBCXX_HAS_MUSL_LIBC=1"
+  cmakeFlags =
+    [ "-DLIBCXX_CXX_ABI=${cxxabi.pname}" ]
+    ++ lib.optional (
+      stdenv.hostPlatform.isMusl || stdenv.hostPlatform.isWasi
+    ) "-DLIBCXX_HAS_MUSL_LIBC=1"
     ++ lib.optional (stdenv.hostPlatform.useLLVM or false) "-DLIBCXX_USE_COMPILER_RT=ON"
     ++ lib.optionals stdenv.hostPlatform.isWasm [
       "-DLIBCXX_ENABLE_THREADS=OFF"
       "-DLIBCXX_ENABLE_FILESYSTEM=OFF"
       "-DLIBCXX_ENABLE_EXCEPTIONS=OFF"
-    ] ++ lib.optional (!enableShared) "-DLIBCXX_ENABLE_SHARED=OFF";
+    ]
+    ++ lib.optional (!enableShared) "-DLIBCXX_ENABLE_SHARED=OFF";
 
   buildFlags = lib.optional headersOnly "generate-cxx-headers";
   installTargets = lib.optional headersOnly "install-cxx-headers";
@@ -87,6 +100,9 @@ stdenv.mkDerivation rec {
 
     # "All of the code in libc++ is dual licensed under the MIT license and the
     # UIUC License (a BSD-like license)":
-    license = with lib.licenses; [ mit ncsa ];
+    license = with lib.licenses; [
+      mit
+      ncsa
+    ];
   };
 }

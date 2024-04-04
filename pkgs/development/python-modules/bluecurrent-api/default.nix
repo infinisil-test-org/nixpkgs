@@ -1,14 +1,15 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchPypi
-, pythonRelaxDepsHook
-, setuptools
-, pytz
-, websockets
-, pytest-asyncio
-, pytest-mock
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchPypi,
+  pythonRelaxDepsHook,
+  setuptools,
+  pytz,
+  websockets,
+  pytest-asyncio,
+  pytest-mock,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -28,9 +29,7 @@ buildPythonPackage rec {
     setuptools
   ];
 
-  pythonRemoveDeps = [
-    "asyncio"
-  ];
+  pythonRemoveDeps = [ "asyncio" ];
 
   propagatedBuildInputs = [
     pytz

@@ -1,7 +1,8 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -15,16 +16,12 @@ buildPythonPackage rec {
     hash = "sha256-r+uBnpoD0KV5XxjIj+YgfEjtE8Y56TKBvZ2be7bTQxA=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   # Modules has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "deprecated-stubs"
-  ];
+  pythonImportsCheck = [ "deprecated-stubs" ];
 
   meta = with lib; {
     description = "Typing stubs for Deprecated";

@@ -1,9 +1,10 @@
-{ stdenv
-, lib
-, fetchurl
-, autoPatchelfHook
-, dpkg
-, wrapGAppsHook
+{
+  stdenv,
+  lib,
+  fetchurl,
+  autoPatchelfHook,
+  dpkg,
+  wrapGAppsHook,
 }:
 
 stdenv.mkDerivation rec {
@@ -20,9 +21,7 @@ stdenv.mkDerivation rec {
     dpkg
   ];
 
-  buildInputs = [
-    wrapGAppsHook
-  ];
+  buildInputs = [ wrapGAppsHook ];
 
   unpackCmd = "dpkg-deb -x $curSrc source";
 

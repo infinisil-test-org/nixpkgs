@@ -1,10 +1,11 @@
-{ lib
-, fetchFromGitHub
-, fetchYarnDeps
-, makeWrapper
-, matrix-sdk-crypto-nodejs
-, mkYarnPackage
-, nodejs
+{
+  lib,
+  fetchFromGitHub,
+  fetchYarnDeps,
+  makeWrapper,
+  matrix-sdk-crypto-nodejs,
+  mkYarnPackage,
+  nodejs,
 }:
 
 let
@@ -49,7 +50,10 @@ mkYarnPackage rec {
 
   meta = with lib; {
     description = "A Matrix <--> Slack bridge";
-    maintainers = with maintainers; [ beardhatcode chvp ];
+    maintainers = with maintainers; [
+      beardhatcode
+      chvp
+    ];
     license = licenses.asl20;
   };
 }

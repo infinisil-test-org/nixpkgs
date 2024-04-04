@@ -6,5 +6,8 @@
 mkKdeDerivation {
   pname = "ark";
 
-  extraBuildInputs = [libarchive libzip];
+  extraBuildInputs = [
+    libarchive
+    libzip
+  ];
 }

@@ -2,16 +2,20 @@
 
 let
   inherit (pkgs) fetchpatch lib;
-  checkAgainAfter = pkg: ver: msg: act:
-    if builtins.compareVersions pkg.version ver <= 0 then act
+  checkAgainAfter =
+    pkg: ver: msg: act:
+    if builtins.compareVersions pkg.version ver <= 0 then
+      act
     else
       builtins.throw "Check if '${msg}' was resolved in ${pkg.pname} ${pkg.version} and update or remove this";
 in
 
 with haskellLib;
-self: super: let
+self: super:
+let
   jailbreakForCurrentVersion = p: v: checkAgainAfter p v "bad bounds" (doJailbreak p);
-in {
+in
+{
   llvmPackages = lib.dontRecurseIntoAttrs self.ghc.llvmPackages;
 
   # Disable GHC core libraries.
@@ -46,7 +50,11 @@ in {
   system-cxx-std-lib = null;
   template-haskell = null;
   # GHC only builds terminfo if it is a native compiler
-  terminfo = if pkgs.stdenv.hostPlatform == pkgs.stdenv.buildPlatform then null else doDistribute self.terminfo_0_4_1_6;
+  terminfo =
+    if pkgs.stdenv.hostPlatform == pkgs.stdenv.buildPlatform then
+      null
+    else
+      doDistribute self.terminfo_0_4_1_6;
   text = null;
   time = null;
   transformers = null;
@@ -59,7 +67,7 @@ in {
 
   hashable-time = doJailbreak super.hashable-time;
   libmpd = doJailbreak super.libmpd;
-  lens-family-th = doJailbreak super.lens-family-th;  # template-haskell <2.19
+  lens-family-th = doJailbreak super.lens-family-th; # template-haskell <2.19
 
   # generically needs base-orphans for 9.4 only
   base-orphans = dontCheck (doDistribute super.base-orphans);
@@ -73,7 +81,7 @@ in {
     # 2021-10-10: 9.2.1 is not yet supported (also no issue)
     testFlags = [
       "--skip=/Hpack/renderCabalFile/is inverse to readCabalFile/"
-    ] ++ drv.testFlags or [];
+    ] ++ drv.testFlags or [ ];
   }) (doJailbreak super.hpack);
 
   # Tests depend on `parseTime` which is no longer available
@@ -117,7 +125,9 @@ in {
       lib.mapAttrs (_: pkg: doDistribute (pkg.overrideScope hls_overlay)) {
         haskell-language-server = allowInconsistentDependencies super.haskell-language-server;
         fourmolu = self.fourmolu_0_14_0_0;
-        ormolu = self.generateOptparseApplicativeCompletions [ "ormolu" ] (enableSeparateBinOutput super.ormolu_0_7_2_0);
+        ormolu = self.generateOptparseApplicativeCompletions [ "ormolu" ] (
+          enableSeparateBinOutput super.ormolu_0_7_2_0
+        );
         hlint = super.hlint_3_6_1;
         stylish-haskell = super.stylish-haskell;
       }
@@ -130,5 +140,5 @@ in {
     ormolu
     hlint
     stylish-haskell
-  ;
+    ;
 }

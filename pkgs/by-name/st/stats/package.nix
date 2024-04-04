@@ -1,7 +1,8 @@
-{ lib
-, stdenvNoCC
-, fetchurl
-, undmg
+{
+  lib,
+  stdenvNoCC,
+  fetchurl,
+  undmg,
 }:
 
 stdenvNoCC.mkDerivation (finalAttrs: {
@@ -30,7 +31,10 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     homepage = "https://github.com/exelban/stats";
     license = licenses.mit;
     sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
-    maintainers = with maintainers; [ emilytrau Enzime ];
+    maintainers = with maintainers; [
+      emilytrau
+      Enzime
+    ];
     platforms = platforms.darwin;
   };
 })

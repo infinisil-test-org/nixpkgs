@@ -1,17 +1,18 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, coverage
-, ipykernel
-, jupyter-client
-, nbformat
-, pytestCheckHook
-, pytest
-, six
-, glibcLocales
-, matplotlib
-, sympy
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  coverage,
+  ipykernel,
+  jupyter-client,
+  nbformat,
+  pytestCheckHook,
+  pytest,
+  six,
+  glibcLocales,
+  matplotlib,
+  sympy,
 }:
 
 buildPythonPackage rec {
@@ -26,9 +27,7 @@ buildPythonPackage rec {
     hash = "sha256-tKzv3BEyrvihtbYr+ak9Eo66UoObKFTqPkJZj023vrM=";
   };
 
-  buildInputs = [
-    glibcLocales
-  ];
+  buildInputs = [ glibcLocales ];
 
   propagatedBuildInputs = [
     coverage
@@ -61,9 +60,7 @@ buildPythonPackage rec {
   # Some of the tests use localhost networking.
   __darwinAllowLocalNetworking = true;
 
-  pythonImportsCheck = [
-    "nbval"
-  ];
+  pythonImportsCheck = [ "nbval" ];
 
   meta = with lib; {
     description = "A py.test plugin to validate Jupyter notebooks";

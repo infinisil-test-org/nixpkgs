@@ -1,9 +1,6 @@
-{
-  mkKdeDerivation,
-  qtsvg,
-}:
+{ mkKdeDerivation, qtsvg }:
 mkKdeDerivation {
   pname = "qmlkonsole";
 
-  extraBuildInputs = [qtsvg];
+  extraBuildInputs = [ qtsvg ];
 }

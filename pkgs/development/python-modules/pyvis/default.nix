@@ -1,13 +1,14 @@
-{ lib
-, fetchFromGitHub
-, fetchpatch
-, buildPythonPackage
-, networkx
-, jinja2
-, ipython
-, jsonpickle
-, pytestCheckHook
-, numpy
+{
+  lib,
+  fetchFromGitHub,
+  fetchpatch,
+  buildPythonPackage,
+  networkx,
+  jinja2,
+  ipython,
+  jsonpickle,
+  pytestCheckHook,
+  numpy,
 }:
 
 buildPythonPackage rec {

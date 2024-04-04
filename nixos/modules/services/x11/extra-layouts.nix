@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -14,11 +19,10 @@ let
 
       languages = mkOption {
         type = types.listOf types.str;
-        description =
-          lib.mdDoc ''
-            A list of languages provided by the layout.
-            (Use ISO 639-2 codes, for example: "eng" for english)
-          '';
+        description = lib.mdDoc ''
+          A list of languages provided by the layout.
+          (Use ISO 639-2 codes, for example: "eng" for english)
+        '';
       };
 
       compatFile = mkOption {
@@ -75,14 +79,12 @@ let
           It must contain a `xkb_types "name" { ... }` block.
         '';
       };
-
     };
   };
 
   xkb_patched = pkgs.xorg.xkeyboardconfig_custom {
     layouts = config.services.xserver.xkb.extraLayouts;
   };
-
 in
 
 {
@@ -90,8 +92,17 @@ in
   imports = [
     (lib.mkRenamedOptionModuleWith {
       sinceRelease = 2311;
-      from = [ "services" "xserver" "extraLayouts" ];
-      to = [ "services" "xserver" "xkb" "extraLayouts" ];
+      from = [
+        "services"
+        "xserver"
+        "extraLayouts"
+      ];
+      to = [
+        "services"
+        "xserver"
+        "xkb"
+        "extraLayouts"
+      ];
     })
   ];
 
@@ -101,16 +112,15 @@ in
     extraLayouts = mkOption {
       type = types.attrsOf (types.submodule layoutOpts);
       default = { };
-      example = literalExpression
-        ''
-          {
-            mine = {
-              description = "My custom xkb layout.";
-              languages = [ "eng" ];
-              symbolsFile = /path/to/my/layout;
-            };
-          }
-        '';
+      example = literalExpression ''
+        {
+          mine = {
+            description = "My custom xkb layout.";
+            languages = [ "eng" ];
+            symbolsFile = /path/to/my/layout;
+          };
+        }
+      '';
       description = lib.mdDoc ''
         Extra custom layouts that will be included in the xkb configuration.
         Information on how to create a new layout can be found here:
@@ -119,7 +129,6 @@ in
         <https://wiki.archlinux.org/index.php/X_KeyBoard_extension#Basic_examples>
       '';
     };
-
   };
 
   ###### implementation
@@ -134,10 +143,9 @@ in
 
     services.xserver = {
       xkb.dir = "${xkb_patched}/etc/X11/xkb";
-      exportConfiguration = config.services.xserver.displayManager.startx.enable
+      exportConfiguration =
+        config.services.xserver.displayManager.startx.enable
         || config.services.xserver.displayManager.sx.enable;
     };
-
   };
-
 }

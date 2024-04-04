@@ -1,9 +1,10 @@
-{ lib
-, aiohttp
-, async-timeout
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
+{
+  lib,
+  aiohttp,
+  async-timeout,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -28,9 +29,7 @@ buildPythonPackage rec {
   # no tests are present
   doCheck = false;
 
-  pythonImportsCheck = [
-    "volkszaehler"
-  ];
+  pythonImportsCheck = [ "volkszaehler" ];
 
   meta = with lib; {
     description = "Python module for interacting with the Volkszahler API";

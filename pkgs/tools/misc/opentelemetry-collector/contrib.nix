@@ -1,9 +1,10 @@
-{ buildGoModule
-, fetchFromGitHub
-, lib
-, stdenv
-, systemdMinimal
-, withSystemd ? false
+{
+  buildGoModule,
+  fetchFromGitHub,
+  lib,
+  stdenv,
+  systemdMinimal,
+  withSystemd ? false,
 }:
 
 buildGoModule rec {
@@ -42,8 +43,10 @@ buildGoModule rec {
   preCheck = "export CGO_ENABLED=1";
 
   # This test fails on darwin for mysterious reasons.
-  checkFlags = lib.optionals stdenv.isDarwin
-    [ "-skip" "TestDefaultExtensions/memory_ballast" ];
+  checkFlags = lib.optionals stdenv.isDarwin [
+    "-skip"
+    "TestDefaultExtensions/memory_ballast"
+  ];
 
   ldflags = [
     "-s"
@@ -66,7 +69,10 @@ buildGoModule rec {
     homepage = "https://github.com/open-telemetry/opentelemetry-collector-contrib";
     changelog = "https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/v${version}/CHANGELOG.md";
     license = licenses.asl20;
-    maintainers = with maintainers; [ uri-canva jk ];
+    maintainers = with maintainers; [
+      uri-canva
+      jk
+    ];
     mainProgram = "otelcontribcol";
   };
 }

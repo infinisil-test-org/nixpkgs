@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchurl, autoreconfHook }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  autoreconfHook,
+}:
 
 stdenv.mkDerivation rec {
   pname = "libndp";
@@ -18,5 +23,4 @@ stdenv.mkDerivation rec {
     maintainers = [ ];
     license = licenses.lgpl21;
   };
-
 }

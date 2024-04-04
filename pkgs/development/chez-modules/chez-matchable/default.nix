@@ -1,4 +1,9 @@
-{ stdenv, lib, fetchFromGitHub, chez }:
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  chez,
+}:
 
 stdenv.mkDerivation rec {
   pname = "chez-matchable";
@@ -29,5 +34,4 @@ stdenv.mkDerivation rec {
     maintainers = [ maintainers.jitwit ];
     license = licenses.publicDomain;
   };
-
 }

@@ -16,9 +16,7 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-bR4o3mynoTa1Wi4ZTjbnsZ6iqVcPGriXp56bZh5UFTk=";
   };
 
-  nativeBuildInputs = [
-    cmake
-  ];
+  nativeBuildInputs = [ cmake ];
 
   outputs = [
     "out"
@@ -32,6 +30,9 @@ stdenv.mkDerivation (finalAttrs: {
     description = "The official implementation library for the hypr config language";
     license = licenses.lgpl3Only;
     platforms = platforms.linux;
-    maintainers = with maintainers; [ iogamaster fufexan ];
+    maintainers = with maintainers; [
+      iogamaster
+      fufexan
+    ];
   };
 })

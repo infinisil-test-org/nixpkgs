@@ -1,6 +1,7 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -20,7 +21,13 @@ rustPlatform.buildRustPackage rec {
     description = "A utility and Cargo subcommand designed to let people expand macros in their Rust source code";
     homepage = "https://github.com/dtolnay/cargo-expand";
     changelog = "https://github.com/dtolnay/cargo-expand/releases/tag/${version}";
-    license = with licenses; [ mit asl20 ];
-    maintainers = with maintainers; [ figsoda xrelkd ];
+    license = with licenses; [
+      mit
+      asl20
+    ];
+    maintainers = with maintainers; [
+      figsoda
+      xrelkd
+    ];
   };
 }

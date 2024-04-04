@@ -1,4 +1,10 @@
-{ lib, fetchFromGitHub, buildGoModule, nixosTests, fetchpatch }:
+{
+  lib,
+  fetchFromGitHub,
+  buildGoModule,
+  nixosTests,
+  fetchpatch,
+}:
 
 buildGoModule rec {
   pname = "prometheus-nextcloud-exporter";
@@ -13,7 +19,9 @@ buildGoModule rec {
 
   vendorHash = "sha256-QlMj4ATpJATlQAsrxIHG/1vrD5E/4brsda3BoGGzDgk=";
 
-  passthru.tests = { inherit (nixosTests.prometheus-exporters) nextcloud; };
+  passthru.tests = {
+    inherit (nixosTests.prometheus-exporters) nextcloud;
+  };
 
   meta = with lib; {
     description = "Prometheus exporter for Nextcloud servers";

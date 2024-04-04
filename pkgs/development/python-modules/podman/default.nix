@@ -1,16 +1,17 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, fixtures
-, pytestCheckHook
-, pythonOlder
-, pyxdg
-, requests
-, requests-mock
-, rich
-, setuptools
-, tomli
-, urllib3
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  fixtures,
+  pytestCheckHook,
+  pythonOlder,
+  pyxdg,
+  requests,
+  requests-mock,
+  rich,
+  setuptools,
+  tomli,
+  urllib3,
 }:
 
 buildPythonPackage rec {
@@ -27,9 +28,7 @@ buildPythonPackage rec {
     hash = "sha256-fLuWOfv4kW5a9h658s8pBgXsBfcYdkXNp9+bWtgKHv8=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     pyxdg
@@ -49,9 +48,7 @@ buildPythonPackage rec {
     export HOME=$(mktemp -d)
   '';
 
-  pythonImportsCheck = [
-    "podman"
-  ];
+  pythonImportsCheck = [ "podman" ];
 
   disabledTests = [
     # Integration tests require a running container setup

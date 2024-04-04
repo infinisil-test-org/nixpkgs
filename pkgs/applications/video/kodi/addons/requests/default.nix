@@ -1,4 +1,13 @@
-{ lib, buildKodiAddon, fetchzip, addonUpdateScript, certifi, chardet, idna, urllib3 }:
+{
+  lib,
+  buildKodiAddon,
+  fetchzip,
+  addonUpdateScript,
+  certifi,
+  chardet,
+  idna,
+  urllib3,
+}:
 buildKodiAddon rec {
   pname = "requests";
   namespace = "script.module.requests";
@@ -18,9 +27,7 @@ buildKodiAddon rec {
 
   passthru = {
     pythonPath = "lib";
-    updateScript = addonUpdateScript {
-      attrPath = "kodi.packages.requests";
-    };
+    updateScript = addonUpdateScript { attrPath = "kodi.packages.requests"; };
   };
 
   meta = with lib; {

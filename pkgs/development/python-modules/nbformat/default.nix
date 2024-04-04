@@ -1,16 +1,17 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchPypi
-, hatchling
-, hatch-nodejs-version
-, fastjsonschema
-, jsonschema
-, jupyter-core
-, traitlets
-, pep440
-, pytestCheckHook
-, testpath
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchPypi,
+  hatchling,
+  hatch-nodejs-version,
+  fastjsonschema,
+  jsonschema,
+  jupyter-core,
+  traitlets,
+  pep440,
+  pytestCheckHook,
+  testpath,
 }:
 
 buildPythonPackage rec {
@@ -49,6 +50,9 @@ buildPythonPackage rec {
     description = "The Jupyter Notebook format";
     homepage = "https://jupyter.org/";
     license = lib.licenses.bsd3;
-    maintainers = with lib.maintainers; [ fridh globin ];
+    maintainers = with lib.maintainers; [
+      fridh
+      globin
+    ];
   };
 }

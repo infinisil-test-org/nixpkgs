@@ -1,6 +1,11 @@
-{ lib, fetchFromGitHub, buildGoModule, installShellFiles }:
+{
+  lib,
+  fetchFromGitHub,
+  buildGoModule,
+  installShellFiles,
+}:
 
-buildGoModule rec{
+buildGoModule rec {
   pname = "pinniped";
   version = "0.28.0";
 
@@ -15,7 +20,10 @@ buildGoModule rec{
 
   vendorHash = "sha256-6zTk+7RimDL4jW7Fa4zjsE3k5+rDaKNMmzlGCqEnxVE=";
 
-  ldflags = [ "-s" "-w" ];
+  ldflags = [
+    "-s"
+    "-w"
+  ];
 
   nativeBuildInputs = [ installShellFiles ];
 

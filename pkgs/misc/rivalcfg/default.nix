@@ -1,4 +1,8 @@
-{ lib, fetchFromGitHub, python3Packages }:
+{
+  lib,
+  fetchFromGitHub,
+  python3Packages,
+}:
 
 python3Packages.buildPythonPackage rec {
   pname = "rivalcfg";
@@ -11,7 +15,10 @@ python3Packages.buildPythonPackage rec {
     sha256 = "sha256-6hgGb2BlXbnJ6uHbk8EUqrS/G1y65jTcw0zVCKt5+3k=";
   };
 
-  propagatedBuildInputs = with python3Packages; [ hidapi setuptools ];
+  propagatedBuildInputs = with python3Packages; [
+    hidapi
+    setuptools
+  ];
 
   checkInputs = [ python3Packages.pytest ];
   checkPhase = "pytest";

@@ -1,15 +1,16 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pytestCheckHook
-, pythonOlder
-, certifi
-, charset-normalizer
-, courlan
-, htmldate
-, justext
-, lxml
-, urllib3
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pytestCheckHook,
+  pythonOlder,
+  certifi,
+  charset-normalizer,
+  courlan,
+  htmldate,
+  justext,
+  lxml,
+  urllib3,
 }:
 
 buildPythonPackage rec {

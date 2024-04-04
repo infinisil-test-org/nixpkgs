@@ -1,15 +1,16 @@
-{ lib
-, anyio
-, buildPythonPackage
-, curio
-, fetchFromGitHub
-, hypothesis
-, pytest
-, pytestCheckHook
-, pythonOlder
-, sniffio
-, trio
-, trio-asyncio
+{
+  lib,
+  anyio,
+  buildPythonPackage,
+  curio,
+  fetchFromGitHub,
+  hypothesis,
+  pytest,
+  pytestCheckHook,
+  pythonOlder,
+  sniffio,
+  trio,
+  trio-asyncio,
 }:
 
 buildPythonPackage rec {
@@ -30,9 +31,7 @@ buildPythonPackage rec {
     sed -i '/addopts/d' setup.cfg
   '';
 
-  buildInputs = [
-    pytest
-  ];
+  buildInputs = [ pytest ];
 
   nativeCheckInputs = [
     anyio
@@ -44,9 +43,7 @@ buildPythonPackage rec {
     trio-asyncio
   ];
 
-  pythonImportsCheck = [
-    "pytest_aio"
-  ];
+  pythonImportsCheck = [ "pytest_aio" ];
 
   meta = with lib; {
     homepage = "https://github.com/klen/pytest-aio";

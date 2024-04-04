@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, formats
-, systemd
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  formats,
+  systemd,
 }:
 
 let
@@ -23,7 +24,6 @@ let
       Slice = "background.slice";
     };
   };
-
 in
 stdenv.mkDerivation rec {
   pname = "systembus-notify";

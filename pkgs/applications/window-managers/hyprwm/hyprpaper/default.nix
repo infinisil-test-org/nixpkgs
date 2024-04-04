@@ -1,18 +1,19 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, file
-, hyprlang
-, libGL
-, libjpeg
-, libwebp
-, mesa
-, pango
-, pkg-config
-, wayland
-, wayland-protocols
-, wayland-scanner
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  file,
+  hyprlang,
+  libGL,
+  libjpeg,
+  libwebp,
+  mesa,
+  pango,
+  pkg-config,
+  wayland,
+  wayland-protocols,
+  wayland-scanner,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -65,7 +66,10 @@ stdenv.mkDerivation (finalAttrs: {
     inherit (finalAttrs.src.meta) homepage;
     description = "A blazing fast wayland wallpaper utility";
     license = licenses.bsd3;
-    maintainers = with maintainers; [ wozeparrot fufexan ];
+    maintainers = with maintainers; [
+      wozeparrot
+      fufexan
+    ];
     inherit (wayland.meta) platforms;
     broken = stdenv.isDarwin;
     mainProgram = "hyprpaper";

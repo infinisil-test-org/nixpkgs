@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchurl, autoconf }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  autoconf,
+}:
 
 stdenv.mkDerivation rec {
   pname = "tradcpp";
@@ -23,5 +28,4 @@ stdenv.mkDerivation rec {
     platforms = platforms.all;
     license = licenses.bsd2;
   };
-
 }

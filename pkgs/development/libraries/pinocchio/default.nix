@@ -1,14 +1,15 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, boost
-, eigen
-, collisionSupport ? !stdenv.isDarwin
-, hpp-fcl
-, urdfdom
-, pythonSupport ? false
-, python3Packages
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  boost,
+  eigen,
+  collisionSupport ? !stdenv.isDarwin,
+  hpp-fcl,
+  urdfdom,
+  pythonSupport ? false,
+  python3Packages,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -25,46 +26,42 @@ stdenv.mkDerivation (finalAttrs: {
 
   strictDeps = true;
 
-  nativeBuildInputs = [
-    cmake
-  ];
+  nativeBuildInputs = [ cmake ];
 
-  propagatedBuildInputs = [
-    urdfdom
-  ] ++ lib.optionals (!pythonSupport) [
-    boost
-    eigen
-  ] ++ lib.optionals (!pythonSupport && collisionSupport) [
-    hpp-fcl
-  ] ++ lib.optionals pythonSupport [
-    python3Packages.boost
-    python3Packages.eigenpy
-  ] ++ lib.optionals (pythonSupport && collisionSupport) [
-    python3Packages.hpp-fcl
-  ];
+  propagatedBuildInputs =
+    [ urdfdom ]
+    ++ lib.optionals (!pythonSupport) [
+      boost
+      eigen
+    ]
+    ++ lib.optionals (!pythonSupport && collisionSupport) [ hpp-fcl ]
+    ++ lib.optionals pythonSupport [
+      python3Packages.boost
+      python3Packages.eigenpy
+    ]
+    ++ lib.optionals (pythonSupport && collisionSupport) [ python3Packages.hpp-fcl ];
 
-  cmakeFlags = lib.optionals collisionSupport [
-    "-DBUILD_WITH_COLLISION_SUPPORT=ON"
-  ] ++ lib.optionals pythonSupport [
-    "-DBUILD_WITH_LIBPYTHON=ON"
-  ] ++ lib.optionals (pythonSupport && stdenv.isDarwin) [
-    # AssertionError: '.' != '/tmp/nix-build-pinocchio-2.7.0.drv/sou[84 chars].dae'
-    "-DCMAKE_CTEST_ARGUMENTS='--exclude-regex;test-py-bindings_geometry_model_urdf'"
-  ] ++ lib.optionals (!pythonSupport) [
-    "-DBUILD_PYTHON_INTERFACE=OFF"
-  ];
+  cmakeFlags =
+    lib.optionals collisionSupport [ "-DBUILD_WITH_COLLISION_SUPPORT=ON" ]
+    ++ lib.optionals pythonSupport [ "-DBUILD_WITH_LIBPYTHON=ON" ]
+    ++ lib.optionals (pythonSupport && stdenv.isDarwin) [
+      # AssertionError: '.' != '/tmp/nix-build-pinocchio-2.7.0.drv/sou[84 chars].dae'
+      "-DCMAKE_CTEST_ARGUMENTS='--exclude-regex;test-py-bindings_geometry_model_urdf'"
+    ]
+    ++ lib.optionals (!pythonSupport) [ "-DBUILD_PYTHON_INTERFACE=OFF" ];
 
   doCheck = true;
 
-  pythonImportsCheck = lib.optionals (!pythonSupport) [
-    "pinocchio"
-  ];
+  pythonImportsCheck = lib.optionals (!pythonSupport) [ "pinocchio" ];
 
   meta = with lib; {
     description = "A fast and flexible implementation of Rigid Body Dynamics algorithms and their analytical derivatives";
     homepage = "https://github.com/stack-of-tasks/pinocchio";
     license = licenses.bsd2;
-    maintainers = with maintainers; [ nim65s wegank ];
+    maintainers = with maintainers; [
+      nim65s
+      wegank
+    ];
     platforms = platforms.unix;
   };
 })

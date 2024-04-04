@@ -1,4 +1,10 @@
-{ stdenv, lib, rustPlatform, fetchFromGitHub, Security }:
+{
+  stdenv,
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  Security,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "cargo-inspect";
@@ -18,7 +24,13 @@ rustPlatform.buildRustPackage rec {
   meta = with lib; {
     description = "See what Rust is doing behind the curtains";
     homepage = "https://github.com/mre/cargo-inspect";
-    license = with licenses; [ mit asl20 ];
-    maintainers = with maintainers; [ minijackson matthiasbeyer ];
+    license = with licenses; [
+      mit
+      asl20
+    ];
+    maintainers = with maintainers; [
+      minijackson
+      matthiasbeyer
+    ];
   };
 }

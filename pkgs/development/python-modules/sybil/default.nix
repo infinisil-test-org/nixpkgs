@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -22,9 +23,7 @@ buildPythonPackage rec {
   # Circular dependency with testfixtures
   doCheck = false;
 
-  pythonImportsCheck = [
-    "sybil"
-  ];
+  pythonImportsCheck = [ "sybil" ];
 
   meta = with lib; {
     description = "Automated testing for the examples in your documentation";

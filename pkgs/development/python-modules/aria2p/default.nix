@@ -1,22 +1,23 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, pdm-pep517
-, appdirs
-, loguru
-, requests
-, setuptools
-, toml
-, websocket-client
-, asciimatics
-, pyperclip
-, aria2
-, fastapi
-, pytest-xdist
-, pytestCheckHook
-, responses
-, uvicorn
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  pdm-pep517,
+  appdirs,
+  loguru,
+  requests,
+  setuptools,
+  toml,
+  websocket-client,
+  asciimatics,
+  pyperclip,
+  aria2,
+  fastapi,
+  pytest-xdist,
+  pytestCheckHook,
+  responses,
+  uvicorn,
 }:
 
 buildPythonPackage rec {
@@ -32,9 +33,7 @@ buildPythonPackage rec {
     hash = "sha256-z74ej6J6Yh1aVsXR5fE+XhoCzCS+zfDxQL8gKFd7tBA=";
   };
 
-  nativeBuildInputs = [
-    pdm-pep517
-  ];
+  nativeBuildInputs = [ pdm-pep517 ];
 
   propagatedBuildInputs = [
     appdirs
@@ -46,7 +45,10 @@ buildPythonPackage rec {
   ];
 
   passthru.optional-dependencies = {
-    tui = [ asciimatics pyperclip ];
+    tui = [
+      asciimatics
+      pyperclip
+    ];
   };
 
   preCheck = ''

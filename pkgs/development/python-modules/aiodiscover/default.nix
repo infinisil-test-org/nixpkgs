@@ -1,16 +1,17 @@
-{ lib
-, async-timeout
-, buildPythonPackage
-, cached-ipaddress
-, dnspython
-, fetchFromGitHub
-, ifaddr
-, netifaces
-, pyroute2
-, pytest-asyncio
-, pytestCheckHook
-, pythonOlder
-, setuptools
+{
+  lib,
+  async-timeout,
+  buildPythonPackage,
+  cached-ipaddress,
+  dnspython,
+  fetchFromGitHub,
+  ifaddr,
+  netifaces,
+  pyroute2,
+  pytest-asyncio,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -27,9 +28,7 @@ buildPythonPackage rec {
     hash = "sha256-M3tus0r58YVJyi/S7UWq+OvaKke3hqkHGuYkUxEpVxg=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     async-timeout
@@ -50,9 +49,7 @@ buildPythonPackage rec {
     "test_async_discover_hosts"
   ];
 
-  pythonImportsCheck = [
-    "aiodiscover"
-  ];
+  pythonImportsCheck = [ "aiodiscover" ];
 
   meta = with lib; {
     description = "Python module to discover hosts via ARP and PTR lookup";

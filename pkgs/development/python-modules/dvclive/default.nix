@@ -1,33 +1,34 @@
-{ lib
-, buildPythonPackage
-, datasets
-, dvc
-, dvc-render
-, dvc-studio-client
-, fastai
-, fetchFromGitHub
-, funcy
-, gto
-, jsonargparse
-, lightgbm
-, lightning
-, matplotlib
-, mmcv
-, numpy
-, optuna
-, pandas
-, pillow
-, pytestCheckHook
-, pythonOlder
-, ruamel-yaml
-, scikit-learn
-, scmrepo
-, setuptools-scm
-, tabulate
-, tensorflow
-, torch
-, transformers
-, xgboost
+{
+  lib,
+  buildPythonPackage,
+  datasets,
+  dvc,
+  dvc-render,
+  dvc-studio-client,
+  fastai,
+  fetchFromGitHub,
+  funcy,
+  gto,
+  jsonargparse,
+  lightgbm,
+  lightning,
+  matplotlib,
+  mmcv,
+  numpy,
+  optuna,
+  pandas,
+  pillow,
+  pytestCheckHook,
+  pythonOlder,
+  ruamel-yaml,
+  scikit-learn,
+  scmrepo,
+  setuptools-scm,
+  tabulate,
+  tensorflow,
+  torch,
+  transformers,
+  xgboost,
 }:
 
 buildPythonPackage rec {
@@ -44,9 +45,7 @@ buildPythonPackage rec {
     hash = "sha256-7MesRCfXr/f2MBokZhraFQqIuOyWCjIDRYZcvzM5Ezc=";
   };
 
-  nativeBuildInputs = [
-    setuptools-scm
-  ];
+  nativeBuildInputs = [ setuptools-scm ];
 
   propagatedBuildInputs = [
     dvc
@@ -79,29 +78,17 @@ buildPythonPackage rec {
       numpy
       pillow
     ];
-    sklearn = [
-      scikit-learn
-    ];
+    sklearn = [ scikit-learn ];
     plots = [
       pandas
       scikit-learn
       numpy
     ];
-    markdown = [
-      matplotlib
-    ];
-    mmcv = [
-      mmcv
-    ];
-    tf = [
-      tensorflow
-    ];
-    xgb = [
-      xgboost
-    ];
-    lgbm = [
-      lightgbm
-    ];
+    markdown = [ matplotlib ];
+    mmcv = [ mmcv ];
+    tf = [ tensorflow ];
+    xgb = [ xgboost ];
+    lgbm = [ lightgbm ];
     huggingface = [
       datasets
       transformers
@@ -109,25 +96,19 @@ buildPythonPackage rec {
     # catalyst = [
     #   catalyst
     # ];
-    fastai = [
-      fastai
-    ];
+    fastai = [ fastai ];
     lightning = [
       lightning
       torch
       jsonargparse
     ] ++ jsonargparse.optional-dependencies.signatures;
-    optuna = [
-      optuna
-    ];
+    optuna = [ optuna ];
   };
 
   # Circular dependency with dvc
   doCheck = false;
 
-  pythonImportsCheck = [
-    "dvclive"
-  ];
+  pythonImportsCheck = [ "dvclive" ];
 
   meta = with lib; {
     description = "Library for logging machine learning metrics and other metadata in simple file formats";

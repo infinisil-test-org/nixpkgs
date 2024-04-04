@@ -1,6 +1,11 @@
-{ lib, fetchFromGitHub, ocamlPackages }:
+{
+  lib,
+  fetchFromGitHub,
+  ocamlPackages,
+}:
 
-with ocamlPackages; buildDunePackage rec {
+with ocamlPackages;
+buildDunePackage rec {
   pname = "ocaml-top";
   version = "1.2.0";
 
@@ -11,7 +16,10 @@ with ocamlPackages; buildDunePackage rec {
     hash = "sha256-xmPGGB/zUpfeAxUIhR1PhfoESAJq7sTpqHuf++EH3Lw=";
   };
 
-  buildInputs = [ lablgtk3-sourceview3 ocp-index ];
+  buildInputs = [
+    lablgtk3-sourceview3
+    ocp-index
+  ];
 
   meta = {
     homepage = "https://www.typerex.org/ocaml-top.html";

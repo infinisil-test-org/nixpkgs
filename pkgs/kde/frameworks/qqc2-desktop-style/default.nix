@@ -6,6 +6,6 @@
 mkKdeDerivation {
   pname = "qqc2-desktop-style";
 
-  extraBuildInputs = [qtdeclarative];
-  extraPropagatedBuildInputs = [sonnet];
+  extraBuildInputs = [ qtdeclarative ];
+  extraPropagatedBuildInputs = [ sonnet ];
 }

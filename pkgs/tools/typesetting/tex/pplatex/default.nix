@@ -1,9 +1,10 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, pkg-config
-, pcre
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  pcre,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -22,9 +23,7 @@ stdenv.mkDerivation (finalAttrs: {
     pkg-config
   ];
 
-  buildInputs = [
-    pcre
-  ];
+  buildInputs = [ pcre ];
 
   installPhase = ''
     runHook preInstall
@@ -33,11 +32,13 @@ stdenv.mkDerivation (finalAttrs: {
   '';
 
   meta = with lib; {
-    description =
-      "A tool to reformat the output of latex and friends into readable messages";
+    description = "A tool to reformat the output of latex and friends into readable messages";
     homepage = "https://github.com/stefanhepp/pplatex";
     license = licenses.gpl3Plus;
-    maintainers = [ maintainers.srgom maintainers.doronbehar ];
+    maintainers = [
+      maintainers.srgom
+      maintainers.doronbehar
+    ];
     platforms = platforms.unix;
   };
 })

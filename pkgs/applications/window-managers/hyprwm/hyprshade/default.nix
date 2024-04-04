@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, hatchling
-, more-itertools
-, click
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  hatchling,
+  more-itertools,
+  click,
 }:
 
 buildPythonPackage rec {
@@ -18,11 +19,12 @@ buildPythonPackage rec {
     hash = "sha256-bNgXnN4F9kzbi1vTuBqn8H7A8QMznr7QA65eNLumkAA=";
   };
 
-  nativeBuildInputs = [
-    hatchling
-  ];
+  nativeBuildInputs = [ hatchling ];
 
-  propagatedBuildInputs = [ more-itertools click ];
+  propagatedBuildInputs = [
+    more-itertools
+    click
+  ];
 
   meta = with lib; {
     homepage = "https://github.com/loqusion/hyprshade";

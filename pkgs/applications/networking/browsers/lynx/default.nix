@@ -1,14 +1,15 @@
-{ lib
-, stdenv
-, buildPackages
-, fetchurl
-, pkg-config
-, ncurses
-, gzip
-, sslSupport ? true
-, openssl
-, nukeReferences
-, fetchpatch
+{
+  lib,
+  stdenv,
+  buildPackages,
+  fetchurl,
+  pkg-config,
+  ncurses,
+  gzip,
+  sslSupport ? true,
+  openssl,
+  nukeReferences,
+  fetchpatch,
 }:
 
 stdenv.mkDerivation rec {
@@ -34,11 +35,12 @@ stdenv.mkDerivation rec {
   ] ++ lib.optional sslSupport "--with-ssl";
 
   depsBuildBuild = [ buildPackages.stdenv.cc ];
-  nativeBuildInputs = [ nukeReferences ]
-    ++ lib.optional sslSupport pkg-config;
+  nativeBuildInputs = [ nukeReferences ] ++ lib.optional sslSupport pkg-config;
 
-  buildInputs = [ ncurses gzip ]
-    ++ lib.optional sslSupport openssl;
+  buildInputs = [
+    ncurses
+    gzip
+  ] ++ lib.optional sslSupport openssl;
 
   # cfg_defs.h captures lots of references to build-only dependencies, derived
   # from config.cache.

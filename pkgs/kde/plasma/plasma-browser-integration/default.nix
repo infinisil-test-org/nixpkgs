@@ -1,4 +1,1 @@
-{mkKdeDerivation}:
-mkKdeDerivation {
-  pname = "plasma-browser-integration";
-}
+{ mkKdeDerivation }: mkKdeDerivation { pname = "plasma-browser-integration"; }

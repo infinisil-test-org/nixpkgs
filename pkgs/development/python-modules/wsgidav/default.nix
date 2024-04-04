@@ -1,17 +1,18 @@
-{ lib
-, buildPythonPackage
-, cheroot
-, fetchFromGitHub
-, pytestCheckHook
-, pythonOlder
-, defusedxml
-, jinja2
-, json5
-, python-pam
-, pyyaml
-, requests
-, setuptools
-, webtest
+{
+  lib,
+  buildPythonPackage,
+  cheroot,
+  fetchFromGitHub,
+  pytestCheckHook,
+  pythonOlder,
+  defusedxml,
+  jinja2,
+  json5,
+  python-pam,
+  pyyaml,
+  requests,
+  setuptools,
+  webtest,
 }:
 
 buildPythonPackage rec {
@@ -28,9 +29,7 @@ buildPythonPackage rec {
     hash = "sha256-DEUoKoFELIOg5KX6hL1VgR18dtsery4ZzKksrxl0D7Q=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     defusedxml
@@ -49,9 +48,7 @@ buildPythonPackage rec {
     webtest
   ];
 
-  pythonImportsCheck = [
-    "wsgidav"
-  ];
+  pythonImportsCheck = [ "wsgidav" ];
 
   meta = with lib; {
     description = "Generic and extendable WebDAV server based on WSGI";

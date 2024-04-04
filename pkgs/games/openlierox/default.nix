@@ -1,5 +1,20 @@
-{ lib, stdenv, fetchurl, libX11, xorgproto, gd, SDL, SDL_image, SDL_mixer, zlib
-, libxml2, pkg-config, curl, cmake, libzip }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  libX11,
+  xorgproto,
+  gd,
+  SDL,
+  SDL_image,
+  SDL_mixer,
+  zlib,
+  libxml2,
+  pkg-config,
+  curl,
+  cmake,
+  libzip,
+}:
 
 stdenv.mkDerivation rec {
   pname = "openlierox";
@@ -29,9 +44,22 @@ stdenv.mkDerivation rec {
     cp -R ../share/gamedir/* $out/share/OpenLieroX
   '';
 
-  nativeBuildInputs = [ cmake pkg-config curl ];
-  buildInputs = [ libX11 xorgproto gd SDL SDL_image SDL_mixer zlib libxml2
-    libzip ];
+  nativeBuildInputs = [
+    cmake
+    pkg-config
+    curl
+  ];
+  buildInputs = [
+    libX11
+    xorgproto
+    gd
+    SDL
+    SDL_image
+    SDL_mixer
+    zlib
+    libxml2
+    libzip
+  ];
 
   meta = {
     homepage = "http://openlierox.net";

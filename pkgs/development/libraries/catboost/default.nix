@@ -1,19 +1,20 @@
-{ lib
-, config
-, stdenv
-, fetchFromGitHub
-, cmake
-, libiconv
-, llvmPackages
-, ninja
-, openssl
-, python3Packages
-, ragel
-, yasm
-, zlib
-, cudaSupport ? config.cudaSupport
-, cudaPackages ? {}
-, pythonSupport ? false
+{
+  lib,
+  config,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  libiconv,
+  llvmPackages,
+  ninja,
+  openssl,
+  python3Packages,
+  ragel,
+  yasm,
+  zlib,
+  cudaSupport ? config.cudaSupport,
+  cudaPackages ? { },
+  pythonSupport ? false,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -27,9 +28,7 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-A1zCIqPOW21dHKBQHRtS+/sstZ2o6F8k71lmJFGn0+g=";
   };
 
-  patches = [
-    ./remove-conan.patch
-  ];
+  patches = [ ./remove-conan.patch ];
 
   postPatch = ''
     substituteInPlace cmake/common.cmake \
@@ -46,7 +45,10 @@ stdenv.mkDerivation (finalAttrs: {
     done
   '';
 
-  outputs = [ "out" "dev" ];
+  outputs = [
+    "out"
+    "dev"
+  ];
 
   nativeBuildInputs = [
     cmake
@@ -55,20 +57,22 @@ stdenv.mkDerivation (finalAttrs: {
     (python3Packages.python.withPackages (ps: with ps; [ six ]))
     ragel
     yasm
-  ] ++ lib.optionals cudaSupport (with cudaPackages; [
-    cuda_nvcc
-  ]);
+  ] ++ lib.optionals cudaSupport (with cudaPackages; [ cuda_nvcc ]);
 
-  buildInputs = [
-    openssl
-    zlib
-  ] ++ lib.optionals stdenv.isDarwin [
-    libiconv
-  ] ++ lib.optionals cudaSupport (with cudaPackages; [
-    cuda_cudart
-    cuda_cccl
-    libcublas
-  ]);
+  buildInputs =
+    [
+      openssl
+      zlib
+    ]
+    ++ lib.optionals stdenv.isDarwin [ libiconv ]
+    ++ lib.optionals cudaSupport (
+      with cudaPackages;
+      [
+        cuda_cudart
+        cuda_cccl
+        libcublas
+      ]
+    );
 
   env = {
     CUDAHOSTCXX = lib.optionalString cudaSupport "${stdenv.cc}/bin/cc";
@@ -80,9 +84,7 @@ stdenv.mkDerivation (finalAttrs: {
     "-DCMAKE_BINARY_DIR=$out"
     "-DCMAKE_POSITION_INDEPENDENT_CODE=on"
     "-DCATBOOST_COMPONENTS=app;libs${lib.optionalString pythonSupport ";python-package"}"
-  ] ++ lib.optionals cudaSupport [
-    "-DHAVE_CUDA=on"
-  ];
+  ] ++ lib.optionals cudaSupport [ "-DHAVE_CUDA=on" ];
 
   installPhase = ''
     runHook preInstall
@@ -107,7 +109,10 @@ stdenv.mkDerivation (finalAttrs: {
     license = licenses.asl20;
     platforms = platforms.unix;
     homepage = "https://catboost.ai";
-    maintainers = with maintainers; [ PlushBeaver natsukium ];
+    maintainers = with maintainers; [
+      PlushBeaver
+      natsukium
+    ];
     mainProgram = "catboost";
   };
 })

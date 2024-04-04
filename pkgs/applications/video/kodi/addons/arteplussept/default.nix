@@ -1,4 +1,12 @@
-{ lib, buildKodiAddon, fetchzip, addonUpdateScript, dateutil, requests, xbmcswift2 }:
+{
+  lib,
+  buildKodiAddon,
+  fetchzip,
+  addonUpdateScript,
+  dateutil,
+  requests,
+  xbmcswift2,
+}:
 
 buildKodiAddon rec {
   pname = "arteplussept";
@@ -17,9 +25,7 @@ buildKodiAddon rec {
   ];
 
   passthru = {
-    updateScript = addonUpdateScript {
-      attrPath = "kodi.packages.arteplussept";
-    };
+    updateScript = addonUpdateScript { attrPath = "kodi.packages.arteplussept"; };
   };
 
   meta = with lib; {

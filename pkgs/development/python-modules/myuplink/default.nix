@@ -1,9 +1,10 @@
-{ lib
-, aiohttp
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, setuptools
+{
+  lib,
+  aiohttp,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -25,17 +26,11 @@ buildPythonPackage rec {
       --replace-fail "%%VERSION_NO%%" "${version}"
   '';
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [
-    aiohttp
-  ];
+  propagatedBuildInputs = [ aiohttp ];
 
-  pythonImportsCheck = [
-    "myuplink"
-  ];
+  pythonImportsCheck = [ "myuplink" ];
 
   meta = with lib; {
     description = "Module to interact with the myUplink API";

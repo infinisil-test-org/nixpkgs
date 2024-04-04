@@ -1,13 +1,14 @@
-{ lib
-, stdenv
-, nix-update-script
-, fetchFromGitHub
-, rustPlatform
-, pkg-config
-, installShellFiles
-, zstd
-, openssl
-, Security
+{
+  lib,
+  stdenv,
+  nix-update-script,
+  fetchFromGitHub,
+  rustPlatform,
+  pkg-config,
+  installShellFiles,
+  zstd,
+  openssl,
+  Security,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -30,11 +31,7 @@ rustPlatform.buildRustPackage rec {
 
   buildInputs = [
     zstd
-  ] ++ lib.optionals stdenv.isLinux [
-    openssl
-  ] ++ lib.optionals stdenv.isDarwin [
-    Security
-  ];
+  ] ++ lib.optionals stdenv.isLinux [ openssl ] ++ lib.optionals stdenv.isDarwin [ Security ];
 
   env = {
     ZSTD_SYS_USE_PKG_CONFIG = true;
@@ -49,7 +46,7 @@ rustPlatform.buildRustPackage rec {
       dist/cli/completions/owmods.{bash,fish,zsh}
   '';
 
-  passthru.updateScript = nix-update-script {};
+  passthru.updateScript = nix-update-script { };
 
   meta = with lib; {
     description = "CLI version of the mod manager for Outer Wilds Mod Loader";

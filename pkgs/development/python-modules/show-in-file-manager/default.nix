@@ -1,11 +1,12 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, importlib-metadata
-, packaging
-, pyxdg
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  importlib-metadata,
+  packaging,
+  pyxdg,
 }:
 
 buildPythonPackage rec {
@@ -20,9 +21,7 @@ buildPythonPackage rec {
 
   propagatedBuildInputs = [
     packaging
-  ]
-  ++ lib.optional (stdenv.isLinux) pyxdg
-  ++ lib.optional (pythonOlder "3.8") importlib-metadata;
+  ] ++ lib.optional (stdenv.isLinux) pyxdg ++ lib.optional (pythonOlder "3.8") importlib-metadata;
 
   meta = with lib; {
     homepage = "https://github.com/damonlynch/showinfilemanager";

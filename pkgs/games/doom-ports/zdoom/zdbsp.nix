@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, fetchzip
-, cmake
-, zlib
+{
+  lib,
+  stdenv,
+  fetchzip,
+  cmake,
+  zlib,
 }:
 
 stdenv.mkDerivation rec {
@@ -15,13 +16,9 @@ stdenv.mkDerivation rec {
     stripRoot = false;
   };
 
-  nativeBuildInputs = [
-    cmake
-  ];
+  nativeBuildInputs = [ cmake ];
 
-  buildInputs = [
-    zlib
-  ];
+  buildInputs = [ zlib ];
 
   installPhase = ''
     install -Dm755 zdbsp $out/bin/zdbsp
@@ -31,7 +28,10 @@ stdenv.mkDerivation rec {
     homepage = "https://zdoom.org/wiki/ZDBSP";
     description = "ZDoom's internal node builder for DOOM maps";
     license = licenses.gpl2Plus;
-    maintainers = with maintainers; [ lassulus siraben ];
+    maintainers = with maintainers; [
+      lassulus
+      siraben
+    ];
     platforms = platforms.unix;
   };
 }

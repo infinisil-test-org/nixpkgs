@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, fetchFromSourcehut
-, lua
-, luaPackages
+{
+  lib,
+  stdenv,
+  fetchFromSourcehut,
+  lua,
+  luaPackages,
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "fennel-ls";
@@ -14,7 +15,10 @@ stdenv.mkDerivation (finalAttrs: {
     rev = finalAttrs.version;
     hash = "sha256-RW3WFJGwascD4YnnrAm/2LFnVigzgtfzVubLMDW9J5s=";
   };
-  buildInputs = [ lua luaPackages.fennel ];
+  buildInputs = [
+    lua
+    luaPackages.fennel
+  ];
   makeFlags = [ "PREFIX=$(out)" ];
   installFlags = [ "PREFIX=$(out)" ];
 

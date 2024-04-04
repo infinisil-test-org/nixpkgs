@@ -1,11 +1,12 @@
-{ lib
-, fetchFromGitHub
-, buildPythonPackage
-, pythonOlder
-, pytestCheckHook
-, numpy
-, pandas
-, pytz
+{
+  lib,
+  fetchFromGitHub,
+  buildPythonPackage,
+  pythonOlder,
+  pytestCheckHook,
+  numpy,
+  pandas,
+  pytz,
 }:
 
 buildPythonPackage rec {
@@ -29,9 +30,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "json_tricks"
-  ];
+  pythonImportsCheck = [ "json_tricks" ];
 
   meta = with lib; {
     description = "Extra features for Python JSON handling";

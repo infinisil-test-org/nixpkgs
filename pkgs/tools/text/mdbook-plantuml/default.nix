@@ -1,11 +1,12 @@
-{ lib
-, fetchFromGitHub
-, fetchpatch
-, stdenv
-, rustPlatform
-, pkg-config
-, openssl
-, CoreServices
+{
+  lib,
+  fetchFromGitHub,
+  fetchpatch,
+  stdenv,
+  rustPlatform,
+  pkg-config,
+  openssl,
+  CoreServices,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -32,8 +33,7 @@ rustPlatform.buildRustPackage rec {
 
   nativeBuildInputs = [ pkg-config ];
 
-  buildInputs = [ openssl ]
-    ++ lib.optionals stdenv.isDarwin [ CoreServices ];
+  buildInputs = [ openssl ] ++ lib.optionals stdenv.isDarwin [ CoreServices ];
 
   meta = with lib; {
     description = "mdBook preprocessor to render PlantUML diagrams to png images in the book output directory";

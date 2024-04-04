@@ -1,21 +1,22 @@
-{ lib
-, stdenv
-, fetchurl
-, gmp
-, mpfr
-, flint
-, boost
-, bliss
-, ppl
-, singular
-, cddlib
-, lrs
-, nauty
-, ninja
-, ant
-, openjdk
-, perl536Packages
-, makeWrapper
+{
+  lib,
+  stdenv,
+  fetchurl,
+  gmp,
+  mpfr,
+  flint,
+  boost,
+  bliss,
+  ppl,
+  singular,
+  cddlib,
+  lrs,
+  nauty,
+  ninja,
+  ant,
+  openjdk,
+  perl536Packages,
+  makeWrapper,
 }:
 let
   # log says: polymake does not work with perl 5.37 or newer;
@@ -44,27 +45,32 @@ stdenv.mkDerivation rec {
     perl
   ];
 
-  buildInputs = [
-    perl
-    gmp
-    mpfr
-    flint
-    boost
-    bliss
-    ppl
-    singular
-    cddlib
-    lrs
-    nauty
-    openjdk
-  ] ++ (with perlPackages; [
-    JSON
-    TermReadLineGnu
-    TermReadKey
-    XMLSAX
-  ]);
+  buildInputs =
+    [
+      perl
+      gmp
+      mpfr
+      flint
+      boost
+      bliss
+      ppl
+      singular
+      cddlib
+      lrs
+      nauty
+      openjdk
+    ]
+    ++ (with perlPackages; [
+      JSON
+      TermReadLineGnu
+      TermReadKey
+      XMLSAX
+    ]);
 
-  ninjaFlags = [ "-C" "build/Opt" ];
+  ninjaFlags = [
+    "-C"
+    "build/Opt"
+  ];
 
   postInstall = ''
     for i in "$out"/bin/*; do

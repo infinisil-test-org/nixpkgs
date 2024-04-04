@@ -1,4 +1,8 @@
-{ lib, rustPlatform, fetchFromGitHub }:
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "i3-auto-layout";
@@ -20,7 +24,10 @@ rustPlatform.buildRustPackage rec {
     description = "Automatic, optimal tiling for i3wm";
     homepage = "https://github.com/chmln/i3-auto-layout";
     license = licenses.mit;
-    maintainers = with maintainers; [ mephistophiles perstark ];
+    maintainers = with maintainers; [
+      mephistophiles
+      perstark
+    ];
     platforms = platforms.linux;
   };
 }

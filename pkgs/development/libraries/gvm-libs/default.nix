@@ -1,24 +1,25 @@
-{ lib
-, stdenv
-, cmake
-, doxygen
-, fetchFromGitHub
-, glib
-, glib-networking
-, gnutls
-, gpgme
-, hiredis
-, libgcrypt
-, libnet
-, libpcap
-, libssh
-, libuuid
-, libxcrypt
-, libxml2
-, paho-mqtt-c
-, pkg-config
-, zlib
-, freeradius
+{
+  lib,
+  stdenv,
+  cmake,
+  doxygen,
+  fetchFromGitHub,
+  glib,
+  glib-networking,
+  gnutls,
+  gpgme,
+  hiredis,
+  libgcrypt,
+  libnet,
+  libpcap,
+  libssh,
+  libuuid,
+  libxcrypt,
+  libxml2,
+  paho-mqtt-c,
+  pkg-config,
+  zlib,
+  freeradius,
 }:
 
 stdenv.mkDerivation rec {
@@ -56,9 +57,7 @@ stdenv.mkDerivation rec {
     zlib
   ];
 
-  cmakeFlags = [
-    "-DGVM_RUN_DIR=${placeholder "out"}/run/gvm"
-  ];
+  cmakeFlags = [ "-DGVM_RUN_DIR=${placeholder "out"}/run/gvm" ];
 
   # causes redefinition of _FORTIFY_SOURCE
   hardeningDisable = [ "fortify3" ];

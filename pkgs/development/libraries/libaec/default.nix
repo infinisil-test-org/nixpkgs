@@ -1,10 +1,13 @@
-{ lib, stdenv, fetchFromGitLab
-, cmake
+{
+  lib,
+  stdenv,
+  fetchFromGitLab,
+  cmake,
 }:
 
 stdenv.mkDerivation rec {
   pname = "libaec";
-  version  = "1.1.2";
+  version = "1.1.2";
 
   src = fetchFromGitLab {
     domain = "gitlab.dkrz.de";
@@ -14,9 +17,7 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-mmiPpfUZE7W6Hzalr/tcJUFQe5kF4dYM1uZShjBsoVA=";
   };
 
-  nativeBuildInputs = [
-    cmake
-  ];
+  nativeBuildInputs = [ cmake ];
 
   doCheck = true;
 

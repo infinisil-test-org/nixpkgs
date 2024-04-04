@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, fetchurl
-, fetchFromGitHub
-, flutter313
-, makeDesktopItem
-, pkg-config
-, libayatana-appindicator
-, undmg
+{
+  lib,
+  stdenv,
+  fetchurl,
+  fetchFromGitHub,
+  flutter313,
+  makeDesktopItem,
+  pkg-config,
+  libayatana-appindicator,
+  undmg,
 }:
 
 let
@@ -83,7 +84,10 @@ let
 
     meta = metaCommon // {
       sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
-      platforms = [ "x86_64-darwin" "aarch64-darwin" ];
+      platforms = [
+        "x86_64-darwin"
+        "aarch64-darwin"
+      ];
     };
   };
 
@@ -92,9 +96,10 @@ let
     homepage = "https://localsend.org/";
     license = licenses.mit;
     mainProgram = "localsend";
-    maintainers = with maintainers; [ sikmir linsui ];
+    maintainers = with maintainers; [
+      sikmir
+      linsui
+    ];
   };
 in
-if stdenv.isDarwin
-then darwin
-else linux
+if stdenv.isDarwin then darwin else linux

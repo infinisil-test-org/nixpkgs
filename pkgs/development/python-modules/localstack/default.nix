@@ -1,22 +1,23 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, setuptools
-, apispec
-, boto3
-, cachetools
-, click
-, localstack-client
-, localstack-ext
-, plux
-, psutil
-, python-dotenv
-, pyyaml
-, packaging
-, requests
-, rich
-, semver
-, tailer
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  setuptools,
+  apispec,
+  boto3,
+  cachetools,
+  click,
+  localstack-client,
+  localstack-ext,
+  plux,
+  psutil,
+  python-dotenv,
+  pyyaml,
+  packaging,
+  requests,
+  rich,
+  semver,
+  tailer,
 }:
 
 buildPythonPackage rec {
@@ -38,9 +39,7 @@ buildPythonPackage rec {
       --replace "boto3>=1.20,<1.25.0" "boto3~=1.20"
   '';
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     apispec

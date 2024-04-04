@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, poetry-core
-, pythonRelaxDepsHook
-, fetchPypi
-, impacket
-, cryptography
-, pyasn1
-, lxml
+{
+  lib,
+  buildPythonPackage,
+  poetry-core,
+  pythonRelaxDepsHook,
+  fetchPypi,
+  impacket,
+  cryptography,
+  pyasn1,
+  lxml,
 }:
 
 buildPythonPackage rec {

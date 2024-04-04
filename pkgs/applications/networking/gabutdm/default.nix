@@ -1,20 +1,21 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, meson
-, pkg-config
-, cmake
-, ninja
-, vala
-, wrapGAppsHook4
-, desktop-file-utils
-, sqlite
-, libcanberra
-, libsoup_3
-, libgee
-, json-glib
-, qrencode
-, curl
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  meson,
+  pkg-config,
+  cmake,
+  ninja,
+  vala,
+  wrapGAppsHook4,
+  desktop-file-utils,
+  sqlite,
+  libcanberra,
+  libsoup_3,
+  libgee,
+  json-glib,
+  qrencode,
+  curl,
 }:
 
 stdenv.mkDerivation rec {

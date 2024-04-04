@@ -1,11 +1,12 @@
-{ fetchFromGitHub
-, git
-, jdk_headless
-, jre_headless
-, makeWrapper
-, python3
-, stdenvNoCC
-, lib
+{
+  fetchFromGitHub,
+  git,
+  jdk_headless,
+  jre_headless,
+  makeWrapper,
+  python3,
+  stdenvNoCC,
+  lib,
 }:
 
 let
@@ -24,7 +25,12 @@ let
     pname = "${pname}-deps";
     inherit version src;
 
-    nativeBuildInputs = [ git jdk_headless python3 python3.pkgs.certifi ];
+    nativeBuildInputs = [
+      git
+      jdk_headless
+      python3
+      python3.pkgs.certifi
+    ];
 
     buildPhase = ''
       python checker.py dldeps
@@ -38,12 +44,16 @@ let
     outputHashMode = "recursive";
     outputHash = "sha256-LPtxpUd7LAYZHJL7elgcZOTaTgHqeqquiB9hiuajA6c=";
   };
-
 in
 stdenvNoCC.mkDerivation rec {
   inherit pname version src;
 
-  nativeBuildInputs = [ git jdk_headless makeWrapper python3 ];
+  nativeBuildInputs = [
+    git
+    jdk_headless
+    makeWrapper
+    python3
+  ];
 
   buildPhase = ''
     ln -s '${deps}/dependencies' '${deps}/extras' .
@@ -63,6 +73,9 @@ stdenvNoCC.mkDerivation rec {
     license = licenses.mit;
     maintainers = with maintainers; [ andersk ];
     mainProgram = "vnu";
-    sourceProvenance = with sourceTypes; [ binaryBytecode fromSource ];
+    sourceProvenance = with sourceTypes; [
+      binaryBytecode
+      fromSource
+    ];
   };
 }

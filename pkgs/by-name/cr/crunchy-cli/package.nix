@@ -1,10 +1,11 @@
-{ lib
-, stdenv
-, darwin
-, fetchFromGitHub
-, openssl
-, pkg-config
-, rustPlatform
+{
+  lib,
+  stdenv,
+  darwin,
+  fetchFromGitHub,
+  openssl,
+  pkg-config,
+  rustPlatform,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -25,15 +26,11 @@ rustPlatform.buildRustPackage rec {
     };
   };
 
-  nativeBuildInputs = lib.optionals stdenv.isLinux [
-    pkg-config
-  ];
+  nativeBuildInputs = lib.optionals stdenv.isLinux [ pkg-config ];
 
-  buildInputs = lib.optionals stdenv.isLinux [
-    openssl
-  ] ++ lib.optionals stdenv.isDarwin [
-    darwin.apple_sdk.frameworks.SystemConfiguration
-  ];
+  buildInputs =
+    lib.optionals stdenv.isLinux [ openssl ]
+    ++ lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.SystemConfiguration ];
 
   env = {
     OPENSSL_NO_VENDOR = true;

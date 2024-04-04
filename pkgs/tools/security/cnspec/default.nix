@@ -1,6 +1,7 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
 }:
 
 buildGoModule rec {
@@ -18,9 +19,7 @@ buildGoModule rec {
 
   vendorHash = "sha256-B5wwA2S6LiMRBpM6fWaPVubKuOjkdYcffAssSbpLs48=";
 
-  subPackages = [
-    "apps/cnspec"
-  ];
+  subPackages = [ "apps/cnspec" ];
 
   ldflags = [
     "-s"
@@ -33,6 +32,9 @@ buildGoModule rec {
     homepage = "https://github.com/mondoohq/cnspec";
     changelog = "https://github.com/mondoohq/cnspec/releases/tag/v${version}";
     license = licenses.bsl11;
-    maintainers = with maintainers; [ fab mariuskimmina ];
+    maintainers = with maintainers; [
+      fab
+      mariuskimmina
+    ];
   };
 }

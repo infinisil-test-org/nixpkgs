@@ -1,11 +1,12 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
-, makeBinaryWrapper
-, libfido2
-, dbus
-, pinentry-gnome3
-, nix-update-script
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  makeBinaryWrapper,
+  libfido2,
+  dbus,
+  pinentry-gnome3,
+  nix-update-script,
 }:
 
 buildGoModule rec {
@@ -21,20 +22,28 @@ buildGoModule rec {
 
   vendorHash = "sha256-IH0p7t1qInA9rNYv6ekxDN/BT5Kguhh4cZfmL+iqwVU=";
 
-  ldflags = [ "-s" "-w" ];
+  ldflags = [
+    "-s"
+    "-w"
+  ];
 
-  nativeBuildInputs = [makeBinaryWrapper];
+  nativeBuildInputs = [ makeBinaryWrapper ];
 
-  buildInputs = [libfido2];
+  buildInputs = [ libfido2 ];
 
   postInstall = ''
     wrapProgram $out/bin/goldwarden \
-      --suffix PATH : ${lib.makeBinPath [dbus pinentry-gnome3]}
+      --suffix PATH : ${
+        lib.makeBinPath [
+          dbus
+          pinentry-gnome3
+        ]
+      }
 
     install -Dm644 $src/resources/com.quexten.goldwarden.policy -t $out/share/polkit-1/actions
   '';
 
-  passthru.updateScript = nix-update-script {};
+  passthru.updateScript = nix-update-script { };
 
   meta = with lib; {
     description = "A feature-packed Bitwarden compatible desktop integration";

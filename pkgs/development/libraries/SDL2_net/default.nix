@@ -1,4 +1,11 @@
-{ lib, stdenv, pkg-config, darwin, fetchurl, SDL2 }:
+{
+  lib,
+  stdenv,
+  pkg-config,
+  darwin,
+  fetchurl,
+  SDL2,
+}:
 
 stdenv.mkDerivation rec {
   pname = "SDL2_net";
@@ -9,14 +16,16 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-TkqJGYgxYnGXT/TpWF7R73KaEj0iwIvUcxKRedyFf+s=";
   };
 
-  outputs = [ "out" "dev" ];
+  outputs = [
+    "out"
+    "dev"
+  ];
 
   nativeBuildInputs = [ pkg-config ];
 
   buildInputs = lib.optional stdenv.isDarwin darwin.libobjc;
 
-  configureFlags = [ "--disable-examples" ]
-  ++ lib.optional stdenv.isDarwin "--disable-sdltest";
+  configureFlags = [ "--disable-examples" ] ++ lib.optional stdenv.isDarwin "--disable-sdltest";
 
   propagatedBuildInputs = [ SDL2 ];
 

@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, setuptools
-, proton-core
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  setuptools,
+  proton-core,
+  pytestCheckHook,
 }:
 
 buildPythonPackage {
@@ -18,13 +19,9 @@ buildPythonPackage {
     hash = "sha256-eFwWN8E+nIDpbut8tkWqXucLhzm7HaLAMBIbAq/X2eo=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [
-    proton-core
-  ];
+  propagatedBuildInputs = [ proton-core ];
 
   postPatch = ''
     substituteInPlace setup.cfg \
@@ -33,9 +30,7 @@ buildPythonPackage {
 
   pythonImportsCheck = [ "proton.vpn.killswitch.interface" ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   meta = with lib; {
     description = "Defines the ProtonVPN kill switch interface";

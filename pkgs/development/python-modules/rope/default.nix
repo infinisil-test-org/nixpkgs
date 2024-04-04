@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pytoolconfig
-, pytest-timeout
-, pytestCheckHook
-, pythonOlder
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pytoolconfig,
+  pytest-timeout,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -22,13 +23,9 @@ buildPythonPackage rec {
     hash = "sha256-j/9q2S2B3DzmEqMOBLG9iHwnLqZipcPxLaKppysJffA=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [
-    pytoolconfig
-  ] ++ pytoolconfig.optional-dependencies.global;
+  propagatedBuildInputs = [ pytoolconfig ] ++ pytoolconfig.optional-dependencies.global;
 
   __darwinAllowLocalNetworking = true;
 

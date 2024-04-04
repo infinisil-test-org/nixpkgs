@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pytestCheckHook
-, python-dateutil
-, pythonOlder
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pytestCheckHook,
+  python-dateutil,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -19,21 +20,13 @@ buildPythonPackage rec {
     hash = "sha256-SJhDl7O1jvXfxkXWowSwBg9hK87P2q9Fzor/AHemy2o=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [
-    python-dateutil
-  ];
+  propagatedBuildInputs = [ python-dateutil ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "freezegun"
-  ];
+  pythonImportsCheck = [ "freezegun" ];
 
   meta = with lib; {
     description = "Library that allows your Python tests to travel through time";

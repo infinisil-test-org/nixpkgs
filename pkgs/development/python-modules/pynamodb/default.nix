@@ -1,14 +1,15 @@
-{ lib
-, blinker
-, botocore
-, buildPythonPackage
-, fetchFromGitHub
-, pytest-mock
-, pytestCheckHook
-, python-dateutil
-, pythonOlder
-, requests
-, typing-extensions
+{
+  lib,
+  blinker,
+  botocore,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pytest-mock,
+  pytestCheckHook,
+  python-dateutil,
+  pythonOlder,
+  requests,
+  typing-extensions,
 }:
 
 buildPythonPackage rec {
@@ -28,14 +29,10 @@ buildPythonPackage rec {
   propagatedBuildInputs = [
     python-dateutil
     botocore
-  ] ++ lib.optionals (pythonOlder "3.8") [
-    typing-extensions
-  ];
+  ] ++ lib.optionals (pythonOlder "3.8") [ typing-extensions ];
 
   passthru.optional-dependencies = {
-    signal = [
-      blinker
-    ];
+    signal = [ blinker ];
   };
 
   nativeCheckInputs = [
@@ -43,9 +40,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ] ++ passthru.optional-dependencies.signal;
 
-  pythonImportsCheck = [
-    "pynamodb"
-  ];
+  pythonImportsCheck = [ "pynamodb" ];
 
   disabledTests = [
     # Tests requires credentials or network access

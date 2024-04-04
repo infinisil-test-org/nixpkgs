@@ -1,15 +1,16 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
 
-# build-system
-, hatchling
+  # build-system
+  hatchling,
 
-# tests
-, argcomplete
-, pytest-mock
-, pytestCheckHook
+  # tests
+  argcomplete,
+  pytest-mock,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -24,9 +25,7 @@ buildPythonPackage rec {
     hash = "sha256-/NqorEnATfoO0+4zhO9t/bXW83QVAr4kcnlAdnkpZ3I=";
   };
 
-  nativeBuildInputs = [
-    hatchling
-  ];
+  nativeBuildInputs = [ hatchling ];
 
   nativeCheckInputs = [
     argcomplete

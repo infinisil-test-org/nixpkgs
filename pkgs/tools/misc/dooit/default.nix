@@ -1,8 +1,9 @@
-{ lib
-, fetchFromGitHub
-, dooit
-, python3
-, testers
+{
+  lib,
+  fetchFromGitHub,
+  dooit,
+  python3,
+  testers,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -22,9 +23,7 @@ python3.pkgs.buildPythonApplication rec {
     pythonRelaxDepsHook
   ];
 
-  pythonRelaxDeps = [
-    "tzlocal"
-  ];
+  pythonRelaxDeps = [ "tzlocal" ];
 
   propagatedBuildInputs = with python3.pkgs; [
     appdirs
@@ -48,7 +47,10 @@ python3.pkgs.buildPythonApplication rec {
     homepage = "https://github.com/kraanzu/dooit";
     changelog = "https://github.com/kraanzu/dooit/blob/v${version}/CHANGELOG.md";
     license = licenses.mit;
-    maintainers = with maintainers; [ khaneliman wesleyjrz ];
+    maintainers = with maintainers; [
+      khaneliman
+      wesleyjrz
+    ];
     mainProgram = "dooit";
   };
 }

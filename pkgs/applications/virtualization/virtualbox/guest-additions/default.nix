@@ -1,5 +1,17 @@
-{ stdenv, fetchurl, lib, patchelf, cdrkit, kernel, which, makeWrapper
-, zlib, xorg, dbus, virtualbox}:
+{
+  stdenv,
+  fetchurl,
+  lib,
+  patchelf,
+  cdrkit,
+  kernel,
+  which,
+  makeWrapper,
+  zlib,
+  xorg,
+  dbus,
+  virtualbox,
+}:
 
 let
   version = virtualbox.version;
@@ -13,12 +25,21 @@ let
   # dlopen are found. We grep binaries for specific library names and patch
   # RUNPATH in matching binaries to contain the needed library paths.
   dlopenLibs = [
-    { name = "libdbus-1.so"; pkg = dbus; }
-    { name = "libXfixes.so"; pkg = xorg.libXfixes; }
-    { name = "libXrandr.so"; pkg = xorg.libXrandr; }
+    {
+      name = "libdbus-1.so";
+      pkg = dbus;
+    }
+    {
+      name = "libXfixes.so";
+      pkg = xorg.libXfixes;
+    }
+    {
+      name = "libXrandr.so";
+      pkg = xorg.libXrandr;
+    }
   ];
-
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   name = "VirtualBox-GuestAdditions-${version}-${kernel.version}";
 
   src = fetchurl {
@@ -33,16 +54,22 @@ in stdenv.mkDerivation rec {
 
   env.NIX_CFLAGS_COMPILE = "-Wno-error=incompatible-pointer-types -Wno-error=implicit-function-declaration";
 
-  nativeBuildInputs = [ patchelf makeWrapper ];
+  nativeBuildInputs = [
+    patchelf
+    makeWrapper
+  ];
   buildInputs = [ cdrkit ] ++ kernel.moduleBuildDependencies;
-
 
   prePatch = ''
     substituteInPlace src/vboxguest-${version}/vboxvideo/vbox_ttm.c \
       --replace "<ttm/" "<drm/ttm/"
   '';
 
-  patchFlags = [ "-p1" "-d" "src/vboxguest-${version}" ];
+  patchFlags = [
+    "-p1"
+    "-d"
+    "src/vboxguest-${version}"
+  ];
 
   unpackPhase = ''
     isoinfo -J -i $src -x /VBoxLinuxAdditions.run > ./VBoxLinuxAdditions.run
@@ -68,14 +95,33 @@ in stdenv.mkDerivation rec {
     # Change the interpreter for various binaries
     for i in sbin/VBoxService bin/{VBoxClient,VBoxControl} other/mount.vboxsf; do
         patchelf --set-interpreter ${stdenv.cc.bintools.dynamicLinker} $i
-        patchelf --set-rpath ${lib.makeLibraryPath [ stdenv.cc.cc stdenv.cc.libc zlib
-          xorg.libX11 xorg.libXt xorg.libXext xorg.libXmu xorg.libXfixes xorg.libXrandr xorg.libXcursor ]} $i
+        patchelf --set-rpath ${
+          lib.makeLibraryPath [
+            stdenv.cc.cc
+            stdenv.cc.libc
+            zlib
+            xorg.libX11
+            xorg.libXt
+            xorg.libXext
+            xorg.libXmu
+            xorg.libXfixes
+            xorg.libXrandr
+            xorg.libXcursor
+          ]
+        } $i
     done
 
     for i in lib/VBoxOGL*.so
     do
-        patchelf --set-rpath ${lib.makeLibraryPath [ "$out"
-          xorg.libXcomposite xorg.libXdamage xorg.libXext xorg.libXfixes ]} $i
+        patchelf --set-rpath ${
+          lib.makeLibraryPath [
+            "$out"
+            xorg.libXcomposite
+            xorg.libXdamage
+            xorg.libXext
+            xorg.libXfixes
+          ]
+        } $i
     done
 
     # FIXME: Virtualbox 4.3.22 moved VBoxClient-all (required by Guest Additions
@@ -147,7 +193,10 @@ in stdenv.mkDerivation rec {
     sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
     license = "GPL";
     maintainers = [ lib.maintainers.sander ];
-    platforms = [ "i686-linux" "x86_64-linux" ];
+    platforms = [
+      "i686-linux"
+      "x86_64-linux"
+    ];
     broken = stdenv.hostPlatform.is32bit && (kernel.kernelAtLeast "5.10");
   };
 }

@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
@@ -49,9 +54,11 @@ in
 {
   options = {
     hardware.openrazer = {
-      enable = mkEnableOption (lib.mdDoc ''
-        OpenRazer drivers and userspace daemon
-      '');
+      enable = mkEnableOption (
+        lib.mdDoc ''
+          OpenRazer drivers and userspace daemon
+        ''
+      );
 
       verboseLogging = mkOption {
         type = types.bool;
@@ -97,7 +104,7 @@ in
 
       users = mkOption {
         type = with types; listOf str;
-        default = [];
+        default = [ ];
         description = lib.mdDoc ''
           Usernames to be added to the "openrazer" group, so that they
           can start and interact with the OpenRazer userspace daemon.
@@ -127,15 +134,15 @@ in
     systemd.user.services.openrazer-daemon = {
       description = "Daemon to manage razer devices in userspace";
       unitConfig.Documentation = "man:openrazer-daemon(8)";
-        # Requires a graphical session so the daemon knows when the screensaver
-        # starts. See the 'devicesOffOnScreensaver' option.
-        wantedBy = [ "graphical-session.target" ];
-        partOf = [ "graphical-session.target" ];
-        serviceConfig = {
-          Type = "dbus";
-          BusName = "org.razer";
-          ExecStart = "${daemonExe} --foreground";
-          Restart = "always";
+      # Requires a graphical session so the daemon knows when the screensaver
+      # starts. See the 'devicesOffOnScreensaver' option.
+      wantedBy = [ "graphical-session.target" ];
+      partOf = [ "graphical-session.target" ];
+      serviceConfig = {
+        Type = "dbus";
+        BusName = "org.razer";
+        ExecStart = "${daemonExe} --foreground";
+        Restart = "always";
       };
     };
   };

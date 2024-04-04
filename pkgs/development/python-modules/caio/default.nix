@@ -1,10 +1,11 @@
-{ lib
-, aiomisc
-, buildPythonPackage
-, fetchFromGitHub
-, pytest-aiohttp
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  aiomisc,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pytest-aiohttp,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -27,9 +28,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "caio"
-  ];
+  pythonImportsCheck = [ "caio" ];
 
   meta = with lib; {
     description = "File operations with asyncio support";

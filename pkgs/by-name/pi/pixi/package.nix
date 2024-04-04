@@ -1,13 +1,14 @@
-{ lib
-, stdenv
-, rustPlatform
-, fetchFromGitHub
-, pkg-config
-, openssl
-, installShellFiles
-, darwin
-, testers
-, pixi
+{
+  lib,
+  stdenv,
+  rustPlatform,
+  fetchFromGitHub,
+  pkg-config,
+  openssl,
+  installShellFiles,
+  darwin,
+  testers,
+  pixi,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -28,12 +29,17 @@ rustPlatform.buildRustPackage rec {
     installShellFiles
   ];
 
-  buildInputs = [
-    openssl
-  ]
-  ++ lib.optionals stdenv.isDarwin (
-    with darwin.apple_sdk_11_0.frameworks; [ CoreFoundation IOKit SystemConfiguration Security ]
-  );
+  buildInputs =
+    [ openssl ]
+    ++ lib.optionals stdenv.isDarwin (
+      with darwin.apple_sdk_11_0.frameworks;
+      [
+        CoreFoundation
+        IOKit
+        SystemConfiguration
+        Security
+      ]
+    );
 
   # There are some CI failures with Rattler. Tests on Aarch64 has been skipped.
   # See https://github.com/prefix-dev/pixi/pull/241.
@@ -62,15 +68,16 @@ rustPlatform.buildRustPackage rec {
       --zsh <($out/bin/pixi completion --shell zsh)
   '';
 
-  passthru.tests.version = testers.testVersion {
-    package = pixi;
-  };
+  passthru.tests.version = testers.testVersion { package = pixi; };
 
   meta = with lib; {
     description = "Package management made easy";
     homepage = "https://pixi.sh/";
     license = licenses.bsd3;
-    maintainers = with lib.maintainers; [ aaronjheng edmundmiller ];
+    maintainers = with lib.maintainers; [
+      aaronjheng
+      edmundmiller
+    ];
     mainProgram = "pixi";
   };
 }

@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pytest
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pytest,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -17,17 +18,11 @@ buildPythonPackage rec {
     hash = "sha256-51UJjnGBO7qBvQlY8F0B29n8+EO2aa3DF3WOwcjZzSo=";
   };
 
-  buildInputs = [
-    pytest
-  ];
+  buildInputs = [ pytest ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "pytest_unordered"
-  ];
+  pythonImportsCheck = [ "pytest_unordered" ];
 
   meta = with lib; {
     changelog = "https://github.com/utapyngo/pytest-unordered/blob/v${version}/CHANGELOG.md";

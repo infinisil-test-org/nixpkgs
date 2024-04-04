@@ -1,6 +1,7 @@
-{ lib
-, fetchFromGitHub
-, python3
+{
+  lib,
+  fetchFromGitHub,
+  python3,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -23,14 +24,15 @@ python3.pkgs.buildPythonApplication rec {
   # No tests present
   doCheck = false;
 
-  pythonImportsCheck = [
-    "crlfsuite"
-  ];
+  pythonImportsCheck = [ "crlfsuite" ];
 
   meta = with lib; {
     description = "CRLF injection (HTTP Response Splitting) scanner";
     homepage = "https://github.com/Nefcore/CRLFsuite";
     license = licenses.mit;
-    maintainers = with maintainers; [ c0bw3b fab ];
+    maintainers = with maintainers; [
+      c0bw3b
+      fab
+    ];
   };
 }

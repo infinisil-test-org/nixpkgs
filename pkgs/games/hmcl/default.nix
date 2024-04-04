@@ -1,20 +1,21 @@
-{ lib
-, stdenv
-, fetchurl
-, makeBinaryWrapper
-, makeDesktopItem
-, wrapGAppsHook
-, copyDesktopItems
-, imagemagick
-, jre
-, xorg
-, libGL
-, glfw
-, openal
-, libglvnd
-, alsa-lib
-, wayland
-, libpulseaudio
+{
+  lib,
+  stdenv,
+  fetchurl,
+  makeBinaryWrapper,
+  makeDesktopItem,
+  wrapGAppsHook,
+  copyDesktopItems,
+  imagemagick,
+  jre,
+  xorg,
+  libGL,
+  glfw,
+  openal,
+  libglvnd,
+  alsa-lib,
+  wayland,
+  libpulseaudio,
 }:
 
 let
@@ -57,22 +58,25 @@ stdenv.mkDerivation (finalAttrs: {
 
   installPhase =
     let
-      libpath = lib.makeLibraryPath ([
-        libGL
-        glfw
-        openal
-        libglvnd
-      ] ++ lib.optionals stdenv.isLinux [
-        xorg.libX11
-        xorg.libXxf86vm
-        xorg.libXext
-        xorg.libXcursor
-        xorg.libXrandr
-        xorg.libXtst
-        libpulseaudio
-        wayland
-        alsa-lib
-      ]);
+      libpath = lib.makeLibraryPath (
+        [
+          libGL
+          glfw
+          openal
+          libglvnd
+        ]
+        ++ lib.optionals stdenv.isLinux [
+          xorg.libX11
+          xorg.libXxf86vm
+          xorg.libXext
+          xorg.libXcursor
+          xorg.libXrandr
+          xorg.libXtst
+          libpulseaudio
+          wayland
+          alsa-lib
+        ]
+      );
     in
     ''
       runHook preInstall

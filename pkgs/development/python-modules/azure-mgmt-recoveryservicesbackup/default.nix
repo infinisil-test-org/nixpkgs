@@ -1,10 +1,11 @@
-{ lib
-, azure-common
-, azure-mgmt-core
-, buildPythonPackage
-, fetchPypi
-, isodate
-, pythonOlder
+{
+  lib,
+  azure-common,
+  azure-mgmt-core,
+  buildPythonPackage,
+  fetchPypi,
+  isodate,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -28,9 +29,7 @@ buildPythonPackage rec {
   # Module has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "azure.mgmt.recoveryservicesbackup"
-  ];
+  pythonImportsCheck = [ "azure.mgmt.recoveryservicesbackup" ];
 
   meta = with lib; {
     description = "This is the Microsoft Azure Recovery Services Backup Management Client Library";

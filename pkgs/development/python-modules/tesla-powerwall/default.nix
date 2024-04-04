@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pytestCheckHook
-, pythonOlder
-, aiohttp
-, urllib3
-, orjson
-, aresponses
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pytestCheckHook,
+  pythonOlder,
+  aiohttp,
+  urllib3,
+  orjson,
+  aresponses,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -24,9 +25,7 @@ buildPythonPackage rec {
     hash = "sha256-if/FCfxAB48WGXZOMvCtdSOW2FWO43OrlcHZbXIPmGE=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     aiohttp
@@ -39,13 +38,9 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pytestFlagsArray = [
-    "tests/unit"
-  ];
+  pytestFlagsArray = [ "tests/unit" ];
 
-  pythonImportsCheck = [
-    "tesla_powerwall"
-  ];
+  pythonImportsCheck = [ "tesla_powerwall" ];
 
   meta = with lib; {
     description = "API for Tesla Powerwall";

@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, poetry-core
-, poetry-dynamic-versioning
-, pygments
-, rich
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  poetry-core,
+  poetry-dynamic-versioning,
+  pygments,
+  rich,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -41,7 +42,10 @@ buildPythonPackage rec {
   meta = {
     description = "Soothing pastel theme for Python";
     homepage = "https://github.com/catppuccin/python";
-    maintainers = with lib.maintainers; [ fufexan tomasajt ];
+    maintainers = with lib.maintainers; [
+      fufexan
+      tomasajt
+    ];
     license = lib.licenses.mit;
   };
 }

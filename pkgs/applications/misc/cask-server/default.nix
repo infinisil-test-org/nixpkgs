@@ -1,9 +1,10 @@
-{ lib
-, pkgs
-, mkDerivation
-, fetchFromGitHub
-, cmake
-, extra-cmake-modules
+{
+  lib,
+  pkgs,
+  mkDerivation,
+  fetchFromGitHub,
+  cmake,
+  extra-cmake-modules,
 }:
 
 mkDerivation rec {
@@ -32,5 +33,4 @@ mkDerivation rec {
     ];
     maintainers = with maintainers; [ onny ];
   };
-
 }

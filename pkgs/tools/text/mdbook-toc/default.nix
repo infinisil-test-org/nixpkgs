@@ -1,4 +1,10 @@
-{ lib, stdenv, fetchFromGitHub, rustPlatform, CoreServices }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  rustPlatform,
+  CoreServices,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "mdbook-toc";
@@ -22,4 +28,3 @@ rustPlatform.buildRustPackage rec {
     maintainers = with maintainers; [ matthiasbeyer ];
   };
 }
-

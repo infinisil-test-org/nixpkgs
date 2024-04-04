@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -6,15 +11,12 @@ let
   cfg = config.services.pcscd;
   cfgFile = pkgs.writeText "reader.conf" config.services.pcscd.readerConfig;
 
-  package = if config.security.polkit.enable
-              then pkgs.pcscliteWithPolkit
-              else pkgs.pcsclite;
+  package = if config.security.polkit.enable then pkgs.pcscliteWithPolkit else pkgs.pcsclite;
 
   pluginEnv = pkgs.buildEnv {
     name = "pcscd-plugins";
     paths = map (p: "${p}/pcsc/drivers") config.services.pcscd.plugins;
   };
-
 in
 {
   options.services.pcscd = {
@@ -71,7 +73,10 @@ in
       # around it, we force the path to the cfgFile.
       #
       # https://github.com/NixOS/nixpkgs/issues/121088
-      serviceConfig.ExecStart = [ "" "${lib.getExe package} -f -x -c ${cfgFile} ${lib.escapeShellArgs cfg.extraArgs}" ];
+      serviceConfig.ExecStart = [
+        ""
+        "${lib.getExe package} -f -x -c ${cfgFile} ${lib.escapeShellArgs cfg.extraArgs}"
+      ];
     };
   };
 }

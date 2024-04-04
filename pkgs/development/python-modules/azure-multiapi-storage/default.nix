@@ -1,9 +1,13 @@
-{ lib, buildPythonPackage, fetchPypi, isPy27
-, azure-common
-, azure-core
-, msrest
-, msrestazure
-, requests
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  isPy27,
+  azure-common,
+  azure-core,
+  msrest,
+  msrestazure,
+  requests,
 }:
 
 buildPythonPackage rec {
@@ -31,7 +35,10 @@ buildPythonPackage rec {
   # no tests included
   doCheck = false;
 
-  pythonImportsCheck = [ "azure.common" "azure.multiapi.storage" ];
+  pythonImportsCheck = [
+    "azure.common"
+    "azure.multiapi.storage"
+  ];
 
   meta = with lib; {
     description = "Microsoft Azure Storage Client Library for Python with multi API version support.";

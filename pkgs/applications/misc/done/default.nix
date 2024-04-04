@@ -1,22 +1,23 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cargo
-, glib
-, meson
-, ninja
-, pkg-config
-, rustPlatform
-, rustc
-, wrapGAppsHook4
-, gdk-pixbuf
-, gtk4
-, libadwaita
-, libsecret
-, openssl
-, sqlite
-, darwin
-, gettext
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cargo,
+  glib,
+  meson,
+  ninja,
+  pkg-config,
+  rustPlatform,
+  rustc,
+  wrapGAppsHook4,
+  gdk-pixbuf,
+  gtk4,
+  libadwaita,
+  libsecret,
+  openssl,
+  sqlite,
+  darwin,
+  gettext,
 }:
 
 stdenv.mkDerivation rec {
@@ -54,9 +55,7 @@ stdenv.mkDerivation rec {
     libsecret
     openssl
     sqlite
-  ] ++ lib.optionals stdenv.isDarwin [
-    darwin.apple_sdk.frameworks.AppKit
-  ];
+  ] ++ lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.AppKit ];
 
   env = lib.optionalAttrs stdenv.isDarwin {
     GETTEXT_DIR = gettext;

@@ -1,6 +1,16 @@
-{ lib, stdenv, fetchzip, makeWrapper, openjdk21, openjfx21, jvmFlags ? [ ] }:
-let jdk = openjdk21.override { enableJavaFX = true; };
-in stdenv.mkDerivation (finalAttrs: {
+{
+  lib,
+  stdenv,
+  fetchzip,
+  makeWrapper,
+  openjdk21,
+  openjfx21,
+  jvmFlags ? [ ],
+}:
+let
+  jdk = openjdk21.override { enableJavaFX = true; };
+in
+stdenv.mkDerivation (finalAttrs: {
   pname = "moneydance";
   version = "2023.3_5064";
 
@@ -10,7 +20,10 @@ in stdenv.mkDerivation (finalAttrs: {
   };
 
   nativeBuildInputs = [ makeWrapper ];
-  buildInputs = [ jdk openjfx21 ];
+  buildInputs = [
+    jdk
+    openjfx21
+  ];
 
   # Note the double escaping in the call to makeWrapper. The escapeShellArgs
   # call quotes each element of the flags list as a word[1] and returns a
@@ -20,26 +33,30 @@ in stdenv.mkDerivation (finalAttrs: {
   #
   # 1. https://www.gnu.org/software/bash/manual/html_node/Word-Splitting.html
   # 2. https://github.com/NixOS/nixpkgs/blob/master/pkgs/build-support/setup-hooks/make-wrapper.sh
-  installPhase = let
-    finalJvmFlags = [
-      "-client"
-      "--add-modules"
-      "javafx.swing,javafx.controls,javafx.graphics"
-      "-classpath"
-      "${placeholder "out"}/libexec/*"
-    ] ++ jvmFlags ++ [ "Moneydance" ];
-  in ''
-    runHook preInstall
+  installPhase =
+    let
+      finalJvmFlags = [
+        "-client"
+        "--add-modules"
+        "javafx.swing,javafx.controls,javafx.graphics"
+        "-classpath"
+        "${placeholder "out"}/libexec/*"
+      ] ++ jvmFlags ++ [ "Moneydance" ];
+    in
+    ''
+      runHook preInstall
 
-    mkdir -p $out/libexec $out/bin
-    cp -p $src/lib/* $out/libexec/
-    makeWrapper ${jdk}/bin/java $out/bin/moneydance \
-      --add-flags ${lib.escapeShellArg (lib.escapeShellArgs finalJvmFlags)}
+      mkdir -p $out/libexec $out/bin
+      cp -p $src/lib/* $out/libexec/
+      makeWrapper ${jdk}/bin/java $out/bin/moneydance \
+        --add-flags ${lib.escapeShellArg (lib.escapeShellArgs finalJvmFlags)}
 
-    runHook postInstall
-  '';
+      runHook postInstall
+    '';
 
-  passthru = { inherit jdk; };
+  passthru = {
+    inherit jdk;
+  };
 
   meta = {
     homepage = "https://infinitekind.com/moneydance";

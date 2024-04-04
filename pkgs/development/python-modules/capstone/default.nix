@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, capstone
-, stdenv
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  capstone,
+  stdenv,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -21,7 +22,10 @@ buildPythonPackage rec {
 
   # aarch64 only available from MacOS SDK 11 onwards, so fix the version tag.
   # otherwise, bdist_wheel may detect "macosx_10_6_arm64" which doesn't make sense.
-  setupPyBuildFlags = lib.optionals (stdenv.isDarwin && stdenv.isAarch64) [ "--plat-name" "macosx_11_0" ];
+  setupPyBuildFlags = lib.optionals (stdenv.isDarwin && stdenv.isAarch64) [
+    "--plat-name"
+    "macosx_11_0"
+  ];
 
   propagatedBuildInputs = [ setuptools ];
 
@@ -35,6 +39,9 @@ buildPythonPackage rec {
     homepage = "http://www.capstone-engine.org/";
     license = licenses.bsdOriginal;
     description = "Python bindings for Capstone disassembly engine";
-    maintainers = with maintainers; [ bennofs ris ];
+    maintainers = with maintainers; [
+      bennofs
+      ris
+    ];
   };
 }

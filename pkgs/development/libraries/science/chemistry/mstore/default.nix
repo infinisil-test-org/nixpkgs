@@ -1,9 +1,10 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, cmake
-, gfortran
-, mctc-lib
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  cmake,
+  gfortran,
+  mctc-lib,
 }:
 
 stdenv.mkDerivation rec {
@@ -17,11 +18,17 @@ stdenv.mkDerivation rec {
     hash = "sha256-dN2BulLS/ENRFVdJIrZRxgBV8S4d5+7BjTCGnhBbf4I=";
   };
 
-  nativeBuildInputs = [ cmake gfortran ];
+  nativeBuildInputs = [
+    cmake
+    gfortran
+  ];
 
   buildInputs = [ mctc-lib ];
 
-  outputs = [ "out" "dev" ];
+  outputs = [
+    "out"
+    "dev"
+  ];
 
   # Fix the Pkg-Config files for doubled store paths
   postPatch = ''
@@ -29,9 +36,7 @@ stdenv.mkDerivation rec {
       --replace "\''${prefix}/" ""
   '';
 
-  cmakeFlags = [
-    "-DBUILD_SHARED_LIBS=${if stdenv.hostPlatform.isStatic then "OFF" else "ON"}"
-  ];
+  cmakeFlags = [ "-DBUILD_SHARED_LIBS=${if stdenv.hostPlatform.isStatic then "OFF" else "ON"}" ];
 
   meta = with lib; {
     description = "Molecular structure store for testing";

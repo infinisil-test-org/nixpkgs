@@ -1,31 +1,31 @@
-{ lib
-, stdenv
-, fetchurl
-, which
-, autoconf
-, automake
-, flex
-, bison
-, kernel
-, glibc
-, perl
-, libtool_2
-, libkrb5
-, fetchpatch
+{
+  lib,
+  stdenv,
+  fetchurl,
+  which,
+  autoconf,
+  automake,
+  flex,
+  bison,
+  kernel,
+  glibc,
+  perl,
+  libtool_2,
+  libkrb5,
+  fetchpatch,
 }:
 
-with (import ./srcs.nix {
-  inherit fetchurl;
-});
+with (import ./srcs.nix { inherit fetchurl; });
 
 let
   modDestDir = "$out/lib/modules/${kernel.modDirVersion}/extra/openafs";
   kernelBuildDir = "${kernel.dev}/lib/modules/${kernel.modDirVersion}/build";
 
-  fetchBase64Patch = args: (fetchpatch args).overrideAttrs (o: {
-    postFetch = "mv $out p; base64 -d p > $out; " + o.postFetch;
-  });
-
+  fetchBase64Patch =
+    args:
+    (fetchpatch args).overrideAttrs (o: {
+      postFetch = "mv $out p; base64 -d p > $out; " + o.postFetch;
+    });
 in
 stdenv.mkDerivation {
   pname = "openafs";
@@ -110,8 +110,15 @@ stdenv.mkDerivation {
     })
   ];
 
-  nativeBuildInputs = [ autoconf automake flex libtool_2 perl which bison ]
-    ++ kernel.moduleBuildDependencies;
+  nativeBuildInputs = [
+    autoconf
+    automake
+    flex
+    libtool_2
+    perl
+    which
+    bison
+  ] ++ kernel.moduleBuildDependencies;
 
   buildInputs = [ libkrb5 ];
 
@@ -151,7 +158,11 @@ stdenv.mkDerivation {
     homepage = "https://www.openafs.org";
     license = licenses.ipl10;
     platforms = platforms.linux;
-    maintainers = with maintainers; [ andersk maggesi spacefrogg ];
+    maintainers = with maintainers; [
+      andersk
+      maggesi
+      spacefrogg
+    ];
     broken = kernel.isHardened;
   };
 }

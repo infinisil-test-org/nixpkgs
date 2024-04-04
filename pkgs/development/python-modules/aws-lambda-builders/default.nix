@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, mock
-, parameterized
-, pip
-, pyelftools
-, pytestCheckHook
-, pythonOlder
-, six
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  mock,
+  parameterized,
+  pip,
+  pyelftools,
+  pytestCheckHook,
+  pythonOlder,
+  six,
 }:
 
 buildPythonPackage rec {
@@ -29,9 +30,7 @@ buildPythonPackage rec {
       --replace "version=read_version()," 'version="${version}",'
   '';
 
-  propagatedBuildInputs = [
-    six
-  ];
+  propagatedBuildInputs = [ six ];
 
   nativeCheckInputs = [
     mock
@@ -62,9 +61,7 @@ buildPythonPackage rec {
     "test_move_dependencies_action_1_multiple_files"
   ];
 
-  pythonImportsCheck = [
-    "aws_lambda_builders"
-  ];
+  pythonImportsCheck = [ "aws_lambda_builders" ];
 
   meta = with lib; {
     description = "Tool to compile, build and package AWS Lambda functions";

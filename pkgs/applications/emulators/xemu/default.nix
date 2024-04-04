@@ -1,29 +1,30 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, SDL2
-, SDL2_image
-, copyDesktopItems
-, gettext
-, glib
-, gtk3
-, libGLU
-, libdrm
-, libepoxy
-, libpcap
-, libsamplerate
-, libslirp
-, makeDesktopItem
-, mesa
-, meson
-, ninja
-, openssl
-, perl
-, pkg-config
-, python3
-, vte
-, which
-, wrapGAppsHook
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  SDL2,
+  SDL2_image,
+  copyDesktopItems,
+  gettext,
+  glib,
+  gtk3,
+  libGLU,
+  libdrm,
+  libepoxy,
+  libpcap,
+  libsamplerate,
+  libslirp,
+  makeDesktopItem,
+  mesa,
+  meson,
+  ninja,
+  openssl,
+  perl,
+  pkg-config,
+  python3,
+  vte,
+  which,
+  wrapGAppsHook,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -106,20 +107,30 @@ stdenv.mkDerivation (finalAttrs: {
     substituteInPlace ./build.ninja --replace /usr/bin/env $(which env)
   '';
 
-  installPhase = ''
-    runHook preInstall
+  installPhase =
+    ''
+      runHook preInstall
 
-    install -Dm755 -T qemu-system-i386 $out/bin/xemu
-  '' +
-  # Generate code to install the icons
-  (lib.concatMapStringsSep ";\n"
-    (res:
-      "install -Dm644 -T ../ui/icons/xemu_${res}.png $out/share/icons/hicolor/${res}/apps/xemu.png")
-    [ "16x16" "24x24" "32x32" "48x48" "128x128" "256x256" "512x512" ]) +
-  ''
+      install -Dm755 -T qemu-system-i386 $out/bin/xemu
+    ''
+    +
+      # Generate code to install the icons
+      (lib.concatMapStringsSep ";\n"
+        (res: "install -Dm644 -T ../ui/icons/xemu_${res}.png $out/share/icons/hicolor/${res}/apps/xemu.png")
+        [
+          "16x16"
+          "24x24"
+          "32x32"
+          "48x48"
+          "128x128"
+          "256x256"
+          "512x512"
+        ]
+      )
+    + ''
 
-    runHook postInstall
-  '';
+      runHook postInstall
+    '';
 
   meta = {
     homepage = "https://xemu.app/";
@@ -131,7 +142,10 @@ stdenv.mkDerivation (finalAttrs: {
     '';
     changelog = "https://github.com/xemu-project/xemu/releases/tag/v${finalAttrs.version}";
     license = lib.licenses.gpl2Plus;
-    maintainers = with lib.maintainers; [ AndersonTorres genericnerdyusername ];
+    maintainers = with lib.maintainers; [
+      AndersonTorres
+      genericnerdyusername
+    ];
     platforms = lib.platforms.linux;
     mainProgram = "xemu";
   };

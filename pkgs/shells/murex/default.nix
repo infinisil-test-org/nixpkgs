@@ -1,6 +1,7 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
 }:
 
 buildGoModule rec {
@@ -22,6 +23,9 @@ buildGoModule rec {
     description = "Bash-like shell and scripting environment with advanced features designed for safety and productivity";
     homepage = "https://murex.rocks";
     license = licenses.gpl2;
-    maintainers = with maintainers; [ dit7ya kashw2 ];
+    maintainers = with maintainers; [
+      dit7ya
+      kashw2
+    ];
   };
 }

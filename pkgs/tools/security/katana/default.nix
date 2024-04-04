@@ -1,6 +1,7 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
 }:
 
 buildGoModule rec {
@@ -16,9 +17,7 @@ buildGoModule rec {
 
   vendorHash = "sha256-go+6NOQOnmds7EuA5k076Qdib2CqGthH9BHOm0YYKaA=";
 
-  subPackages = [
-    "cmd/katana"
-  ];
+  subPackages = [ "cmd/katana" ];
 
   ldflags = [
     "-w"

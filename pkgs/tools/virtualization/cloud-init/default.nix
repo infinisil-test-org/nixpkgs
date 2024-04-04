@@ -1,18 +1,19 @@
-{ lib
-, nixosTests
-, buildPythonApplication
-, cloud-utils
-, dmidecode
-, fetchFromGitHub
-, iproute2
-, openssh
-, python3
-, shadow
-, systemd
-, coreutils
-, gitUpdater
-, busybox
-, procps
+{
+  lib,
+  nixosTests,
+  buildPythonApplication,
+  cloud-utils,
+  dmidecode,
+  fetchFromGitHub,
+  iproute2,
+  openssh,
+  python3,
+  shadow,
+  systemd,
+  coreutils,
+  gitUpdater,
+  busybox,
+  procps,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -27,9 +28,7 @@ python3.pkgs.buildPythonApplication rec {
     hash = "sha256-imA3C2895W4vbBT9TsELT1H9QfNIxntNQLsniv+/FGg=";
   };
 
-  patches = [
-    ./0001-add-nixos-support.patch
-  ];
+  patches = [ ./0001-add-nixos-support.patch ];
 
   prePatch = ''
     substituteInPlace setup.py \
@@ -79,7 +78,13 @@ python3.pkgs.buildPythonApplication rec {
   ];
 
   makeWrapperArgs = [
-    "--prefix PATH : ${lib.makeBinPath [ dmidecode cloud-utils.guest busybox ]}/bin"
+    "--prefix PATH : ${
+      lib.makeBinPath [
+        dmidecode
+        cloud-utils.guest
+        busybox
+      ]
+    }/bin"
   ];
 
   disabledTests = [
@@ -119,12 +124,12 @@ python3.pkgs.buildPythonApplication rec {
     export TMPDIR=/tmp
   '';
 
-  pythonImportsCheck = [
-    "cloudinit"
-  ];
+  pythonImportsCheck = [ "cloudinit" ];
 
   passthru = {
-    tests = { inherit (nixosTests) cloud-init cloud-init-hostname; };
+    tests = {
+      inherit (nixosTests) cloud-init cloud-init-hostname;
+    };
     updateScript = gitUpdater { ignoredVersions = ".ubuntu.*"; };
   };
 
@@ -132,8 +137,14 @@ python3.pkgs.buildPythonApplication rec {
     homepage = "https://github.com/canonical/cloud-init";
     description = "Provides configuration and customization of cloud instance";
     changelog = "https://github.com/canonical/cloud-init/raw/${version}/ChangeLog";
-    license = with licenses; [ asl20 gpl3Plus ];
-    maintainers = with maintainers; [ illustris jfroche ];
+    license = with licenses; [
+      asl20
+      gpl3Plus
+    ];
+    maintainers = with maintainers; [
+      illustris
+      jfroche
+    ];
     platforms = platforms.all;
   };
 }

@@ -1,12 +1,13 @@
-{ lib
-, makeSetupHook
-, diffutils
-, jq
-, writeShellApplication
-, moreutils
-, makeBinaryWrapper
-, cacert
-, buildPackages
+{
+  lib,
+  makeSetupHook,
+  diffutils,
+  jq,
+  writeShellApplication,
+  moreutils,
+  makeBinaryWrapper,
+  cacert,
+  buildPackages,
 }:
 
 let
@@ -17,24 +18,31 @@ let
   };
 in
 {
-  composerRepositoryHook = makeSetupHook
-    {
-      name = "composer-repository-hook.sh";
-      propagatedBuildInputs = [ jq moreutils cacert ];
-      substitutions = {
-        phpScriptUtils = lib.getExe php-script-utils;
-      };
-    } ./composer-repository-hook.sh;
+  composerRepositoryHook = makeSetupHook {
+    name = "composer-repository-hook.sh";
+    propagatedBuildInputs = [
+      jq
+      moreutils
+      cacert
+    ];
+    substitutions = {
+      phpScriptUtils = lib.getExe php-script-utils;
+    };
+  } ./composer-repository-hook.sh;
 
-  composerInstallHook = makeSetupHook
-    {
-      name = "composer-install-hook.sh";
-      propagatedBuildInputs = [ jq makeBinaryWrapper moreutils cacert ];
-      substitutions = {
-        # Specify the stdenv's `diff` by abspath to ensure that the user's build
-        # inputs do not cause us to find the wrong `diff`.
-        cmp = "${lib.getBin buildPackages.diffutils}/bin/cmp";
-        phpScriptUtils = lib.getExe php-script-utils;
-      };
-    } ./composer-install-hook.sh;
+  composerInstallHook = makeSetupHook {
+    name = "composer-install-hook.sh";
+    propagatedBuildInputs = [
+      jq
+      makeBinaryWrapper
+      moreutils
+      cacert
+    ];
+    substitutions = {
+      # Specify the stdenv's `diff` by abspath to ensure that the user's build
+      # inputs do not cause us to find the wrong `diff`.
+      cmp = "${lib.getBin buildPackages.diffutils}/bin/cmp";
+      phpScriptUtils = lib.getExe php-script-utils;
+    };
+  } ./composer-install-hook.sh;
 }

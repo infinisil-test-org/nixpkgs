@@ -1,4 +1,10 @@
-{ buildDunePackage, irmin, fmt, ptime, mirage-clock }:
+{
+  buildDunePackage,
+  irmin,
+  fmt,
+  ptime,
+  mirage-clock,
+}:
 
 buildDunePackage {
   pname = "irmin-mirage";
@@ -7,7 +13,10 @@ buildDunePackage {
   duneVersion = "3";
 
   propagatedBuildInputs = [
-    irmin fmt ptime mirage-clock
+    irmin
+    fmt
+    ptime
+    mirage-clock
   ];
 
   meta = irmin.meta // {

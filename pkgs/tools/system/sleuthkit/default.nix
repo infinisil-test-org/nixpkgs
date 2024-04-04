@@ -1,14 +1,15 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, autoreconfHook
-, libewf
-, afflib
-, openssl
-, zlib
-, openjdk
-, perl
-, ant
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  autoreconfHook,
+  libewf,
+  afflib,
+  openssl,
+  zlib,
+  openjdk,
+  perl,
+  ant,
 }:
 
 stdenv.mkDerivation rec {
@@ -109,11 +110,14 @@ stdenv.mkDerivation rec {
     description = "A forensic/data recovery tool";
     homepage = "https://www.sleuthkit.org/";
     changelog = "https://github.com/sleuthkit/sleuthkit/releases/tag/sleuthkit-${version}";
-    maintainers = with maintainers; [ raskin gfrascadorio ];
+    maintainers = with maintainers; [
+      raskin
+      gfrascadorio
+    ];
     platforms = platforms.linux;
     sourceProvenance = with sourceTypes; [
       fromSource
-      binaryBytecode  # dependencies
+      binaryBytecode # dependencies
     ];
     license = licenses.ipl10;
   };

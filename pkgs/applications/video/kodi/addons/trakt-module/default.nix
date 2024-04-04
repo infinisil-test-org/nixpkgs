@@ -1,4 +1,12 @@
-{ lib, buildKodiAddon, fetchzip, addonUpdateScript, requests, six, arrow }:
+{
+  lib,
+  buildKodiAddon,
+  fetchzip,
+  addonUpdateScript,
+  requests,
+  six,
+  arrow,
+}:
 buildKodiAddon rec {
   pname = "trakt-module";
   namespace = "script.module.trakt";
@@ -17,9 +25,7 @@ buildKodiAddon rec {
 
   passthru = {
     pythonPath = "lib";
-    updateScript = addonUpdateScript {
-      attrPath = "kodi.packages.trakt-module";
-    };
+    updateScript = addonUpdateScript { attrPath = "kodi.packages.trakt-module"; };
   };
 
   meta = with lib; {

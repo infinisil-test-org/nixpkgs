@@ -1,4 +1,12 @@
-{ lib, fetchPypi, python, buildPythonPackage, nose, future, coverage }:
+{
+  lib,
+  fetchPypi,
+  python,
+  buildPythonPackage,
+  nose,
+  future,
+  coverage,
+}:
 
 buildPythonPackage rec {
   pname = "PyZufall";
@@ -13,7 +21,10 @@ buildPythonPackage rec {
   # https://github.com/nose-devs/nose/issues/1037
   doCheck = false;
 
-  nativeCheckInputs = [ nose coverage ];
+  nativeCheckInputs = [
+    nose
+    coverage
+  ];
   propagatedBuildInputs = [ future ];
 
   checkPhase = ''

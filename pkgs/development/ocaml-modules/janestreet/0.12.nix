@@ -1,6 +1,4 @@
-{ self
-, openssl
-}:
+{ self, openssl }:
 
 with self;
 
@@ -59,7 +57,11 @@ with self;
     pname = "ppx_assert";
     hash = "0as6mzr6ki2a9d4k6132p9dskn0qssla1s7j5rkzp75bfikd0ip8";
     meta.description = "Assert-like extension nodes that raise useful errors on failure";
-    propagatedBuildInputs = [ ppx_compare ppx_here ppx_sexp_conv ];
+    propagatedBuildInputs = [
+      ppx_compare
+      ppx_here
+      ppx_sexp_conv
+    ];
   };
 
   ppx_inline_test = janePackage {
@@ -88,7 +90,10 @@ with self;
     pname = "ppx_fields_conv";
     hash = "0flrdyxdfcqcmdrbipxdjq0s3djdgs7z5pvjdycsvs6czbixz70v";
     meta.description = "Generation of accessor and iteration functions for ocaml records";
-    propagatedBuildInputs = [ fieldslib ppxlib ];
+    propagatedBuildInputs = [
+      fieldslib
+      ppxlib
+    ];
   };
 
   variantslib = janePackage {
@@ -102,14 +107,24 @@ with self;
     pname = "ppx_variants_conv";
     hash = "05j9bgra8xq6fcp12ch3z9vjrk139p2wrcjjcs4h52n5hhc8vzbz";
     meta.description = "Generation of accessor and iteration functions for ocaml variant types";
-    propagatedBuildInputs = [ variantslib ppxlib ];
+    propagatedBuildInputs = [
+      variantslib
+      ppxlib
+    ];
   };
 
   ppx_expect = janePackage {
     pname = "ppx_expect";
     hash = "1wawsbjfkri4sw52n8xqrzihxc3xfpdicv3ahz83a1rsn4lb8j5q";
     meta.description = "Cram like framework for OCaml";
-    propagatedBuildInputs = [ ppx_assert ppx_custom_printf ppx_fields_conv ppx_inline_test ppx_variants_conv re ];
+    propagatedBuildInputs = [
+      ppx_assert
+      ppx_custom_printf
+      ppx_fields_conv
+      ppx_inline_test
+      ppx_variants_conv
+      re
+    ];
   };
 
   ppx_enumerate = janePackage {
@@ -123,21 +138,31 @@ with self;
     pname = "ppx_hash";
     hash = "1dfsfvhiyp1mnf24mr93svpdn432kla0y7x631lssacxxp2sadbg";
     meta.description = "A ppx rewriter that generates hash functions from type expressions and definitions";
-    propagatedBuildInputs = [ ppx_compare ppx_sexp_conv ];
+    propagatedBuildInputs = [
+      ppx_compare
+      ppx_sexp_conv
+    ];
   };
 
   ppx_js_style = janePackage {
     pname = "ppx_js_style";
     hash = "1lz931m3qdv3yzqy6dnb8fq1d99r61w0n7cwf3b9fl9rhk0pggwh";
     meta.description = "Code style checker for Jane Street Packages";
-    propagatedBuildInputs = [ octavius ppxlib ];
+    propagatedBuildInputs = [
+      octavius
+      ppxlib
+    ];
   };
 
   ppx_base = janePackage {
     pname = "ppx_base";
     hash = "0vd96rp2l084iamkwmvizzhl9625cagjb6gzzbir06czii5mlq2p";
     meta.description = "Base set of ppx rewriters";
-    propagatedBuildInputs = [ ppx_enumerate ppx_hash ppx_js_style ];
+    propagatedBuildInputs = [
+      ppx_enumerate
+      ppx_hash
+      ppx_js_style
+    ];
   };
 
   ppx_bench = janePackage {
@@ -151,14 +176,22 @@ with self;
     pname = "ppx_sexp_message";
     hash = "0yskd6v48jc6wa0nhg685kylh1n9qb6b7d1wglr9wnhl9sw990mc";
     meta.description = "A ppx rewriter for easy construction of s-expressions";
-    propagatedBuildInputs = [ ppx_here ppx_sexp_conv ];
+    propagatedBuildInputs = [
+      ppx_here
+      ppx_sexp_conv
+    ];
   };
 
   splittable_random = janePackage {
     pname = "splittable_random";
     hash = "1wpyz7807cgj8b50gdx4rw6f1zsznp4ni5lzjbnqdwa66na6ynr4";
     meta.description = "PRNG that can be split into independent streams";
-    propagatedBuildInputs = [ base ppx_assert ppx_bench ppx_sexp_message ];
+    propagatedBuildInputs = [
+      base
+      ppx_assert
+      ppx_bench
+      ppx_sexp_message
+    ];
   };
 
   ppx_let = janePackage {
@@ -172,7 +205,12 @@ with self;
     pname = "base_quickcheck";
     hash = "1la6qgq1zwmfyq1hqy6i337w435ym5yqgx2ygk86qip6nws0s6r3";
     meta.description = "Randomized testing framework, designed for compatibility with Base";
-    propagatedBuildInputs = [ ppx_base ppx_fields_conv ppx_let splittable_random ];
+    propagatedBuildInputs = [
+      ppx_base
+      ppx_fields_conv
+      ppx_let
+      splittable_random
+    ];
   };
 
   ppx_stable = janePackage {
@@ -186,7 +224,12 @@ with self;
     pname = "bin_prot";
     hash = "0hh6s7g9s004z35hsr8z6nw5phlcvcd6g2q3bj4f0s1s0anlsswm";
     meta.description = "A binary protocol generator";
-    propagatedBuildInputs = [ ppx_compare ppx_custom_printf ppx_fields_conv ppx_variants_conv ];
+    propagatedBuildInputs = [
+      ppx_compare
+      ppx_custom_printf
+      ppx_fields_conv
+      ppx_variants_conv
+    ];
   };
 
   ppx_bin_prot = janePackage {
@@ -194,7 +237,10 @@ with self;
     version = "0.12.1";
     hash = "1j0kjgmv58dmg3x5dj5zrfbm920rwq21lvkkaqq493y76cd0x8xg";
     meta.description = "Generation of bin_prot readers and writers from types";
-    propagatedBuildInputs = [ bin_prot ppx_here ];
+    propagatedBuildInputs = [
+      bin_prot
+      ppx_here
+    ];
   };
 
   ppx_fail = janePackage {
@@ -208,7 +254,10 @@ with self;
     pname = "jst-config";
     hash = "0yxcz13vda1mdh9ah7qqxwfxpcqang5sgdssd8721rszbwqqaw93";
     meta.description = "Compile-time configuration for Jane Street libraries";
-    buildInputs = [ dune_1 ppx_assert ];
+    buildInputs = [
+      dune_1
+      ppx_assert
+    ];
   };
 
   ppx_optcomp = janePackage {
@@ -228,8 +277,15 @@ with self;
     pname = "time_now";
     hash = "169mgsb3rja4j1j9nj5xa7bbkd21p9kfpskqz0wjf9x2fpxqsniq";
     meta.description = "Reports the current time";
-    buildInputs = [ jst-config ppx_optcomp ];
-    propagatedBuildInputs = [ jane-street-headers base ppx_base ];
+    buildInputs = [
+      jst-config
+      ppx_optcomp
+    ];
+    propagatedBuildInputs = [
+      jane-street-headers
+      base
+      ppx_base
+    ];
   };
 
   ppx_module_timer = janePackage {
@@ -257,7 +313,10 @@ with self;
     pname = "ppx_sexp_value";
     hash = "1mg81834a6dx1x7x9zb9wc58438cabjjw08yhkx6i386hxfy891p";
     meta.description = "A ppx rewriter that simplifies building s-expressions from ocaml values";
-    propagatedBuildInputs = [ ppx_here ppx_sexp_conv ];
+    propagatedBuildInputs = [
+      ppx_here
+      ppx_sexp_conv
+    ];
   };
 
   typerep = janePackage {
@@ -271,14 +330,30 @@ with self;
     pname = "ppx_typerep_conv";
     hash = "09vik6qma1id44k8nz87y48l9wbjhqhap1ar1hpfdfkjai1hrzzq";
     meta.description = "Generation of runtime types from type declarations";
-    propagatedBuildInputs = [ ppxlib typerep ];
+    propagatedBuildInputs = [
+      ppxlib
+      typerep
+    ];
   };
 
   ppx_jane = janePackage {
     pname = "ppx_jane";
     hash = "1a2602isqzsh640q20qbmarx0sc316mlsqc3i25ysv2kdyhh0kyw";
     meta.description = "Standard Jane Street ppx rewriters";
-    propagatedBuildInputs = [ base_quickcheck ppx_bench ppx_bin_prot ppx_expect ppx_fail ppx_module_timer ppx_optcomp ppx_optional ppx_pipebang ppx_sexp_value ppx_stable ppx_typerep_conv ];
+    propagatedBuildInputs = [
+      base_quickcheck
+      ppx_bench
+      ppx_bin_prot
+      ppx_expect
+      ppx_fail
+      ppx_module_timer
+      ppx_optcomp
+      ppx_optional
+      ppx_pipebang
+      ppx_sexp_value
+      ppx_stable
+      ppx_typerep_conv
+    ];
   };
 
   base_bigstring = janePackage {
@@ -292,14 +367,20 @@ with self;
     pname = "parsexp";
     hash = "1974i9s2c2n03iffxrm6ncwbd2gg6j6avz5jsxfd35scc2zxcd4l";
     meta.description = "S-expression parsing library";
-    propagatedBuildInputs = [ base sexplib0 ];
+    propagatedBuildInputs = [
+      base
+      sexplib0
+    ];
   };
 
   sexplib = janePackage {
     pname = "sexplib";
     hash = "0780klc5nnv0ij6aklzra517cfnfkjdlp8ylwjrqwr8dl9rvxza2";
     meta.description = "Library for serializing OCaml values to and from S-expressions";
-    propagatedBuildInputs = [ num parsexp ];
+    propagatedBuildInputs = [
+      num
+      parsexp
+    ];
   };
 
   core_kernel = janePackage {
@@ -308,7 +389,10 @@ with self;
     hash = "0c85bjvadrb4pmjcg0gjk3bkkgka62r90pjm690mjvcbbv5zjxzj";
     meta.description = "System-independent part of Core";
     buildInputs = [ jst-config ];
-    propagatedBuildInputs = [ base_bigstring sexplib ];
+    propagatedBuildInputs = [
+      base_bigstring
+      sexplib
+    ];
   };
 
   spawn = janePackage {
@@ -325,7 +409,10 @@ with self;
     hash = "1vmjqiafkg45hqfvahx6jnlaww1q4a4215k8znbgprf0qn3zymnj";
     meta.description = "System-independent part of Core";
     buildInputs = [ jst-config ];
-    propagatedBuildInputs = [ core_kernel spawn ];
+    propagatedBuildInputs = [
+      core_kernel
+      spawn
+    ];
   };
 
   async_kernel = janePackage {
@@ -346,21 +433,30 @@ with self;
     pname = "async_rpc_kernel";
     hash = "1znhqbzx4fp58i7dbcgyv5rx7difbhb5d8cbqzv96yqvbn67lsjk";
     meta.description = "Platform-independent core of Async RPC library";
-    propagatedBuildInputs = [ async_kernel protocol_version_header ];
+    propagatedBuildInputs = [
+      async_kernel
+      protocol_version_header
+    ];
   };
 
   async_unix = janePackage {
     pname = "async_unix";
     hash = "09h10rdyykbm88n6r9nb5a22mlb6vcxa04q6hvrcr0kys6qhhqmb";
     meta.description = "Monadic concurrency library";
-    propagatedBuildInputs = [ async_kernel core ];
+    propagatedBuildInputs = [
+      async_kernel
+      core
+    ];
   };
 
   async_extra = janePackage {
     pname = "async_extra";
     hash = "10j4mwlyqvf67yrp5dwd857llqjinpnnykmlzw2gpmks9azxk6mh";
     meta.description = "Monadic concurrency library";
-    propagatedBuildInputs = [ async_rpc_kernel async_unix ];
+    propagatedBuildInputs = [
+      async_rpc_kernel
+      async_unix
+    ];
   };
 
   textutils = janePackage {
@@ -374,7 +470,10 @@ with self;
     pname = "async";
     hash = "0pk7z3h2gi21nfchvmjz2wx516bynf9vgwf84zf5qhvlvqqsmyrx";
     meta.description = "Monadic concurrency library";
-    propagatedBuildInputs = [ async_extra textutils ];
+    propagatedBuildInputs = [
+      async_extra
+      textutils
+    ];
   };
 
   async_find = janePackage {
@@ -400,14 +499,20 @@ with self;
     hash = "158857rdr6qgglc5iksg0l54jgf51b5lmsw7nlazpxwdwc9fcn5n";
     meta.description = "Yet another implementation of fork&exec and related functionality";
     buildInputs = [ jst-config ];
-    propagatedBuildInputs = [ re2 textutils ];
+    propagatedBuildInputs = [
+      re2
+      textutils
+    ];
   };
 
   async_shell = janePackage {
     pname = "async_shell";
     hash = "0cxln9hkc3cy522la9yi9p23qjwl69kqmadsq4lnjh5bxdad06sv";
     meta.description = "Shell helpers for Async";
-    propagatedBuildInputs = [ async shell ];
+    propagatedBuildInputs = [
+      async
+      shell
+    ];
   };
 
   core_bench = janePackage {
@@ -428,7 +533,11 @@ with self;
     pname = "sexp_pretty";
     hash = "06hdsaszc5cd7fphiblbn4r1sh36xgjwf2igzr2rvlzqs7jiv2v4";
     meta.description = "S-expression pretty-printer";
-    propagatedBuildInputs = [ ppx_base re sexplib ];
+    propagatedBuildInputs = [
+      ppx_base
+      re
+      sexplib
+    ];
   };
 
   expect_test_helpers_kernel = janePackage {
@@ -436,14 +545,20 @@ with self;
     hash = "18ya187y2i2hfxr771sd9vy5jdsa30vhs56yjdhwk06v01b2fzbq";
     meta.description = "Helpers for writing expectation tests";
     buildInputs = [ ppx_jane ];
-    propagatedBuildInputs = [ core_kernel sexp_pretty ];
+    propagatedBuildInputs = [
+      core_kernel
+      sexp_pretty
+    ];
   };
 
   expect_test_helpers = janePackage {
     pname = "expect_test_helpers";
     hash = "0ixqck2lnsmz107yw0q2sr8va80skjpldx7lz4ymjiq2vsghk0rb";
     meta.description = "Async helpers for writing expectation tests";
-    propagatedBuildInputs = [ async expect_test_helpers_kernel ];
+    propagatedBuildInputs = [
+      async
+      expect_test_helpers_kernel
+    ];
   };
 
   patience_diff = janePackage {
@@ -457,7 +572,10 @@ with self;
     pname = "ecaml";
     hash = "0n9xi6agc3lgyj2nsi10cbif0xwn57xyaranad9r285rmbxrgjh7";
     meta.description = "Library for writing Emacs plugin in OCaml";
-    propagatedBuildInputs = [ async expect_test_helpers_kernel ];
+    propagatedBuildInputs = [
+      async
+      expect_test_helpers_kernel
+    ];
   };
 
   ### Packages at version 0.11, with dependencies at version 0.12
@@ -493,5 +611,4 @@ with self;
     propagatedBuildInputs = [ ppxlib ];
     meta.description = "Deprecated (see ppxlib)";
   };
-
 }

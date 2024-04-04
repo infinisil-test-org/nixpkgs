@@ -1,12 +1,16 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   cfg = config.services.rss-bridge;
 
   poolName = "rss-bridge";
 
-  whitelist = pkgs.writeText "rss-bridge_whitelist.txt"
-    (concatStringsSep "\n" cfg.whitelist);
+  whitelist = pkgs.writeText "rss-bridge_whitelist.txt" (concatStringsSep "\n" cfg.whitelist);
 in
 {
   options = {
@@ -58,7 +62,7 @@ in
 
       whitelist = mkOption {
         type = types.listOf types.str;
-        default = [];
+        default = [ ];
         example = options.literalExpression ''
           [
             "Facebook"
@@ -95,7 +99,7 @@ in
     };
     systemd.tmpfiles.rules = [
       "d '${cfg.dataDir}/cache' 0750 ${cfg.user} ${cfg.group} - -"
-      (mkIf (cfg.whitelist != []) "L+ ${cfg.dataDir}/whitelist.txt - - - - ${whitelist}")
+      (mkIf (cfg.whitelist != [ ]) "L+ ${cfg.dataDir}/whitelist.txt - - - - ${whitelist}")
       "z '${cfg.dataDir}/config.ini.php' 0750 ${cfg.user} ${cfg.group} - -"
     ];
 

@@ -1,5 +1,10 @@
 # Remote desktop daemon using Pipewire.
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -11,8 +16,18 @@ with lib;
   # Added 2021-05-07
   imports = [
     (mkRenamedOptionModule
-      [ "services" "gnome3" "gnome-remote-desktop" "enable" ]
-      [ "services" "gnome" "gnome-remote-desktop" "enable" ]
+      [
+        "services"
+        "gnome3"
+        "gnome-remote-desktop"
+        "enable"
+      ]
+      [
+        "services"
+        "gnome"
+        "gnome-remote-desktop"
+        "enable"
+      ]
     )
   ];
 

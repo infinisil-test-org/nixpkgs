@@ -1,15 +1,16 @@
-{ lib
-, pkg-config
-, dbus
-, dconf
-, fetchFromGitHub
-, glib
-, gnome
-, gobject-introspection
-, gsettings-desktop-schemas
-, gtk3
-, python3
-, wrapGAppsHook
+{
+  lib,
+  pkg-config,
+  dbus,
+  dconf,
+  fetchFromGitHub,
+  glib,
+  gnome,
+  gobject-introspection,
+  gsettings-desktop-schemas,
+  gtk3,
+  python3,
+  wrapGAppsHook,
 }:
 
 python3.pkgs.buildPythonPackage rec {

@@ -1,11 +1,12 @@
-{ lib
-, stdenvNoCC
-, fetchFromGitHub
-, buildDotnetModule
-, buildNpmPackage
-, dotnetCorePackages
-, nixosTests
-, substituteAll
+{
+  lib,
+  stdenvNoCC,
+  fetchFromGitHub,
+  buildDotnetModule,
+  buildNpmPackage,
+  dotnetCorePackages,
+  nixosTests,
+  substituteAll,
 }:
 
 stdenvNoCC.mkDerivation (finalAttrs: {
@@ -39,7 +40,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     dotnet-runtime = dotnetCorePackages.aspnetcore_6_0;
   };
 
-  frontend =  buildNpmPackage {
+  frontend = buildNpmPackage {
     pname = "kavita-frontend";
     inherit (finalAttrs) version src;
 
@@ -64,7 +65,9 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     runHook postInstall
   '';
 
-  passthru.tests = { inherit (nixosTests) kavita; };
+  passthru.tests = {
+    inherit (nixosTests) kavita;
+  };
 
   meta = {
     description = "A fast, feature rich, cross platform reading server";

@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, hatchling
-, pydantic
-, phonenumbers
-, pycountry
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  hatchling,
+  pydantic,
+  phonenumbers,
+  pycountry,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -20,13 +21,9 @@ buildPythonPackage rec {
     hash = "sha256-QPBOHIssTsWQlEg2WRpLRKrB6zmae43EExnPn5P4oAY=";
   };
 
-  nativeBuildInputs = [
-    hatchling
-  ];
+  nativeBuildInputs = [ hatchling ];
 
-  propagatedBuildInputs = [
-    pydantic
-  ];
+  propagatedBuildInputs = [ pydantic ];
 
   passthru.optional-dependencies = {
     all = [
@@ -37,12 +34,11 @@ buildPythonPackage rec {
 
   pythonImportsCheck = [ "pydantic_extra_types" ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ] ++ passthru.optional-dependencies.all;
+  nativeCheckInputs = [ pytestCheckHook ] ++ passthru.optional-dependencies.all;
 
   pytestFlagsArray = [
-    "-W" "ignore::DeprecationWarning"
+    "-W"
+    "ignore::DeprecationWarning"
   ];
 
   meta = with lib; {

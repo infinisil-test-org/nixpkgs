@@ -1,5 +1,20 @@
-{ lib, stdenv, fetchFromGitHub, fetchpatch, cmake, pkg-config, pcre, libxkbcommon, libepoxy
-, gtk3, poppler, freetype, libpthreadstubs, libXdmcp, libxshmfence, wrapGAppsHook
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  cmake,
+  pkg-config,
+  pcre,
+  libxkbcommon,
+  libepoxy,
+  gtk3,
+  poppler,
+  freetype,
+  libpthreadstubs,
+  libXdmcp,
+  libxshmfence,
+  wrapGAppsHook,
 }:
 
 stdenv.mkDerivation rec {
@@ -22,9 +37,15 @@ stdenv.mkDerivation rec {
   ];
 
   buildInputs = [
-    poppler pcre libxkbcommon libepoxy
-    freetype gtk3
-    libpthreadstubs libXdmcp libxshmfence # otherwise warnings in compilation
+    poppler
+    pcre
+    libxkbcommon
+    libepoxy
+    freetype
+    gtk3
+    libpthreadstubs
+    libXdmcp
+    libxshmfence # otherwise warnings in compilation
   ];
 
   patches = [
@@ -44,19 +65,20 @@ stdenv.mkDerivation rec {
     ./fix-build-with-poppler-0.73.0.patch
   ];
 
-  installPhase = ''
-    # binary
-    mkdir -p $out/bin
-    cp src/apvlv $out/bin/apvlv
+  installPhase =
+    ''
+      # binary
+      mkdir -p $out/bin
+      cp src/apvlv $out/bin/apvlv
 
-    # displays pdfStartup.pdf as default pdf entry
-    mkdir -p $out/share/doc/apvlv/
-    cp ../Startup.pdf $out/share/doc/apvlv/Startup.pdf
-    cp ../main_menubar.glade $out/share/doc/apvlv/main_menubar.glade
-  ''
-  + lib.optionalString (!stdenv.isDarwin) ''
-    install -D ../apvlv.desktop $out/share/applications/apvlv.desktop
-  '';
+      # displays pdfStartup.pdf as default pdf entry
+      mkdir -p $out/share/doc/apvlv/
+      cp ../Startup.pdf $out/share/doc/apvlv/Startup.pdf
+      cp ../main_menubar.glade $out/share/doc/apvlv/main_menubar.glade
+    ''
+    + lib.optionalString (!stdenv.isDarwin) ''
+      install -D ../apvlv.desktop $out/share/applications/apvlv.desktop
+    '';
 
   meta = with lib; {
     homepage = "http://naihe2010.github.io/apvlv/";
@@ -70,5 +92,4 @@ stdenv.mkDerivation rec {
     platforms = platforms.linux;
     maintainers = [ maintainers.ardumont ];
   };
-
 }

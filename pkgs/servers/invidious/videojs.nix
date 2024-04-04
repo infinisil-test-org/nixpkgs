@@ -1,4 +1,12 @@
-{ lib, stdenvNoCC, cacert, crystal, openssl, pkg-config, invidious }:
+{
+  lib,
+  stdenvNoCC,
+  cacert,
+  crystal,
+  openssl,
+  pkg-config,
+  invidious,
+}:
 
 let
   versions = lib.importJSON ./versions.json;
@@ -10,7 +18,12 @@ stdenvNoCC.mkDerivation {
 
   builder = ./videojs.sh;
 
-  nativeBuildInputs = [ cacert crystal openssl pkg-config ];
+  nativeBuildInputs = [
+    cacert
+    crystal
+    openssl
+    pkg-config
+  ];
 
   outputHashAlgo = "sha256";
   outputHashMode = "recursive";

@@ -1,10 +1,11 @@
-{ lib
-, asyncssh
-, buildPythonPackage
-, fetchFromGitHub
-, pytest-asyncio
-, pytest-mock
-, pytestCheckHook
+{
+  lib,
+  asyncssh,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pytest-asyncio,
+  pytest-mock,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -19,9 +20,7 @@ buildPythonPackage rec {
     sha256 = "1iv9f22v834g8wrjcynjn2azpzk8gsczv71jf7dw8aix0n04h325";
   };
 
-  propagatedBuildInputs = [
-    asyncssh
-  ];
+  propagatedBuildInputs = [ asyncssh ];
 
   nativeCheckInputs = [
     pytest-asyncio
@@ -35,9 +34,7 @@ buildPythonPackage rec {
       --replace "--cov-report term-missing" ""
   '';
 
-  pythonImportsCheck = [
-    "aioasuswrt"
-  ];
+  pythonImportsCheck = [ "aioasuswrt" ];
 
   meta = with lib; {
     description = "Python module for Asuswrt";

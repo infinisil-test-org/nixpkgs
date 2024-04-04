@@ -1,22 +1,44 @@
-/*  The reusable code, and package attributes, between OpenRA engine packages (engine.nix)
-    and out-of-tree mod packages (mod.nix).
+/*
+  The reusable code, and package attributes, between OpenRA engine packages (engine.nix)
+   and out-of-tree mod packages (mod.nix).
 */
-{ lib, makeSetupHook, curl, unzip, dos2unix, pkg-config, makeWrapper
-, lua, mono, python3
-, libGL, freetype, openal, SDL2
-, zenity
+{
+  lib,
+  makeSetupHook,
+  curl,
+  unzip,
+  dos2unix,
+  pkg-config,
+  makeWrapper,
+  lua,
+  mono,
+  python3,
+  libGL,
+  freetype,
+  openal,
+  SDL2,
+  zenity,
 }:
 
 with lib;
 
 let
-  path = makeBinPath ([ mono python3 ] ++ optional (zenity != null) zenity);
-  rpath = makeLibraryPath [ lua freetype openal SDL2 ];
-  mkdirp = makeSetupHook {
-    name = "openra-mkdirp-hook";
-  } ./mkdirp.sh;
-
-in {
+  path = makeBinPath (
+    [
+      mono
+      python3
+    ]
+    ++ optional (zenity != null) zenity
+  );
+  rpath = makeLibraryPath [
+    lua
+    freetype
+    openal
+    SDL2
+  ];
+  mkdirp = makeSetupHook { name = "openra-mkdirp-hook"; } ./mkdirp.sh;
+in
+{
   patchEngine = dir: version: ''
     sed -i \
       -e 's/^VERSION.*/VERSION = ${version}/g' \
@@ -61,7 +83,10 @@ in {
     dontStrip = true;
 
     meta = {
-      maintainers = with maintainers; [ fusion809 msteen ];
+      maintainers = with maintainers; [
+        fusion809
+        msteen
+      ];
       license = licenses.gpl3;
       platforms = platforms.linux;
     };

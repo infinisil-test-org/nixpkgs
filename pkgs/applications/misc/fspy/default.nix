@@ -1,4 +1,8 @@
-{ appimageTools, lib, fetchurl }:
+{
+  appimageTools,
+  lib,
+  fetchurl,
+}:
 let
   pname = "fspy";
   version = "1.0.3";
@@ -7,8 +11,8 @@ let
     url = "https://github.com/stuffmatic/fSpy/releases/download/v${version}/${pname}-${version}-x86_64.AppImage";
     sha256 = "sha256-L+qsSExuEkzZkjnV/J6rrZ3BXqWQd+IfsN6a3kvQF3A=";
   };
-
-in appimageTools.wrapType2 {
+in
+appimageTools.wrapType2 {
   inherit pname version src;
 
   extraInstallCommands = ''

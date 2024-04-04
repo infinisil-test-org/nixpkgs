@@ -5,21 +5,29 @@ with haskellLib;
 let
   inherit (pkgs) lib;
 
-  jailbreakWhileRevision = rev:
+  jailbreakWhileRevision =
+    rev:
     overrideCabal (old: {
-      jailbreak = assert old.revision or "0" == toString rev; true;
+      jailbreak =
+        assert old.revision or "0" == toString rev;
+        true;
     });
-  checkAgainAfter = pkg: ver: msg: act:
-    if builtins.compareVersions pkg.version ver <= 0 then act
+  checkAgainAfter =
+    pkg: ver: msg: act:
+    if builtins.compareVersions pkg.version ver <= 0 then
+      act
     else
       builtins.throw "Check if '${msg}' was resolved in ${pkg.pname} ${pkg.version} and update or remove this";
   jailbreakForCurrentVersion = p: v: checkAgainAfter p v "bad bounds" (doJailbreak p);
 
   # Workaround for a ghc-9.6 issue: https://gitlab.haskell.org/ghc/ghc/-/issues/23392
-  disableParallelBuilding = overrideCabal (drv: { enableParallelBuilding = false; });
+  disableParallelBuilding = overrideCabal (drv: {
+    enableParallelBuilding = false;
+  });
 in
 
-self: super: {
+self: super:
+{
   llvmPackages = lib.dontRecurseIntoAttrs self.ghc.llvmPackages;
 
   # Disable GHC core libraries
@@ -54,7 +62,11 @@ self: super: {
   system-cxx-std-lib = null;
   template-haskell = null;
   # terminfo is not built if GHC is a cross compiler
-  terminfo = if pkgs.stdenv.hostPlatform == pkgs.stdenv.buildPlatform then null else doDistribute self.terminfo_0_4_1_6;
+  terminfo =
+    if pkgs.stdenv.hostPlatform == pkgs.stdenv.buildPlatform then
+      null
+    else
+      doDistribute self.terminfo_0_4_1_6;
   text = null;
   time = null;
   transformers = null;
@@ -96,7 +108,9 @@ self: super: {
   ghc-lib-parser-ex = doDistribute self.ghc-lib-parser-ex_9_6_0_2;
 
   fourmolu = doDistribute self.fourmolu_0_14_0_0;
-  ormolu = self.generateOptparseApplicativeCompletions [ "ormolu" ] (enableSeparateBinOutput super.ormolu_0_7_2_0);
+  ormolu = self.generateOptparseApplicativeCompletions [ "ormolu" ] (
+    enableSeparateBinOutput super.ormolu_0_7_2_0
+  );
   hlint = super.hlint_3_6_1;
 
   # v0.1.6 forbids base >= 4.18
@@ -128,42 +142,34 @@ self: super: {
   # Add support for time 1.10
   # https://github.com/vincenthz/hs-hourglass/pull/56
   hourglass = appendPatches [
-      (pkgs.fetchpatch {
-        name = "hourglass-pr-56.patch";
-        url =
-          "https://github.com/vincenthz/hs-hourglass/commit/cfc2a4b01f9993b1b51432f0a95fa6730d9a558a.patch";
-        sha256 = "sha256-gntZf7RkaR4qzrhjrXSC69jE44SknPDBmfs4z9rVa5Q=";
-      })
-    ] (super.hourglass);
-
+    (pkgs.fetchpatch {
+      name = "hourglass-pr-56.patch";
+      url = "https://github.com/vincenthz/hs-hourglass/commit/cfc2a4b01f9993b1b51432f0a95fa6730d9a558a.patch";
+      sha256 = "sha256-gntZf7RkaR4qzrhjrXSC69jE44SknPDBmfs4z9rVa5Q=";
+    })
+  ] (super.hourglass);
 
   # Test suite doesn't compile with base-4.18 / GHC 9.6
   # https://github.com/dreixel/syb/issues/40
   syb = dontCheck super.syb;
 
   # Patch 0.17.1 for support of mtl-2.3
-  xmonad-contrib = appendPatch
-    (pkgs.fetchpatch {
-      name = "xmonad-contrib-mtl-2.3.patch";
-      url = "https://github.com/xmonad/xmonad-contrib/commit/8cb789af39e93edb07f1eee39c87908e0d7c5ee5.patch";
-      sha256 = "sha256-ehCvVy0N2Udii/0K79dsRSBP7/i84yMoeyupvO8WQz4=";
-    })
-    (doJailbreak super.xmonad-contrib);
+  xmonad-contrib = appendPatch (pkgs.fetchpatch {
+    name = "xmonad-contrib-mtl-2.3.patch";
+    url = "https://github.com/xmonad/xmonad-contrib/commit/8cb789af39e93edb07f1eee39c87908e0d7c5ee5.patch";
+    sha256 = "sha256-ehCvVy0N2Udii/0K79dsRSBP7/i84yMoeyupvO8WQz4=";
+  }) (doJailbreak super.xmonad-contrib);
 
   # Patch 0.12.0.1 for support of unix-2.8.0.0
-  arbtt = appendPatch
-    (pkgs.fetchpatch {
-      name = "arbtt-unix-2.8.0.0.patch";
-      url = "https://github.com/nomeata/arbtt/pull/168/commits/ddaac94395ac50e3d3cd34c133dda4a8e5a3fd6c.patch";
-      sha256 = "sha256-5Gmz23f4M+NfgduA5O+9RaPmnneAB/lAlge8MrFpJYs=";
-    })
-    super.arbtt;
+  arbtt = appendPatch (pkgs.fetchpatch {
+    name = "arbtt-unix-2.8.0.0.patch";
+    url = "https://github.com/nomeata/arbtt/pull/168/commits/ddaac94395ac50e3d3cd34c133dda4a8e5a3fd6c.patch";
+    sha256 = "sha256-5Gmz23f4M+NfgduA5O+9RaPmnneAB/lAlge8MrFpJYs=";
+  }) super.arbtt;
 
   # 2023-04-03: plugins disabled for hls 1.10.0.0 based on
   #
-  haskell-language-server = super.haskell-language-server.override {
-      hls-floskell-plugin = null;
-    };
+  haskell-language-server = super.haskell-language-server.override { hls-floskell-plugin = null; };
 
   # Newer version of servant required for GHC 9.6
   servant = self.servant_0_20_1;
@@ -196,11 +202,22 @@ self: super: {
   # https://github.com/kowainik/relude/issues/436
   relude = dontCheck (doJailbreak super.relude);
 
-  ghc-exactprint = unmarkBroken (addBuildDepends (with self.ghc-exactprint.scope; [
-   HUnit Diff data-default extra fail free ghc-paths ordered-containers silently syb
-  ]) super.ghc-exactprint_1_7_0_1);
+  ghc-exactprint = unmarkBroken (
+    addBuildDepends (with self.ghc-exactprint.scope; [
+      HUnit
+      Diff
+      data-default
+      extra
+      fail
+      free
+      ghc-paths
+      ordered-containers
+      silently
+      syb
+    ]) super.ghc-exactprint_1_7_0_1
+  );
 
-  inherit (pkgs.lib.mapAttrs (_: doJailbreak ) super)
+  inherit (pkgs.lib.mapAttrs (_: doJailbreak) super)
     hls-cabal-plugin
     algebraic-graphs
     co-log-core
@@ -214,18 +231,18 @@ self: super: {
     implicit-hie-cradle
     focus
     hie-compat
-    dbus       # template-haskell >=2.18 && <2.20, transformers <0.6, unix <2.8
-    gi-cairo-connector          # mtl <2.3
-    haskintex                   # text <2
-    lens-family-th              # template-haskell <2.19
-    ghc-prof                    # base <4.18
-    profiteur                   # vector <0.13
-    mfsolve                     # mtl <2.3
-    cubicbezier                 # mtl <2.3
-    dhall                       # template-haskell <2.20
-    env-guard                   # doctest <0.21
-    package-version             # doctest <0.21, tasty-hedgehog <1.4
-  ;
+    dbus # template-haskell >=2.18 && <2.20, transformers <0.6, unix <2.8
+    gi-cairo-connector # mtl <2.3
+    haskintex # text <2
+    lens-family-th # template-haskell <2.19
+    ghc-prof # base <4.18
+    profiteur # vector <0.13
+    mfsolve # mtl <2.3
+    cubicbezier # mtl <2.3
+    dhall # template-haskell <2.20
+    env-guard # doctest <0.21
+    package-version # doctest <0.21, tasty-hedgehog <1.4
+    ;
 
   # Avoid triggering an issue in ghc-9.6.2
   gi-gtk = disableParallelBuilding super.gi-gtk;
@@ -237,31 +254,38 @@ self: super: {
   bsb-http-chunked = dontCheck super.bsb-http-chunked;
 
   # Fix ghc-9.6.x build errors.
-  libmpd = appendPatch
-    # https://github.com/vimus/libmpd-haskell/pull/138
-    (pkgs.fetchpatch { url = "https://github.com/vimus/libmpd-haskell/compare/95d3b3bab5858d6d1f0e079d0ab7c2d182336acb...5737096a339edc265a663f51ad9d29baee262694.patch";
-                       name = "vimus-libmpd-haskell-pull-138.patch";
-                       sha256 = "sha256-CvvylXyRmoCoRJP2MzRwL0SBbrEzDGqAjXS+4LsLutQ=";
-                     })
-    super.libmpd;
+  libmpd =
+    appendPatch
+      # https://github.com/vimus/libmpd-haskell/pull/138
+      (pkgs.fetchpatch {
+        url = "https://github.com/vimus/libmpd-haskell/compare/95d3b3bab5858d6d1f0e079d0ab7c2d182336acb...5737096a339edc265a663f51ad9d29baee262694.patch";
+        name = "vimus-libmpd-haskell-pull-138.patch";
+        sha256 = "sha256-CvvylXyRmoCoRJP2MzRwL0SBbrEzDGqAjXS+4LsLutQ=";
+      })
+      super.libmpd;
 
   # Apply patch from PR with mtl-2.3 fix.
   ConfigFile = overrideCabal (drv: {
     editedCabalFile = null;
-    buildDepends = drv.buildDepends or [] ++ [ self.HUnit ];
-    patches = [(pkgs.fetchpatch {
-      # https://github.com/jgoerzen/configfile/pull/12
-      name = "ConfigFile-pr-12.patch";
-      url = "https://github.com/jgoerzen/configfile/compare/d0a2e654be0b73eadbf2a50661d00574ad7b6f87...83ee30b43f74d2b6781269072cf5ed0f0e00012f.patch";
-      sha256 = "sha256-b7u9GiIAd2xpOrM0MfILHNb6Nt7070lNRIadn2l3DfQ=";
-    })];
+    buildDepends = drv.buildDepends or [ ] ++ [ self.HUnit ];
+    patches = [
+      (pkgs.fetchpatch {
+        # https://github.com/jgoerzen/configfile/pull/12
+        name = "ConfigFile-pr-12.patch";
+        url = "https://github.com/jgoerzen/configfile/compare/d0a2e654be0b73eadbf2a50661d00574ad7b6f87...83ee30b43f74d2b6781269072cf5ed0f0e00012f.patch";
+        sha256 = "sha256-b7u9GiIAd2xpOrM0MfILHNb6Nt7070lNRIadn2l3DfQ=";
+      })
+    ];
   }) super.ConfigFile;
 }
 # super.ghc is required to break infinite recursion as Nix is strict in the attrNames
-// lib.optionalAttrs (pkgs.stdenv.hostPlatform.isAarch64 && lib.versionOlder super.ghc.version "9.6.4") {
-  # The NCG backend for aarch64 generates invalid jumps in some situations,
-  # the workaround on 9.6 is to revert to the LLVM backend (which is used
-  # for these sorts of situations even on 9.2 and 9.4).
-  # https://gitlab.haskell.org/ghc/ghc/-/issues/23746#note_525318
-  tls = if pkgs.stdenv.hostPlatform.isAarch64 then self.forceLlvmCodegenBackend super.tls else super.tls;
-}
+//
+  lib.optionalAttrs (pkgs.stdenv.hostPlatform.isAarch64 && lib.versionOlder super.ghc.version "9.6.4")
+    {
+      # The NCG backend for aarch64 generates invalid jumps in some situations,
+      # the workaround on 9.6 is to revert to the LLVM backend (which is used
+      # for these sorts of situations even on 9.2 and 9.4).
+      # https://gitlab.haskell.org/ghc/ghc/-/issues/23746#note_525318
+      tls =
+        if pkgs.stdenv.hostPlatform.isAarch64 then self.forceLlvmCodegenBackend super.tls else super.tls;
+    }

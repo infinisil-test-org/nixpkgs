@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, django
-, fetchFromGitHub
-, pythonOlder
-, pythonRelaxDepsHook
-, pywebpush
-, setuptools-scm
+{
+  lib,
+  buildPythonPackage,
+  django,
+  fetchFromGitHub,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  pywebpush,
+  setuptools-scm,
 }:
 
 buildPythonPackage rec {
@@ -35,9 +36,7 @@ buildPythonPackage rec {
   # nothing to test
   doCheck = false;
 
-  pythonImportsCheck = [
-    "webpush"
-  ];
+  pythonImportsCheck = [ "webpush" ];
 
   meta = with lib; {
     description = "A Package made for integrating and sending Web Push Notification in Django Application";

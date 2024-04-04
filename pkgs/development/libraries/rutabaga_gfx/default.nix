@@ -1,13 +1,14 @@
-{ lib
-, stdenv
-, fetchgit
-, fetchpatch
-, cargo
-, pkg-config
-, rustPlatform
-, aemu
-, gfxstream
-, libdrm
+{
+  lib,
+  stdenv,
+  fetchgit,
+  fetchpatch,
+  cargo,
+  pkg-config,
+  rustPlatform,
+  aemu,
+  gfxstream,
+  libdrm,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -31,13 +32,18 @@ stdenv.mkDerivation (finalAttrs: {
     })
   ];
 
-  nativeBuildInputs = [ cargo pkg-config rustPlatform.cargoSetupHook ];
-  buildInputs = lib.optionals (lib.meta.availableOn stdenv.hostPlatform gfxstream) ([
-    aemu
-    gfxstream
-  ] ++ lib.optionals (lib.meta.availableOn stdenv.hostPlatform libdrm) [
-    libdrm
-  ]);
+  nativeBuildInputs = [
+    cargo
+    pkg-config
+    rustPlatform.cargoSetupHook
+  ];
+  buildInputs = lib.optionals (lib.meta.availableOn stdenv.hostPlatform gfxstream) (
+    [
+      aemu
+      gfxstream
+    ]
+    ++ lib.optionals (lib.meta.availableOn stdenv.hostPlatform libdrm) [ libdrm ]
+  );
 
   cargoDeps = rustPlatform.fetchCargoTarball {
     inherit (finalAttrs) src;

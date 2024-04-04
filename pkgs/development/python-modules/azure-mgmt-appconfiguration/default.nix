@@ -1,8 +1,12 @@
-{ lib, buildPythonPackage, fetchPypi, isPy27
-, azure-common
-, azure-mgmt-core
-, msrest
-, msrestazure
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  isPy27,
+  azure-common,
+  azure-mgmt-core,
+  msrest,
+  msrestazure,
 }:
 
 buildPythonPackage rec {
@@ -29,7 +33,10 @@ buildPythonPackage rec {
 
   pythonNamespaces = [ "azure.mgmt" ];
 
-  pythonImportsCheck = [ "azure.common" "azure.mgmt.appconfiguration" ];
+  pythonImportsCheck = [
+    "azure.common"
+    "azure.mgmt.appconfiguration"
+  ];
 
   meta = with lib; {
     description = "Microsoft Azure App Configuration Management Client Library for Python";

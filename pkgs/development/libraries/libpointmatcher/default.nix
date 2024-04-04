@@ -1,4 +1,12 @@
-{ lib, stdenv, fetchFromGitHub, cmake, eigen, boost, libnabo }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  eigen,
+  boost,
+  libnabo,
+}:
 
 stdenv.mkDerivation rec {
   pname = "libpointmatcher";
@@ -12,11 +20,13 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ cmake ];
-  buildInputs = [ eigen boost libnabo ];
-
-  cmakeFlags = [
-    "-DEIGEN_INCLUDE_DIR=${eigen}/include/eigen3"
+  buildInputs = [
+    eigen
+    boost
+    libnabo
   ];
+
+  cmakeFlags = [ "-DEIGEN_INCLUDE_DIR=${eigen}/include/eigen3" ];
 
   doCheck = true;
   checkPhase = ''

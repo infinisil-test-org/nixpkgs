@@ -1,29 +1,30 @@
-{ stdenv
-, cmake
-, lsb-release
-, ninja
-, lib
-, fetchFromGitHub
-, fetchurl
-, copyDesktopItems
-, makeDesktopItem
-, python3
-, libX11
-, libXrandr
-, libXinerama
-, libXcursor
-, libXi
-, libXext
-, glew
-, boost
-, SDL2
-, SDL2_net
-, pkg-config
-, libpulseaudio
-, libpng
-, imagemagick
-, gnome
-, makeWrapper
+{
+  stdenv,
+  cmake,
+  lsb-release,
+  ninja,
+  lib,
+  fetchFromGitHub,
+  fetchurl,
+  copyDesktopItems,
+  makeDesktopItem,
+  python3,
+  libX11,
+  libXrandr,
+  libXinerama,
+  libXcursor,
+  libXi,
+  libXext,
+  glew,
+  boost,
+  SDL2,
+  SDL2_net,
+  pkg-config,
+  libpulseaudio,
+  libpng,
+  imagemagick,
+  gnome,
+  makeWrapper,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -122,7 +123,10 @@ stdenv.mkDerivation (finalAttrs: {
     description = "A PC port of Ocarina of Time with modern controls, widescreen, high-resolution, and more";
     mainProgram = "soh";
     platforms = [ "x86_64-linux" ];
-    maintainers = with lib.maintainers; [ ivar j0lol ];
+    maintainers = with lib.maintainers; [
+      ivar
+      j0lol
+    ];
     license = with lib.licenses; [
       # OTRExporter, OTRGui, ZAPDTR, libultraship
       mit

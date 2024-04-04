@@ -1,30 +1,31 @@
-{ lib
-, stdenv
-, fetchFromGitLab
-, appstream-glib
-, desktop-file-utils
-, itstool
-, meson
-, ninja
-, pkg-config
-, wrapGAppsHook4
-, evolution-data-server
-, feedbackd
-, glibmm
-, libsecret
-, gnome-desktop
-, gspell
-, gtk4
-, json-glib
-, libgcrypt
-, libadwaita
-, libphonenumber
-, modemmanager
-, olm
-, pidgin
-, protobuf
-, sqlite
-, plugins ? [ ]
+{
+  lib,
+  stdenv,
+  fetchFromGitLab,
+  appstream-glib,
+  desktop-file-utils,
+  itstool,
+  meson,
+  ninja,
+  pkg-config,
+  wrapGAppsHook4,
+  evolution-data-server,
+  feedbackd,
+  glibmm,
+  libsecret,
+  gnome-desktop,
+  gspell,
+  gtk4,
+  json-glib,
+  libgcrypt,
+  libadwaita,
+  libphonenumber,
+  modemmanager,
+  olm,
+  pidgin,
+  protobuf,
+  sqlite,
+  plugins ? [ ],
 }:
 
 stdenv.mkDerivation rec {
@@ -81,7 +82,10 @@ stdenv.mkDerivation rec {
     homepage = "https://gitlab.gnome.org/World/Chatty";
     changelog = "https://gitlab.gnome.org/World/Chatty/-/blob/${src.rev}/NEWS";
     license = licenses.gpl3Plus;
-    maintainers = with maintainers; [ dotlambda tomfitzhenry ];
+    maintainers = with maintainers; [
+      dotlambda
+      tomfitzhenry
+    ];
     platforms = platforms.linux;
   };
 }

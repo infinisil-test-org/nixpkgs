@@ -1,4 +1,9 @@
-{ lib, fetchFromGitHub, buildGoModule, go }:
+{
+  lib,
+  fetchFromGitHub,
+  buildGoModule,
+  go,
+}:
 
 buildGoModule rec {
   pname = "kubelogin";
@@ -22,6 +27,6 @@ buildGoModule rec {
     description = "A Kubernetes credential plugin implementing Azure authentication";
     inherit (src.meta) homepage;
     license = licenses.mit;
-    maintainers = [];
+    maintainers = [ ];
   };
 }

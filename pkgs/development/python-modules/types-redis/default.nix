@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, cryptography
-, types-pyopenssl
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  cryptography,
+  types-pyopenssl,
 }:
 
 buildPythonPackage rec {
@@ -23,9 +24,7 @@ buildPythonPackage rec {
   # Module doesn't have tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "redis-stubs"
-  ];
+  pythonImportsCheck = [ "redis-stubs" ];
 
   meta = with lib; {
     description = "Typing stubs for redis";

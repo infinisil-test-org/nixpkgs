@@ -1,4 +1,12 @@
-{ common-updater-scripts, curl, fetchFromGitHub, jq, lib, php, writeShellScript }:
+{
+  common-updater-scripts,
+  curl,
+  fetchFromGitHub,
+  jq,
+  lib,
+  php,
+  writeShellScript,
+}:
 
 php.buildComposerProject (finalAttrs: {
   pname = "platformsh";
@@ -20,7 +28,13 @@ php.buildComposerProject (finalAttrs: {
 
   passthru.updateScript = writeShellScript "update-${finalAttrs.pname}" ''
     set -o errexit
-    export PATH="${lib.makeBinPath [ curl jq common-updater-scripts ]}"
+    export PATH="${
+      lib.makeBinPath [
+        curl
+        jq
+        common-updater-scripts
+      ]
+    }"
     NEW_VERSION=$(curl -s https://api.github.com/repos/platformsh/legacy-cli/releases/latest | jq .tag_name --raw-output)
 
     if [[ "v${finalAttrs.version}" = "$NEW_VERSION" ]]; then

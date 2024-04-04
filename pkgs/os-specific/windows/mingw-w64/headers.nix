@@ -7,5 +7,4 @@ stdenvNoCC.mkDerivation {
   preConfigure = ''
     cd mingw-w64-headers
   '';
-
 }

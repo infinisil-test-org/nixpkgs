@@ -1,44 +1,45 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
 
-# build-system
-, setuptools
+  # build-system
+  setuptools,
 
-# dependencies
-, boto3
-, botocore
-, cryptography
-, jinja2
-, python-dateutil
-, requests
-, responses
-, werkzeug
-, xmltodict
+  # dependencies
+  boto3,
+  botocore,
+  cryptography,
+  jinja2,
+  python-dateutil,
+  requests,
+  responses,
+  werkzeug,
+  xmltodict,
 
-# optional-dependencies
-, aws-xray-sdk
-, cfn-lint
-, docker
-, ecdsa
-, flask
-, flask-cors
-, graphql-core
-, jsondiff
-, multipart
-, openapi-spec-validator
-, py-partiql-parser
-, pyparsing
-, python-jose
-, pyyaml
-, sshpubkeys
+  # optional-dependencies
+  aws-xray-sdk,
+  cfn-lint,
+  docker,
+  ecdsa,
+  flask,
+  flask-cors,
+  graphql-core,
+  jsondiff,
+  multipart,
+  openapi-spec-validator,
+  py-partiql-parser,
+  pyparsing,
+  python-jose,
+  pyyaml,
+  sshpubkeys,
 
-# tests
-, freezegun
-, pytestCheckHook
-, pytest-order
-, pytest-xdist
+  # tests
+  freezegun,
+  pytestCheckHook,
+  pytest-order,
+  pytest-xdist,
 }:
 
 buildPythonPackage rec {
@@ -53,9 +54,7 @@ buildPythonPackage rec {
     hash = "sha256-Aa72pImnJcjXJb09xvcP8b7a7j4mQXUuS0cf8O3ktNc=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     boto3
@@ -105,10 +104,12 @@ buildPythonPackage rec {
   env.AWS_SECRET_ACCESS_KEY = "sk";
 
   pytestFlagsArray = [
-    "-m" "'not network and not requires_docker'"
+    "-m"
+    "'not network and not requires_docker'"
 
     # Matches upstream configuration, presumably due to expensive setup/teardown.
-    "--dist" "loadscope"
+    "--dist"
+    "loadscope"
 
     # Fails at local name resolution
     "--deselect=tests/test_s3/test_multiple_accounts_server.py::TestAccountIdResolution::test_with_custom_request_header"

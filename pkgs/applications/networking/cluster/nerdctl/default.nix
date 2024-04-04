@@ -1,11 +1,12 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
-, makeWrapper
-, installShellFiles
-, buildkit
-, cni-plugins
-, extraPackages ? [ ]
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  makeWrapper,
+  installShellFiles,
+  buildkit,
+  cni-plugins,
+  extraPackages ? [ ],
 }:
 
 buildGoModule rec {
@@ -21,10 +22,21 @@ buildGoModule rec {
 
   vendorHash = "sha256-oiBgZQtqFwq189h/Bb4CrFhs4RDYUoEEOjrccujGclU=";
 
-  nativeBuildInputs = [ makeWrapper installShellFiles ];
+  nativeBuildInputs = [
+    makeWrapper
+    installShellFiles
+  ];
 
-  ldflags = let t = "github.com/containerd/nerdctl/pkg/version"; in
-    [ "-s" "-w" "-X ${t}.Version=v${version}" "-X ${t}.Revision=<unknown>" ];
+  ldflags =
+    let
+      t = "github.com/containerd/nerdctl/pkg/version";
+    in
+    [
+      "-s"
+      "-w"
+      "-X ${t}.Version=v${version}"
+      "-X ${t}.Revision=<unknown>"
+    ];
 
   # Many checks require a containerd socket and running nerdctl after it's built
   doCheck = false;
@@ -53,7 +65,10 @@ buildGoModule rec {
     changelog = "https://github.com/containerd/nerdctl/releases/tag/v${version}";
     description = "A Docker-compatible CLI for containerd";
     license = licenses.asl20;
-    maintainers = with maintainers; [ jk developer-guy ];
+    maintainers = with maintainers; [
+      jk
+      developer-guy
+    ];
     platforms = platforms.linux;
   };
 }

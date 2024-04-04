@@ -1,10 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.programs.slock;
-
 in
 {
   options = {
@@ -21,11 +25,11 @@ in
 
   config = mkIf cfg.enable {
     environment.systemPackages = [ pkgs.slock ];
-    security.wrappers.slock =
-      { setuid = true;
-        owner = "root";
-        group = "root";
-        source = "${pkgs.slock.out}/bin/slock";
-      };
+    security.wrappers.slock = {
+      setuid = true;
+      owner = "root";
+      group = "root";
+      source = "${pkgs.slock.out}/bin/slock";
+    };
   };
 }

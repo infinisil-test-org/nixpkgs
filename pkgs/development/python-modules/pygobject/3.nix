@@ -1,25 +1,29 @@
-{ lib
-, stdenv
-, fetchurl
-, buildPythonPackage
-, pkg-config
-, glib
-, gobject-introspection
-, pycairo
-, cairo
-, ncurses
-, meson
-, ninja
-, pythonOlder
-, gnome
-, python
+{
+  lib,
+  stdenv,
+  fetchurl,
+  buildPythonPackage,
+  pkg-config,
+  glib,
+  gobject-introspection,
+  pycairo,
+  cairo,
+  ncurses,
+  meson,
+  ninja,
+  pythonOlder,
+  gnome,
+  python,
 }:
 
 buildPythonPackage rec {
   pname = "pygobject";
   version = "3.46.0";
 
-  outputs = [ "out" "dev" ];
+  outputs = [
+    "out"
+    "dev"
+  ];
 
   disabled = pythonOlder "3.8";
 
@@ -30,9 +34,7 @@ buildPythonPackage rec {
     sha256 = "QmAIstrVSMmvHHsDtZ3wRA/eXDPzj7VAaxA6Q9ZTyvw=";
   };
 
-  depsBuildBuild = [
-    pkg-config
-  ];
+  depsBuildBuild = [ pkg-config ];
 
   nativeBuildInputs = [
     pkg-config
@@ -44,13 +46,9 @@ buildPythonPackage rec {
   buildInputs = [
     cairo
     glib
-  ] ++ lib.optionals stdenv.isDarwin [
-    ncurses
-  ];
+  ] ++ lib.optionals stdenv.isDarwin [ ncurses ];
 
-  propagatedBuildInputs = [
-    pycairo
-  ];
+  propagatedBuildInputs = [ pycairo ];
 
   mesonFlags = [
     # This is only used for figuring out what version of Python is in

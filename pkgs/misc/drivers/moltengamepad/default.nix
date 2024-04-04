@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchFromGitHub, udev }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  udev,
+}:
 
 stdenv.mkDerivation {
   pname = "moltengamepad";
@@ -35,5 +40,4 @@ stdenv.mkDerivation {
     maintainers = [ maintainers.ebzzry ];
     platforms = platforms.linux;
   };
-
 }

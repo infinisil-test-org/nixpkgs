@@ -1,4 +1,10 @@
-{ stdenv, fetchYarnDeps, prefetch-yarn-deps, callPackage, nodejs }:
+{
+  stdenv,
+  fetchYarnDeps,
+  prefetch-yarn-deps,
+  callPackage,
+  nodejs,
+}:
 let
   common = callPackage ./common.nix { };
 in

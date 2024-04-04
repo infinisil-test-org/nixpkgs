@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, lxml
-, requests
-, pyparsing
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  lxml,
+  requests,
+  pyparsing,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -25,9 +26,7 @@ buildPythonPackage rec {
     pyparsing
   ];
 
-  pythonImportsCheck = [
-    "twill"
-  ];
+  pythonImportsCheck = [ "twill" ];
 
   # pypi package comes without tests, other homepage does not provide all verisons
   doCheck = false;

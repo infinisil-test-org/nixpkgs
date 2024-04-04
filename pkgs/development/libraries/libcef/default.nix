@@ -1,38 +1,37 @@
-{ lib
-, stdenv
-, fetchurl
-, cmake
-, glib
-, nss
-, nspr
-, atk
-, at-spi2-atk
-, libdrm
-, expat
-, libxcb
-, libxkbcommon
-, libX11
-, libXcomposite
-, libXdamage
-, libXext
-, libXfixes
-, libXrandr
-, mesa
-, gtk3
-, pango
-, cairo
-, alsa-lib
-, dbus
-, at-spi2-core
-, cups
-, libxshmfence
-, obs-studio
+{
+  lib,
+  stdenv,
+  fetchurl,
+  cmake,
+  glib,
+  nss,
+  nspr,
+  atk,
+  at-spi2-atk,
+  libdrm,
+  expat,
+  libxcb,
+  libxkbcommon,
+  libX11,
+  libXcomposite,
+  libXdamage,
+  libXext,
+  libXfixes,
+  libXrandr,
+  mesa,
+  gtk3,
+  pango,
+  cairo,
+  alsa-lib,
+  dbus,
+  at-spi2-core,
+  cups,
+  libxshmfence,
+  obs-studio,
 }:
 
 let
-  gl_rpath = lib.makeLibraryPath [
-    stdenv.cc.cc.lib
-  ];
+  gl_rpath = lib.makeLibraryPath [ stdenv.cc.cc.lib ];
 
   rpath = lib.makeLibraryPath [
     glib
@@ -120,6 +119,9 @@ stdenv.mkDerivation rec {
       binaryNativeCode
     ];
     license = licenses.bsd3;
-    platforms = [ "x86_64-linux" "aarch64-linux" ];
+    platforms = [
+      "x86_64-linux"
+      "aarch64-linux"
+    ];
   };
 }

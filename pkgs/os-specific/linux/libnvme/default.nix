@@ -1,18 +1,19 @@
-{ fetchFromGitHub
-, json_c
-, keyutils
-, lib
-, meson
-, ninja
-, openssl
-, perl
-, pkg-config
-, python3
-, stdenv
-, swig
-, systemd
-# ImportError: cannot import name 'mlog' from 'mesonbuild'
-, withDocs ? stdenv.hostPlatform.canExecute stdenv.buildPlatform
+{
+  fetchFromGitHub,
+  json_c,
+  keyutils,
+  lib,
+  meson,
+  ninja,
+  openssl,
+  perl,
+  pkg-config,
+  python3,
+  stdenv,
+  swig,
+  systemd,
+  # ImportError: cannot import name 'mlog' from 'mesonbuild'
+  withDocs ? stdenv.hostPlatform.canExecute stdenv.buildPlatform,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -65,7 +66,10 @@ stdenv.mkDerivation (finalAttrs: {
   meta = with lib; {
     description = "C Library for NVM Express on Linux";
     homepage = "https://github.com/linux-nvme/libnvme";
-    maintainers = with maintainers; [ fogti vifino ];
+    maintainers = with maintainers; [
+      fogti
+      vifino
+    ];
     license = with licenses; [ lgpl21Plus ];
     platforms = platforms.linux;
   };

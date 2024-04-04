@@ -1,8 +1,9 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, cmake
-, hidapi
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  cmake,
+  hidapi,
 }:
 
 stdenv.mkDerivation rec {
@@ -16,17 +17,11 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-tAndkfLEgj81JWzXtDBNspRxzKAL6XaRw0aDI1XbC1E=";
   };
 
-  nativeBuildInputs = [
-    cmake
-  ];
+  nativeBuildInputs = [ cmake ];
 
-  buildInputs = [
-    hidapi
-  ];
+  buildInputs = [ hidapi ];
 
-  /*
-  Tests depend on having the appropriate headsets connected.
-  */
+  # Tests depend on having the appropriate headsets connected.
   doCheck = false;
 
   meta = with lib; {

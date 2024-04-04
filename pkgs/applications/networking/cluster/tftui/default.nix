@@ -1,14 +1,15 @@
-{ lib
-, buildPythonApplication
-, fetchPypi
-, makeWrapper
-, poetry-core
-, posthog
-, pyperclip
-, requests
-, rich
-, textual
-, enableUsageTracking ? false
+{
+  lib,
+  buildPythonApplication,
+  fetchPypi,
+  makeWrapper,
+  poetry-core,
+  posthog,
+  pyperclip,
+  requests,
+  rich,
+  textual,
+  enableUsageTracking ? false,
 }:
 
 buildPythonApplication rec {
@@ -34,9 +35,7 @@ buildPythonApplication rec {
     poetry-core
   ];
 
-  pythonImportsCheck = [
-    "tftui"
-  ];
+  pythonImportsCheck = [ "tftui" ];
 
   postInstall = lib.optionalString (!enableUsageTracking) ''
     wrapProgram $out/bin/tftui \

@@ -1,16 +1,17 @@
-{ lib
-, buildDotnetModule
-, dotnetCorePackages
-, fetchFromGitHub
-, pkg-config
-, blueprint-compiler
-, glib
-, gtk4
-, libadwaita
-, wrapGAppsHook4
-, appstream-glib
-, desktop-file-utils
-, cava
+{
+  lib,
+  buildDotnetModule,
+  dotnetCorePackages,
+  fetchFromGitHub,
+  pkg-config,
+  blueprint-compiler,
+  glib,
+  gtk4,
+  libadwaita,
+  wrapGAppsHook4,
+  appstream-glib,
+  desktop-file-utils,
+  cava,
 }:
 
 buildDotnetModule rec {

@@ -1,13 +1,18 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 
 let
   cfg = config.services.mbpfan;
   verbose = optionalString cfg.verbose "v";
-  settingsFormat = pkgs.formats.ini {};
+  settingsFormat = pkgs.formats.ini { };
   settingsFile = settingsFormat.generate "mbpfan.ini" cfg.settings;
-
-in {
+in
+{
   options.services.mbpfan = {
     enable = mkEnableOption (lib.mdDoc "mbpfan, fan controller daemon for Apple Macs and MacBooks");
 
@@ -26,7 +31,7 @@ in {
     };
 
     settings = mkOption {
-      default = {};
+      default = { };
       description = lib.mdDoc "INI configuration for Mbpfan.";
       type = types.submodule {
         freeformType = settingsFormat.type;
@@ -59,23 +64,107 @@ in {
   };
 
   imports = [
-    (mkRenamedOptionModule [ "services" "mbpfan" "pollingInterval" ] [ "services" "mbpfan" "settings" "general" "polling_interval" ])
-    (mkRenamedOptionModule [ "services" "mbpfan" "maxTemp" ] [ "services" "mbpfan" "settings" "general" "max_temp" ])
-    (mkRenamedOptionModule [ "services" "mbpfan" "lowTemp" ] [ "services" "mbpfan" "settings" "general" "low_temp" ])
-    (mkRenamedOptionModule [ "services" "mbpfan" "highTemp" ] [ "services" "mbpfan" "settings" "general" "high_temp" ])
-    (mkRenamedOptionModule [ "services" "mbpfan" "minFanSpeed" ] [ "services" "mbpfan" "settings" "general" "min_fan1_speed" ])
-    (mkRenamedOptionModule [ "services" "mbpfan" "maxFanSpeed" ] [ "services" "mbpfan" "settings" "general" "max_fan1_speed" ])
+    (mkRenamedOptionModule
+      [
+        "services"
+        "mbpfan"
+        "pollingInterval"
+      ]
+      [
+        "services"
+        "mbpfan"
+        "settings"
+        "general"
+        "polling_interval"
+      ]
+    )
+    (mkRenamedOptionModule
+      [
+        "services"
+        "mbpfan"
+        "maxTemp"
+      ]
+      [
+        "services"
+        "mbpfan"
+        "settings"
+        "general"
+        "max_temp"
+      ]
+    )
+    (mkRenamedOptionModule
+      [
+        "services"
+        "mbpfan"
+        "lowTemp"
+      ]
+      [
+        "services"
+        "mbpfan"
+        "settings"
+        "general"
+        "low_temp"
+      ]
+    )
+    (mkRenamedOptionModule
+      [
+        "services"
+        "mbpfan"
+        "highTemp"
+      ]
+      [
+        "services"
+        "mbpfan"
+        "settings"
+        "general"
+        "high_temp"
+      ]
+    )
+    (mkRenamedOptionModule
+      [
+        "services"
+        "mbpfan"
+        "minFanSpeed"
+      ]
+      [
+        "services"
+        "mbpfan"
+        "settings"
+        "general"
+        "min_fan1_speed"
+      ]
+    )
+    (mkRenamedOptionModule
+      [
+        "services"
+        "mbpfan"
+        "maxFanSpeed"
+      ]
+      [
+        "services"
+        "mbpfan"
+        "settings"
+        "general"
+        "max_fan1_speed"
+      ]
+    )
   ];
 
   config = mkIf cfg.enable {
-    boot.kernelModules = [ "coretemp" "applesmc" ];
+    boot.kernelModules = [
+      "coretemp"
+      "applesmc"
+    ];
     environment.systemPackages = [ cfg.package ];
     environment.etc."mbpfan.conf".source = settingsFile;
 
     systemd.services.mbpfan = {
       description = "A fan manager daemon for MacBook Pro";
       wantedBy = [ "sysinit.target" ];
-      after = [ "syslog.target" "sysinit.target" ];
+      after = [
+        "syslog.target"
+        "sysinit.target"
+      ];
       restartTriggers = [ config.environment.etc."mbpfan.conf".source ];
 
       serviceConfig = {

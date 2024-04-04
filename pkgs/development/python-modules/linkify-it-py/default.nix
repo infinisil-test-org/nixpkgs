@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, pytestCheckHook
-, uc-micro-py
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  pytestCheckHook,
+  uc-micro-py,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -21,21 +22,13 @@ buildPythonPackage rec {
     hash = "sha256-e3k2RblqvzWSSIrJL6ib2dxFw7T5vXlN8DrCV1qEr6w=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [
-    uc-micro-py
-  ];
+  propagatedBuildInputs = [ uc-micro-py ];
 
-  pythonImportsCheck = [
-    "linkify_it"
-  ];
+  pythonImportsCheck = [ "linkify_it" ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   meta = with lib; {
     description = "Links recognition library with full unicode support";

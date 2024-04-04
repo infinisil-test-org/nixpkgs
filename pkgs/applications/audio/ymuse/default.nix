@@ -1,14 +1,15 @@
-{ lib
-, fetchFromGitHub
-, buildGoModule
-, wrapGAppsHook
-, pkg-config
-, glib
-, gobject-introspection
-, gtk3
-, gdk-pixbuf
-, gettext
-, librsvg
+{
+  lib,
+  fetchFromGitHub,
+  buildGoModule,
+  wrapGAppsHook,
+  pkg-config,
+  glib,
+  gobject-introspection,
+  gtk3,
+  gdk-pixbuf,
+  gettext,
+  librsvg,
 }:
 
 buildGoModule rec {

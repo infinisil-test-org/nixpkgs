@@ -1,13 +1,14 @@
-{ lib
-, aiohttp
-, bluetooth-data-tools
-, buildPythonPackage
-, fetchFromGitHub
-, habluetooth
-, orjson
-, pythonOlder
-, setuptools
-, yarl
+{
+  lib,
+  aiohttp,
+  bluetooth-data-tools,
+  buildPythonPackage,
+  fetchFromGitHub,
+  habluetooth,
+  orjson,
+  pythonOlder,
+  setuptools,
+  yarl,
 }:
 
 buildPythonPackage rec {
@@ -24,9 +25,7 @@ buildPythonPackage rec {
     hash = "sha256-i2dlcparDQlwM7Wk/HwlBz0mmI38ZRwxVM6jLY0rI+0=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     aiohttp
@@ -39,9 +38,7 @@ buildPythonPackage rec {
   # Project has no test
   doCheck = false;
 
-  pythonImportsCheck = [
-    "aioshelly"
-  ];
+  pythonImportsCheck = [ "aioshelly" ];
 
   meta = with lib; {
     description = "Python library to control Shelly";

@@ -1,16 +1,17 @@
-{ buildPythonPackage
-, cython
-, fetchFromGitHub
-, isPy38
-, lib
-, lz4
-, numpy
-, pandas
-, pytestCheckHook
-, python-dateutil
-, python-snappy
-, pythonOlder
-, zstandard
+{
+  buildPythonPackage,
+  cython,
+  fetchFromGitHub,
+  isPy38,
+  lib,
+  lz4,
+  numpy,
+  pandas,
+  pytestCheckHook,
+  python-dateutil,
+  python-snappy,
+  pythonOlder,
+  zstandard,
 }:
 
 buildPythonPackage rec {
@@ -39,15 +40,9 @@ buildPythonPackage rec {
       python-snappy
       zstandard
     ];
-    snappy = [
-      python-snappy
-    ];
-    zstandard = [
-      zstandard
-    ];
-    lz4 = [
-      lz4
-    ];
+    snappy = [ python-snappy ];
+    zstandard = [ zstandard ];
+    lz4 = [ lz4 ];
   };
 
   nativeCheckInputs = [

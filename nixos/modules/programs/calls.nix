@@ -1,27 +1,31 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.programs.calls;
-in {
+in
+{
   options = {
     programs.calls = {
-      enable = mkEnableOption (lib.mdDoc ''
-        GNOME calls: a phone dialer and call handler
-      '');
+      enable = mkEnableOption (
+        lib.mdDoc ''
+          GNOME calls: a phone dialer and call handler
+        ''
+      );
     };
   };
 
   config = mkIf cfg.enable {
     programs.dconf.enable = true;
 
-    environment.systemPackages = [
-      pkgs.calls
-    ];
+    environment.systemPackages = [ pkgs.calls ];
 
-    services.dbus.packages = [
-      pkgs.callaudiod
-    ];
+    services.dbus.packages = [ pkgs.callaudiod ];
   };
 }

@@ -1,15 +1,16 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, fetchpatch
-, mako
-, parse
-, parse-type
-, poetry-core
-, pytest
-, pytestCheckHook
-, pythonOlder
-, typing-extensions
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  fetchpatch,
+  mako,
+  parse,
+  parse-type,
+  poetry-core,
+  pytest,
+  pytestCheckHook,
+  pythonOlder,
+  typing-extensions,
 }:
 
 buildPythonPackage rec {
@@ -34,13 +35,9 @@ buildPythonPackage rec {
     })
   ];
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
-  buildInputs = [
-    pytest
-  ];
+  buildInputs = [ pytest ];
 
   propagatedBuildInputs = [
     mako
@@ -49,17 +46,13 @@ buildPythonPackage rec {
     typing-extensions
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   preCheck = ''
     export PATH=$PATH:$out/bin
   '';
 
-  pythonImportsCheck = [
-    "pytest_bdd"
-  ];
+  pythonImportsCheck = [ "pytest_bdd" ];
 
   meta = with lib; {
     description = "BDD library for the pytest";

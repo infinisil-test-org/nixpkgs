@@ -1,7 +1,8 @@
-{ stdenv
-, lib
-, blackmagic-desktop-video
-, kernel
+{
+  stdenv,
+  lib,
+  blackmagic-desktop-video,
+  kernel,
 }:
 
 stdenv.mkDerivation rec {
@@ -15,13 +16,12 @@ stdenv.mkDerivation rec {
   KERNELDIR = "${kernel.dev}/lib/modules/${kernel.modDirVersion}/build";
   INSTALL_MOD_PATH = placeholder "out";
 
-  nativeBuildInputs =  kernel.moduleBuildDependencies;
+  nativeBuildInputs = kernel.moduleBuildDependencies;
 
   postUnpack = ''
     tar xf Blackmagic_Desktop_Video_Linux_${lib.versions.majorMinor version}/other/${stdenv.hostPlatform.uname.processor}/desktopvideo-${version}-${stdenv.hostPlatform.uname.processor}.tar.gz
     moduleRoot=$NIX_BUILD_TOP/desktopvideo-${version}-${stdenv.hostPlatform.uname.processor}/usr/src
   '';
-
 
   buildPhase = ''
     runHook preBuild

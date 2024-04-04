@@ -1,4 +1,11 @@
-{ lib, buildDunePackage, fetchFromGitHub, ocaml, alcotest, result }:
+{
+  lib,
+  buildDunePackage,
+  fetchFromGitHub,
+  ocaml,
+  alcotest,
+  result,
+}:
 
 buildDunePackage rec {
   pname = "dispatch";
@@ -25,5 +32,4 @@ buildDunePackage rec {
     description = "Path-based dispatching for client- and server-side applications";
     maintainers = [ lib.maintainers.vbgl ];
   };
-
 }

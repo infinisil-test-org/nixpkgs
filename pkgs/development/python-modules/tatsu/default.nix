@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, colorama
-, fetchFromGitHub
-, pytestCheckHook
-, pythonOlder
-, regex
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  colorama,
+  fetchFromGitHub,
+  pytestCheckHook,
+  pythonOlder,
+  regex,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -22,22 +23,16 @@ buildPythonPackage rec {
     hash = "sha256-5tVvElM7pZF3rZJMMk0IIZBhiv+9J8KBLjfoVTPF198=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     colorama
     regex
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "tatsu"
-  ];
+  pythonImportsCheck = [ "tatsu" ];
 
   meta = with lib; {
     description = "Generates Python parsers from grammars in a variation of EBNF";

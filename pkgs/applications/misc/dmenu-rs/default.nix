@@ -1,16 +1,17 @@
-{ stdenv
-, rustPlatform
-, lib
-, fetchFromGitHub
-, fetchpatch
-, cargo
-, expat
-, fontconfig
-, libXft
-, libXinerama
-, m4
-, pkg-config
-, python3
+{
+  stdenv,
+  rustPlatform,
+  lib,
+  fetchFromGitHub,
+  fetchpatch,
+  cargo,
+  expat,
+  fontconfig,
+  libXft,
+  libXinerama,
+  m4,
+  pkg-config,
+  python3,
 }:
 
 # The dmenu-rs package has extensive plugin support. However, this derivation
@@ -48,20 +49,18 @@ stdenv.mkDerivation rec {
   # dynamic build and plugin support. Generating it with make and checking it
   # in to nixpkgs here was the easiest way to supply it to rustPlatform.
   # See: https://github.com/Shizcow/dmenu-rs/issues/34#issuecomment-757415584
-  cargoDeps = rustPlatform.importCargoLock {
-    lockFile = ./Cargo.lock;
-  };
+  cargoDeps = rustPlatform.importCargoLock { lockFile = ./Cargo.lock; };
 
   # Fix a bug in the makefile when installing.
   # See https://github.com/Shizcow/dmenu-rs/pull/50
-  patches = let
-    fix-broken-make-install-patch = fetchpatch {
-      url = "https://github.com/Shizcow/dmenu-rs/commit/1f4b3f8a07d73272f8c6f19bfb6ff3de5e042815.patch";
-      sha256 = "sha256-hmXApWg8qngc1vHkHUnB7Lt7wQUOyCSsBmn4HC1j53M=";
-    };
-  in [
-    fix-broken-make-install-patch
-  ];
+  patches =
+    let
+      fix-broken-make-install-patch = fetchpatch {
+        url = "https://github.com/Shizcow/dmenu-rs/commit/1f4b3f8a07d73272f8c6f19bfb6ff3de5e042815.patch";
+        sha256 = "sha256-hmXApWg8qngc1vHkHUnB7Lt7wQUOyCSsBmn4HC1j53M=";
+      };
+    in
+    [ fix-broken-make-install-patch ];
 
   # Copy the Cargo.lock stored here in nixpkgs into the build directory.
   postPatch = ''

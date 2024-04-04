@@ -1,24 +1,29 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, gtest
-, cudatoolkit
-, libdrm
-, ncurses
-, nvtop
-, testers
-, udev
-, addOpenGLRunpath
-, amd ? true
-, intel ? true
-, msm ? true
-, nvidia ? true
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  gtest,
+  cudatoolkit,
+  libdrm,
+  ncurses,
+  nvtop,
+  testers,
+  udev,
+  addOpenGLRunpath,
+  amd ? true,
+  intel ? true,
+  msm ? true,
+  nvidia ? true,
 }:
 
 let
   nvidia-postFixup = "addOpenGLRunpath $out/bin/nvtop";
-  libPath = lib.makeLibraryPath [ libdrm ncurses udev ];
+  libPath = lib.makeLibraryPath [
+    libdrm
+    ncurses
+    udev
+  ];
   drm-postFixup = ''
     patchelf \
       --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
@@ -37,25 +42,35 @@ stdenv.mkDerivation rec {
     hash = "sha256-SHKdjzbc3ZZfOW2p8RLFRKKBfLnO+Z8/bKVxcdLLqxw=";
   };
 
-  cmakeFlags = with lib; [
-    "-DBUILD_TESTING=ON"
-    "-DUSE_LIBUDEV_OVER_LIBSYSTEMD=ON"
-  ] ++ optional nvidia "-DNVML_INCLUDE_DIRS=${cudatoolkit}/include"
-  ++ optional nvidia "-DNVML_LIBRARIES=${cudatoolkit}/targets/x86_64-linux/lib/stubs/libnvidia-ml.so"
-  ++ optional (!amd) "-DAMDGPU_SUPPORT=OFF"
-  ++ optional (!intel) "-DINTEL_SUPPORT=OFF"
-  ++ optional (!msm) "-DMSM_SUPPORT=OFF"
-  ++ optional (!nvidia) "-DNVIDIA_SUPPORT=OFF"
-  ++ optional (amd || msm) "-DLibdrm_INCLUDE_DIRS=${libdrm}/lib/stubs/libdrm.so.2"
-  ;
-  nativeBuildInputs = [ cmake gtest ] ++ lib.optional nvidia addOpenGLRunpath;
-  buildInputs = with lib; [ ncurses udev ]
+  cmakeFlags =
+    with lib;
+    [
+      "-DBUILD_TESTING=ON"
+      "-DUSE_LIBUDEV_OVER_LIBSYSTEMD=ON"
+    ]
+    ++ optional nvidia "-DNVML_INCLUDE_DIRS=${cudatoolkit}/include"
+    ++ optional nvidia "-DNVML_LIBRARIES=${cudatoolkit}/targets/x86_64-linux/lib/stubs/libnvidia-ml.so"
+    ++ optional (!amd) "-DAMDGPU_SUPPORT=OFF"
+    ++ optional (!intel) "-DINTEL_SUPPORT=OFF"
+    ++ optional (!msm) "-DMSM_SUPPORT=OFF"
+    ++ optional (!nvidia) "-DNVIDIA_SUPPORT=OFF"
+    ++ optional (amd || msm) "-DLibdrm_INCLUDE_DIRS=${libdrm}/lib/stubs/libdrm.so.2";
+  nativeBuildInputs = [
+    cmake
+    gtest
+  ] ++ lib.optional nvidia addOpenGLRunpath;
+  buildInputs =
+    with lib;
+    [
+      ncurses
+      udev
+    ]
     ++ optional nvidia cudatoolkit
-    ++ optional (amd || msm) libdrm
-  ;
+    ++ optional (amd || msm) libdrm;
 
   # ordering of fixups is important
-  postFixup = (lib.optionalString (amd || msm) drm-postFixup) + (lib.optionalString nvidia nvidia-postFixup);
+  postFixup =
+    (lib.optionalString (amd || msm) drm-postFixup) + (lib.optionalString nvidia nvidia-postFixup);
 
   doCheck = true;
 
@@ -77,7 +92,11 @@ stdenv.mkDerivation rec {
     changelog = "https://github.com/Syllo/nvtop/releases/tag/${version}";
     license = licenses.gpl3Only;
     platforms = platforms.linux;
-    maintainers = with maintainers; [ willibutz gbtb anthonyroussel ];
+    maintainers = with maintainers; [
+      willibutz
+      gbtb
+      anthonyroussel
+    ];
     mainProgram = "nvtop";
   };
 }

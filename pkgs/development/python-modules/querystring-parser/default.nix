@@ -1,5 +1,10 @@
-{ lib, buildPythonPackage, fetchPypi, python, isPy27
-, six
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  python,
+  isPy27,
+  six,
 }:
 
 buildPythonPackage rec {
@@ -13,9 +18,7 @@ buildPythonPackage rec {
     sha256 = "644fce1cffe0530453b43a83a38094dbe422ccba8c9b2f2a1c00280e14ca8a62";
   };
 
-  propagatedBuildInputs = [
-    six
-  ];
+  propagatedBuildInputs = [ six ];
 
   checkPhase = "${python.interpreter} querystring_parser/tests.py -k 'not test_parse_normalized'";
   # one test fails due to https://github.com/bernii/querystring-parser/issues/35

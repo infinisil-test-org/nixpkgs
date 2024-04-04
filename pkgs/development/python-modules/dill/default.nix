@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, python
-, pythonOlder
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  python,
+  pythonOlder,
+  setuptools,
 
-# passthru tests
-, apache-beam
-, datasets
+  # passthru tests
+  apache-beam,
+  datasets,
 }:
 
 buildPythonPackage rec {
@@ -24,9 +25,7 @@ buildPythonPackage rec {
     hash = "sha256-1cRGA5RuNjlpc3jq9SAsUYgmPauIV8zRF9SxOmveljI=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   checkPhase = ''
     runHook preCheck

@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, rustPlatform
-, fetchFromGitHub
-, CoreServices
+{
+  lib,
+  stdenv,
+  rustPlatform,
+  fetchFromGitHub,
+  CoreServices,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -18,9 +19,7 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-RhEqEqHQrw1NO6k3acOtZmEFgu3FJ+/r154EfoM4uJI=";
 
-  buildInputs = lib.optionals stdenv.isDarwin [
-    CoreServices
-  ];
+  buildInputs = lib.optionals stdenv.isDarwin [ CoreServices ];
 
   meta = with lib; {
     description = "Background rust code checker";

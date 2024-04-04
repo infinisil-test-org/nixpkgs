@@ -1,17 +1,18 @@
-{ stdenv
-, lib
-, formats
-, nixosTests
-, rustPlatform
-, fetchFromGitHub
-, installShellFiles
-, pkg-config
-, udev
-, openssl
-, sqlite
-, pam
-, bashInteractive
-, rust-jemalloc-sys
+{
+  stdenv,
+  lib,
+  formats,
+  nixosTests,
+  rustPlatform,
+  fetchFromGitHub,
+  installShellFiles,
+  pkg-config,
+  udev,
+  openssl,
+  sqlite,
+  pam,
+  bashInteractive,
+  rust-jemalloc-sys,
 }:
 
 let
@@ -87,7 +88,9 @@ rustPlatform.buildRustPackage rec {
     mv $out/lib/libpam_kanidm.so $out/lib/pam_kanidm.so
   '';
 
-  passthru.tests = { inherit (nixosTests) kanidm; };
+  passthru.tests = {
+    inherit (nixosTests) kanidm;
+  };
 
   meta = with lib; {
     changelog = "https://github.com/kanidm/kanidm/releases/tag/v${version}";
@@ -95,6 +98,9 @@ rustPlatform.buildRustPackage rec {
     homepage = "https://github.com/kanidm/kanidm";
     license = licenses.mpl20;
     platforms = platforms.linux;
-    maintainers = with maintainers; [ erictapen Flakebi ];
+    maintainers = with maintainers; [
+      erictapen
+      Flakebi
+    ];
   };
 }

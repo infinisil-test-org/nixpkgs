@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, python
-, pythonOlder
-, cython
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  python,
+  pythonOlder,
+  cython,
 }:
 
 buildPythonPackage rec {
@@ -18,13 +19,9 @@ buildPythonPackage rec {
     hash = "sha256-V465xHANZwXXH7yNfVe8os2Yfsos7B2ed7ngcC2x5W8=";
   };
 
-  nativeBuildInputs = [
-    cython
-  ];
+  nativeBuildInputs = [ cython ];
 
-  pythonImportsCheck = [
-    "fastbencode"
-  ];
+  pythonImportsCheck = [ "fastbencode" ];
 
   checkPhase = ''
     ${python.interpreter} -m unittest fastbencode.tests.test_suite

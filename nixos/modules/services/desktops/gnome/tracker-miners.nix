@@ -1,6 +1,11 @@
 # Tracker Miners daemons.
 
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
@@ -13,8 +18,18 @@ with lib;
   imports = [
     # Added 2021-05-07
     (mkRenamedOptionModule
-      [ "services" "gnome3" "tracker-miners" "enable" ]
-      [ "services" "gnome" "tracker-miners" "enable" ]
+      [
+        "services"
+        "gnome3"
+        "tracker-miners"
+        "enable"
+      ]
+      [
+        "services"
+        "gnome"
+        "tracker-miners"
+        "enable"
+      ]
     )
   ];
 
@@ -32,9 +47,7 @@ with lib;
           search engine and metadata storage system.
         '';
       };
-
     };
-
   };
 
   ###### implementation
@@ -48,7 +61,5 @@ with lib;
     systemd.packages = [ pkgs.tracker-miners ];
 
     services.gnome.tracker.subcommandPackages = [ pkgs.tracker-miners ];
-
   };
-
 }

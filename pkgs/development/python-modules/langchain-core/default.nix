@@ -1,17 +1,18 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, poetry-core
-, anyio
-, jsonpatch
-, langsmith
-, packaging
-, pydantic
-, pythonRelaxDepsHook
-, pyyaml
-, requests
-, tenacity
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  poetry-core,
+  anyio,
+  jsonpatch,
+  langsmith,
+  packaging,
+  pydantic,
+  pythonRelaxDepsHook,
+  pyyaml,
+  requests,
+  tenacity,
 }:
 
 buildPythonPackage rec {
@@ -27,9 +28,7 @@ buildPythonPackage rec {
     hash = "sha256-1mDPIJu2zmHLHIUxB7CRqqgJAVpV3Ongzhm1HUyPKnA=";
   };
 
-  pythonRelaxDeps = [
-    "langsmith"
-  ];
+  pythonRelaxDeps = [ "langsmith" ];
 
   nativeBuildInputs = [
     poetry-core
@@ -47,9 +46,7 @@ buildPythonPackage rec {
     tenacity
   ];
 
-  pythonImportsCheck = [
-    "langchain_core"
-  ];
+  pythonImportsCheck = [ "langchain_core" ];
 
   # PyPI source does not have tests
   doCheck = false;

@@ -1,4 +1,8 @@
-{ lib, stdenv, fetchurl }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+}:
 
 stdenv.mkDerivation rec {
   pname = "a52dec";
@@ -15,9 +19,7 @@ stdenv.mkDerivation rec {
     "ac_cv_c_inline=yes"
   ];
 
-  makeFlags = [
-    "AR=${stdenv.cc.targetPrefix}ar"
-  ];
+  makeFlags = [ "AR=${stdenv.cc.targetPrefix}ar" ];
 
   # fails 1 out of 1 tests with "BAD GLOBAL SYMBOLS" on i686
   # which can also be fixed with

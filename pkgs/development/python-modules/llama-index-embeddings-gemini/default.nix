@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, google-generativeai
-, llama-index-core
-, poetry-core
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  google-generativeai,
+  llama-index-core,
+  poetry-core,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -17,20 +18,14 @@ buildPythonPackage rec {
 
   sourceRoot = "${src.name}/llama-index-integrations/embeddings/${pname}";
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
   propagatedBuildInputs = [
     google-generativeai
     llama-index-core
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "llama_index.embeddings.gemini"
-  ];
+  pythonImportsCheck = [ "llama_index.embeddings.gemini" ];
 }

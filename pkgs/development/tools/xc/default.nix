@@ -1,4 +1,8 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+}:
 
 buildGoModule rec {
   pname = "xc";
@@ -24,6 +28,9 @@ buildGoModule rec {
     homepage = "https://xcfile.dev/";
     changelog = "https://github.com/joerdav/xc/releases/tag/${src.rev}";
     license = licenses.mit;
-    maintainers = with maintainers; [ figsoda joerdav ];
+    maintainers = with maintainers; [
+      figsoda
+      joerdav
+    ];
   };
 }

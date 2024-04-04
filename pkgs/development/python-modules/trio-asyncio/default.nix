@@ -1,15 +1,16 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, setuptools
-, trio
-, outcome
-, sniffio
-, exceptiongroup
-, pytest-trio
-, pytestCheckHook
-, pythonAtLeast
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  setuptools,
+  trio,
+  outcome,
+  sniffio,
+  exceptiongroup,
+  pytest-trio,
+  pytestCheckHook,
+  pythonAtLeast,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -30,17 +31,13 @@ buildPythonPackage rec {
       --replace "'pytest-runner'" ""
   '';
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     trio
     outcome
     sniffio
-  ] ++ lib.optionals (pythonOlder "3.11") [
-    exceptiongroup
-  ];
+  ] ++ lib.optionals (pythonOlder "3.11") [ exceptiongroup ];
 
   nativeCheckInputs = [
     pytest-trio
@@ -51,15 +48,16 @@ buildPythonPackage rec {
     "tests/python" # tries to import internal API test.test_asyncio
   ];
 
-  pythonImportsCheck = [
-    "trio_asyncio"
-  ];
+  pythonImportsCheck = [ "trio_asyncio" ];
 
   meta = with lib; {
     changelog = "https://github.com/python-trio/trio-asyncio/blob/v${version}/docs/source/history.rst";
     description = "Re-implementation of the asyncio mainloop on top of Trio";
     homepage = "https://github.com/python-trio/trio-asyncio";
-    license = with licenses; [ asl20 /* or */ mit ];
+    license = with licenses; [
+      asl20 # or
+      mit
+    ];
     maintainers = with maintainers; [ dotlambda ];
   };
 }

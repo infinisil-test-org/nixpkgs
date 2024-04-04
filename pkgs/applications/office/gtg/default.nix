@@ -1,20 +1,21 @@
-{ lib
-, fetchFromGitHub
-, fetchpatch
-, meson
-, python3Packages
-, ninja
-, gtk3
-, wrapGAppsHook
-, glib
-, gtksourceview4
-, itstool
-, gettext
-, pango
-, gdk-pixbuf
-, libsecret
-, gobject-introspection
-, xvfb-run
+{
+  lib,
+  fetchFromGitHub,
+  fetchpatch,
+  meson,
+  python3Packages,
+  ninja,
+  gtk3,
+  wrapGAppsHook,
+  glib,
+  gtksourceview4,
+  itstool,
+  gettext,
+  pango,
+  gdk-pixbuf,
+  libsecret,
+  gobject-introspection,
+  xvfb-run,
 }:
 
 python3Packages.buildPythonApplication rec {

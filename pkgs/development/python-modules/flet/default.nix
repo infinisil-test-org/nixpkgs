@@ -1,22 +1,23 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonRelaxDepsHook
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonRelaxDepsHook,
 
-# build-system
-, poetry-core
+  # build-system
+  poetry-core,
 
-# propagates
-, flet-core
-, flet-runtime
-, httpx
-, oauthlib
-, packaging
-, qrcode
-, cookiecutter
-, watchdog
-, websocket-client
-, websockets
+  # propagates
+  flet-core,
+  flet-runtime,
+  httpx,
+  oauthlib,
+  packaging,
+  qrcode,
+  cookiecutter,
+  watchdog,
+  websocket-client,
+  websockets,
 
 }:
 
@@ -35,9 +36,7 @@ buildPythonPackage rec {
     pythonRelaxDepsHook
   ];
 
-  pythonRelaxDeps = [
-    "websockets"
-  ];
+  pythonRelaxDeps = [ "websockets" ];
 
   propagatedBuildInputs = [
     flet-core
@@ -54,9 +53,7 @@ buildPythonPackage rec {
 
   doCheck = false;
 
-  pythonImportsCheck = [
-    "flet"
-  ];
+  pythonImportsCheck = [ "flet" ];
 
   meta = {
     description = "A framework that enables you to easily build realtime web, mobile, and desktop apps in Python";

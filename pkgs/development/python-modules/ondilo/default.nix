@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, oauthlib
-, pythonOlder
-, requests
-, requests-oauthlib
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  oauthlib,
+  pythonOlder,
+  requests,
+  requests-oauthlib,
 }:
 
 buildPythonPackage rec {
@@ -30,9 +31,7 @@ buildPythonPackage rec {
   # Project has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "ondilo"
-  ];
+  pythonImportsCheck = [ "ondilo" ];
 
   meta = with lib; {
     description = "Python package to access Ondilo ICO APIs";

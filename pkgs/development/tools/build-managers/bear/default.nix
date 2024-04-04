@@ -1,22 +1,24 @@
-{ lib, stdenv
-, fetchFromGitHub
-, fetchpatch
-, cmake
-, ninja
-, pkg-config
-, grpc
-, protobuf
-, openssl
-, nlohmann_json
-, gtest
-, spdlog
-, c-ares
-, zlib
-, sqlite
-, re2
-, lit
-, python3
-, coreutils
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  cmake,
+  ninja,
+  pkg-config,
+  grpc,
+  protobuf,
+  openssl,
+  nlohmann_json,
+  gtest,
+  spdlog,
+  c-ares,
+  zlib,
+  sqlite,
+  re2,
+  lit,
+  python3,
+  coreutils,
 }:
 
 stdenv.mkDerivation rec {

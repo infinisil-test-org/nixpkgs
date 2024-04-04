@@ -1,11 +1,12 @@
-{ lib
-, stdenv
-, rustPlatform
-, fetchFromGitHub
-, nix-update-script
-, nixosTests
-, testers
-, sonic-server
+{
+  lib,
+  stdenv,
+  rustPlatform,
+  fetchFromGitHub,
+  nix-update-script,
+  nixosTests,
+  testers,
+  sonic-server,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -24,9 +25,7 @@ rustPlatform.buildRustPackage rec {
   # Found argument '--test-threads' which wasn't expected, or isn't valid in this context
   doCheck = false;
 
-  nativeBuildInputs = [
-    rustPlatform.bindgenHook
-  ];
+  nativeBuildInputs = [ rustPlatform.bindgenHook ];
 
   # Work around https://github.com/NixOS/nixpkgs/issues/166205.
   env.NIX_LDFLAGS = lib.optionalString stdenv.cc.isClang "-l${stdenv.cc.libcxx.cxxabi.libName}";
@@ -64,6 +63,9 @@ rustPlatform.buildRustPackage rec {
     license = licenses.mpl20;
     platforms = platforms.unix;
     mainProgram = "sonic";
-    maintainers = with maintainers; [ pleshevskiy anthonyroussel ];
+    maintainers = with maintainers; [
+      pleshevskiy
+      anthonyroussel
+    ];
   };
 }

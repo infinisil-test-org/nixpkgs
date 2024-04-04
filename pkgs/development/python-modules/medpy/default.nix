@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, setuptools
-, unittestCheckHook
-, boost
-, numpy
-, scipy
-, simpleitk
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  setuptools,
+  unittestCheckHook,
+  boost,
+  numpy,
+  scipy,
+  simpleitk,
 }:
 
 buildPythonPackage rec {
@@ -24,9 +25,7 @@ buildPythonPackage rec {
     hash = "sha256-W62LjstH42OzNG+vMkuApUWczTNugJGKuuoeeS5ok4U=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     boost
@@ -35,9 +34,7 @@ buildPythonPackage rec {
     simpleitk
   ];
 
-  nativeCheckInputs = [
-    unittestCheckHook
-  ];
+  nativeCheckInputs = [ unittestCheckHook ];
   preCheck = ''
     rm -r medpy/  # prevent importing from build directory at test time
     rm -r tests/graphcut_  # SIGILL at test time

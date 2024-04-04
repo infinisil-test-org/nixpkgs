@@ -1,14 +1,15 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, charset-normalizer
-, dateparser
-, lxml
-, pytestCheckHook
-, python-dateutil
-, urllib3
-, backports-datetime-fromisoformat
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  charset-normalizer,
+  dateparser,
+  lxml,
+  pytestCheckHook,
+  python-dateutil,
+  urllib3,
+  backports-datetime-fromisoformat,
 }:
 
 buildPythonPackage rec {
@@ -29,13 +30,9 @@ buildPythonPackage rec {
     lxml
     python-dateutil
     urllib3
-  ] ++ lib.optionals (pythonOlder "3.7") [
-    backports-datetime-fromisoformat
-  ];
+  ] ++ lib.optionals (pythonOlder "3.7") [ backports-datetime-fromisoformat ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   # disable tests that require an internet connection
   disabledTests = [

@@ -1,10 +1,11 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, makeWrapper
-, python3
-, which
-, stdenv
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  makeWrapper,
+  python3,
+  which,
+  stdenv,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -59,7 +60,10 @@ rustPlatform.buildRustPackage rec {
     description = "A statically typed language that can deeply improve the Python ecosystem";
     homepage = "https://github.com/erg-lang/erg";
     changelog = "https://github.com/erg-lang/erg/releases/tag/${src.rev}";
-    license = with licenses; [ asl20 mit ];
+    license = with licenses; [
+      asl20
+      mit
+    ];
     maintainers = with maintainers; [ figsoda ];
   };
 }

@@ -1,17 +1,18 @@
-{ lib
-, buildPythonPackage
-, pythonAtLeast
-, pythonOlder
-, fetchpatch
-, fetchPypi
-, setuptools
-, setuptools-scm
-, cssselect
-, jaraco-test
-, lxml
-, mock
-, pytestCheckHook
-, importlib-resources
+{
+  lib,
+  buildPythonPackage,
+  pythonAtLeast,
+  pythonOlder,
+  fetchpatch,
+  fetchPypi,
+  setuptools,
+  setuptools-scm,
+  cssselect,
+  jaraco-test,
+  lxml,
+  mock,
+  pytestCheckHook,
+  importlib-resources,
 }:
 
 buildPythonPackage rec {
@@ -38,9 +39,7 @@ buildPythonPackage rec {
     lxml
     mock
     pytestCheckHook
-  ] ++ lib.optionals (pythonOlder "3.9") [
-    importlib-resources
-  ];
+  ] ++ lib.optionals (pythonOlder "3.9") [ importlib-resources ];
 
   disabledTests = [
     # access network

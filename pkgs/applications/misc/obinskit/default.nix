@@ -1,12 +1,13 @@
-{ stdenv
-, lib
-, fetchurl
-, libxkbcommon
-, systemd
-, xorg
-, electron_13
-, makeWrapper
-, makeDesktopItem
+{
+  stdenv,
+  lib,
+  fetchurl,
+  libxkbcommon,
+  systemd,
+  xorg,
+  electron_13,
+  makeWrapper,
+  makeDesktopItem,
 }:
 let
   desktopItem = makeDesktopItem rec {
@@ -25,7 +26,10 @@ stdenv.mkDerivation rec {
 
   src = fetchurl {
     url = "https://s3.hexcore.xyz/occ/linux/tar/ObinsKit_${version}_x64.tar.gz";
-    curlOptsList = [ "--header" "Referer: https://www.hexcore.xyz/" ];
+    curlOptsList = [
+      "--header"
+      "Referer: https://www.hexcore.xyz/"
+    ];
     hash = "sha256-KhCu1TZsJmcXRSWSTaYOMjt+IA4qqavBwaYzXnkgls0=";
   };
 
@@ -52,7 +56,15 @@ stdenv.mkDerivation rec {
   postFixup = ''
     makeWrapper ${electron}/bin/electron $out/bin/${pname} \
       --add-flags $out/opt/obinskit/resources/app.asar \
-      --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath [ stdenv.cc.cc.lib libxkbcommon (lib.getLib systemd) xorg.libXt xorg.libXtst ]}"
+      --prefix LD_LIBRARY_PATH : "${
+        lib.makeLibraryPath [
+          stdenv.cc.cc.lib
+          libxkbcommon
+          (lib.getLib systemd)
+          xorg.libXt
+          xorg.libXtst
+        ]
+      }"
   '';
 
   meta = with lib; {

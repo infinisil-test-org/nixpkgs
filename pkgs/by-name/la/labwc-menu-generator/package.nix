@@ -1,10 +1,11 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, glib
-, perl
-, pkg-config
-, unstableGitUpdater
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  glib,
+  perl,
+  pkg-config,
+  unstableGitUpdater,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -18,17 +19,11 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-wB5+VmtxjuWbeuDdtGt0f9u7bc3j1Bb6r5MfmMsmE0M=";
   };
 
-  nativeBuildInputs = [
-    pkg-config
-  ];
+  nativeBuildInputs = [ pkg-config ];
 
-  buildInputs = [
-    glib
-  ];
+  buildInputs = [ glib ];
 
-  nativeCheckInputs = [
-    perl
-  ];
+  nativeCheckInputs = [ perl ];
 
   doCheck = true;
 
@@ -48,6 +43,9 @@ stdenv.mkDerivation (finalAttrs: {
     mainProgram = "labwc-menu-generator";
     license = lib.licenses.gpl2Only;
     platforms = lib.platforms.unix;
-    maintainers = with lib.maintainers; [ AndersonTorres romildo ];
+    maintainers = with lib.maintainers; [
+      AndersonTorres
+      romildo
+    ];
   };
 })

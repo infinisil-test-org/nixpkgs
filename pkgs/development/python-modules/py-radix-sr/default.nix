@@ -1,7 +1,8 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -28,7 +29,10 @@ buildPythonPackage rec {
   meta = with lib; {
     description = "Python radix tree for IPv4 and IPv6 prefix matching";
     homepage = "https://github.com/SEKOIA-IO/py-radix";
-    license = with licenses; [ isc bsdOriginal ];
+    license = with licenses; [
+      isc
+      bsdOriginal
+    ];
     maintainers = teams.wdz.members;
   };
 }

@@ -1,11 +1,33 @@
-{ lib, stdenv, buildPythonApplication, fetchFromGitHub, pythonOlder,
-  attrs, aiohttp, appdirs, click, keyring, logbook, peewee, janus,
-  prompt-toolkit, matrix-nio, dbus-python, pydbus, notify2, pygobject3,
-  setuptools, installShellFiles, nixosTests,
+{
+  lib,
+  stdenv,
+  buildPythonApplication,
+  fetchFromGitHub,
+  pythonOlder,
+  attrs,
+  aiohttp,
+  appdirs,
+  click,
+  keyring,
+  logbook,
+  peewee,
+  janus,
+  prompt-toolkit,
+  matrix-nio,
+  dbus-python,
+  pydbus,
+  notify2,
+  pygobject3,
+  setuptools,
+  installShellFiles,
+  nixosTests,
 
-  pytest, faker, pytest-aiohttp, aioresponses,
+  pytest,
+  faker,
+  pytest-aiohttp,
+  aioresponses,
 
-  enableDbusUi ? true
+  enableDbusUi ? true,
 }:
 
 buildPythonApplication rec {
@@ -22,26 +44,27 @@ buildPythonApplication rec {
     sha256 = "sha256-yMhE3wKRbFHoL0vdFR8gMkNU7Su4FHbAwKQYADaaWpk=";
   };
 
-  propagatedBuildInputs = [
-    aiohttp
-    appdirs
-    attrs
-    click
-    janus
-    keyring
-    logbook
-    matrix-nio
-    peewee
-    prompt-toolkit
-    setuptools
-  ]
-  ++ matrix-nio.optional-dependencies.e2e
-  ++ lib.optionals enableDbusUi [
+  propagatedBuildInputs =
+    [
+      aiohttp
+      appdirs
+      attrs
+      click
+      janus
+      keyring
+      logbook
+      matrix-nio
+      peewee
+      prompt-toolkit
+      setuptools
+    ]
+    ++ matrix-nio.optional-dependencies.e2e
+    ++ lib.optionals enableDbusUi [
       dbus-python
       notify2
       pygobject3
       pydbus
-  ];
+    ];
 
   nativeCheckInputs = [
     pytest
@@ -50,9 +73,7 @@ buildPythonApplication rec {
     aioresponses
   ];
 
-  nativeBuildInputs = [
-    installShellFiles
-  ];
+  nativeBuildInputs = [ installShellFiles ];
 
   # darwin has difficulty communicating with server, fails some integration tests
   doCheck = !stdenv.isDarwin;

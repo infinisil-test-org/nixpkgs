@@ -1,12 +1,13 @@
-{ lib
-, fetchurl
-, stdenv
-, autoreconfHook
-, dbus
-, libxml2
-, pam
-, pkg-config
-, systemd
+{
+  lib,
+  fetchurl,
+  stdenv,
+  autoreconfHook,
+  dbus,
+  libxml2,
+  pam,
+  pkg-config,
+  systemd,
 }:
 
 stdenv.mkDerivation rec {
@@ -14,8 +15,8 @@ stdenv.mkDerivation rec {
   version = "0.34.7";
 
   src = fetchurl {
-     url = "https://pagure.io/oddjob/archive/${pname}-${version}/oddjob-${pname}-${version}.tar.gz";
-     hash = "sha256-SUOsMH55HtEsk5rX0CXK0apDObTj738FGOaL5xZRnIM=";
+    url = "https://pagure.io/oddjob/archive/${pname}-${version}/oddjob-${pname}-${version}.tar.gz";
+    hash = "sha256-SUOsMH55HtEsk5rX0CXK0apDObTj738FGOaL5xZRnIM=";
   };
 
   nativeBuildInputs = [
@@ -23,7 +24,7 @@ stdenv.mkDerivation rec {
     pkg-config
   ];
 
-  buildInputs =[
+  buildInputs = [
     libxml2
     dbus
     pam

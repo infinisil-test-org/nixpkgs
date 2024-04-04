@@ -1,25 +1,26 @@
-{ lib
-, stdenv
-, fetchurl
-, undmg
-, dpkg
-, autoPatchelfHook
-, wrapGAppsHook
-, makeWrapper
-, alsa-lib
-, at-spi2-atk
-, cups
-, nspr
-, nss
-, mesa # for libgbm
-, xorg
-, xdg-utils
-, libdrm
-, libnotify
-, libsecret
-, libuuid
-, gtk3
-, systemd
+{
+  lib,
+  stdenv,
+  fetchurl,
+  undmg,
+  dpkg,
+  autoPatchelfHook,
+  wrapGAppsHook,
+  makeWrapper,
+  alsa-lib,
+  at-spi2-atk,
+  cups,
+  nspr,
+  nss,
+  mesa, # for libgbm
+  xorg,
+  xdg-utils,
+  libdrm,
+  libnotify,
+  libsecret,
+  libuuid,
+  gtk3,
+  systemd,
 }:
 let
   pname = "yesplaymusic";
@@ -43,7 +44,8 @@ let
       hash = "sha256-McYLczudKG4tRNIw/Ws4rht0n4tiKA2M99yKtJbdlY8=";
     };
   };
-  src = srcs.${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
+  src =
+    srcs.${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
 
   libraries = [
     alsa-lib
@@ -71,50 +73,59 @@ let
     platforms = builtins.attrNames srcs;
   };
 in
-if stdenv.isDarwin
-then stdenv.mkDerivation {
-  inherit pname version src meta;
+if stdenv.isDarwin then
+  stdenv.mkDerivation {
+    inherit
+      pname
+      version
+      src
+      meta
+      ;
 
-  nativeBuildInputs = [ undmg ];
+    nativeBuildInputs = [ undmg ];
 
-  sourceRoot = ".";
+    sourceRoot = ".";
 
-  installPhase = ''
-    mkdir -p $out/Applications
-    cp -r *.app $out/Applications
-  '';
-}
-else stdenv.mkDerivation {
-  inherit pname version src meta;
+    installPhase = ''
+      mkdir -p $out/Applications
+      cp -r *.app $out/Applications
+    '';
+  }
+else
+  stdenv.mkDerivation {
+    inherit
+      pname
+      version
+      src
+      meta
+      ;
 
-  nativeBuildInputs = [
-    autoPatchelfHook
-    wrapGAppsHook
-    makeWrapper
-  ];
+    nativeBuildInputs = [
+      autoPatchelfHook
+      wrapGAppsHook
+      makeWrapper
+    ];
 
-  buildInputs = libraries;
+    buildInputs = libraries;
 
-  runtimeDependencies = [
-    (lib.getLib systemd)
-  ];
+    runtimeDependencies = [ (lib.getLib systemd) ];
 
-  unpackPhase = ''
-    ${dpkg}/bin/dpkg-deb -x $src .
-  '';
+    unpackPhase = ''
+      ${dpkg}/bin/dpkg-deb -x $src .
+    '';
 
-  installPhase = ''
-    runHook preInstall
+    installPhase = ''
+      runHook preInstall
 
-    mkdir -p $out/bin
-    cp -r opt $out/opt
-    cp -r usr/share $out/share
-    substituteInPlace $out/share/applications/yesplaymusic.desktop \
-      --replace "/opt/YesPlayMusic/yesplaymusic" "$out/bin/yesplaymusic"
-    makeWrapper $out/opt/YesPlayMusic/yesplaymusic $out/bin/yesplaymusic \
-      --argv0 "yesplaymusic" \
-      --add-flags "$out/opt/YesPlayMusic/resources/app.asar"
+      mkdir -p $out/bin
+      cp -r opt $out/opt
+      cp -r usr/share $out/share
+      substituteInPlace $out/share/applications/yesplaymusic.desktop \
+        --replace "/opt/YesPlayMusic/yesplaymusic" "$out/bin/yesplaymusic"
+      makeWrapper $out/opt/YesPlayMusic/yesplaymusic $out/bin/yesplaymusic \
+        --argv0 "yesplaymusic" \
+        --add-flags "$out/opt/YesPlayMusic/resources/app.asar"
 
-    runHook postInstall
-  '';
-}
+      runHook postInstall
+    '';
+  }

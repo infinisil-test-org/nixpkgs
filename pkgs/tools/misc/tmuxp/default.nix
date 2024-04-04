@@ -1,4 +1,9 @@
-{ lib, python3Packages, fetchPypi, installShellFiles }:
+{
+  lib,
+  python3Packages,
+  fetchPypi,
+  installShellFiles,
+}:
 
 python3Packages.buildPythonApplication rec {
   pname = "tmuxp";
@@ -37,7 +42,10 @@ python3Packages.buildPythonApplication rec {
     homepage = "https://tmuxp.git-pull.com/";
     changelog = "https://github.com/tmux-python/tmuxp/raw/v${version}/CHANGES";
     license = licenses.mit;
-    maintainers = with maintainers; [ peterhoeg otavio ];
+    maintainers = with maintainers; [
+      peterhoeg
+      otavio
+    ];
     mainProgram = "tmuxp";
   };
 }

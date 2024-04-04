@@ -1,9 +1,10 @@
-{ buildGoModule
-, fetchFromGitHub
-, installShellFiles
-, lib
-, pscale
-, testers
+{
+  buildGoModule,
+  fetchFromGitHub,
+  installShellFiles,
+  lib,
+  pscale,
+  testers,
 }:
 
 buildGoModule rec {
@@ -20,7 +21,8 @@ buildGoModule rec {
   vendorHash = "sha256-oENe7OGAW/i5LJbqPn7PJDemdxfSsLwmpER28R6zza4=";
 
   ldflags = [
-    "-s" "-w"
+    "-s"
+    "-w"
     "-X main.version=v${version}"
     "-X main.commit=v${version}"
     "-X main.date=unknown"
@@ -35,15 +37,16 @@ buildGoModule rec {
       --zsh <($out/bin/pscale completion zsh)
   '';
 
-  passthru.tests.version = testers.testVersion {
-    package = pscale;
-  };
+  passthru.tests.version = testers.testVersion { package = pscale; };
 
   meta = with lib; {
     description = "The CLI for PlanetScale Database";
     changelog = "https://github.com/planetscale/cli/releases/tag/v${version}";
     homepage = "https://www.planetscale.com/";
     license = licenses.asl20;
-    maintainers = with maintainers; [ pimeys kashw2 ];
+    maintainers = with maintainers; [
+      pimeys
+      kashw2
+    ];
   };
 }

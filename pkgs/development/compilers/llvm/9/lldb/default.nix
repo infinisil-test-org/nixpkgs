@@ -1,21 +1,24 @@
-{ lib, stdenv, llvm_meta
-, fetch
-, fetchpatch
-, cmake
-, zlib
-, ncurses
-, swig
-, which
-, libedit
-, libxml2
-, libllvm
-, libclang
-, python3
-, version
-, darwin
-, makeWrapper
-, perl
-, lit
+{
+  lib,
+  stdenv,
+  llvm_meta,
+  fetch,
+  fetchpatch,
+  cmake,
+  zlib,
+  ncurses,
+  swig,
+  which,
+  libedit,
+  libxml2,
+  libllvm,
+  libclang,
+  python3,
+  version,
+  darwin,
+  makeWrapper,
+  perl,
+  lit,
 }:
 
 stdenv.mkDerivation rec {
@@ -41,42 +44,62 @@ stdenv.mkDerivation rec {
     ./lldb-gdb-remote-no-libcompress.patch
   ];
 
-  outputs = [ "out" "lib" "dev" ];
-
-  nativeBuildInputs = [
-    cmake python3 which swig lit makeWrapper
-  ] ++ lib.optionals stdenv.isDarwin [
-    # for scripts/generate-vers.pl
-    perl
+  outputs = [
+    "out"
+    "lib"
+    "dev"
   ];
 
-  buildInputs = [
-    ncurses zlib libedit libxml2 libllvm
-  ] ++ lib.optionals stdenv.isDarwin [
-    darwin.libobjc
-    darwin.apple_sdk.libs.xpc
-    darwin.apple_sdk.frameworks.Foundation
-    darwin.bootstrap_cmds
-    darwin.apple_sdk.frameworks.Carbon
-    darwin.apple_sdk.frameworks.Cocoa
-    darwin.apple_sdk.frameworks.DebugSymbols
-  ];
+  nativeBuildInputs =
+    [
+      cmake
+      python3
+      which
+      swig
+      lit
+      makeWrapper
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      # for scripts/generate-vers.pl
+      perl
+    ];
+
+  buildInputs =
+    [
+      ncurses
+      zlib
+      libedit
+      libxml2
+      libllvm
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      darwin.libobjc
+      darwin.apple_sdk.libs.xpc
+      darwin.apple_sdk.frameworks.Foundation
+      darwin.bootstrap_cmds
+      darwin.apple_sdk.frameworks.Carbon
+      darwin.apple_sdk.frameworks.Cocoa
+      darwin.apple_sdk.frameworks.DebugSymbols
+    ];
 
   CXXFLAGS = "-fno-rtti";
   hardeningDisable = [ "format" ];
 
-  cmakeFlags = [
-    "-DLLDB_INCLUDE_TESTS=${if doCheck then "YES" else "NO"}"
-    "-DClang_DIR=${libclang.dev}/lib/cmake"
-    "-DLLVM_EXTERNAL_LIT=${lit}/bin/lit"
-    "-DLLDB_CODESIGN_IDENTITY=" # codesigning makes nondeterministic
-  ] ++ lib.optionals stdenv.isDarwin [
-    # Building debugserver requires the proprietary libcompression
-    "-DLLDB_USE_SYSTEM_DEBUGSERVER=ON"
-  ] ++ lib.optionals doCheck [
-    "-DLLDB_TEST_C_COMPILER=${stdenv.cc}/bin/${stdenv.cc.targetPrefix}cc"
-    "-DLLDB_TEST_CXX_COMPILER=${stdenv.cc}/bin/${stdenv.cc.targetPrefix}c++"
-  ];
+  cmakeFlags =
+    [
+      "-DLLDB_INCLUDE_TESTS=${if doCheck then "YES" else "NO"}"
+      "-DClang_DIR=${libclang.dev}/lib/cmake"
+      "-DLLVM_EXTERNAL_LIT=${lit}/bin/lit"
+      "-DLLDB_CODESIGN_IDENTITY=" # codesigning makes nondeterministic
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      # Building debugserver requires the proprietary libcompression
+      "-DLLDB_USE_SYSTEM_DEBUGSERVER=ON"
+    ]
+    ++ lib.optionals doCheck [
+      "-DLLDB_TEST_C_COMPILER=${stdenv.cc}/bin/${stdenv.cc.targetPrefix}cc"
+      "-DLLDB_TEST_CXX_COMPILER=${stdenv.cc}/bin/${stdenv.cc.targetPrefix}c++"
+    ];
 
   doCheck = false;
 

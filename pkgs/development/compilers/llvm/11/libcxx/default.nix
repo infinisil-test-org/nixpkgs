@@ -1,7 +1,18 @@
-{ lib, stdenv, llvm_meta, fetch, fetchpatch, cmake, python3, llvm, fixDarwinDylibNames, version
-, cxxabi ? if stdenv.hostPlatform.isFreeBSD then libcxxrt else libcxxabi
-, libcxxabi, libcxxrt
-, enableShared ? !stdenv.hostPlatform.isStatic
+{
+  lib,
+  stdenv,
+  llvm_meta,
+  fetch,
+  fetchpatch,
+  cmake,
+  python3,
+  llvm,
+  fixDarwinDylibNames,
+  version,
+  cxxabi ? if stdenv.hostPlatform.isFreeBSD then libcxxrt else libcxxabi,
+  libcxxabi,
+  libcxxrt,
+  enableShared ? !stdenv.hostPlatform.isStatic,
 }:
 
 assert stdenv.isDarwin -> cxxabi.pname == "libcxxabi";
@@ -19,7 +30,10 @@ stdenv.mkDerivation {
     mv llvm-* llvm
   '';
 
-  outputs = [ "out" "dev" ];
+  outputs = [
+    "out"
+    "dev"
+  ];
 
   patches = [
     (fetchpatch {
@@ -29,9 +43,7 @@ stdenv.mkDerivation {
       stripLen = 1;
     })
     ./gnu-install-dirs.patch
-  ] ++ lib.optionals stdenv.hostPlatform.isMusl [
-    ../../common/libcxx/libcxx-0001-musl-hacks.patch
-  ];
+  ] ++ lib.optionals stdenv.hostPlatform.isMusl [ ../../common/libcxx/libcxx-0001-musl-hacks.patch ];
 
   # Prevent errors like "error: 'foo' is unavailable: introduced in macOS yy.zz"
   postPatch = ''
@@ -43,20 +55,25 @@ stdenv.mkDerivation {
     patchShebangs utils/cat_files.py
   '';
 
-  nativeBuildInputs = [ cmake python3 ]
-    ++ lib.optional stdenv.isDarwin fixDarwinDylibNames;
+  nativeBuildInputs = [
+    cmake
+    python3
+  ] ++ lib.optional stdenv.isDarwin fixDarwinDylibNames;
 
   buildInputs = [ cxxabi ];
 
-  cmakeFlags = [
-    "-DLIBCXX_CXX_ABI=${cxxabi.pname}"
-  ] ++ lib.optional (stdenv.hostPlatform.isMusl || stdenv.hostPlatform.isWasi) "-DLIBCXX_HAS_MUSL_LIBC=1"
+  cmakeFlags =
+    [ "-DLIBCXX_CXX_ABI=${cxxabi.pname}" ]
+    ++ lib.optional (
+      stdenv.hostPlatform.isMusl || stdenv.hostPlatform.isWasi
+    ) "-DLIBCXX_HAS_MUSL_LIBC=1"
     ++ lib.optional (stdenv.hostPlatform.useLLVM or false) "-DLIBCXX_USE_COMPILER_RT=ON"
     ++ lib.optionals stdenv.hostPlatform.isWasm [
       "-DLIBCXX_ENABLE_THREADS=OFF"
       "-DLIBCXX_ENABLE_FILESYSTEM=OFF"
       "-DLIBCXX_ENABLE_EXCEPTIONS=OFF"
-    ] ++ lib.optional (!enableShared) "-DLIBCXX_ENABLE_SHARED=OFF"
+    ]
+    ++ lib.optional (!enableShared) "-DLIBCXX_ENABLE_SHARED=OFF"
 
     # TODO: this is a bit of a hack to cross compile to Apple Silicon.  libcxx
     # starting with 11 enables CMAKE_BUILD_WITH_INSTALL_NAME_DIR which requires
@@ -67,8 +84,9 @@ stdenv.mkDerivation {
     # not null, then this property will be set via mkDerivation (TODO: how can
     # we set this?).
     ++ lib.optional (
-      stdenv.hostPlatform.isDarwin && stdenv.hostPlatform.isAarch64 &&
-      stdenv.hostPlatform != stdenv.buildPlatform
+      stdenv.hostPlatform.isDarwin
+      && stdenv.hostPlatform.isAarch64
+      && stdenv.hostPlatform != stdenv.buildPlatform
     ) "-DCMAKE_SYSTEM_VERSION=20.1.0";
 
   preInstall = lib.optionalString (stdenv.isDarwin) ''
@@ -99,6 +117,9 @@ stdenv.mkDerivation {
     '';
     # "All of the code in libc++ is dual licensed under the MIT license and the
     # UIUC License (a BSD-like license)":
-    license = with lib.licenses; [ mit ncsa ];
+    license = with lib.licenses; [
+      mit
+      ncsa
+    ];
   };
 }

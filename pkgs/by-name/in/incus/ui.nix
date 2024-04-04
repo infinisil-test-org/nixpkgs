@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchYarnDeps
-, nodejs
-, prefetch-yarn-deps
-, yarn
-, nixosTests
-, git
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchYarnDeps,
+  nodejs,
+  prefetch-yarn-deps,
+  yarn,
+  nixosTests,
+  git,
 }:
 
 stdenv.mkDerivation rec {

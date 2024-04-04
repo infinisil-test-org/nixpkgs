@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, nose
-, pythonOlder
-, pytestCheckHook
-, six
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  nose,
+  pythonOlder,
+  pytestCheckHook,
+  six,
 }:
 
 buildPythonPackage rec {
@@ -27,9 +28,7 @@ buildPythonPackage rec {
   # No real unittests, only coverage
   doCheck = false;
 
-  pythonImportsCheck = [
-    "case"
-  ];
+  pythonImportsCheck = [ "case" ];
 
   meta = with lib; {
     homepage = "https://github.com/celery/case";

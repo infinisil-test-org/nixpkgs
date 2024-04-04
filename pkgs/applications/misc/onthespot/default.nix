@@ -1,9 +1,10 @@
-{ lib
-, copyDesktopItems
-, fetchFromGitHub
-, makeDesktopItem
-, python3
-, wrapQtAppsHook
+{
+  lib,
+  copyDesktopItems,
+  fetchFromGitHub,
+  makeDesktopItem,
+  python3,
+  wrapQtAppsHook,
 }:
 
 python3.pkgs.buildPythonApplication rec {

@@ -1,5 +1,10 @@
 # GPaste.
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -8,13 +13,23 @@ with lib;
   # Added 2019-08-09
   imports = [
     (mkRenamedOptionModule
-      [ "services" "gnome3" "gpaste" "enable" ]
-      [ "programs" "gpaste" "enable" ])
+      [
+        "services"
+        "gnome3"
+        "gpaste"
+        "enable"
+      ]
+      [
+        "programs"
+        "gpaste"
+        "enable"
+      ]
+    )
   ];
 
   ###### interface
   options = {
-     programs.gpaste = {
+    programs.gpaste = {
       enable = mkOption {
         type = types.bool;
         default = false;

@@ -1,14 +1,15 @@
-{ lib
-, fetchPypi
-, buildPythonPackage
-, gmp
-, mpfr
-, libmpc
-, ppl
-, cython_3
-, cysignals
-, gmpy2
-, sphinx
+{
+  lib,
+  fetchPypi,
+  buildPythonPackage,
+  gmp,
+  mpfr,
+  libmpc,
+  ppl,
+  cython_3,
+  cysignals,
+  gmpy2,
+  sphinx,
 }:
 
 buildPythonPackage rec {
@@ -38,7 +39,10 @@ buildPythonPackage rec {
     gmpy2
   ];
 
-  outputs = [ "out" "doc" ];
+  outputs = [
+    "out"
+    "doc"
+  ];
 
   postBuild = ''
     # Find the build result in order to put it into PYTHONPATH. The doc

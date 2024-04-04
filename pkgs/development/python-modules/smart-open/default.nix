@@ -1,17 +1,18 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, azure-common
-, azure-core
-, azure-storage-blob
-, boto3
-, google-cloud-storage
-, requests
-, moto
-, paramiko
-, pytestCheckHook
-, responses
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  azure-common,
+  azure-core,
+  azure-storage-blob,
+  boto3,
+  google-cloud-storage,
+  requests,
+  moto,
+  paramiko,
+  pytestCheckHook,
+  responses,
 }:
 
 buildPythonPackage rec {
@@ -29,31 +30,19 @@ buildPythonPackage rec {
   };
 
   passthru.optional-dependencies = {
-    s3 = [
-      boto3
-    ];
-    gcs = [
-      google-cloud-storage
-    ];
+    s3 = [ boto3 ];
+    gcs = [ google-cloud-storage ];
     azure = [
       azure-storage-blob
       azure-common
       azure-core
     ];
-    http = [
-      requests
-    ];
-    webhdfs = [
-      requests
-    ];
-    ssh = [
-      paramiko
-    ];
+    http = [ requests ];
+    webhdfs = [ requests ];
+    ssh = [ paramiko ];
   };
 
-  pythonImportsCheck = [
-    "smart_open"
-  ];
+  pythonImportsCheck = [ "smart_open" ];
 
   nativeCheckInputs = [
     moto
@@ -61,9 +50,7 @@ buildPythonPackage rec {
     responses
   ] ++ lib.flatten (builtins.attrValues passthru.optional-dependencies);
 
-  pytestFlagsArray = [
-    "smart_open"
-  ];
+  pytestFlagsArray = [ "smart_open" ];
 
   disabledTests = [
     # https://github.com/RaRe-Technologies/smart_open/issues/784

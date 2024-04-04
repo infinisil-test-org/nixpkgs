@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, chromadb
-, fetchFromGitHub
-, llama-index-core
-, onnxruntime
-, poetry-core
-, pythonRelaxDepsHook
-, tokenizers
+{
+  lib,
+  buildPythonPackage,
+  chromadb,
+  fetchFromGitHub,
+  llama-index-core,
+  onnxruntime,
+  poetry-core,
+  pythonRelaxDepsHook,
+  tokenizers,
 }:
 
 buildPythonPackage rec {
@@ -35,7 +36,5 @@ buildPythonPackage rec {
     tokenizers
   ];
 
-  pythonImportsCheck = [
-    "llama_index.vector_stores.chroma"
-  ];
+  pythonImportsCheck = [ "llama_index.vector_stores.chroma" ];
 }

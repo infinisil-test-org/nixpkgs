@@ -1,16 +1,17 @@
-{ lib
-, fetchFromGitHub
-, installShellFiles
-, makeWrapper
-, buildGoModule
-, fetchYarnDeps
-, fixup_yarn_lock
-, pkg-config
-, nodejs
-, yarn
-, nodePackages
-, python3
-, terraform
+{
+  lib,
+  fetchFromGitHub,
+  installShellFiles,
+  makeWrapper,
+  buildGoModule,
+  fetchYarnDeps,
+  fixup_yarn_lock,
+  pkg-config,
+  nodejs,
+  yarn,
+  nodePackages,
+  python3,
+  terraform,
 }:
 
 buildGoModule rec {
@@ -85,6 +86,9 @@ buildGoModule rec {
     description = "Provision software development environments via Terraform on Linux, macOS, Windows, X86, ARM, and of course, Kubernetes";
     homepage = "https://coder.com";
     license = lib.licenses.agpl3;
-    maintainers = [ lib.maintainers.ghuntley lib.maintainers.urandom ];
+    maintainers = [
+      lib.maintainers.ghuntley
+      lib.maintainers.urandom
+    ];
   };
 }

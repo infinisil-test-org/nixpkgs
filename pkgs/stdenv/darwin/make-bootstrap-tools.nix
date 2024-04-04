@@ -1,61 +1,84 @@
-{ pkgspath ? ../../.., test-pkgspath ? pkgspath
-, localSystem ? { system = builtins.currentSystem; }
-# Specify the desired LLVM version in an overlay to avoid the use of
-# mismatching versions.
-#
-# The llvmPackages that we take things (clang, libc++ and such) from
-# is specified explicitly to be llvmPackages_11 to keep the
-# bootstrap-tools stable.  However, tools like otool,
-# install_name_tool and strip are taken straight from stdenv.cc,
-# which, after the bump, is a different LLVM version altogether.
-#
-# The original intent was that bootstrap-tools specified LLVM 11
-# exhaustively but it didn't. That should be rectified with this
-# PR. As to why stick with 11? That's just to keep the
-# bootstrap-tools unchanged.
-#
-# https://github.com/NixOS/nixpkgs/pull/267058/files#r1390889848
-, overlays ? [(self: super: { llvmPackages = super.llvmPackages_11; })]
-, crossSystem ? null
-, bootstrapFiles ? null
+{
+  pkgspath ? ../../..,
+  test-pkgspath ? pkgspath,
+  localSystem ? {
+    system = builtins.currentSystem;
+  },
+  # Specify the desired LLVM version in an overlay to avoid the use of
+  # mismatching versions.
+  #
+  # The llvmPackages that we take things (clang, libc++ and such) from
+  # is specified explicitly to be llvmPackages_11 to keep the
+  # bootstrap-tools stable.  However, tools like otool,
+  # install_name_tool and strip are taken straight from stdenv.cc,
+  # which, after the bump, is a different LLVM version altogether.
+  #
+  # The original intent was that bootstrap-tools specified LLVM 11
+  # exhaustively but it didn't. That should be rectified with this
+  # PR. As to why stick with 11? That's just to keep the
+  # bootstrap-tools unchanged.
+  #
+  # https://github.com/NixOS/nixpkgs/pull/267058/files#r1390889848
+  overlays ? [ (self: super: { llvmPackages = super.llvmPackages_11; }) ],
+  crossSystem ? null,
+  bootstrapFiles ? null,
 }:
 
-let cross = if crossSystem != null
-      then { inherit crossSystem; }
-      else {};
-    custom-bootstrap = if bootstrapFiles != null
-      then { stdenvStages = args:
-              let args' = args // { bootstrapFiles = bootstrapFiles; };
-              in (import "${pkgspath}/pkgs/stdenv/darwin" args');
-           }
-      else {};
-in with import pkgspath ({ inherit localSystem overlays; } // cross // custom-bootstrap);
+let
+  cross = if crossSystem != null then { inherit crossSystem; } else { };
+  custom-bootstrap =
+    if bootstrapFiles != null then
+      {
+        stdenvStages =
+          args:
+          let
+            args' = args // {
+              bootstrapFiles = bootstrapFiles;
+            };
+          in
+          (import "${pkgspath}/pkgs/stdenv/darwin" args');
+      }
+    else
+      { };
+in
+with import pkgspath ({ inherit localSystem overlays; } // cross // custom-bootstrap);
 
 rec {
-  coreutils_ = (coreutils.override (args: {
-    # We want coreutils without ACL support.
-    aclSupport = false;
-    # Cannot use a single binary build, or it gets dynamically linked against gmp.
-    singleBinary = false;
-  })).overrideAttrs (oa: {
-    # Increase header size to be able to inject extra RPATHs. Otherwise
-    # x86_64-darwin build fails as:
-    #    https://cache.nixos.org/log/g5wyq9xqshan6m3kl21bjn1z88hx48rh-stdenv-bootstrap-tools.drv
-    NIX_LDFLAGS = (oa.NIX_LDFLAGS or "") + " -headerpad_max_install_names";
-  });
+  coreutils_ =
+    (coreutils.override (args: {
+      # We want coreutils without ACL support.
+      aclSupport = false;
+      # Cannot use a single binary build, or it gets dynamically linked against gmp.
+      singleBinary = false;
+    })).overrideAttrs
+      (oa: {
+        # Increase header size to be able to inject extra RPATHs. Otherwise
+        # x86_64-darwin build fails as:
+        #    https://cache.nixos.org/log/g5wyq9xqshan6m3kl21bjn1z88hx48rh-stdenv-bootstrap-tools.drv
+        NIX_LDFLAGS = (oa.NIX_LDFLAGS or "") + " -headerpad_max_install_names";
+      });
 
   cctools_ = darwin.cctools;
 
   # Avoid debugging larger changes for now.
-  bzip2_ = bzip2.override (args: { enableStatic = true; enableShared = false; });
+  bzip2_ = bzip2.override (args: {
+    enableStatic = true;
+    enableShared = false;
+  });
 
   # Avoid messing with libkrb5 and libnghttp2.
-  curl_ = curlMinimal.override (args: { gssSupport = false; http2Support = false; });
+  curl_ = curlMinimal.override (args: {
+    gssSupport = false;
+    http2Support = false;
+  });
 
   build = stdenv.mkDerivation {
     name = "stdenv-bootstrap-tools";
 
-    nativeBuildInputs = [ nukeReferences dumpnar ];
+    nativeBuildInputs = [
+      nukeReferences
+      dumpnar
+    ];
 
     buildCommand = ''
       mkdir -p $out/bin $out/lib $out/lib/system $out/lib/darwin
@@ -187,12 +210,17 @@ rec {
         fi
       done
 
-      ${if stdenv.targetPlatform.isx86_64 then ''
-        rpathify $out/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation
-      '' else ''
-        sed -i -e 's|/nix/store/.*/libobjc.A.dylib|@executable_path/../libobjc.A.dylib|g' \
-          $out/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation.tbd
-      ''}
+      ${
+        if stdenv.targetPlatform.isx86_64 then
+          ''
+            rpathify $out/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation
+          ''
+        else
+          ''
+            sed -i -e 's|/nix/store/.*/libobjc.A.dylib|@executable_path/../libobjc.A.dylib|g' \
+              $out/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation.tbd
+          ''
+      }
 
       nuke-refs $out/lib/*
       nuke-refs $out/lib/system/*
@@ -209,7 +237,7 @@ rec {
       dumpnar $out/pack | ${xz}/bin/xz > $out/on-server/bootstrap-tools.nar.xz
     '';
 
-    allowedReferences = [];
+    allowedReferences = [ ];
 
     meta = {
       maintainers = [ lib.maintainers.copumpkin ];
@@ -331,14 +359,14 @@ rec {
   # The ultimate test: bootstrap a whole stdenv from the tools specified above and get a package set out of it
   # TODO: uncomment once https://github.com/NixOS/nixpkgs/issues/222717 is resolved
   /*
-  test-pkgs = import test-pkgspath {
-    # if the bootstrap tools are for another platform, we should be testing
-    # that platform.
-    localSystem = if crossSystem != null then crossSystem else localSystem;
+    test-pkgs = import test-pkgspath {
+      # if the bootstrap tools are for another platform, we should be testing
+      # that platform.
+      localSystem = if crossSystem != null then crossSystem else localSystem;
 
-    stdenvStages = args: let
-        args' = args // { inherit bootstrapFiles; };
-      in (import (test-pkgspath + "/pkgs/stdenv/darwin") args');
-  };
+      stdenvStages = args: let
+          args' = args // { inherit bootstrapFiles; };
+        in (import (test-pkgspath + "/pkgs/stdenv/darwin") args');
+    };
   */
 }

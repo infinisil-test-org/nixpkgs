@@ -1,8 +1,9 @@
-{ lib
-, buildGoModule
-, fetchFromGitea
-, testers
-, forgejo-actions-runner
+{
+  lib,
+  buildGoModule,
+  fetchFromGitea,
+  testers,
+  forgejo-actions-runner,
 }:
 
 buildGoModule rec {

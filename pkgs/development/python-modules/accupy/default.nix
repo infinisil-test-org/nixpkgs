@@ -1,18 +1,19 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, mpmath
-, numpy
-, pybind11
-, pyfma
-, eigen
-, importlib-metadata
-, pytestCheckHook
-, matplotlib
-, dufte
-, perfplot
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  mpmath,
+  numpy,
+  pybind11,
+  pyfma,
+  eigen,
+  importlib-metadata,
+  pytestCheckHook,
+  matplotlib,
+  dufte,
+  perfplot,
 }:
 
 buildPythonPackage rec {
@@ -28,13 +29,9 @@ buildPythonPackage rec {
     sha256 = "0sxkwpp2xy2jgakhdxr4nh1cspqv8l89kz6s832h05pbpyc0n767";
   };
 
-  nativeBuildInputs = [
-    pybind11
-  ];
+  nativeBuildInputs = [ pybind11 ];
 
-  buildInputs = [
-    eigen
-  ];
+  buildInputs = [ eigen ];
 
   propagatedBuildInputs = [
     mpmath
@@ -50,8 +47,8 @@ buildPythonPackage rec {
   ];
 
   postConfigure = ''
-   substituteInPlace setup.py \
-     --replace "/usr/include/eigen3/" "${eigen}/include/eigen3/"
+    substituteInPlace setup.py \
+      --replace "/usr/include/eigen3/" "${eigen}/include/eigen3/"
   '';
 
   preBuild = ''
@@ -69,7 +66,10 @@ buildPythonPackage rec {
       substituteInPlace $f --replace 'import perfplot' ""
     done
   '';
-  disabledTests = [ "test_speed_comparison1" "test_speed_comparison2" ];
+  disabledTests = [
+    "test_speed_comparison1"
+    "test_speed_comparison2"
+  ];
   pythonImportsCheck = [ "accupy" ];
 
   meta = with lib; {

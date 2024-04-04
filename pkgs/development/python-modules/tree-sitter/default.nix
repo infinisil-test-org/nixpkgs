@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pytestCheckHook
-, pythonOlder
-, setuptools
-, wheel
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
+  wheel,
 }:
 
 buildPythonPackage rec {
@@ -28,9 +29,7 @@ buildPythonPackage rec {
   # PyPI tarball doesn't contains tests and source has additional requirements
   doCheck = false;
 
-  pythonImportsCheck = [
-    "tree_sitter"
-  ];
+  pythonImportsCheck = [ "tree_sitter" ];
 
   meta = with lib; {
     description = "Python bindings to the Tree-sitter parsing library";

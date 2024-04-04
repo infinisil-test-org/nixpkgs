@@ -28,5 +28,10 @@ mkKdeDerivation rec {
     rustc
   ];
 
-  extraBuildInputs = [corrosion qtsvg qtwebengine qcoro];
+  extraBuildInputs = [
+    corrosion
+    qtsvg
+    qtwebengine
+    qcoro
+  ];
 }

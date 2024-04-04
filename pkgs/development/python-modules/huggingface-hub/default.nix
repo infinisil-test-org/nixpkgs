@@ -1,15 +1,16 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, setuptools
-, filelock
-, fsspec
-, packaging
-, pyyaml
-, requests
-, tqdm
-, typing-extensions
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  setuptools,
+  filelock,
+  fsspec,
+  packaging,
+  pyyaml,
+  requests,
+  tqdm,
+  typing-extensions,
 }:
 
 buildPythonPackage rec {
@@ -26,9 +27,7 @@ buildPythonPackage rec {
     hash = "sha256-SN0FDOuXvgDqxpK4RRRXQDTPG5/BV3DJsiEq2q5WvsY=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     filelock
@@ -43,9 +42,7 @@ buildPythonPackage rec {
   # Tests require network access.
   doCheck = false;
 
-  pythonImportsCheck = [
-    "huggingface_hub"
-  ];
+  pythonImportsCheck = [ "huggingface_hub" ];
 
   meta = with lib; {
     description = "Download and publish models and other files on the huggingface.co hub";

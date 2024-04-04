@@ -1,8 +1,14 @@
-{ lib
-, stdenv
-, fetchFromGitea, fetchYarnDeps
-, prefetch-yarn-deps, yarn, nodejs
-, jpegoptim, oxipng, nodePackages
+{
+  lib,
+  stdenv,
+  fetchFromGitea,
+  fetchYarnDeps,
+  prefetch-yarn-deps,
+  yarn,
+  nodejs,
+  jpegoptim,
+  oxipng,
+  nodePackages,
 }:
 
 stdenv.mkDerivation rec {

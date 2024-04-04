@@ -1,4 +1,14 @@
-{ mkDerivation, lib, extra-cmake-modules, kdoctools, ki18n, kio, kplotting, plasma-framework, libkdegames }:
+{
+  mkDerivation,
+  lib,
+  extra-cmake-modules,
+  kdoctools,
+  ki18n,
+  kio,
+  kplotting,
+  plasma-framework,
+  libkdegames,
+}:
 
 mkDerivation {
   pname = "knights";
@@ -9,9 +19,7 @@ mkDerivation {
     license = licenses.gpl2Plus;
     platforms = platforms.linux;
   };
-  nativeBuildInputs = [
-    extra-cmake-modules
-  ];
+  nativeBuildInputs = [ extra-cmake-modules ];
   buildInputs = [
     libkdegames
     plasma-framework

@@ -1,4 +1,11 @@
-{ lib, stdenv, buildGoModule, fetchFromGitHub, nixosTests, olm }:
+{
+  lib,
+  stdenv,
+  buildGoModule,
+  fetchFromGitHub,
+  nixosTests,
+  olm,
+}:
 
 buildGoModule {
   pname = "go-neb";
@@ -25,6 +32,9 @@ buildGoModule {
     description = "Extensible matrix bot written in Go";
     homepage = "https://github.com/matrix-org/go-neb";
     license = licenses.asl20;
-    maintainers = with maintainers; [ hexa maralorn ];
+    maintainers = with maintainers; [
+      hexa
+      maralorn
+    ];
   };
 }

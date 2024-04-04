@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, pyvex
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  pyvex,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -20,20 +21,14 @@ buildPythonPackage rec {
     hash = "sha256-I4lZrp4coJOBB8gREmeQsCiNhMC0MqhYxd5BmYXq9BA=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [
-    pyvex
-  ];
+  propagatedBuildInputs = [ pyvex ];
 
   # Tests depend on angr (possibly a circular dependency)
   doCheck = false;
 
-  pythonImportsCheck = [
-    "ailment"
-  ];
+  pythonImportsCheck = [ "ailment" ];
 
   meta = with lib; {
     description = "The angr Intermediate Language";

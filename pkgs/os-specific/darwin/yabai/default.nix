@@ -1,18 +1,19 @@
-{ lib
-, stdenv
-, stdenvNoCC
-, fetchFromGitHub
-, fetchzip
-, installShellFiles
-, testers
-, yabai
-, xxd
-, xcodebuild
+{
+  lib,
+  stdenv,
+  stdenvNoCC,
+  fetchFromGitHub,
+  fetchzip,
+  installShellFiles,
+  testers,
+  yabai,
+  xxd,
+  xcodebuild,
   # These all need to be from SDK 11.0 or later starting with yabai 5.0.0
-, Carbon
-, Cocoa
-, ScriptingBridge
-, SkyLight
+  Carbon,
+  Cocoa,
+  ScriptingBridge,
+  SkyLight,
 }:
 
 let
@@ -56,9 +57,7 @@ in
       hash = "sha256-L82N0IaC2OAZVhmu9NALencK78FeCZI2cWJyNkGH2vQ=";
     };
 
-    nativeBuildInputs = [
-      installShellFiles
-    ];
+    nativeBuildInputs = [ installShellFiles ];
 
     dontConfigure = true;
     dontBuild = true;
@@ -76,9 +75,7 @@ in
     passthru.tests.version = test-version;
 
     meta = _meta // {
-      sourceProvenance = with lib.sourceTypes; [
-        binaryNativeCode
-      ];
+      sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
     };
   };
 
@@ -143,9 +140,8 @@ in
     passthru.tests.version = test-version;
 
     meta = _meta // {
-      sourceProvenance = with lib.sourceTypes; [
-        fromSource
-      ];
+      sourceProvenance = with lib.sourceTypes; [ fromSource ];
     };
   };
-}.${stdenv.hostPlatform.system} or (throw "Unsupported platform ${stdenv.hostPlatform.system}")
+}
+.${stdenv.hostPlatform.system} or (throw "Unsupported platform ${stdenv.hostPlatform.system}")

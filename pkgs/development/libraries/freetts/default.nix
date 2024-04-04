@@ -1,9 +1,10 @@
-{ lib
-, stdenv
-, fetchzip
-, ant
-, jdk8
-, sharutils
+{
+  lib,
+  stdenv,
+  fetchzip,
+  ant,
+  jdk8,
+  sharutils,
 }:
 
 stdenv.mkDerivation (finalAttrs: {

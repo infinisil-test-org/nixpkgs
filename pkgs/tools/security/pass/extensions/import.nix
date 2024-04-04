@@ -1,9 +1,10 @@
-{ lib
-, fetchFromGitHub
-, fetchpatch
-, python3Packages
-, gnupg
-, pass
+{
+  lib,
+  fetchFromGitHub,
+  fetchpatch,
+  python3Packages,
+  gnupg,
+  pass,
 }:
 
 python3Packages.buildPythonApplication rec {
@@ -63,7 +64,11 @@ python3Packages.buildPythonApplication rec {
     homepage = "https://github.com/roddhjav/pass-import";
     changelog = "https://github.com/roddhjav/pass-import/blob/v${version}/CHANGELOG.rst";
     license = licenses.gpl3Plus;
-    maintainers = with maintainers; [ lovek323 fpletz tadfisher ];
+    maintainers = with maintainers; [
+      lovek323
+      fpletz
+      tadfisher
+    ];
     platforms = platforms.unix;
   };
 }

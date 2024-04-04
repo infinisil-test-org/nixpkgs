@@ -1,18 +1,19 @@
-{ lib
-, argparse-addons
-, bitstruct
-, buildPythonPackage
-, can
-, crccheck
-, diskcache
-, fetchPypi
-, matplotlib
-, parameterized
-, pytestCheckHook
-, pythonOlder
-, setuptools
-, setuptools-scm
-, textparser
+{
+  lib,
+  argparse-addons,
+  bitstruct,
+  buildPythonPackage,
+  can,
+  crccheck,
+  diskcache,
+  fetchPypi,
+  matplotlib,
+  parameterized,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
+  setuptools-scm,
+  textparser,
 }:
 
 buildPythonPackage rec {
@@ -52,9 +53,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "cantools"
-  ];
+  pythonImportsCheck = [ "cantools" ];
 
   meta = with lib; {
     description = "Tools to work with CAN bus";

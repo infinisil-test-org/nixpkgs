@@ -1,14 +1,21 @@
-{ lib, stdenv, fetchurl, kernel, alsa-lib }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  kernel,
+  alsa-lib,
+}:
 
 with lib;
 
 let
-  bits =
-    if stdenv.is64bit then "64"
-    else "32";
+  bits = if stdenv.is64bit then "64" else "32";
 
-  libpath = makeLibraryPath [ stdenv.cc.cc stdenv.cc.libc alsa-lib ];
-
+  libpath = makeLibraryPath [
+    stdenv.cc.cc
+    stdenv.cc.libc
+    alsa-lib
+  ];
 in
 stdenv.mkDerivation rec {
   pname = "mwprocapture";
@@ -27,11 +34,12 @@ stdenv.mkDerivation rec {
     export INSTALL_MOD_PATH="$out"
   '';
 
-  hardeningDisable = [ "pic" "format" ];
-
-  makeFlags = [
-    "KERNELDIR=${kernel.dev}/lib/modules/${kernel.modDirVersion}/build"
+  hardeningDisable = [
+    "pic"
+    "format"
   ];
+
+  makeFlags = [ "KERNELDIR=${kernel.dev}/lib/modules/${kernel.modDirVersion}/build" ];
 
   env.NIX_CFLAGS_COMPILE = "-Wno-error=implicit-fallthrough";
 
@@ -60,7 +68,10 @@ stdenv.mkDerivation rec {
     homepage = "https://www.magewell.com/";
     description = "Linux driver for the Magewell Pro Capture family";
     license = licenses.unfreeRedistributable;
-    maintainers = with maintainers; [ flexiondotorg MP2E ];
+    maintainers = with maintainers; [
+      flexiondotorg
+      MP2E
+    ];
     platforms = platforms.linux;
   };
 }

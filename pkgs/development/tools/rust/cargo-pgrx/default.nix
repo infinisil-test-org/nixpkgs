@@ -1,4 +1,12 @@
-{ lib, stdenv, fetchCrate, rustPlatform, pkg-config, openssl, Security }:
+{
+  lib,
+  stdenv,
+  fetchCrate,
+  rustPlatform,
+  pkg-config,
+  openssl,
+  Security,
+}:
 
 let
   pname = "cargo-pgrx";
@@ -16,8 +24,7 @@ rustPlatform.buildRustPackage rec {
 
   nativeBuildInputs = [ pkg-config ];
 
-  buildInputs = [ openssl ]
-    ++ lib.optionals stdenv.isDarwin [ Security ];
+  buildInputs = [ openssl ] ++ lib.optionals stdenv.isDarwin [ Security ];
 
   preCheck = ''
     export PGRX_HOME=$(mktemp -d)

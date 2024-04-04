@@ -1,4 +1,8 @@
-{ lib, pythonPackages, fetchurl }:
+{
+  lib,
+  pythonPackages,
+  fetchurl,
+}:
 
 pythonPackages.buildPythonApplication rec {
   pname = "mir.qualia";
@@ -16,6 +20,6 @@ pythonPackages.buildPythonApplication rec {
     description = "Dynamically enable sections of config files";
     homepage = "https://github.com/darkfeline/mir.qualia";
     license = lib.licenses.asl20;
-    maintainers = [ lib.maintainers.srhb ] ;
+    maintainers = [ lib.maintainers.srhb ];
   };
 }

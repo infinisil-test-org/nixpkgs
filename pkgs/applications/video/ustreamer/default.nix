@@ -1,4 +1,11 @@
-{ lib, stdenv, fetchFromGitHub, libbsd, libevent, libjpeg }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  libbsd,
+  libevent,
+  libjpeg,
+}:
 
 stdenv.mkDerivation rec {
   pname = "ustreamer";
@@ -11,7 +18,11 @@ stdenv.mkDerivation rec {
     hash = "sha256-R1HL8tYFDtHrxArcoJwlM0Y7MbSyNxNiZ2tjyh1OCn4=";
   };
 
-  buildInputs = [ libbsd libevent libjpeg ];
+  buildInputs = [
+    libbsd
+    libevent
+    libjpeg
+  ];
 
   makeFlags = [ "PREFIX=${placeholder "out"}" ];
 

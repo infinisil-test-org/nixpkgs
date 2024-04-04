@@ -1,4 +1,13 @@
-{ lib, stdenv, fetchurl, pkg-config, poppler, libgcrypt, pcre, asciidoc }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  pkg-config,
+  poppler,
+  libgcrypt,
+  pcre,
+  asciidoc,
+}:
 
 stdenv.mkDerivation rec {
   pname = "pdfgrep";
@@ -15,18 +24,26 @@ stdenv.mkDerivation rec {
     done
   '';
 
-  configureFlags = [
-    "--with-libgcrypt-prefix=${lib.getDev libgcrypt}"
-  ];
+  configureFlags = [ "--with-libgcrypt-prefix=${lib.getDev libgcrypt}" ];
 
-  nativeBuildInputs = [ pkg-config asciidoc ];
-  buildInputs = [ poppler libgcrypt pcre ];
+  nativeBuildInputs = [
+    pkg-config
+    asciidoc
+  ];
+  buildInputs = [
+    poppler
+    libgcrypt
+    pcre
+  ];
 
   meta = {
     description = "Commandline utility to search text in PDF files";
     homepage = "https://pdfgrep.org/";
     license = lib.licenses.gpl2Plus;
-    maintainers = with lib.maintainers; [ qknight fpletz ];
+    maintainers = with lib.maintainers; [
+      qknight
+      fpletz
+    ];
     platforms = with lib.platforms; unix;
     mainProgram = "pdfgrep";
   };

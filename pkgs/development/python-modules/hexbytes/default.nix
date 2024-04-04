@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, eth-utils
-, hypothesis
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  eth-utils,
+  hypothesis,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -27,9 +28,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "hexbytes"
-  ];
+  pythonImportsCheck = [ "hexbytes" ];
 
   meta = with lib; {
     description = "`bytes` subclass that decodes hex, with a readable console output";

@@ -21,7 +21,7 @@ rustPlatform.buildRustPackage rec {
     homepage = "https://github.com/MaxVerevkin/wl-gammarelay-rs";
     license = lib.licenses.gpl3Plus;
     mainProgram = "wl-gammarelay-rs";
-    maintainers = with lib.maintainers; [quantenzitrone];
+    maintainers = with lib.maintainers; [ quantenzitrone ];
     platforms = lib.platforms.linux;
   };
 }

@@ -1,4 +1,10 @@
-{ config, lib, pkgs, utils, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  utils,
+  ...
+}:
 
 with lib;
 
@@ -6,7 +12,6 @@ let
 
   xcfg = config.services.xserver;
   cfg = xcfg.desktopManager.mate;
-
 in
 
 {
@@ -23,22 +28,21 @@ in
     };
 
     environment.mate.excludePackages = mkOption {
-      default = [];
+      default = [ ];
       example = literalExpression "[ pkgs.mate.mate-terminal pkgs.mate.pluma ]";
       type = types.listOf types.package;
       description = lib.mdDoc "Which MATE packages to exclude from the default environment";
     };
-
   };
 
   config = mkIf cfg.enable {
 
-    services.xserver.displayManager.sessionPackages = [
-      pkgs.mate.mate-session-manager
-    ];
+    services.xserver.displayManager.sessionPackages = [ pkgs.mate.mate-session-manager ];
 
     # Let caja find extensions
-    environment.sessionVariables.CAJA_EXTENSION_DIRS = [ "${config.system.path}/lib/caja/extensions-2.0" ];
+    environment.sessionVariables.CAJA_EXTENSION_DIRS = [
+      "${config.system.path}/lib/caja/extensions-2.0"
+    ];
 
     # Let mate-panel find applets
     environment.sessionVariables."MATE_PANEL_APPLETS_DIR" = "${config.system.path}/share/mate-panel/applets";
@@ -47,18 +51,18 @@ in
     # Debugging
     environment.sessionVariables.MATE_SESSION_DEBUG = mkIf cfg.debug "1";
 
-    environment.systemPackages = utils.removePackagesByName
-      (pkgs.mate.basePackages ++
-      pkgs.mate.extraPackages ++
-      [
+    environment.systemPackages = utils.removePackagesByName (
+      pkgs.mate.basePackages
+      ++ pkgs.mate.extraPackages
+      ++ [
         pkgs.desktop-file-utils
         pkgs.glib
         pkgs.gtk3.out
         pkgs.shared-mime-info
         pkgs.xdg-user-dirs # Update user dirs as described in https://freedesktop.org/wiki/Software/xdg-user-dirs/
         pkgs.yelp # for 'Contents' in 'Help' menus
-      ])
-      config.environment.mate.excludePackages;
+      ]
+    ) config.environment.mate.excludePackages;
 
     programs.dconf.enable = true;
     # Shell integration for VTE terminals
@@ -81,5 +85,4 @@ in
 
     environment.pathsToLink = [ "/share" ];
   };
-
 }

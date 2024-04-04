@@ -1,25 +1,26 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, cython
-, versioneer
-, cons
-, etuples
-, filelock
-, logical-unification
-, minikanren
-, numpy
-, scipy
-, typing-extensions
-, jax
-, jaxlib
-, numba
-, numba-scipy
-, pytest-mock
-, pytestCheckHook
-, pythonOlder
-, tensorflow-probability
-, stdenv
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  cython,
+  versioneer,
+  cons,
+  etuples,
+  filelock,
+  logical-unification,
+  minikanren,
+  numpy,
+  scipy,
+  typing-extensions,
+  jax,
+  jaxlib,
+  numba,
+  numba-scipy,
+  pytest-mock,
+  pytestCheckHook,
+  pythonOlder,
+  tensorflow-probability,
+  stdenv,
 }:
 
 buildPythonPackage rec {
@@ -71,9 +72,7 @@ buildPythonPackage rec {
     export HOME=$(mktemp -d)
   '';
 
-  pythonImportsCheck = [
-    "pytensor"
-  ];
+  pythonImportsCheck = [ "pytensor" ];
 
   disabledTests = [
     # benchmarks (require pytest-benchmark):

@@ -1,20 +1,21 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, nix-update-script
-, bison
-, boost182
-, flex
-, fmt
-, gtest
-, libbacktrace
-, lit
-, llvmPackages
-, meson
-, ninja
-, nix
-, nixpkgs-fmt
-, pkg-config
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  nix-update-script,
+  bison,
+  boost182,
+  flex,
+  fmt,
+  gtest,
+  libbacktrace,
+  lit,
+  llvmPackages,
+  meson,
+  ninja,
+  nix,
+  nixpkgs-fmt,
+  pkg-config,
 }:
 
 stdenv.mkDerivation rec {
@@ -85,7 +86,11 @@ stdenv.mkDerivation rec {
     homepage = "https://github.com/nix-community/nixd";
     changelog = "https://github.com/nix-community/nixd/releases/tag/${version}";
     license = lib.licenses.lgpl3Plus;
-    maintainers = with lib.maintainers; [ inclyc Ruixi-rebirth marsam ];
+    maintainers = with lib.maintainers; [
+      inclyc
+      Ruixi-rebirth
+      marsam
+    ];
     mainProgram = "nixd";
     platforms = lib.platforms.unix;
   };

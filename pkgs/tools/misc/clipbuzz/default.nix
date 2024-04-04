@@ -1,9 +1,10 @@
-{ lib
-, stdenv
-, fetchzip
-, libX11
-, libXfixes
-, zig_0_11
+{
+  lib,
+  stdenv,
+  fetchzip,
+  libX11,
+  libXfixes,
+  zig_0_11,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -22,7 +23,7 @@ stdenv.mkDerivation (finalAttrs: {
     libXfixes
   ];
 
-  meta =  {
+  meta = {
     description = "Buzz on new X11 clipboard events";
     homepage = "https://trong.loang.net/~cnx/clipbuzz";
     license = lib.licenses.unlicense;

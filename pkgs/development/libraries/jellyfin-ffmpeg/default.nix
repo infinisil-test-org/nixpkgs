@@ -1,6 +1,7 @@
-{ ffmpeg_6-full
-, fetchFromGitHub
-, lib
+{
+  ffmpeg_6-full,
+  fetchFromGitHub,
+  lib,
 }:
 
 ffmpeg_6-full.overrideAttrs (old: rec {
@@ -15,7 +16,7 @@ ffmpeg_6-full.overrideAttrs (old: rec {
   };
 
   # Clobber upstream patches as they don't apply to the Jellyfin fork
-  patches = [];
+  patches = [ ];
 
   configureFlags = old.configureFlags ++ [
     "--extra-version=Jellyfin"

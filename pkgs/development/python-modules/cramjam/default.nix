@@ -1,19 +1,20 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, rustPlatform
-, stdenv
-, libiconv
-, brotli
-, hypothesis
-, lz4
-, memory-profiler
-, numpy
-, py
-, pytest-benchmark
-, pytestCheckHook
-, python-snappy
-, zstd
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  rustPlatform,
+  stdenv,
+  libiconv,
+  brotli,
+  hypothesis,
+  lz4,
+  memory-profiler,
+  numpy,
+  py,
+  pytest-benchmark,
+  pytestCheckHook,
+  python-snappy,
+  zstd,
 }:
 
 buildPythonPackage rec {
@@ -53,17 +54,11 @@ buildPythonPackage rec {
     zstd
   ];
 
-  pytestFlagsArray = [
-    "--benchmark-disable"
-  ];
+  pytestFlagsArray = [ "--benchmark-disable" ];
 
-  disabledTestPaths = [
-    "benchmarks/test_bench.py"
-  ];
+  disabledTestPaths = [ "benchmarks/test_bench.py" ];
 
-  pythonImportsCheck = [
-    "cramjam"
-  ];
+  pythonImportsCheck = [ "cramjam" ];
 
   meta = with lib; {
     description = "Thin Python bindings to de/compression algorithms in Rust";

@@ -1,8 +1,11 @@
-{ lib, buildPythonPackage, fetchPypi
-, traitlets
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  traitlets,
 
-# tests
-, ipython
+  # tests
+  ipython,
 }:
 
 buildPythonPackage rec {
@@ -15,9 +18,7 @@ buildPythonPackage rec {
     hash = "sha256-+Ifl8Qupjo0rFQ3c9HAsHl+LOiAAXrD3S/29Ng7m8wQ=";
   };
 
-  propagatedBuildInputs = [
-    traitlets
-  ];
+  propagatedBuildInputs = [ traitlets ];
 
   # wants to import ipython, which creates a circular dependency
   doCheck = false;
@@ -28,7 +29,9 @@ buildPythonPackage rec {
     #"matplotlib_inline"
   ];
 
-  passthru.tests = { inherit ipython; };
+  passthru.tests = {
+    inherit ipython;
+  };
 
   meta = with lib; {
     description = "Matplotlib Inline Back-end for IPython and Jupyter";

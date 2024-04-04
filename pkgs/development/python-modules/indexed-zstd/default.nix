@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, cython
-, zstd
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  cython,
+  zstd,
 }:
 
 buildPythonPackage rec {

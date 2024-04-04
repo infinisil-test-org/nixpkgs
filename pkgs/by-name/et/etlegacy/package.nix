@@ -1,34 +1,37 @@
-{ lib
-, stdenv
-, fetchurl
-, writeShellApplication
-, fetchFromGitHub
-, cjson
-, cmake
-, git
-, makeWrapper
-, unzip
-, curl
-, freetype
-, glew
-, libjpeg
-, libogg
-, libpng
-, libtheora
-, lua5_4
-, minizip
-, openal
-, SDL2
-, sqlite
-, zlib
+{
+  lib,
+  stdenv,
+  fetchurl,
+  writeShellApplication,
+  fetchFromGitHub,
+  cjson,
+  cmake,
+  git,
+  makeWrapper,
+  unzip,
+  curl,
+  freetype,
+  glew,
+  libjpeg,
+  libogg,
+  libpng,
+  libtheora,
+  lua5_4,
+  minizip,
+  openal,
+  SDL2,
+  sqlite,
+  zlib,
 }:
 let
   version = "2.82.0";
 
-  fetchAsset = { asset, hash }: fetchurl {
-    url = "https://mirror.etlegacy.com/etmain/${asset}";
-    inherit hash;
-  };
+  fetchAsset =
+    { asset, hash }:
+    fetchurl {
+      url = "https://mirror.etlegacy.com/etmain/${asset}";
+      inherit hash;
+    };
 
   pak0 = fetchAsset {
     asset = "pak0.pk3";
@@ -128,14 +131,20 @@ stdenv.mkDerivation {
   meta = {
     description = "ET: Legacy is an open source project based on the code of Wolfenstein: Enemy Territory which was released in 2010 under the terms of the GPLv3 license";
     homepage = "https://etlegacy.com";
-    license = with lib.licenses; [ gpl3 cc-by-nc-sa-30 ];
+    license = with lib.licenses; [
+      gpl3
+      cc-by-nc-sa-30
+    ];
     longDescription = ''
       ET: Legacy, an open source project fully compatible client and server
       for the popular online FPS game Wolfenstein: Enemy Territory - whose
       gameplay is still considered unmatched by many, despite its great age.
     '';
     mainProgram = "etl";
-    maintainers = with lib.maintainers; [ ashleyghooper drupol ];
+    maintainers = with lib.maintainers; [
+      ashleyghooper
+      drupol
+    ];
     platforms = lib.platforms.linux;
   };
 }

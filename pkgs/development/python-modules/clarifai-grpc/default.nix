@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, setuptools
-, googleapis-common-protos
-, grpcio
-, protobuf
-, requests
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  setuptools,
+  googleapis-common-protos,
+  grpcio,
+  protobuf,
+  requests,
 }:
 
 buildPythonPackage rec {
@@ -23,9 +24,7 @@ buildPythonPackage rec {
     hash = "sha256-8U1e4NOvi2+8GFMXwKiAiCyMYTsfKGW728v0tk6WlgQ=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     googleapis-common-protos

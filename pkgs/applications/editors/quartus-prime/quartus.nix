@@ -1,5 +1,16 @@
-{ stdenv, lib, unstick, fetchurl
-, supportedDevices ? [ "Arria II" "Cyclone V" "Cyclone IV" "Cyclone 10 LP" "MAX II/V" "MAX 10 FPGA" ]
+{
+  stdenv,
+  lib,
+  unstick,
+  fetchurl,
+  supportedDevices ? [
+    "Arria II"
+    "Cyclone V"
+    "Cyclone IV"
+    "Cyclone 10 LP"
+    "MAX II/V"
+    "MAX 10 FPGA"
+  ],
 }:
 
 let
@@ -13,15 +24,18 @@ let
   };
 
   supportedDeviceIds =
-    assert lib.assertMsg (lib.all (name: lib.hasAttr name deviceIds) supportedDevices)
-      "Supported devices are: ${lib.concatStringsSep ", " (lib.attrNames deviceIds)}";
-    lib.listToAttrs (map (name: {
-      inherit name;
-      value = deviceIds.${name};
-    }) supportedDevices);
+    assert lib.assertMsg (lib.all (
+      name: lib.hasAttr name deviceIds
+    ) supportedDevices) "Supported devices are: ${lib.concatStringsSep ", " (lib.attrNames deviceIds)}";
+    lib.listToAttrs (
+      map (name: {
+        inherit name;
+        value = deviceIds.${name};
+      }) supportedDevices
+    );
 
-  unsupportedDeviceIds = lib.filterAttrs (name: value:
-    !(lib.hasAttr name supportedDeviceIds)
+  unsupportedDeviceIds = lib.filterAttrs (
+    name: value: !(lib.hasAttr name supportedDeviceIds)
   ) deviceIds;
 
   componentHashes = {
@@ -35,47 +49,59 @@ let
 
   version = "23.1std.0.991";
 
-  download = {name, sha256}: fetchurl {
-    inherit name sha256;
-    # e.g. "23.1std.0.991" -> "23.1std/921"
-    url = "https://downloads.intel.com/akdlm/software/acdsinst/${lib.versions.majorMinor version}std/${lib.elemAt (lib.splitVersion version) 4}/ib_installers/${name}";
-  };
-
-in stdenv.mkDerivation rec {
+  download =
+    { name, sha256 }:
+    fetchurl {
+      inherit name sha256;
+      # e.g. "23.1std.0.991" -> "23.1std/921"
+      url = "https://downloads.intel.com/akdlm/software/acdsinst/${lib.versions.majorMinor version}std/${
+        lib.elemAt (lib.splitVersion version) 4
+      }/ib_installers/${name}";
+    };
+in
+stdenv.mkDerivation rec {
   inherit version;
   pname = "quartus-prime-lite-unwrapped";
 
-  src = map download ([{
-    name = "QuartusLiteSetup-${version}-linux.run";
-    sha256 = "1mg4db56rg407kdsvpzys96z59bls8djyddfzxi6bdikcklxz98h";
-  } {
-    name = "QuestaSetup-${version}-linux.run";
-    sha256 = "0f9lyphk4vf4ijif3kb4iqf18jl357z9h8g16kwnzaqwfngh2ixk";
-  }] ++ (map (id: {
-    name = "${id}-${version}.qdz";
-    sha256 = lib.getAttr id componentHashes;
-  }) (lib.attrValues supportedDeviceIds)));
+  src = map download (
+    [
+      {
+        name = "QuartusLiteSetup-${version}-linux.run";
+        sha256 = "1mg4db56rg407kdsvpzys96z59bls8djyddfzxi6bdikcklxz98h";
+      }
+      {
+        name = "QuestaSetup-${version}-linux.run";
+        sha256 = "0f9lyphk4vf4ijif3kb4iqf18jl357z9h8g16kwnzaqwfngh2ixk";
+      }
+    ]
+    ++ (map (id: {
+      name = "${id}-${version}.qdz";
+      sha256 = lib.getAttr id componentHashes;
+    }) (lib.attrValues supportedDeviceIds))
+  );
 
   nativeBuildInputs = [ unstick ];
 
-  buildCommand = let
-    installers = lib.sublist 0 2 src;
-    components = lib.sublist 2 ((lib.length src) - 2) src;
-    copyInstaller = installer: ''
+  buildCommand =
+    let
+      installers = lib.sublist 0 2 src;
+      components = lib.sublist 2 ((lib.length src) - 2) src;
+      copyInstaller = installer: ''
         # `$(cat $NIX_CC/nix-support/dynamic-linker) $src[0]` often segfaults, so cp + patchelf
         cp ${installer} $TEMP/${installer.name}
         chmod u+w,+x $TEMP/${installer.name}
         patchelf --interpreter $(cat $NIX_CC/nix-support/dynamic-linker) $TEMP/${installer.name}
       '';
-    copyComponent = component: "cp ${component} $TEMP/${component.name}";
-    # leaves enabled: quartus, questa_fse, devinfo
-    disabledComponents = [
-      "quartus_help"
-      "quartus_update"
-      # not questa_fse
-      "questa_fe"
-    ] ++ (lib.attrValues unsupportedDeviceIds);
-  in ''
+      copyComponent = component: "cp ${component} $TEMP/${component.name}";
+      # leaves enabled: quartus, questa_fse, devinfo
+      disabledComponents = [
+        "quartus_help"
+        "quartus_update"
+        # not questa_fse
+        "questa_fe"
+      ] ++ (lib.attrValues unsupportedDeviceIds);
+    in
+    ''
       ${lib.concatMapStringsSep "\n" copyInstaller installers}
       ${lib.concatMapStringsSep "\n" copyComponent components}
 

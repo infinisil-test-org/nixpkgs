@@ -1,10 +1,11 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, pkg-config
-, dbus
-, hidapi
-, udev
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  pkg-config,
+  dbus,
+  hidapi,
+  udev,
 }:
 
 stdenv.mkDerivation rec {
@@ -22,9 +23,7 @@ stdenv.mkDerivation rec {
     substituteInPlace Makefile --replace "/usr/" "/"
   '';
 
-  nativeBuildInputs = [
-    pkg-config
-  ];
+  nativeBuildInputs = [ pkg-config ];
 
   buildInputs = [
     dbus
@@ -32,9 +31,7 @@ stdenv.mkDerivation rec {
     udev
   ];
 
-  makeFlags = [
-    "DESTDIR=$(out)"
-  ];
+  makeFlags = [ "DESTDIR=$(out)" ];
 
   meta = with lib; {
     description = "Linux tool for controlling PS5 DualSense controller";

@@ -40,7 +40,11 @@ self: super: {
   stm = null;
   template-haskell = null;
   # GHC only builds terminfo if it is a native compiler
-  terminfo = if pkgs.stdenv.hostPlatform == pkgs.stdenv.buildPlatform then null else doDistribute self.terminfo_0_4_1_6;
+  terminfo =
+    if pkgs.stdenv.hostPlatform == pkgs.stdenv.buildPlatform then
+      null
+    else
+      doDistribute self.terminfo_0_4_1_6;
   text = null;
   time = null;
   transformers = null;
@@ -58,27 +62,27 @@ self: super: {
   # weeder >= 2.5 requires GHC 9.4
   weeder = doDistribute self.weeder_2_4_1;
   # Allow dhall 1.42.*
-  weeder_2_4_1 = doJailbreak (super.weeder_2_4_1.override {
-    # weeder < 2.6 only supports algebraic-graphs < 0.7
-    # We no longer have matching test deps for algebraic-graphs 0.6.1 in the set
-    algebraic-graphs = dontCheck self.algebraic-graphs_0_6_1;
-  });
+  weeder_2_4_1 = doJailbreak (
+    super.weeder_2_4_1.override {
+      # weeder < 2.6 only supports algebraic-graphs < 0.7
+      # We no longer have matching test deps for algebraic-graphs 0.6.1 in the set
+      algebraic-graphs = dontCheck self.algebraic-graphs_0_6_1;
+    }
+  );
 
-  hls-cabal-plugin = super.hls-cabal-plugin.override {
-    Cabal-syntax = self.Cabal-syntax_3_8_1_0;
-  };
+  hls-cabal-plugin = super.hls-cabal-plugin.override { Cabal-syntax = self.Cabal-syntax_3_8_1_0; };
 
-  ormolu = self.ormolu_0_5_2_0.override {
-    Cabal-syntax = self.Cabal-syntax_3_8_1_0;
-  };
+  ormolu = self.ormolu_0_5_2_0.override { Cabal-syntax = self.Cabal-syntax_3_8_1_0; };
 
   stylish-haskell = doJailbreak super.stylish-haskell_0_14_4_0;
 
-  haskell-language-server = disableCabalFlag "fourmolu" (super.haskell-language-server.override {
-    hls-fourmolu-plugin = null;
-    # Not buildable if GHC > 9.2.3, so we ship no compatible GHC
-    hls-stan-plugin = null;
-  });
+  haskell-language-server = disableCabalFlag "fourmolu" (
+    super.haskell-language-server.override {
+      hls-fourmolu-plugin = null;
+      # Not buildable if GHC > 9.2.3, so we ship no compatible GHC
+      hls-stan-plugin = null;
+    }
+  );
   # For GHC < 9.4, some packages need data-array-byte as an extra dependency
   hashable = addBuildDepends [ self.data-array-byte ] super.hashable;
   primitive = addBuildDepends [ self.data-array-byte ] super.primitive;
@@ -119,8 +123,8 @@ self: super: {
 
   # https://github.com/fpco/inline-c/pull/131
   inline-c-cpp =
-    (if isDarwin then appendConfigureFlags ["--ghc-option=-fcompact-unwind"] else x: x)
-    super.inline-c-cpp;
+    (if isDarwin then appendConfigureFlags [ "--ghc-option=-fcompact-unwind" ] else x: x)
+      super.inline-c-cpp;
 
   # A given major version of ghc-exactprint only supports one version of GHC.
   ghc-exactprint = super.ghc-exactprint_1_5_0;

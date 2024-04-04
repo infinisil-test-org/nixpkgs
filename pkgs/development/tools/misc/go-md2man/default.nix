@@ -1,4 +1,8 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+}:
 
 buildGoModule rec {
   pname = "go-md2man";
@@ -17,6 +21,6 @@ buildGoModule rec {
     description = "Go tool to convert markdown to man pages";
     license = licenses.mit;
     homepage = "https://github.com/cpuguy83/go-md2man";
-    maintainers = with maintainers; [offline];
+    maintainers = with maintainers; [ offline ];
   };
 }

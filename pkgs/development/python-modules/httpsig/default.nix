@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, setuptools-scm
-, pycryptodome
-, requests
-, six
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  setuptools-scm,
+  pycryptodome,
+  requests,
+  six,
 }:
 
 buildPythonPackage rec {
@@ -17,9 +18,7 @@ buildPythonPackage rec {
     sha256 = "1rkc3zwsq53rjsmc47335m4viljiwdbmw3y2zry4z70j8q1dbmki";
   };
 
-  buildInputs = [
-    setuptools-scm
-  ];
+  buildInputs = [ setuptools-scm ];
 
   propagatedBuildInputs = [
     pycryptodome

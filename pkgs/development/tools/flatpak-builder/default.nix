@@ -1,54 +1,62 @@
-{ lib, stdenv
-, fetchurl
-, substituteAll
-, nixosTests
+{
+  lib,
+  stdenv,
+  fetchurl,
+  substituteAll,
+  nixosTests,
 
-, autoreconfHook
-, docbook_xml_dtd_412
-, docbook_xml_dtd_42
-, docbook_xml_dtd_43
-, docbook_xsl
-, gettext
-, libxml2
-, libxslt
-, pkg-config
-, xmlto
+  autoreconfHook,
+  docbook_xml_dtd_412,
+  docbook_xml_dtd_42,
+  docbook_xml_dtd_43,
+  docbook_xsl,
+  gettext,
+  libxml2,
+  libxslt,
+  pkg-config,
+  xmlto,
 
-, acl
-, breezy
-, binutils
-, bzip2
-, coreutils
-, cpio
-, curl
-, debugedit
-, elfutils
-, flatpak
-, gitMinimal
-, glib
-, glibcLocales
-, gnumake
-, gnupg
-, gnutar
-, json-glib
-, libcap
-, libsoup
-, libyaml
-, ostree
-, patch
-, python2
-, rpm
-, unzip
+  acl,
+  breezy,
+  binutils,
+  bzip2,
+  coreutils,
+  cpio,
+  curl,
+  debugedit,
+  elfutils,
+  flatpak,
+  gitMinimal,
+  glib,
+  glibcLocales,
+  gnumake,
+  gnupg,
+  gnutar,
+  json-glib,
+  libcap,
+  libsoup,
+  libyaml,
+  ostree,
+  patch,
+  python2,
+  rpm,
+  unzip,
 }:
 
 let
   installed_testdir = "${placeholder "installedTests"}/libexec/installed-tests/flatpak-builder";
   installed_test_metadir = "${placeholder "installedTests"}/share/installed-tests/flatpak-builder";
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "flatpak-builder";
   version = "1.2.3";
 
-  outputs = [ "out" "doc" "man" "installedTests" ];
+  outputs = [
+    "out"
+    "doc"
+    "man"
+    "installedTests"
+  ];
 
   src = fetchurl {
     url = "https://github.com/flatpak/flatpak-builder/releases/download/${version}/${pname}-${version}.tar.xz";

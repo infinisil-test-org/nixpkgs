@@ -1,4 +1,10 @@
-{ lib, buildDunePackage, ocaml, fetchurl, alcotest }:
+{
+  lib,
+  buildDunePackage,
+  ocaml,
+  fetchurl,
+  alcotest,
+}:
 
 buildDunePackage rec {
   pname = "duration";
@@ -20,5 +26,4 @@ buildDunePackage rec {
     license = lib.licenses.isc;
     maintainers = [ lib.maintainers.vbgl ];
   };
-
 }

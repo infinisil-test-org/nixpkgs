@@ -1,32 +1,33 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, asciidoctor
-, autoreconfHook
-, cairo
-, fontconfig
-, freetype
-, fribidi
-, libSM
-, libX11
-, libXcursor
-, libXft
-, libXi
-, libXinerama
-, libXpm
-, libXrandr
-, libXt
-, libevent
-, libintl
-, libpng
-, librsvg
-, libstroke
-, libxslt
-, perl
-, pkg-config
-, python3Packages
-, readline
-, sharutils
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  asciidoctor,
+  autoreconfHook,
+  cairo,
+  fontconfig,
+  freetype,
+  fribidi,
+  libSM,
+  libX11,
+  libXcursor,
+  libXft,
+  libXi,
+  libXinerama,
+  libXpm,
+  libXrandr,
+  libXt,
+  libevent,
+  libintl,
+  libpng,
+  librsvg,
+  libstroke,
+  libxslt,
+  perl,
+  pkg-config,
+  python3Packages,
+  readline,
+  sharutils,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -73,13 +74,9 @@ stdenv.mkDerivation (finalAttrs: {
     sharutils
   ];
 
-  pythonPath = [
-    python3Packages.pyxdg
-  ];
+  pythonPath = [ python3Packages.pyxdg ];
 
-  configureFlags = [
-    "--enable-mandoc"
-  ];
+  configureFlags = [ "--enable-mandoc" ];
 
   postFixup = ''
     wrapPythonPrograms

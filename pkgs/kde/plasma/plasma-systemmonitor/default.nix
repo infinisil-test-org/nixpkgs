@@ -1,4 +1,1 @@
-{mkKdeDerivation}:
-mkKdeDerivation {
-  pname = "plasma-systemmonitor";
-}
+{ mkKdeDerivation }: mkKdeDerivation { pname = "plasma-systemmonitor"; }

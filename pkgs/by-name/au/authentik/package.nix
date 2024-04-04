@@ -1,14 +1,16 @@
-{ lib
-, stdenvNoCC
-, fetchFromGitHub
-, buildNpmPackage
-, buildGoModule
-, runCommand
-, openapi-generator-cli
-, nodejs
-, python3
-, codespell
-, makeWrapper }:
+{
+  lib,
+  stdenvNoCC,
+  fetchFromGitHub,
+  buildNpmPackage,
+  buildGoModule,
+  runCommand,
+  openapi-generator-cli,
+  nodejs,
+  python3,
+  codespell,
+  makeWrapper,
+}:
 
 let
   version = "2023.10.7";
@@ -76,7 +78,7 @@ let
     pname = "authentik-webui";
     inherit version meta;
 
-    src = runCommand "authentik-webui-source" {} ''
+    src = runCommand "authentik-webui-source" { } ''
       mkdir -p $out/web/node_modules/@goauthentik/
       cp -r ${src}/web $out/
       ln -s ${src}/website $out/
@@ -124,64 +126,65 @@ let
 
         nativeBuildInputs = [ prev.poetry-core ];
 
-        propagatedBuildInputs = with prev; [
-          argon2-cffi
-          celery
-          channels
-          channels-redis
-          colorama
-          dacite
-          daphne
-          deepmerge
-          defusedxml
-          django
-          django-filter
-          django-guardian
-          django-model-utils
-          django-prometheus
-          django-redis
-          djangorestframework
-          djangorestframework-guardian2
-          docker
-          drf-spectacular
-          duo-client
-          facebook-sdk
-          flower
-          geoip2
-          gunicorn
-          httptools
-          kubernetes
-          ldap3
-          lxml
-          opencontainers
-          packaging
-          paramiko
-          psycopg
-          pycryptodome
-          pydantic
-          pydantic-scim
-          pyjwt
-          pyyaml
-          requests-oauthlib
-          sentry-sdk
-          structlog
-          swagger-spec-validator
-          twilio
-          twisted
-          ua-parser
-          urllib3
-          uvicorn
-          uvloop
-          watchdog
-          webauthn
-          websockets
-          wsproto
-          xmlsec
-          zxcvbn
-          jsonpatch
-        ] ++ [
-          codespell
-        ];
+        propagatedBuildInputs =
+          with prev;
+          [
+            argon2-cffi
+            celery
+            channels
+            channels-redis
+            colorama
+            dacite
+            daphne
+            deepmerge
+            defusedxml
+            django
+            django-filter
+            django-guardian
+            django-model-utils
+            django-prometheus
+            django-redis
+            djangorestframework
+            djangorestframework-guardian2
+            docker
+            drf-spectacular
+            duo-client
+            facebook-sdk
+            flower
+            geoip2
+            gunicorn
+            httptools
+            kubernetes
+            ldap3
+            lxml
+            opencontainers
+            packaging
+            paramiko
+            psycopg
+            pycryptodome
+            pydantic
+            pydantic-scim
+            pyjwt
+            pyyaml
+            requests-oauthlib
+            sentry-sdk
+            structlog
+            swagger-spec-validator
+            twilio
+            twisted
+            ua-parser
+            urllib3
+            uvicorn
+            uvloop
+            watchdog
+            webauthn
+            websockets
+            wsproto
+            xmlsec
+            zxcvbn
+            jsonpatch
+          ]
+          ++ [ codespell ];
 
         postInstall = ''
           mkdir -p $out/web $out/website
@@ -220,8 +223,8 @@ let
 
     subPackages = [ "cmd/server" ];
   };
-
-in stdenvNoCC.mkDerivation {
+in
+stdenvNoCC.mkDerivation {
   pname = "authentik";
   inherit src version;
 
@@ -241,7 +244,12 @@ in stdenvNoCC.mkDerivation {
     cp -r lifecycle/ak $out/bin/
 
     wrapProgram $out/bin/ak \
-      --prefix PATH : ${lib.makeBinPath [ (python.withPackages (ps: [ps.authentik-django])) proxy ]} \
+      --prefix PATH : ${
+        lib.makeBinPath [
+          (python.withPackages (ps: [ ps.authentik-django ]))
+          proxy
+        ]
+      } \
       --set TMPDIR /dev/shm \
       --set PYTHONDONTWRITEBYTECODE 1 \
       --set PYTHONUNBUFFERED 1

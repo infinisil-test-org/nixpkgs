@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, impacket
-, netaddr
-, pythonOlder
-, pypykatz
-, rich
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  impacket,
+  netaddr,
+  pythonOlder,
+  pypykatz,
+  rich,
 }:
 
 buildPythonPackage rec {
@@ -32,9 +33,7 @@ buildPythonPackage rec {
   # Tests require an active domain controller
   doCheck = false;
 
-  pythonImportsCheck = [
-    "lsassy"
-  ];
+  pythonImportsCheck = [ "lsassy" ];
 
   meta = with lib; {
     description = "Python module to extract data from Local Security Authority Subsystem Service (LSASS)";

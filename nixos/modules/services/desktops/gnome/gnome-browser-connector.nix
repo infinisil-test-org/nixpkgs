@@ -1,7 +1,18 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
-  inherit (lib) mdDoc mkEnableOption mkIf mkRenamedOptionModule teams;
+  inherit (lib)
+    mdDoc
+    mkEnableOption
+    mkIf
+    mkRenamedOptionModule
+    teams
+    ;
 in
 
 {
@@ -12,13 +23,33 @@ in
   imports = [
     # Added 2021-05-07
     (mkRenamedOptionModule
-      [ "services" "gnome3" "chrome-gnome-shell" "enable" ]
-      [ "services" "gnome" "gnome-browser-connector" "enable" ]
+      [
+        "services"
+        "gnome3"
+        "chrome-gnome-shell"
+        "enable"
+      ]
+      [
+        "services"
+        "gnome"
+        "gnome-browser-connector"
+        "enable"
+      ]
     )
     # Added 2022-07-25
     (mkRenamedOptionModule
-      [ "services" "gnome" "chrome-gnome-shell" "enable" ]
-      [ "services" "gnome" "gnome-browser-connector" "enable" ]
+      [
+        "services"
+        "gnome"
+        "chrome-gnome-shell"
+        "enable"
+      ]
+      [
+        "services"
+        "gnome"
+        "gnome-browser-connector"
+        "enable"
+      ]
     )
   ];
 

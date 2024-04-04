@@ -1,4 +1,12 @@
-{ lib, stdenv, rustPlatform, fetchFromGitHub, boost, nix, pkg-config }:
+{
+  lib,
+  stdenv,
+  rustPlatform,
+  fetchFromGitHub,
+  boost,
+  nix,
+  pkg-config,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "nix-doc";
@@ -12,9 +20,15 @@ rustPlatform.buildRustPackage rec {
   };
 
   doCheck = true;
-  buildInputs = [ boost nix ];
+  buildInputs = [
+    boost
+    nix
+  ];
 
-  nativeBuildInputs = [ pkg-config nix ];
+  nativeBuildInputs = [
+    pkg-config
+    nix
+  ];
 
   # Packaging support for making the nix-doc plugin load cleanly as a no-op on
   # the wrong Nix version (disabling bindnow permits loading libraries

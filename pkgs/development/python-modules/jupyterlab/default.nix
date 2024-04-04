@@ -1,20 +1,21 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, hatch-jupyter-builder
-, hatchling
-, async-lru
-, packaging
-, tornado
-, ipykernel
-, jupyter-core
-, jupyter-lsp
-, jupyterlab-server
-, jupyter-server
-, notebook-shim
-, jinja2
-, tomli
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  hatch-jupyter-builder,
+  hatchling,
+  async-lru,
+  packaging,
+  tornado,
+  ipykernel,
+  jupyter-core,
+  jupyter-lsp,
+  jupyterlab-server,
+  jupyter-server,
+  notebook-shim,
+  jinja2,
+  tomli,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -45,9 +46,7 @@ buildPythonPackage rec {
     jupyter-server
     notebook-shim
     jinja2
-  ] ++ lib.optionals (pythonOlder "3.11") [
-    tomli
-  ];
+  ] ++ lib.optionals (pythonOlder "3.11") [ tomli ];
 
   makeWrapperArgs = [
     "--set"
@@ -58,9 +57,7 @@ buildPythonPackage rec {
   # Depends on npm
   doCheck = false;
 
-  pythonImportsCheck = [
-    "jupyterlab"
-  ];
+  pythonImportsCheck = [ "jupyterlab" ];
 
   meta = with lib; {
     changelog = "https://github.com/jupyterlab/jupyterlab/blob/v${version}/CHANGELOG.md";

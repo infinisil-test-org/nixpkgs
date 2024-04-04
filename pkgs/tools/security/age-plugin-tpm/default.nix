@@ -1,8 +1,9 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
-, swtpm
-, openssl
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  swtpm,
+  openssl,
 }:
 
 buildGoModule rec {
@@ -20,13 +21,9 @@ buildGoModule rec {
 
   vendorHash = "sha256-BSb+8p5+RJMfcYc2+BuT4YbhCWCbcYOt9upesD11Ytw=";
 
-  nativeCheckInputs = [
-    swtpm
-  ];
+  nativeCheckInputs = [ swtpm ];
 
-  buildInputs = [
-    openssl
-  ];
+  buildInputs = [ openssl ];
 
   ldflags = [
     "-s"
@@ -38,6 +35,9 @@ buildGoModule rec {
     homepage = "https://github.com/Foxboron/age-plugin-tpm";
     license = licenses.mit;
     platforms = platforms.linux;
-    maintainers = with maintainers; [ kranzes sgo ];
+    maintainers = with maintainers; [
+      kranzes
+      sgo
+    ];
   };
 }

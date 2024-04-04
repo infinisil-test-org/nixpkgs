@@ -1,4 +1,8 @@
-{ appimageTools, lib, fetchurl }:
+{
+  appimageTools,
+  lib,
+  fetchurl,
+}:
 
 appimageTools.wrapType2 rec {
   pname = "cider";
@@ -10,8 +14,10 @@ appimageTools.wrapType2 rec {
   };
 
   extraInstallCommands =
-    let contents = appimageTools.extract { inherit pname version src; };
-    in ''
+    let
+      contents = appimageTools.extract { inherit pname version src; };
+    in
+    ''
       mv $out/bin/${pname}-${version} $out/bin/${pname}
 
       install -m 444 -D ${contents}/${pname}.desktop -t $out/share/applications

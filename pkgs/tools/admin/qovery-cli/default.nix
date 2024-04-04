@@ -1,9 +1,10 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
-, installShellFiles
-, qovery-cli
-, testers
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  installShellFiles,
+  qovery-cli,
+  testers,
 }:
 
 buildGoModule rec {
@@ -19,9 +20,7 @@ buildGoModule rec {
 
   vendorHash = "sha256-XG0dOEpu+NoQmklsukxev1gc2OsZc7fLEkv0AGwkh7o=";
 
-  nativeBuildInputs = [
-    installShellFiles
-  ];
+  nativeBuildInputs = [ installShellFiles ];
 
   postInstall = ''
     installShellCompletion --cmd ${pname} \

@@ -4,12 +4,21 @@ let
   inherit (lib) boolToString optionals;
 
   # See https://mesonbuild.com/Reference-tables.html#cpu-families
-  cpuFamily = platform: with platform;
-    /**/ if isAarch32 then "arm"
-    else if isx86_32  then "x86"
-    else platform.uname.processor;
+  cpuFamily =
+    platform:
+    with platform;
+    if isAarch32 then
+      "arm"
+    else if isx86_32 then
+      "x86"
+    else
+      platform.uname.processor;
 
-  makeMesonFlags = { mesonFlags ? [], ... }:
+  makeMesonFlags =
+    {
+      mesonFlags ? [ ],
+      ...
+    }:
     let
       crossFile = builtins.toFile "cross-file.conf" ''
         [properties]
@@ -26,9 +35,11 @@ let
         llvm-config = 'llvm-config-native'
         rust = ['rustc', '--target', '${stdenv.targetPlatform.rust.rustcTargetSpec}']
       '';
-      crossFlags = optionals (stdenv.hostPlatform != stdenv.buildPlatform) [ "--cross-file=${crossFile}" ];
-    in crossFlags ++ mesonFlags;
-
+      crossFlags = optionals (stdenv.hostPlatform != stdenv.buildPlatform) [
+        "--cross-file=${crossFile}"
+      ];
+    in
+    crossFlags ++ mesonFlags;
 in
 {
   inherit makeMesonFlags;

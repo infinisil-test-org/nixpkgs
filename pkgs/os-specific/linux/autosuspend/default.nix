@@ -1,7 +1,8 @@
-{ lib
-, fetchFromGitHub
-, fetchPypi
-, python3
+{
+  lib,
+  fetchFromGitHub,
+  fetchPypi,
+  python3,
 }:
 
 let
@@ -16,9 +17,7 @@ let
           inherit version;
           hash = "sha256-7jLvjCCAPBmpbtNmrd09SnKe9jCctcc1mgzC7ut/pGo=";
         };
-        propagatedBuildInputs = with self; [
-          pytz-deprecation-shim
-        ];
+        propagatedBuildInputs = with self; [ pytz-deprecation-shim ];
       });
     };
   };
@@ -78,7 +77,10 @@ python.pkgs.buildPythonApplication rec {
     homepage = "https://autosuspend.readthedocs.io";
     changelog = "https://github.com/languitar/autosuspend/releases/tag/v${version}";
     license = licenses.gpl2Only;
-    maintainers = with maintainers; [ bzizou anthonyroussel ];
+    maintainers = with maintainers; [
+      bzizou
+      anthonyroussel
+    ];
     mainProgram = "autosuspend";
     platforms = platforms.linux;
   };

@@ -1,16 +1,17 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, makeBinaryWrapper
-, meson
-, ninja
-, pkg-config
-, vala
-, wrapGAppsHook
-, gocryptfs
-, gtk3
-, json-glib
-, libgee
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  makeBinaryWrapper,
+  meson,
+  ninja,
+  pkg-config,
+  vala,
+  wrapGAppsHook,
+  gocryptfs,
+  gtk3,
+  json-glib,
+  libgee,
 }:
 
 stdenv.mkDerivation (finalAttrs: {

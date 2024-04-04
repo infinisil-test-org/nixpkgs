@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, poetry-core
-, argparse-dataclass
-, throttler
-, snakemake-interface-common
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  poetry-core,
+  argparse-dataclass,
+  throttler,
+  snakemake-interface-common,
 }:
 
 buildPythonPackage rec {
@@ -19,9 +20,7 @@ buildPythonPackage rec {
     hash = "sha256-ZkhayXWy83/INRH7FYwFkhgHL+nSj7ReYC9I97SEeTM=";
   };
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
   propagatedBuildInputs = [
     argparse-dataclass

@@ -1,32 +1,38 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchpatch
-, makeWrapper
-, cargo
-, curl
-, fd
-, fzf
-, git
-, gnumake
-, gnused
-, gnutar
-, gzip
-, lua-language-server
-, neovim
-, nodejs
-, nodePackages
-, ripgrep
-, tree-sitter
-, unzip
-, nvimAlias ? false
-, viAlias ? false
-, vimAlias ? false
-, globalConfig ? ""
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  makeWrapper,
+  cargo,
+  curl,
+  fd,
+  fzf,
+  git,
+  gnumake,
+  gnused,
+  gnutar,
+  gzip,
+  lua-language-server,
+  neovim,
+  nodejs,
+  nodePackages,
+  ripgrep,
+  tree-sitter,
+  unzip,
+  nvimAlias ? false,
+  viAlias ? false,
+  vimAlias ? false,
+  globalConfig ? "",
 }:
 
 stdenv.mkDerivation (finalAttrs: {
-  inherit nvimAlias viAlias vimAlias globalConfig;
+  inherit
+    nvimAlias
+    viAlias
+    vimAlias
+    globalConfig
+    ;
 
   pname = "lunarvim";
   version = "1.3.0";
@@ -40,12 +46,10 @@ stdenv.mkDerivation (finalAttrs: {
 
   # Pull in the fix for Nerd Fonts until the next release
   patches = [
-    (
-      fetchpatch {
-        url = "https://github.com/LunarVim/LunarVim/commit/d187cbd03fbc8bd1b59250869e0e325518bf8798.patch";
-        sha256 = "sha256-ktkQ2GiIOhbVOMjy1u5Bf8dJP4SXHdG4j9OEFa9Fm7w=";
-      }
-    )
+    (fetchpatch {
+      url = "https://github.com/LunarVim/LunarVim/commit/d187cbd03fbc8bd1b59250869e0e325518bf8798.patch";
+      sha256 = "sha256-ktkQ2GiIOhbVOMjy1u5Bf8dJP4SXHdG4j9OEFa9Fm7w=";
+    })
   ];
 
   nativeBuildInputs = [
@@ -102,37 +106,42 @@ stdenv.mkDerivation (finalAttrs: {
     # Allow language servers to be overridden by appending instead of prepending
     # the mason.nvim path.
     echo "lvim.builtin.mason.PATH = \"append\"" > share/lvim/global.lua
-    echo ${ lib.strings.escapeShellArg finalAttrs.globalConfig } >> share/lvim/global.lua
+    echo ${lib.strings.escapeShellArg finalAttrs.globalConfig} >> share/lvim/global.lua
     sed -i "s/add_to_path()/add_to_path(true)/" share/lvim/lua/lvim/core/mason.lua
     sed -i "/Log:set_level/idofile(\"$out/share/lvim/global.lua\")" share/lvim/lua/lvim/config/init.lua
 
     runHook postBuild
   '';
 
-  installPhase = ''
-    runHook preInstall
+  installPhase =
+    ''
+      runHook preInstall
 
-    mkdir -p $out
-    cp -r bin share $out
+      mkdir -p $out
+      cp -r bin share $out
 
-    for iconDir in utils/desktop/*/; do
-      install -Dm444 $iconDir/lvim.svg -t $out/share/icons/hicolor/$(basename $iconDir)/apps
-    done
+      for iconDir in utils/desktop/*/; do
+        install -Dm444 $iconDir/lvim.svg -t $out/share/icons/hicolor/$(basename $iconDir)/apps
+      done
 
-    install -Dm444 utils/desktop/lvim.desktop -t $out/share/applications
+      install -Dm444 utils/desktop/lvim.desktop -t $out/share/applications
 
-    wrapProgram $out/bin/lvim --prefix PATH : ${ lib.makeBinPath finalAttrs.runtimeDeps } \
-      --prefix LD_LIBRARY_PATH : ${stdenv.cc.cc.lib} \
-      --prefix CC : ${stdenv.cc.targetPrefix}cc
-  '' + lib.optionalString finalAttrs.nvimAlias ''
-    ln -s $out/bin/lvim $out/bin/nvim
-  '' + lib.optionalString finalAttrs.viAlias ''
-    ln -s $out/bin/lvim $out/bin/vi
-  '' + lib.optionalString finalAttrs.vimAlias ''
-    ln -s $out/bin/lvim $out/bin/vim
-  '' + ''
-    runHook postInstall
-  '';
+      wrapProgram $out/bin/lvim --prefix PATH : ${lib.makeBinPath finalAttrs.runtimeDeps} \
+        --prefix LD_LIBRARY_PATH : ${stdenv.cc.cc.lib} \
+        --prefix CC : ${stdenv.cc.targetPrefix}cc
+    ''
+    + lib.optionalString finalAttrs.nvimAlias ''
+      ln -s $out/bin/lvim $out/bin/nvim
+    ''
+    + lib.optionalString finalAttrs.viAlias ''
+      ln -s $out/bin/lvim $out/bin/vi
+    ''
+    + lib.optionalString finalAttrs.vimAlias ''
+      ln -s $out/bin/lvim $out/bin/vim
+    ''
+    + ''
+      runHook postInstall
+    '';
 
   meta = with lib; {
     description = "IDE layer for Neovim";

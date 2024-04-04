@@ -1,30 +1,36 @@
-{ stdenv
-, lib
-, docbook-xsl-nons
-, fetchurl
-, fetchpatch
-, glib
-, gobject-introspection
-, gtk-doc
-, libgudev
-, libpcap
-, meson
-, mesonEmulatorHook
-, ninja
-, pkg-config
-, python3
-, substituteAll
-, systemdMinimal
-, usbutils
-, vala
-, which
+{
+  stdenv,
+  lib,
+  docbook-xsl-nons,
+  fetchurl,
+  fetchpatch,
+  glib,
+  gobject-introspection,
+  gtk-doc,
+  libgudev,
+  libpcap,
+  meson,
+  mesonEmulatorHook,
+  ninja,
+  pkg-config,
+  python3,
+  substituteAll,
+  systemdMinimal,
+  usbutils,
+  vala,
+  which,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "umockdev";
   version = "0.17.18";
 
-  outputs = [ "bin" "out" "dev" "devdoc" ];
+  outputs = [
+    "bin"
+    "out"
+    "dev"
+    "devdoc"
+  ];
 
   src = fetchurl {
     url = "https://github.com/martinpitt/umockdev/releases/download/${finalAttrs.version}/umockdev-${finalAttrs.version}.tar.xz";
@@ -59,9 +65,7 @@ stdenv.mkDerivation (finalAttrs: {
     ninja
     pkg-config
     vala
-  ] ++ lib.optionals (!stdenv.buildPlatform.canExecute stdenv.hostPlatform) [
-    mesonEmulatorHook
-  ];
+  ] ++ lib.optionals (!stdenv.buildPlatform.canExecute stdenv.hostPlatform) [ mesonEmulatorHook ];
 
   buildInputs = [
     glib
@@ -69,9 +73,7 @@ stdenv.mkDerivation (finalAttrs: {
     libpcap
   ];
 
-  checkInputs = lib.optionals finalAttrs.passthru.withGudev [
-    libgudev
-  ];
+  checkInputs = lib.optionals finalAttrs.passthru.withGudev [ libgudev ];
 
   nativeCheckInputs = [
     python3
@@ -81,9 +83,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   strictDeps = true;
 
-  mesonFlags = [
-    "-Dgtk_doc=true"
-  ];
+  mesonFlags = [ "-Dgtk_doc=true" ];
 
   doCheck = true;
 

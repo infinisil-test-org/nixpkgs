@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, fetchurl
-, autoPatchelfHook
-, installShellFiles
+{
+  lib,
+  stdenv,
+  fetchurl,
+  autoPatchelfHook,
+  installShellFiles,
 }:
 
 let
@@ -43,8 +44,7 @@ stdenv.mkDerivation {
 
   buildInputs = lib.optionals stdenv.isLinux [ stdenv.cc.cc.lib ];
 
-  nativeBuildInputs = [ installShellFiles ]
-    ++ lib.optionals stdenv.isLinux [ autoPatchelfHook ];
+  nativeBuildInputs = [ installShellFiles ] ++ lib.optionals stdenv.isLinux [ autoPatchelfHook ];
 
   installPhase = ''
     runHook preInstall

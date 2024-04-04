@@ -1,19 +1,20 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchPypi
-, gevent
-, pytest-asyncio
-, pytest-tornado
-, pytestCheckHook
-, pythonOlder
-, pytz
-, setuptools
-, setuptools-scm
-, six
-, tornado
-, twisted
-, tzlocal
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchPypi,
+  gevent,
+  pytest-asyncio,
+  pytest-tornado,
+  pytestCheckHook,
+  pythonOlder,
+  pytz,
+  setuptools,
+  setuptools-scm,
+  six,
+  tornado,
+  twisted,
+  tzlocal,
 }:
 
 buildPythonPackage rec {
@@ -29,9 +30,7 @@ buildPythonPackage rec {
     hash = "sha256-5t8HGyfZvomOSGvHlAp75QtK8unafAjwdEqW1L1M70o=";
   };
 
-  buildInputs = [
-    setuptools-scm
-  ];
+  buildInputs = [ setuptools-scm ];
 
   propagatedBuildInputs = [
     pytz
@@ -54,20 +53,20 @@ buildPythonPackage rec {
       --replace " --cov --tb=short" ""
   '';
 
-  disabledTests = [
-    "test_broken_pool"
-    # gevent tests have issue on newer Python releases
-    "test_add_live_job"
-    "test_add_pending_job"
-    "test_shutdown"
-  ] ++ lib.optionals stdenv.isDarwin [
-    "test_submit_job"
-    "test_max_instances"
-  ];
+  disabledTests =
+    [
+      "test_broken_pool"
+      # gevent tests have issue on newer Python releases
+      "test_add_live_job"
+      "test_add_pending_job"
+      "test_shutdown"
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      "test_submit_job"
+      "test_max_instances"
+    ];
 
-  pythonImportsCheck = [
-    "apscheduler"
-  ];
+  pythonImportsCheck = [ "apscheduler" ];
 
   meta = with lib; {
     description = "Library that lets you schedule your Python code to be executed";

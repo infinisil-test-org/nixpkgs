@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, llama-index-core
-, llama-index-llms-openai
-, llama-index-program-openai
-, poetry-core
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  llama-index-core,
+  llama-index-llms-openai,
+  llama-index-program-openai,
+  poetry-core,
 }:
 
 buildPythonPackage rec {
@@ -16,9 +17,7 @@ buildPythonPackage rec {
 
   sourceRoot = "${src.name}/llama-index-integrations/question_gen/${pname}";
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
   propagatedBuildInputs = [
     llama-index-core
@@ -26,7 +25,5 @@ buildPythonPackage rec {
     llama-index-program-openai
   ];
 
-  pythonImportsCheck = [
-    "llama_index.question_gen.openai"
-  ];
+  pythonImportsCheck = [ "llama_index.question_gen.openai" ];
 }

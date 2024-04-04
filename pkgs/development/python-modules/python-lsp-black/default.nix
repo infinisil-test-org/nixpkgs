@@ -1,12 +1,13 @@
-{ lib
-, pythonOlder
-, buildPythonPackage
-, fetchFromGitHub
-, pytestCheckHook
-, black
-, python-lsp-server
-, setuptools
-, tomli
+{
+  lib,
+  pythonOlder,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pytestCheckHook,
+  black,
+  python-lsp-server,
+  setuptools,
+  tomli,
 }:
 
 buildPythonPackage rec {
@@ -22,22 +23,16 @@ buildPythonPackage rec {
     hash = "sha256-nV6mePSWzfPW2RwXg/mxgzfT9wD95mmTuPnPEro1kEY=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   nativeCheckInputs = [ pytestCheckHook ];
 
   propagatedBuildInputs = [
     black
     python-lsp-server
-  ] ++ lib.optionals (pythonOlder "3.11") [
-    tomli
-  ];
+  ] ++ lib.optionals (pythonOlder "3.11") [ tomli ];
 
-  pythonImportsCheck = [
-    "pylsp_black"
-  ];
+  pythonImportsCheck = [ "pylsp_black" ];
 
   meta = with lib; {
     homepage = "https://github.com/python-lsp/python-lsp-black";

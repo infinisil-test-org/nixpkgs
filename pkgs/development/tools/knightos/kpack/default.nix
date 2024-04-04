@@ -1,4 +1,11 @@
-{ lib, stdenv, fetchFromGitHub, cmake, asciidoc, libxslt }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  asciidoc,
+  libxslt,
+}:
 
 stdenv.mkDerivation rec {
   pname = "kpack";
@@ -14,15 +21,19 @@ stdenv.mkDerivation rec {
 
   strictDeps = true;
 
-  nativeBuildInputs = [ asciidoc cmake libxslt.bin ];
+  nativeBuildInputs = [
+    asciidoc
+    cmake
+    libxslt.bin
+  ];
 
   hardeningDisable = [ "fortify" ];
 
   meta = with lib; {
-    homepage    = "https://knightos.org/";
+    homepage = "https://knightos.org/";
     description = "A tool to create or extract KnightOS packages";
-    license     = licenses.lgpl2Only;
+    license = licenses.lgpl2Only;
     maintainers = with maintainers; [ siraben ];
-    platforms   = platforms.unix;
+    platforms = platforms.unix;
   };
 }

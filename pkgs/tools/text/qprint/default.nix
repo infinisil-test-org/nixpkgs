@@ -1,4 +1,8 @@
-{ fetchurl, lib, stdenv }:
+{
+  fetchurl,
+  lib,
+  stdenv,
+}:
 
 stdenv.mkDerivation rec {
   pname = "qprint";
@@ -25,5 +29,4 @@ stdenv.mkDerivation rec {
     maintainers = [ lib.maintainers.tv ];
     platforms = lib.platforms.all;
   };
-
 }

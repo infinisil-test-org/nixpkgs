@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -6,11 +11,19 @@ let
   cfg = config.services.syncplay;
 
   cmdArgs =
-    [ "--port" cfg.port ]
-    ++ optionals (cfg.salt != null) [ "--salt" cfg.salt ]
-    ++ optionals (cfg.certDir != null) [ "--tls" cfg.certDir ]
+    [
+      "--port"
+      cfg.port
+    ]
+    ++ optionals (cfg.salt != null) [
+      "--salt"
+      cfg.salt
+    ]
+    ++ optionals (cfg.certDir != null) [
+      "--tls"
+      cfg.certDir
+    ]
     ++ cfg.extraArgs;
-
 in
 {
   options = {
@@ -113,7 +126,8 @@ in
       serviceConfig = {
         User = cfg.user;
         Group = cfg.group;
-        LoadCredential = lib.optional (cfg.passwordFile != null) "password:${cfg.passwordFile}"
+        LoadCredential =
+          lib.optional (cfg.passwordFile != null) "password:${cfg.passwordFile}"
           ++ lib.optional (cfg.saltFile != null) "salt:${cfg.saltFile}";
       };
 

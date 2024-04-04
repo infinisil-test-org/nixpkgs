@@ -1,34 +1,35 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, stdenv
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  stdenv,
 
-# build-system
-, hatchling
+  # build-system
+  hatchling,
 
-# dependencies
-, decorator
-, httptools
-, python-magic
-, urllib3
+  # dependencies
+  decorator,
+  httptools,
+  python-magic,
+  urllib3,
 
-# optional-dependencies
-, xxhash
-, pook
+  # optional-dependencies
+  xxhash,
+  pook,
 
-# tests
-, aiohttp
-, asgiref
-, fastapi
-, gevent
-, httpx
-, pytest-asyncio
-, pytestCheckHook
-, redis
-, redis-server
-, requests
-, sure
+  # tests
+  aiohttp,
+  asgiref,
+  fastapi,
+  gevent,
+  httpx,
+  pytest-asyncio,
+  pytestCheckHook,
+  redis,
+  redis-server,
+  requests,
+  sure,
 
 }:
 
@@ -42,9 +43,7 @@ buildPythonPackage rec {
     hash = "sha256-BN9S5/mku+HT1vglyobgHZPWsY0yvbfQfpMRUKrnJQQ=";
   };
 
-  nativeBuildInputs = [
-    hatchling
-  ];
+  nativeBuildInputs = [ hatchling ];
 
   propagatedBuildInputs = [
     decorator
@@ -54,27 +53,24 @@ buildPythonPackage rec {
   ];
 
   passthru.optional-dependencies = {
-    pook = [
-      pook
-    ];
-    speedups = [
-      xxhash
-    ];
+    pook = [ pook ];
+    speedups = [ xxhash ];
   };
 
-  nativeCheckInputs = [
-    asgiref
-    fastapi
-    gevent
-    httpx
-    pytest-asyncio
-    pytestCheckHook
-    redis
-    requests
-    sure
-  ] ++ lib.optionals (pythonOlder "3.12") [
-    aiohttp
-  ] ++ lib.flatten (builtins.attrValues passthru.optional-dependencies);
+  nativeCheckInputs =
+    [
+      asgiref
+      fastapi
+      gevent
+      httpx
+      pytest-asyncio
+      pytestCheckHook
+      redis
+      requests
+      sure
+    ]
+    ++ lib.optionals (pythonOlder "3.12") [ aiohttp ]
+    ++ lib.flatten (builtins.attrValues passthru.optional-dependencies);
 
   preCheck = lib.optionalString stdenv.isLinux ''
     ${redis-server}/bin/redis-server &
@@ -97,13 +93,9 @@ buildPythonPackage rec {
     "test_gethostbyname"
   ];
 
-  disabledTestPaths = lib.optionals stdenv.isDarwin [
-    "tests/main/test_redis.py"
-  ];
+  disabledTestPaths = lib.optionals stdenv.isDarwin [ "tests/main/test_redis.py" ];
 
-  pythonImportsCheck = [
-    "mocket"
-  ];
+  pythonImportsCheck = [ "mocket" ];
 
   meta = with lib; {
     changelog = "https://github.com/mindflayer/python-mocket/releases/tag/${version}";

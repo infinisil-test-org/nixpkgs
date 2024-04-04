@@ -1,24 +1,25 @@
-{ lib
-, overrideCC
-, stdenv
-, fetchFromGitHub
-, gitUpdater
-, cctools
-, sigtool
-, cereal
-, libcxx
-, glslang
-, spirv-cross
-, spirv-headers
-, spirv-tools
-, vulkan-headers
-, xcbuild
-, AppKit
-, Foundation
-, Libsystem
-, MacOSX-SDK
-, Metal
-, QuartzCore
+{
+  lib,
+  overrideCC,
+  stdenv,
+  fetchFromGitHub,
+  gitUpdater,
+  cctools,
+  sigtool,
+  cereal,
+  libcxx,
+  glslang,
+  spirv-cross,
+  spirv-headers,
+  spirv-tools,
+  vulkan-headers,
+  xcbuild,
+  AppKit,
+  Foundation,
+  Libsystem,
+  MacOSX-SDK,
+  Metal,
+  QuartzCore,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -38,9 +39,17 @@ stdenv.mkDerivation (finalAttrs: {
     vulkan-headers
   ];
 
-  nativeBuildInputs = [ cctools sigtool xcbuild ];
+  nativeBuildInputs = [
+    cctools
+    sigtool
+    xcbuild
+  ];
 
-  outputs = [ "out" "bin" "dev" ];
+  outputs = [
+    "out"
+    "bin"
+    "dev"
+  ];
 
   src = fetchFromGitHub {
     owner = "KhronosGroup";
@@ -147,9 +156,7 @@ stdenv.mkDerivation (finalAttrs: {
     codesign -s - -f "$bin/bin/MoltenVKShaderConverter"
   '';
 
-  passthru.updateScript = gitUpdater {
-    rev-prefix = "v";
-  };
+  passthru.updateScript = gitUpdater { rev-prefix = "v"; };
 
   meta = {
     description = "A Vulkan Portability implementation built on top of Apple’s Metal API";

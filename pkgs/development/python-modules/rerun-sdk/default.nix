@@ -64,7 +64,12 @@ buildPythonPackage {
 
   meta = {
     description = "Python bindings for `rerun` (an interactive visualization tool for stream data)";
-    inherit (rerun.meta) changelog homepage license maintainers;
+    inherit (rerun.meta)
+      changelog
+      homepage
+      license
+      maintainers
+      ;
     mainProgram = "rerun";
   };
 }

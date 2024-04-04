@@ -1,10 +1,10 @@
-{ fetchPypi
-, lib
-, buildPythonPackage
-, setuptools
-, numpy
-, wheel
-,
+{
+  fetchPypi,
+  lib,
+  buildPythonPackage,
+  setuptools,
+  numpy,
+  wheel,
 }:
 buildPythonPackage rec {
   pname = "gekko";
@@ -23,9 +23,7 @@ buildPythonPackage rec {
 
   pythonImportsCheck = [ "gekko" ];
 
-  propagatedBuildInputs = [
-    numpy
-  ];
+  propagatedBuildInputs = [ numpy ];
 
   meta = with lib; {
     homepage = "https://github.com/BYU-PRISM/GEKKO";

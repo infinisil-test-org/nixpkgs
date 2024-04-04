@@ -1,14 +1,15 @@
-{ stdenv
-, lib
-, buildPythonPackage
-, fetchFromGitHub
-, attrs
-, pendulum
-, poetry-core
-, pprintpp
-, pytestCheckHook
-, pythonRelaxDepsHook
-, wrapt
+{
+  stdenv,
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  attrs,
+  pendulum,
+  poetry-core,
+  pprintpp,
+  pytestCheckHook,
+  pythonRelaxDepsHook,
+  wrapt,
 }:
 
 buildPythonPackage rec {
@@ -41,13 +42,9 @@ buildPythonPackage rec {
     wrapt
   ];
 
-  pythonRelaxDeps = [
-    "attrs"
-  ];
+  pythonRelaxDeps = [ "attrs" ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   disabledTests = lib.optionals stdenv.isDarwin [
     # Skip on macOS because /etc/localtime is accessed through the pendulum
@@ -63,9 +60,7 @@ buildPythonPackage rec {
     "tests/test_misc.py"
   ];
 
-  pythonImportsCheck = [
-    "tbm_utils"
-  ];
+  pythonImportsCheck = [ "tbm_utils" ];
 
   meta = {
     description = "A commonly-used set of utilities";

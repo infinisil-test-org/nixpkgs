@@ -1,14 +1,15 @@
-{ stdenv
-, lib
-, buildPythonPackage
-, cryptography
-, dask
-, distributed
-, docrep
-, fetchPypi
-, pytest-asyncio
-, pytestCheckHook
-, pythonOlder
+{
+  stdenv,
+  lib,
+  buildPythonPackage,
+  cryptography,
+  dask,
+  distributed,
+  docrep,
+  fetchPypi,
+  pytest-asyncio,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -73,9 +74,7 @@ buildPythonPackage rec {
     "test_wrong_parameter_error"
   ];
 
-  pythonImportsCheck = [
-    "dask_jobqueue"
-  ];
+  pythonImportsCheck = [ "dask_jobqueue" ];
 
   meta = with lib; {
     broken = stdenv.isDarwin;

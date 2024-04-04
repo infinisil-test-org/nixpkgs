@@ -1,19 +1,20 @@
-{ lib
-, fetchFromGitHub
-, fetchpatch
-, rustPlatform
-, makeWrapper
-, pkg-config
-, perl
-, openssl
-, rust-jemalloc-sys
-, python3
-, wrapQtAppsHook
-, qtbase
-, qtsvg
-, xdg-utils
-, substituteAll
-, buildNpmPackage
+{
+  lib,
+  fetchFromGitHub,
+  fetchpatch,
+  rustPlatform,
+  makeWrapper,
+  pkg-config,
+  perl,
+  openssl,
+  rust-jemalloc-sys,
+  python3,
+  wrapQtAppsHook,
+  qtbase,
+  qtsvg,
+  xdg-utils,
+  substituteAll,
+  buildNpmPackage,
 }:
 
 let
@@ -35,9 +36,7 @@ rec {
 
     src = "${sources}/aw-watcher-afk";
 
-    nativeBuildInputs = [
-      python3.pkgs.poetry-core
-    ];
+    nativeBuildInputs = [ python3.pkgs.poetry-core ];
 
     propagatedBuildInputs = with python3.pkgs; [
       aw-client
@@ -63,9 +62,7 @@ rec {
 
     src = "${sources}/aw-watcher-window";
 
-    nativeBuildInputs = [
-      python3.pkgs.poetry-core
-    ];
+    nativeBuildInputs = [ python3.pkgs.poetry-core ];
 
     propagatedBuildInputs = with python3.pkgs; [
       aw-client
@@ -106,9 +103,7 @@ rec {
     # Prevent double wrapping
     dontWrapQtApps = true;
 
-    makeWrapperArgs = [
-      "--suffix PATH : ${lib.makeBinPath [ xdg-utils ]}"
-    ];
+    makeWrapperArgs = [ "--suffix PATH : ${lib.makeBinPath [ xdg-utils ]}" ];
 
     postPatch = ''
       sed -E 's#PyQt6 = "6.3.1"#PyQt6 = "^6.4.0"#g' -i pyproject.toml

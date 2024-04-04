@@ -1,4 +1,9 @@
-{ buildGoModule, fetchFromGitHub, lib, nixosTests }:
+{
+  buildGoModule,
+  fetchFromGitHub,
+  lib,
+  nixosTests,
+}:
 
 buildGoModule rec {
   pname = "ergo";
@@ -20,7 +25,10 @@ buildGoModule rec {
     description = "A modern IRC server (daemon/ircd) written in Go";
     homepage = "https://github.com/ergochat/ergo";
     license = lib.licenses.mit;
-    maintainers = with lib.maintainers; [ lassulus tv ];
+    maintainers = with lib.maintainers; [
+      lassulus
+      tv
+    ];
     platforms = lib.platforms.linux;
   };
 }

@@ -1,4 +1,12 @@
-{ lib, stdenv, fetchurl, pkg-config, mod_ca, apr, aprutil }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  pkg-config,
+  mod_ca,
+  apr,
+  aprutil,
+}:
 
 stdenv.mkDerivation rec {
   pname = "mod_pkcs12";
@@ -10,7 +18,11 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ pkg-config ];
-  buildInputs = [ mod_ca apr aprutil ];
+  buildInputs = [
+    mod_ca
+    apr
+    aprutil
+  ];
   inherit (mod_ca) configureFlags installFlags;
 
   meta = with lib; {

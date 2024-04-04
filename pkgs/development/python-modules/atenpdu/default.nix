@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, async-timeout
-, pysnmplib
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  async-timeout,
+  pysnmplib,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -26,9 +27,7 @@ buildPythonPackage rec {
   # Project has no test
   doCheck = false;
 
-  pythonImportsCheck = [
-    "atenpdu"
-  ];
+  pythonImportsCheck = [ "atenpdu" ];
 
   meta = with lib; {
     description = "Python interface to control ATEN PE PDUs";

@@ -1,4 +1,10 @@
-{ stdenv, lib, fetchFromGitHub, wrapPython, fetchpatch }:
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  wrapPython,
+  fetchpatch,
+}:
 
 stdenv.mkDerivation {
   pname = "droopy";
@@ -37,5 +43,4 @@ stdenv.mkDerivation {
     maintainers = [ maintainers.Profpatsch ];
     mainProgram = "droopy";
   };
-
 }

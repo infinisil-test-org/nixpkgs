@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, requests
-, django
-, boto3
-, hatchling
-, python
-, mock
-, responses
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  requests,
+  django,
+  boto3,
+  hatchling,
+  python,
+  mock,
+  responses,
 }:
 
 buildPythonPackage rec {
@@ -22,9 +23,7 @@ buildPythonPackage rec {
     hash = "sha256-k4C82OYm2SdjxeLScrkkitumjYgWkMNFlNeGW+C1Z8o=";
   };
 
-  nativeBuildInputs = [
-    hatchling
-  ];
+  nativeBuildInputs = [ hatchling ];
 
   propagatedBuildInputs = [
     requests

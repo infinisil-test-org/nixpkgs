@@ -1,31 +1,32 @@
-{ lib
-, fetchFromGitHub
-, fetchpatch
-, stdenv
-, python3
-, bubblewrap
-, systemd
-, pandoc
-, kmod
-, gnutar
-, util-linux
-, cpio
-, bash
-, coreutils
-, btrfs-progs
+{
+  lib,
+  fetchFromGitHub,
+  fetchpatch,
+  stdenv,
+  python3,
+  bubblewrap,
+  systemd,
+  pandoc,
+  kmod,
+  gnutar,
+  util-linux,
+  cpio,
+  bash,
+  coreutils,
+  btrfs-progs,
 
   # Python packages
-, setuptools
-, setuptools-scm
-, wheel
-, buildPythonApplication
-, pytestCheckHook
-, pefile
+  setuptools,
+  setuptools-scm,
+  wheel,
+  buildPythonApplication,
+  pytestCheckHook,
+  pefile,
 
   # Optional dependencies
-, withQemu ? false
-, qemu
-, OVMF
+  withQemu ? false,
+  qemu,
+  OVMF,
 }:
 let
   # For systemd features used by mkosi, see
@@ -39,16 +40,17 @@ let
     withUkify = true;
   };
 
-  python3pefile = python3.withPackages (ps: with ps; [
-    pefile
-  ]);
+  python3pefile = python3.withPackages (ps: with ps; [ pefile ]);
 in
 buildPythonApplication rec {
   pname = "mkosi";
   version = "20.2";
   format = "pyproject";
 
-  outputs = [ "out" "man" ];
+  outputs = [
+    "out"
+    "man"
+  ];
 
   src = fetchFromGitHub {
     owner = "systemd";
@@ -68,16 +70,18 @@ buildPythonApplication rec {
 
   # Fix ctypes finding library
   # https://github.com/NixOS/nixpkgs/issues/7307
-  postPatch = lib.optionalString stdenv.isLinux ''
-    substituteInPlace mkosi/run.py \
-      --replace 'ctypes.util.find_library("c")' "'${stdenv.cc.libc}/lib/libc.so.6'"
-    substituteInPlace mkosi/__init__.py \
-      --replace '/usr/lib/systemd/ukify' "${systemdForMkosi}/lib/systemd/ukify"
-  '' + lib.optionalString withQemu ''
-    substituteInPlace mkosi/qemu.py \
-      --replace '/usr/share/ovmf/x64/OVMF_VARS.fd' "${OVMF.variables}" \
-      --replace '/usr/share/ovmf/x64/OVMF_CODE.fd' "${OVMF.firmware}"
-  '';
+  postPatch =
+    lib.optionalString stdenv.isLinux ''
+      substituteInPlace mkosi/run.py \
+        --replace 'ctypes.util.find_library("c")' "'${stdenv.cc.libc}/lib/libc.so.6'"
+      substituteInPlace mkosi/__init__.py \
+        --replace '/usr/lib/systemd/ukify' "${systemdForMkosi}/lib/systemd/ukify"
+    ''
+    + lib.optionalString withQemu ''
+      substituteInPlace mkosi/qemu.py \
+        --replace '/usr/share/ovmf/x64/OVMF_VARS.fd' "${OVMF.variables}" \
+        --replace '/usr/share/ovmf/x64/OVMF_CODE.fd' "${OVMF.firmware}"
+    '';
 
   nativeBuildInputs = [
     pandoc
@@ -96,21 +100,15 @@ buildPythonApplication rec {
     kmod
     systemdForMkosi
     util-linux
-  ] ++ lib.optional withQemu [
-    qemu
-  ];
+  ] ++ lib.optional withQemu [ qemu ];
 
   postBuild = ''
     ./tools/make-man-page.sh
   '';
 
-  checkInputs = [
-    pytestCheckHook
-  ];
+  checkInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "mkosi"
-  ];
+  pythonImportsCheck = [ "mkosi" ];
 
   postInstall = ''
     mkdir -p $out/share/man/man1
@@ -128,7 +126,10 @@ buildPythonApplication rec {
     changelog = "https://github.com/systemd/mkosi/releases/tag/v${version}";
     license = licenses.lgpl21Only;
     mainProgram = "mkosi";
-    maintainers = with maintainers; [ malt3 katexochen ];
+    maintainers = with maintainers; [
+      malt3
+      katexochen
+    ];
     platforms = platforms.linux;
   };
 }

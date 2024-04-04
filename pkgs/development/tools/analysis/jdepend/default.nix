@@ -1,10 +1,11 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, ant
-, jdk
-, makeWrapper
-, canonicalize-jars-hook
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  ant,
+  jdk,
+  makeWrapper,
+  canonicalize-jars-hook,
 }:
 
 stdenv.mkDerivation (finalAttrs: {

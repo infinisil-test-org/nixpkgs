@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, hatchling
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  hatchling,
 }:
 
 buildPythonPackage rec {
@@ -19,16 +20,12 @@ buildPythonPackage rec {
     hash = "sha256-58sWvdkbt+czo96RUxB2vdOl/wqSU3BNIozSEdixWO8=";
   };
 
-  nativeBuildInputs = [
-    hatchling
-  ];
+  nativeBuildInputs = [ hatchling ];
 
   # Tests are inplemented in a custom DSL (RSpec)
   doCheck = false;
 
-  pythonImportsCheck = [
-    "dict2xml"
-  ];
+  pythonImportsCheck = [ "dict2xml" ];
 
   meta = with lib; {
     description = "Library to convert a Python dictionary into an XML string";

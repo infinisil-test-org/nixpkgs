@@ -1,4 +1,8 @@
-{ lib, rustPlatform, fetchFromGitHub }:
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "pqrs";
@@ -16,7 +20,10 @@ rustPlatform.buildRustPackage rec {
   meta = with lib; {
     description = "CLI tool to inspect Parquet files";
     homepage = "https://github.com/manojkarthick/pqrs";
-    license = with licenses; [ mit /* or */ asl20 ];
+    license = with licenses; [
+      mit # or
+      asl20
+    ];
     maintainers = [ maintainers.manojkarthick ];
   };
 }

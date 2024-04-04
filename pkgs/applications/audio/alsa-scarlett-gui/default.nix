@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, pkg-config
-, makeWrapper
-, alsa-utils
-, alsa-lib
-, gtk4
-, wrapGAppsHook4
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  pkg-config,
+  makeWrapper,
+  alsa-utils,
+  alsa-lib,
+  gtk4,
+  wrapGAppsHook4,
 }:
 
 stdenv.mkDerivation rec {
@@ -22,10 +23,20 @@ stdenv.mkDerivation rec {
 
   NIX_CFLAGS_COMPILE = [ "-Wno-error=deprecated-declarations" ];
 
-  makeFlags = [ "DESTDIR=\${out}" "PREFIX=''" ];
+  makeFlags = [
+    "DESTDIR=\${out}"
+    "PREFIX=''"
+  ];
   sourceRoot = "${src.name}/src";
-  nativeBuildInputs = [ pkg-config wrapGAppsHook4 makeWrapper ];
-  buildInputs = [ gtk4 alsa-lib ];
+  nativeBuildInputs = [
+    pkg-config
+    wrapGAppsHook4
+    makeWrapper
+  ];
+  buildInputs = [
+    gtk4
+    alsa-lib
+  ];
   postInstall = ''
     wrapProgram $out/bin/alsa-scarlett-gui --prefix PATH : ${lib.makeBinPath [ alsa-utils ]}
 

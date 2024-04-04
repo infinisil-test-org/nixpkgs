@@ -1,6 +1,7 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
 }:
 
 buildPythonPackage {
@@ -22,5 +23,4 @@ buildPythonPackage {
     license = licenses.gpl2;
     maintainers = [ ];
   };
-
 }

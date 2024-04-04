@@ -1,7 +1,11 @@
-{ lib, stdenv, fetchFromGitHub
-, cmake
-, cunit, ncurses
-, curlHTTP3
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  cunit,
+  ncurses,
+  curlHTTP3,
 }:
 
 stdenv.mkDerivation rec {
@@ -15,14 +19,19 @@ stdenv.mkDerivation rec {
     hash = "sha256-B/5r0mRpOEi5DQ7OUAAcDmAm1nnak6qNz4qjDrzWlDc=";
   };
 
-  outputs = [ "out" "dev" "doc" ];
+  outputs = [
+    "out"
+    "dev"
+    "doc"
+  ];
 
   nativeBuildInputs = [ cmake ];
-  nativeCheckInputs = [ cunit ncurses ];
-
-  cmakeFlags = [
-    "-DENABLE_STATIC_LIB=OFF"
+  nativeCheckInputs = [
+    cunit
+    ncurses
   ];
+
+  cmakeFlags = [ "-DENABLE_STATIC_LIB=OFF" ];
 
   doCheck = true;
   enableParallelBuilding = true;

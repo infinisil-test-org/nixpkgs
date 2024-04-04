@@ -1,9 +1,10 @@
-{ lib
-, buildGoModule
-, fetchFromSourcehut
-, scdoc
-, installShellFiles
-, snippetexpanderd
+{
+  lib,
+  buildGoModule,
+  fetchFromSourcehut,
+  scdoc,
+  installShellFiles,
+  snippetexpanderd,
 }:
 
 buildGoModule rec {
@@ -22,9 +23,7 @@ buildGoModule rec {
     installShellFiles
   ];
 
-  buildInputs = [
-    snippetexpanderd
-  ];
+  buildInputs = [ snippetexpanderd ];
 
   ldflags = [
     "-s"

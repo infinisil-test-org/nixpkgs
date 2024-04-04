@@ -1,4 +1,16 @@
-{ config, options, lib, pkgs, utils, modules, baseModules, extraModules, modulesPath, specialArgs, ... }:
+{
+  config,
+  options,
+  lib,
+  pkgs,
+  utils,
+  modules,
+  baseModules,
+  extraModules,
+  modulesPath,
+  specialArgs,
+  ...
+}:
 
 with lib;
 
@@ -7,25 +19,26 @@ let
   cfg = config.documentation;
   allOpts = options;
 
-  canCacheDocs = m:
+  canCacheDocs =
+    m:
     let
       f = import m;
       instance = f (mapAttrs (n: _: abort "evaluating ${n} for `meta` failed") (functionArgs f));
     in
-      cfg.nixos.options.splitBuild
-        && builtins.isPath m
-        && isFunction f
-        && instance ? options
-        && instance.meta.buildDocsInSandbox or true;
+    cfg.nixos.options.splitBuild
+    && builtins.isPath m
+    && isFunction f
+    && instance ? options
+    && instance.meta.buildDocsInSandbox or true;
 
   docModules =
     let
       p = partition canCacheDocs (baseModules ++ cfg.nixos.extraModules);
     in
-      {
-        lazy = p.right;
-        eager = p.wrong ++ optionals cfg.nixos.includeAllModules (extraModules ++ modules);
-      };
+    {
+      lazy = p.right;
+      eager = p.wrong ++ optionals cfg.nixos.includeAllModules (extraModules ++ modules);
+    };
 
   manual = import ../../doc/manual rec {
     inherit pkgs config;
@@ -35,9 +48,7 @@ let
     options =
       let
         scrubbedEval = evalModules {
-          modules = [ {
-            _module.check = false;
-          } ] ++ docModules.eager;
+          modules = [ { _module.check = false; } ] ++ docModules.eager;
           class = "nixos";
           specialArgs = specialArgs // {
             pkgs = scrubDerivations "pkgs" pkgs;
@@ -47,33 +58,37 @@ let
             inherit modulesPath utils;
           };
         };
-        scrubDerivations = namePrefix: pkgSet: mapAttrs
-          (name: value:
+        scrubDerivations =
+          namePrefix: pkgSet:
+          mapAttrs (
+            name: value:
             let
               wholeName = "${namePrefix}.${name}";
               guard = lib.warn "Attempt to evaluate package ${wholeName} in option documentation; this is not supported and will eventually be an error. Use `mkPackageOption{,MD}` or `literalExpression` instead.";
-            in if isAttrs value then
+            in
+            if isAttrs value then
               scrubDerivations wholeName value
               // optionalAttrs (isDerivation value) {
                 outPath = guard "\${${wholeName}}";
                 drvPath = guard drvPath;
               }
-            else value
-          )
-          pkgSet;
-      in scrubbedEval.options;
+            else
+              value
+          ) pkgSet;
+      in
+      scrubbedEval.options;
 
     baseOptionsJSON =
       let
-        filter =
-          builtins.filterSource
-            (n: t:
-              cleanSourceFilter n t
-              && (t == "directory" -> baseNameOf n != "tests")
-              && (t == "file" -> hasSuffix ".nix" n)
-            );
+        filter = builtins.filterSource (
+          n: t:
+          cleanSourceFilter n t
+          && (t == "directory" -> baseNameOf n != "tests")
+          && (t == "file" -> hasSuffix ".nix" n)
+        );
       in
-        pkgs.runCommand "lazy-options.json" {
+      pkgs.runCommand "lazy-options.json"
+        {
           libPath = filter (pkgs.path + "/lib");
           pkgsLibPath = filter (pkgs.path + "/pkgs/pkgs-lib");
           nixosPath = filter (pkgs.path + "/nixos");
@@ -82,7 +97,8 @@ let
             + concatMapStringsSep " " (p: ''"${removePrefix "${modulesPath}/" (toString p)}"'') docModules.lazy
             + " ]";
           passAsFile = [ "modules" ];
-        } ''
+        }
+        ''
           export NIX_STORE_DIR=$TMPDIR/store
           export NIX_STATE_DIR=$TMPDIR/state
           ${pkgs.buildPackages.nix}/bin/nix-instantiate \
@@ -114,43 +130,42 @@ let
     inherit (cfg.nixos.options) warningsAreErrors;
   };
 
-
-  nixos-help = let
-    helpScript = pkgs.writeShellScriptBin "nixos-help" ''
-      # Finds first executable browser in a colon-separated list.
-      # (see how xdg-open defines BROWSER)
-      browser="$(
-        IFS=: ; for b in $BROWSER; do
-          [ -n "$(type -P "$b" || true)" ] && echo "$b" && break
-        done
-      )"
-      if [ -z "$browser" ]; then
-        browser="$(type -P xdg-open || true)"
+  nixos-help =
+    let
+      helpScript = pkgs.writeShellScriptBin "nixos-help" ''
+        # Finds first executable browser in a colon-separated list.
+        # (see how xdg-open defines BROWSER)
+        browser="$(
+          IFS=: ; for b in $BROWSER; do
+            [ -n "$(type -P "$b" || true)" ] && echo "$b" && break
+          done
+        )"
         if [ -z "$browser" ]; then
-          browser="${pkgs.w3m-nographics}/bin/w3m"
+          browser="$(type -P xdg-open || true)"
+          if [ -z "$browser" ]; then
+            browser="${pkgs.w3m-nographics}/bin/w3m"
+          fi
         fi
-      fi
-      exec "$browser" ${manual.manualHTMLIndex}
-    '';
+        exec "$browser" ${manual.manualHTMLIndex}
+      '';
 
-    desktopItem = pkgs.makeDesktopItem {
-      name = "nixos-manual";
-      desktopName = "NixOS Manual";
-      genericName = "System Manual";
-      comment = "View NixOS documentation in a web browser";
-      icon = "nix-snowflake";
-      exec = "nixos-help";
-      categories = ["System"];
-    };
-
-    in pkgs.symlinkJoin {
+      desktopItem = pkgs.makeDesktopItem {
+        name = "nixos-manual";
+        desktopName = "NixOS Manual";
+        genericName = "System Manual";
+        comment = "View NixOS documentation in a web browser";
+        icon = "nix-snowflake";
+        exec = "nixos-help";
+        categories = [ "System" ];
+      };
+    in
+    pkgs.symlinkJoin {
       name = "nixos-help";
       paths = [
         helpScript
         desktopItem
       ];
     };
-
 in
 
 {
@@ -161,12 +176,48 @@ in
     ./meta.nix
     ../config/system-path.nix
     ../system/etc/etc.nix
-    (mkRenamedOptionModule [ "programs" "info" "enable" ] [ "documentation" "info" "enable" ])
-    (mkRenamedOptionModule [ "programs" "man"  "enable" ] [ "documentation" "man"  "enable" ])
-    (mkRenamedOptionModule [ "services" "nixosManual" "enable" ] [ "documentation" "nixos" "enable" ])
-    (mkRemovedOptionModule
-      [ "documentation" "nixos" "options" "allowDocBook" ]
-      "DocBook option documentation is no longer supported")
+    (mkRenamedOptionModule
+      [
+        "programs"
+        "info"
+        "enable"
+      ]
+      [
+        "documentation"
+        "info"
+        "enable"
+      ]
+    )
+    (mkRenamedOptionModule
+      [
+        "programs"
+        "man"
+        "enable"
+      ]
+      [
+        "documentation"
+        "man"
+        "enable"
+      ]
+    )
+    (mkRenamedOptionModule
+      [
+        "services"
+        "nixosManual"
+        "enable"
+      ]
+      [
+        "documentation"
+        "nixos"
+        "enable"
+      ]
+    )
+    (mkRemovedOptionModule [
+      "documentation"
+      "nixos"
+      "options"
+      "allowDocBook"
+    ] "DocBook option documentation is no longer supported")
   ];
 
   options = {
@@ -255,7 +306,7 @@ in
 
       nixos.extraModules = mkOption {
         type = types.listOf types.raw;
-        default = [];
+        default = [ ];
         description = lib.mdDoc ''
           Modules for which to show options even when not imported.
         '';
@@ -303,9 +354,7 @@ in
           [ pkgs.customModules ]
         '';
       };
-
     };
-
   };
 
   config = mkIf cfg.enable (mkMerge [
@@ -349,11 +398,13 @@ in
     (mkIf cfg.nixos.enable {
       system.build.manual = manual;
 
-      environment.systemPackages = []
+      environment.systemPackages =
+        [ ]
         ++ optional cfg.man.enable manual.nixos-configuration-reference-manpage
-        ++ optionals cfg.doc.enable [ manual.manualHTML nixos-help ];
+        ++ optionals cfg.doc.enable [
+          manual.manualHTML
+          nixos-help
+        ];
     })
-
   ]);
-
 }

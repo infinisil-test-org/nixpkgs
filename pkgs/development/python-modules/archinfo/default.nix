@@ -1,10 +1,11 @@
-{ lib
-, backports-strenum
-, buildPythonPackage
-, fetchFromGitHub
-, pytestCheckHook
-, pythonOlder
-, setuptools
+{
+  lib,
+  backports-strenum,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -21,21 +22,13 @@ buildPythonPackage rec {
     hash = "sha256-drZuQRQ2XukCimH/SG6CRCL4avyMEcKxuj+Rinp7lJQ=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = lib.optionals (pythonOlder "3.11") [
-    backports-strenum
-  ];
+  propagatedBuildInputs = lib.optionals (pythonOlder "3.11") [ backports-strenum ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "archinfo"
-  ];
+  pythonImportsCheck = [ "archinfo" ];
 
   meta = with lib; {
     description = "Classes with architecture-specific information";

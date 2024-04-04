@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, cython
-, fetchFromGitHub
-, matplotlib
-, mock
-, numpy
-, pillow
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  cython,
+  fetchFromGitHub,
+  matplotlib,
+  mock,
+  numpy,
+  pillow,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -29,9 +30,7 @@ buildPythonPackage rec {
       --replace " --cov --cov-report xml --tb=short" ""
   '';
 
-  nativeBuildInputs = [
-    cython
-  ];
+  nativeBuildInputs = [ cython ];
 
   propagatedBuildInputs = [
     matplotlib
@@ -48,9 +47,7 @@ buildPythonPackage rec {
     cd test
   '';
 
-  pythonImportsCheck = [
-    "wordcloud"
-  ];
+  pythonImportsCheck = [ "wordcloud" ];
 
   disabledTests = [
     # Don't tests CLI

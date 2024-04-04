@@ -1,9 +1,14 @@
-{ lib, stdenv, fetchurl }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+}:
 
 let
   version = "4.003";
   debianVersion = "dfsg-1";
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   name = "kanji-stroke-order-font-${version}";
 
   src = fetchurl {

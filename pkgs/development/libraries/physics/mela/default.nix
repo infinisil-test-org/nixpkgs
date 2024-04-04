@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchFromGitHub, gfortran }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  gfortran,
+}:
 
 stdenv.mkDerivation rec {
   pname = "mela";
@@ -17,9 +22,9 @@ stdenv.mkDerivation rec {
 
   meta = with lib; {
     description = "a Mellin Evolution LibrAry";
-    license     = licenses.gpl3;
-    homepage    = "https://github.com/vbertone/MELA";
-    platforms   = platforms.unix;
+    license = licenses.gpl3;
+    homepage = "https://github.com/vbertone/MELA";
+    platforms = platforms.unix;
     maintainers = with maintainers; [ veprbl ];
   };
 }

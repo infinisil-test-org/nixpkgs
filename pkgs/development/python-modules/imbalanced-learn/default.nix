@@ -1,18 +1,19 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, setuptools
-, joblib
-, keras
-, numpy
-, pandas
-, scikit-learn
-, scipy
-, tensorflow
-, threadpoolctl
-, pytest-xdist
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  setuptools,
+  joblib,
+  keras,
+  numpy,
+  pandas,
+  scikit-learn,
+  scipy,
+  tensorflow,
+  threadpoolctl,
+  pytest-xdist,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -27,9 +28,7 @@ buildPythonPackage rec {
     hash = "sha256-uczZqqMChpkHnUOm1Nn8nQOfVTdnM7Mfh8fZsSXcwWU=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     joblib
@@ -47,11 +46,12 @@ buildPythonPackage rec {
     ];
   };
 
-  pythonImportsCheck = [
-    "imblearn"
-  ];
+  pythonImportsCheck = [ "imblearn" ];
 
-  nativeCheckInputs = [ pytestCheckHook pandas ];
+  nativeCheckInputs = [
+    pytestCheckHook
+    pandas
+  ];
 
   preCheck = ''
     export HOME=$TMPDIR

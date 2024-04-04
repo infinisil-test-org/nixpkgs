@@ -42,7 +42,11 @@ self: super: {
   system-cxx-std-lib = null;
   template-haskell = null;
   # GHC only builds terminfo if it is a native compiler
-  terminfo = if pkgs.stdenv.hostPlatform == pkgs.stdenv.buildPlatform then null else doDistribute self.terminfo_0_4_1_6;
+  terminfo =
+    if pkgs.stdenv.hostPlatform == pkgs.stdenv.buildPlatform then
+      null
+    else
+      doDistribute self.terminfo_0_4_1_6;
   text = null;
   time = null;
   transformers = null;
@@ -110,7 +114,8 @@ self: super: {
   # https://github.com/wz1000/HieDb/issues/64
   hiedb = overrideCabal (drv: {
     testFlags = drv.testFlags or [ ] ++ [
-      "--match" "!/hiedb/Command line/point-info/correctly prints type signatures/"
+      "--match"
+      "!/hiedb/Command line/point-info/correctly prints type signatures/"
     ];
   }) super.hiedb;
 

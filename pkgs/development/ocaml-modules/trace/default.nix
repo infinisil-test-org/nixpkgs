@@ -1,4 +1,8 @@
-{ lib, fetchurl, buildDunePackage }:
+{
+  lib,
+  fetchurl,
+  buildDunePackage,
+}:
 
 buildDunePackage rec {
   pname = "trace";
@@ -17,5 +21,4 @@ buildDunePackage rec {
     homepage = "https://c-cube.github.io/ocaml-trace/";
     maintainers = [ lib.maintainers.vbgl ];
   };
-
 }

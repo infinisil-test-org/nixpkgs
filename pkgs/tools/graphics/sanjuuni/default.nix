@@ -1,11 +1,12 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, pkg-config
-, ffmpeg
-, poco
-, ocl-icd
-, opencl-clhpp
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  pkg-config,
+  ffmpeg,
+  poco,
+  ocl-icd,
+  opencl-clhpp,
 }:
 
 stdenv.mkDerivation rec {
@@ -19,9 +20,7 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-wgtyrik4Z5AXd8MHkiMuxMpGh/xcEtNqivyhvL68aac=";
   };
 
-  nativeBuildInputs = [
-    pkg-config
-  ];
+  nativeBuildInputs = [ pkg-config ];
 
   buildInputs = [
     ffmpeg

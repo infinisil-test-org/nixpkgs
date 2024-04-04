@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pyserial
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pyserial,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -17,13 +18,9 @@ buildPythonPackage rec {
     hash = "sha256-0t5pPBk8Mzdm6STGtqGMljPjDoW2DTT7x21MEnG512w=";
   };
 
-  propagatedBuildInputs = [
-    pyserial
-  ];
+  propagatedBuildInputs = [ pyserial ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   disabledTestPaths = [
     # https://github.com/Danielhiversen/pyRFXtrx/issues/130

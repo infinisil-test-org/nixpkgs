@@ -1,13 +1,14 @@
-{ stdenv
-, lib
-, angr
-, buildPythonPackage
-, cmd2
-, coreutils
-, fetchFromGitHub
-, pygments
-, pytestCheckHook
-, pythonOlder
+{
+  stdenv,
+  lib,
+  angr,
+  buildPythonPackage,
+  cmd2,
+  coreutils,
+  fetchFromGitHub,
+  pygments,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -47,9 +48,7 @@ buildPythonPackage rec {
     "test_max_depth"
   ];
 
-  pythonImportsCheck = [
-    "angrcli"
-  ];
+  pythonImportsCheck = [ "angrcli" ];
 
   meta = with lib; {
     description = "Python modules to allow easier interactive use of angr";

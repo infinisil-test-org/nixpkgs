@@ -1,4 +1,9 @@
-{ stdenv, ocaml, findlib, ounit2 }:
+{
+  stdenv,
+  ocaml,
+  findlib,
+  ounit2,
+}:
 
 stdenv.mkDerivation {
   pname = "ocaml${ocaml.version}-ounit";
@@ -14,5 +19,4 @@ stdenv.mkDerivation {
   createFindlibDestdir = true;
 
   installTargets = "install-ounit version='${ounit2.version}'";
-
 }

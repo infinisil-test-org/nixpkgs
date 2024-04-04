@@ -1,12 +1,13 @@
-{ fetchFromGitHub
-, glib
-, gtk3
-, openssl
-, pkg-config
-, python3
-, rustPlatform
-, lib
-, wrapGAppsHook
+{
+  fetchFromGitHub,
+  glib,
+  gtk3,
+  openssl,
+  pkg-config,
+  python3,
+  rustPlatform,
+  lib,
+  wrapGAppsHook,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -15,7 +16,7 @@ rustPlatform.buildRustPackage rec {
 
   src = fetchFromGitHub {
     owner = "cdepillabout";
-    repo  = "break-time";
+    repo = "break-time";
     rev = "v${version}";
     sha256 = "sha256-q79JXaBwd/oKtJPvK2+72pY2YvaR3of2CMC8cF6wwQ8=";
   };
@@ -43,10 +44,9 @@ rustPlatform.buildRustPackage rec {
 
   meta = with lib; {
     description = "Break timer that forces you to take a break";
-    homepage    = "https://github.com/cdepillabout/break-time";
-    license     = with licenses; [ mit ];
+    homepage = "https://github.com/cdepillabout/break-time";
+    license = with licenses; [ mit ];
     maintainers = with maintainers; [ cdepillabout ];
-    platforms   = platforms.linux;
+    platforms = platforms.linux;
   };
 }
-

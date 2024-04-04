@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, poetry-core
-, llama-index-core
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  poetry-core,
+  llama-index-core,
 }:
 
 buildPythonPackage rec {
@@ -14,11 +15,7 @@ buildPythonPackage rec {
 
   sourceRoot = "${src.name}/${pname}";
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
-  propagatedBuildInputs = [
-    llama-index-core
-  ];
+  propagatedBuildInputs = [ llama-index-core ];
 }

@@ -1,11 +1,12 @@
-{ lib
-, blockdiag
-, fetchFromGitHub
-, buildPythonPackage
-, nose
-, pytestCheckHook
-, setuptools
-, pythonOlder
+{
+  lib,
+  blockdiag,
+  fetchFromGitHub,
+  buildPythonPackage,
+  nose,
+  pytestCheckHook,
+  setuptools,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -32,18 +33,14 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pytestFlagsArray = [
-    "src/nwdiag/tests/"
-  ];
+  pytestFlagsArray = [ "src/nwdiag/tests/" ];
 
   disabledTests = [
     # UnicodeEncodeError: 'latin-1' codec can't encode...
     "test_setup_inline_svg_is_true_with_multibytes"
   ];
 
-  pythonImportsCheck = [
-    "nwdiag"
-  ];
+  pythonImportsCheck = [ "nwdiag" ];
 
   meta = with lib; {
     description = "Generate network-diagram image from spec-text file (similar to Graphviz)";

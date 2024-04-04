@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, python3
-, fetchFromGitHub
-, qt6
+{
+  lib,
+  stdenv,
+  python3,
+  fetchFromGitHub,
+  qt6,
 }:
 
 python3.pkgs.buildPythonApplication {
@@ -15,7 +16,7 @@ python3.pkgs.buildPythonApplication {
   src = fetchFromGitHub {
     owner = "unexpectedpanda";
     repo = "retool";
-    rev =  "d8acdb960d35b5a6b01d7dc66b7e40b3ec451301";
+    rev = "d8acdb960d35b5a6b01d7dc66b7e40b3ec451301";
     hash = "sha256-6y/7RR7O2xYKXdxaFtkRfnSlwygp/LRDUozUJo6ue7s=";
   };
 
@@ -31,12 +32,7 @@ python3.pkgs.buildPythonApplication {
   # ERROR: No matching distribution found for PySide6
   pythonRemoveDeps = [ "PySide6" ];
 
-  buildInputs = [
-    qt6.qtbase
-  ] ++
-  lib.optionals (stdenv.isLinux) [
-    qt6.qtwayland
-  ];
+  buildInputs = [ qt6.qtbase ] ++ lib.optionals (stdenv.isLinux) [ qt6.qtwayland ];
 
   propagatedBuildInputs = with python3.pkgs; [
     alive-progress

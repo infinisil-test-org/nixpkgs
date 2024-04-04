@@ -1,17 +1,18 @@
-{ lib
-, aiohttp
-, buildPythonPackage
-, coreutils
-, fetchFromGitHub
-, google-auth
-, google-auth-oauthlib
-, google-cloud-pubsub
-, pydantic
-, pytest-aiohttp
-, pytest-asyncio
-, pytestCheckHook
-, pythonOlder
-, requests-oauthlib
+{
+  lib,
+  aiohttp,
+  buildPythonPackage,
+  coreutils,
+  fetchFromGitHub,
+  google-auth,
+  google-auth-oauthlib,
+  google-cloud-pubsub,
+  pydantic,
+  pytest-aiohttp,
+  pytest-asyncio,
+  pytestCheckHook,
+  pythonOlder,
+  requests-oauthlib,
 }:
 
 buildPythonPackage rec {
@@ -46,9 +47,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "google_nest_sdm"
-  ];
+  pythonImportsCheck = [ "google_nest_sdm" ];
 
   disabledTests = [
     "test_clip_preview_transcode"

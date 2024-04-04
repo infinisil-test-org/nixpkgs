@@ -1,7 +1,8 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -14,16 +15,12 @@ buildPythonPackage rec {
     hash = "sha256-Lq158JJnPILx+3u4yHugGrrVTbZlB2QsBAseaE4j7Ug=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   # Module doesn't have tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "docutils-stubs"
-  ];
+  pythonImportsCheck = [ "docutils-stubs" ];
 
   meta = with lib; {
     description = "Typing stubs for docutils";

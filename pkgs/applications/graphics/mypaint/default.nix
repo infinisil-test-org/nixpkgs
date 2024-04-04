@@ -1,26 +1,33 @@
-{ lib
-, fetchFromGitHub
-, fetchpatch
-, gtk3
-, gettext
-, json_c
-, lcms2
-, libpng
-, librsvg
-, gobject-introspection
-, libmypaint
-, hicolor-icon-theme
-, mypaint-brushes
-, gdk-pixbuf
-, pkg-config
-, python3
-, swig
-, wrapGAppsHook
+{
+  lib,
+  fetchFromGitHub,
+  fetchpatch,
+  gtk3,
+  gettext,
+  json_c,
+  lcms2,
+  libpng,
+  librsvg,
+  gobject-introspection,
+  libmypaint,
+  hicolor-icon-theme,
+  mypaint-brushes,
+  gdk-pixbuf,
+  pkg-config,
+  python3,
+  swig,
+  wrapGAppsHook,
 }:
 
 let
-  inherit (python3.pkgs) pycairo pygobject3 numpy buildPythonApplication;
-in buildPythonApplication rec {
+  inherit (python3.pkgs)
+    pycairo
+    pygobject3
+    numpy
+    buildPythonApplication
+    ;
+in
+buildPythonApplication rec {
   pname = "mypaint";
   version = "2.0.1";
   format = "other";
@@ -80,9 +87,7 @@ in buildPythonApplication rec {
     pygobject3
   ];
 
-  nativeCheckInputs = [
-    gtk3
-  ];
+  nativeCheckInputs = [ gtk3 ];
 
   buildPhase = ''
     runHook preBuild
@@ -113,6 +118,9 @@ in buildPythonApplication rec {
     homepage = "http://mypaint.org/";
     license = licenses.gpl2Plus;
     platforms = platforms.linux;
-    maintainers = with maintainers; [ goibhniu jtojnar ];
+    maintainers = with maintainers; [
+      goibhniu
+      jtojnar
+    ];
   };
 }

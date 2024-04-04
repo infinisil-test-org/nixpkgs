@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchpatch
-, cmake
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  cmake,
 }:
 
 stdenv.mkDerivation rec {
@@ -29,7 +30,6 @@ stdenv.mkDerivation rec {
       extraPrefix = "imagelol/";
     })
   ];
-
 
   # fix for case-sensitive filesystems
   # https://github.com/MCredstoner2004/ImageLOL/issues/1

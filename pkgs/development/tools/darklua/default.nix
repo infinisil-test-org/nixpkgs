@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, darwin
-, rustPlatform
-, fetchFromGitHub
+{
+  lib,
+  stdenv,
+  darwin,
+  rustPlatform,
+  fetchFromGitHub,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -18,10 +19,7 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-D274Dx3ad14VnJxQMhf//NEA7EIZZ1RFzFITI4YoJTc=";
 
-  buildInputs = lib.optionals stdenv.isDarwin [
-    darwin.apple_sdk.frameworks.CoreServices
-  ];
-
+  buildInputs = lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.CoreServices ];
 
   # error: linker `aarch64-linux-gnu-gcc` not found
   postPatch = ''

@@ -1,6 +1,7 @@
-{ lib
-, fetchgit
-, buildGoModule
+{
+  lib,
+  fetchgit,
+  buildGoModule,
 }:
 
 buildGoModule {

@@ -1,4 +1,9 @@
-{ lib, buildGoModule, fetchFromGitHub, installShellFiles }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  installShellFiles,
+}:
 
 buildGoModule rec {
   pname = "ytt";
@@ -15,9 +20,7 @@ buildGoModule rec {
 
   nativeBuildInputs = [ installShellFiles ];
 
-  ldflags = [
-    "-X github.com/vmware-tanzu/carvel-ytt/pkg/version.Version=${version}"
-  ];
+  ldflags = [ "-X github.com/vmware-tanzu/carvel-ytt/pkg/version.Version=${version}" ];
 
   subPackages = [ "cmd/ytt" ];
 
@@ -32,6 +35,9 @@ buildGoModule rec {
     description = "YAML templating tool that allows configuration of complex software via reusable templates with user-provided values";
     homepage = "https://get-ytt.io";
     license = licenses.asl20;
-    maintainers = with maintainers; [ brodes techknowlogick ];
+    maintainers = with maintainers; [
+      brodes
+      techknowlogick
+    ];
   };
 }

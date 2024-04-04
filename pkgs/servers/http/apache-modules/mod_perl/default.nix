@@ -1,4 +1,10 @@
-{ stdenv, fetchurl, apacheHttpd, perl, nixosTests }:
+{
+  stdenv,
+  fetchurl,
+  apacheHttpd,
+  perl,
+  nixosTests,
+}:
 
 stdenv.mkDerivation rec {
   pname = "mod_perl";
@@ -9,7 +15,10 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-9bghtZsP3JZw5G7Q/PMtiRHyUSYYmotowWUvkiHu4mk=";
   };
 
-  buildInputs = [ apacheHttpd perl ];
+  buildInputs = [
+    apacheHttpd
+    perl
+  ];
   buildPhase = ''
     perl Makefile.PL \
       MP_APXS=${apacheHttpd.dev}/bin/apxs

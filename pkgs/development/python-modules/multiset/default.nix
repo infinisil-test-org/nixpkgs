@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchpatch
-, fetchPypi
-, setuptools
-, setuptools-scm
-, wheel
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchpatch,
+  fetchPypi,
+  setuptools,
+  setuptools-scm,
+  wheel,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -38,13 +39,9 @@ buildPythonPackage rec {
     wheel
   ];
 
-  pythonImportsCheck = [
-    "multiset"
-  ];
+  pythonImportsCheck = [ "multiset" ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   meta = with lib; {
     description = "An implementation of a multiset";

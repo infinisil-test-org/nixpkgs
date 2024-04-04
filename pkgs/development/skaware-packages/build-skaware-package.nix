@@ -1,29 +1,40 @@
-{ lib, stdenv, cleanPackaging, fetchurl }:
+{
+  lib,
+  stdenv,
+  cleanPackaging,
+  fetchurl,
+}:
 {
   # : string
-  pname
+  pname,
   # : string
-, version
+  version,
   # : string
-, sha256 ? lib.fakeSha256
+  sha256 ? lib.fakeSha256,
   # : string
-, description
+  description,
   # : list Platform
-, platforms ? lib.platforms.all
+  platforms ? lib.platforms.all,
   # : list string
-, outputs ? [ "bin" "lib" "dev" "doc" "out" ]
+  outputs ? [
+    "bin"
+    "lib"
+    "dev"
+    "doc"
+    "out"
+  ],
   # TODO(Profpatsch): automatically infer most of these
   # : list string
-, configureFlags
+  configureFlags,
   # : string
-, postConfigure ? null
+  postConfigure ? null,
   # mostly for moving and deleting files from the build directory
   # : lines
-, postInstall
+  postInstall,
   # : list Maintainer
-, maintainers ? [ ]
+  maintainers ? [ ],
   # : passthru arguments (e.g. tests)
-, passthru ? { }
+  passthru ? { },
 
 }:
 
@@ -53,7 +64,6 @@ let
     "DCO"
     "CONTRIBUTING"
   ];
-
 in
 stdenv.mkDerivation {
   inherit pname version;
@@ -68,34 +78,38 @@ stdenv.mkDerivation {
   dontDisableStatic = true;
   enableParallelBuilding = true;
 
-  configureFlags = configureFlags ++ [
-    "--enable-absolute-paths"
-    # We assume every nix-based cross target has urandom.
-    # This might not hold for e.g. BSD.
-    "--with-sysdep-devurandom=yes"
-    (if stdenv.isDarwin
-    then "--disable-shared"
-    else "--enable-shared")
-  ]
+  configureFlags =
+    configureFlags
+    ++ [
+      "--enable-absolute-paths"
+      # We assume every nix-based cross target has urandom.
+      # This might not hold for e.g. BSD.
+      "--with-sysdep-devurandom=yes"
+      (if stdenv.isDarwin then "--disable-shared" else "--enable-shared")
+    ]
     # On darwin, the target triplet from -dumpmachine includes version number,
     # but skarnet.org software uses the triplet to test binary compatibility.
     # Explicitly setting target ensures code can be compiled against a skalibs
     # binary built on a different version of darwin.
     # http://www.skarnet.org/cgi-bin/archive.cgi?1:mss:623:heiodchokfjdkonfhdph
-    ++ (lib.optional stdenv.isDarwin
-    "--build=${stdenv.hostPlatform.system}");
+    ++ (lib.optional stdenv.isDarwin "--build=${stdenv.hostPlatform.system}");
 
   inherit postConfigure;
 
-  makeFlags = lib.optionals stdenv.cc.isClang [ "AR=${stdenv.cc.targetPrefix}ar" "RANLIB=${stdenv.cc.targetPrefix}ranlib" ];
+  makeFlags = lib.optionals stdenv.cc.isClang [
+    "AR=${stdenv.cc.targetPrefix}ar"
+    "RANLIB=${stdenv.cc.targetPrefix}ranlib"
+  ];
 
   # TODO(Profpatsch): ensure that there is always a $doc output!
   postInstall = ''
     echo "Cleaning & moving common files"
-    ${cleanPackaging.commonFileActions {
-       noiseFiles = commonNoiseFiles;
-       docFiles = commonMetaFiles;
-     }} $doc/share/doc/${pname}
+    ${
+      cleanPackaging.commonFileActions {
+        noiseFiles = commonNoiseFiles;
+        docFiles = commonMetaFiles;
+      }
+    } $doc/share/doc/${pname}
 
     ${postInstall}
   '';
@@ -108,10 +122,15 @@ stdenv.mkDerivation {
     homepage = "https://skarnet.org/software/${pname}/";
     inherit description platforms;
     license = lib.licenses.isc;
-    maintainers = with lib.maintainers;
-      [ pmahoney Profpatsch qyliss ] ++ maintainers;
+    maintainers =
+      with lib.maintainers;
+      [
+        pmahoney
+        Profpatsch
+        qyliss
+      ]
+      ++ maintainers;
   };
 
   inherit passthru;
-
 }

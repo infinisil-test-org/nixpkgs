@@ -1,17 +1,18 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, setuptools
-, pytz
-, tzlocal
-, clickhouse-cityhash
-, zstd
-, lz4
-, freezegun
-, mock
-, nose
-, pytestCheckHook
-, pytest-xdist
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  setuptools,
+  pytz,
+  tzlocal,
+  clickhouse-cityhash,
+  zstd,
+  lz4,
+  freezegun,
+  mock,
+  nose,
+  pytestCheckHook,
+  pytest-xdist,
 }:
 
 buildPythonPackage rec {

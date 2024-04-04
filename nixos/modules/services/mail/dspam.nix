@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -26,8 +31,8 @@ let
 
     ${cfg.extraConfig}
   '';
-
-in {
+in
+{
 
   ###### interface
 
@@ -56,7 +61,7 @@ in {
       storageDriver = mkOption {
         type = types.str;
         default = "hash";
-        description =  lib.mdDoc "Storage driver backend to use for dspam.";
+        description = lib.mdDoc "Storage driver backend to use for dspam.";
       };
 
       domainSocket = mkOption {
@@ -76,11 +81,8 @@ in {
         default = null;
         description = lib.mdDoc "If set, maintenance script will be run at specified (in systemd.timer format) interval";
       };
-
     };
-
   };
-
 
   ###### implementation
 
@@ -93,9 +95,7 @@ in {
         };
       };
 
-      users.groups = optionalAttrs (cfg.group == "dspam") {
-        dspam.gid = config.ids.gids.dspam;
-      };
+      users.groups = optionalAttrs (cfg.group == "dspam") { dspam.gid = config.ids.gids.dspam; };
 
       environment.systemPackages = [ dspam ];
 

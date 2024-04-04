@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchPypi
-, openssl
-, parameterized
-, pytestCheckHook
-, pythonOlder
-, swig2
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchPypi,
+  openssl,
+  parameterized,
+  pytestCheckHook,
+  pythonOlder,
+  swig2,
 }:
 
 buildPythonPackage rec {
@@ -37,13 +38,9 @@ buildPythonPackage rec {
     "-Wno-error=incompatible-pointer-types"
   ]);
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "M2Crypto"
-  ];
+  pythonImportsCheck = [ "M2Crypto" ];
 
   meta = with lib; {
     description = "A Python crypto and SSL toolkit";

@@ -1,4 +1,12 @@
-{ lib, go, buildGoModule, fetchFromGitHub, installShellFiles, testers, vcluster }:
+{
+  lib,
+  go,
+  buildGoModule,
+  fetchFromGitHub,
+  installShellFiles,
+  testers,
+  vcluster,
+}:
 
 buildGoModule rec {
   pname = "vcluster";
@@ -18,7 +26,8 @@ buildGoModule rec {
   nativeBuildInputs = [ installShellFiles ];
 
   ldflags = [
-    "-s" "-w"
+    "-s"
+    "-w"
     "-X main.version=${version}"
     "-X main.goVersion=${lib.getVersion go}"
   ];
@@ -50,6 +59,10 @@ buildGoModule rec {
     downloadPage = "https://github.com/loft-sh/vcluster";
     homepage = "https://www.vcluster.com/";
     license = licenses.asl20;
-    maintainers = with maintainers; [ peterromfeldhk berryp qjoly ];
+    maintainers = with maintainers; [
+      peterromfeldhk
+      berryp
+      qjoly
+    ];
   };
 }

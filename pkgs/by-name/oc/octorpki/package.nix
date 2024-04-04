@@ -1,7 +1,8 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
-, fetchpatch
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  fetchpatch,
 }:
 
 buildGoModule rec {
@@ -28,9 +29,7 @@ buildGoModule rec {
     "-X main.talpath=${placeholder "out"}/share/tals"
   ];
 
-  subPackages = [
-    "cmd/octorpki"
-  ];
+  subPackages = [ "cmd/octorpki" ];
 
   postInstall = ''
     mkdir -p $out/share

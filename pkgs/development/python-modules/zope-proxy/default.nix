@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, setuptools
-, zope-interface
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  setuptools,
+  zope-interface,
 }:
 
 buildPythonPackage rec {
@@ -19,18 +20,14 @@ buildPythonPackage rec {
     hash = "sha256-d3e9P4986nRSFyYgLhptUVPb9knyBOJQBYrQOvRqQxg=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [ zope-interface ];
 
   # circular deps
   doCheck = false;
 
-  pythonImportsCheck = [
-    "zope.proxy"
-  ];
+  pythonImportsCheck = [ "zope.proxy" ];
 
   meta = with lib; {
     homepage = "https://github.com/zopefoundation/zope.proxy";

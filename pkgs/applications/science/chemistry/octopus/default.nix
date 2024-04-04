@@ -1,28 +1,29 @@
-{ lib
-, stdenv
-, fetchFromGitLab
-, gfortran
-, which
-, perl
-, procps
-, libvdwxc
-, libyaml
-, libxc
-, fftw
-, blas
-, lapack
-, gsl
-, netcdf
-, arpack
-, autoreconfHook
-, scalapack
-, mpi
-, enableMpi ? true
-, python3
-, enableFma ? stdenv.hostPlatform.fmaSupport
-, enableFma4 ? stdenv.hostPlatform.fma4Support
-, enableAvx ? stdenv.hostPlatform.avx2Support
-, enableAvx512 ? stdenv.hostPlatform.avx512Support
+{
+  lib,
+  stdenv,
+  fetchFromGitLab,
+  gfortran,
+  which,
+  perl,
+  procps,
+  libvdwxc,
+  libyaml,
+  libxc,
+  fftw,
+  blas,
+  lapack,
+  gsl,
+  netcdf,
+  arpack,
+  autoreconfHook,
+  scalapack,
+  mpi,
+  enableMpi ? true,
+  python3,
+  enableFma ? stdenv.hostPlatform.fmaSupport,
+  enableFma4 ? stdenv.hostPlatform.fma4Support,
+  enableAvx ? stdenv.hostPlatform.avx2Support,
+  enableAvx512 ? stdenv.hostPlatform.avx512Support,
 }:
 
 assert (!blas.isILP64) && (!lapack.isILP64);
@@ -63,27 +64,28 @@ stdenv.mkDerivation rec {
   propagatedBuildInputs = lib.optional enableMpi mpi;
   propagatedUserEnvPkgs = lib.optional enableMpi mpi;
 
-  configureFlags = with lib; [
-    "--with-yaml-prefix=${lib.getDev libyaml}"
-    "--with-blas=-lblas"
-    "--with-lapack=-llapack"
-    "--with-fftw-prefix=${lib.getDev fftw}"
-    "--with-gsl-prefix=${lib.getDev gsl}"
-    "--with-libxc-prefix=${lib.getDev libxc}"
-    "--with-libvdwxc"
-    "--enable-openmp"
-  ]
-  ++ optional enableFma "--enable-fma3"
-  ++ optional enableFma4 "--enable-fma4"
-  ++ optional enableAvx "--enable-avx"
-  ++ optional enableAvx512 "--enable-avx512"
-  ++ optionals enableMpi [
-    "--enable-mpi"
-    "--with-scalapack=-lscalapack"
-    "CC=mpicc"
-    "FC=mpif90"
-  ];
-
+  configureFlags =
+    with lib;
+    [
+      "--with-yaml-prefix=${lib.getDev libyaml}"
+      "--with-blas=-lblas"
+      "--with-lapack=-llapack"
+      "--with-fftw-prefix=${lib.getDev fftw}"
+      "--with-gsl-prefix=${lib.getDev gsl}"
+      "--with-libxc-prefix=${lib.getDev libxc}"
+      "--with-libvdwxc"
+      "--enable-openmp"
+    ]
+    ++ optional enableFma "--enable-fma3"
+    ++ optional enableFma4 "--enable-fma4"
+    ++ optional enableAvx "--enable-avx"
+    ++ optional enableAvx512 "--enable-avx512"
+    ++ optionals enableMpi [
+      "--enable-mpi"
+      "--with-scalapack=-lscalapack"
+      "CC=mpicc"
+      "FC=mpif90"
+    ];
 
   nativeCheckInputs = lib.optional.enableMpi mpi;
   doCheck = false;
@@ -105,7 +107,12 @@ stdenv.mkDerivation rec {
     description = "Real-space time dependent density-functional theory code";
     homepage = "https://octopus-code.org";
     maintainers = with maintainers; [ markuskowa ];
-    license = with licenses; [ gpl2Only asl20 lgpl3Plus bsd3 ];
+    license = with licenses; [
+      gpl2Only
+      asl20
+      lgpl3Plus
+      bsd3
+    ];
     platforms = [ "x86_64-linux" ];
   };
 }

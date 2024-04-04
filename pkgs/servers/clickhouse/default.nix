@@ -1,32 +1,33 @@
-{ lib
-, llvmPackages
-, fetchFromGitHub
-, fetchpatch
-, cmake
-, ninja
-, python3
-, perl
-, nasm
-, yasm
-, nixosTests
-, darwin
-, findutils
+{
+  lib,
+  llvmPackages,
+  fetchFromGitHub,
+  fetchpatch,
+  cmake,
+  ninja,
+  python3,
+  perl,
+  nasm,
+  yasm,
+  nixosTests,
+  darwin,
+  findutils,
 
-, rustSupport ? true
+  rustSupport ? true,
 
-, corrosion
-, rustc
-, cargo
-, rustPlatform
+  corrosion,
+  rustc,
+  cargo,
+  rustPlatform,
 }:
 
 let
   inherit (llvmPackages) stdenv;
-  mkDerivation = (
-    if stdenv.isDarwin
-    then darwin.apple_sdk_11_0.llvmPackages_16.stdenv
-    else llvmPackages.stdenv).mkDerivation;
-in mkDerivation rec {
+  mkDerivation =
+    (if stdenv.isDarwin then darwin.apple_sdk_11_0.llvmPackages_16.stdenv else llvmPackages.stdenv)
+    .mkDerivation;
+in
+mkDerivation rec {
   pname = "clickhouse";
   version = "23.11.1.2711";
 
@@ -76,44 +77,60 @@ in mkDerivation rec {
   ];
 
   strictDeps = true;
-  nativeBuildInputs = [
-    cmake
-    ninja
-    python3
-    perl
-    llvmPackages.lld
-  ] ++ lib.optionals stdenv.isx86_64 [
-    nasm
-    yasm
-  ] ++ lib.optionals stdenv.isDarwin [
-    llvmPackages.bintools
-    findutils
-    darwin.bootstrap_cmds
-  ] ++ lib.optionals rustSupport [
-    rustc
-    cargo
-    rustPlatform.cargoSetupHook
-  ];
+  nativeBuildInputs =
+    [
+      cmake
+      ninja
+      python3
+      perl
+      llvmPackages.lld
+    ]
+    ++ lib.optionals stdenv.isx86_64 [
+      nasm
+      yasm
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      llvmPackages.bintools
+      findutils
+      darwin.bootstrap_cmds
+    ]
+    ++ lib.optionals rustSupport [
+      rustc
+      cargo
+      rustPlatform.cargoSetupHook
+    ];
 
   # their vendored version is too old and missing this patch: https://github.com/corrosion-rs/corrosion/pull/205
-  corrosionSrc = if rustSupport then fetchFromGitHub {
-    owner = "corrosion-rs";
-    repo = "corrosion";
-    rev = "v0.3.5";
-    hash = "sha256-r/jrck4RiQynH1+Hx4GyIHpw/Kkr8dHe1+vTHg+fdRs=";
-  } else null;
-  corrosionDeps = if rustSupport then rustPlatform.fetchCargoTarball {
-    src = corrosionSrc;
-    name = "corrosion-deps";
-    preBuild = "cd generator";
-    hash = "sha256-dhUgpwSjE9NZ2mCkhGiydI51LIOClA5wwk1O3mnnbM8=";
-  } else null;
-  rustDeps = if rustSupport then rustPlatform.fetchCargoTarball {
-    inherit src;
-    name = "rust-deps";
-    preBuild = "cd rust";
-    hash = "sha256-fWDAGm19b7uZv8aBdBoieY5c6POd8IxFXbGdtONpZbw=";
-  } else null;
+  corrosionSrc =
+    if rustSupport then
+      fetchFromGitHub {
+        owner = "corrosion-rs";
+        repo = "corrosion";
+        rev = "v0.3.5";
+        hash = "sha256-r/jrck4RiQynH1+Hx4GyIHpw/Kkr8dHe1+vTHg+fdRs=";
+      }
+    else
+      null;
+  corrosionDeps =
+    if rustSupport then
+      rustPlatform.fetchCargoTarball {
+        src = corrosionSrc;
+        name = "corrosion-deps";
+        preBuild = "cd generator";
+        hash = "sha256-dhUgpwSjE9NZ2mCkhGiydI51LIOClA5wwk1O3mnnbM8=";
+      }
+    else
+      null;
+  rustDeps =
+    if rustSupport then
+      rustPlatform.fetchCargoTarball {
+        inherit src;
+        name = "rust-deps";
+        preBuild = "cd rust";
+        hash = "sha256-fWDAGm19b7uZv8aBdBoieY5c6POd8IxFXbGdtONpZbw=";
+      }
+    else
+      null;
 
   dontCargoSetupPostUnpack = true;
   postUnpack = lib.optionalString rustSupport ''
@@ -138,38 +155,42 @@ in mkDerivation rec {
     popd
   '';
 
-  postPatch = ''
-    patchShebangs src/
+  postPatch =
+    ''
+      patchShebangs src/
 
-    substituteInPlace src/Storages/System/StorageSystemLicenses.sh \
-      --replace 'git rev-parse --show-toplevel' '$src'
-    substituteInPlace utils/check-style/check-duplicate-includes.sh \
-      --replace 'git rev-parse --show-toplevel' '$src'
-    substituteInPlace utils/check-style/check-ungrouped-includes.sh \
-      --replace 'git rev-parse --show-toplevel' '$src'
-    substituteInPlace utils/list-licenses/list-licenses.sh \
-      --replace 'git rev-parse --show-toplevel' '$src'
-    substituteInPlace utils/check-style/check-style \
-      --replace 'git rev-parse --show-toplevel' '$src'
-  '' + lib.optionalString stdenv.isDarwin ''
-    sed -i 's|gfind|find|' cmake/tools.cmake
-    sed -i 's|ggrep|grep|' cmake/tools.cmake
-  '' + lib.optionalString rustSupport ''
+      substituteInPlace src/Storages/System/StorageSystemLicenses.sh \
+        --replace 'git rev-parse --show-toplevel' '$src'
+      substituteInPlace utils/check-style/check-duplicate-includes.sh \
+        --replace 'git rev-parse --show-toplevel' '$src'
+      substituteInPlace utils/check-style/check-ungrouped-includes.sh \
+        --replace 'git rev-parse --show-toplevel' '$src'
+      substituteInPlace utils/list-licenses/list-licenses.sh \
+        --replace 'git rev-parse --show-toplevel' '$src'
+      substituteInPlace utils/check-style/check-style \
+        --replace 'git rev-parse --show-toplevel' '$src'
+    ''
+    + lib.optionalString stdenv.isDarwin ''
+      sed -i 's|gfind|find|' cmake/tools.cmake
+      sed -i 's|ggrep|grep|' cmake/tools.cmake
+    ''
+    + lib.optionalString rustSupport ''
 
-    pushd contrib/corrosion/generator
-    cargoDepsCopy="$corrosionDepsCopy" cargoSetupPostPatchHook
-    popd
+      pushd contrib/corrosion/generator
+      cargoDepsCopy="$corrosionDepsCopy" cargoSetupPostPatchHook
+      popd
 
-    pushd rust
-    cargoDepsCopy="$rustDepsCopy" cargoSetupPostPatchHook
-    popd
+      pushd rust
+      cargoDepsCopy="$rustDepsCopy" cargoSetupPostPatchHook
+      popd
 
-    cargoSetupPostPatchHook() { true; }
-  '' + lib.optionalString stdenv.isDarwin ''
-    # Make sure Darwin invokes lld.ld64 not lld.
-    substituteInPlace cmake/tools.cmake \
-      --replace '--ld-path=''${LLD_PATH}' '-fuse-ld=lld'
-  '';
+      cargoSetupPostPatchHook() { true; }
+    ''
+    + lib.optionalString stdenv.isDarwin ''
+      # Make sure Darwin invokes lld.ld64 not lld.
+      substituteInPlace cmake/tools.cmake \
+        --replace '--ld-path=''${LLD_PATH}' '-fuse-ld=lld'
+    '';
 
   cmakeFlags = [
     "-DENABLE_TESTS=OFF"

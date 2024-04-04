@@ -1,15 +1,16 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, ipython
-, numpy
-, pandas
-, pytestCheckHook
-, pythonOlder
-, requests
-, responses
-, setuptools
-, tqdm
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  ipython,
+  numpy,
+  pandas,
+  pytestCheckHook,
+  pythonOlder,
+  requests,
+  responses,
+  setuptools,
+  tqdm,
 }:
 
 buildPythonPackage rec {
@@ -26,9 +27,7 @@ buildPythonPackage rec {
     hash = "sha256-WiNjMMcpp5K+Re44ryB7LNzr2LnnYzLZ5b0iT7u1ZiA=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     ipython
@@ -43,9 +42,7 @@ buildPythonPackage rec {
     responses
   ];
 
-  pythonImportsCheck = [
-    "cdcs"
-  ];
+  pythonImportsCheck = [ "cdcs" ];
 
   meta = with lib; {
     description = "Python client for performing REST calls to configurable data curation system (CDCS) databases";

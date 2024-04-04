@@ -1,6 +1,21 @@
-{ lib, buildDunePackage
-, index, ppx_irmin, irmin, optint, fmt, logs, lwt, mtime, cmdliner, checkseum, rusage
-, alcotest, alcotest-lwt, astring, irmin-test
+{
+  lib,
+  buildDunePackage,
+  index,
+  ppx_irmin,
+  irmin,
+  optint,
+  fmt,
+  logs,
+  lwt,
+  mtime,
+  cmdliner,
+  checkseum,
+  rusage,
+  alcotest,
+  alcotest-lwt,
+  astring,
+  irmin-test,
 }:
 
 buildDunePackage rec {
@@ -13,9 +28,25 @@ buildDunePackage rec {
 
   nativeBuildInputs = [ ppx_irmin ];
 
-  propagatedBuildInputs = [ index irmin optint fmt logs lwt mtime cmdliner checkseum rusage ];
+  propagatedBuildInputs = [
+    index
+    irmin
+    optint
+    fmt
+    logs
+    lwt
+    mtime
+    cmdliner
+    checkseum
+    rusage
+  ];
 
-  checkInputs = [ astring alcotest alcotest-lwt irmin-test ];
+  checkInputs = [
+    astring
+    alcotest
+    alcotest-lwt
+    irmin-test
+  ];
 
   doCheck = true;
 
@@ -23,5 +54,4 @@ buildDunePackage rec {
     description = "Irmin backend which stores values in a pack file";
     mainProgram = "irmin_fsck";
   };
-
 }

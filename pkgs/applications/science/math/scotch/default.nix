@@ -1,11 +1,24 @@
-{ lib, stdenv, fetchurl, bison, mpi, flex, zlib}:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  bison,
+  mpi,
+  flex,
+  zlib,
+}:
 
 stdenv.mkDerivation rec {
   version = "6.1.1";
   pname = "scotch";
   src_name = "scotch_${version}";
 
-  buildInputs = [ bison mpi flex zlib ];
+  buildInputs = [
+    bison
+    mpi
+    flex
+    zlib
+  ];
 
   src = fetchurl {
     url = "https://gforge.inria.fr/frs/download.php/file/34618/${src_name}.tar.gz";
@@ -33,4 +46,3 @@ stdenv.mkDerivation rec {
     platforms = lib.platforms.linux;
   };
 }
-

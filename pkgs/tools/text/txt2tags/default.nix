@@ -1,6 +1,7 @@
-{ lib
-, python3
-, fetchFromGitHub
+{
+  lib,
+  python3,
+  fetchFromGitHub,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -31,7 +32,10 @@ python3.pkgs.buildPythonApplication rec {
     changelog = "https://github.com/txt2tags/txt2tags/blob/${src.rev}/CHANGELOG.md";
     description = "Convert between markup languages";
     homepage = "https://txt2tags.org/";
-    license  = lib.licenses.gpl2Plus;
-    maintainers = with lib.maintainers; [ dotlambda kovirobi ];
+    license = lib.licenses.gpl2Plus;
+    maintainers = with lib.maintainers; [
+      dotlambda
+      kovirobi
+    ];
   };
 }

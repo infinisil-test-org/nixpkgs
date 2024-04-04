@@ -1,7 +1,8 @@
-{ lib
-, fetchFromSourcehut
-, pythonPackages
-, wrapGAppsHook
+{
+  lib,
+  fetchFromSourcehut,
+  pythonPackages,
+  wrapGAppsHook,
 }:
 
 pythonPackages.buildPythonApplication rec {
@@ -15,9 +16,7 @@ pythonPackages.buildPythonApplication rec {
     sha256 = "sha256-GFReOgM8zi5oyePpJm5HxtizUVqqUUINTRwyG/LGWB8=";
   };
 
-  nativeBuildInputs = [
-    wrapGAppsHook
-  ];
+  nativeBuildInputs = [ wrapGAppsHook ];
 
   propagatedBuildInputs = with pythonPackages; [
     pyopengl

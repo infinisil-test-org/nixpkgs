@@ -1,29 +1,30 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, pythonOlder
-, fetchPypi
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  pythonOlder,
+  fetchPypi,
 
-# build-system
-, flit-core
+  # build-system
+  flit-core,
 
-# dependencies
-, markupsafe
+  # dependencies
+  markupsafe,
 
-# optional-dependencies
-, watchdog
+  # optional-dependencies
+  watchdog,
 
-# tests
-, cryptography
-, ephemeral-port-reserve
-, greenlet
-, pytest-timeout
-, pytest-xprocess
-, pytestCheckHook
+  # tests
+  cryptography,
+  ephemeral-port-reserve,
+  greenlet,
+  pytest-timeout,
+  pytest-xprocess,
+  pytestCheckHook,
 
-# reverse dependencies
-, moto
-, sentry-sdk
+  # reverse dependencies
+  moto,
+  sentry-sdk,
 }:
 
 buildPythonPackage rec {
@@ -38,13 +39,9 @@ buildPythonPackage rec {
     hash = "sha256-UH6BHs6nKxikBJR63tSzOQ4duPgmtJTXZVDvRbs7Hcw=";
   };
 
-  nativeBuildInputs = [
-    flit-core
-  ];
+  nativeBuildInputs = [ flit-core ];
 
-  propagatedBuildInputs = [
-    markupsafe
-  ];
+  propagatedBuildInputs = [ markupsafe ];
 
   passthru.optional-dependencies = {
     watchdog = lib.optionals (!stdenv.isDarwin) [
@@ -53,19 +50,18 @@ buildPythonPackage rec {
     ];
   };
 
-  nativeCheckInputs = [
-    cryptography
-    ephemeral-port-reserve
-    pytest-timeout
-    pytest-xprocess
-    pytestCheckHook
-  ] ++ lib.optionals (pythonOlder "3.11") [
-    greenlet
-  ] ++ lib.flatten (builtins.attrValues passthru.optional-dependencies);
+  nativeCheckInputs =
+    [
+      cryptography
+      ephemeral-port-reserve
+      pytest-timeout
+      pytest-xprocess
+      pytestCheckHook
+    ]
+    ++ lib.optionals (pythonOlder "3.11") [ greenlet ]
+    ++ lib.flatten (builtins.attrValues passthru.optional-dependencies);
 
-  disabledTests = lib.optionals stdenv.isDarwin [
-    "test_get_machine_id"
-  ];
+  disabledTests = lib.optionals stdenv.isDarwin [ "test_get_machine_id" ];
 
   disabledTestPaths = [
     # ConnectionRefusedError: [Errno 111] Connection refused
@@ -83,7 +79,9 @@ buildPythonPackage rec {
   };
 
   meta = with lib; {
-    changelog = "https://werkzeug.palletsprojects.com/en/${versions.majorMinor version}.x/changes/#version-${replaceStrings [ "." ] [ "-" ] version}";
+    changelog = "https://werkzeug.palletsprojects.com/en/${versions.majorMinor version}.x/changes/#version-${
+      replaceStrings [ "." ] [ "-" ] version
+    }";
     homepage = "https://palletsprojects.com/p/werkzeug/";
     description = "The comprehensive WSGI web application library";
     longDescription = ''

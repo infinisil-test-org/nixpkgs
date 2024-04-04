@@ -1,19 +1,21 @@
-{ lib
-, fetchFromGitHub
-, stdenv
-, rustPlatform
-, openssl
-, pkg-config
-, Security
-, testers
-, tmux-sessionizer
-}: let
+{
+  lib,
+  fetchFromGitHub,
+  stdenv,
+  rustPlatform,
+  openssl,
+  pkg-config,
+  Security,
+  testers,
+  tmux-sessionizer,
+}:
+let
 
   name = "tmux-sessionizer";
   # v0.4.1 is not released yet, but v0.4.0 has version discrepancy between Cargo.toml and Cargo.lock and does not build
   version = "0.4.0-unstable-2024-02-06";
-
-in rustPlatform.buildRustPackage {
+in
+rustPlatform.buildRustPackage {
   pname = name;
   inherit version;
 
@@ -41,7 +43,10 @@ in rustPlatform.buildRustPackage {
     description = "The fastest way to manage projects as tmux sessions";
     homepage = "https://github.com/jrmoulton/tmux-sessionizer";
     license = licenses.mit;
-    maintainers = with maintainers; [ vinnymeller mrcjkb ];
+    maintainers = with maintainers; [
+      vinnymeller
+      mrcjkb
+    ];
     mainProgram = "tms";
   };
 }

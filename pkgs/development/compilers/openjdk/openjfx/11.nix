@@ -1,8 +1,26 @@
-{ stdenv, lib, fetchFromGitHub, writeText, gradle_7, pkg-config, perl, cmake
-, gperf, gtk2, gtk3, libXtst, libXxf86vm, glib, alsa-lib, ffmpeg_4-headless, python3, ruby, icu68
-, openjdk11-bootstrap
-, withMedia ? true
-, withWebKit ? false
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  writeText,
+  gradle_7,
+  pkg-config,
+  perl,
+  cmake,
+  gperf,
+  gtk2,
+  gtk3,
+  libXtst,
+  libXxf86vm,
+  glib,
+  alsa-lib,
+  ffmpeg_4-headless,
+  python3,
+  ruby,
+  icu68,
+  openjdk11-bootstrap,
+  withMedia ? true,
+  withWebKit ? false,
 }:
 
 let
@@ -10,47 +28,70 @@ let
   update = ".0.18";
   build = "1";
   repover = "${major}${update}+${build}";
-  gradle_ = (gradle_7.override {
-    java = openjdk11-bootstrap;
-  });
+  gradle_ = (gradle_7.override { java = openjdk11-bootstrap; });
 
-  makePackage = args: stdenv.mkDerivation ({
-    version = "${major}${update}-${build}";
+  makePackage =
+    args:
+    stdenv.mkDerivation (
+      {
+        version = "${major}${update}-${build}";
 
-    src = fetchFromGitHub {
-      owner = "openjdk";
-      repo = "jfx${major}u";
-      rev = repover;
-      sha256 = "sha256-46DjIzcBHkmp5vnhYnLu78CG72bIBRM4A6mgk2OLOko=";
-    };
+        src = fetchFromGitHub {
+          owner = "openjdk";
+          repo = "jfx${major}u";
+          rev = repover;
+          sha256 = "sha256-46DjIzcBHkmp5vnhYnLu78CG72bIBRM4A6mgk2OLOko=";
+        };
 
-    buildInputs = [ gtk2 gtk3 libXtst libXxf86vm glib alsa-lib ffmpeg_4-headless icu68 ];
-    nativeBuildInputs = [ gradle_ perl pkg-config cmake gperf python3 ruby ];
+        buildInputs = [
+          gtk2
+          gtk3
+          libXtst
+          libXxf86vm
+          glib
+          alsa-lib
+          ffmpeg_4-headless
+          icu68
+        ];
+        nativeBuildInputs = [
+          gradle_
+          perl
+          pkg-config
+          cmake
+          gperf
+          python3
+          ruby
+        ];
 
-    dontUseCmakeConfigure = true;
+        dontUseCmakeConfigure = true;
 
-    postPatch = ''
-      substituteInPlace buildSrc/linux.gradle \
-        --replace ', "-Werror=implicit-function-declaration"' ""
-    '';
+        postPatch = ''
+          substituteInPlace buildSrc/linux.gradle \
+            --replace ', "-Werror=implicit-function-declaration"' ""
+        '';
 
-    config = writeText "gradle.properties" (''
-      CONF = Release
-      JDK_HOME = ${openjdk11-bootstrap.home}
-    '' + args.gradleProperties or "");
+        config = writeText "gradle.properties" (
+          ''
+            CONF = Release
+            JDK_HOME = ${openjdk11-bootstrap.home}
+          ''
+          + args.gradleProperties or ""
+        );
 
-    buildPhase = ''
-      runHook preBuild
+        buildPhase = ''
+          runHook preBuild
 
-      export NUMBER_OF_PROCESSORS=$NIX_BUILD_CORES
-      export GRADLE_USER_HOME=$(mktemp -d)
-      ln -s $config gradle.properties
-      export NIX_CFLAGS_COMPILE="$(pkg-config --cflags glib-2.0) $NIX_CFLAGS_COMPILE"
-      gradle --no-daemon $gradleFlags sdk
+          export NUMBER_OF_PROCESSORS=$NIX_BUILD_CORES
+          export GRADLE_USER_HOME=$(mktemp -d)
+          ln -s $config gradle.properties
+          export NIX_CFLAGS_COMPILE="$(pkg-config --cflags glib-2.0) $NIX_CFLAGS_COMPILE"
+          gradle --no-daemon $gradleFlags sdk
 
-      runHook postBuild
-    '';
-  } // args);
+          runHook postBuild
+        '';
+      }
+      // args
+    );
 
   # Fake build to pre-download deps into fixed-output derivation.
   # We run nearly full build because I see no other way to download everything that's needed.
@@ -70,8 +111,8 @@ let
     outputHashMode = "recursive";
     outputHash = "sha256-syceJMUEknBDCHK8eGs6rUU3IQn+HnQfURfCrDxYPa9=";
   };
-
-in makePackage {
+in
+makePackage {
   pname = "openjfx-modular-sdk";
 
   gradleProperties = ''

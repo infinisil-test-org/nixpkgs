@@ -1,8 +1,9 @@
-{ lib
-, fetchFromGitHub
-, python3
-, testers
-, jrnl
+{
+  lib,
+  fetchFromGitHub,
+  python3,
+  testers,
+  jrnl,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -17,9 +18,7 @@ python3.pkgs.buildPythonApplication rec {
     hash = "sha256-DtujXSDJWnOrHjVgJEJNKJMhSrNBHlR2hvHeHLSIF2o=";
   };
 
-  nativeBuildInputs = with python3.pkgs; [
-    poetry-core
-  ];
+  nativeBuildInputs = with python3.pkgs; [ poetry-core ];
 
   propagatedBuildInputs = with python3.pkgs; [
     asteval
@@ -43,14 +42,11 @@ python3.pkgs.buildPythonApplication rec {
     toml
   ];
 
-
   preCheck = ''
     export HOME=$(mktemp -d);
   '';
 
-  pythonImportsCheck = [
-    "jrnl"
-  ];
+  pythonImportsCheck = [ "jrnl" ];
 
   passthru.tests.version = testers.testVersion {
     package = jrnl;
@@ -62,7 +58,10 @@ python3.pkgs.buildPythonApplication rec {
     description = "Simple command line journal application that stores your journal in a plain text file";
     homepage = "https://jrnl.sh/";
     license = licenses.gpl3Only;
-    maintainers = with maintainers; [ bryanasdev000 zalakain ];
+    maintainers = with maintainers; [
+      bryanasdev000
+      zalakain
+    ];
     mainProgram = "jrnl";
   };
 }

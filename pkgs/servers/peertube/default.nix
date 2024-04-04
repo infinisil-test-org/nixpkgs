@@ -1,16 +1,17 @@
-{ lib
-, stdenv
-, callPackage
-, fetchurl
-, fetchFromGitHub
-, fetchYarnDeps
-, nixosTests
-, brotli
-, prefetch-yarn-deps
-, jq
-, nodejs
-, which
-, yarn
+{
+  lib,
+  stdenv,
+  callPackage,
+  fetchurl,
+  fetchFromGitHub,
+  fetchYarnDeps,
+  nixosTests,
+  brotli,
+  prefetch-yarn-deps,
+  jq,
+  nodejs,
+  which,
+  yarn,
 }:
 let
   bcryptHostPlatformAttrs = {
@@ -35,8 +36,9 @@ let
       hash = "sha256-VesAcT/IF2cvJVncJoqZcAvFxw32SN70C60GLU2kmVI=";
     };
   };
-  bcryptAttrs = bcryptHostPlatformAttrs."${stdenv.hostPlatform.system}" or
-    (throw "Unsupported architecture: ${stdenv.hostPlatform.system}");
+  bcryptAttrs =
+    bcryptHostPlatformAttrs."${stdenv.hostPlatform.system}"
+      or (throw "Unsupported architecture: ${stdenv.hostPlatform.system}");
   bcryptVersion = "5.1.0";
   bcryptLib = fetchurl {
     url = "https://github.com/kelektiv/node.bcrypt.js/releases/download/v${bcryptVersion}/bcrypt_lib-v${bcryptVersion}-napi-v3-${bcryptAttrs.arch}-${bcryptAttrs.libc}.tar.gz";
@@ -69,7 +71,14 @@ stdenv.mkDerivation rec {
     hash = "sha256-Ejzk/VEx7YtJpsrkHcXAZnJ+yRx1VhBJGpqquHYULNU=";
   };
 
-  nativeBuildInputs = [ brotli prefetch-yarn-deps jq nodejs which yarn ];
+  nativeBuildInputs = [
+    brotli
+    prefetch-yarn-deps
+    jq
+    nodejs
+    which
+    yarn
+  ];
 
   buildPhase = ''
     # Build node modules
@@ -153,7 +162,17 @@ stdenv.mkDerivation rec {
     '';
     license = licenses.agpl3Plus;
     homepage = "https://joinpeertube.org/";
-    platforms = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
-    maintainers = with maintainers; [ immae izorkin mohe2015 stevenroose ];
+    platforms = [
+      "x86_64-linux"
+      "aarch64-linux"
+      "x86_64-darwin"
+      "aarch64-darwin"
+    ];
+    maintainers = with maintainers; [
+      immae
+      izorkin
+      mohe2015
+      stevenroose
+    ];
   };
 }

@@ -1,6 +1,14 @@
-{ lib, fetchFromGitHub, python3, python3Packages
-, gnome, gtk3, wrapGAppsHook, gtksourceview3, snapper
-, gobject-introspection
+{
+  lib,
+  fetchFromGitHub,
+  python3,
+  python3Packages,
+  gnome,
+  gtk3,
+  wrapGAppsHook,
+  gtksourceview3,
+  snapper,
+  gobject-introspection,
 }:
 
 python3Packages.buildPythonApplication rec {
@@ -14,7 +22,10 @@ python3Packages.buildPythonApplication rec {
     sha256 = "13j4spbi9pxg69zifzai8ifk4207sn0vwh6vjqryi0snd5sylh7h";
   };
 
-  nativeBuildInputs = [ wrapGAppsHook gobject-introspection ];
+  nativeBuildInputs = [
+    wrapGAppsHook
+    gobject-introspection
+  ];
 
   buildInputs = [
     python3

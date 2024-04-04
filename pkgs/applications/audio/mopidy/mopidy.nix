@@ -1,5 +1,12 @@
-{ lib, stdenv, fetchFromGitHub, pythonPackages, wrapGAppsNoGuiHook
-, gst_all_1, glib-networking, gobject-introspection
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  pythonPackages,
+  wrapGAppsNoGuiHook,
+  gst_all_1,
+  glib-networking,
+  gobject-introspection,
 }:
 
 pythonPackages.buildPythonApplication rec {
@@ -24,21 +31,22 @@ pythonPackages.buildPythonApplication rec {
     gst-plugins-rs
   ];
 
-  propagatedBuildInputs = [
-    gobject-introspection
-  ] ++ (with pythonPackages; [
-      gst-python
-      pygobject3
-      pykka
-      requests
-      setuptools
-      tornado
-    ] ++ lib.optional (!stdenv.isDarwin) dbus-python
-  );
+  propagatedBuildInputs =
+    [ gobject-introspection ]
+    ++ (
+      with pythonPackages;
+      [
+        gst-python
+        pygobject3
+        pykka
+        requests
+        setuptools
+        tornado
+      ]
+      ++ lib.optional (!stdenv.isDarwin) dbus-python
+    );
 
-  propagatedNativeBuildInputs = [
-    gobject-introspection
-  ];
+  propagatedNativeBuildInputs = [ gobject-introspection ];
 
   # There are no tests
   doCheck = false;
@@ -48,6 +56,6 @@ pythonPackages.buildPythonApplication rec {
     description = "An extensible music server that plays music from local disk, Spotify, SoundCloud, and more";
     license = licenses.asl20;
     maintainers = [ maintainers.fpletz ];
-    hydraPlatforms = [];
+    hydraPlatforms = [ ];
   };
 }

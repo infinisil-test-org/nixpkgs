@@ -1,24 +1,25 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchPypi
-, hatch-fancy-pypi-readme
-, hatch-vcs
-, hatchling
-, distro
-, packaging
-, setuptools
-, wheel
-, tomli
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchPypi,
+  hatch-fancy-pypi-readme,
+  hatch-vcs,
+  hatchling,
+  distro,
+  packaging,
+  setuptools,
+  wheel,
+  tomli,
   # Test Inputs
-, cmake
-, cython
-, git
-, path
-, pytestCheckHook
-, pytest-mock
-, requests
-, virtualenv
+  cmake,
+  cython,
+  git,
+  path,
+  pytestCheckHook,
+  pytest-mock,
+  requests,
+  virtualenv,
 }:
 
 buildPythonPackage rec {
@@ -57,9 +58,7 @@ buildPythonPackage rec {
     packaging
     setuptools
     wheel
-  ] ++ lib.optionals (pythonOlder "3.11") [
-    tomli
-  ];
+  ] ++ lib.optionals (pythonOlder "3.11") [ tomli ];
 
   nativeCheckInputs = [
     cmake
@@ -95,7 +94,10 @@ buildPythonPackage rec {
     changelog = "https://github.com/scikit-build/scikit-build/blob/${version}/CHANGES.rst";
     description = "Improved build system generator for CPython C/C++/Fortran/Cython extensions";
     homepage = "https://github.com/scikit-build/scikit-build";
-    license = with licenses; [ mit bsd2 ]; # BSD due to reuses of PyNE code
+    license = with licenses; [
+      mit
+      bsd2
+    ]; # BSD due to reuses of PyNE code
     maintainers = with maintainers; [ FlorianFranzen ];
   };
 }

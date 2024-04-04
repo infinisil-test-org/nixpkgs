@@ -1,11 +1,12 @@
-{ lib
-, stdenv
-, fetchurl
-, autoPatchelfHook
-, addOpenGLRunpath
-, makeWrapper
-, ocl-icd
-, vulkan-loader
+{
+  lib,
+  stdenv,
+  fetchurl,
+  autoPatchelfHook,
+  addOpenGLRunpath,
+  makeWrapper,
+  ocl-icd,
+  vulkan-loader,
 }:
 
 let
@@ -31,7 +32,10 @@ stdenv.mkDerivation {
   dontConfigure = true;
   dontBuild = true;
 
-  nativeBuildInputs = [ autoPatchelfHook makeWrapper ];
+  nativeBuildInputs = [
+    autoPatchelfHook
+    makeWrapper
+  ];
 
   buildInputs = [ stdenv.cc.cc.lib ];
 
@@ -43,11 +47,13 @@ stdenv.mkDerivation {
 
     for f in geekbench5 geekbench_${processor} ; do
       wrapProgram $out/bin/$f \
-        --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath [
-          addOpenGLRunpath.driverLink
-          ocl-icd
-          vulkan-loader
-       ]}"
+        --prefix LD_LIBRARY_PATH : "${
+          lib.makeLibraryPath [
+            addOpenGLRunpath.driverLink
+            ocl-icd
+            vulkan-loader
+          ]
+        }"
     done
 
     runHook postInstall

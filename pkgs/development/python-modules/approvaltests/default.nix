@@ -1,21 +1,22 @@
-{ lib
-, allpairspy
-, approval-utilities
-, beautifulsoup4
-, buildPythonPackage
-, empty-files
-, fetchFromGitHub
-, mock
-, mrjob
-, numpy
-, pyperclip
-, pytest
-, pytest-asyncio
-, pytestCheckHook
-, pythonOlder
-, setuptools
-, testfixtures
-, typing-extensions
+{
+  lib,
+  allpairspy,
+  approval-utilities,
+  beautifulsoup4,
+  buildPythonPackage,
+  empty-files,
+  fetchFromGitHub,
+  mock,
+  mrjob,
+  numpy,
+  pyperclip,
+  pytest,
+  pytest-asyncio,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
+  testfixtures,
+  typing-extensions,
 }:
 
 buildPythonPackage rec {
@@ -32,9 +33,7 @@ buildPythonPackage rec {
     hash = "sha256-kVGCAht3ZP6ENhFJG3LoYs6PTH7OSNoj/h5QACwjKG8=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     allpairspy

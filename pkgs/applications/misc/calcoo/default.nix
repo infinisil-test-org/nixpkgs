@@ -1,10 +1,11 @@
-{ lib
-, stdenv
-, fetchzip
-, ant
-, canonicalize-jars-hook
-, jdk
-, makeWrapper
+{
+  lib,
+  stdenv,
+  fetchzip,
+  ant,
+  canonicalize-jars-hook,
+  jdk,
+  makeWrapper,
 }:
 
 stdenv.mkDerivation (finalAttrs: {

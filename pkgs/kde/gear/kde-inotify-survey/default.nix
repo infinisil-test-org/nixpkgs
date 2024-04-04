@@ -1,4 +1,1 @@
-{mkKdeDerivation}:
-mkKdeDerivation {
-  pname = "kde-inotify-survey";
-}
+{ mkKdeDerivation }: mkKdeDerivation { pname = "kde-inotify-survey"; }

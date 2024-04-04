@@ -1,7 +1,8 @@
-{ lib
-, stdenvNoCC
-, fetchurl
-, undmg
+{
+  lib,
+  stdenvNoCC,
+  fetchurl,
+  undmg,
 }:
 
 stdenvNoCC.mkDerivation (finalAttrs: {
@@ -37,7 +38,13 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     homepage = "https://raycast.app/";
     license = with licenses; [ unfree ];
     sourceProvenance = with sourceTypes; [ binaryNativeCode ];
-    maintainers = with maintainers; [ lovesegfault stepbrobd ];
-    platforms = [ "aarch64-darwin" "x86_64-darwin" ];
+    maintainers = with maintainers; [
+      lovesegfault
+      stepbrobd
+    ];
+    platforms = [
+      "aarch64-darwin"
+      "x86_64-darwin"
+    ];
   };
 })

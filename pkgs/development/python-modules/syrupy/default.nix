@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, python
-, poetry-core
-, pytest
-, colored
-, invoke
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  python,
+  poetry-core,
+  pytest,
+  colored,
+  invoke,
 }:
 
 buildPythonPackage rec {
@@ -22,17 +23,11 @@ buildPythonPackage rec {
     hash = "sha256-FjDGwSOKvDWx+LwUCNGEOBKV3rFG+09gtFpLLi0xgD4=";
   };
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
-  buildInputs = [
-    pytest
-  ];
+  buildInputs = [ pytest ];
 
-  propagatedBuildInputs = [
-    colored
-  ];
+  propagatedBuildInputs = [ colored ];
 
   nativeCheckInputs = [
     invoke

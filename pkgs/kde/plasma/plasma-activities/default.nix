@@ -6,5 +6,8 @@
 mkKdeDerivation {
   pname = "plasma-activities";
 
-  extraBuildInputs = [qtdeclarative boost];
+  extraBuildInputs = [
+    qtdeclarative
+    boost
+  ];
 }

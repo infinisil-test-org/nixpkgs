@@ -1,10 +1,16 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
-let cfg = config.services.nzbhydra2;
-
-in {
+let
+  cfg = config.services.nzbhydra2;
+in
+{
   options = {
     services.nzbhydra2 = {
       enable = mkEnableOption (lib.mdDoc "NZBHydra2");
@@ -18,8 +24,7 @@ in {
       openFirewall = mkOption {
         type = types.bool;
         default = false;
-        description =
-          lib.mdDoc "Open ports in the firewall for the NZBHydra2 web interface.";
+        description = lib.mdDoc "Open ports in the firewall for the NZBHydra2 web interface.";
       };
 
       package = mkPackageOption pkgs "nzbhydra2" { };
@@ -27,8 +32,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    systemd.tmpfiles.rules =
-      [ "d '${cfg.dataDir}' 0700 nzbhydra2 nzbhydra2 - -" ];
+    systemd.tmpfiles.rules = [ "d '${cfg.dataDir}' 0700 nzbhydra2 nzbhydra2 - -" ];
 
     systemd.services.nzbhydra2 = {
       description = "NZBHydra2";
@@ -39,8 +43,7 @@ in {
         Type = "simple";
         User = "nzbhydra2";
         Group = "nzbhydra2";
-        ExecStart =
-          "${cfg.package}/bin/nzbhydra2 --nobrowser --datafolder '${cfg.dataDir}'";
+        ExecStart = "${cfg.package}/bin/nzbhydra2 --nobrowser --datafolder '${cfg.dataDir}'";
         Restart = "on-failure";
         # Hardening
         NoNewPrivileges = true;
@@ -53,7 +56,7 @@ in {
         ProtectControlGroups = true;
         ProtectKernelModules = true;
         ProtectKernelTunables = true;
-        RestrictAddressFamilies ="AF_UNIX AF_INET AF_INET6 AF_NETLINK";
+        RestrictAddressFamilies = "AF_UNIX AF_INET AF_INET6 AF_NETLINK";
         RestrictNamespaces = true;
         RestrictRealtime = true;
         RestrictSUIDSGID = true;
@@ -68,6 +71,6 @@ in {
       isSystemUser = true;
     };
 
-    users.groups.nzbhydra2 = {};
+    users.groups.nzbhydra2 = { };
   };
 }

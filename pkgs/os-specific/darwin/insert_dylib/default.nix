@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchFromGitHub, xcbuildHook }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  xcbuildHook,
+}:
 
 stdenv.mkDerivation {
   pname = "insert_dylib";

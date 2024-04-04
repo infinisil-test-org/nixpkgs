@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, fetchurl
-, cmake
-, testers
+{
+  lib,
+  stdenv,
+  fetchurl,
+  cmake,
+  testers,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -25,8 +26,6 @@ stdenv.mkDerivation (finalAttrs: {
     homepage = "https://trac.osgeo.org/geos";
     license = licenses.lgpl21Only;
     pkgConfigModules = [ "geos" ];
-    maintainers = with lib.maintainers; [
-      willcohen
-    ];
+    maintainers = with lib.maintainers; [ willcohen ];
   };
 })

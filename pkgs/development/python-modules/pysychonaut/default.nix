@@ -1,4 +1,11 @@
-{ lib, buildPythonPackage, fetchPypi, requests, requests-cache, beautifulsoup4 }:
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  requests,
+  requests-cache,
+  beautifulsoup4,
+}:
 
 buildPythonPackage rec {
   pname = "PySychonaut";
@@ -13,7 +20,11 @@ buildPythonPackage rec {
     substituteInPlace setup.py --replace "bs4" "beautifulsoup4"
   '';
 
-  propagatedBuildInputs = [ requests requests-cache beautifulsoup4 ];
+  propagatedBuildInputs = [
+    requests
+    requests-cache
+    beautifulsoup4
+  ];
 
   # No tests available
   doCheck = false;

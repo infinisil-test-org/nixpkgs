@@ -1,4 +1,9 @@
-{ lib, buildNimPackage, fetchFromGitHub, testers }:
+{
+  lib,
+  buildNimPackage,
+  fetchFromGitHub,
+  testers,
+}:
 
 buildNimPackage (finalAttrs: {
   pname = "nimdow";
@@ -30,8 +35,10 @@ buildNimPackage (finalAttrs: {
     version = "v${finalAttrs.version}";
   };
 
-  meta = with lib;
-    finalAttrs.src.meta // {
+  meta =
+    with lib;
+    finalAttrs.src.meta
+    // {
       description = "Nim based tiling window manager";
       license = [ licenses.gpl2 ];
       maintainers = [ maintainers.marcusramberg ];

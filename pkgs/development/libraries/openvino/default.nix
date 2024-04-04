@@ -1,38 +1,37 @@
-{ lib
-, gcc12Stdenv
-, fetchFromGitHub
-, fetchpatch2
-, fetchurl
-, cudaSupport ? opencv.cudaSupport or false
+{
+  lib,
+  gcc12Stdenv,
+  fetchFromGitHub,
+  fetchpatch2,
+  fetchurl,
+  cudaSupport ? opencv.cudaSupport or false,
 
-# build
-, addOpenGLRunpath
-, autoPatchelfHook
-, cmake
-, git
-, libarchive
-, pkg-config
-, python
-, shellcheck
-, sphinx
+  # build
+  addOpenGLRunpath,
+  autoPatchelfHook,
+  cmake,
+  git,
+  libarchive,
+  pkg-config,
+  python,
+  shellcheck,
+  sphinx,
 
-# runtime
-, flatbuffers
-, libusb1
-, libxml2
-, ocl-icd
-, opencv
-, protobuf
-, pugixml
-, snappy
-, tbb
-, cudaPackages
+  # runtime
+  flatbuffers,
+  libusb1,
+  libxml2,
+  ocl-icd,
+  opencv,
+  protobuf,
+  pugixml,
+  snappy,
+  tbb,
+  cudaPackages,
 }:
 
 let
-  inherit (lib)
-    cmakeBool
-  ;
+  inherit (lib) cmakeBool;
 
   stdenv = gcc12Stdenv;
 
@@ -82,16 +81,16 @@ stdenv.mkDerivation rec {
     git
     libarchive
     pkg-config
-    (python.withPackages (ps: with ps; [
-      cython
-      pybind11
-      setuptools
-    ]))
+    (python.withPackages (
+      ps: with ps; [
+        cython
+        pybind11
+        setuptools
+      ]
+    ))
     shellcheck
     sphinx
-  ] ++ lib.optionals cudaSupport [
-    cudaPackages.cuda_nvcc
-  ];
+  ] ++ lib.optionals cudaSupport [ cudaPackages.cuda_nvcc ];
 
   postPatch = ''
     mkdir -p temp/gna_${gna_version}
@@ -144,9 +143,7 @@ stdenv.mkDerivation rec {
 
   env.NIX_CFLAGS_COMPILE = lib.optionalString stdenv.isAarch64 "-Wno-narrowing";
 
-  autoPatchelfIgnoreMissingDeps = [
-    "libngraph_backend.so"
-  ];
+  autoPatchelfIgnoreMissingDeps = [ "libngraph_backend.so" ];
 
   buildInputs = [
     flatbuffers
@@ -157,9 +154,7 @@ stdenv.mkDerivation rec {
     pugixml
     snappy
     tbb
-  ] ++ lib.optionals cudaSupport [
-    cudaPackages.cuda_cudart
-  ];
+  ] ++ lib.optionals cudaSupport [ cudaPackages.cuda_cudart ];
 
   enableParallelBuilding = true;
 
@@ -188,7 +183,8 @@ stdenv.mkDerivation rec {
     homepage = "https://docs.openvinotoolkit.org/";
     license = with licenses; [ asl20 ];
     platforms = platforms.all;
-    broken = (stdenv.isLinux && stdenv.isAarch64) # requires scons, then fails with *** Source directory cannot be under variant directory.
+    broken =
+      (stdenv.isLinux && stdenv.isAarch64) # requires scons, then fails with *** Source directory cannot be under variant directory.
       || stdenv.isDarwin; # Cannot find macos sdk
     maintainers = with maintainers; [ tfmoraes ];
   };

@@ -1,4 +1,8 @@
-{ lib, buildPythonPackage, fetchPypi }:
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+}:
 
 buildPythonPackage rec {
   pname = "publicsuffix";
@@ -9,7 +13,6 @@ buildPythonPackage rec {
     inherit pname version;
     sha256 = "22ce1d65ab6af5e9b2122e2443facdb93fb5c4abf24138099cb10fe7989f43b6";
   };
-
 
   # disable test_fetch and the doctests (which also invoke fetch)
   postPatch = ''

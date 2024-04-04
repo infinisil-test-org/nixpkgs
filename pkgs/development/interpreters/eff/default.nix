@@ -1,6 +1,11 @@
-{ lib, fetchFromGitHub, ocamlPackages }:
+{
+  lib,
+  fetchFromGitHub,
+  ocamlPackages,
+}:
 
-with ocamlPackages; buildDunePackage rec {
+with ocamlPackages;
+buildDunePackage rec {
   pname = "eff";
   version = "5.1";
 

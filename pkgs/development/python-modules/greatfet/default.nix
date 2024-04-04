@@ -1,4 +1,13 @@
-{ lib, fetchFromGitHub, buildPythonPackage, isPy3k, future, pyusb, ipython, pygreat }:
+{
+  lib,
+  fetchFromGitHub,
+  buildPythonPackage,
+  isPy3k,
+  future,
+  pyusb,
+  ipython,
+  pygreat,
+}:
 
 buildPythonPackage rec {
   pname = "GreatFET";
@@ -13,7 +22,12 @@ buildPythonPackage rec {
 
   disabled = !isPy3k;
 
-  propagatedBuildInputs = [ future pyusb ipython pygreat ];
+  propagatedBuildInputs = [
+    future
+    pyusb
+    ipython
+    pygreat
+  ];
 
   doCheck = false;
 
@@ -30,5 +44,3 @@ buildPythonPackage rec {
     maintainers = with lib.maintainers; [ mog ];
   };
 }
-
-

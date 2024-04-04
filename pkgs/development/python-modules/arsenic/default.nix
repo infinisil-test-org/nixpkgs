@@ -1,14 +1,15 @@
-{ lib
-, aiohttp
-, attrs
-, buildPythonPackage
-, fetchFromGitHub
-, fetchpatch
-, poetry-core
-, pytestCheckHook
-, pythonRelaxDepsHook
-, pythonOlder
-, structlog
+{
+  lib,
+  aiohttp,
+  attrs,
+  buildPythonPackage,
+  fetchFromGitHub,
+  fetchpatch,
+  poetry-core,
+  pytestCheckHook,
+  pythonRelaxDepsHook,
+  pythonOlder,
+  structlog,
 }:
 
 buildPythonPackage rec {
@@ -34,9 +35,7 @@ buildPythonPackage rec {
     })
   ];
 
-  pythonRelaxDeps = [
-    "structlog"
-  ];
+  pythonRelaxDeps = [ "structlog" ];
 
   nativeBuildInputs = [
     poetry-core
@@ -49,16 +48,12 @@ buildPythonPackage rec {
     structlog
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   # Depends on asyncio_extras which is not longer maintained
   doCheck = false;
 
-  pythonImportsCheck = [
-    "arsenic"
-  ];
+  pythonImportsCheck = [ "arsenic" ];
 
   meta = with lib; {
     description = "WebDriver implementation for asyncio and asyncio-compatible frameworks";

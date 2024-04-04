@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, flit-core
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  flit-core,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -15,13 +16,9 @@ buildPythonPackage rec {
     hash = "sha256-mjX+T5xo6cD1GxJ49Tx7zthPbGPFPYaf2qcNKVHEzJA=";
   };
 
-  nativeBuildInputs = [
-    flit-core
-  ];
+  nativeBuildInputs = [ flit-core ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   disabledTestPaths = [
     # Non-hermetic, needs internet access (e.g. attempts to retrieve NSS store).

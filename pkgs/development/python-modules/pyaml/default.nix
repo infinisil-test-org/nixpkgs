@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, setuptools
-, pyyaml
-, unidecode
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  setuptools,
+  pyyaml,
+  unidecode,
 }:
 
 buildPythonPackage rec {
@@ -16,17 +17,11 @@ buildPythonPackage rec {
     hash = "sha256-zm9kjv37GzpVefjO2wT6zw+h6PZIRrY5MJtYW7MitOU=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [
-    pyyaml
-  ];
+  propagatedBuildInputs = [ pyyaml ];
 
-  nativeCheckInputs = [
-    unidecode
-  ];
+  nativeCheckInputs = [ unidecode ];
 
   pythonImportsCheck = [ "pyaml" ];
 

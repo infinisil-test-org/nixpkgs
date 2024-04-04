@@ -1,6 +1,7 @@
-{ lib
-, rustPlatform
-, fetchCrate
+{
+  lib,
+  rustPlatform,
+  fetchCrate,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -26,6 +27,9 @@ rustPlatform.buildRustPackage rec {
     description = "Rust-based platform for the Web";
     homepage = "https://github.com/swc-project/swc";
     license = licenses.asl20;
-    maintainers = with maintainers; [ dit7ya kashw2 ];
+    maintainers = with maintainers; [
+      dit7ya
+      kashw2
+    ];
   };
 }

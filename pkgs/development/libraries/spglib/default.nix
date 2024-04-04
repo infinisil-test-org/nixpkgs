@@ -1,4 +1,12 @@
-{ stdenv, lib, fetchFromGitHub, cmake, gfortran, gtest, openmp }:
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  cmake,
+  gfortran,
+  gtest,
+  openmp,
+}:
 
 stdenv.mkDerivation rec {
   pname = "spglib";
@@ -11,7 +19,11 @@ stdenv.mkDerivation rec {
     hash = "sha256-MOre1LGf7Li+tAqtzpuEvAX6q/P0ueDlMXhhmtiE+jw=";
   };
 
-  nativeBuildInputs = [ cmake gfortran gtest ];
+  nativeBuildInputs = [
+    cmake
+    gfortran
+    gtest
+  ];
 
   buildInputs = lib.optionals stdenv.isDarwin [ openmp ];
 

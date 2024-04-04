@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   pwCfg = config.services.pipewire;
@@ -38,7 +43,7 @@ in
 
       extraLv2Packages = lib.mkOption {
         type = lib.types.listOf lib.types.package;
-        default = [];
+        default = [ ];
         example = lib.literalExpression "[ pkgs.lsp-plugins ]";
         description = lib.mdDoc ''
           List of packages that provide LV2 plugins in `lib/lv2` that should
@@ -71,9 +76,13 @@ in
         bluez_monitor.properties["with-logind"] = false
       '';
 
-      configPackages = cfg.configPackages
-          ++ lib.optional (!pwUsedForAudio) pwNotForAudioConfigPkg
-          ++ lib.optionals config.services.pipewire.systemWide [ systemwideConfigPkg systemwideBluetoothConfigPkg ];
+      configPackages =
+        cfg.configPackages
+        ++ lib.optional (!pwUsedForAudio) pwNotForAudioConfigPkg
+        ++ lib.optionals config.services.pipewire.systemWide [
+          systemwideConfigPkg
+          systemwideBluetoothConfigPkg
+        ];
 
       configs = pkgs.buildEnv {
         name = "wireplumber-configs";
@@ -81,14 +90,15 @@ in
         pathsToLink = [ "/share/wireplumber" ];
       };
 
-      requiredLv2Packages = lib.flatten
-        (
-          lib.concatMap
-            (p:
-              lib.attrByPath ["passthru" "requiredLv2Packages"] [] p
-            )
-            configPackages
-        );
+      requiredLv2Packages = lib.flatten (
+        lib.concatMap (
+          p:
+          lib.attrByPath [
+            "passthru"
+            "requiredLv2Packages"
+          ] [ ] p
+        ) configPackages
+      );
 
       lv2Plugins = pkgs.buildEnv {
         name = "wireplumber-lv2-plugins";
@@ -103,15 +113,14 @@ in
           message = "Using WirePlumber conflicts with hsphfpd, as it provides the same functionality. `hardware.bluetooth.hsphfpd.enable` needs be set to false";
         }
         {
-          assertion = builtins.length
-            (builtins.attrNames
-              (
-                lib.filterAttrs
-                  (name: value:
-                    lib.hasPrefix "wireplumber/" name || name == "wireplumber"
-                  )
-                  config.environment.etc
-              )) == 1;
+          assertion =
+            builtins.length (
+              builtins.attrNames (
+                lib.filterAttrs (
+                  name: value: lib.hasPrefix "wireplumber/" name || name == "wireplumber"
+                ) config.environment.etc
+              )
+            ) == 1;
           message = "Using `environment.etc.\"wireplumber<...>\"` directly is no longer supported in 24.05. Use `services.pipewire.wireplumber.configPackages` instead.";
         }
       ];
@@ -134,7 +143,8 @@ in
         LV2_PATH = "${lv2Plugins}/lib/lv2";
       };
 
-      systemd.user.services.wireplumber.environment.LV2_PATH =
-        lib.mkIf (!config.services.pipewire.systemWide) "${lv2Plugins}/lib/lv2";
+      systemd.user.services.wireplumber.environment.LV2_PATH = lib.mkIf (
+        !config.services.pipewire.systemWide
+      ) "${lv2Plugins}/lib/lv2";
     };
 }

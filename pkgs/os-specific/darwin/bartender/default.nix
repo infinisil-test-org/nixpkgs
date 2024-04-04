@@ -1,7 +1,8 @@
-{ lib
-, stdenvNoCC
-, fetchurl
-, _7zz
+{
+  lib,
+  stdenvNoCC,
+  fetchurl,
+  _7zz,
 }:
 
 stdenvNoCC.mkDerivation (finalAttrs: {
@@ -10,7 +11,9 @@ stdenvNoCC.mkDerivation (finalAttrs: {
 
   src = fetchurl {
     name = "Bartender ${lib.versions.major finalAttrs.version}.dmg";
-    url = "https://www.macbartender.com/B2/updates/${builtins.replaceStrings [ "." ] [ "-" ] finalAttrs.version}/Bartender%20${lib.versions.major finalAttrs.version}.dmg";
+    url = "https://www.macbartender.com/B2/updates/${
+      builtins.replaceStrings [ "." ] [ "-" ] finalAttrs.version
+    }/Bartender%20${lib.versions.major finalAttrs.version}.dmg";
     hash = "sha256-DOQLtdbwYFyRri3GBdjLfFNII65QJMvAQu9Be4ATBx0=";
   };
 
@@ -43,6 +46,9 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     license = with licenses; [ unfree ];
     sourceProvenance = with sourceTypes; [ binaryNativeCode ];
     maintainers = with maintainers; [ stepbrobd ];
-    platforms = [ "aarch64-darwin" "x86_64-darwin" ];
+    platforms = [
+      "aarch64-darwin"
+      "x86_64-darwin"
+    ];
   };
 })

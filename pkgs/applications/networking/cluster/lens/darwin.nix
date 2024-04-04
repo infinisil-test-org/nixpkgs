@@ -1,4 +1,9 @@
-{ lib, stdenv, undmg, fetchurl }:
+{
+  lib,
+  stdenv,
+  undmg,
+  fetchurl,
+}:
 let
   common = import ./common.nix { inherit fetchurl; };
   inherit (stdenv.hostPlatform) system;
@@ -22,6 +27,9 @@ stdenv.mkDerivation rec {
     homepage = "https://k8slens.dev/";
     license = licenses.lens;
     maintainers = with maintainers; [ dbirks ];
-    platforms = [ "x86_64-darwin" "aarch64-darwin" ];
+    platforms = [
+      "x86_64-darwin"
+      "aarch64-darwin"
+    ];
   };
 }

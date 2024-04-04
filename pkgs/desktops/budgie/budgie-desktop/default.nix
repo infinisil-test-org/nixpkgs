@@ -1,38 +1,39 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, accountsservice
-, alsa-lib
-, budgie-screensaver
-, docbook-xsl-nons
-, glib
-, gnome
-, gnome-desktop
-, graphene
-, gst_all_1
-, gtk-doc
-, gtk3
-, ibus
-, intltool
-, libcanberra-gtk3
-, libgee
-, libGL
-, libnotify
-, libpeas
-, libpulseaudio
-, libuuid
-, libwnck
-, magpie
-, mesa
-, meson
-, ninja
-, pkg-config
-, polkit
-, sassc
-, upower
-, vala
-, xfce
-, wrapGAppsHook
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  accountsservice,
+  alsa-lib,
+  budgie-screensaver,
+  docbook-xsl-nons,
+  glib,
+  gnome,
+  gnome-desktop,
+  graphene,
+  gst_all_1,
+  gtk-doc,
+  gtk3,
+  ibus,
+  intltool,
+  libcanberra-gtk3,
+  libgee,
+  libGL,
+  libnotify,
+  libpeas,
+  libpulseaudio,
+  libuuid,
+  libwnck,
+  magpie,
+  mesa,
+  meson,
+  ninja,
+  pkg-config,
+  polkit,
+  sassc,
+  upower,
+  vala,
+  xfce,
+  wrapGAppsHook,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -47,9 +48,7 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-H+J/zFUjiXbr5ynDkkjrRsEbyO4LPOhqe8DdG60ikRw=";
   };
 
-  patches = [
-    ./plugins.patch
-  ];
+  patches = [ ./plugins.patch ];
 
   nativeBuildInputs = [
     docbook-xsl-nons
@@ -62,45 +61,49 @@ stdenv.mkDerivation (finalAttrs: {
     wrapGAppsHook
   ];
 
-  buildInputs = [
-    accountsservice
-    alsa-lib
-    budgie-screensaver
-    glib
-    gnome-desktop
-    gnome.gnome-settings-daemon
-    gnome.mutter
-    gnome.zenity
-    graphene
-    gtk3
-    ibus
-    libcanberra-gtk3
-    libgee
-    libGL
-    libnotify
-    libpeas
-    libpulseaudio
-    libuuid
-    libwnck
-    magpie
-    mesa
-    polkit
-    sassc
-    upower
-    xfce.libxfce4windowing
-  ] ++ (with gst_all_1; [
-    gstreamer
-    gst-plugins-base
-  ]);
+  buildInputs =
+    [
+      accountsservice
+      alsa-lib
+      budgie-screensaver
+      glib
+      gnome-desktop
+      gnome.gnome-settings-daemon
+      gnome.mutter
+      gnome.zenity
+      graphene
+      gtk3
+      ibus
+      libcanberra-gtk3
+      libgee
+      libGL
+      libnotify
+      libpeas
+      libpulseaudio
+      libuuid
+      libwnck
+      magpie
+      mesa
+      polkit
+      sassc
+      upower
+      xfce.libxfce4windowing
+    ]
+    ++ (with gst_all_1; [
+      gstreamer
+      gst-plugins-base
+    ]);
 
-  passthru.providedSessions = [
-    "budgie-desktop"
-  ];
+  passthru.providedSessions = [ "budgie-desktop" ];
 
   meta = {
     description = "A feature-rich, modern desktop designed to keep out the way of the user";
     homepage = "https://github.com/BuddiesOfBudgie/budgie-desktop";
-    license = with lib.licenses; [ gpl2Plus lgpl21Plus cc-by-sa-30 ];
+    license = with lib.licenses; [
+      gpl2Plus
+      lgpl21Plus
+      cc-by-sa-30
+    ];
     platforms = lib.platforms.linux;
     maintainers = lib.teams.budgie.members;
   };

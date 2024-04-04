@@ -1,9 +1,10 @@
-{ lib
-, stdenv
-, fetchgit
-, wrapLisp
-, openssl
-, sbcl
+{
+  lib,
+  stdenv,
+  fetchgit,
+  wrapLisp,
+  openssl,
+  sbcl,
 }:
 
 # Broken on newer versions:
@@ -14,7 +15,6 @@ with rec {
     version = "2.1.9";
   });
 };
-
 
 stdenv.mkDerivation rec {
   pname = "clpm";
@@ -27,9 +27,7 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-UhaLmbdsIPj6O+s262HUMxuz/5t43JR+TlOjq8Y2CDs=";
   };
 
-  propagatedBuildInputs = [
-    openssl
-  ];
+  propagatedBuildInputs = [ openssl ];
 
   postPatch = ''
     # patch cl-plus-ssl to ensure that it finds libssl and libcrypto
@@ -68,6 +66,9 @@ stdenv.mkDerivation rec {
     homepage = "https://www.clpm.dev/";
     license = licenses.bsd2;
     maintainers = [ maintainers.petterstorvik ];
-    platforms = [ "i686-linux" "x86_64-linux" ];
+    platforms = [
+      "i686-linux"
+      "x86_64-linux"
+    ];
   };
 }

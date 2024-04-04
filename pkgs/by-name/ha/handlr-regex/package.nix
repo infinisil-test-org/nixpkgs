@@ -1,4 +1,11 @@
-{ lib, rustPlatform, fetchFromGitHub, shared-mime-info, libiconv, installShellFiles }:
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  shared-mime-info,
+  libiconv,
+  installShellFiles,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "handlr-regex";
@@ -13,7 +20,10 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-lCClE8U4188q5rWEEkUt0peLEmYvLoE7vJ6Q9uB5HWg=";
 
-  nativeBuildInputs = [ installShellFiles shared-mime-info ];
+  nativeBuildInputs = [
+    installShellFiles
+    shared-mime-info
+  ];
   buildInputs = [ libiconv ];
 
   preCheck = ''

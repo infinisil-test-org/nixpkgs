@@ -1,22 +1,23 @@
-{ lib
-, callPackage
-, fetchFromGitHub
-, fetchPypi
-, fetchpatch
-, python3Packages
+{
+  lib,
+  callPackage,
+  fetchFromGitHub,
+  fetchPypi,
+  fetchpatch,
+  python3Packages,
 }:
 /*
-** To customize the enabled beets plugins, use the pluginOverrides input to the
-** derivation.
-** Examples:
-**
-** Disabling a builtin plugin:
-** beets.override { pluginOverrides = { beatport.enable = false; }; }
-**
-** Enabling an external plugin:
-** beets.override { pluginOverrides = {
-**   alternatives = { enable = true; propagatedBuildInputs = [ beetsPackages.alternatives ]; };
-** }; }
+  ** To customize the enabled beets plugins, use the pluginOverrides input to the
+  ** derivation.
+  ** Examples:
+  **
+  ** Disabling a builtin plugin:
+  ** beets.override { pluginOverrides = { beatport.enable = false; }; }
+  **
+  ** Enabling an external plugin:
+  ** beets.override { pluginOverrides = {
+  **   alternatives = { enable = true; propagatedBuildInputs = [ beetsPackages.alternatives ]; };
+  ** }; }
 */
 let
   legacyMediafilePython3Packages = python3Packages.override {
@@ -32,7 +33,8 @@ let
       });
     };
   };
-in lib.makeExtensible (self: {
+in
+lib.makeExtensible (self: {
   beets = self.beets-stable;
 
   beets-stable = callPackage ./common.nix rec {
@@ -98,14 +100,20 @@ in lib.makeExtensible (self: {
     ];
     pluginOverrides = {
       # unstable has new plugins, so we register them here.
-      limit = { builtin = true; };
-      substitute = { builtin = true; };
-      advancedrewrite = { builtin = true; };
-      autobpm = { builtin = true; };
+      limit = {
+        builtin = true;
+      };
+      substitute = {
+        builtin = true;
+      };
+      advancedrewrite = {
+        builtin = true;
+      };
+      autobpm = {
+        builtin = true;
+      };
     };
-    extraNativeBuildInputs = [
-      python3Packages.pydata-sphinx-theme
-    ];
+    extraNativeBuildInputs = [ python3Packages.pydata-sphinx-theme ];
   };
 
   alternatives = callPackage ./plugins/alternatives.nix { beets = self.beets-minimal; };

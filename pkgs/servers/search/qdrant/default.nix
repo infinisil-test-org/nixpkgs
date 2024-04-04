@@ -1,14 +1,15 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, protobuf
-, stdenv
-, pkg-config
-, openssl
-, rust-jemalloc-sys
-, nix-update-script
-, Security
-, SystemConfiguration
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  protobuf,
+  stdenv,
+  pkg-config,
+  openssl,
+  rust-jemalloc-sys,
+  nix-update-script,
+  Security,
+  SystemConfiguration,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -31,24 +32,32 @@ rustPlatform.buildRustPackage rec {
     };
   };
 
-  buildInputs = [
-    openssl
-    rust-jemalloc-sys
-  ] ++ lib.optionals stdenv.isDarwin [
-    Security
-    SystemConfiguration
+  buildInputs =
+    [
+      openssl
+      rust-jemalloc-sys
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      Security
+      SystemConfiguration
+    ];
+
+  nativeBuildInputs = [
+    protobuf
+    rustPlatform.bindgenHook
+    pkg-config
   ];
 
-  nativeBuildInputs = [ protobuf rustPlatform.bindgenHook pkg-config ];
-
-  env = {
-    # Needed to get openssl-sys to use pkg-config.
-    OPENSSL_NO_VENDOR = 1;
-  } // lib.optionalAttrs stdenv.cc.isClang {
-    NIX_CFLAGS_COMPILE = "-faligned-allocation";
-    # Work around https://github.com/NixOS/nixpkgs/issues/166205.
-    NIX_LDFLAGS = "-l${stdenv.cc.libcxx.cxxabi.libName}";
-  };
+  env =
+    {
+      # Needed to get openssl-sys to use pkg-config.
+      OPENSSL_NO_VENDOR = 1;
+    }
+    // lib.optionalAttrs stdenv.cc.isClang {
+      NIX_CFLAGS_COMPILE = "-faligned-allocation";
+      # Work around https://github.com/NixOS/nixpkgs/issues/166205.
+      NIX_LDFLAGS = "-l${stdenv.cc.libcxx.cxxabi.libName}";
+    };
 
   passthru = {
     updateScript = nix-update-script { };

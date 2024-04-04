@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchFromGitHub, qt5 }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  qt5,
+}:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "frequest";
@@ -33,9 +38,7 @@ stdenv.mkDerivation (finalAttrs: {
   ];
   sourceRoot = "frequest";
 
-  buildInputs = [
-    qt5.qtbase
-  ];
+  buildInputs = [ qt5.qtbase ];
 
   nativeBuildInputs = [
     qt5.wrapQtAppsHook

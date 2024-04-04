@@ -1,16 +1,17 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, django
-, factory-boy
-, mock
-, pip
-, pygments
-, pytest-django
-, pytestCheckHook
-, shortuuid
-, vobject
-, werkzeug
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  django,
+  factory-boy,
+  mock,
+  pip,
+  pygments,
+  pytest-django,
+  pytestCheckHook,
+  shortuuid,
+  vobject,
+  werkzeug,
 }:
 
 buildPythonPackage rec {
@@ -30,9 +31,7 @@ buildPythonPackage rec {
       --replace "--cov=django_extensions --cov-report html --cov-report term" ""
   '';
 
-  propagatedBuildInputs = [
-    django
-  ];
+  propagatedBuildInputs = [ django ];
 
   __darwinAllowLocalNetworking = true;
 

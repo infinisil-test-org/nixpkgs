@@ -1,4 +1,10 @@
-{ lib, stdenv, fetchFromGitHub, ocamlPackages, CoreServices }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  ocamlPackages,
+  CoreServices,
+}:
 
 stdenv.mkDerivation rec {
   pname = "flow";
@@ -18,9 +24,7 @@ stdenv.mkDerivation rec {
   makeFlags = [ "FLOW_RELEASE=1" ];
 
   # Work around https://github.com/NixOS/nixpkgs/issues/166205.
-  env = lib.optionalAttrs stdenv.cc.isClang {
-    NIX_LDFLAGS = "-l${stdenv.cc.libcxx.cxxabi.libName}";
-  };
+  env = lib.optionalAttrs stdenv.cc.isClang { NIX_LDFLAGS = "-l${stdenv.cc.libcxx.cxxabi.libName}"; };
 
   installPhase = ''
     install -Dm755 bin/flow $out/bin/flow
@@ -29,10 +33,33 @@ stdenv.mkDerivation rec {
 
   strictDeps = true;
 
-  nativeBuildInputs = with ocamlPackages; [ ocaml dune_3 findlib ocamlbuild ];
+  nativeBuildInputs = with ocamlPackages; [
+    ocaml
+    dune_3
+    findlib
+    ocamlbuild
+  ];
 
-  buildInputs = lib.optionals stdenv.isDarwin [ CoreServices ]
-    ++ (with ocamlPackages; [ core_kernel dtoa fileutils lwt_log lwt_ppx ocaml_lwt ppx_deriving ppx_gen_rec ppx_let sedlex visitors wtf8 ] ++ lib.optionals stdenv.isLinux [ inotify ]);
+  buildInputs =
+    lib.optionals stdenv.isDarwin [ CoreServices ]
+    ++ (
+      with ocamlPackages;
+      [
+        core_kernel
+        dtoa
+        fileutils
+        lwt_log
+        lwt_ppx
+        ocaml_lwt
+        ppx_deriving
+        ppx_gen_rec
+        ppx_let
+        sedlex
+        visitors
+        wtf8
+      ]
+      ++ lib.optionals stdenv.isLinux [ inotify ]
+    );
 
   meta = with lib; {
     description = "A static type checker for JavaScript";
@@ -40,6 +67,9 @@ stdenv.mkDerivation rec {
     changelog = "https://github.com/facebook/flow/blob/v${version}/Changelog.md";
     license = licenses.mit;
     platforms = ocamlPackages.ocaml.meta.platforms;
-    maintainers = with maintainers; [ marsam puffnfresh ];
+    maintainers = with maintainers; [
+      marsam
+      puffnfresh
+    ];
   };
 }

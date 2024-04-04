@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, jupyterhub
-, packaging
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  jupyterhub,
+  packaging,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -28,9 +29,7 @@ buildPythonPackage rec {
   # Tests require a job scheduler e.g. slurm, pbs, etc.
   doCheck = false;
 
-  pythonImportsCheck = [
-    "batchspawner"
-  ];
+  pythonImportsCheck = [ "batchspawner" ];
 
   meta = with lib; {
     description = "A spawner for Jupyterhub to spawn notebooks using batch resource managers";

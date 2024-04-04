@@ -1,6 +1,7 @@
-{ lib
-, fetchFromGitHub
-, python3
+{
+  lib,
+  fetchFromGitHub,
+  python3,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -36,14 +37,15 @@ python3.pkgs.buildPythonApplication rec {
   # Tests require access to /etc/resolv.conf
   doCheck = false;
 
-  pythonImportsCheck = [
-    "dnsrecon"
-  ];
+  pythonImportsCheck = [ "dnsrecon" ];
 
   meta = with lib; {
     description = "DNS Enumeration script";
     homepage = "https://github.com/darkoperator/dnsrecon";
     license = licenses.gpl2Only;
-    maintainers = with maintainers; [ c0bw3b fab ];
+    maintainers = with maintainers; [
+      c0bw3b
+      fab
+    ];
   };
 }

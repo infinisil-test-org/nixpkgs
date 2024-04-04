@@ -1,23 +1,24 @@
-{ lib
-, isPyPy
-, buildPythonPackage
-, fetchPypi
+{
+  lib,
+  isPyPy,
+  buildPythonPackage,
+  fetchPypi,
 
-# build
-, pytest
+  # build
+  pytest,
 
-# runtime
-, setuptools-git
-, mock
-, path
-, execnet
-, termcolor
-, six
+  # runtime
+  setuptools-git,
+  mock,
+  path,
+  execnet,
+  termcolor,
+  six,
 
-# tests
-, cmdline
-, pytestCheckHook
- }:
+  # tests
+  cmdline,
+  pytestCheckHook,
+}:
 
 buildPythonPackage rec {
   pname = "pytest-shutil";
@@ -35,9 +36,7 @@ buildPythonPackage rec {
       --replace "path.py" "path"
   '';
 
-  buildInputs = [
-    pytest
-  ];
+  buildInputs = [ pytest ];
 
   propagatedBuildInputs = [
     setuptools-git
@@ -53,12 +52,12 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  disabledTests = [
-    "test_pretty_formatter"
-  ] ++ lib.optionals isPyPy [
-    "test_run"
-    "test_run_integration"
-  ];
+  disabledTests =
+    [ "test_pretty_formatter" ]
+    ++ lib.optionals isPyPy [
+      "test_run"
+      "test_run_integration"
+    ];
 
   meta = with lib; {
     description = "A goodie-bag of unix shell and environment tools for py.test";

@@ -1,17 +1,18 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
 
-# build-system
-, setuptools
+  # build-system
+  setuptools,
 
-# dependencies
-, importlib-metadata
-, platformdirs
-, tomli
+  # dependencies
+  importlib-metadata,
+  platformdirs,
+  tomli,
 
-# tests
-, pytestCheckHook
+  # tests
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -24,9 +25,7 @@ buildPythonPackage rec {
     hash = "sha256-TauKXtcTTibVfBZHx0g6+z8TaHi1eQYreGyboWuUY3s=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     importlib-metadata
@@ -37,9 +36,7 @@ buildPythonPackage rec {
   # nose is unavailable on pypy
   #doCheck = !isPyPy;
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   meta = {
     changelog = "https://github.com/google/yapf/blob/v${version}/CHANGELOG.md";
@@ -66,6 +63,9 @@ buildPythonPackage rec {
       takes away some of the drudgery of maintaining your code.
     '';
     license = lib.licenses.asl20;
-    maintainers = with lib.maintainers; [ AndersonTorres siddharthist ];
+    maintainers = with lib.maintainers; [
+      AndersonTorres
+      siddharthist
+    ];
   };
 }

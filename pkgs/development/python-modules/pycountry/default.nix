@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, setuptools
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  setuptools,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -15,17 +16,11 @@ buildPythonPackage rec {
     hash = "sha256-shY6JGxYWJTYCPGHg+GRN8twoMGPs2dI3AH8bxCcFkY=";
   };
 
-  propagatedBuildInputs = [
-    setuptools
-  ];
+  propagatedBuildInputs = [ setuptools ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "pycountry"
-  ];
+  pythonImportsCheck = [ "pycountry" ];
 
   meta = with lib; {
     homepage = "https://github.com/flyingcircusio/pycountry";
@@ -33,5 +28,4 @@ buildPythonPackage rec {
     license = licenses.lgpl2;
     maintainers = with maintainers; [ ];
   };
-
 }

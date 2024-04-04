@@ -1,10 +1,11 @@
-{ lib
-, stdenvNoCC
-, fetchFromGitHub
-, jdk8
-, makeWrapper
-, jre8
-, zip
+{
+  lib,
+  stdenvNoCC,
+  fetchFromGitHub,
+  jdk8,
+  makeWrapper,
+  jre8,
+  zip,
 }:
 let
   jdk = jdk8;
@@ -21,7 +22,12 @@ stdenvNoCC.mkDerivation rec {
     sha256 = "043w2z6gbrisqirdid022f4b8jps1pp5syi344krv2bis1gjq5sn";
   };
 
-  nativeBuildInputs = [ jdk makeWrapper jre zip ];
+  nativeBuildInputs = [
+    jdk
+    makeWrapper
+    jre
+    zip
+  ];
 
   buildPhase = ''
     patchShebangs ./make.sh
@@ -52,7 +58,7 @@ stdenvNoCC.mkDerivation rec {
     description = "Tool for estimating an unrooted species tree given a set of unrooted gene trees";
     sourceProvenance = with sourceTypes; [
       fromSource
-      binaryBytecode  # source bundles dependencies as jars
+      binaryBytecode # source bundles dependencies as jars
     ];
     license = licenses.asl20;
     maintainers = with maintainers; [ bzizou ];

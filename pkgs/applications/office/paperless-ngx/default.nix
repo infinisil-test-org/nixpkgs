@@ -1,24 +1,25 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, buildNpmPackage
-, nixosTests
-, gettext
-, python3
-, ghostscript
-, imagemagickBig
-, jbig2enc
-, optipng
-, pngquant
-, qpdf
-, tesseract5
-, unpaper
-, poppler_utils
-, liberation_ttf
-, xcbuild
-, pango
-, pkg-config
-, nltk-data
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  buildNpmPackage,
+  nixosTests,
+  gettext,
+  python3,
+  ghostscript,
+  imagemagickBig,
+  jbig2enc,
+  optipng,
+  pngquant,
+  qpdf,
+  tesseract5,
+  unpaper,
+  poppler_utils,
+  liberation_ttf,
+  xcbuild,
+  pango,
+  pkg-config,
+  nltk-data,
 }:
 
 let
@@ -58,19 +59,17 @@ let
     nativeBuildInputs = [
       pkg-config
       python3
-    ] ++ lib.optionals stdenv.isDarwin [
-      xcbuild
-    ];
+    ] ++ lib.optionals stdenv.isDarwin [ xcbuild ];
 
-    buildInputs = [
-      pango
-    ];
+    buildInputs = [ pango ];
 
     CYPRESS_INSTALL_BINARY = "0";
     NG_CLI_ANALYTICS = "false";
 
     npmBuildFlags = [
-      "--" "--configuration" "production"
+      "--"
+      "--configuration"
+      "production"
     ];
 
     doCheck = true;
@@ -94,62 +93,62 @@ python.pkgs.buildPythonApplication rec {
 
   inherit version src;
 
-  nativeBuildInputs = [
-    gettext
-  ];
+  nativeBuildInputs = [ gettext ];
 
-  propagatedBuildInputs = with python.pkgs; [
-    bleach
-    channels
-    channels-redis
-    concurrent-log-handler
-    dateparser
-    django
-    django-allauth
-    django-auditlog
-    django-celery-results
-    django-compression-middleware
-    django-cors-headers
-    django-extensions
-    django-filter
-    django-guardian
-    django-multiselectfield
-    djangorestframework
-    djangorestframework-guardian2
-    drf-writable-nested
-    filelock
-    flower
-    gotenberg-client
-    gunicorn
-    imap-tools
-    inotifyrecursive
-    langdetect
-    mysqlclient
-    nltk
-    ocrmypdf
-    pathvalidate
-    pdf2image
-    psycopg2
-    python-dateutil
-    python-dotenv
-    python-gnupg
-    python-ipware
-    python-magic
-    pyzbar
-    rapidfuzz
-    redis
-    scikit-learn
-    setproctitle
-    tika-client
-    tqdm
-    uvicorn
-    watchdog
-    whitenoise
-    whoosh
-    zxing-cpp
-  ]
-  ++ redis.optional-dependencies.hiredis
-  ++ uvicorn.optional-dependencies.standard;
+  propagatedBuildInputs =
+    with python.pkgs;
+    [
+      bleach
+      channels
+      channels-redis
+      concurrent-log-handler
+      dateparser
+      django
+      django-allauth
+      django-auditlog
+      django-celery-results
+      django-compression-middleware
+      django-cors-headers
+      django-extensions
+      django-filter
+      django-guardian
+      django-multiselectfield
+      djangorestframework
+      djangorestframework-guardian2
+      drf-writable-nested
+      filelock
+      flower
+      gotenberg-client
+      gunicorn
+      imap-tools
+      inotifyrecursive
+      langdetect
+      mysqlclient
+      nltk
+      ocrmypdf
+      pathvalidate
+      pdf2image
+      psycopg2
+      python-dateutil
+      python-dotenv
+      python-gnupg
+      python-ipware
+      python-magic
+      pyzbar
+      rapidfuzz
+      redis
+      scikit-learn
+      setproctitle
+      tika-client
+      tqdm
+      uvicorn
+      watchdog
+      whitenoise
+      whoosh
+      zxing-cpp
+    ]
+    ++ redis.optional-dependencies.hiredis
+    ++ uvicorn.optional-dependencies.standard;
 
   postBuild = ''
     # Compile manually because `pythonRecompileBytecodeHook` only works
@@ -163,20 +162,22 @@ python.pkgs.buildPythonApplication rec {
     ${python.pythonOnBuildForHost.interpreter} src/manage.py compilemessages
   '';
 
-  installPhase = let
-    pythonPath = python.pkgs.makePythonPath propagatedBuildInputs;
-  in ''
-    mkdir -p $out/lib/paperless-ngx
-    cp -r {src,static,LICENSE,gunicorn.conf.py} $out/lib/paperless-ngx
-    ln -s ${frontend}/lib/paperless-ui/frontend $out/lib/paperless-ngx/static/
-    chmod +x $out/lib/paperless-ngx/src/manage.py
-    makeWrapper $out/lib/paperless-ngx/src/manage.py $out/bin/paperless-ngx \
-      --prefix PYTHONPATH : "${pythonPath}" \
-      --prefix PATH : "${path}"
-    makeWrapper ${python.pkgs.celery}/bin/celery $out/bin/celery \
-      --prefix PYTHONPATH : "${pythonPath}:$out/lib/paperless-ngx/src" \
-      --prefix PATH : "${path}"
-  '';
+  installPhase =
+    let
+      pythonPath = python.pkgs.makePythonPath propagatedBuildInputs;
+    in
+    ''
+      mkdir -p $out/lib/paperless-ngx
+      cp -r {src,static,LICENSE,gunicorn.conf.py} $out/lib/paperless-ngx
+      ln -s ${frontend}/lib/paperless-ui/frontend $out/lib/paperless-ngx/static/
+      chmod +x $out/lib/paperless-ngx/src/manage.py
+      makeWrapper $out/lib/paperless-ngx/src/manage.py $out/bin/paperless-ngx \
+        --prefix PYTHONPATH : "${pythonPath}" \
+        --prefix PATH : "${path}"
+      makeWrapper ${python.pkgs.celery}/bin/celery $out/bin/celery \
+        --prefix PYTHONPATH : "${pythonPath}:$out/lib/paperless-ngx/src" \
+        --prefix PATH : "${path}"
+    '';
 
   postFixup = ''
     # Remove tests with samples (~14M)
@@ -195,9 +196,7 @@ python.pkgs.buildPythonApplication rec {
     pytestCheckHook
   ];
 
-  pytestFlagsArray = [
-    "src"
-  ];
+  pytestFlagsArray = [ "src" ];
 
   # The tests require:
   # - PATH with runtime binaries
@@ -225,8 +224,14 @@ python.pkgs.buildPythonApplication rec {
 
   passthru = {
     inherit python path frontend;
-    nltkData = with nltk-data; [ punkt snowball_data stopwords ];
-    tests = { inherit (nixosTests) paperless; };
+    nltkData = with nltk-data; [
+      punkt
+      snowball_data
+      stopwords
+    ];
+    tests = {
+      inherit (nixosTests) paperless;
+    };
   };
 
   meta = with lib; {
@@ -235,6 +240,11 @@ python.pkgs.buildPythonApplication rec {
     changelog = "https://github.com/paperless-ngx/paperless-ngx/releases/tag/v${version}";
     license = licenses.gpl3Only;
     platforms = platforms.unix;
-    maintainers = with maintainers; [ lukegb gador erikarvstedt leona ];
+    maintainers = with maintainers; [
+      lukegb
+      gador
+      erikarvstedt
+      leona
+    ];
   };
 }

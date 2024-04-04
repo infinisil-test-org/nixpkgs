@@ -1,31 +1,32 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchFromGitHub
-, ase
-, cython
-, glibcLocales
-, joblib
-, matplotlib
-, monty
-, networkx
-, numpy
-, palettable
-, pandas
-, plotly
-, pybtex
-, pydispatcher
-, pytestCheckHook
-, pytest-xdist
-, pythonOlder
-, requests
-, ruamel-yaml
-, scipy
-, seekpath
-, spglib
-, sympy
-, tabulate
-, uncertainties
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchFromGitHub,
+  ase,
+  cython,
+  glibcLocales,
+  joblib,
+  matplotlib,
+  monty,
+  networkx,
+  numpy,
+  palettable,
+  pandas,
+  plotly,
+  pybtex,
+  pydispatcher,
+  pytestCheckHook,
+  pytest-xdist,
+  pythonOlder,
+  requests,
+  ruamel-yaml,
+  scipy,
+  seekpath,
+  spglib,
+  sympy,
+  tabulate,
+  uncertainties,
 }:
 
 buildPythonPackage rec {
@@ -38,7 +39,7 @@ buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "materialsproject";
     repo = "pymatgen";
-    rev= "v${version}";
+    rev = "v${version}";
     hash = "sha256-eswoup9ACj/PHVW3obcnZjD4tWemsmROZFtwGGigEYE=";
   };
 
@@ -91,12 +92,10 @@ buildPythonPackage rec {
     seekpath = [ seekpath ];
   };
 
-  pythonImportsCheck = [
-    "pymatgen"
-  ];
+  pythonImportsCheck = [ "pymatgen" ];
 
   meta = with lib; {
-    broken = stdenv.isDarwin;  # tests segfault. that's bad.
+    broken = stdenv.isDarwin; # tests segfault. that's bad.
     description = "A robust materials analysis code that defines core object representations for structures and molecules";
     homepage = "https://pymatgen.org/";
     license = licenses.mit;

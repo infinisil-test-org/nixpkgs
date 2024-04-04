@@ -1,4 +1,10 @@
-{ lib, stdenv, fetchurl, perl, perlPackages }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  perl,
+  perlPackages,
+}:
 
 let
   pname = "stow";
@@ -12,7 +18,11 @@ stdenv.mkDerivation {
     sha256 = "0bs2b90wjkk1camcasy8kn403kazq6c7fj5m5msfl3navbgwz9i6";
   };
 
-  buildInputs = with perlPackages; [ perl IOStringy TestOutput ];
+  buildInputs = with perlPackages; [
+    perl
+    IOStringy
+    TestOutput
+  ];
 
   doCheck = true;
 

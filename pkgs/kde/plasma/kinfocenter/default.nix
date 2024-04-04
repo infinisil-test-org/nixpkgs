@@ -25,5 +25,5 @@ mkKdeDerivation {
     ln -sf ${systemsettings}/bin/systemsettings $out/bin/kinfocenter
   '';
 
-  extraBuildInputs = [libusb1];
+  extraBuildInputs = [ libusb1 ];
 }

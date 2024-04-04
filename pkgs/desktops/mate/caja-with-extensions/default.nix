@@ -1,10 +1,11 @@
-{ stdenv
-, lib
-, makeWrapper
-, caja-extensions
-, caja
-, extensions ? [ caja-extensions ]
-, mateUpdateScript
+{
+  stdenv,
+  lib,
+  makeWrapper,
+  caja-extensions,
+  caja,
+  extensions ? [ caja-extensions ],
+  mateUpdateScript,
 }:
 
 stdenv.mkDerivation {
@@ -13,16 +14,16 @@ stdenv.mkDerivation {
 
   dontUnpack = true;
 
-  nativeBuildInputs = [
-    makeWrapper
-  ];
+  nativeBuildInputs = [ makeWrapper ];
 
   inherit caja;
 
   installPhase = ''
     mkdir -p $out/bin
     makeWrapper $caja/bin/caja $out/bin/caja \
-    --set CAJA_EXTENSION_DIRS ${lib.concatMapStringsSep ":" (x: "${x.outPath}/lib/caja/extensions-2.0") extensions}
+    --set CAJA_EXTENSION_DIRS ${
+      lib.concatMapStringsSep ":" (x: "${x.outPath}/lib/caja/extensions-2.0") extensions
+    }
   '';
 
   inherit (caja.meta);

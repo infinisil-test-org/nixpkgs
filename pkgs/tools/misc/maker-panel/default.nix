@@ -1,8 +1,9 @@
-{ lib
-, fetchFromGitHub
-, rustPlatform
-, go-md2man
-, installShellFiles
+{
+  lib,
+  fetchFromGitHub,
+  rustPlatform,
+  go-md2man,
+  installShellFiles,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -18,7 +19,10 @@ rustPlatform.buildRustPackage rec {
 
   cargoSha256 = "1ar62dn0khlbm47chakrsrxd1y76gpq0sql4g9j7dqqrvkavgd7w";
 
-  nativeBuildInputs = [ go-md2man installShellFiles ];
+  nativeBuildInputs = [
+    go-md2man
+    installShellFiles
+  ];
 
   postBuild = ''
     go-md2man --in docs/spec-reference.md --out maker-panel.5

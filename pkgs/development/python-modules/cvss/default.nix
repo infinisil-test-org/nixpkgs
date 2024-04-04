@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, jsonschema
-, unittestCheckHook
-, pythonOlder
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  jsonschema,
+  unittestCheckHook,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -21,18 +22,14 @@ buildPythonPackage rec {
     hash = "sha256-xrkWpE13Y4KgQEZjitWE3Ka+IyfShqE2cj0/yzsAnX4=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   nativeCheckInputs = [
     jsonschema
     unittestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "cvss"
-  ];
+  pythonImportsCheck = [ "cvss" ];
 
   preCheck = ''
     cd tests

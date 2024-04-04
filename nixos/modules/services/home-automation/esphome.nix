@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   inherit (lib)
@@ -16,9 +21,10 @@ let
   stateDir = "/var/lib/esphome";
 
   esphomeParams =
-    if cfg.enableUnixSocket
-    then "--socket /run/esphome/esphome.sock"
-    else "--address ${cfg.address} --port ${toString cfg.port}";
+    if cfg.enableUnixSocket then
+      "--socket /run/esphome/esphome.sock"
+    else
+      "--address ${cfg.address} --port ${toString cfg.port}";
 in
 {
   meta.maintainers = with maintainers; [ oddlama ];
@@ -53,8 +59,13 @@ in
     };
 
     allowedDevices = mkOption {
-      default = ["char-ttyS" "char-ttyUSB"];
-      example = ["/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0"];
+      default = [
+        "char-ttyS"
+        "char-ttyUSB"
+      ];
+      example = [
+        "/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0"
+      ];
       description = lib.mdDoc ''
         A list of device nodes to which {command}`esphome` has access to.
         Refer to DeviceAllow in systemd.resource-control(5) for more information.
@@ -72,13 +83,13 @@ in
   };
 
   config = mkIf cfg.enable {
-    networking.firewall.allowedTCPPorts = mkIf (cfg.openFirewall && !cfg.enableUnixSocket) [cfg.port];
+    networking.firewall.allowedTCPPorts = mkIf (cfg.openFirewall && !cfg.enableUnixSocket) [ cfg.port ];
 
     systemd.services.esphome = {
       description = "ESPHome dashboard";
-      after = ["network.target"];
-      wantedBy = ["multi-user.target"];
-      path = [cfg.package];
+      after = [ "network.target" ];
+      wantedBy = [ "multi-user.target" ];
+      path = [ cfg.package ];
 
       environment = {
         # platformio fails to determine the home directory when using DynamicUser
@@ -103,7 +114,7 @@ in
         MemoryDenyWriteExecute = true;
         DevicePolicy = "closed";
         DeviceAllow = map (d: "${d} rw") cfg.allowedDevices;
-        SupplementaryGroups = ["dialout"];
+        SupplementaryGroups = [ "dialout" ];
         #NoNewPrivileges = true; # Implied by DynamicUser
         PrivateUsers = true;
         #PrivateTmp = true; # Implied by DynamicUser

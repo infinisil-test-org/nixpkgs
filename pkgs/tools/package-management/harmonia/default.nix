@@ -1,13 +1,14 @@
-{ lib
-, boost
-, fetchFromGitHub
-, libsodium
-, nixVersions
-, pkg-config
-, rustPlatform
-, stdenv
-, nix-update-script
-, nixosTests
+{
+  lib,
+  boost,
+  fetchFromGitHub,
+  libsodium,
+  nixVersions,
+  pkg-config,
+  rustPlatform,
+  stdenv,
+  nix-update-script,
+  nixosTests,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -24,7 +25,8 @@ rustPlatform.buildRustPackage rec {
   cargoHash = "sha256-Q5Y5v7mmJpfZFGRgurTcRBRtbApFRrwqOBHdZTJbyzc=";
 
   nativeBuildInputs = [
-    pkg-config nixVersions.nix_2_19
+    pkg-config
+    nixVersions.nix_2_19
   ];
 
   buildInputs = [
@@ -34,15 +36,18 @@ rustPlatform.buildRustPackage rec {
   ];
 
   # Workaround for https://github.com/NixOS/nixpkgs/issues/166205
-  env = lib.optionalAttrs stdenv.cc.isClang {
-    NIX_LDFLAGS = "-l${stdenv.cc.libcxx.cxxabi.libName}";
-  };
+  env = lib.optionalAttrs stdenv.cc.isClang { NIX_LDFLAGS = "-l${stdenv.cc.libcxx.cxxabi.libName}"; };
 
   passthru = {
     updateScript = nix-update-script {
-      extraArgs = [ "--version-regex" "harmonia-v(.*)" ];
+      extraArgs = [
+        "--version-regex"
+        "harmonia-v(.*)"
+      ];
     };
-    tests = { inherit (nixosTests) harmonia; };
+    tests = {
+      inherit (nixosTests) harmonia;
+    };
   };
 
   meta = with lib; {

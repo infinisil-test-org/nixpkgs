@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, garth
-, pdm-backend
-, pythonOlder
-, requests
-, withings-sync
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  garth,
+  pdm-backend,
+  pythonOlder,
+  requests,
+  withings-sync,
 }:
 
 buildPythonPackage rec {
@@ -22,9 +23,7 @@ buildPythonPackage rec {
     hash = "sha256-9At9v+7jOt43qPOhZpFYBEXA2zUfp8MAGO4/676kcBU=";
   };
 
-  nativeBuildInputs = [
-    pdm-backend
-  ];
+  nativeBuildInputs = [ pdm-backend ];
 
   propagatedBuildInputs = [
     garth
@@ -35,9 +34,7 @@ buildPythonPackage rec {
   # Tests require a token
   doCheck = false;
 
-  pythonImportsCheck = [
-    "garminconnect"
-  ];
+  pythonImportsCheck = [ "garminconnect" ];
 
   meta = with lib; {
     description = "Garmin Connect Python API wrapper";

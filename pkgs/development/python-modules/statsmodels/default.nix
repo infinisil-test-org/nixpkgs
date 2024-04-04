@@ -1,17 +1,18 @@
-{ lib
-, buildPythonPackage
-, cython
-, fetchpatch
-, fetchPypi
-, matplotlib
-, numpy
-, oldest-supported-numpy
-, pandas
-, patsy
-, pythonOlder
-, scipy
-, setuptools-scm
-, wheel
+{
+  lib,
+  buildPythonPackage,
+  cython,
+  fetchpatch,
+  fetchPypi,
+  matplotlib,
+  numpy,
+  oldest-supported-numpy,
+  pandas,
+  patsy,
+  pythonOlder,
+  scipy,
+  setuptools-scm,
+  wheel,
 }:
 
 buildPythonPackage rec {
@@ -53,9 +54,7 @@ buildPythonPackage rec {
   # Huge test suites with several test failures
   doCheck = false;
 
-  pythonImportsCheck = [
-    "statsmodels"
-  ];
+  pythonImportsCheck = [ "statsmodels" ];
 
   meta = with lib; {
     description = "Statistical computations and models for use with SciPy";

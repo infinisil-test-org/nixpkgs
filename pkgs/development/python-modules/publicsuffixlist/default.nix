@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pandoc
-, pytestCheckHook
-, pythonOlder
-, requests
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pandoc,
+  pytestCheckHook,
+  pythonOlder,
+  requests,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -20,30 +21,18 @@ buildPythonPackage rec {
     hash = "sha256-ApEvPghPrWfiRjNl/UMVRJIdnbP1H21DzqcWnIax8Yg=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   passthru.optional-dependencies = {
-    update = [
-      requests
-    ];
-    readme = [
-      pandoc
-    ];
+    update = [ requests ];
+    readme = [ pandoc ];
   };
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "publicsuffixlist"
-  ];
+  pythonImportsCheck = [ "publicsuffixlist" ];
 
-  pytestFlagsArray = [
-    "publicsuffixlist/test.py"
-  ];
+  pytestFlagsArray = [ "publicsuffixlist/test.py" ];
 
   meta = with lib; {
     description = "Public Suffix List parser implementation";

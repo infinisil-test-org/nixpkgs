@@ -3,7 +3,7 @@
   stdenv,
   fetchMavenArtifact,
   jdk11,
-  makeWrapper
+  makeWrapper,
 }:
 
 let
@@ -39,7 +39,7 @@ let
     hash = "sha512-y3/8Lu2EgMICRNPEWe0hrKpVhF35pDjCO6ip/Af9nPZ70ZRqGmlfEG7OzWVok11DuI8pYJ64jv6bEtUfSHTYXQ==";
   };
 
-  aeronCluster_1_40_0 =fetchMavenArtifact {
+  aeronCluster_1_40_0 = fetchMavenArtifact {
     inherit groupId;
     version = "1.40.0";
     artifactId = "aeron-cluster";
@@ -88,7 +88,7 @@ let
     hash = "sha512-td2k2WNpaD3+2PNvlCCJ8cZRr615sFjngiQDKzuY2e9/de1OUwvER3zzVAFOonEIV+s5EhwVeQvWq3Wj5Uhadg==";
   };
 
-  aeronCluster_1_42_1 =fetchMavenArtifact {
+  aeronCluster_1_42_1 = fetchMavenArtifact {
     inherit groupId;
     version = "1.42.1";
     artifactId = "aeron-cluster";
@@ -112,10 +112,10 @@ let
   aeronArchive = aeronArchive_1_42_1;
   aeronClient = aeronClient_1_42_1;
   aeronCluster = aeronCluster_1_42_1;
-  aeronDriver= aeronDriver_1_42_1;
+  aeronDriver = aeronDriver_1_42_1;
   aeronSamples = aeronSamples_1_42_1;
-
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
 
   inherit pname version;
 
@@ -128,9 +128,7 @@ in stdenv.mkDerivation {
     aeronSamples
   ];
 
-  nativeBuildInputs = [
-    makeWrapper
-  ];
+  nativeBuildInputs = [ makeWrapper ];
 
   dontUnpack = true;
   dontConfigure = true;
@@ -177,8 +175,6 @@ in stdenv.mkDerivation {
     license = licenses.asl20;
     mainProgram = "${pname}-media-driver";
     maintainers = [ maintainers.vaci ];
-    sourceProvenance = [
-      sourceTypes.binaryBytecode
-    ];
+    sourceProvenance = [ sourceTypes.binaryBytecode ];
   };
 }

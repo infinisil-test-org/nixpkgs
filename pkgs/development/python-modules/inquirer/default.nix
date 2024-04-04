@@ -1,20 +1,21 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
 
-# native
-, poetry-core
+  # native
+  poetry-core,
 
-# propagated
-, blessed
-, python-editor
-, readchar
+  # propagated
+  blessed,
+  python-editor,
+  readchar,
 
-# tests
-, pytest-mock
-, pytestCheckHook
-, pexpect
+  # tests
+  pytest-mock,
+  pytestCheckHook,
+  pexpect,
 }:
 
 buildPythonPackage rec {
@@ -31,9 +32,7 @@ buildPythonPackage rec {
     hash = "sha256-1xaxLIk4GFRpcodhBX+Co9TgpYkWhB/D4OE4Nny4ijM=";
   };
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
   propagatedBuildInputs = [
     blessed
@@ -47,10 +46,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-
-  pythonImportsCheck = [
-    "inquirer"
-  ];
+  pythonImportsCheck = [ "inquirer" ];
 
   meta = with lib; {
     description = "A collection of common interactive command line user interfaces, based on Inquirer.js";

@@ -35,7 +35,6 @@ stdenv.mkDerivation rec {
     ./pidfd.patch
   ];
 
-
   nativeBuildInputs = [
     meson
     help2man

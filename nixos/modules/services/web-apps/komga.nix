@@ -1,11 +1,16 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.services.komga;
-
-in {
+in
+{
   options = {
     services.komga = {
       enable = mkEnableOption (lib.mdDoc "Komga, a free and open source comics/mangas media server");
@@ -56,9 +61,7 @@ in {
 
     networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall [ cfg.port ];
 
-    users.groups = mkIf (cfg.group == "komga") {
-      komga = {};
-    };
+    users.groups = mkIf (cfg.group == "komga") { komga = { }; };
 
     users.users = mkIf (cfg.user == "komga") {
       komga = {
@@ -91,7 +94,6 @@ in {
 
         StateDirectory = mkIf (cfg.stateDir == "/var/lib/komga") "komga";
       };
-
     };
   };
 

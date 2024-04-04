@@ -1,9 +1,10 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, pkg-config
-, wayland
-, withNativeLibs ? false
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  pkg-config,
+  wayland,
+  withNativeLibs ? false,
 }:
 
 rustPlatform.buildRustPackage {
@@ -22,17 +23,11 @@ rustPlatform.buildRustPackage {
   cargoBuildFlags = [
     "--package=wl-clipboard-rs"
     "--package=wl-clipboard-rs-tools"
-  ] ++ lib.optionals withNativeLibs [
-    "--features=native_lib"
-  ];
+  ] ++ lib.optionals withNativeLibs [ "--features=native_lib" ];
 
-  nativeBuildInputs = lib.optionals withNativeLibs [
-    pkg-config
-  ];
+  nativeBuildInputs = lib.optionals withNativeLibs [ pkg-config ];
 
-  buildInputs = lib.optionals withNativeLibs [
-    wayland
-  ];
+  buildInputs = lib.optionals withNativeLibs [ wayland ];
 
   preCheck = ''
     export XDG_RUNTIME_DIR=$(mktemp -d)
@@ -53,7 +48,10 @@ rustPlatform.buildRustPackage {
     # TODO: add `${version}` once we switch to tagged release
     changelog = "https://github.com/YaLTeR/wl-clipboard-rs/blob/master/CHANGELOG.md";
     platforms = lib.platforms.linux;
-    license = with lib.licenses; [ asl20 mit ];
+    license = with lib.licenses; [
+      asl20
+      mit
+    ];
     mainProgram = "wl-clip";
     maintainers = with lib.maintainers; [ thiagokokada ];
   };

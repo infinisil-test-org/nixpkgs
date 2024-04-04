@@ -1,12 +1,13 @@
-{ lib
-, mkXfceDerivation
-, gobject-introspection
-, glib
-, gtk3
-, gtksourceview4
-, gspell
-, enablePolkit ? true
-, polkit
+{
+  lib,
+  mkXfceDerivation,
+  gobject-introspection,
+  glib,
+  gtk3,
+  gtksourceview4,
+  gspell,
+  enablePolkit ? true,
+  polkit,
 }:
 
 mkXfceDerivation {
@@ -24,9 +25,7 @@ mkXfceDerivation {
     gtk3
     gtksourceview4
     gspell
-  ] ++ lib.optionals enablePolkit [
-    polkit
-  ];
+  ] ++ lib.optionals enablePolkit [ polkit ];
 
   # Use the GSettings keyfile backend rather than DConf
   configureFlags = [ "--enable-keyfile-settings" ];

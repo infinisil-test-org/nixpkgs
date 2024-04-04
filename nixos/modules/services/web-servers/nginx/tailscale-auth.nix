@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -7,9 +12,11 @@ let
 in
 {
   options.services.nginx.tailscaleAuth = {
-    enable = mkEnableOption (lib.mdDoc "Enable tailscale.nginx-auth, to authenticate nginx users via tailscale.");
+    enable = mkEnableOption (
+      lib.mdDoc "Enable tailscale.nginx-auth, to authenticate nginx users via tailscale."
+    );
 
-    package = lib.mkPackageOptionMD pkgs "tailscale-nginx-auth" {};
+    package = lib.mkPackageOptionMD pkgs "tailscale-nginx-auth" { };
 
     user = mkOption {
       type = types.str;
@@ -43,7 +50,7 @@ in
 
     virtualHosts = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
       description = lib.mdDoc ''
         A list of nginx virtual hosts to put behind tailscale.nginx-auth
       '';
@@ -71,7 +78,6 @@ in
         SocketGroup = cfg.group;
       };
     };
-
 
     systemd.services.tailscale-nginx-auth = {
       description = "Tailscale NGINX Authentication service";
@@ -109,50 +115,55 @@ in
         SystemCallErrorNumber = "EPERM";
         SystemCallFilter = [
           "@system-service"
-          "~@cpu-emulation" "~@debug" "~@keyring" "~@memlock" "~@obsolete" "~@privileged" "~@setuid"
+          "~@cpu-emulation"
+          "~@debug"
+          "~@keyring"
+          "~@memlock"
+          "~@obsolete"
+          "~@privileged"
+          "~@setuid"
         ];
       };
     };
 
-    services.nginx.virtualHosts = genAttrs
-      cfg.virtualHosts
-      (vhost: {
-        locations."/auth" = {
-          extraConfig = ''
-            internal;
+    services.nginx.virtualHosts = genAttrs cfg.virtualHosts (vhost: {
+      locations."/auth" = {
+        extraConfig = ''
+          internal;
 
-            proxy_pass http://unix:${cfg.socketPath};
-            proxy_pass_request_body off;
+          proxy_pass http://unix:${cfg.socketPath};
+          proxy_pass_request_body off;
 
-            # Upstream uses $http_host here, but we are using gixy to check nginx configurations
-            # gixy wants us to use $host: https://github.com/yandex/gixy/blob/master/docs/en/plugins/hostspoofing.md
-            proxy_set_header Host $host;
-            proxy_set_header Remote-Addr $remote_addr;
-            proxy_set_header Remote-Port $remote_port;
-            proxy_set_header Original-URI $request_uri;
-            proxy_set_header X-Scheme                $scheme;
-            proxy_set_header X-Auth-Request-Redirect $scheme://$host$request_uri;
-          '';
-        };
-        locations."/".extraConfig = ''
-          auth_request /auth;
-          auth_request_set $auth_user $upstream_http_tailscale_user;
-          auth_request_set $auth_name $upstream_http_tailscale_name;
-          auth_request_set $auth_login $upstream_http_tailscale_login;
-          auth_request_set $auth_tailnet $upstream_http_tailscale_tailnet;
-          auth_request_set $auth_profile_picture $upstream_http_tailscale_profile_picture;
-
-          proxy_set_header X-Webauth-User "$auth_user";
-          proxy_set_header X-Webauth-Name "$auth_name";
-          proxy_set_header X-Webauth-Login "$auth_login";
-          proxy_set_header X-Webauth-Tailnet "$auth_tailnet";
-          proxy_set_header X-Webauth-Profile-Picture "$auth_profile_picture";
-
-          ${lib.optionalString (cfg.expectedTailnet != "") ''proxy_set_header Expected-Tailnet "${cfg.expectedTailnet}";''}
+          # Upstream uses $http_host here, but we are using gixy to check nginx configurations
+          # gixy wants us to use $host: https://github.com/yandex/gixy/blob/master/docs/en/plugins/hostspoofing.md
+          proxy_set_header Host $host;
+          proxy_set_header Remote-Addr $remote_addr;
+          proxy_set_header Remote-Port $remote_port;
+          proxy_set_header Original-URI $request_uri;
+          proxy_set_header X-Scheme                $scheme;
+          proxy_set_header X-Auth-Request-Redirect $scheme://$host$request_uri;
         '';
-      });
+      };
+      locations."/".extraConfig = ''
+        auth_request /auth;
+        auth_request_set $auth_user $upstream_http_tailscale_user;
+        auth_request_set $auth_name $upstream_http_tailscale_name;
+        auth_request_set $auth_login $upstream_http_tailscale_login;
+        auth_request_set $auth_tailnet $upstream_http_tailscale_tailnet;
+        auth_request_set $auth_profile_picture $upstream_http_tailscale_profile_picture;
+
+        proxy_set_header X-Webauth-User "$auth_user";
+        proxy_set_header X-Webauth-Name "$auth_name";
+        proxy_set_header X-Webauth-Login "$auth_login";
+        proxy_set_header X-Webauth-Tailnet "$auth_tailnet";
+        proxy_set_header X-Webauth-Profile-Picture "$auth_profile_picture";
+
+        ${lib.optionalString (
+          cfg.expectedTailnet != ""
+        ) ''proxy_set_header Expected-Tailnet "${cfg.expectedTailnet}";''}
+      '';
+    });
   };
 
   meta.maintainers = with maintainers; [ phaer ];
-
 }

@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, rustPlatform
-, darwin
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  rustPlatform,
+  darwin,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -27,7 +28,10 @@ rustPlatform.buildRustPackage rec {
   meta = with lib; {
     description = "A utility that builds rust-generated WebAssembly package";
     homepage = "https://github.com/rustwasm/wasm-pack";
-    license = with licenses; [ asl20 /* or */ mit ];
+    license = with licenses; [
+      asl20 # or
+      mit
+    ];
     maintainers = [ maintainers.dhkl ];
   };
 }

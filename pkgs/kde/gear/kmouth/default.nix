@@ -1,9 +1,6 @@
-{
-  mkKdeDerivation,
-  qtspeech,
-}:
+{ mkKdeDerivation, qtspeech }:
 mkKdeDerivation {
   pname = "kmouth";
 
-  extraBuildInputs = [qtspeech];
+  extraBuildInputs = [ qtspeech ];
 }

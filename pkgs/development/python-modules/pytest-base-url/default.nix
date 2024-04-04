@@ -1,12 +1,13 @@
-{ lib
-, fetchFromGitHub
-, buildPythonPackage
-, poetry-core
-, pytest
-, pytest-localserver
-, requests
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  fetchFromGitHub,
+  buildPythonPackage,
+  poetry-core,
+  pytest,
+  pytest-localserver,
+  requests,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -23,17 +24,11 @@ buildPythonPackage rec {
     hash = "sha256-v6pLejWNeb9Do6x2EJqmLKj8DNqcMtmYIs+7iDYsbjk=";
   };
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
-  buildInputs = [
-    pytest
-  ];
+  buildInputs = [ pytest ];
 
-  propagatedBuildInputs = [
-    requests
-  ];
+  propagatedBuildInputs = [ requests ];
 
   __darwinAllowLocalNetworking = true;
 
@@ -42,18 +37,14 @@ buildPythonPackage rec {
     pytest-localserver
   ];
 
-  pytestFlagsArray = [
-    "tests"
-  ];
+  pytestFlagsArray = [ "tests" ];
 
   disabledTests = [
     # should be xfail? or mocking doesn't work
     "test_url_fails"
   ];
 
-  pythonImportsCheck = [
-    "pytest_base_url"
-  ];
+  pythonImportsCheck = [ "pytest_base_url" ];
 
   meta = with lib; {
     description = "pytest plugin for URL based tests";

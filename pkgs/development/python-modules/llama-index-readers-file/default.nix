@@ -1,13 +1,14 @@
-{ lib
-, beautifulsoup4
-, buildPythonPackage
-, fetchFromGitHub
-, llama-index-core
-, poetry-core
-, pymupdf
-, pypdf
-, pytestCheckHook
-, pythonRelaxDepsHook
+{
+  lib,
+  beautifulsoup4,
+  buildPythonPackage,
+  fetchFromGitHub,
+  llama-index-core,
+  poetry-core,
+  pymupdf,
+  pypdf,
+  pytestCheckHook,
+  pythonRelaxDepsHook,
 }:
 
 buildPythonPackage rec {
@@ -26,9 +27,7 @@ buildPythonPackage rec {
     "pypdf"
   ];
 
-  pythonRemoveDeps = [
-    "bs4"
-  ];
+  pythonRemoveDeps = [ "bs4" ];
 
   nativeBuildInputs = [
     poetry-core
@@ -42,11 +41,7 @@ buildPythonPackage rec {
     pypdf
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "llama_index.readers.file"
-  ];
+  pythonImportsCheck = [ "llama_index.readers.file" ];
 }

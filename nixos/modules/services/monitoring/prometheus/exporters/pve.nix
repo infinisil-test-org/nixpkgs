@@ -1,4 +1,9 @@
-{ config, lib, pkgs, options }:
+{
+  config,
+  lib,
+  pkgs,
+  options,
+}:
 
 with lib;
 let
@@ -127,8 +132,6 @@ in
           --config.file %d/configFile \
           --web.listen-address ${cfg.listenAddress}:${toString cfg.port}
       '';
-    } // optionalAttrs (cfg.environmentFile != null) {
-      EnvironmentFile = cfg.environmentFile;
-    };
+    } // optionalAttrs (cfg.environmentFile != null) { EnvironmentFile = cfg.environmentFile; };
   };
 }

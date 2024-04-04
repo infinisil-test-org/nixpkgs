@@ -1,15 +1,20 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, boost
-, zlib
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  boost,
+  zlib,
 }:
 
 stdenv.mkDerivation rec {
   pname = "assimp";
   version = "5.3.1";
-  outputs = [ "out" "lib" "dev" ];
+  outputs = [
+    "out"
+    "lib"
+    "dev"
+  ];
 
   src = fetchFromGitHub {
     owner = "assimp";
@@ -19,16 +24,20 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ cmake ];
-  buildInputs = [ boost zlib ];
+  buildInputs = [
+    boost
+    zlib
+  ];
 
   cmakeFlags = [ "-DASSIMP_BUILD_ASSIMP_TOOLS=ON" ];
 
-  env.NIX_CFLAGS_COMPILE = toString ([
-    # Needed with GCC 12
-    "-Wno-error=array-bounds"
-  ] ++ lib.optionals stdenv.hostPlatform.isRiscV [
-    "-Wno-error=free-nonheap-object"
-  ]);
+  env.NIX_CFLAGS_COMPILE = toString (
+    [
+      # Needed with GCC 12
+      "-Wno-error=array-bounds"
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isRiscV [ "-Wno-error=free-nonheap-object" ]
+  );
 
   meta = with lib; {
     description = "A library to import various 3D model formats";

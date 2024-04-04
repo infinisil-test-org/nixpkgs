@@ -1,4 +1,8 @@
-{ lib, fetchurl, appimageTools, }:
+{
+  lib,
+  fetchurl,
+  appimageTools,
+}:
 
 let
   pname = "ytmdesktop";
@@ -11,7 +15,8 @@ let
   };
 
   appimageContents = appimageTools.extract { inherit name src; };
-in appimageTools.wrapType2 rec {
+in
+appimageTools.wrapType2 rec {
   inherit name src;
 
   extraInstallCommands = ''

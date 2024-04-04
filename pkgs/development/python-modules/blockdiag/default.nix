@@ -1,18 +1,19 @@
-{ lib
-, buildPythonPackage
-, docutils
-, fetchFromGitHub
-, fetchpatch
-, funcparserlib
-, nose
-, pillow
-, ephem
-, pythonOlder
-, pytestCheckHook
-, reportlab
-, setuptools
-, webcolors
-, python
+{
+  lib,
+  buildPythonPackage,
+  docutils,
+  fetchFromGitHub,
+  fetchpatch,
+  funcparserlib,
+  nose,
+  pillow,
+  ephem,
+  pythonOlder,
+  pytestCheckHook,
+  reportlab,
+  setuptools,
+  webcolors,
+  python,
 }:
 
 buildPythonPackage rec {
@@ -53,18 +54,14 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pytestFlagsArray = [
-    "src/blockdiag/tests/"
-  ];
+  pytestFlagsArray = [ "src/blockdiag/tests/" ];
 
   disabledTests = [
     # Test require network access
     "test_app_cleans_up_images"
   ];
 
-  pythonImportsCheck = [
-    "blockdiag"
-  ];
+  pythonImportsCheck = [ "blockdiag" ];
 
   meta = with lib; {
     description = "Generate block-diagram image from spec-text file (similar to Graphviz)";

@@ -1,4 +1,13 @@
-{ lib, stdenv, fetchFromGitHub, netcdf, hdf5, curl, gfortran, CoreFoundation }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  netcdf,
+  hdf5,
+  curl,
+  gfortran,
+  CoreFoundation,
+}:
 stdenv.mkDerivation rec {
   pname = "netcdf-fortran";
   version = "4.4.5";
@@ -11,8 +20,11 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ gfortran ];
-  buildInputs = [ netcdf hdf5 curl ]
-    ++ lib.optional stdenv.isDarwin CoreFoundation;
+  buildInputs = [
+    netcdf
+    hdf5
+    curl
+  ] ++ lib.optional stdenv.isDarwin CoreFoundation;
   doCheck = true;
 
   FFLAGS = [ "-std=legacy" ];

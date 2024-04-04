@@ -1,12 +1,13 @@
-{ lib
-, fetchFromGitHub
-, buildPgrxExtension
-, postgresql
-, nixosTests
-, cargo-pgrx
-, fetchCrate
-, nix-update-script
-, stdenv
+{
+  lib,
+  fetchFromGitHub,
+  buildPgrxExtension,
+  postgresql,
+  nixosTests,
+  cargo-pgrx,
+  fetchCrate,
+  nix-update-script,
+  stdenv,
 }:
 
 let
@@ -25,7 +26,6 @@ let
       outputHash = "sha256-XyI3RaPI3Edm/tCP2xoZemib2d2n2cAhobgk9Oafg6s=";
     });
   });
-
 in
 
 (buildPgrxExtension.override { cargo-pgrx = cargo-pgrx_0_10_2; }) rec {

@@ -1,11 +1,12 @@
-{ lib
-, fetchPypi
-, buildPythonPackage
-, uvloop
-, postgresql
-, pythonOlder
-, pytest-xdist
-, pytestCheckHook
+{
+  lib,
+  fetchPypi,
+  buildPythonPackage,
+  uvloop,
+  postgresql,
+  pythonOlder,
+  pytest-xdist,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -34,9 +35,7 @@ buildPythonPackage rec {
     rm -rf asyncpg/
   '';
 
-  pythonImportsCheck = [
-    "asyncpg"
-  ];
+  pythonImportsCheck = [ "asyncpg" ];
 
   meta = with lib; {
     description = "Asyncio PosgtreSQL driver";

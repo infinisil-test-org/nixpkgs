@@ -9,7 +9,13 @@ buildPackage {
 
   description = "A suite of DNS client programs and libraries for Unix systems";
 
-  outputs = [ "bin" "lib" "dev" "doc" "out" ];
+  outputs = [
+    "bin"
+    "lib"
+    "dev"
+    "doc"
+    "out"
+  ];
 
   configureFlags = [
     "--libdir=\${lib}/lib"
@@ -31,5 +37,4 @@ buildPackage {
 
     mv doc $doc/share/doc/s6-dns/html
   '';
-
 }

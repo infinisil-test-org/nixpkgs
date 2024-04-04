@@ -1,60 +1,61 @@
-{ lib
-, stdenv
-, fetchFromGitLab
-, writeText
-, cmake
-, cjson
-, doxygen
-, glslang
-, pkg-config
-, python3
-, SDL2
-, bluez
-, dbus
-, eigen
-, elfutils
-, ffmpeg
-, gst-plugins-base
-, gstreamer
-, hidapi
-, libGL
-, libXau
-, libXdmcp
-, libXrandr
-, libXext
-, libbsd
-, libffi
-, libjpeg
-, librealsense
-, libsurvive
-, libunwind
-, libusb1
-, libuv
-, libuvc
-, libv4l
-, libxcb
-, onnxruntime
-, opencv4
-, openhmd
-, openvr
-, orc
-, pcre2
-, shaderc
-, udev
-, vulkan-headers
-, vulkan-loader
-, wayland
-, wayland-protocols
-, wayland-scanner
-, libdrm
-, zlib
-, zstd
-, nixosTests
-# Set as 'false' to build monado without service support, i.e. allow VR
-# applications linking against libopenxr_monado.so to use OpenXR standalone
-# instead of via the monado-service program. For more information see:
-# https://gitlab.freedesktop.org/monado/monado/-/blob/master/doc/targets.md#xrt_feature_service-disabled
-, serviceSupport ? true
+{
+  lib,
+  stdenv,
+  fetchFromGitLab,
+  writeText,
+  cmake,
+  cjson,
+  doxygen,
+  glslang,
+  pkg-config,
+  python3,
+  SDL2,
+  bluez,
+  dbus,
+  eigen,
+  elfutils,
+  ffmpeg,
+  gst-plugins-base,
+  gstreamer,
+  hidapi,
+  libGL,
+  libXau,
+  libXdmcp,
+  libXrandr,
+  libXext,
+  libbsd,
+  libffi,
+  libjpeg,
+  librealsense,
+  libsurvive,
+  libunwind,
+  libusb1,
+  libuv,
+  libuvc,
+  libv4l,
+  libxcb,
+  onnxruntime,
+  opencv4,
+  openhmd,
+  openvr,
+  orc,
+  pcre2,
+  shaderc,
+  udev,
+  vulkan-headers,
+  vulkan-loader,
+  wayland,
+  wayland-protocols,
+  wayland-scanner,
+  libdrm,
+  zlib,
+  zstd,
+  nixosTests,
+  # Set as 'false' to build monado without service support, i.e. allow VR
+  # applications linking against libopenxr_monado.so to use OpenXR standalone
+  # instead of via the monado-service program. For more information see:
+  # https://gitlab.freedesktop.org/monado/monado/-/blob/master/doc/targets.md#xrt_feature_service-disabled
+  serviceSupport ? true,
 }:
 
 stdenv.mkDerivation {
@@ -150,7 +151,11 @@ stdenv.mkDerivation {
     description = "Open source XR runtime";
     homepage = "https://monado.freedesktop.org/";
     license = licenses.boost;
-    maintainers = with maintainers; [ Scrumplex expipiplus1 prusnak ];
+    maintainers = with maintainers; [
+      Scrumplex
+      expipiplus1
+      prusnak
+    ];
     platforms = platforms.linux;
     mainProgram = "monado-cli";
   };

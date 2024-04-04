@@ -1,27 +1,28 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, python3
-, jq
-, expat
-, jsoncpp
-, libX11
-, libXdmcp
-, libXrandr
-, libffi
-, libxcb
-, pkg-config
-, wayland
-, which
-, xcbutilkeysyms
-, xcbutilwm
-, valijson
-, vulkan-headers
-, vulkan-loader
-, vulkan-utility-libraries
-, writeText
-, libsForQt5
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  python3,
+  jq,
+  expat,
+  jsoncpp,
+  libX11,
+  libXdmcp,
+  libXrandr,
+  libffi,
+  libxcb,
+  pkg-config,
+  wayland,
+  which,
+  xcbutilkeysyms,
+  xcbutilwm,
+  valijson,
+  vulkan-headers,
+  vulkan-loader,
+  vulkan-utility-libraries,
+  writeText,
+  libsForQt5,
 }:
 
 stdenv.mkDerivation rec {
@@ -29,13 +30,20 @@ stdenv.mkDerivation rec {
   version = "1.3.275.0";
 
   src = fetchFromGitHub {
-   owner = "LunarG";
-   repo = "VulkanTools";
-   rev = "vulkan-sdk-${version}";
-   hash = "sha256-MEQX90HL90jyVBWWcvOF7QLzm1+fNE5TW3MWdK4w53M=";
- };
+    owner = "LunarG";
+    repo = "VulkanTools";
+    rev = "vulkan-sdk-${version}";
+    hash = "sha256-MEQX90HL90jyVBWWcvOF7QLzm1+fNE5TW3MWdK4w53M=";
+  };
 
-  nativeBuildInputs = [ cmake python3 jq which pkg-config libsForQt5.qt5.wrapQtAppsHook ];
+  nativeBuildInputs = [
+    cmake
+    python3
+    jq
+    which
+    pkg-config
+    libsForQt5.qt5.wrapQtAppsHook
+  ];
 
   buildInputs = [
     expat
@@ -56,9 +64,7 @@ stdenv.mkDerivation rec {
     libsForQt5.qt5.qtwayland
   ];
 
-  cmakeFlags = [
-    "-DVULKAN_HEADERS_INSTALL_DIR=${vulkan-headers}"
-  ];
+  cmakeFlags = [ "-DVULKAN_HEADERS_INSTALL_DIR=${vulkan-headers}" ];
 
   preConfigure = ''
     patchShebangs scripts/*

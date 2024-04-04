@@ -1,10 +1,11 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, electron_22
-, makeWrapper
-, makeDesktopItem
-, copyDesktopItems
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  electron_22,
+  makeWrapper,
+  makeDesktopItem,
+  copyDesktopItems,
 }:
 
 stdenv.mkDerivation rec {
@@ -18,7 +19,10 @@ stdenv.mkDerivation rec {
     sha256 = "1ma8s1bngjdzclcc4m5pcmavk38sidaskmz7dgfnv84y35si18dr";
   };
 
-  nativeBuildInputs = [ makeWrapper copyDesktopItems ];
+  nativeBuildInputs = [
+    makeWrapper
+    copyDesktopItems
+  ];
 
   installPhase = ''
     runHook preInstall
@@ -43,18 +47,16 @@ stdenv.mkDerivation rec {
   '';
 
   desktopItems = [
-    (
-      makeDesktopItem {
-        name = "Passky";
-        type = "Application";
-        desktopName = "passky";
-        comment = "Simple, modern, open source and secure password manager.";
-        icon = "passky";
-        exec = "passky %U";
-        categories = [ "Utility" ];
-        startupWMClass = "Passky";
-      }
-    )
+    (makeDesktopItem {
+      name = "Passky";
+      type = "Application";
+      desktopName = "passky";
+      comment = "Simple, modern, open source and secure password manager.";
+      icon = "passky";
+      exec = "passky %U";
+      categories = [ "Utility" ];
+      startupWMClass = "Passky";
+    })
   ];
 
   meta = with lib; {

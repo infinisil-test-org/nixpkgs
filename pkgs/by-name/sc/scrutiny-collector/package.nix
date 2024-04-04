@@ -1,9 +1,10 @@
-{ buildGoModule
-, fetchFromGitHub
-, makeWrapper
-, smartmontools
-, nixosTests
-, lib
+{
+  buildGoModule,
+  fetchFromGitHub,
+  makeWrapper,
+  smartmontools,
+  nixosTests,
+  lib,
 }:
 let
   version = "0.8.0";

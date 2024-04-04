@@ -1,4 +1,10 @@
-{ lib, stdenv, fetchFromGitHub, ldc, dub }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  ldc,
+  dub,
+}:
 
 stdenv.mkDerivation {
   pname = "Literate";
@@ -12,7 +18,10 @@ stdenv.mkDerivation {
     fetchSubmodules = true;
   };
 
-  buildInputs = [ ldc dub ];
+  buildInputs = [
+    ldc
+    dub
+  ];
 
   HOME = "home";
 

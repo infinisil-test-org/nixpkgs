@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, poetry-core
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  poetry-core,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -20,21 +21,13 @@ buildPythonPackage rec {
     hash = "sha256-GlXDDG8NZ3Lp0IwYKS0+fZG85uVdo4V8mZnCa+za02U=";
   };
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "crc"
-  ];
+  pythonImportsCheck = [ "crc" ];
 
-  disabledTestPaths = [
-    "test/bench"
-  ];
+  disabledTestPaths = [ "test/bench" ];
 
   meta = with lib; {
     changelog = "https://github.com/Nicoretti/crc/releases/tag/${version}";

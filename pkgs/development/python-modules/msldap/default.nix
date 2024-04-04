@@ -1,15 +1,16 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, asn1crypto
-, asyauth
-, asysocks
-, minikerberos
-, prompt-toolkit
-, tqdm
-, winacl
-, winsspi
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  asn1crypto,
+  asyauth,
+  asysocks,
+  minikerberos,
+  prompt-toolkit,
+  tqdm,
+  winacl,
+  winsspi,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -38,9 +39,7 @@ buildPythonPackage rec {
   # Project doesn't have tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "msldap"
-  ];
+  pythonImportsCheck = [ "msldap" ];
 
   meta = with lib; {
     description = "Python LDAP library for auditing MS AD";

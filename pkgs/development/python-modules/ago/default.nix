@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
 
-, pythonOlder
+  pythonOlder,
 
-, pytestCheckHook
+  pytestCheckHook,
 
-, setuptools
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -21,13 +22,9 @@ buildPythonPackage rec {
     hash = "sha256-0gEPXqw99UTsSOwRYQLgaFkaNFsaWA8ylz24pQX8p0Q=";
   };
 
-  build-system = [
-    setuptools
-  ];
+  build-system = [ setuptools ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   pythonImportsCheck = [ "ago" ];
 

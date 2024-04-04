@@ -1,33 +1,37 @@
-{ stdenv
-, buildFHSEnv
-, fetchurl
-, lib
-, zlib
-, gdbm
-, bzip2
-, libxslt
-, libxml2
-, libuuid
-, readline
-, xz
-, cups
-, glibc
-, libaio
-, vulkan-loader
-, alsa-lib
-, libpulseaudio
-, libxcrypt-legacy
-, libGL
-, numactl
-, libX11
-, libXi
-, kmod
-, python3
-, autoPatchelfHook
-, makeWrapper
-, sqlite
-, enableInstaller ? false
-, enableMacOSGuests ? false, fetchFromGitHub, gnutar, unzip
+{
+  stdenv,
+  buildFHSEnv,
+  fetchurl,
+  lib,
+  zlib,
+  gdbm,
+  bzip2,
+  libxslt,
+  libxml2,
+  libuuid,
+  readline,
+  xz,
+  cups,
+  glibc,
+  libaio,
+  vulkan-loader,
+  alsa-lib,
+  libpulseaudio,
+  libxcrypt-legacy,
+  libGL,
+  numactl,
+  libX11,
+  libXi,
+  kmod,
+  python3,
+  autoPatchelfHook,
+  makeWrapper,
+  sqlite,
+  enableInstaller ? false,
+  enableMacOSGuests ? false,
+  fetchFromGitHub,
+  gnutar,
+  unzip,
 }:
 
 let
@@ -95,12 +99,26 @@ stdenv.mkDerivation rec {
     kmod
   ];
 
-  nativeBuildInputs = [ python3 vmware-unpack-env autoPatchelfHook makeWrapper ]
-    ++ lib.optionals enableInstaller [ sqlite bzip2 ]
-    ++ lib.optionals enableMacOSGuests [ gnutar unzip ];
+  nativeBuildInputs =
+    [
+      python3
+      vmware-unpack-env
+      autoPatchelfHook
+      makeWrapper
+    ]
+    ++ lib.optionals enableInstaller [
+      sqlite
+      bzip2
+    ]
+    ++ lib.optionals enableMacOSGuests [
+      gnutar
+      unzip
+    ];
 
   src = fetchurl {
-    url = "https://download3.vmware.com/software/WKST-${builtins.replaceStrings ["."] [""] version}-LX/VMware-Workstation-Full-${version}-${build}.x86_64.bundle";
+    url = "https://download3.vmware.com/software/WKST-${
+      builtins.replaceStrings [ "." ] [ "" ] version
+    }-LX/VMware-Workstation-Full-${version}-${build}.x86_64.bundle";
     sha256 = "sha256-qmC3zvKoes77z3x6UkLHsJ17kQrL1a/rxe9mF+UMdJY=";
   };
 
@@ -386,6 +404,10 @@ stdenv.mkDerivation rec {
     sourceProvenance = with sourceTypes; [ binaryNativeCode ];
     license = licenses.unfree;
     platforms = [ "x86_64-linux" ];
-    maintainers = with maintainers; [ cawilliamson deinferno vifino ];
+    maintainers = with maintainers; [
+      cawilliamson
+      deinferno
+      vifino
+    ];
   };
 }

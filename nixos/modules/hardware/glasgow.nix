@@ -1,8 +1,12 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.hardware.glasgow;
-
 in
 {
   options.hardware.glasgow = {

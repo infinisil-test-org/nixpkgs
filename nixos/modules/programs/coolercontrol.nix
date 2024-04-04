@@ -1,7 +1,8 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 
 let
@@ -10,14 +11,14 @@ in
 {
   ##### interface
   options = {
-    programs.coolercontrol.enable = lib.mkEnableOption (lib.mdDoc "CoolerControl GUI & its background services");
+    programs.coolercontrol.enable = lib.mkEnableOption (
+      lib.mdDoc "CoolerControl GUI & its background services"
+    );
   };
 
   ##### implementation
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = with pkgs.coolercontrol; [
-      coolercontrol-gui
-    ];
+    environment.systemPackages = with pkgs.coolercontrol; [ coolercontrol-gui ];
 
     systemd = {
       packages = with pkgs.coolercontrol; [
@@ -33,5 +34,8 @@ in
     };
   };
 
-  meta.maintainers = with lib.maintainers; [ OPNA2608 codifryed ];
+  meta.maintainers = with lib.maintainers; [
+    OPNA2608
+    codifryed
+  ];
 }

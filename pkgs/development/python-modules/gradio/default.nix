@@ -1,58 +1,59 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, pythonRelaxDepsHook
-, writeShellScriptBin
-, gradio
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  writeShellScriptBin,
+  gradio,
 
-# pyproject
-, hatchling
-, hatch-requirements-txt
-, hatch-fancy-pypi-readme
+  # pyproject
+  hatchling,
+  hatch-requirements-txt,
+  hatch-fancy-pypi-readme,
 
-# runtime
-, setuptools
-, aiofiles
-, altair
-, fastapi
-, ffmpy
-, gradio-client
-, httpx
-, huggingface-hub
-, importlib-resources
-, jinja2
-, markupsafe
-, matplotlib
-, numpy
-, orjson
-, packaging
-, pandas
-, pillow
-, pydantic
-, python-multipart
-, pydub
-, pyyaml
-, semantic-version
-, typing-extensions
-, uvicorn
-, typer
-, tomlkit
+  # runtime
+  setuptools,
+  aiofiles,
+  altair,
+  fastapi,
+  ffmpy,
+  gradio-client,
+  httpx,
+  huggingface-hub,
+  importlib-resources,
+  jinja2,
+  markupsafe,
+  matplotlib,
+  numpy,
+  orjson,
+  packaging,
+  pandas,
+  pillow,
+  pydantic,
+  python-multipart,
+  pydub,
+  pyyaml,
+  semantic-version,
+  typing-extensions,
+  uvicorn,
+  typer,
+  tomlkit,
 
-# check
-, pytestCheckHook
-, boto3
-, gradio-pdf
-, ffmpeg
-, ipython
-, pytest-asyncio
-, respx
-, scikit-image
-, torch
-, tqdm
-, transformers
-, vega-datasets
+  # check
+  pytestCheckHook,
+  boto3,
+  gradio-pdf,
+  ffmpeg,
+  ipython,
+  pytest-asyncio,
+  respx,
+  scikit-image,
+  torch,
+  tqdm,
+  transformers,
+  vega-datasets,
 }:
 
 buildPythonPackage rec {
@@ -77,9 +78,7 @@ buildPythonPackage rec {
     rm -rf venv/
   '';
 
-  pythonRelaxDeps = [
-    "tomlkit"
-  ];
+  pythonRelaxDeps = [ "tomlkit" ];
 
   pythonRemoveDeps = [
     # our package is presented as a binary, not a python lib - and
@@ -144,13 +143,15 @@ buildPythonPackage rec {
 
   # Add a pytest hook skipping tests that access network, marking them as "Expected fail" (xfail).
   # We additionally xfail FileNotFoundError, since the gradio devs often fail to upload test assets to pypi.
-  preCheck = ''
-    export HOME=$TMPDIR
-    cat ${./conftest-skip-network-errors.py} >> test/conftest.py
-  '' + lib.optionalString stdenv.isDarwin ''
-    # OSError: [Errno 24] Too many open files
-    ulimit -n 4096
-  '';
+  preCheck =
+    ''
+      export HOME=$TMPDIR
+      cat ${./conftest-skip-network-errors.py} >> test/conftest.py
+    ''
+    + lib.optionalString stdenv.isDarwin ''
+      # OSError: [Errno 24] Too many open files
+      ulimit -n 4096
+    '';
 
   disabledTests = [
     # Actually broken
@@ -181,7 +182,7 @@ buildPythonPackage rec {
     "test/test_interfaces.py"
   ];
   pytestFlagsArray = [
-    "-x"  # abort on first failure
+    "-x" # abort on first failure
     "-m 'not flaky'"
     #"-W" "ignore" # uncomment for debugging help
   ];
@@ -197,17 +198,19 @@ buildPythonPackage rec {
   # Cyclic dependencies are fun!
   # This is gradio without gradio-client and gradio-pdf
   passthru = {
-    sans-reverse-dependencies = (gradio.override (old: {
-      gradio-client = null;
-      gradio-pdf = null;
-    })).overridePythonAttrs (old: {
-      pname = old.pname + "-sans-client";
-      pythonRemoveDeps = (old.pythonRemoveDeps or []) ++ [ "gradio-client" ];
-      doInstallCheck = false;
-      doCheck = false;
-      pythonImportsCheck = null;
-      dontCheckRuntimeDeps = true;
-    });
+    sans-reverse-dependencies =
+      (gradio.override (old: {
+        gradio-client = null;
+        gradio-pdf = null;
+      })).overridePythonAttrs
+        (old: {
+          pname = old.pname + "-sans-client";
+          pythonRemoveDeps = (old.pythonRemoveDeps or [ ]) ++ [ "gradio-client" ];
+          doInstallCheck = false;
+          doCheck = false;
+          pythonImportsCheck = null;
+          dontCheckRuntimeDeps = true;
+        });
   };
 
   meta = with lib; {

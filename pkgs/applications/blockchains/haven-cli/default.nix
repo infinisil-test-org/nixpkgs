@@ -1,11 +1,29 @@
-{ lib, stdenv, fetchFromGitHub, fetchpatch
-, cmake, pkg-config
-, boost179, miniupnpc, openssl, unbound
-, zeromq, pcsclite, readline, libsodium, hidapi
-, randomx, rapidjson
-, easyloggingpp
-, CoreData, IOKit, PCSC
-, trezorSupport ? true, libusb1, protobuf, python3
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  cmake,
+  pkg-config,
+  boost179,
+  miniupnpc,
+  openssl,
+  unbound,
+  zeromq,
+  pcsclite,
+  readline,
+  libsodium,
+  hidapi,
+  randomx,
+  rapidjson,
+  easyloggingpp,
+  CoreData,
+  IOKit,
+  PCSC,
+  trezorSupport ? true,
+  libusb1,
+  protobuf,
+  python3,
 }:
 
 stdenv.mkDerivation rec {
@@ -20,9 +38,7 @@ stdenv.mkDerivation rec {
     fetchSubmodules = true;
   };
 
-  patches = [
-    ./use-system-libraries.patch
-  ];
+  patches = [ ./use-system-libraries.patch ];
 
   postPatch = ''
     # remove vendored libraries
@@ -33,16 +49,33 @@ stdenv.mkDerivation rec {
     substituteInPlace CMakeLists.txt --replace "-march=x86-64" ""
   '';
 
-  nativeBuildInputs = [ cmake pkg-config ];
+  nativeBuildInputs = [
+    cmake
+    pkg-config
+  ];
 
-  buildInputs = [
-    boost179 miniupnpc openssl unbound
-    zeromq pcsclite readline
-    libsodium hidapi randomx rapidjson
-    protobuf
-    readline easyloggingpp
-  ]
-    ++ lib.optionals trezorSupport [ libusb1 protobuf python3 ];
+  buildInputs =
+    [
+      boost179
+      miniupnpc
+      openssl
+      unbound
+      zeromq
+      pcsclite
+      readline
+      libsodium
+      hidapi
+      randomx
+      rapidjson
+      protobuf
+      readline
+      easyloggingpp
+    ]
+    ++ lib.optionals trezorSupport [
+      libusb1
+      protobuf
+      python3
+    ];
 
   cmakeFlags = [
     "-DUSE_DEVICE_TREZOR=ON"
@@ -52,13 +85,16 @@ stdenv.mkDerivation rec {
     "-DRandomX_ROOT_DIR=${randomx}"
   ] ++ lib.optional stdenv.isDarwin "-DBoost_USE_MULTITHREADED=OFF";
 
-  outputs = [ "out" "source" ];
+  outputs = [
+    "out"
+    "source"
+  ];
 
   meta = with lib; {
     description = "Haven Protocol is the world's only network of private stable asset";
-    homepage    = "https://havenprotocol.org/";
-    license     = licenses.bsd3;
-    platforms   = platforms.all;
+    homepage = "https://havenprotocol.org/";
+    license = licenses.bsd3;
+    platforms = platforms.all;
     maintainers = with maintainers; [ kim0 ];
   };
 }

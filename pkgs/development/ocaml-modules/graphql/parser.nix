@@ -1,4 +1,12 @@
-{ lib, buildDunePackage, fetchurl, alcotest, fmt, menhir, re }:
+{
+  lib,
+  buildDunePackage,
+  fetchurl,
+  alcotest,
+  fmt,
+  menhir,
+  re,
+}:
 
 buildDunePackage rec {
   pname = "graphql_parser";
@@ -13,7 +21,10 @@ buildDunePackage rec {
   };
 
   nativeBuildInputs = [ menhir ];
-  propagatedBuildInputs = [ fmt re ];
+  propagatedBuildInputs = [
+    fmt
+    re
+  ];
 
   checkInputs = [ alcotest ];
 
@@ -25,5 +36,4 @@ buildDunePackage rec {
     license = lib.licenses.mit;
     maintainers = [ lib.maintainers.vbgl ];
   };
-
 }

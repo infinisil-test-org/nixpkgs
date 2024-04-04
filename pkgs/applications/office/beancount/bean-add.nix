@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchFromGitHub, python3Packages }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  python3Packages,
+}:
 
 stdenv.mkDerivation {
   pname = "bean-add";
@@ -29,4 +34,3 @@ stdenv.mkDerivation {
     maintainers = with lib.maintainers; [ matthiasbeyer ];
   };
 }
-

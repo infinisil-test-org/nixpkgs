@@ -1,20 +1,21 @@
-{ lib
-, asttokens
-, buildPythonPackage
-, cbor2
-, fetchPypi
-, git
-, importlib-metadata
-, packaging
-, pycryptodome
-, pytest-runner
-, pythonOlder
-, pythonRelaxDepsHook
-, recommonmark
-, setuptools-scm
-, sphinx
-, sphinx-rtd-theme
-, writeText
+{
+  lib,
+  asttokens,
+  buildPythonPackage,
+  cbor2,
+  fetchPypi,
+  git,
+  importlib-metadata,
+  packaging,
+  pycryptodome,
+  pytest-runner,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  recommonmark,
+  setuptools-scm,
+  sphinx,
+  sphinx-rtd-theme,
+  writeText,
 }:
 
 let
@@ -25,7 +26,6 @@ let
     def __init__(foo: address):
         self.count = 1
   '';
-
 in
 buildPythonPackage rec {
   pname = "vyper";
@@ -55,9 +55,7 @@ buildPythonPackage rec {
     setuptools-scm
   ];
 
-  pythonRelaxDeps = [
-    "asttokens"
-  ];
+  pythonRelaxDeps = [ "asttokens" ];
 
   propagatedBuildInputs = [
     asttokens
@@ -76,9 +74,7 @@ buildPythonPackage rec {
     $out/bin/vyper "${sample-contract}"
   '';
 
-  pythonImportsCheck = [
-    "vyper"
-  ];
+  pythonImportsCheck = [ "vyper" ];
 
   meta = with lib; {
     description = "Pythonic Smart Contract Language for the EVM";

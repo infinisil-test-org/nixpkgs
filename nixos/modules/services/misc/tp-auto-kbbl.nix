@@ -1,15 +1,23 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
-let cfg = config.services.tp-auto-kbbl;
-
-in {
+let
+  cfg = config.services.tp-auto-kbbl;
+in
+{
   meta.maintainers = with maintainers; [ sebtm ];
 
   options = {
     services.tp-auto-kbbl = {
-      enable = mkEnableOption (lib.mdDoc "auto toggle keyboard back-lighting on Thinkpads (and maybe other laptops) for Linux");
+      enable = mkEnableOption (
+        lib.mdDoc "auto toggle keyboard back-lighting on Thinkpads (and maybe other laptops) for Linux"
+      );
 
       package = mkPackageOption pkgs "tp-auto-kbbl" { };
 
@@ -26,7 +34,6 @@ in {
         default = "/dev/input/event0";
         description = lib.mdDoc "Device watched for activities.";
       };
-
     };
   };
 
@@ -35,8 +42,13 @@ in {
 
     systemd.services.tp-auto-kbbl = {
       serviceConfig = {
-        ExecStart = concatStringsSep " "
-          ([ "${cfg.package}/bin/tp-auto-kbbl" "--device ${cfg.device}" ] ++ cfg.arguments);
+        ExecStart = concatStringsSep " " (
+          [
+            "${cfg.package}/bin/tp-auto-kbbl"
+            "--device ${cfg.device}"
+          ]
+          ++ cfg.arguments
+        );
         Restart = "always";
         Type = "simple";
       };

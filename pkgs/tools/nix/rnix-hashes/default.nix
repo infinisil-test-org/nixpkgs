@@ -1,4 +1,9 @@
-{ lib, rustPlatform, fetchFromGitHub, fetchpatch }:
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  fetchpatch,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "rnix-hashes";
@@ -25,6 +30,9 @@ rustPlatform.buildRustPackage rec {
     description = "Nix Hash Converter";
     homepage = "https://github.com/numtide/rnix-hashes";
     license = licenses.asl20;
-    maintainers = with maintainers; [ rizary SuperSandro2000 ];
+    maintainers = with maintainers; [
+      rizary
+      SuperSandro2000
+    ];
   };
 }

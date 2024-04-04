@@ -1,6 +1,7 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -19,7 +20,13 @@ rustPlatform.buildRustPackage rec {
   meta = with lib; {
     description = "A tool to execute Rust code carefully, with extra checking along the way";
     homepage = "https://github.com/RalfJung/cargo-careful";
-    license = with licenses; [ asl20 mit ];
-    maintainers = with maintainers; [ figsoda matthiasbeyer ];
+    license = with licenses; [
+      asl20
+      mit
+    ];
+    maintainers = with maintainers; [
+      figsoda
+      matthiasbeyer
+    ];
   };
 }

@@ -1,27 +1,28 @@
-{ lib
-, clang-tools
-, llvmPackages
-, boost179
-, protobuf
-, python3Support ? false
-, python3
-, log4cxxSupport ? false
-, log4cxx
-, snappySupport ? false
-, snappy
-, zlibSupport ? true
-, zlib
-, zstdSupport ? true
-, zstd
-, gtest
-, gtestSupport ? false
-, cmake
-, curl
-, fetchurl
-, jsoncpp
-, openssl
-, pkg-config
-, stdenv
+{
+  lib,
+  clang-tools,
+  llvmPackages,
+  boost179,
+  protobuf,
+  python3Support ? false,
+  python3,
+  log4cxxSupport ? false,
+  log4cxx,
+  snappySupport ? false,
+  snappy,
+  zlibSupport ? true,
+  zlib,
+  zstdSupport ? true,
+  zstd,
+  gtest,
+  gtestSupport ? false,
+  cmake,
+  curl,
+  fetchurl,
+  jsoncpp,
+  openssl,
+  pkg-config,
+  stdenv,
 }:
 
 let
@@ -40,14 +41,25 @@ let
   # Not really sure why I need to do this.. If I call clang-tools without the override it defaults to a different version and fails
   clangTools = clang-tools.override { inherit stdenv llvmPackages; };
   # If boost has python enabled, then boost-python package will be installed which is used by libpulsars python wrapper
-  boost = if python3Support then boost179.override { inherit stdenv; enablePython = python3Support; python = python3; } else boost179;
-  defaultOptionals = [ boost protobuf ]
+  boost =
+    if python3Support then
+      boost179.override {
+        inherit stdenv;
+        enablePython = python3Support;
+        python = python3;
+      }
+    else
+      boost179;
+  defaultOptionals =
+    [
+      boost
+      protobuf
+    ]
     ++ lib.optional python3Support python3
     ++ lib.optional snappySupport snappy.dev
     ++ lib.optional zlibSupport zlib
     ++ lib.optional zstdSupport zstd
     ++ lib.optional log4cxxSupport log4cxx;
-
 in
 stdenv.mkDerivation rec {
   pname = "libpulsar";
@@ -61,12 +73,17 @@ stdenv.mkDerivation rec {
   sourceRoot = "apache-pulsar-${version}-src/pulsar-client-cpp";
 
   # clang-tools needed for clang-format
-  nativeBuildInputs = [ cmake pkg-config clangTools ]
-    ++ defaultOptionals
-    ++ lib.optional gtestSupport gtest.dev;
+  nativeBuildInputs = [
+    cmake
+    pkg-config
+    clangTools
+  ] ++ defaultOptionals ++ lib.optional gtestSupport gtest.dev;
 
-  buildInputs = [ jsoncpp openssl curl ]
-    ++ defaultOptionals;
+  buildInputs = [
+    jsoncpp
+    openssl
+    curl
+  ] ++ defaultOptionals;
 
   # Needed for GCC on Linux
   env.NIX_CFLAGS_COMPILE = toString [ "-Wno-error=return-type" ];

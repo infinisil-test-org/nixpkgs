@@ -1,7 +1,8 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -23,9 +24,7 @@ buildPythonPackage rec {
   # Module has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "mscerts"
-  ];
+  pythonImportsCheck = [ "mscerts" ];
 
   meta = with lib; {
     description = "Makes the Microsoft Trusted Root Program's Certificate Trust Lists available in Python";

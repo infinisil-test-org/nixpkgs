@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, flit-core
-, mdformat
-, mdformat-gfm
-, mdit-py-plugins
-, pythonOlder
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  flit-core,
+  mdformat,
+  mdformat-gfm,
+  mdit-py-plugins,
+  pythonOlder,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -23,9 +24,7 @@ buildPythonPackage rec {
     hash = "sha256-GUSoGx4cwhjQO4AiC9s0YIcK3N/Gr+PrYR3+B8G9CoQ=";
   };
 
-  nativeBuildInputs = [
-    flit-core
-  ];
+  nativeBuildInputs = [ flit-core ];
 
   propagatedBuildInputs = [
     mdformat
@@ -33,13 +32,9 @@ buildPythonPackage rec {
     mdit-py-plugins
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "mdformat_mkdocs"
-  ];
+  pythonImportsCheck = [ "mdformat_mkdocs" ];
 
   meta = with lib; {
     description = "Mdformat plugin for MkDocs";

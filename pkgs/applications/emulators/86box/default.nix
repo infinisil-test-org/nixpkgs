@@ -1,11 +1,29 @@
-{ stdenv, lib, fetchFromGitHub, cmake, pkg-config, makeWrapper, freetype, SDL2
-, glib, pcre2, openal, rtmidi, fluidsynth, jack2, alsa-lib, qt5, libvncserver
-, discord-gamesdk, libpcap, libslirp
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  makeWrapper,
+  freetype,
+  SDL2,
+  glib,
+  pcre2,
+  openal,
+  rtmidi,
+  fluidsynth,
+  jack2,
+  alsa-lib,
+  qt5,
+  libvncserver,
+  discord-gamesdk,
+  libpcap,
+  libslirp,
 
-, enableDynarec ? with stdenv.hostPlatform; isx86 || isAarch
-, enableNewDynarec ? enableDynarec && stdenv.hostPlatform.isAarch
-, enableVncRenderer ? false
-, unfreeEnableDiscord ? false
+  enableDynarec ? with stdenv.hostPlatform; isx86 || isAarch,
+  enableNewDynarec ? enableDynarec && stdenv.hostPlatform.isAarch,
+  enableVncRenderer ? false,
+  unfreeEnableDiscord ? false,
 }:
 
 stdenv.mkDerivation rec {
@@ -39,10 +57,10 @@ stdenv.mkDerivation rec {
     libslirp
     qt5.qtbase
     qt5.qttools
-  ] ++ lib.optional stdenv.isLinux alsa-lib
-    ++ lib.optional enableVncRenderer libvncserver;
+  ] ++ lib.optional stdenv.isLinux alsa-lib ++ lib.optional enableVncRenderer libvncserver;
 
-  cmakeFlags = lib.optional stdenv.isDarwin "-DCMAKE_MACOSX_BUNDLE=OFF"
+  cmakeFlags =
+    lib.optional stdenv.isDarwin "-DCMAKE_MACOSX_BUNDLE=OFF"
     ++ lib.optional enableNewDynarec "-DNEW_DYNAREC=ON"
     ++ lib.optional enableVncRenderer "-DVNC=ON"
     ++ lib.optional (!enableDynarec) "-DDYNAREC=OFF"
@@ -59,17 +77,16 @@ stdenv.mkDerivation rec {
 
   # Some libraries are loaded dynamically, but QLibrary doesn't seem to search
   # the runpath, so use a wrapper instead.
-  postFixup = let
-    libPath = lib.makeLibraryPath ([
-      libpcap
-    ] ++ lib.optional unfreeEnableDiscord discord-gamesdk);
-    libPathVar = if stdenv.isDarwin then "DYLD_LIBRARY_PATH" else "LD_LIBRARY_PATH";
-  in
-  ''
-    wrapProgram $out/bin/86Box \
-      "''${qtWrapperArgs[@]}" \
-      --prefix ${libPathVar} : "${libPath}"
-  '';
+  postFixup =
+    let
+      libPath = lib.makeLibraryPath ([ libpcap ] ++ lib.optional unfreeEnableDiscord discord-gamesdk);
+      libPathVar = if stdenv.isDarwin then "DYLD_LIBRARY_PATH" else "LD_LIBRARY_PATH";
+    in
+    ''
+      wrapProgram $out/bin/86Box \
+        "''${qtWrapperArgs[@]}" \
+        --prefix ${libPathVar} : "${libPath}"
+    '';
 
   # Do not wrap twice.
   dontWrapQtApps = true;

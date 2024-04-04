@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, poetry-core
-, pythonRelaxDepsHook
-, ebooklib
-, lxml
-, pillow
-, pypdf
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  poetry-core,
+  pythonRelaxDepsHook,
+  ebooklib,
+  lxml,
+  pillow,
+  pypdf,
 }:
 
 buildPythonPackage rec {

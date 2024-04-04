@@ -1,9 +1,10 @@
-{ stdenv
-, fetchurl
-, ffmpeg-headless
-, lib
-, nixosTests
-, stateDirectory ? "/var/lib/castopod"
+{
+  stdenv,
+  fetchurl,
+  ffmpeg-headless,
+  lib,
+  nixosTests,
+  stateDirectory ? "/var/lib/castopod",
 }:
 stdenv.mkDerivation {
   pname = "castopod";
@@ -47,7 +48,10 @@ stdenv.mkDerivation {
     description = "An open-source hosting platform made for podcasters who want to engage and interact with their audience";
     homepage = "https://castopod.org";
     license = licenses.agpl3Only;
-    maintainers = with maintainers; [ alexoundos misuzu ];
+    maintainers = with maintainers; [
+      alexoundos
+      misuzu
+    ];
     platforms = platforms.all;
   };
 }

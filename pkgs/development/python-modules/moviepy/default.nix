@@ -1,21 +1,22 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, numpy
-, decorator
-, imageio
-, imageio-ffmpeg
-, proglog
-, requests
-, tqdm
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  numpy,
+  decorator,
+  imageio,
+  imageio-ffmpeg,
+  proglog,
+  requests,
+  tqdm,
   # Advanced image processing (triples size of output)
-, advancedProcessing ? false
-, scikit-image
-, scikit-learn
-, scipy
-, matplotlib
-, youtube-dl
+  advancedProcessing ? false,
+  scikit-image,
+  scikit-learn,
+  scipy,
+  matplotlib,
+  youtube-dl,
 }:
 
 buildPythonPackage rec {
@@ -38,21 +39,23 @@ buildPythonPackage rec {
   # No tests, require network connection
   doCheck = false;
 
-  propagatedBuildInputs = [
-    numpy
-    decorator
-    imageio
-    imageio-ffmpeg
-    tqdm
-    requests
-    proglog
-  ] ++ lib.optionals advancedProcessing [
-    scikit-image
-    scikit-learn
-    scipy
-    matplotlib
-    youtube-dl
-  ];
+  propagatedBuildInputs =
+    [
+      numpy
+      decorator
+      imageio
+      imageio-ffmpeg
+      tqdm
+      requests
+      proglog
+    ]
+    ++ lib.optionals advancedProcessing [
+      scikit-image
+      scikit-learn
+      scipy
+      matplotlib
+      youtube-dl
+    ];
 
   meta = with lib; {
     description = "Video editing with Python";

@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, isPy27
-, cython
-, nose
-, pytest
-, numpy
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  isPy27,
+  cython,
+  nose,
+  pytest,
+  numpy,
 }:
 
 buildPythonPackage rec {
@@ -19,7 +20,10 @@ buildPythonPackage rec {
     hash = "sha256-ZDevPd8IMRjCbY+Xq0OwckuVbJ+Vjp6niGWfaig0upM=";
   };
 
-  nativeCheckInputs = [ nose pytest ];
+  nativeCheckInputs = [
+    nose
+    pytest
+  ];
 
   buildInputs = [ cython ];
 
@@ -45,5 +49,4 @@ buildPythonPackage rec {
     homepage = "https://github.com/PyWavelets/pywt";
     license = licenses.mit;
   };
-
 }

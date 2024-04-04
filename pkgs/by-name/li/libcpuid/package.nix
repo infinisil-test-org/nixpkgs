@@ -1,4 +1,10 @@
-{ lib, stdenv, fetchFromGitHub, fetchpatch, autoreconfHook }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  autoreconfHook,
+}:
 
 stdenv.mkDerivation rec {
   pname = "libcpuid";
@@ -18,7 +24,10 @@ stdenv.mkDerivation rec {
     description = "A small C library for x86 CPU detection and feature extraction";
     changelog = "https://raw.githubusercontent.com/anrieff/libcpuid/master/ChangeLog";
     license = licenses.bsd2;
-    maintainers = with maintainers; [ orivej artuuge ];
+    maintainers = with maintainers; [
+      orivej
+      artuuge
+    ];
     platforms = platforms.x86;
   };
 }

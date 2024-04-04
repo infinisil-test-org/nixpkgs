@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, autoconf-archive
-, autoreconfHook
-, fetchFromGitHub
-, gtk3
-, libtool
-, pkg-config
-, guiSupport ? false
+{
+  lib,
+  stdenv,
+  autoconf-archive,
+  autoreconfHook,
+  fetchFromGitHub,
+  gtk3,
+  libtool,
+  pkg-config,
+  guiSupport ? false,
 }:
 
 stdenv.mkDerivation rec {
@@ -34,7 +35,10 @@ stdenv.mkDerivation rec {
     description = "Zoned block device manipulation library and tools";
     homepage = "https://github.com/westerndigitalcorporation/libzbd";
     maintainers = [ maintainers.fogti ];
-    license = with licenses; [ lgpl3Plus gpl3Plus ];
+    license = with licenses; [
+      lgpl3Plus
+      gpl3Plus
+    ];
     platforms = platforms.linux;
   };
 }

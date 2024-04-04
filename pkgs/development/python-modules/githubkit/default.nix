@@ -1,16 +1,17 @@
-{ lib
-, anyio
-, buildPythonPackage
-, fetchFromGitHub
-, hishel
-, httpx
-, poetry-core
-, pydantic
-, pyjwt
-, pytestCheckHook
-, pythonOlder
-, pythonRelaxDepsHook
-, typing-extensions
+{
+  lib,
+  anyio,
+  buildPythonPackage,
+  fetchFromGitHub,
+  hishel,
+  httpx,
+  poetry-core,
+  pydantic,
+  pyjwt,
+  pytestCheckHook,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  typing-extensions,
 }:
 
 buildPythonPackage rec {
@@ -27,9 +28,7 @@ buildPythonPackage rec {
     hash = "sha256-nPXs6thXAshDojgHSNyEeBN/jNJkfFECSuY5f51Zozo=";
   };
 
-  pythonRelaxDeps = [
-    "hishel"
-  ];
+  pythonRelaxDeps = [ "hishel" ];
 
   postPatch = ''
     substituteInPlace pyproject.toml \
@@ -53,15 +52,9 @@ buildPythonPackage rec {
       anyio
       pyjwt
     ];
-    jwt = [
-      pyjwt
-    ];
-    auth-app = [
-      pyjwt
-    ];
-    auth-oauth-device = [
-      anyio
-    ];
+    jwt = [ pyjwt ];
+    auth-app = [ pyjwt ];
+    auth-oauth-device = [ anyio ];
     auth = [
       anyio
       pyjwt
@@ -72,9 +65,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ] ++ lib.flatten (builtins.attrValues passthru.optional-dependencies);
 
-  pythonImportsCheck = [
-    "githubkit"
-  ];
+  pythonImportsCheck = [ "githubkit" ];
 
   disabledTests = [
     # Tests require network access

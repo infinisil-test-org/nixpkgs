@@ -1,16 +1,17 @@
-{ lib
-, aiohttp
-, aresponses
-, awesomeversion
-, backoff
-, buildPythonPackage
-, deepmerge
-, fetchFromGitHub
-, poetry-core
-, pytest-asyncio
-, pytestCheckHook
-, pythonOlder
-, yarl
+{
+  lib,
+  aiohttp,
+  aresponses,
+  awesomeversion,
+  backoff,
+  buildPythonPackage,
+  deepmerge,
+  fetchFromGitHub,
+  poetry-core,
+  pytest-asyncio,
+  pytestCheckHook,
+  pythonOlder,
+  yarl,
 }:
 
 buildPythonPackage rec {
@@ -21,10 +22,10 @@ buildPythonPackage rec {
   disabled = pythonOlder "3.9";
 
   src = fetchFromGitHub {
-   owner = "ctalkington";
-   repo = "python-ipp";
-   rev = "refs/tags/${version}";
-   hash = "sha256-k7NSCmugGov+lJXWeopUwKkGKL/EGhvxSSiby4CcmFM=";
+    owner = "ctalkington";
+    repo = "python-ipp";
+    rev = "refs/tags/${version}";
+    hash = "sha256-k7NSCmugGov+lJXWeopUwKkGKL/EGhvxSSiby4CcmFM=";
   };
 
   postPatch = ''
@@ -33,9 +34,7 @@ buildPythonPackage rec {
       --replace "--cov" ""
   '';
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
   propagatedBuildInputs = [
     aiohttp
@@ -53,9 +52,7 @@ buildPythonPackage rec {
 
   __darwinAllowLocalNetworking = true;
 
-  pythonImportsCheck = [
-    "pyipp"
-  ];
+  pythonImportsCheck = [ "pyipp" ];
 
   meta = with lib; {
     changelog = "https://github.com/ctalkington/python-ipp/releases/tag/${version}";

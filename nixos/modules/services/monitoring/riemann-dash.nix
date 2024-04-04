@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with pkgs;
 with lib;
@@ -17,8 +22,8 @@ let
     #!/bin/sh
     exec ${pkgs.riemann-dash}/bin/riemann-dash ${conf}
   '';
-
-in {
+in
+{
 
   options = {
 
@@ -46,7 +51,6 @@ in {
         '';
       };
     };
-
   };
 
   config = mkIf cfg.enable {
@@ -76,7 +80,5 @@ in {
         ExecStart = "${launcher}/bin/riemann-dash";
       };
     };
-
   };
-
 }

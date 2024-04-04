@@ -1,10 +1,11 @@
-{ lib
-, rustPlatform
-, fetchCrate
-, jq
-, moreutils
-, stdenv
-, darwin
+{
+  lib,
+  rustPlatform,
+  fetchCrate,
+  jq,
+  moreutils,
+  stdenv,
+  darwin,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -41,15 +42,16 @@ rustPlatform.buildRustPackage rec {
     '';
   };
 
-  buildInputs = lib.optionals stdenv.isDarwin [
-    darwin.apple_sdk.frameworks.CoreServices
-  ];
+  buildInputs = lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.CoreServices ];
 
   meta = with lib; {
     description = "A command line profiler for macOS and Linux";
     homepage = "https://github.com/mstange/samply";
     changelog = "https://github.com/mstange/samply/releases/tag/samply-v${version}";
-    license = with licenses; [ asl20 mit ];
+    license = with licenses; [
+      asl20
+      mit
+    ];
     maintainers = with maintainers; [ figsoda ];
   };
 }

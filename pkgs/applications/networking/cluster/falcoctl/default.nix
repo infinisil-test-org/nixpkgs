@@ -1,4 +1,8 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+}:
 
 buildGoModule rec {
   pname = "falcoctl";
@@ -13,7 +17,6 @@ buildGoModule rec {
 
   vendorHash = "sha256-26EXoXMWK/zPX4M7kG3QRAb4aqtIWgSnSgXcxKUwfZk=";
 
-
   ldflags = [
     "-s"
     "-w"
@@ -24,6 +27,10 @@ buildGoModule rec {
     description = "Administrative tooling for Falco";
     homepage = "https://github.com/falcosecurity/falcoctl";
     license = licenses.asl20;
-    maintainers = with maintainers; [ developer-guy kranurag7 LucaGuerra ];
+    maintainers = with maintainers; [
+      developer-guy
+      kranurag7
+      LucaGuerra
+    ];
   };
 }

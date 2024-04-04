@@ -1,37 +1,46 @@
-{ stdenv
-, lib
-, fetchFromGitLab
-, fetchpatch
-, gitUpdater
-, substituteAll
-, testers
-, dbus-test-runner
-, dpkg
-, gdb
-, glib
-, lttng-ust
-, perl
-, pkg-config
-, python3
-, qmake
-, qtbase
-, qtdeclarative
-, qtfeedback
-, qtgraphicaleffects
-, qtpim
-, qtquickcontrols2
-, qtsvg
-, qtsystems
-, suru-icon-theme
-, validatePkgConfig
-, wrapQtAppsHook
-, xvfb-run
+{
+  stdenv,
+  lib,
+  fetchFromGitLab,
+  fetchpatch,
+  gitUpdater,
+  substituteAll,
+  testers,
+  dbus-test-runner,
+  dpkg,
+  gdb,
+  glib,
+  lttng-ust,
+  perl,
+  pkg-config,
+  python3,
+  qmake,
+  qtbase,
+  qtdeclarative,
+  qtfeedback,
+  qtgraphicaleffects,
+  qtpim,
+  qtquickcontrols2,
+  qtsvg,
+  qtsystems,
+  suru-icon-theme,
+  validatePkgConfig,
+  wrapQtAppsHook,
+  xvfb-run,
 }:
 
 let
   listToQtVar = suffix: lib.makeSearchPathOutput "bin" suffix;
-  qtPluginPaths = listToQtVar qtbase.qtPluginPrefix [ qtbase qtpim qtsvg ];
-  qtQmlPaths = listToQtVar qtbase.qtQmlPrefix [ qtdeclarative qtfeedback qtgraphicaleffects ];
+  qtPluginPaths = listToQtVar qtbase.qtPluginPrefix [
+    qtbase
+    qtpim
+    qtsvg
+  ];
+  qtQmlPaths = listToQtVar qtbase.qtQmlPrefix [
+    qtdeclarative
+    qtfeedback
+    qtgraphicaleffects
+  ];
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "lomiri-ui-toolkit";
@@ -44,7 +53,10 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-Azz2IOm/7XRvDbyIKaYxrkR47evSB17ejtssuEJayPc=";
   };
 
-  outputs = [ "out" "dev" ];
+  outputs = [
+    "out"
+    "dev"
+  ];
 
   patches = [
     # Upstreaming effort for these two patches: https://gitlab.com/ubports/development/core/lomiri-ui-toolkit/-/merge_requests/44
@@ -235,7 +247,10 @@ stdenv.mkDerivation (finalAttrs: {
     '';
     homepage = "https://gitlab.com/ubports/development/core/lomiri-ui-toolkit";
     changelog = "https://gitlab.com/ubports/development/core/lomiri-ui-toolkit/-/blob/${finalAttrs.version}/ChangeLog";
-    license = with licenses; [ gpl3Only cc-by-sa-30 ];
+    license = with licenses; [
+      gpl3Only
+      cc-by-sa-30
+    ];
     maintainers = teams.lomiri.members;
     platforms = platforms.linux;
     pkgConfigModules = [

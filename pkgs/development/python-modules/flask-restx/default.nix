@@ -1,21 +1,22 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, aniso8601
-, jsonschema
-, flask
-, importlib-resources
-, werkzeug
-, pytz
-, faker
-, mock
-, blinker
-, py
-, pytest-flask
-, pytest-mock
-, pytest-benchmark
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  aniso8601,
+  jsonschema,
+  flask,
+  importlib-resources,
+  werkzeug,
+  pytz,
+  faker,
+  mock,
+  blinker,
+  py,
+  pytest-flask,
+  pytest-mock,
+  pytest-benchmark,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -66,9 +67,7 @@ buildPythonPackage rec {
     "test_media_types_q"
   ];
 
-  pythonImportsCheck = [
-    "flask_restx"
-  ];
+  pythonImportsCheck = [ "flask_restx" ];
 
   meta = with lib; {
     description = "Fully featured framework for fast, easy and documented API development with Flask";

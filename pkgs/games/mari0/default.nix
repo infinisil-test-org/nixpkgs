@@ -1,12 +1,13 @@
-{ lib
-, copyDesktopItems
-, fetchFromGitHub
-, love
-, makeDesktopItem
-, makeWrapper
-, stdenv
-, strip-nondeterminism
-, zip
+{
+  lib,
+  copyDesktopItems,
+  fetchFromGitHub,
+  love,
+  makeDesktopItem,
+  makeWrapper,
+  stdenv,
+  strip-nondeterminism,
+  zip,
 }:
 
 stdenv.mkDerivation rec {
@@ -54,5 +55,4 @@ stdenv.mkDerivation rec {
     license = licenses.mit;
     downloadPage = "https://stabyourself.net/mari0/";
   };
-
 }

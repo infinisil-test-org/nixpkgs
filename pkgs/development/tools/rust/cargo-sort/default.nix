@@ -1,4 +1,8 @@
-{ fetchFromGitHub, lib, rustPlatform }:
+{
+  fetchFromGitHub,
+  lib,
+  rustPlatform,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "cargo-sort";
@@ -17,7 +21,13 @@ rustPlatform.buildRustPackage rec {
     description = "A tool to check that your Cargo.toml dependencies are sorted alphabetically";
     homepage = "https://github.com/devinr528/cargo-sort";
     changelog = "https://github.com/devinr528/cargo-sort/blob/v${version}/changelog.md";
-    license = with licenses; [ mit /* or */ asl20 ];
-    maintainers = with maintainers; [ figsoda matthiasbeyer ];
+    license = with licenses; [
+      mit # or
+      asl20
+    ];
+    maintainers = with maintainers; [
+      figsoda
+      matthiasbeyer
+    ];
   };
 }

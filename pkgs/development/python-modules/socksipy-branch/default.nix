@@ -1,6 +1,7 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
 }:
 
 buildPythonPackage rec {
@@ -17,5 +18,4 @@ buildPythonPackage rec {
     description = "This Python module allows you to create TCP connections through a SOCKS proxy without any special effort";
     license = licenses.bsd3;
   };
-
 }

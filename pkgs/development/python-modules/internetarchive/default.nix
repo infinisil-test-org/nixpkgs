@@ -1,16 +1,17 @@
-{ lib
-, buildPythonPackage
-, docopt
-, fetchFromGitHub
-, pytestCheckHook
-, requests
-, jsonpatch
-, schema
-, responses
-, setuptools
-, tqdm
-, urllib3
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  docopt,
+  fetchFromGitHub,
+  pytestCheckHook,
+  requests,
+  jsonpatch,
+  schema,
+  responses,
+  setuptools,
+  tqdm,
+  urllib3,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -60,9 +61,7 @@ buildPythonPackage rec {
     "tests/cli/test_ia_download.py"
   ];
 
-  pythonImportsCheck = [
-    "internetarchive"
-  ];
+  pythonImportsCheck = [ "internetarchive" ];
 
   meta = with lib; {
     description = "A Python and Command-Line Interface to Archive.org";

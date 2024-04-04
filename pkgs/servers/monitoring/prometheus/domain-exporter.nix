@@ -1,4 +1,10 @@
-{ lib, buildGoModule, fetchFromGitHub, fetchpatch, nixosTests }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  fetchpatch,
+  nixosTests,
+}:
 
 buildGoModule rec {
   pname = "domain-exporter";
@@ -15,12 +21,19 @@ buildGoModule rec {
 
   doCheck = false; # needs internet connection
 
-  passthru.tests = { inherit (nixosTests.prometheus-exporters) domain; };
+  passthru.tests = {
+    inherit (nixosTests.prometheus-exporters) domain;
+  };
 
   meta = with lib; {
     homepage = "https://github.com/caarlos0/domain_exporter";
     description = "Exports the expiration time of your domains as prometheus metrics";
     license = licenses.mit;
-    maintainers = with maintainers; [ mmilata prusnak peterhoeg caarlos0 ];
+    maintainers = with maintainers; [
+      mmilata
+      prusnak
+      peterhoeg
+      caarlos0
+    ];
   };
 }

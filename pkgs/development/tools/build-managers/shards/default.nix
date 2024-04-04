@@ -1,6 +1,7 @@
-{ lib
-, fetchFromGitHub
-, crystal
+{
+  lib,
+  fetchFromGitHub,
+  crystal,
 }:
 
 let
@@ -33,7 +34,6 @@ let
         inherit (crystal.meta) homepage platforms;
       };
     };
-
 in
 rec {
   shards_0_17 = generic {

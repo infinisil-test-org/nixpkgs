@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, flit-core
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  flit-core,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -19,16 +20,12 @@ buildPythonPackage rec {
     hash = "sha256-xf46ih7viVUKNIT1tLs5MQPNjNtQlQ2N9BJIGPt4Srk=";
   };
 
-  nativeBuildInputs = [
-    flit-core
-  ];
+  nativeBuildInputs = [ flit-core ];
 
   # Module has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "stdlibs"
-  ];
+  pythonImportsCheck = [ "stdlibs" ];
 
   meta = with lib; {
     description = "Overview of the Python stdlib";

@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, setuptools
-, importlib-metadata
-, mypy-extensions
-, typing-extensions
-, pytestCheckHook
-, pytz
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  setuptools,
+  importlib-metadata,
+  mypy-extensions,
+  typing-extensions,
+  pytestCheckHook,
+  pytz,
 }:
 
 buildPythonPackage rec {
@@ -22,17 +23,13 @@ buildPythonPackage rec {
     hash = "sha256-ojvR2k3Wpj5Ej0OS57I4aFX/cGFVeL/PmT7riCTelws=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     setuptools
     mypy-extensions
     typing-extensions
-  ] ++ lib.optionals (pythonOlder "3.8") [
-    importlib-metadata
-  ];
+  ] ++ lib.optionals (pythonOlder "3.8") [ importlib-metadata ];
 
   nativeCheckInputs = [
     pytestCheckHook

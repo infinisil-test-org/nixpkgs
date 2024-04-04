@@ -1,22 +1,23 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchpatch
-, nix-update-script
-, meson
-, ninja
-, pkg-config
-, vala
-, libgee
-, libgtop
-, libgudev
-, libhandy
-, granite
-, gtk3
-, switchboard
-, udisks2
-, fwupd
-, appstream
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  nix-update-script,
+  meson,
+  ninja,
+  pkg-config,
+  vala,
+  libgee,
+  libgtop,
+  libgudev,
+  libhandy,
+  granite,
+  gtk3,
+  switchboard,
+  udisks2,
+  fwupd,
+  appstream,
 }:
 
 stdenv.mkDerivation rec {
@@ -75,5 +76,4 @@ stdenv.mkDerivation rec {
     platforms = platforms.linux;
     maintainers = teams.pantheon.members;
   };
-
 }

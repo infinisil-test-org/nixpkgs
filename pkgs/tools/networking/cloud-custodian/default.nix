@@ -1,14 +1,17 @@
-{ lib, buildPythonApplication, fetchPypi
-, argcomplete
-, boto3
-, botocore
-, certifi
-, python-dateutil
-, jsonpatch
-, jsonschema
-, pyyaml
-, tabulate
-, urllib3
+{
+  lib,
+  buildPythonApplication,
+  fetchPypi,
+  argcomplete,
+  boto3,
+  botocore,
+  certifi,
+  python-dateutil,
+  jsonpatch,
+  jsonschema,
+  pyyaml,
+  tabulate,
+  urllib3,
 }:
 
 buildPythonApplication rec {

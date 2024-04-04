@@ -1,4 +1,11 @@
-{ stdenv, lib, fetchFromGitHub, glib, gjs, typescript }:
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  glib,
+  gjs,
+  typescript,
+}:
 
 stdenv.mkDerivation rec {
   pname = "gnome-shell-extension-pop-shell";
@@ -11,13 +18,15 @@ stdenv.mkDerivation rec {
     hash = "sha256-74lZbEYHj7fufRSbuI2SN9rqbB3gpRa0V96qjAFc01s=";
   };
 
-  nativeBuildInputs = [ glib gjs typescript ];
+  nativeBuildInputs = [
+    glib
+    gjs
+    typescript
+  ];
 
   buildInputs = [ gjs ];
 
-  patches = [
-    ./fix-gjs.patch
-  ];
+  patches = [ ./fix-gjs.patch ];
 
   makeFlags = [ "XDG_DATA_HOME=$(out)/share" ];
 

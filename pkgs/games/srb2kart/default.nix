@@ -1,17 +1,18 @@
-{ lib
-, stdenv
-, fetchurl
-, fetchFromGitHub
-, substituteAll
-, cmake
-, curl
-, nasm
-, unzip
-, game-music-emu
-, libpng
-, SDL2
-, SDL2_mixer
-, zlib
+{
+  lib,
+  stdenv,
+  fetchurl,
+  fetchFromGitHub,
+  substituteAll,
+  cmake,
+  curl,
+  nasm,
+  unzip,
+  game-music-emu,
+  libpng,
+  SDL2,
+  SDL2_mixer,
+  zlib,
 }:
 
 let
@@ -22,8 +23,8 @@ let
     url = "https://github.com/STJr/Kart-Public/releases/download/${release_tag}/AssetsLinuxOnly.zip";
     sha256 = "sha256-ejhPuZ1C8M9B0S4+2HN1T5pbormT1eVL3nlivqOszdE=";
   };
-
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "srb2kart";
   version = "1.6.0";
 
@@ -55,9 +56,7 @@ in stdenv.mkDerivation {
     "-DSDL2_INCLUDE_DIR=${lib.getDev SDL2}/include/SDL2"
   ];
 
-  patches = [
-    ./wadlocation.patch
-  ];
+  patches = [ ./wadlocation.patch ];
 
   postPatch = ''
     substituteInPlace src/sdl/i_system.c \

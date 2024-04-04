@@ -1,14 +1,34 @@
-{ lib, stdenv, fetchurl, perl, zlib, apr, aprutil, pcre2, libiconv, lynx, which, libxcrypt
-, fetchpatch
-, nixosTests
-, proxySupport ? true
-, sslSupport ? true, openssl
-, modTlsSupport ? false, rustls-ffi, Foundation
-, http2Support ? true, nghttp2
-, ldapSupport ? true, openldap
-, libxml2Support ? true, libxml2
-, brotliSupport ? true, brotli
-, luaSupport ? false, lua5
+{
+  lib,
+  stdenv,
+  fetchurl,
+  perl,
+  zlib,
+  apr,
+  aprutil,
+  pcre2,
+  libiconv,
+  lynx,
+  which,
+  libxcrypt,
+  fetchpatch,
+  nixosTests,
+  proxySupport ? true,
+  sslSupport ? true,
+  openssl,
+  modTlsSupport ? false,
+  rustls-ffi,
+  Foundation,
+  http2Support ? true,
+  nghttp2,
+  ldapSupport ? true,
+  openldap,
+  libxml2Support ? true,
+  libxml2,
+  brotliSupport ? true,
+  brotli,
+  luaSupport ? false,
+  lua5,
 }:
 
 stdenv.mkDerivation rec {
@@ -21,34 +41,46 @@ stdenv.mkDerivation rec {
   };
 
   # FIXME: -dev depends on -doc
-  outputs = [ "out" "dev" "man" "doc" ];
+  outputs = [
+    "out"
+    "dev"
+    "man"
+    "doc"
+  ];
   setOutputFlags = false; # it would move $out/modules, etc.
 
   nativeBuildInputs = [ which ];
 
-  buildInputs = [ perl libxcrypt ] ++
-    lib.optional brotliSupport brotli ++
-    lib.optional sslSupport openssl ++
-    lib.optional modTlsSupport rustls-ffi ++
-    lib.optional (modTlsSupport && stdenv.isDarwin) Foundation ++
-    lib.optional ldapSupport openldap ++    # there is no --with-ldap flag
-    lib.optional libxml2Support libxml2 ++
-    lib.optional http2Support nghttp2 ++
-    lib.optional stdenv.isDarwin libiconv;
+  buildInputs =
+    [
+      perl
+      libxcrypt
+    ]
+    ++ lib.optional brotliSupport brotli
+    ++ lib.optional sslSupport openssl
+    ++ lib.optional modTlsSupport rustls-ffi
+    ++ lib.optional (modTlsSupport && stdenv.isDarwin) Foundation
+    ++ lib.optional ldapSupport openldap
+    # there is no --with-ldap flag
+    ++ lib.optional libxml2Support libxml2
+    ++ lib.optional http2Support nghttp2
+    ++ lib.optional stdenv.isDarwin libiconv;
 
-  patches = lib.optionals modTlsSupport [
-    (fetchpatch {
-      name = "compat-with-rustls-ffi-0.10.0.patch";
-      url = "https://github.com/apache/httpd/commit/918620a183d843fb393ed939423a25d42c1044ec.patch";
-      hash = "sha256-YZi3t++hjM0skisax2xuh9DifZVZjCjVn6XQr6QKGEs=";
-    })
-  ] ++ lib.optionals libxml2Support [
-    (fetchpatch {
-      name = "compat-with-libxml2-2.12.patch";
-      url = "https://github.com/apache/httpd/commit/27a68e54b7c6d2ae80dca396fd2727852897dab1.patch";
-      hash = "sha256-k2EqCaDkckrXLsHnjP4h+b1brTnde4pUyrbOiPFB6qk=";
-    })
-  ];
+  patches =
+    lib.optionals modTlsSupport [
+      (fetchpatch {
+        name = "compat-with-rustls-ffi-0.10.0.patch";
+        url = "https://github.com/apache/httpd/commit/918620a183d843fb393ed939423a25d42c1044ec.patch";
+        hash = "sha256-YZi3t++hjM0skisax2xuh9DifZVZjCjVn6XQr6QKGEs=";
+      })
+    ]
+    ++ lib.optionals libxml2Support [
+      (fetchpatch {
+        name = "compat-with-libxml2-2.12.patch";
+        url = "https://github.com/apache/httpd/commit/27a68e54b7c6d2ae80dca396fd2727852897dab1.patch";
+        hash = "sha256-k2EqCaDkckrXLsHnjP4h+b1brTnde4pUyrbOiPFB6qk=";
+      })
+    ];
 
   postPatch = ''
     sed -i config.layout -e "s|installbuilddir:.*|installbuilddir: $dev/share/build|"
@@ -89,7 +121,11 @@ stdenv.mkDerivation rec {
 
   enableParallelBuilding = true;
 
-  stripDebugList = [ "lib" "modules" "bin" ];
+  stripDebugList = [
+    "lib"
+    "modules"
+    "bin"
+  ];
 
   postInstall = ''
     mkdir -p $doc/share/doc/httpd
@@ -99,7 +135,15 @@ stdenv.mkDerivation rec {
   '';
 
   passthru = {
-    inherit apr aprutil sslSupport proxySupport ldapSupport luaSupport lua5;
+    inherit
+      apr
+      aprutil
+      sslSupport
+      proxySupport
+      ldapSupport
+      luaSupport
+      lua5
+      ;
     tests = {
       acme-integration = nixosTests.acme;
       proxy = nixosTests.proxy;
@@ -109,9 +153,9 @@ stdenv.mkDerivation rec {
 
   meta = with lib; {
     description = "Apache HTTPD, the world's most popular web server";
-    homepage    = "https://httpd.apache.org/";
-    license     = licenses.asl20;
-    platforms   = platforms.linux ++ platforms.darwin;
+    homepage = "https://httpd.apache.org/";
+    license = licenses.asl20;
+    platforms = platforms.linux ++ platforms.darwin;
     maintainers = with maintainers; [ lovek323 ];
   };
 }

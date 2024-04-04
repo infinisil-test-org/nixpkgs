@@ -1,14 +1,15 @@
-{ lib
-, buildPythonPackage
-, setuptools
-, cachetools
-, decorator
-, fetchFromGitHub
-, future
-, pysmt
-, pythonOlder
-, pytestCheckHook
-, z3-solver
+{
+  lib,
+  buildPythonPackage,
+  setuptools,
+  cachetools,
+  decorator,
+  fetchFromGitHub,
+  future,
+  pysmt,
+  pythonOlder,
+  pytestCheckHook,
+  z3-solver,
 }:
 
 buildPythonPackage rec {
@@ -25,9 +26,7 @@ buildPythonPackage rec {
     hash = "sha256-wgCWMngda0gB+AEDFpRxQ2ots5YXE4bkBSxMtYJqLEo=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     cachetools
@@ -37,13 +36,9 @@ buildPythonPackage rec {
     z3-solver
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "claripy"
-  ];
+  pythonImportsCheck = [ "claripy" ];
 
   meta = with lib; {
     description = "Python abstraction layer for constraint solvers";

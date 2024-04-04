@@ -1,14 +1,16 @@
-{ stdenv, fetchurl
-, glade
-, gnunet
-, gnutls
-, gtk3
-, libextractor
-, libgcrypt
-, libsodium
-, libxml2
-, pkg-config
-, wrapGAppsHook
+{
+  stdenv,
+  fetchurl,
+  glade,
+  gnunet,
+  gnutls,
+  gtk3,
+  libextractor,
+  libgcrypt,
+  libsodium,
+  libxml2,
+  pkg-config,
+  wrapGAppsHook,
 }:
 
 stdenv.mkDerivation rec {
@@ -20,7 +22,7 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-6ZHlDIKrTmr/aRz4k5FtRVxZ7B9Hlh2w42QT4YRsVi0=";
   };
 
-  nativeBuildInputs= [
+  nativeBuildInputs = [
     pkg-config
     wrapGAppsHook
   ];

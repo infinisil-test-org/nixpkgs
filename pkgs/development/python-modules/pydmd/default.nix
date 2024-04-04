@@ -1,14 +1,15 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchFromGitHub
-, future
-, matplotlib
-, numpy
-, pytestCheckHook
-, pythonOlder
-, scipy
-, ezyrb
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchFromGitHub,
+  future,
+  matplotlib,
+  numpy,
+  pytestCheckHook,
+  pythonOlder,
+  scipy,
+  ezyrb,
 }:
 
 buildPythonPackage rec {
@@ -33,9 +34,7 @@ buildPythonPackage rec {
     ezyrb
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   pytestFlagsArray = [
     # test suite takes over 100 vCPU hours, just run small subset of it.
@@ -43,9 +42,7 @@ buildPythonPackage rec {
     "tests/test_dmdbase.py"
   ];
 
-  pythonImportsCheck = [
-    "pydmd"
-  ];
+  pythonImportsCheck = [ "pydmd" ];
 
   meta = with lib; {
     description = "Python Dynamic Mode Decomposition";

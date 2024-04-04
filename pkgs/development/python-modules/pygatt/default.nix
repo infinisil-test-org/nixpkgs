@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, mock
-, nose
-, pexpect
-, pyserial
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  mock,
+  nose,
+  pexpect,
+  pyserial,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -22,13 +23,9 @@ buildPythonPackage rec {
     sha256 = "1zdfxidiw0l8n498sy0l33n90lz49n25x889cx6jamjr7frlcihd";
   };
 
-  propagatedBuildInputs = [
-    pyserial
-  ];
+  propagatedBuildInputs = [ pyserial ];
 
-  passthru.optional-dependencies.GATTTOOL = [
-    pexpect
-  ];
+  passthru.optional-dependencies.GATTTOOL = [ pexpect ];
 
   nativeBuildInputs = [
     # For cross compilation the doCheck is false and therefor the
@@ -40,8 +37,7 @@ buildPythonPackage rec {
   nativeCheckInputs = [
     mock
     pytestCheckHook
-  ]
-  ++ passthru.optional-dependencies.GATTTOOL;
+  ] ++ passthru.optional-dependencies.GATTTOOL;
 
   postPatch = ''
     # Not support for Python < 3.4
@@ -53,7 +49,10 @@ buildPythonPackage rec {
   meta = with lib; {
     description = "Python wrapper the BGAPI for accessing Bluetooth LE Devices";
     homepage = "https://github.com/peplin/pygatt";
-    license = with licenses; [ asl20 mit ];
+    license = with licenses; [
+      asl20
+      mit
+    ];
     maintainers = with maintainers; [ fab ];
   };
 }

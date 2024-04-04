@@ -1,14 +1,15 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, pkg-config
-, qtbase
-, qttools
-, wrapQtAppsHook
-, cmake
-, ninja
-, python3
-, runtimeShell
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  pkg-config,
+  qtbase,
+  qttools,
+  wrapQtAppsHook,
+  cmake,
+  ninja,
+  python3,
+  runtimeShell,
 }:
 
 stdenv.mkDerivation rec {
@@ -23,8 +24,17 @@ stdenv.mkDerivation rec {
     fetchSubmodules = true;
   };
 
-  nativeBuildInputs = [ cmake ninja pkg-config wrapQtAppsHook python3 ];
-  buildInputs = [ qtbase qttools ];
+  nativeBuildInputs = [
+    cmake
+    ninja
+    pkg-config
+    wrapQtAppsHook
+    python3
+  ];
+  buildInputs = [
+    qtbase
+    qttools
+  ];
 
   postPatch = ''
     substituteInPlace src/Core/Runner.cpp --replace "/bin/bash" "${runtimeShell}"

@@ -1,22 +1,30 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchpatch
-, scfbuild
-, fontforge
-, node-glob
-, libuninameslist
-, nodejs
-, nodePackages
-, python3Packages
-, variant ? "color" # "color" or "black"
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  scfbuild,
+  fontforge,
+  node-glob,
+  libuninameslist,
+  nodejs,
+  nodePackages,
+  python3Packages,
+  variant ? "color", # "color" or "black"
 }:
 
 let
-  filename = builtins.replaceStrings
-    [ "color"              "black"              ]
-    [ "OpenMoji-Color.ttf" "OpenMoji-Black.ttf" ]
-    variant;
+  filename =
+    builtins.replaceStrings
+      [
+        "color"
+        "black"
+      ]
+      [
+        "OpenMoji-Color.ttf"
+        "OpenMoji-Black.ttf"
+      ]
+      variant;
 
   # With newer fontforge the build hangs, see
   # https://github.com/NixOS/nixpkgs/issues/167869
@@ -45,8 +53,8 @@ let
   scfbuild-with-fontforge-20201107 = scfbuild.override (old: {
     fontforge = fontforge-20201107;
   });
-
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "openmoji";
   version = "14.0.0";
 

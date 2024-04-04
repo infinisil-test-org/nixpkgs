@@ -1,11 +1,12 @@
-{ lib
-, azure-common
-, azure-core
-, buildPythonPackage
-, fetchPypi
-, isodate
-, pythonOlder
-, setuptools
+{
+  lib,
+  azure-common,
+  azure-core,
+  buildPythonPackage,
+  fetchPypi,
+  isodate,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -20,9 +21,7 @@ buildPythonPackage rec {
     hash = "sha256-6/bqxCAvewKR5lI6ulFpP3THu9DH1rDEFwsRynDJ6+k=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     azure-common
@@ -33,9 +32,7 @@ buildPythonPackage rec {
   # Module has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "azure.eventgrid"
-  ];
+  pythonImportsCheck = [ "azure.eventgrid" ];
 
   meta = with lib; {
     description = "A fully-managed intelligent event routing service that allows for uniform event consumption using a publish-subscribe model";

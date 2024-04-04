@@ -1,10 +1,12 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, fetchurl
-, perl
-, perlPackages
-, sharnessExtensions ? {} }:
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  fetchurl,
+  perl,
+  perlPackages,
+  sharnessExtensions ? { },
+}:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "sharness";
@@ -18,15 +20,21 @@ stdenv.mkDerivation (finalAttrs: {
   };
 
   # Used for testing
-  nativeBuildInputs = [ perl perlPackages.IOTty ];
+  nativeBuildInputs = [
+    perl
+    perlPackages.IOTty
+  ];
 
-  outputs = [ "out" "doc" ];
+  outputs = [
+    "out"
+    "doc"
+  ];
 
   makeFlags = [ "prefix=$(out)" ];
 
   extensions = lib.mapAttrsToList (k: v: "${k}.sh ${v}") sharnessExtensions;
 
-  postInstall = lib.optionalString (sharnessExtensions != {}) ''
+  postInstall = lib.optionalString (sharnessExtensions != { }) ''
     extDir=$out/share/sharness/sharness.d
     mkdir -p "$extDir"
     linkExtensions() {

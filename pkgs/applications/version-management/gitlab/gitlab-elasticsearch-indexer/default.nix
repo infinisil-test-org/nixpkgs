@@ -1,4 +1,10 @@
-{ lib, buildGoModule, fetchFromGitLab, pkg-config, icu }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitLab,
+  pkg-config,
+  icu,
+}:
 
 buildGoModule rec {
   pname = "gitlab-elasticsearch-indexer";
@@ -20,6 +26,9 @@ buildGoModule rec {
   meta = with lib; {
     description = "Indexes Git repositories into Elasticsearch for GitLab.";
     license = licenses.mit;
-    maintainers = with maintainers; [ xanderio yayayayaka ];
+    maintainers = with maintainers; [
+      xanderio
+      yayayayaka
+    ];
   };
 }

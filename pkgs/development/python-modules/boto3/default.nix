@@ -1,14 +1,15 @@
-{ lib
-, botocore
-, buildPythonPackage
-, fetchFromGitHub
-, jmespath
-, pytest-xdist
-, pytestCheckHook
-, pythonOlder
-, pythonRelaxDepsHook
-, s3transfer
-, setuptools
+{
+  lib,
+  botocore,
+  buildPythonPackage,
+  fetchFromGitHub,
+  jmespath,
+  pytest-xdist,
+  pytestCheckHook,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  s3transfer,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -46,9 +47,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "boto3"
-  ];
+  pythonImportsCheck = [ "boto3" ];
 
   disabledTestPaths = [
     # Integration tests require networking
@@ -56,9 +55,7 @@ buildPythonPackage rec {
   ];
 
   passthru.optional-dependencies = {
-    crt = [
-      botocore.optional-dependencies.crt
-    ];
+    crt = [ botocore.optional-dependencies.crt ];
   };
 
   meta = with lib; {

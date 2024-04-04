@@ -1,11 +1,12 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, ant
-, jdk8
-, jre8
-, makeWrapper
-, canonicalize-jars-hook
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  ant,
+  jdk8,
+  jre8,
+  makeWrapper,
+  canonicalize-jars-hook,
 }:
 
 let

@@ -1,4 +1,8 @@
-{ lib, fetchurl, perlPackages }:
+{
+  lib,
+  fetchurl,
+  perlPackages,
+}:
 
 perlPackages.buildPerlPackage rec {
   pname = "egypt";
@@ -26,7 +30,10 @@ perlPackages.buildPerlPackage rec {
       together.
     '';
     homepage = "http://www.gson.org/egypt/";
-    license = with licenses; [ artistic1 gpl1Plus ];
+    license = with licenses; [
+      artistic1
+      gpl1Plus
+    ];
     platforms = platforms.unix;
   };
 }

@@ -1,15 +1,16 @@
-{ lib
-, buildPythonPackage
-, cython
-, fetchPypi
-, mock
-, numpy
-, scipy
-, smart-open
-, testfixtures
-, pyemd
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  cython,
+  fetchPypi,
+  mock,
+  numpy,
+  scipy,
+  smart-open,
+  testfixtures,
+  pyemd,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -24,9 +25,7 @@ buildPythonPackage rec {
     hash = "sha256-maxq9v/UBoLnAVXtn5Lsv0OE1Z+1CvEg00PqXuGzCKs=";
   };
 
-  nativeBuildInputs = [
-    cython
-  ];
+  nativeBuildInputs = [ cython ];
 
   propagatedBuildInputs = [
     smart-open
@@ -40,16 +39,12 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "gensim"
-  ];
+  pythonImportsCheck = [ "gensim" ];
 
   # Test setup takes several minutes
   doCheck = false;
 
-  pytestFlagsArray = [
-    "gensim/test"
-  ];
+  pytestFlagsArray = [ "gensim/test" ];
 
   meta = with lib; {
     description = "Topic-modelling library";

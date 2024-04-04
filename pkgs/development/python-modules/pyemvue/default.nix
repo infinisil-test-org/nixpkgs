@@ -1,15 +1,16 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
 
-# build-system
-, hatchling
+  # build-system
+  hatchling,
 
-# propagated modules
-, requests
-, python-dateutil
-, pycognito
-, typing-extensions
+  # propagated modules
+  requests,
+  python-dateutil,
+  pycognito,
+  typing-extensions,
 }:
 
 buildPythonPackage rec {
@@ -22,9 +23,7 @@ buildPythonPackage rec {
     hash = "sha256-s1Uuoiog3OkqOb6PSTqh79vgyLDGFIuZMCyQKH+qG3g=";
   };
 
-  nativeBuildInputs = [
-    hatchling
-  ];
+  nativeBuildInputs = [ hatchling ];
 
   propagatedBuildInputs = [
     requests

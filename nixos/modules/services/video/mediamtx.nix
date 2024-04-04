@@ -1,8 +1,13 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.services.mediamtx;
-  format = pkgs.formats.yaml {};
+  format = pkgs.formats.yaml { };
 in
 {
   meta.maintainers = with lib.maintainers; [ fpletz ];
@@ -19,7 +24,7 @@ in
           <https://github.com/bluenviron/mediamtx/blob/main/mediamtx.yml>.
         '';
         type = format.type;
-        default = {};
+        default = { };
         example = {
           paths = {
             cam = {
@@ -33,15 +38,17 @@ in
       env = lib.mkOption {
         type = with lib.types; attrsOf anything;
         description = lib.mdDoc "Extra environment variables for MediaMTX";
-        default = {};
+        default = { };
         example = {
           MTX_CONFKEY = "mykey";
         };
       };
 
-      allowVideoAccess = lib.mkEnableOption (lib.mdDoc ''
-        access to video devices like cameras on the system
-      '');
+      allowVideoAccess = lib.mkEnableOption (
+        lib.mdDoc ''
+          access to video devices like cameras on the system
+        ''
+      );
     };
   };
 

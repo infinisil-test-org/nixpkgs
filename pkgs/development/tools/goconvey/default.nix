@@ -1,4 +1,8 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+}:
 
 buildGoModule rec {
   pname = "goconvey";
@@ -15,7 +19,10 @@ buildGoModule rec {
 
   vendorHash = "sha256-020bxa0LErrvRKe3HirCWZDaBQFfKsWgl4mxfLtl1lg=";
 
-  ldflags = [ "-s" "-w" ];
+  ldflags = [
+    "-s"
+    "-w"
+  ];
 
   preCheck = ''
     buildFlagsArray+="-short"

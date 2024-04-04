@@ -1,29 +1,34 @@
-{ lib
-, stdenv
-, fetchzip
-, autoPatchelfHook
-, gcc-unwrapped
-, zlib
+{
+  lib,
+  stdenv,
+  fetchzip,
+  autoPatchelfHook,
+  gcc-unwrapped,
+  zlib,
 }:
 
 let
   system = stdenv.hostPlatform.system;
 
-  platform = {
-    x86_64-linux = "linux-amd64";
-    aarch64-linux = "linux-aarch64";
-    x86_64-darwin = "macos-amd64";
-    aarch64-darwin = "macos-aarch64";
-  }.${system} or (throw "Unsupported system: ${system}");
+  platform =
+    {
+      x86_64-linux = "linux-amd64";
+      aarch64-linux = "linux-aarch64";
+      x86_64-darwin = "macos-amd64";
+      aarch64-darwin = "macos-aarch64";
+    }
+    .${system} or (throw "Unsupported system: ${system}");
 
-  packageHash = {
-    x86_64-linux = "sha256-Y0Inew0PncpnEpdLWtl/85t93eGSRewKh5mvGnn+yck=";
-    aarch64-linux = "sha256-HEm3TaLeaws8G73CU9BmxeplQdeF9nQbBSnbctaVhqI=";
-    x86_64-darwin = "sha256-mlshpN/4Od4qrXiqIEYo7G84Dtb+tp2nK2VnrRG2rto=";
-    aarch64-darwin = "sha256-aJH/vOidj0vbkttGDgelaAC/dMYguQPLjxl+V3pOVzI=";
-  }.${system} or (throw "Unsupported system: ${system}");
-
-in stdenv.mkDerivation rec {
+  packageHash =
+    {
+      x86_64-linux = "sha256-Y0Inew0PncpnEpdLWtl/85t93eGSRewKh5mvGnn+yck=";
+      aarch64-linux = "sha256-HEm3TaLeaws8G73CU9BmxeplQdeF9nQbBSnbctaVhqI=";
+      x86_64-darwin = "sha256-mlshpN/4Od4qrXiqIEYo7G84Dtb+tp2nK2VnrRG2rto=";
+      aarch64-darwin = "sha256-aJH/vOidj0vbkttGDgelaAC/dMYguQPLjxl+V3pOVzI=";
+    }
+    .${system} or (throw "Unsupported system: ${system}");
+in
+stdenv.mkDerivation rec {
   pname = "fermyon-spin";
   version = "2.2.0";
 
@@ -33,9 +38,7 @@ in stdenv.mkDerivation rec {
     hash = packageHash;
   };
 
-  nativeBuildInputs = lib.optionals stdenv.isLinux [
-    autoPatchelfHook
-  ];
+  nativeBuildInputs = lib.optionals stdenv.isLinux [ autoPatchelfHook ];
 
   buildInputs = [
     gcc-unwrapped.lib

@@ -1,8 +1,9 @@
-{ capnproto
-, lib
-, fetchFromGitHub
-, protobuf
-, rustPlatform
+{
+  capnproto,
+  lib,
+  fetchFromGitHub,
+  protobuf,
+  rustPlatform,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -16,7 +17,10 @@ rustPlatform.buildRustPackage rec {
     sha256 = "sha256-B8uloch+ucOLIIR64GE5Z8ahe2NLqPmDGcugQVSqpl4=";
   };
 
-  nativeBuildInputs = [ capnproto protobuf ];
+  nativeBuildInputs = [
+    capnproto
+    protobuf
+  ];
   doCheck = false;
 
   cargoHash = "sha256-hEhAnNppiyY6EcdHfri534ih8VUfpT7lO9L4mFJ6Caw=";

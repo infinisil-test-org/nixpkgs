@@ -1,17 +1,18 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
 
-, clang
-, pkg-config
+  clang,
+  pkg-config,
 
-, zlib
-, elfutils
-, libbpf
+  zlib,
+  elfutils,
+  libbpf,
 
-, nixosTests
-, testers
-, tracee
+  nixosTests,
+  testers,
+  tracee,
 }:
 
 buildGoModule rec {
@@ -26,16 +27,21 @@ buildGoModule rec {
   };
   vendorHash = "sha256-swMvJe+Dz/kwPIStPlQ7d6U/UwXSMcJ3eONxjzebXCc=";
 
-  patches = [
-    ./use-our-libbpf.patch
-  ];
+  patches = [ ./use-our-libbpf.patch ];
 
   enableParallelBuilding = true;
   # needed to build bpf libs
   hardeningDisable = [ "stackprotector" ];
 
-  nativeBuildInputs = [ pkg-config clang ];
-  buildInputs = [ elfutils libbpf zlib ];
+  nativeBuildInputs = [
+    pkg-config
+    clang
+  ];
+  buildInputs = [
+    elfutils
+    libbpf
+    zlib
+  ];
 
   makeFlags = [
     "VERSION=v${version}"
@@ -56,7 +62,11 @@ buildGoModule rec {
   # see passthru.tests.integration
   doCheck = false;
 
-  outputs = [ "out" "lib" "share" ];
+  outputs = [
+    "out"
+    "lib"
+    "share"
+  ];
 
   installPhase = ''
     runHook preInstall
@@ -107,7 +117,13 @@ buildGoModule rec {
       gpl2Plus
     ];
     maintainers = with maintainers; [ jk ];
-    platforms = [ "x86_64-linux" "aarch64-linux" ];
-    outputsToInstall = [ "out" "share" ];
+    platforms = [
+      "x86_64-linux"
+      "aarch64-linux"
+    ];
+    outputsToInstall = [
+      "out"
+      "share"
+    ];
   };
 }

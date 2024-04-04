@@ -1,4 +1,11 @@
-{ lib, rustPlatform, fetchFromGitHub, stdenv, testers, cbfmt }:
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  stdenv,
+  testers,
+  cbfmt,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "cbfmt";
@@ -16,9 +23,7 @@ rustPlatform.buildRustPackage rec {
   # Work around https://github.com/NixOS/nixpkgs/issues/166205.
   env = lib.optionalAttrs stdenv.cc.isClang { NIX_LDFLAGS = "-l${stdenv.cc.libcxx.cxxabi.libName}"; };
 
-  passthru.tests.version = testers.testVersion {
-    package = cbfmt;
-  };
+  passthru.tests.version = testers.testVersion { package = cbfmt; };
 
   meta = with lib; {
     description = "A tool to format codeblocks inside markdown and org documents";

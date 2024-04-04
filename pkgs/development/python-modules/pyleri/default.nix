@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, unittestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  unittestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -19,13 +20,9 @@ buildPythonPackage rec {
     hash = "sha256-52Q2iTrXFNbDzXL0FM+Gypipvo5ciNqAtZa5sKOwQRc=";
   };
 
-  nativeCheckInputs = [
-    unittestCheckHook
-  ];
+  nativeCheckInputs = [ unittestCheckHook ];
 
-  pythonImportsCheck = [
-    "pyleri"
-  ];
+  pythonImportsCheck = [ "pyleri" ];
 
   meta = with lib; {
     description = "Module to parse SiriDB";

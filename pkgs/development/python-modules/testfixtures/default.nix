@@ -1,15 +1,16 @@
-{ lib
-, buildPythonPackage
-, fetchpatch
-, fetchPypi
-, mock
-, pytestCheckHook
-, pythonAtLeast
-, pythonOlder
-, setuptools
-, sybil
-, twisted
-, zope-component
+{
+  lib,
+  buildPythonPackage,
+  fetchpatch,
+  fetchPypi,
+  mock,
+  pytestCheckHook,
+  pythonAtLeast,
+  pythonOlder,
+  setuptools,
+  sybil,
+  twisted,
+  zope-component,
 }:
 
 buildPythonPackage rec {
@@ -36,12 +37,10 @@ buildPythonPackage rec {
       name = "python3.12-compatibility.patch";
       url = "https://github.com/simplistix/testfixtures/commit/2b80b195e30e12c739dc4f98e9de17dec8f3558a.patch";
       hash = "sha256-LrC0uI4k3F6ZGTqbKi319tRbVk5557xbyzQN36Y1160=";
-     })
+    })
   ];
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   nativeCheckInputs = [
     mock
@@ -56,13 +55,9 @@ buildPythonPackage rec {
     "testfixtures/tests/test_django"
   ];
 
-  pytestFlagsArray = [
-    "testfixtures/tests"
-  ];
+  pytestFlagsArray = [ "testfixtures/tests" ];
 
-  pythonImportsCheck = [
-    "testfixtures"
-  ];
+  pythonImportsCheck = [ "testfixtures" ];
 
   meta = with lib; {
     description = "Collection of helpers and mock objects for unit tests and doc tests";

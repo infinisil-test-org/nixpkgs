@@ -1,4 +1,9 @@
-{ lib, buildGoModule, fetchFromGitHub, nixosTests }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  nixosTests,
+}:
 
 buildGoModule rec {
   pname = "blackbox_exporter";
@@ -17,7 +22,9 @@ buildGoModule rec {
   # dns-lookup is performed for the tests
   doCheck = false;
 
-  passthru.tests = { inherit (nixosTests.prometheus-exporters) blackbox; };
+  passthru.tests = {
+    inherit (nixosTests.prometheus-exporters) blackbox;
+  };
 
   ldflags = [
     "-s"
@@ -33,6 +40,12 @@ buildGoModule rec {
     description = "Blackbox probing of endpoints over HTTP, HTTPS, DNS, TCP and ICMP";
     homepage = "https://github.com/prometheus/blackbox_exporter";
     license = licenses.asl20;
-    maintainers = with maintainers; [ globin fpletz willibutz Frostman ma27 ];
+    maintainers = with maintainers; [
+      globin
+      fpletz
+      willibutz
+      Frostman
+      ma27
+    ];
   };
 }

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, options }:
+{
+  config,
+  lib,
+  pkgs,
+  options,
+}:
 
 with lib;
 
@@ -58,7 +63,7 @@ in
           -unifi.username ${escapeShellArg cfg.unifiUsername} \
           -unifi.password ${escapeShellArg cfg.unifiPassword} \
           -unifi.timeout ${cfg.unifiTimeout} \
-          ${optionalString cfg.unifiInsecure "-unifi.insecure" } \
+          ${optionalString cfg.unifiInsecure "-unifi.insecure"} \
           ${concatStringsSep " \\\n  " cfg.extraFlags}
       '';
     };

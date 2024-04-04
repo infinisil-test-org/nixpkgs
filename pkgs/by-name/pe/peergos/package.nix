@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, fetchurl
-, jre
-, makeWrapper
+{
+  lib,
+  stdenv,
+  fetchurl,
+  jre,
+  makeWrapper,
 }:
 
 let
@@ -35,7 +36,10 @@ stdenv.mkDerivation rec {
     description = "A p2p, secure file storage, social network and application protocol";
     homepage = "https://peergos.org/";
     # peergos have agpt3 license, peergos-web-ui have gpl3, both are used
-    license = [ licenses.agpl3Only licenses.gpl3Only ];
+    license = [
+      licenses.agpl3Only
+      licenses.gpl3Only
+    ];
     platforms = platforms.all;
     maintainers = with maintainers; [ raspher ];
     sourceProvenance = with sourceTypes; [ binaryBytecode ];

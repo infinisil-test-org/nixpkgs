@@ -1,20 +1,21 @@
-{ autoPatchelfHook
-, dpkg
-, fetchurl
-, makeDesktopItem
-, makeWrapper
-, stdenv
-, lib
-, udev
-, wrapGAppsHook
-, cpio
-, xar
-, libdbusmenu
-, alsa-lib
-, mesa
-, nss
-, nspr
-, systemd
+{
+  autoPatchelfHook,
+  dpkg,
+  fetchurl,
+  makeDesktopItem,
+  makeWrapper,
+  stdenv,
+  lib,
+  udev,
+  wrapGAppsHook,
+  cpio,
+  xar,
+  libdbusmenu,
+  alsa-lib,
+  mesa,
+  nss,
+  nspr,
+  systemd,
 }:
 
 let
@@ -25,21 +26,27 @@ let
 
   pname = "wire-desktop";
 
-  version = let
-    x86_64-darwin = "3.32.4589";
-  in {
-    inherit x86_64-darwin;
-    aarch64-darwin = x86_64-darwin;
-    x86_64-linux = "3.32.3079";
-  }.${system} or throwSystem;
+  version =
+    let
+      x86_64-darwin = "3.32.4589";
+    in
+    {
+      inherit x86_64-darwin;
+      aarch64-darwin = x86_64-darwin;
+      x86_64-linux = "3.32.3079";
+    }
+    .${system} or throwSystem;
 
-  hash = let
-    x86_64-darwin = "sha256-PDAZCnkgzlausdtwycK+PHfp+zmL33VnX6RzCsgBTZ4=";
-  in {
-    inherit x86_64-darwin;
-    aarch64-darwin = x86_64-darwin;
-    x86_64-linux = "sha256-+4aRis141ctI50BtBwipoVtPoMGRs82ENqZ+y2ZlL58=";
-  }.${system} or throwSystem;
+  hash =
+    let
+      x86_64-darwin = "sha256-PDAZCnkgzlausdtwycK+PHfp+zmL33VnX6RzCsgBTZ4=";
+    in
+    {
+      inherit x86_64-darwin;
+      aarch64-darwin = x86_64-darwin;
+      x86_64-linux = "sha256-+4aRis141ctI50BtBwipoVtPoMGRs82ENqZ+y2ZlL58=";
+    }
+    .${system} or throwSystem;
 
   meta = with lib; {
     description = "A modern, secure messenger for everyone";
@@ -63,10 +70,8 @@ let
       kiwi
       toonn
     ];
-    platforms = platforms.darwin ++ [
-      "x86_64-linux"
-    ];
-    hydraPlatforms = [];
+    platforms = platforms.darwin ++ [ "x86_64-linux" ];
+    hydraPlatforms = [ ];
   };
 
   linux = stdenv.mkDerivation rec {
@@ -78,7 +83,12 @@ let
     };
 
     desktopItem = makeDesktopItem {
-      categories = [ "Network" "InstantMessaging" "Chat" "VideoConference" ];
+      categories = [
+        "Network"
+        "InstantMessaging"
+        "Chat"
+        "VideoConference"
+      ];
       comment = "Secure messenger for everyone";
       desktopName = "Wire";
       exec = "wire-desktop %U";
@@ -182,8 +192,5 @@ let
       runHook postInstall
     '';
   };
-
 in
-if stdenv.isDarwin
-then darwin
-else linux
+if stdenv.isDarwin then darwin else linux

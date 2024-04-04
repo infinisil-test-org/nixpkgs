@@ -1,10 +1,11 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
-, nixosTests
-, caddy
-, testers
-, installShellFiles
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  nixosTests,
+  caddy,
+  testers,
+  installShellFiles,
 }:
 let
   version = "2.7.6";
@@ -31,7 +32,8 @@ buildGoModule {
   subPackages = [ "cmd/caddy" ];
 
   ldflags = [
-    "-s" "-w"
+    "-s"
+    "-w"
     "-X github.com/caddyserver/caddy/v2.CustomVersion=${version}"
   ];
 
@@ -65,6 +67,10 @@ buildGoModule {
     description = "Fast and extensible multi-platform HTTP/1-2-3 web server with automatic HTTPS";
     license = licenses.asl20;
     mainProgram = "caddy";
-    maintainers = with maintainers; [ Br1ght0ne emilylange techknowlogick ];
+    maintainers = with maintainers; [
+      Br1ght0ne
+      emilylange
+      techknowlogick
+    ];
   };
 }

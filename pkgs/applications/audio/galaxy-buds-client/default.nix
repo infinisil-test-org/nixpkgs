@@ -1,14 +1,15 @@
-{ lib
-, stdenv
-, buildDotnetModule
-, fetchFromGitHub
-, autoPatchelfHook
-, fontconfig
-, xorg
-, libglvnd
-, makeDesktopItem
-, copyDesktopItems
-, graphicsmagick
+{
+  lib,
+  stdenv,
+  buildDotnetModule,
+  fetchFromGitHub,
+  autoPatchelfHook,
+  fontconfig,
+  xorg,
+  libglvnd,
+  makeDesktopItem,
+  copyDesktopItems,
+  graphicsmagick,
 }:
 
 buildDotnetModule rec {
@@ -32,7 +33,10 @@ buildDotnetModule rec {
     graphicsmagick
   ];
 
-  buildInputs = [ stdenv.cc.cc.lib fontconfig ];
+  buildInputs = [
+    stdenv.cc.cc.lib
+    fontconfig
+  ];
 
   runtimeDeps = [
     libglvnd

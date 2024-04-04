@@ -1,15 +1,16 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, cython
-, nose
-, matplotlib
-, nibabel
-, numpy
-, scipy
-, sympy
-, python
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  cython,
+  nose,
+  matplotlib,
+  nibabel,
+  numpy,
+  scipy,
+  sympy,
+  python,
 }:
 
 buildPythonPackage rec {
@@ -25,13 +26,20 @@ buildPythonPackage rec {
 
   nativeBuildInputs = [ cython ];
   buildInputs = lib.optionals doCheck [ nose ];
-  propagatedBuildInputs = [ matplotlib nibabel numpy scipy sympy ];
+  propagatedBuildInputs = [
+    matplotlib
+    nibabel
+    numpy
+    scipy
+    sympy
+  ];
 
   preBuild = ''
     make recythonize
   '';
 
-  checkPhase = ''    # wants to be run in a different directory
+  checkPhase = ''
+    # wants to be run in a different directory
     mkdir nosetests
     cd nosetests
     ${python.interpreter} -c "import nipy; nipy.test()"
@@ -52,5 +60,4 @@ buildPythonPackage rec {
     description = "Software for structural and functional neuroimaging analysis";
     license = licenses.bsd3;
   };
-
 }

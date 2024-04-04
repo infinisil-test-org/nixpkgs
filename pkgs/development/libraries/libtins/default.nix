@@ -1,4 +1,14 @@
-{ boost, cmake, fetchFromGitHub, fetchpatch, gtest, libpcap, openssl, lib, stdenv }:
+{
+  boost,
+  cmake,
+  fetchFromGitHub,
+  fetchpatch,
+  gtest,
+  libpcap,
+  openssl,
+  lib,
+  stdenv,
+}:
 
 stdenv.mkDerivation rec {
   pname = "libtins";
@@ -30,7 +40,10 @@ stdenv.mkDerivation rec {
     chmod -R a+w googletest
   '';
 
-  nativeBuildInputs = [ cmake gtest ];
+  nativeBuildInputs = [
+    cmake
+    gtest
+  ];
   buildInputs = [
     openssl
     libpcap

@@ -1,26 +1,27 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, callPackage
-, cargo
-, certifi
-, cffi
-, cryptography-vectors ? (callPackage ./vectors.nix { })
-, fetchPypi
-, fetchpatch2
-, isPyPy
-, libiconv
-, libxcrypt
-, openssl
-, pkg-config
-, pretend
-, pytest-xdist
-, pytestCheckHook
-, pythonOlder
-, rustc
-, rustPlatform
-, Security
-, setuptoolsRustBuildHook
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  callPackage,
+  cargo,
+  certifi,
+  cffi,
+  cryptography-vectors ? (callPackage ./vectors.nix { }),
+  fetchPypi,
+  fetchpatch2,
+  isPyPy,
+  libiconv,
+  libxcrypt,
+  openssl,
+  pkg-config,
+  pretend,
+  pytest-xdist,
+  pytestCheckHook,
+  pythonOlder,
+  rustc,
+  rustPlatform,
+  Security,
+  setuptoolsRustBuildHook,
 }:
 
 buildPythonPackage rec {
@@ -63,22 +64,17 @@ buildPythonPackage rec {
     cargo
     rustc
     pkg-config
-  ] ++ lib.optionals (!isPyPy) [
-    cffi
-  ];
+  ] ++ lib.optionals (!isPyPy) [ cffi ];
 
-  buildInputs = [
-    openssl
-  ] ++ lib.optionals stdenv.isDarwin [
-    Security
-    libiconv
-  ] ++ lib.optionals (pythonOlder "3.9") [
-    libxcrypt
-  ];
+  buildInputs =
+    [ openssl ]
+    ++ lib.optionals stdenv.isDarwin [
+      Security
+      libiconv
+    ]
+    ++ lib.optionals (pythonOlder "3.9") [ libxcrypt ];
 
-  propagatedBuildInputs = lib.optionals (!isPyPy) [
-    cffi
-  ];
+  propagatedBuildInputs = lib.optionals (!isPyPy) [ cffi ];
 
   nativeCheckInputs = [
     certifi
@@ -88,18 +84,18 @@ buildPythonPackage rec {
     pytest-xdist
   ];
 
-  pytestFlagsArray = [
-    "--disable-pytest-warnings"
-  ];
+  pytestFlagsArray = [ "--disable-pytest-warnings" ];
 
-  disabledTestPaths = [
-    # save compute time by not running benchmarks
-    "tests/bench"
-  ] ++ lib.optionals (stdenv.isDarwin && stdenv.isAarch64) [
-    # aarch64-darwin forbids W+X memory, but this tests depends on it:
-    # * https://cffi.readthedocs.io/en/latest/using.html#callbacks
-    "tests/hazmat/backends/test_openssl_memleak.py"
-  ];
+  disabledTestPaths =
+    [
+      # save compute time by not running benchmarks
+      "tests/bench"
+    ]
+    ++ lib.optionals (stdenv.isDarwin && stdenv.isAarch64) [
+      # aarch64-darwin forbids W+X memory, but this tests depends on it:
+      # * https://cffi.readthedocs.io/en/latest/using.html#callbacks
+      "tests/hazmat/backends/test_openssl_memleak.py"
+    ];
 
   meta = with lib; {
     description = "A package which provides cryptographic recipes and primitives";
@@ -109,9 +105,13 @@ buildPythonPackage rec {
       digests, and key derivation functions.
     '';
     homepage = "https://github.com/pyca/cryptography";
-    changelog = "https://cryptography.io/en/latest/changelog/#v"
-      + replaceStrings [ "." ] [ "-" ] version;
-    license = with licenses; [ asl20 bsd3 psfl ];
+    changelog =
+      "https://cryptography.io/en/latest/changelog/#v" + replaceStrings [ "." ] [ "-" ] version;
+    license = with licenses; [
+      asl20
+      bsd3
+      psfl
+    ];
     maintainers = with maintainers; [ SuperSandro2000 ];
   };
 }

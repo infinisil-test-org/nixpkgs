@@ -1,12 +1,13 @@
-{ lib
-, aiohttp-retry
-, buildPythonPackage
-, fetchFromGitHub
-, dvc-objects
-, fsspec
-, pythonOlder
-, pythonRelaxDepsHook
-, setuptools-scm
+{
+  lib,
+  aiohttp-retry,
+  buildPythonPackage,
+  fetchFromGitHub,
+  dvc-objects,
+  fsspec,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  setuptools-scm,
 }:
 
 buildPythonPackage rec {
@@ -23,9 +24,7 @@ buildPythonPackage rec {
     hash = "sha256-ru/hOFv/RcS/7SBpTJU8xFxdllmaiH4dV1ouS6GGKkY=";
   };
 
-  nativeBuildInputs = [
-    setuptools-scm
-  ];
+  nativeBuildInputs = [ setuptools-scm ];
 
   propagatedBuildInputs = [
     dvc-objects
@@ -37,9 +36,7 @@ buildPythonPackage rec {
   # ModuleNotFoundError: No module named 'dvc.testing'
   doCheck = false;
 
-  pythonImportsCheck = [
-    "dvc_http"
-  ];
+  pythonImportsCheck = [ "dvc_http" ];
 
   meta = with lib; {
     description = "HTTP plugin for dvc";

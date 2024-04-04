@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, w3lib
-, parsel
-, jmespath
-, itemadapter
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  w3lib,
+  parsel,
+  jmespath,
+  itemadapter,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -30,9 +31,7 @@ buildPythonPackage rec {
     itemadapter
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   disabledTests = [
     # Test are failing (AssertionError: Lists differ: ...)
@@ -40,9 +39,7 @@ buildPythonPackage rec {
     "test_nested_xpath"
   ];
 
-  pythonImportsCheck = [
-    "itemloaders"
-  ];
+  pythonImportsCheck = [ "itemloaders" ];
 
   meta = with lib; {
     description = "Base library for scrapy's ItemLoader";

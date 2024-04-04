@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchpatch
-, fetchPypi
-, pytestCheckHook
-, setuptools
-, setuptools-scm
-, wheel
+{
+  lib,
+  buildPythonPackage,
+  fetchpatch,
+  fetchPypi,
+  pytestCheckHook,
+  setuptools,
+  setuptools-scm,
+  wheel,
 }:
 
 buildPythonPackage rec {
@@ -34,9 +35,7 @@ buildPythonPackage rec {
 
   preCheck = "export PATH=$PATH:$out/bin";
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   pythonImportsCheck = [ "ansi2html" ];
 

@@ -1,4 +1,8 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+}:
 
 buildGoModule rec {
   pname = "pluto";
@@ -14,7 +18,8 @@ buildGoModule rec {
   vendorHash = "sha256-8ZOYp/vM16PugmE+3QK7ZRDwIwRCMEwD0NRyiOBlh14=";
 
   ldflags = [
-    "-w" "-s"
+    "-w"
+    "-s"
     "-X main.version=v${version}"
   ];
 
@@ -22,6 +27,9 @@ buildGoModule rec {
     homepage = "https://github.com/FairwindsOps/pluto";
     description = "Find deprecated Kubernetes apiVersions";
     license = licenses.asl20;
-    maintainers = with maintainers; [ peterromfeldhk kashw2 ];
+    maintainers = with maintainers; [
+      peterromfeldhk
+      kashw2
+    ];
   };
 }

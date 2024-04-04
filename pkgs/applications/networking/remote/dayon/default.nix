@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, ant
-, jdk
-, jre
-, makeWrapper
-, copyDesktopItems
-, canonicalize-jars-hook
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  ant,
+  jdk,
+  jre,
+  makeWrapper,
+  copyDesktopItems,
+  canonicalize-jars-hook,
 }:
 
 stdenv.mkDerivation (finalAttrs: {

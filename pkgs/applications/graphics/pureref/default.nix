@@ -1,4 +1,8 @@
-{ lib, appimageTools, requireFile }:
+{
+  lib,
+  appimageTools,
+  requireFile,
+}:
 
 appimageTools.wrapType1 rec {
   pname = "pureref";

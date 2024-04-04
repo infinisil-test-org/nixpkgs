@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, dissononce
-, python-axolotl-curve25519
-, transitions
-, protobuf
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  dissononce,
+  python-axolotl-curve25519,
+  transitions,
+  protobuf,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -30,17 +31,11 @@ buildPythonPackage rec {
     protobuf
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pytestFlagsArray = [
-    "tests/test_handshakes_offline.py"
-  ];
+  pytestFlagsArray = [ "tests/test_handshakes_offline.py" ];
 
-  pythonImportsCheck = [
-    "consonance"
-  ];
+  pythonImportsCheck = [ "consonance" ];
 
   meta = with lib; {
     description = "WhatsApp's handshake implementation using Noise Protocol";

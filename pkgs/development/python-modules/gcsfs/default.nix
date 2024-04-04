@@ -1,20 +1,21 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pytestCheckHook
-, pythonOlder
-, google-auth
-, google-auth-oauthlib
-, google-cloud-storage
-, requests
-, decorator
-, fsspec
-, ujson
-, aiohttp
-, crcmod
-, pytest-timeout
-, pytest-vcr
-, vcrpy
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pytestCheckHook,
+  pythonOlder,
+  google-auth,
+  google-auth-oauthlib,
+  google-cloud-storage,
+  requests,
+  decorator,
+  fsspec,
+  ujson,
+  aiohttp,
+  crcmod,
+  pytest-timeout,
+  pytest-vcr,
+  vcrpy,
 }:
 
 buildPythonPackage rec {
@@ -57,13 +58,9 @@ buildPythonPackage rec {
     "gcsfs/tests/test_retry.py"
   ];
 
-  pytestFlagsArray = [
-    "-x"
-  ];
+  pytestFlagsArray = [ "-x" ];
 
-  pythonImportsCheck = [
-    "gcsfs"
-  ];
+  pythonImportsCheck = [ "gcsfs" ];
 
   meta = with lib; {
     description = "Convenient Filesystem interface over GCS";

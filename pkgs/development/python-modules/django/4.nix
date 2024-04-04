@@ -1,44 +1,45 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchPypi
-, fetchpatch2
-, pythonOlder
-, substituteAll
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchPypi,
+  fetchpatch2,
+  pythonOlder,
+  substituteAll,
 
-# build
-, setuptools
+  # build
+  setuptools,
 
-# patched in
-, geos
-, gdal
-, withGdal ? false
+  # patched in
+  geos,
+  gdal,
+  withGdal ? false,
 
-# propagates
-, asgiref
-, sqlparse
+  # propagates
+  asgiref,
+  sqlparse,
 
-# extras
-, argon2-cffi
-, bcrypt
+  # extras
+  argon2-cffi,
+  bcrypt,
 
-# tests
-, aiosmtpd
-, docutils
-, geoip2
-, jinja2
-, numpy
-, pillow
-, pylibmc
-, pymemcache
-, python
-, pywatchman
-, pyyaml
-, pytz
-, redis
-, selenium
-, tblib
-, tzdata
+  # tests
+  aiosmtpd,
+  docutils,
+  geoip2,
+  jinja2,
+  numpy,
+  pillow,
+  pylibmc,
+  pymemcache,
+  python,
+  pywatchman,
+  pyyaml,
+  pytz,
+  redis,
+  selenium,
+  tblib,
+  tzdata,
 }:
 
 buildPythonPackage rec {
@@ -53,37 +54,37 @@ buildPythonPackage rec {
     hash = "sha256-sSYO04GxChF1PHNERAjhmGnzJB/EXJhc1VowF3x4nRM=";
   };
 
-  patches = [
-    (substituteAll {
-      src = ./django_4_set_zoneinfo_dir.patch;
-      zoneinfo = tzdata + "/share/zoneinfo";
-    })
-    # make sure the tests don't remove packages from our pythonpath
-    # and disable failing tests
-    ./django_4_tests.patch
+  patches =
+    [
+      (substituteAll {
+        src = ./django_4_set_zoneinfo_dir.patch;
+        zoneinfo = tzdata + "/share/zoneinfo";
+      })
+      # make sure the tests don't remove packages from our pythonpath
+      # and disable failing tests
+      ./django_4_tests.patch
 
-    (fetchpatch2 {
-      # fix test on 3.12; https://github.com/django/django/pull/17843
-      url = "https://github.com/django/django/commit/bc8471f0aac8f0c215b9471b594d159783bac19b.patch";
-      hash = "sha256-g1T9b73rmQ0uk1lB+iQy1XwK3Qin3mf5wpRsyYISJaw=";
-    })
-  ] ++ lib.optionals withGdal [
-    (substituteAll {
-      src = ./django_4_set_geos_gdal_lib.patch;
-      geos = geos;
-      gdal = gdal;
-      extension = stdenv.hostPlatform.extensions.sharedLibrary;
-    })
-  ];
+      (fetchpatch2 {
+        # fix test on 3.12; https://github.com/django/django/pull/17843
+        url = "https://github.com/django/django/commit/bc8471f0aac8f0c215b9471b594d159783bac19b.patch";
+        hash = "sha256-g1T9b73rmQ0uk1lB+iQy1XwK3Qin3mf5wpRsyYISJaw=";
+      })
+    ]
+    ++ lib.optionals withGdal [
+      (substituteAll {
+        src = ./django_4_set_geos_gdal_lib.patch;
+        geos = geos;
+        gdal = gdal;
+        extension = stdenv.hostPlatform.extensions.sharedLibrary;
+      })
+    ];
 
   postPatch = ''
     substituteInPlace tests/utils_tests/test_autoreload.py \
       --replace "/usr/bin/python" "${python.interpreter}"
   '';
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     asgiref
@@ -91,12 +92,8 @@ buildPythonPackage rec {
   ];
 
   passthru.optional-dependencies = {
-    argon2 = [
-      argon2-cffi
-    ];
-    bcrypt = [
-      bcrypt
-    ];
+    argon2 = [ argon2-cffi ];
+    bcrypt = [ bcrypt ];
   };
 
   nativeCheckInputs = [

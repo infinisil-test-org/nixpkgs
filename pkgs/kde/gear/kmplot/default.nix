@@ -1,9 +1,6 @@
-{
-  mkKdeDerivation,
-  qtsvg,
-}:
+{ mkKdeDerivation, qtsvg }:
 mkKdeDerivation {
   pname = "kmplot";
 
-  extraBuildInputs = [qtsvg];
+  extraBuildInputs = [ qtsvg ];
 }

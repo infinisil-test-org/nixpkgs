@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, rustPlatform
-, pkg-config
-, curl
-, libgit2
-, openssl
-, Security
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  rustPlatform,
+  pkg-config,
+  curl,
+  libgit2,
+  openssl,
+  Security,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -28,8 +29,7 @@ rustPlatform.buildRustPackage rec {
     libgit2
     openssl
     curl
-  ]
-  ++ lib.optional stdenv.isDarwin Security;
+  ] ++ lib.optional stdenv.isDarwin Security;
 
   preCheck = lib.optionalString stdenv.isDarwin ''
     # Darwin issue: Os { code: 24, kind: Uncategorized, message: "Too many open files" }

@@ -1,6 +1,7 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
 }:
 
 buildPythonPackage rec {
@@ -14,9 +15,7 @@ buildPythonPackage rec {
     hash = "sha256-UReCJ7vUy+w13Jrf+/Wdgy8g4JhC19y4xzsWm4eAt8s=";
   };
 
-  pythonImportsCheck = [
-    "dateutil-stubs"
-  ];
+  pythonImportsCheck = [ "dateutil-stubs" ];
 
   meta = with lib; {
     description = "Typing stubs for python-dateutil";

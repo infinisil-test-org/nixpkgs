@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pytest
-, pyyaml
-, hypothesis
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pytest,
+  pyyaml,
+  hypothesis,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -19,9 +20,7 @@ buildPythonPackage rec {
     hash = "sha256-fb2YQh2AkMUhZV8bBsoDAGfynfUlOoh4EmvOOpD1aBc=";
   };
 
-  propagatedBuildInputs = [
-    pyyaml
-  ];
+  propagatedBuildInputs = [ pyyaml ];
 
   nativeCheckInputs = [
     hypothesis

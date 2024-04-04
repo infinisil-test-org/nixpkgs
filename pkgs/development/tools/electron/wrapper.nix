@@ -1,21 +1,28 @@
-{ stdenv
-, electron-unwrapped
-, wrapGAppsHook
-, makeWrapper
-, gsettings-desktop-schemas
-, glib
-, gtk3
-, gtk4
+{
+  stdenv,
+  electron-unwrapped,
+  wrapGAppsHook,
+  makeWrapper,
+  gsettings-desktop-schemas,
+  glib,
+  gtk3,
+  gtk4,
 }:
 
 stdenv.mkDerivation {
   pname = "electron";
   inherit (electron-unwrapped) version;
 
-  nativeBuildInputs = [ wrapGAppsHook makeWrapper ];
+  nativeBuildInputs = [
+    wrapGAppsHook
+    makeWrapper
+  ];
   buildInputs = [
     # needed for GSETTINGS_SCHEMAS_PATH
-    gsettings-desktop-schemas glib gtk3 gtk4
+    gsettings-desktop-schemas
+    glib
+    gtk3
+    gtk4
   ];
   dontWrapGApps = true;
 

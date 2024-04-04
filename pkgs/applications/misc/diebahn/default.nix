@@ -1,22 +1,23 @@
-{ lib
-, stdenv
-, fetchFromGitLab
-, cargo
-, desktop-file-utils
-, meson
-, ninja
-, pkg-config
-, rustPlatform
-, rustc
-, wrapGAppsHook4
-, cairo
-, gdk-pixbuf
-, glib
-, gtk4
-, libadwaita
-, pango
-, gettext
-, darwin
+{
+  lib,
+  stdenv,
+  fetchFromGitLab,
+  cargo,
+  desktop-file-utils,
+  meson,
+  ninja,
+  pkg-config,
+  rustPlatform,
+  rustc,
+  wrapGAppsHook4,
+  cairo,
+  gdk-pixbuf,
+  glib,
+  gtk4,
+  libadwaita,
+  pango,
+  gettext,
+  darwin,
 }:
 
 stdenv.mkDerivation rec {
@@ -47,18 +48,23 @@ stdenv.mkDerivation rec {
     wrapGAppsHook4
   ];
 
-  buildInputs = [
-    cairo
-    gdk-pixbuf
-    glib
-    gtk4
-    libadwaita
-    pango
-  ] ++ lib.optionals stdenv.isDarwin (with darwin.apple_sdk.frameworks; [
-    CoreFoundation
-    Foundation
-    Security
-  ]);
+  buildInputs =
+    [
+      cairo
+      gdk-pixbuf
+      glib
+      gtk4
+      libadwaita
+      pango
+    ]
+    ++ lib.optionals stdenv.isDarwin (
+      with darwin.apple_sdk.frameworks;
+      [
+        CoreFoundation
+        Foundation
+        Security
+      ]
+    );
 
   # Darwin needs to link against gettext from nixpkgs instead of the one vendored by gettext-sys
   # because the vendored copy does not build with newer versions of clang.

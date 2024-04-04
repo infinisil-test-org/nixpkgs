@@ -1,25 +1,29 @@
-{ lib
-, fetchFromSourcehut
-, buildPythonPackage
-, buildGoModule
-, alembic
-, bcrypt
-, dnspython
-, qrcode
-, redis
-, srht
-, stripe
-, prometheus-client
-, zxcvbn
-, python
-, unzip
-, pip
-, pythonOlder
-, setuptools
+{
+  lib,
+  fetchFromSourcehut,
+  buildPythonPackage,
+  buildGoModule,
+  alembic,
+  bcrypt,
+  dnspython,
+  qrcode,
+  redis,
+  srht,
+  stripe,
+  prometheus-client,
+  zxcvbn,
+  python,
+  unzip,
+  pip,
+  pythonOlder,
+  setuptools,
 }:
 let
   version = "0.68.5";
-  gqlgen = import ./fix-gqlgen-trimpath.nix { inherit unzip; gqlgenVersion = "0.17.36"; };
+  gqlgen = import ./fix-gqlgen-trimpath.nix {
+    inherit unzip;
+    gqlgenVersion = "0.17.36";
+  };
 
   src = fetchFromSourcehut {
     owner = "~sircmpwn";
@@ -28,12 +32,15 @@ let
     hash = "sha256-mwUqBzi7nMTZL7uwv7hBjGkO8U3krXXpvfUCaYHgHBU=";
   };
 
-  metasrht-api = buildGoModule ({
-    inherit src version;
-    pname = "metasrht-api";
-    modRoot = "api";
-    vendorHash = "sha256-4T1xnHDjxsIyddA51exNwwz6ZWeuT7N8LBsCJ7c8sRI=";
-  } // gqlgen);
+  metasrht-api = buildGoModule (
+    {
+      inherit src version;
+      pname = "metasrht-api";
+      modRoot = "api";
+      vendorHash = "sha256-4T1xnHDjxsIyddA51exNwwz6ZWeuT7N8LBsCJ7c8sRI=";
+    }
+    // gqlgen
+  );
 in
 buildPythonPackage rec {
   pname = "metasrht";
@@ -80,6 +87,9 @@ buildPythonPackage rec {
     homepage = "https://git.sr.ht/~sircmpwn/meta.sr.ht";
     description = "Account management service for the sr.ht network";
     license = licenses.agpl3Only;
-    maintainers = with maintainers; [ eadwu christoph-heiss ];
+    maintainers = with maintainers; [
+      eadwu
+      christoph-heiss
+    ];
   };
 }

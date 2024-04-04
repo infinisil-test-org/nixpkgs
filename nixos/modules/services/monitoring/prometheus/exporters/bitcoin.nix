@@ -1,4 +1,9 @@
-{ config, lib, pkgs, options }:
+{
+  config,
+  lib,
+  pkgs,
+  options,
+}:
 
 with lib;
 
@@ -24,7 +29,10 @@ in
     };
 
     rpcScheme = mkOption {
-      type = types.enum [ "http" "https" ];
+      type = types.enum [
+        "http"
+        "https"
+      ];
       default = "http";
       description = lib.mdDoc ''
         Whether to connect to bitcoind over http or https.
@@ -57,7 +65,7 @@ in
 
     extraEnv = mkOption {
       type = types.attrsOf types.str;
-      default = {};
+      default = { };
       description = lib.mdDoc ''
         Extra environment variables for the exporter.
       '';

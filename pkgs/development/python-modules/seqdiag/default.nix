@@ -1,11 +1,12 @@
-{ lib
-, blockdiag
-, buildPythonPackage
-, fetchFromGitHub
-, nose
-, pytestCheckHook
-, pythonOlder
-, setuptools
+{
+  lib,
+  blockdiag,
+  buildPythonPackage,
+  fetchFromGitHub,
+  nose,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -32,18 +33,14 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pytestFlagsArray = [
-    "src/seqdiag/tests/"
-  ];
+  pytestFlagsArray = [ "src/seqdiag/tests/" ];
 
   disabledTests = [
     # UnicodeEncodeError: 'latin-1' codec can't encode...
     "test_setup_inline_svg_is_true_with_multibytes"
   ];
 
-  pythonImportsCheck = [
-    "seqdiag"
-  ];
+  pythonImportsCheck = [ "seqdiag" ];
 
   meta = with lib; {
     description = "Generate sequence-diagram image from spec-text file (similar to Graphviz)";

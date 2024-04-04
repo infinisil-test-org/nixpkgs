@@ -1,25 +1,27 @@
-{ lib
-, clangStdenv
-, cargo
-, copyDesktopItems
-, fetchFromGitHub
-, flutter316
-, gst_all_1
-, libXtst
-, libaom
-, libopus
-, libpulseaudio
-, libva
-, libvdpau
-, libvpx
-, libxkbcommon
-, libyuv
-, makeDesktopItem
-, rustPlatform
-, rustc
-, rustfmt
-, xdotool
-}: let
+{
+  lib,
+  clangStdenv,
+  cargo,
+  copyDesktopItems,
+  fetchFromGitHub,
+  flutter316,
+  gst_all_1,
+  libXtst,
+  libaom,
+  libopus,
+  libpulseaudio,
+  libva,
+  libvdpau,
+  libvpx,
+  libxkbcommon,
+  libyuv,
+  makeDesktopItem,
+  rustPlatform,
+  rustc,
+  rustfmt,
+  xdotool,
+}:
+let
 
   flutterRustBridge = rustPlatform.buildRustPackage rec {
     pname = "flutter_rust_bridge_codegen";
@@ -33,13 +35,16 @@
     };
 
     cargoHash = "sha256-dDyiptG9TKes+fXx2atwx697SWH7Rltx6xVubtTn7FM=";
-    cargoBuildFlags = [ "--package" "flutter_rust_bridge_codegen" ];
+    cargoBuildFlags = [
+      "--package"
+      "flutter_rust_bridge_codegen"
+    ];
     doCheck = false;
   };
 
   sharedLibraryExt = rustc.stdenv.hostPlatform.extensions.sharedLibrary;
-
-in flutter316.buildFlutterApplication rec {
+in
+flutter316.buildFlutterApplication rec {
   pname = "rustdesk";
   version = "1.2.3-unstable-2024-02-11";
   src = fetchFromGitHub {
@@ -142,7 +147,11 @@ in flutter316.buildFlutterApplication rec {
   prePatch = ''
     chmod -R +w ..
   '';
-  patchFlags = [ "-p1" "-d" ".." ];
+  patchFlags = [
+    "-p1"
+    "-d"
+    ".."
+  ];
 
   postPatch = ''
     substituteInPlace ../Cargo.toml --replace ", \"staticlib\", \"rlib\"" ""
@@ -191,7 +200,11 @@ in flutter316.buildFlutterApplication rec {
       terminal = false;
       type = "Application";
       startupNotify = true;
-      categories = [ "Network" "RemoteAccess" "GTK" ];
+      categories = [
+        "Network"
+        "RemoteAccess"
+        "GTK"
+      ];
       keywords = [ "internet" ];
       actions.new-window = {
         name = "Open a New Window";

@@ -1,26 +1,25 @@
-{ callPackage
-}:
+{ callPackage }:
 
 {
-  adaptive_lighting = callPackage ./adaptive_lighting {};
+  adaptive_lighting = callPackage ./adaptive_lighting { };
 
-  auth-header = callPackage ./auth-header {};
+  auth-header = callPackage ./auth-header { };
 
-  better_thermostat = callPackage ./better_thermostat {};
+  better_thermostat = callPackage ./better_thermostat { };
 
-  emporia_vue = callPackage ./emporia_vue {};
+  emporia_vue = callPackage ./emporia_vue { };
 
-  govee-lan = callPackage ./govee-lan {};
+  govee-lan = callPackage ./govee-lan { };
 
-  gpio = callPackage ./gpio {};
+  gpio = callPackage ./gpio { };
 
-  localtuya = callPackage ./localtuya {};
+  localtuya = callPackage ./localtuya { };
 
-  miele = callPackage ./miele {};
+  miele = callPackage ./miele { };
 
-  omnik_inverter = callPackage ./omnik_inverter {};
+  omnik_inverter = callPackage ./omnik_inverter { };
 
-  prometheus_sensor = callPackage ./prometheus_sensor {};
+  prometheus_sensor = callPackage ./prometheus_sensor { };
 
-  waste_collection_schedule = callPackage ./waste_collection_schedule {};
+  waste_collection_schedule = callPackage ./waste_collection_schedule { };
 }

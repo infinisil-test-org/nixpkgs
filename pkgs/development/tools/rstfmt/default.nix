@@ -1,6 +1,7 @@
-{ lib
-, python3
-, fetchFromGitHub
+{
+  lib,
+  python3,
+  fetchFromGitHub,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -24,9 +25,7 @@ python3.pkgs.buildPythonApplication rec {
   # Project has no unittest just sample files
   doCheck = false;
 
-  pythonImportsCheck = [
-    "rstfmt"
-  ];
+  pythonImportsCheck = [ "rstfmt" ];
 
   meta = with lib; {
     description = "A formatter for reStructuredText";

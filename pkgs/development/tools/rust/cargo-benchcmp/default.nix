@@ -1,8 +1,9 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, substituteAll
-, stdenv
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  substituteAll,
+  stdenv,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -34,7 +35,10 @@ rustPlatform.buildRustPackage rec {
   meta = with lib; {
     description = "A small utility to compare Rust micro-benchmarks";
     homepage = "https://github.com/BurntSushi/cargo-benchcmp";
-    license = with licenses; [ mit unlicense ];
+    license = with licenses; [
+      mit
+      unlicense
+    ];
     maintainers = with maintainers; [ figsoda ];
   };
 }

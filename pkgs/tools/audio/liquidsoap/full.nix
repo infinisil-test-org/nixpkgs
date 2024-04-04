@@ -1,8 +1,24 @@
-{ lib, stdenv, makeWrapper, fetchFromGitHub, which, pkg-config
-, libjpeg
-, ocamlPackages
-, awscli2, bubblewrap, curl, ffmpeg, yt-dlp
-, runtimePackages ? [ awscli2 bubblewrap curl ffmpeg yt-dlp ]
+{
+  lib,
+  stdenv,
+  makeWrapper,
+  fetchFromGitHub,
+  which,
+  pkg-config,
+  libjpeg,
+  ocamlPackages,
+  awscli2,
+  bubblewrap,
+  curl,
+  ffmpeg,
+  yt-dlp,
+  runtimePackages ? [
+    awscli2
+    bubblewrap
+    curl
+    ffmpeg
+    yt-dlp
+  ],
 }:
 
 let
@@ -132,8 +148,11 @@ stdenv.mkDerivation {
   meta = with lib; {
     description = "Swiss-army knife for multimedia streaming";
     homepage = "https://www.liquidsoap.info/";
-    maintainers = with maintainers; [ dandellion ehmry ];
+    maintainers = with maintainers; [
+      dandellion
+      ehmry
+    ];
     license = licenses.gpl2Plus;
-    platforms = ocamlPackages.ocaml.meta.platforms or [];
+    platforms = ocamlPackages.ocaml.meta.platforms or [ ];
   };
 }

@@ -1,7 +1,8 @@
-{ lib
-, python3
-, fetchFromGitHub
-, nix-update-script
+{
+  lib,
+  python3,
+  fetchFromGitHub,
+  nix-update-script,
 }:
 let
   pname = "whisper-ctranslate2";
@@ -30,9 +31,7 @@ python3.pkgs.buildPythonApplication {
 
   passthru.updateScript = nix-update-script { };
 
-  nativeCheckInputs = with python3.pkgs; [
-    nose2
-  ];
+  nativeCheckInputs = with python3.pkgs; [ nose2 ];
 
   checkPhase = ''
     # Note: we are not running the `e2e-tests` because they require downloading models from the internet.

@@ -28,7 +28,7 @@
   libpciaccess,
   snappy,
   libtool,
-  thrift
+  thrift,
 }:
 gcc8Stdenv.mkDerivation {
   pname = "scylladb";
@@ -42,38 +42,41 @@ gcc8Stdenv.mkDerivation {
     fetchSubmodules = true;
   };
 
-  patches = [ ./seastar-configure-script-paths.patch ./configure-etc-osrelease.patch ];
+  patches = [
+    ./seastar-configure-script-paths.patch
+    ./configure-etc-osrelease.patch
+  ];
 
   nativeBuildInputs = [
-   pkg-config
-   cmake
-   makeWrapper
-   ninja
+    pkg-config
+    cmake
+    makeWrapper
+    ninja
   ];
 
   buildInputs = [
-   antlr3
-   python3Packages.pyparsing
-   boost
-   git
-   systemd
-   gnutls
-   ragel
-   jsoncpp
-   numactl
-   protobuf
-   cryptopp
-   libxfs
-   yaml-cpp
-   libsystemtap
-   lksctp-tools
-   lz4
-   libxml2
-   zlib
-   libpciaccess
-   snappy
-   libtool
-   thrift
+    antlr3
+    python3Packages.pyparsing
+    boost
+    git
+    systemd
+    gnutls
+    ragel
+    jsoncpp
+    numactl
+    protobuf
+    cryptopp
+    libxfs
+    yaml-cpp
+    libsystemtap
+    lksctp-tools
+    lz4
+    libxml2
+    zlib
+    libpciaccess
+    snappy
+    libtool
+    thrift
   ];
 
   postPatch = ''
@@ -97,7 +100,7 @@ gcc8Stdenv.mkDerivation {
     homepage = "https://scylladb.com";
     license = licenses.agpl3;
     platforms = lib.platforms.linux;
-    hydraPlatforms = []; # It's huge ATM, about 18 GB.
+    hydraPlatforms = [ ]; # It's huge ATM, about 18 GB.
     maintainers = [ lib.maintainers.farlion ];
     broken = true;
   };

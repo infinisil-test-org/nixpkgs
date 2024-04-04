@@ -1,4 +1,11 @@
-{ lib, stdenv, fetchurl, perl, perlPackages, makeWrapper }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  perl,
+  perlPackages,
+  makeWrapper,
+}:
 
 stdenv.mkDerivation rec {
   pname = "swaks";
@@ -17,17 +24,22 @@ stdenv.mkDerivation rec {
     mv swaks $out/bin/
 
     wrapProgram $out/bin/swaks --set PERL5LIB \
-      "${with perlPackages; makePerlPath [
-        NetSSLeay AuthenSASL NetDNS IOSocketINET6
-      ]}"
+      "${
+        with perlPackages;
+        makePerlPath [
+          NetSSLeay
+          AuthenSASL
+          NetDNS
+          IOSocketINET6
+        ]
+      }"
   '';
 
   meta = with lib; {
     homepage = "http://www.jetmore.org/john/code/swaks/";
     description = "A featureful, flexible, scriptable, transaction-oriented SMTP test tool";
     license = licenses.gpl2Plus;
-    maintainers = with maintainers; [];
+    maintainers = with maintainers; [ ];
     platforms = platforms.all;
   };
-
 }

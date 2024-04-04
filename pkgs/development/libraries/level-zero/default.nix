@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, addOpenGLRunpath
-, cmake
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  addOpenGLRunpath,
+  cmake,
 }:
 
 stdenv.mkDerivation rec {
@@ -16,7 +17,10 @@ stdenv.mkDerivation rec {
     hash = "sha256-iPWEZ9aJ3uI4cAKRgur78zdVwGtD6q1TqwNpK+mg5hw=";
   };
 
-  nativeBuildInputs = [ cmake addOpenGLRunpath ];
+  nativeBuildInputs = [
+    cmake
+    addOpenGLRunpath
+  ];
 
   postFixup = ''
     addOpenGLRunpath $out/lib/libze_loader.so
@@ -30,4 +34,3 @@ stdenv.mkDerivation rec {
     maintainers = [ maintainers.ziguana ];
   };
 }
-

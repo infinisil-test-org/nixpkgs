@@ -1,14 +1,24 @@
-{ lib, stdenv, llvm_meta, cmake, ninja, python3
-, monorepoSrc, runCommand, fetchpatch
-, cxx-headers, libunwind, version
-, enableShared ? !stdenv.hostPlatform.isStatic
+{
+  lib,
+  stdenv,
+  llvm_meta,
+  cmake,
+  ninja,
+  python3,
+  monorepoSrc,
+  runCommand,
+  fetchpatch,
+  cxx-headers,
+  libunwind,
+  version,
+  enableShared ? !stdenv.hostPlatform.isStatic,
 }:
 
 stdenv.mkDerivation rec {
   pname = "libcxxabi";
   inherit version;
 
-  src = runCommand "${pname}-src-${version}" {} ''
+  src = runCommand "${pname}-src-${version}" { } ''
     mkdir -p "$out"
     cp -r ${monorepoSrc}/cmake "$out"
     cp -r ${monorepoSrc}/${pname} "$out"
@@ -24,7 +34,10 @@ stdenv.mkDerivation rec {
 
   sourceRoot = "${src.name}/runtimes";
 
-  outputs = [ "out" "dev" ];
+  outputs = [
+    "out"
+    "dev"
+  ];
 
   postUnpack = lib.optionalString stdenv.isDarwin ''
     export TRIPLE=x86_64-apple-darwin
@@ -35,67 +48,77 @@ stdenv.mkDerivation rec {
     chmod -R u+w .
   '';
 
-  patches = [
-    ./gnu-install-dirs.patch
+  patches =
+    [
+      ./gnu-install-dirs.patch
 
-    # https://reviews.llvm.org/D132298, Allow building libcxxabi alone
-    (fetchpatch {
-      url = "https://github.com/llvm/llvm-project/commit/e6a0800532bb409f6d1c62f3698bdd6994a877dc.patch";
-      sha256 = "1xyjd56m4pfwq8p3xh6i8lhkk9kq15jaml7qbhxdf87z4jjkk63a";
-      stripLen = 1;
-    })
-  ] ++ lib.optionals (lib.versionAtLeast version "18") [
-    # Allow building libcxxabi alone when using LLVM unwinder
-    (fetchpatch {
-      url = "https://github.com/llvm/llvm-project/commit/77610dd10454e87bb387040d2b51100a17ac5755.patch";
-      stripLen = 1;
-      revert = true;
-      hash = "sha256-Jogx/cvTJ6fdyprTD1QzMIeRWcBlZZMWE/y9joOtVH0=";
-    })
-    (fetchpatch {
-      url = "https://github.com/llvm/llvm-project/commit/48e5b5ea92674ded69b998cf35724d9012c0f57d.patch";
-      stripLen = 1;
-      revert = true;
-      hash = "sha256-7VeBFjG7CnEMWn0hpBvyNOyhRfz50PnD3zyQNDhNChk=";
-    })
-  ];
+      # https://reviews.llvm.org/D132298, Allow building libcxxabi alone
+      (fetchpatch {
+        url = "https://github.com/llvm/llvm-project/commit/e6a0800532bb409f6d1c62f3698bdd6994a877dc.patch";
+        sha256 = "1xyjd56m4pfwq8p3xh6i8lhkk9kq15jaml7qbhxdf87z4jjkk63a";
+        stripLen = 1;
+      })
+    ]
+    ++ lib.optionals (lib.versionAtLeast version "18") [
+      # Allow building libcxxabi alone when using LLVM unwinder
+      (fetchpatch {
+        url = "https://github.com/llvm/llvm-project/commit/77610dd10454e87bb387040d2b51100a17ac5755.patch";
+        stripLen = 1;
+        revert = true;
+        hash = "sha256-Jogx/cvTJ6fdyprTD1QzMIeRWcBlZZMWE/y9joOtVH0=";
+      })
+      (fetchpatch {
+        url = "https://github.com/llvm/llvm-project/commit/48e5b5ea92674ded69b998cf35724d9012c0f57d.patch";
+        stripLen = 1;
+        revert = true;
+        hash = "sha256-7VeBFjG7CnEMWn0hpBvyNOyhRfz50PnD3zyQNDhNChk=";
+      })
+    ];
 
   postPatch = ''
     cd ../runtimes
   '';
 
-  nativeBuildInputs = [ cmake ninja python3 ];
+  nativeBuildInputs = [
+    cmake
+    ninja
+    python3
+  ];
   buildInputs = lib.optional (!stdenv.isDarwin && !stdenv.hostPlatform.isWasm) libunwind;
 
-  cmakeFlags = [
-    "-DLLVM_ENABLE_RUNTIMES=libcxxabi"
-    "-DLIBCXXABI_LIBCXX_INCLUDES=${cxx-headers}/include/c++/v1"
+  cmakeFlags =
+    [
+      "-DLLVM_ENABLE_RUNTIMES=libcxxabi"
+      "-DLIBCXXABI_LIBCXX_INCLUDES=${cxx-headers}/include/c++/v1"
 
-    # `libcxxabi`'s build does not need a toolchain with a c++ stdlib attached
-    # (we specify the headers it should use explicitly above).
-    #
-    # CMake however checks for this anyways; this flag tells it not to. See:
-    # https://github.com/llvm/llvm-project/blob/4bd3f3759259548e159aeba5c76efb9a0864e6fa/llvm/runtimes/CMakeLists.txt#L243
-    "-DCMAKE_CXX_COMPILER_WORKS=ON"
-  ] ++ lib.optionals (lib.versionAtLeast version "18" && !(stdenv.hostPlatform.useLLVM or false && !stdenv.hostPlatform.isWasm)) [
-    "-DLIBCXXABI_USE_LLVM_UNWINDER=OFF"
-  ] ++ lib.optionals (stdenv.hostPlatform.useLLVM or false && !stdenv.hostPlatform.isWasm) [
-    "-DLLVM_ENABLE_LIBCXX=ON"
-    "-DLIBCXXABI_USE_LLVM_UNWINDER=ON"
-    # libcxxabi's CMake looks as though it treats -nostdlib++ as implying -nostdlib,
-    # but that does not appear to be the case for example when building
-    # pkgsLLVM.libcxxabi (which uses clangNoCompilerRtWithLibc).
-    "-DCMAKE_EXE_LINKER_FLAGS=-nostdlib"
-    "-DCMAKE_SHARED_LINKER_FLAGS=-nostdlib"
-  ] ++ lib.optionals stdenv.hostPlatform.isWasm [
-    "-DCMAKE_C_COMPILER_WORKS=ON"
-    "-DCMAKE_CXX_COMPILER_WORKS=ON"
-    "-DLIBCXXABI_ENABLE_THREADS=OFF"
-    "-DLIBCXXABI_ENABLE_EXCEPTIONS=OFF"
-    "-DUNIX=ON"
-  ] ++ lib.optionals (!enableShared) [
-    "-DLIBCXXABI_ENABLE_SHARED=OFF"
-  ];
+      # `libcxxabi`'s build does not need a toolchain with a c++ stdlib attached
+      # (we specify the headers it should use explicitly above).
+      #
+      # CMake however checks for this anyways; this flag tells it not to. See:
+      # https://github.com/llvm/llvm-project/blob/4bd3f3759259548e159aeba5c76efb9a0864e6fa/llvm/runtimes/CMakeLists.txt#L243
+      "-DCMAKE_CXX_COMPILER_WORKS=ON"
+    ]
+    ++ lib.optionals (
+      lib.versionAtLeast version "18"
+      && !(stdenv.hostPlatform.useLLVM or false && !stdenv.hostPlatform.isWasm)
+    ) [ "-DLIBCXXABI_USE_LLVM_UNWINDER=OFF" ]
+    ++ lib.optionals (stdenv.hostPlatform.useLLVM or false && !stdenv.hostPlatform.isWasm) [
+      "-DLLVM_ENABLE_LIBCXX=ON"
+      "-DLIBCXXABI_USE_LLVM_UNWINDER=ON"
+      # libcxxabi's CMake looks as though it treats -nostdlib++ as implying -nostdlib,
+      # but that does not appear to be the case for example when building
+      # pkgsLLVM.libcxxabi (which uses clangNoCompilerRtWithLibc).
+      "-DCMAKE_EXE_LINKER_FLAGS=-nostdlib"
+      "-DCMAKE_SHARED_LINKER_FLAGS=-nostdlib"
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isWasm [
+      "-DCMAKE_C_COMPILER_WORKS=ON"
+      "-DCMAKE_CXX_COMPILER_WORKS=ON"
+      "-DLIBCXXABI_ENABLE_THREADS=OFF"
+      "-DLIBCXXABI_ENABLE_EXCEPTIONS=OFF"
+      "-DUNIX=ON"
+    ]
+    ++ lib.optionals (!enableShared) [ "-DLIBCXXABI_ENABLE_SHARED=OFF" ];
 
   preInstall = lib.optionalString stdenv.isDarwin ''
     for file in lib/*.dylib; do
@@ -124,7 +147,10 @@ stdenv.mkDerivation rec {
     '';
     # "All of the code in libc++abi is dual licensed under the MIT license and
     # the UIUC License (a BSD-like license)":
-    license = with lib.licenses; [ mit ncsa ];
+    license = with lib.licenses; [
+      mit
+      ncsa
+    ];
     maintainers = llvm_meta.maintainers ++ [ lib.maintainers.vlstill ];
   };
 }

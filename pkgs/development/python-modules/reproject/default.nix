@@ -1,21 +1,22 @@
-{ lib
-, astropy
-, astropy-extension-helpers
-, astropy-healpix
-, buildPythonPackage
-, cloudpickle
-, cython_3
-, dask
-, fetchPypi
-, fsspec
-, numpy
-, oldest-supported-numpy
-, pytest-astropy
-, pytestCheckHook
-, pythonOlder
-, scipy
-, setuptools-scm
-, zarr
+{
+  lib,
+  astropy,
+  astropy-extension-helpers,
+  astropy-healpix,
+  buildPythonPackage,
+  cloudpickle,
+  cython_3,
+  dask,
+  fetchPypi,
+  fsspec,
+  numpy,
+  oldest-supported-numpy,
+  pytest-astropy,
+  pytestCheckHook,
+  pythonOlder,
+  scipy,
+  setuptools-scm,
+  zarr,
 }:
 
 buildPythonPackage rec {
@@ -67,9 +68,7 @@ buildPythonPackage rec {
     "--ignore build/lib*/reproject/interpolation/"
   ];
 
-  pythonImportsCheck = [
-    "reproject"
-  ];
+  pythonImportsCheck = [ "reproject" ];
 
   meta = with lib; {
     description = "Reproject astronomical images";

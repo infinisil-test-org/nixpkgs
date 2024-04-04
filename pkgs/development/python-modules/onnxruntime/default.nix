@@ -1,14 +1,15 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, autoPatchelfHook
-, pythonRelaxDepsHook
-, onnxruntime
-, coloredlogs
-, numpy
-, packaging
-, oneDNN
-, re2
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  autoPatchelfHook,
+  pythonRelaxDepsHook,
+  onnxruntime,
+  coloredlogs,
+  numpy,
+  packaging,
+  oneDNN,
+  re2,
 
 }:
 
@@ -35,11 +36,7 @@ buildPythonPackage {
     chmod +w dist
   '';
 
-  nativeBuildInputs = [
-    pythonRelaxDepsHook
-  ] ++ lib.optionals stdenv.isLinux [
-    autoPatchelfHook
-  ];
+  nativeBuildInputs = [ pythonRelaxDepsHook ] ++ lib.optionals stdenv.isLinux [ autoPatchelfHook ];
 
   # This project requires fairly large dependencies such as sympy which we really don't always need.
   pythonRemoveDeps = [
@@ -64,5 +61,7 @@ buildPythonPackage {
     # sympy
   ];
 
-  meta = onnxruntime.meta // { maintainers = with lib.maintainers; [ fridh ]; };
+  meta = onnxruntime.meta // {
+    maintainers = with lib.maintainers; [ fridh ];
+  };
 }

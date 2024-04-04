@@ -1,7 +1,8 @@
-{ lib
-, fetchFromGitHub
-, git
-, python3
+{
+  lib,
+  fetchFromGitHub,
+  git,
+  python3,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -21,63 +22,56 @@ python3.pkgs.buildPythonApplication rec {
     "typer"
   ];
 
-  pythonRemoveDeps = [
-    "mlflow-skinny"
-  ];
+  pythonRemoveDeps = [ "mlflow-skinny" ];
 
-  nativeBuildInputs = with python3.pkgs; [
-    pythonRelaxDepsHook
-  ];
+  nativeBuildInputs = with python3.pkgs; [ pythonRelaxDepsHook ];
 
-  propagatedBuildInputs = with python3.pkgs; [
-    aiohttp
-    click
-    cookiecutter
-    cryptography
-    databricks-cli
-    jinja2
-    mlflow
-    pathspec
-    pydantic
-    pyyaml
-    requests
-    retry
-    rich
-    tenacity
-    typer
-    watchdog
-  ] ++ typer.optional-dependencies.all;
+  propagatedBuildInputs =
+    with python3.pkgs;
+    [
+      aiohttp
+      click
+      cookiecutter
+      cryptography
+      databricks-cli
+      jinja2
+      mlflow
+      pathspec
+      pydantic
+      pyyaml
+      requests
+      retry
+      rich
+      tenacity
+      typer
+      watchdog
+    ]
+    ++ typer.optional-dependencies.all;
 
   passthru.optional-dependencies = with python3.pkgs; {
-    aws = [
-      boto3
-    ];
+    aws = [ boto3 ];
     azure = [
       azure-storage-blob
       azure-identity
     ];
-    gcp = [
-      google-cloud-storage
-    ];
+    gcp = [ google-cloud-storage ];
   };
 
-  nativeCheckInputs = [
-    git
-  ] ++ (with python3.pkgs; [
-    pytest-asyncio
-    pytest-mock
-    pytest-timeout
-    pytestCheckHook
-  ]);
+  nativeCheckInputs =
+    [ git ]
+    ++ (with python3.pkgs; [
+      pytest-asyncio
+      pytest-mock
+      pytest-timeout
+      pytestCheckHook
+    ]);
 
   preCheck = ''
     export HOME=$(mktemp -d)
     export PATH="$PATH:$out/bin"
   '';
 
-  pytestFlagsArray = [
-    "tests/unit"
-  ];
+  pytestFlagsArray = [ "tests/unit" ];
 
   disabledTests = [
     # Fails because of dbfs CLI wrong call
@@ -87,9 +81,7 @@ python3.pkgs.buildPythonApplication rec {
     "test_python_basic_sanity_check"
   ];
 
-  pythonImportsCheck = [
-    "dbx"
-  ];
+  pythonImportsCheck = [ "dbx" ];
 
   meta = with lib; {
     description = "CLI tool for advanced Databricks jobs management";

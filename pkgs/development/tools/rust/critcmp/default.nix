@@ -1,6 +1,7 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -19,7 +20,10 @@ rustPlatform.buildRustPackage rec {
   meta = with lib; {
     description = "A command line tool for comparing benchmarks run by Criterion";
     homepage = "https://github.com/BurntSushi/critcmp";
-    license = with licenses; [ mit unlicense ];
+    license = with licenses; [
+      mit
+      unlicense
+    ];
     maintainers = with maintainers; [ figsoda ];
   };
 }

@@ -1,4 +1,11 @@
-{ lib, stdenv, fetchurl, jre, makeWrapper, gitUpdater }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  jre,
+  makeWrapper,
+  gitUpdater,
+}:
 
 stdenv.mkDerivation rec {
   pname = "wiremock";
@@ -30,7 +37,10 @@ stdenv.mkDerivation rec {
     description = "A flexible tool for building mock APIs";
     homepage = "https://wiremock.org/";
     changelog = "https://github.com/wiremock/wiremock/releases/tag/${version}";
-    maintainers = with lib.maintainers; [ bobvanderlinden anthonyroussel ];
+    maintainers = with lib.maintainers; [
+      bobvanderlinden
+      anthonyroussel
+    ];
     mainProgram = "wiremock";
     platforms = jre.meta.platforms;
     sourceProvenance = with lib.sourceTypes; [ binaryBytecode ];

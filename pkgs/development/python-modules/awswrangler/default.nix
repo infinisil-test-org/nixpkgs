@@ -1,26 +1,27 @@
-{ backoff
-, sparqlwrapper
-, boto3
-, buildPythonPackage
-, fetchFromGitHub
-, gremlinpython
-, jsonpath-ng
-, lib
-, moto
-, openpyxl
-, opensearch-py
-, pandas
-, pg8000
-, poetry-core
-, progressbar2
-, pyarrow
-, pymysql
-, pyodbc
-, pyparsing
-, pytestCheckHook
-, pythonOlder
-, redshift-connector
-, requests-aws4auth
+{
+  backoff,
+  sparqlwrapper,
+  boto3,
+  buildPythonPackage,
+  fetchFromGitHub,
+  gremlinpython,
+  jsonpath-ng,
+  lib,
+  moto,
+  openpyxl,
+  opensearch-py,
+  pandas,
+  pg8000,
+  poetry-core,
+  progressbar2,
+  pyarrow,
+  pymysql,
+  pyodbc,
+  pyparsing,
+  pytestCheckHook,
+  pythonOlder,
+  redshift-connector,
+  requests-aws4auth,
 }:
 
 buildPythonPackage rec {
@@ -37,9 +38,7 @@ buildPythonPackage rec {
     hash = "sha256-lIEitS/pyOq4RjyUqPzfKOcNtAIWp14sQcLfQ1FwEoE=";
   };
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
   propagatedBuildInputs = [
     boto3
@@ -72,12 +71,8 @@ buildPythonPackage rec {
   ];
 
   passthru.optional-dependencies = {
-    sqlserver = [
-      pyodbc
-    ];
-    sparql = [
-      sparqlwrapper
-    ];
+    sqlserver = [ pyodbc ];
+    sparql = [ sparqlwrapper ];
   };
 
   meta = with lib; {

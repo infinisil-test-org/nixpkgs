@@ -1,7 +1,8 @@
-{ lib
-, fetchFromGitHub
-, fetchPypi
-, python3
+{
+  lib,
+  fetchFromGitHub,
+  fetchPypi,
+  python3,
 }:
 
 let
@@ -28,7 +29,6 @@ let
         };
         doCheck = false;
       });
-
     };
   };
 in
@@ -76,14 +76,15 @@ buildPythonApplication rec {
   # https://github.com/oracle/oci-cli/issues/187
   doCheck = false;
 
-  pythonImportsCheck = [
-    " oci_cli "
-  ];
+  pythonImportsCheck = [ " oci_cli " ];
 
   meta = with lib; {
     description = "Command Line Interface for Oracle Cloud Infrastructure";
     homepage = "https://docs.cloud.oracle.com/iaas/Content/API/Concepts/cliconcepts.htm";
-    license = with licenses; [ asl20 /* or */ upl ];
+    license = with licenses; [
+      asl20 # or
+      upl
+    ];
     maintainers = with maintainers; [ ilian ];
   };
 }

@@ -1,16 +1,17 @@
-{ lib
-, aiohttp
-, buildPythonPackage
-, busypie
-, cbor2
-, fetchFromGitHub
-, pycryptodomex
-, pytestCheckHook
-, pytest-vcr
-, pytest-asyncio
-, requests
-, pythonOlder
-, setuptools
+{
+  lib,
+  aiohttp,
+  buildPythonPackage,
+  busypie,
+  cbor2,
+  fetchFromGitHub,
+  pycryptodomex,
+  pytestCheckHook,
+  pytest-vcr,
+  pytest-asyncio,
+  requests,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -27,9 +28,7 @@ buildPythonPackage rec {
     hash = "sha256-fmRFxSVzKN2ynuXJlpZcuIt4XIe7XHU4HSzSN1kCi2g=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     aiohttp
@@ -57,9 +56,7 @@ buildPythonPackage rec {
     "test_handshaking"
   ];
 
-  pythonImportsCheck = [
-    "pubnub"
-  ];
+  pythonImportsCheck = [ "pubnub" ];
 
   meta = with lib; {
     description = "Python-based APIs for PubNub";

@@ -1,10 +1,11 @@
-{ lib
-, fetchPypi
-, buildPythonPackage
-, py
-, pytestCheckHook
-, pytest-html
- }:
+{
+  lib,
+  fetchPypi,
+  buildPythonPackage,
+  py,
+  pytestCheckHook,
+  pytest-html,
+}:
 
 buildPythonPackage rec {
   pname = "cucumber-tag-expressions";

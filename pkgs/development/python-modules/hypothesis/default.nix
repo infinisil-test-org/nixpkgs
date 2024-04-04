@@ -1,23 +1,24 @@
-{ lib
-, buildPythonPackage
-, isPyPy
-, fetchFromGitHub
-, setuptools
-, attrs
-, exceptiongroup
-, pexpect
-, doCheck ? true
-, pytestCheckHook
-, pytest-xdist
-, python
-, sortedcontainers
-, stdenv
-, pythonOlder
-, sphinxHook
-, sphinx-rtd-theme
-, sphinx-hoverxref
-, sphinx-codeautolink
-, tzdata
+{
+  lib,
+  buildPythonPackage,
+  isPyPy,
+  fetchFromGitHub,
+  setuptools,
+  attrs,
+  exceptiongroup,
+  pexpect,
+  doCheck ? true,
+  pytestCheckHook,
+  pytest-xdist,
+  python,
+  sortedcontainers,
+  stdenv,
+  pythonOlder,
+  sphinxHook,
+  sphinx-rtd-theme,
+  sphinx-hoverxref,
+  sphinx-codeautolink,
+  tzdata,
 }:
 
 buildPythonPackage rec {
@@ -49,24 +50,18 @@ buildPythonPackage rec {
 
   postUnpack = "sourceRoot=$sourceRoot/hypothesis-python";
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     attrs
     sortedcontainers
-  ] ++ lib.optionals (pythonOlder "3.11") [
-    exceptiongroup
-  ];
+  ] ++ lib.optionals (pythonOlder "3.11") [ exceptiongroup ];
 
   nativeCheckInputs = [
     pexpect
     pytest-xdist
     pytestCheckHook
-  ] ++ lib.optionals isPyPy [
-    tzdata
-  ];
+  ] ++ lib.optionals isPyPy [ tzdata ];
 
   inherit doCheck;
 
@@ -75,13 +70,9 @@ buildPythonPackage rec {
     rm tox.ini
   '';
 
-  pytestFlagsArray = [
-    "tests/cover"
-  ];
+  pytestFlagsArray = [ "tests/cover" ];
 
-  pythonImportsCheck = [
-    "hypothesis"
-  ];
+  pythonImportsCheck = [ "hypothesis" ];
 
   passthru = {
     doc = stdenv.mkDerivation {
@@ -110,7 +101,9 @@ buildPythonPackage rec {
   meta = with lib; {
     description = "Library for property based testing";
     homepage = "https://github.com/HypothesisWorks/hypothesis";
-    changelog = "https://hypothesis.readthedocs.io/en/latest/changes.html#v${lib.replaceStrings [ "." ] [ "-" ] version}";
+    changelog = "https://hypothesis.readthedocs.io/en/latest/changes.html#v${
+      lib.replaceStrings [ "." ] [ "-" ] version
+    }";
     license = licenses.mpl20;
     maintainers = with maintainers; [ ];
   };

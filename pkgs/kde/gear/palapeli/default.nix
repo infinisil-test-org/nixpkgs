@@ -6,6 +6,6 @@
 mkKdeDerivation {
   pname = "palapeli";
 
-  extraNativeBuildInputs = [shared-mime-info];
-  extraBuildInputs = [qtsvg];
+  extraNativeBuildInputs = [ shared-mime-info ];
+  extraBuildInputs = [ qtsvg ];
 }

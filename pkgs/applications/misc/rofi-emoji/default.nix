@@ -1,18 +1,19 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, makeWrapper
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  makeWrapper,
 
-, autoreconfHook
-, pkg-config
+  autoreconfHook,
+  pkg-config,
 
-, cairo
-, glib
-, libnotify
-, rofi-unwrapped
-, wl-clipboard
-, xclip
-, xsel
+  cairo,
+  glib,
+  libnotify,
+  rofi-unwrapped,
+  wl-clipboard,
+  xclip,
+  xsel,
 }:
 
 stdenv.mkDerivation rec {
@@ -38,7 +39,14 @@ stdenv.mkDerivation rec {
   postFixup = ''
     chmod +x $out/share/rofi-emoji/clipboard-adapter.sh
     wrapProgram $out/share/rofi-emoji/clipboard-adapter.sh \
-      --prefix PATH ":" ${lib.makeBinPath [ libnotify wl-clipboard xclip xsel ]}
+      --prefix PATH ":" ${
+        lib.makeBinPath [
+          libnotify
+          wl-clipboard
+          xclip
+          xsel
+        ]
+      }
   '';
 
   nativeBuildInputs = [

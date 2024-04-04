@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, buildGoModule
-, fetchFromGitHub
-, installShellFiles
+{
+  lib,
+  stdenv,
+  buildGoModule,
+  fetchFromGitHub,
+  installShellFiles,
 }:
 
 buildGoModule rec {
@@ -36,7 +37,8 @@ buildGoModule rec {
   ];
 
   ldflags = [
-    "-s" "-w"
+    "-s"
+    "-w"
     "-X github.com/alexellis/arkade/pkg.GitCommit=ref/tags/${version}"
     "-X github.com/alexellis/arkade/pkg.Version=${version}"
   ];
@@ -52,6 +54,10 @@ buildGoModule rec {
     homepage = "https://github.com/alexellis/arkade";
     description = "Open Source Kubernetes Marketplace";
     license = licenses.mit;
-    maintainers = with maintainers; [ welteki techknowlogick qjoly ];
+    maintainers = with maintainers; [
+      welteki
+      techknowlogick
+      qjoly
+    ];
   };
 }

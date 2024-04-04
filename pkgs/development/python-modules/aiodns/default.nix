@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pycares
-, pythonOlder
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pycares,
+  pythonOlder,
+  setuptools,
 
 }:
 
@@ -21,20 +22,14 @@ buildPythonPackage rec {
     sha256 = "sha256-JZS53kICsrXDot3CKjG30AOjkYycKpMJvC9yS3c1v5Q=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [
-    pycares
-  ];
+  propagatedBuildInputs = [ pycares ];
 
   # Could not contact DNS servers
   doCheck = false;
 
-  pythonImportsCheck = [
-    "aiodns"
-  ];
+  pythonImportsCheck = [ "aiodns" ];
 
   meta = with lib; {
     description = "Simple DNS resolver for asyncio";

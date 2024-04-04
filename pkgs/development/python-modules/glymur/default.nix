@@ -1,14 +1,15 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchFromGitHub
-, lxml
-, numpy
-, openjpeg
-, pytestCheckHook
-, pythonOlder
-, scikit-image
-, setuptools
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchFromGitHub,
+  lxml,
+  numpy,
+  openjpeg,
+  pytestCheckHook,
+  pythonOlder,
+  scikit-image,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -25,13 +26,9 @@ buildPythonPackage rec {
     hash = "sha256-9NMSAt5yFRnlCUDP37/ozhDsS8FTdRkfjUz8kQwWzVc=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [
-    numpy
-  ];
+  propagatedBuildInputs = [ numpy ];
 
   nativeCheckInputs = [
     lxml
@@ -41,7 +38,9 @@ buildPythonPackage rec {
 
   postConfigure = ''
     substituteInPlace glymur/config.py \
-    --replace "path = read_config_file(libname)" "path = '${openjpeg}/lib/lib' + libname + ${if stdenv.isDarwin then "'.dylib'" else "'.so'"}"
+    --replace "path = read_config_file(libname)" "path = '${openjpeg}/lib/lib' + libname + ${
+      if stdenv.isDarwin then "'.dylib'" else "'.so'"
+    }"
   '';
 
   disabledTestPaths = [
@@ -52,9 +51,7 @@ buildPythonPackage rec {
     "tests/test_tiff2jp2.py"
   ];
 
-  pythonImportsCheck = [
-    "glymur"
-  ];
+  pythonImportsCheck = [ "glymur" ];
 
   meta = with lib; {
     description = "Tools for accessing JPEG2000 files";

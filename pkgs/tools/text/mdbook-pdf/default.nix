@@ -1,11 +1,12 @@
-{ lib
-, stdenv
-, fetchCrate
-, rustPlatform
-, pkg-config
-, rustfmt
-, openssl
-, CoreServices
+{
+  lib,
+  stdenv,
+  fetchCrate,
+  rustPlatform,
+  pkg-config,
+  rustfmt,
+  openssl,
+  CoreServices,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -24,15 +25,11 @@ rustPlatform.buildRustPackage rec {
     rustfmt
   ];
 
-  buildInputs = [
-    openssl
-  ] ++ lib.optionals stdenv.isDarwin [
-    CoreServices
-  ];
+  buildInputs = [ openssl ] ++ lib.optionals stdenv.isDarwin [ CoreServices ];
 
   # Stop downloading from the Internet to
   # generate the Chrome Devtools Protocol
-  DOCS_RS=true;
+  DOCS_RS = true;
 
   # # Stop formating with rustfmt, pending version update for
   # # https://github.com/mdrokz/auto_generate_cdp/pull/8

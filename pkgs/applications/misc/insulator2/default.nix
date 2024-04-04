@@ -1,24 +1,25 @@
-{ lib
-, cmake
-, dbus
-, fetchFromGitHub
-, fetchYarnDeps
-, openssl
-, pkg-config
-, freetype
-, libsoup
-, gtk3
-, webkitgtk
-, perl
-, cyrus_sasl
-, stdenv
-, fixup_yarn_lock
-, yarn
-, nodejs-slim
-, cargo-tauri
-, cargo
-, rustPlatform
-, rustc
+{
+  lib,
+  cmake,
+  dbus,
+  fetchFromGitHub,
+  fetchYarnDeps,
+  openssl,
+  pkg-config,
+  freetype,
+  libsoup,
+  gtk3,
+  webkitgtk,
+  perl,
+  cyrus_sasl,
+  stdenv,
+  fixup_yarn_lock,
+  yarn,
+  nodejs-slim,
+  cargo-tauri,
+  cargo,
+  rustPlatform,
+  rustc,
 }:
 
 stdenv.mkDerivation rec {
@@ -96,5 +97,4 @@ stdenv.mkDerivation rec {
     maintainers = with maintainers; [ tc-kaluza ];
     mainProgram = "insulator-2";
   };
-
 }

@@ -1,4 +1,11 @@
-{ stdenv, lib, fetchFromGitHub, kernel, fetchurl, fetchpatch }:
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  kernel,
+  fetchurl,
+  fetchpatch,
+}:
 
 stdenv.mkDerivation rec {
   pname = "xone";
@@ -45,4 +52,3 @@ stdenv.mkDerivation rec {
     platforms = platforms.linux;
   };
 }
-

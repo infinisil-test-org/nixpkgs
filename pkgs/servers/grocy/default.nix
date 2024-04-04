@@ -1,4 +1,10 @@
-{ lib, stdenv, fetchurl, unzip, nixosTests }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  unzip,
+  nixosTests,
+}:
 
 stdenv.mkDerivation rec {
   pname = "grocy";
@@ -20,11 +26,16 @@ stdenv.mkDerivation rec {
     ./0001-Define-configs-with-env-vars.patch
     ./0002-Remove-check-for-config-file-as-it-s-stored-in-etc-g.patch
   ];
-  patchFlags = [ "--binary" "-p1" ];
+  patchFlags = [
+    "--binary"
+    "-p1"
+  ];
 
   dontBuild = true;
 
-  passthru.tests = { inherit (nixosTests) grocy; };
+  passthru.tests = {
+    inherit (nixosTests) grocy;
+  };
 
   installPhase = ''
     mkdir -p $out/

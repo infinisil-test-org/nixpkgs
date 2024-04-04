@@ -1,6 +1,7 @@
-{ lib
-, stdenv
-, fetchurl
+{
+  lib,
+  stdenv,
+  fetchurl,
 }:
 
 stdenv.mkDerivation rec {
@@ -25,6 +26,4 @@ stdenv.mkDerivation rec {
     license = licenses.bsd3;
     maintainers = with maintainers; [ fedx-sudo ];
   };
-
 }
-

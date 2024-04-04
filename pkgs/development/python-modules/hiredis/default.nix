@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
 
-# tested using
-, pytestCheckHook
+  # tested using
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -22,13 +23,9 @@ buildPythonPackage rec {
     hash = "sha256-OT8zFEHKSAebXV+VzagZDJRPidAhSrqvD2/F1YezVGs=";
   };
 
-  pythonImportsCheck = [
-    "hiredis"
-  ];
+  pythonImportsCheck = [ "hiredis" ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   preCheck = ''
     rm -rf hiredis
@@ -42,4 +39,3 @@ buildPythonPackage rec {
     maintainers = with maintainers; [ mmai ];
   };
 }
-

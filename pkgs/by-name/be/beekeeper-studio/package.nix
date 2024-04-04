@@ -1,23 +1,28 @@
-{ appimageTools
-, fetchurl
-, lib
-, makeWrapper
-, stdenv
+{
+  appimageTools,
+  fetchurl,
+  lib,
+  makeWrapper,
+  stdenv,
 }:
 
 let
   pname = "beekeeper-studio";
   version = "4.1.13";
 
-  plat = {
-    aarch64-linux = "-arm64";
-    x86_64-linux = "";
-  }.${stdenv.hostPlatform.system};
+  plat =
+    {
+      aarch64-linux = "-arm64";
+      x86_64-linux = "";
+    }
+    .${stdenv.hostPlatform.system};
 
-  hash = {
-    aarch64-linux = "sha256-8gcxYQ6ZvYC42V/vShFgalJtm8SGZRwtUfwUF9ZirBo=";
-    x86_64-linux = "sha256-Yfpm6//hhYVKX3YipzmFj3NgEsL2h3eW+9yC0yYiDgk=";
-  }.${stdenv.hostPlatform.system};
+  hash =
+    {
+      aarch64-linux = "sha256-8gcxYQ6ZvYC42V/vShFgalJtm8SGZRwtUfwUF9ZirBo=";
+      x86_64-linux = "sha256-Yfpm6//hhYVKX3YipzmFj3NgEsL2h3eW+9yC0yYiDgk=";
+    }
+    .${stdenv.hostPlatform.system};
 
   src = fetchurl {
     url = "https://github.com/beekeeper-studio/beekeeper-studio/releases/download/v${version}/Beekeeper-Studio-${version}${plat}.AppImage";
@@ -46,7 +51,13 @@ appimageTools.wrapType2 {
     changelog = "https://github.com/beekeeper-studio/beekeeper-studio/releases/tag/v${version}";
     license = licenses.gpl3Only;
     mainProgram = "beekeeper-studio";
-    maintainers = with maintainers; [ milogert alexnortung ];
-    platforms = [ "aarch64-linux" "x86_64-linux" ];
+    maintainers = with maintainers; [
+      milogert
+      alexnortung
+    ];
+    platforms = [
+      "aarch64-linux"
+      "x86_64-linux"
+    ];
   };
 }

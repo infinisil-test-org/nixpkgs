@@ -1,4 +1,9 @@
-{ lib, buildPythonPackage, fetchPypi, msgpack }:
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  msgpack,
+}:
 
 buildPythonPackage rec {
   pname = "fluent-logger";

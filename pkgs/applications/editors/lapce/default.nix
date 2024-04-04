@@ -1,28 +1,29 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, nix-update-script
-, rustPlatform
-, cmake
-, pkg-config
-, perl
-, python3
-, fontconfig
-, glib
-, gtk3
-, openssl
-, libGL
-, libobjc
-, libxkbcommon
-, Security
-, CoreServices
-, ApplicationServices
-, Carbon
-, AppKit
-, wrapGAppsHook
-, wayland
-, gobject-introspection
-, xorg
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  nix-update-script,
+  rustPlatform,
+  cmake,
+  pkg-config,
+  perl,
+  python3,
+  fontconfig,
+  glib,
+  gtk3,
+  openssl,
+  libGL,
+  libobjc,
+  libxkbcommon,
+  Security,
+  CoreServices,
+  ApplicationServices,
+  Carbon,
+  AppKit,
+  wrapGAppsHook,
+  wayland,
+  gobject-introspection,
+  xorg,
 }:
 let
   rpathLibs = lib.optionals stdenv.isLinux [
@@ -69,17 +70,18 @@ rustPlatform.buildRustPackage rec {
     };
   };
 
-  env = {
-    # Get openssl-sys to use pkg-config
-    OPENSSL_NO_VENDOR = 1;
+  env =
+    {
+      # Get openssl-sys to use pkg-config
+      OPENSSL_NO_VENDOR = 1;
 
-    # This variable is read by build script, so that Lapce editor knows its version
-    RELEASE_TAG_NAME = "v${version}";
-
-  } // lib.optionalAttrs stdenv.cc.isClang {
-    # Work around https://github.com/NixOS/nixpkgs/issues/166205.
-    NIX_LDFLAGS = "-l${stdenv.cc.libcxx.cxxabi.libName}";
-  };
+      # This variable is read by build script, so that Lapce editor knows its version
+      RELEASE_TAG_NAME = "v${version}";
+    }
+    // lib.optionalAttrs stdenv.cc.isClang {
+      # Work around https://github.com/NixOS/nixpkgs/issues/166205.
+      NIX_LDFLAGS = "-l${stdenv.cc.libcxx.cxxabi.libName}";
+    };
 
   postPatch = ''
     substituteInPlace lapce-app/Cargo.toml --replace ", \"updater\"" ""
@@ -94,33 +96,39 @@ rustPlatform.buildRustPackage rec {
     gobject-introspection
   ];
 
-  buildInputs = rpathLibs ++ [
-    glib
-    gtk3
-    openssl
-  ] ++ lib.optionals stdenv.isLinux [
-    fontconfig
-  ] ++ lib.optionals stdenv.isDarwin [
-    libobjc
-    Security
-    CoreServices
-    ApplicationServices
-    Carbon
-    AppKit
-  ];
+  buildInputs =
+    rpathLibs
+    ++ [
+      glib
+      gtk3
+      openssl
+    ]
+    ++ lib.optionals stdenv.isLinux [ fontconfig ]
+    ++ lib.optionals stdenv.isDarwin [
+      libobjc
+      Security
+      CoreServices
+      ApplicationServices
+      Carbon
+      AppKit
+    ];
 
-  postInstall = if stdenv.isLinux then ''
-    install -Dm0644 $src/extra/images/logo.svg $out/share/icons/hicolor/scalable/apps/dev.lapce.lapce.svg
-    install -Dm0644 $src/extra/linux/dev.lapce.lapce.desktop $out/share/applications/lapce.desktop
+  postInstall =
+    if stdenv.isLinux then
+      ''
+        install -Dm0644 $src/extra/images/logo.svg $out/share/icons/hicolor/scalable/apps/dev.lapce.lapce.svg
+        install -Dm0644 $src/extra/linux/dev.lapce.lapce.desktop $out/share/applications/lapce.desktop
 
-    $STRIP -S $out/bin/lapce
+        $STRIP -S $out/bin/lapce
 
-    patchelf --add-rpath "${lib.makeLibraryPath rpathLibs}" $out/bin/lapce
-  '' else ''
-    mkdir $out/Applications
-    cp -r extra/macos/Lapce.app $out/Applications
-    ln -s $out/bin $out/Applications/Lapce.app/Contents/MacOS
-  '';
+        patchelf --add-rpath "${lib.makeLibraryPath rpathLibs}" $out/bin/lapce
+      ''
+    else
+      ''
+        mkdir $out/Applications
+        cp -r extra/macos/Lapce.app $out/Applications
+        ln -s $out/bin $out/Applications/Lapce.app/Contents/MacOS
+      '';
 
   dontPatchELF = true;
 

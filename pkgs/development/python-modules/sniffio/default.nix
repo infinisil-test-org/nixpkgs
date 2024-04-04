@@ -1,11 +1,12 @@
-{ buildPythonPackage
-, lib
-, fetchPypi
-, glibcLocales
-, isPy3k
-, pythonOlder
-, pytestCheckHook
-, curio
+{
+  buildPythonPackage,
+  lib,
+  fetchPypi,
+  glibcLocales,
+  isPy3k,
+  pythonOlder,
+  pytestCheckHook,
+  curio,
 }:
 
 buildPythonPackage rec {
@@ -20,9 +21,7 @@ buildPythonPackage rec {
 
   disabled = !isPy3k;
 
-  buildInputs = [
-    glibcLocales
-  ];
+  buildInputs = [ glibcLocales ];
 
   nativeCheckInputs = [
     curio

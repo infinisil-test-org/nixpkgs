@@ -8,5 +8,10 @@
 mkKdeDerivation {
   pname = "kweather";
 
-  extraBuildInputs = [qtsvg qtcharts qqc2-desktop-style kholidays];
+  extraBuildInputs = [
+    qtsvg
+    qtcharts
+    qqc2-desktop-style
+    kholidays
+  ];
 }

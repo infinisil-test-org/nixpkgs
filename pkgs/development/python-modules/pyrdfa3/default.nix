@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchpatch
-, fetchPypi
-, html5lib
-, pythonOlder
-, rdflib
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  fetchpatch,
+  fetchPypi,
+  html5lib,
+  pythonOlder,
+  rdflib,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -39,18 +40,14 @@ buildPythonPackage rec {
       --replace "imp," ""
   '';
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     rdflib
     html5lib
   ];
 
-  pythonImportsCheck = [
-    "pyRdfa"
-  ];
+  pythonImportsCheck = [ "pyRdfa" ];
 
   meta = with lib; {
     description = "RDFa 1.1 distiller/parser library";

@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, fetchpatch
-, google-cloud-storage
-, mock
-, pytestCheckHook
-, pythonOlder
-, smart-open
-, typer
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  fetchpatch,
+  google-cloud-storage,
+  mock,
+  pytestCheckHook,
+  pythonOlder,
+  smart-open,
+  typer,
 }:
 
 buildPythonPackage rec {
@@ -40,9 +41,7 @@ buildPythonPackage rec {
     "pathy/_tests/test_s3.py"
   ];
 
-  pythonImportsCheck = [
-    "pathy"
-  ];
+  pythonImportsCheck = [ "pathy" ];
 
   meta = with lib; {
     description = "A Path interface for local and cloud bucket storage";

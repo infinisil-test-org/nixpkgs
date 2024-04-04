@@ -1,5 +1,10 @@
-{ lib, buildPythonPackage, fetchPypi
-, requests, mock }:
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  requests,
+  mock,
+}:
 
 buildPythonPackage rec {
   pname = "PyBrowserID";
@@ -16,9 +21,8 @@ buildPythonPackage rec {
 
   meta = with lib; {
     description = "Python library for the BrowserID Protocol";
-    homepage    = "https://github.com/mozilla/PyBrowserID";
-    license     = licenses.mpl20;
+    homepage = "https://github.com/mozilla/PyBrowserID";
+    license = licenses.mpl20;
     maintainers = with maintainers; [ ];
   };
 }
-

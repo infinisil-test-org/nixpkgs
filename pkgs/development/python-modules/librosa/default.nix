@@ -1,34 +1,35 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, fetchpatch
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  fetchpatch,
 
-# build-system
-, setuptools
+  # build-system
+  setuptools,
 
-# runtime
-, audioread
-, decorator
-, joblib
-, lazy-loader
-, matplotlib
-, msgpack
-, numba
-, numpy
-, pooch
-, scikit-learn
-, scipy
-, soundfile
-, soxr
-, typing-extensions
+  # runtime
+  audioread,
+  decorator,
+  joblib,
+  lazy-loader,
+  matplotlib,
+  msgpack,
+  numba,
+  numpy,
+  pooch,
+  scikit-learn,
+  scipy,
+  soundfile,
+  soxr,
+  typing-extensions,
 
-# tests
-, ffmpeg-headless
-, packaging
-, pytest-mpl
-, pytestCheckHook
-, resampy
-, samplerate
+  # tests
+  ffmpeg-headless,
+  packaging,
+  pytest-mpl,
+  pytestCheckHook,
+  resampy,
+  samplerate,
 }:
 
 buildPythonPackage rec {
@@ -44,9 +45,7 @@ buildPythonPackage rec {
     hash = "sha256-zbmU87hI9A1CVcBZ/5FU8z0t6SS4jfJk9bj9kLe/EHI=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   patches = [
     (fetchpatch {
@@ -79,14 +78,10 @@ buildPythonPackage rec {
     typing-extensions
   ];
 
-  passthru.optional-dependencies.matplotlib = [
-    matplotlib
-  ];
+  passthru.optional-dependencies.matplotlib = [ matplotlib ];
 
   # check that import works, this allows to capture errors like https://github.com/librosa/librosa/issues/1160
-  pythonImportsCheck = [
-    "librosa"
-  ];
+  pythonImportsCheck = [ "librosa" ];
 
   nativeCheckInputs = [
     ffmpeg-headless
@@ -117,5 +112,4 @@ buildPythonPackage rec {
     license = licenses.isc;
     maintainers = with maintainers; [ GuillaumeDesforges ];
   };
-
 }

@@ -1,7 +1,8 @@
-{ lib
-, fetchFromGitHub
-, rustPlatform
-, protobuf
+{
+  lib,
+  fetchFromGitHub,
+  rustPlatform,
+  protobuf,
 }:
 
 rustPlatform.buildRustPackage rec {

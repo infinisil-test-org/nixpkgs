@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, jinja2
-, lxml
-, pygments
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  jinja2,
+  lxml,
+  pygments,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {

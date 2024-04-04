@@ -1,15 +1,16 @@
-{ bash
-, buildGoModule
-, fetchFromGitHub
-, getent
-, goss
-, lib
-, makeWrapper
-, nix-update-script
-, nixosTests
-, stdenv
-, systemd
-, testers
+{
+  bash,
+  buildGoModule,
+  fetchFromGitHub,
+  getent,
+  goss,
+  lib,
+  makeWrapper,
+  nix-update-script,
+  nixosTests,
+  stdenv,
+  systemd,
+  testers,
 }:
 
 buildGoModule rec {
@@ -29,7 +30,9 @@ buildGoModule rec {
 
   CGO_ENABLED = 0;
   ldflags = [
-    "-s" "-w" "-X main.version=v${version}"
+    "-s"
+    "-w"
+    "-X main.version=v${version}"
   ];
 
   nativeBuildInputs = [ makeWrapper ];
@@ -37,16 +40,21 @@ buildGoModule rec {
   checkFlags = [
     # Prometheus tests are skipped upstream
     # See https://github.com/goss-org/goss/blob/master/ci/go-test.sh
-    "-skip" "^TestPrometheus"
+    "-skip"
+    "^TestPrometheus"
   ];
 
-  postInstall = let
-    runtimeDependencies = [ bash getent ]
-      ++ lib.optionals stdenv.isLinux [ systemd ];
-  in ''
-    wrapProgram $out/bin/goss \
-      --prefix PATH : "${lib.makeBinPath runtimeDependencies}"
-  '';
+  postInstall =
+    let
+      runtimeDependencies = [
+        bash
+        getent
+      ] ++ lib.optionals stdenv.isLinux [ systemd ];
+    in
+    ''
+      wrapProgram $out/bin/goss \
+        --prefix PATH : "${lib.makeBinPath runtimeDependencies}"
+    '';
 
   passthru = {
     tests = {
@@ -71,7 +79,11 @@ buildGoModule rec {
     '';
     license = licenses.asl20;
     mainProgram = "goss";
-    maintainers = with maintainers; [ hyzual jk anthonyroussel ];
+    maintainers = with maintainers; [
+      hyzual
+      jk
+      anthonyroussel
+    ];
     platforms = platforms.linux ++ platforms.darwin;
   };
 }

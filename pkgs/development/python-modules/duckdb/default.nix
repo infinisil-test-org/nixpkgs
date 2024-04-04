@@ -1,32 +1,40 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, duckdb
-, fsspec
-, google-cloud-storage
-, numpy
-, openssl
-, pandas
-, psutil
-, pybind11
-, setuptools-scm
-, pytestCheckHook
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  duckdb,
+  fsspec,
+  google-cloud-storage,
+  numpy,
+  openssl,
+  pandas,
+  psutil,
+  pybind11,
+  setuptools-scm,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
-  inherit (duckdb) patches pname src version;
+  inherit (duckdb)
+    patches
+    pname
+    src
+    version
+    ;
   pyproject = true;
 
-  postPatch = (duckdb.postPatch or "") + ''
-    # we can't use sourceRoot otherwise patches don't apply, because the patches apply to the C++ library
-    cd tools/pythonpkg
+  postPatch =
+    (duckdb.postPatch or "")
+    + ''
+      # we can't use sourceRoot otherwise patches don't apply, because the patches apply to the C++ library
+      cd tools/pythonpkg
 
-    # 1. let nix control build cores
-    # 2. default to extension autoload & autoinstall disabled
-    substituteInPlace setup.py \
-      --replace-fail "ParallelCompile()" 'ParallelCompile("NIX_BUILD_CORES")' \
-      --replace-fail "define_macros.extend([('DUCKDB_EXTENSION_AUTOLOAD_DEFAULT', '1'), ('DUCKDB_EXTENSION_AUTOINSTALL_DEFAULT', '1')])" ""
-  '';
+      # 1. let nix control build cores
+      # 2. default to extension autoload & autoinstall disabled
+      substituteInPlace setup.py \
+        --replace-fail "ParallelCompile()" 'ParallelCompile("NIX_BUILD_CORES")' \
+        --replace-fail "define_macros.extend([('DUCKDB_EXTENSION_AUTOLOAD_DEFAULT', '1'), ('DUCKDB_EXTENSION_AUTOINSTALL_DEFAULT', '1')])" ""
+    '';
 
   env = {
     BUILD_HTTPFS = 1;
@@ -53,11 +61,7 @@ buildPythonPackage rec {
   ];
 
   # test flags from .github/workflows/Python.yml
-  pytestFlagsArray = [
-    "--verbose"
-  ] ++ lib.optionals stdenv.isDarwin [
-    "tests/fast"
-  ];
+  pytestFlagsArray = [ "--verbose" ] ++ lib.optionals stdenv.isDarwin [ "tests/fast" ];
 
   disabledTestPaths = [
     # avoid dependency on mypy
@@ -81,9 +85,7 @@ buildPythonPackage rec {
     rm -rf duckdb
   '';
 
-  pythonImportsCheck = [
-    "duckdb"
-  ];
+  pythonImportsCheck = [ "duckdb" ];
 
   meta = with lib; {
     description = "Python binding for DuckDB";

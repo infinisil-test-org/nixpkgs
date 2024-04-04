@@ -1,11 +1,12 @@
-{ lib
-, awacs
-, buildPythonPackage
-, cfn-flip
-, fetchFromGitHub
-, pythonOlder
-, typing-extensions
-, unittestCheckHook
+{
+  lib,
+  awacs,
+  buildPythonPackage,
+  cfn-flip,
+  fetchFromGitHub,
+  pythonOlder,
+  typing-extensions,
+  unittestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -22,11 +23,7 @@ buildPythonPackage rec {
     hash = "sha256-DxLgAEuIfO8K42DbkOaPjE+MS6/WKnybDsszuCXwufM=";
   };
 
-  propagatedBuildInputs = [
-    cfn-flip
-  ] ++ lib.optionals (pythonOlder "3.8") [
-    typing-extensions
-  ];
+  propagatedBuildInputs = [ cfn-flip ] ++ lib.optionals (pythonOlder "3.8") [ typing-extensions ];
 
   nativeCheckInputs = [
     awacs
@@ -34,14 +31,10 @@ buildPythonPackage rec {
   ];
 
   passthru.optional-dependencies = {
-    policy = [
-      awacs
-    ];
+    policy = [ awacs ];
   };
 
-  pythonImportsCheck = [
-    "troposphere"
-  ];
+  pythonImportsCheck = [ "troposphere" ];
 
   meta = with lib; {
     description = "Library to create AWS CloudFormation descriptions";

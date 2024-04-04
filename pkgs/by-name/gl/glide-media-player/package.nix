@@ -1,19 +1,20 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, rustPlatform
-, pkg-config
-, meson
-, ninja
-, rustc
-, cargo
-, wrapGAppsHook4
-, python3
-, libadwaita
-, graphene
-, gst_all_1
-, glib-networking
-, darwin
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  rustPlatform,
+  pkg-config,
+  meson,
+  ninja,
+  rustc,
+  cargo,
+  wrapGAppsHook4,
+  python3,
+  libadwaita,
+  graphene,
+  gst_all_1,
+  glib-networking,
+  darwin,
 }:
 
 stdenv.mkDerivation rec {
@@ -33,17 +34,19 @@ stdenv.mkDerivation rec {
     hash = "sha256-2Ma7ZAKFiAQXFWFze4RLwGu33d/vC6FVW6fJdqwED20=";
   };
 
-  postPatch = ''
-    substituteInPlace scripts/meson_post_install.py \
-      --replace-warn "gtk-update-icon-cache" "gtk4-update-icon-cache"
-    substituteInPlace data/net.baseart.Glide.desktop \
-      --replace-warn "Icon=net.baseart.Glide.svg" "Icon=net.baseart.Glide"
-    patchShebangs --build \
-      scripts/meson_post_install.py \
-      build-aux/cargo-build.py
-  '' + lib.optionalString stdenv.isDarwin ''
-    sed -i "/wayland,x11egl,x11glx/d" meson.build
-  '';
+  postPatch =
+    ''
+      substituteInPlace scripts/meson_post_install.py \
+        --replace-warn "gtk-update-icon-cache" "gtk4-update-icon-cache"
+      substituteInPlace data/net.baseart.Glide.desktop \
+        --replace-warn "Icon=net.baseart.Glide.svg" "Icon=net.baseart.Glide"
+      patchShebangs --build \
+        scripts/meson_post_install.py \
+        build-aux/cargo-build.py
+    ''
+    + lib.optionalString stdenv.isDarwin ''
+      sed -i "/wayland,x11egl,x11glx/d" meson.build
+    '';
 
   nativeBuildInputs = [
     pkg-config
@@ -64,9 +67,7 @@ stdenv.mkDerivation rec {
     gst_all_1.gst-plugins-bad
     gst_all_1.gst-plugins-good
     glib-networking
-  ] ++ lib.optionals stdenv.isDarwin [
-    darwin.apple_sdk_11_0.frameworks.IOKit
-  ];
+  ] ++ lib.optionals stdenv.isDarwin [ darwin.apple_sdk_11_0.frameworks.IOKit ];
 
   meta = with lib; {
     description = "Linux/macOS media player based on GStreamer and GTK";

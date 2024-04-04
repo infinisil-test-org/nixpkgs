@@ -1,14 +1,15 @@
-{ lib
-, fetchFromGitHub
-, pythonOlder
-, buildPythonPackage
-, poetry-core
-, backports-zoneinfo
-, tzdata
-, pytestCheckHook
-, pytest-mypy-plugins
-, hypothesis
-, freezegun
+{
+  lib,
+  fetchFromGitHub,
+  pythonOlder,
+  buildPythonPackage,
+  poetry-core,
+  backports-zoneinfo,
+  tzdata,
+  pytestCheckHook,
+  pytest-mypy-plugins,
+  hypothesis,
+  freezegun,
 }:
 
 buildPythonPackage rec {
@@ -31,15 +32,9 @@ buildPythonPackage rec {
       --replace-fail '--benchmark-disable' '#--benchmark-disable'
   '';
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
-  propagatedBuildInputs = [
-    tzdata
-  ] ++ lib.optionals (pythonOlder "3.9") [
-    backports-zoneinfo
-  ];
+  propagatedBuildInputs = [ tzdata ] ++ lib.optionals (pythonOlder "3.9") [ backports-zoneinfo ];
 
   pythonImportsCheck = [ "whenever" ];
 

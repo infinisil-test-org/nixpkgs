@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchFromGitHub, python3Packages }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  python3Packages,
+}:
 
 let
   # mbuild is a custom build system used only to build xed
@@ -13,8 +18,8 @@ let
       sha256 = "sha256-eOAqmoPotdXGcBmrD9prXph4XOL6noJU6GYT/ud/VXk=";
     };
   };
-
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "xed";
   version = "2022.08.11";
 
@@ -39,9 +44,9 @@ in stdenv.mkDerivation rec {
   meta = with lib; {
     broken = (stdenv.isLinux && stdenv.isAarch64);
     description = "Intel X86 Encoder Decoder (Intel XED)";
-    homepage    = "https://intelxed.github.io/";
-    license     = licenses.asl20;
-    platforms   = platforms.unix;
+    homepage = "https://intelxed.github.io/";
+    license = licenses.asl20;
+    platforms = platforms.unix;
     maintainers = with maintainers; [ arturcygan ];
   };
 }

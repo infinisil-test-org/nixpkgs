@@ -1,6 +1,14 @@
-{ lib, buildPythonPackage, python, fetchFromGitHub
-, fetchpatch
-, cmake, sip4, protobuf, pythonOlder }:
+{
+  lib,
+  buildPythonPackage,
+  python,
+  fetchFromGitHub,
+  fetchpatch,
+  cmake,
+  sip4,
+  protobuf,
+  pythonOlder,
+}:
 
 buildPythonPackage rec {
   pname = "libarcus";
@@ -38,6 +46,9 @@ buildPythonPackage rec {
     homepage = "https://github.com/Ultimaker/libArcus";
     license = licenses.lgpl3Plus;
     platforms = platforms.linux;
-    maintainers = with maintainers; [ abbradar gebner ];
+    maintainers = with maintainers; [
+      abbradar
+      gebner
+    ];
   };
 }

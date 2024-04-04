@@ -1,11 +1,12 @@
-{ lib
-, ansicolors
-, buildPythonPackage
-, fetchPypi
-, pytestCheckHook
-, pythonAtLeast
-, pythonOlder
-, textwrap3
+{
+  lib,
+  ansicolors,
+  buildPythonPackage,
+  fetchPypi,
+  pytestCheckHook,
+  pythonAtLeast,
+  pythonOlder,
+  textwrap3,
 }:
 
 buildPythonPackage rec {
@@ -33,13 +34,9 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  propagatedBuildInputs = [
-    textwrap3
-  ];
+  propagatedBuildInputs = [ textwrap3 ];
 
-  pythonImportsCheck = [
-    "ansiwrap"
-  ];
+  pythonImportsCheck = [ "ansiwrap" ];
 
   meta = with lib; {
     description = "Textwrap, but savvy to ANSI colors and styles";

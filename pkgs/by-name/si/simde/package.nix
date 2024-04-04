@@ -1,4 +1,10 @@
-{ stdenv, lib, fetchFromGitHub, meson, ninja }:
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  meson,
+  ninja,
+}:
 
 stdenv.mkDerivation rec {
   pname = "simde";
@@ -11,20 +17,26 @@ stdenv.mkDerivation rec {
     hash = "sha256-pj+zaD5o9XYkTavezcQFzM6ao0IdQP1zjP9L4vcCyEY=";
   };
 
-  nativeBuildInputs = [ meson ninja ];
+  nativeBuildInputs = [
+    meson
+    ninja
+  ];
 
   meta = with lib; {
     homepage = "https://simd-everywhere.github.io";
     description = "Implementations of SIMD instruction sets for systems which don't natively support them";
-    license = with licenses; [mit];
+    license = with licenses; [ mit ];
     maintainers = with maintainers; [ whiteley ];
-    platforms = flatten (with platforms; [
-      arm
-      armv7
-      aarch64
-      x86
-      power
-      mips
-    ]);
+    platforms = flatten (
+      with platforms;
+      [
+        arm
+        armv7
+        aarch64
+        x86
+        power
+        mips
+      ]
+    );
   };
 }

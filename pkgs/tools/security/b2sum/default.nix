@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchFromGitHub, openmp ? null }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  openmp ? null,
+}:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "b2sum";
@@ -33,7 +38,11 @@ stdenv.mkDerivation (finalAttrs: {
   meta = with lib; {
     description = "The b2sum utility is similar to the md5sum or shasum utilities but for BLAKE2";
     homepage = "https://blake2.net";
-    license = with licenses; [ asl20 cc0 openssl ];
+    license = with licenses; [
+      asl20
+      cc0
+      openssl
+    ];
     maintainers = with maintainers; [ kirelagin ];
     platforms = platforms.unix;
   };

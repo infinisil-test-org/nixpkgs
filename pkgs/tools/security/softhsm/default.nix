@@ -1,4 +1,11 @@
-{ lib, stdenv, fetchurl, botan2, libobjc, Security }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  botan2,
+  libobjc,
+  Security,
+}:
 
 stdenv.mkDerivation rec {
 
@@ -15,10 +22,12 @@ stdenv.mkDerivation rec {
     "--with-botan=${lib.getDev botan2}"
     "--sysconfdir=$out/etc"
     "--localstatedir=$out/var"
-    ];
+  ];
 
-  propagatedBuildInputs =
-    lib.optionals stdenv.isDarwin [ libobjc Security ];
+  propagatedBuildInputs = lib.optionals stdenv.isDarwin [
+    libobjc
+    Security
+  ];
 
   buildInputs = [ botan2 ];
 

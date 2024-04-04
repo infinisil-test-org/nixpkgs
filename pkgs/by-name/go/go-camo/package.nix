@@ -1,4 +1,8 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+}:
 
 buildGoModule rec {
   pname = "go-camo";
@@ -13,7 +17,11 @@ buildGoModule rec {
 
   vendorHash = "sha256-BGQ+2i3HQCKOSUTl2+xaQqQQE7MCtmJ1IHL2ZRz5whk=";
 
-  ldflags = [ "-s" "-w" "-X=main.ServerVersion=${version}" ];
+  ldflags = [
+    "-s"
+    "-w"
+    "-X=main.ServerVersion=${version}"
+  ];
 
   preCheck = ''
     # requires network access

@@ -1,16 +1,17 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, nose
-, numba
-, numpy
-, pytestCheckHook
-, pythonOlder
-, torchvision
-, scikit-learn
-, scipy
-, setuptools
-, tqdm
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  nose,
+  numba,
+  numpy,
+  pytestCheckHook,
+  pythonOlder,
+  torchvision,
+  scikit-learn,
+  scipy,
+  setuptools,
+  tqdm,
 }:
 
 buildPythonPackage rec {
@@ -31,9 +32,7 @@ buildPythonPackage rec {
     sed -i '/"nose"/d' setup.py
   '';
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     numba
@@ -49,9 +48,7 @@ buildPythonPackage rec {
     scikit-learn
   ];
 
-  pythonImportsCheck = [
-    "apricot"
-  ];
+  pythonImportsCheck = [ "apricot" ];
 
   disabledTestPaths = [
     # Tests require nose

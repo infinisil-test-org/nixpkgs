@@ -68,9 +68,9 @@ let
         [ "$(LD_LIBRARY_PATH=${libgoodbye}/lib greeting-test)" = "Goodbye, world!" ]
       )
     '';
-
   };
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   name = "test-LD_LIBRARY_PATH";
   nativeBuildInputs = [ testProgram ];
 

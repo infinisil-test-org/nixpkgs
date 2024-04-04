@@ -1,17 +1,18 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, rustPlatform
-, darwin
-, pandoc
-, installShellFiles
-, copyDesktopItems
-, makeDesktopItem
-, nix-update-script
-, testers
-, writeText
-, runCommand
-, fend
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  rustPlatform,
+  darwin,
+  pandoc,
+  installShellFiles,
+  copyDesktopItems,
+  makeDesktopItem,
+  nix-update-script,
+  testers,
+  writeText,
+  runCommand,
+  fend,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -27,7 +28,11 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-UIZs45OQ1j57VEb6g4P0AwjmEsjMt0am5FUXXDODaWI=";
 
-  nativeBuildInputs = [ pandoc installShellFiles copyDesktopItems ];
+  nativeBuildInputs = [
+    pandoc
+    installShellFiles
+    copyDesktopItems
+  ];
   buildInputs = lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.Security ];
 
   postBuild = ''
@@ -58,7 +63,11 @@ rustPlatform.buildRustPackage rec {
       icon = "fend";
       exec = "fend";
       terminal = true;
-      categories = [ "Utility" "Calculator" "ConsoleOnly" ];
+      categories = [
+        "Utility"
+        "Calculator"
+        "ConsoleOnly"
+      ];
     })
   ];
 
@@ -83,7 +92,10 @@ rustPlatform.buildRustPackage rec {
     homepage = "https://github.com/printfn/fend";
     changelog = "https://github.com/printfn/fend/releases/tag/v${version}";
     license = licenses.gpl3Plus;
-    maintainers = with maintainers; [ djanatyn liff ];
+    maintainers = with maintainers; [
+      djanatyn
+      liff
+    ];
     mainProgram = "fend";
   };
 }

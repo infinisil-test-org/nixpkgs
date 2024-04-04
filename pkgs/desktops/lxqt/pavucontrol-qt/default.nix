@@ -1,13 +1,14 @@
-{ lib
-, mkDerivation
-, fetchFromGitHub
-, cmake
-, pkg-config
-, lxqt-build-tools
-, libpulseaudio
-, qtbase
-, qttools
-, gitUpdater
+{
+  lib,
+  mkDerivation,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  lxqt-build-tools,
+  libpulseaudio,
+  qtbase,
+  qttools,
+  gitUpdater,
 }:
 
 mkDerivation rec {

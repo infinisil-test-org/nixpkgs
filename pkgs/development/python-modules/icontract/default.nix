@@ -1,15 +1,16 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, astor
-, asttokens
-, asyncstdlib
-, deal
-, dpcontracts
-, numpy
-, pytestCheckHook
-, typing-extensions
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  astor,
+  asttokens,
+  asyncstdlib,
+  deal,
+  dpcontracts,
+  numpy,
+  pytestCheckHook,
+  typing-extensions,
 }:
 
 buildPythonPackage rec {
@@ -56,7 +57,8 @@ buildPythonPackage rec {
 
   pytestFlagsArray = [
     # RuntimeWarning: coroutine '*' was never awaited
-    "-W" "ignore::RuntimeWarning"
+    "-W"
+    "ignore::RuntimeWarning"
   ];
 
   pythonImportsCheck = [ "icontract" ];
@@ -66,6 +68,9 @@ buildPythonPackage rec {
     homepage = "https://github.com/Parquery/icontract";
     changelog = "https://github.com/Parquery/icontract/blob/v${version}/CHANGELOG.rst";
     license = licenses.mit;
-    maintainers = with maintainers; [ gador thiagokokada ];
+    maintainers = with maintainers; [
+      gador
+      thiagokokada
+    ];
   };
 }

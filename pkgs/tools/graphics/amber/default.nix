@@ -1,13 +1,15 @@
-{ lib, stdenv
-, fetchFromGitHub
-, cmake
-, pkg-config
-, cctools
-, makeWrapper
-, python3
-, vulkan-headers
-, vulkan-loader
-, vulkan-validation-layers
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  cctools,
+  makeWrapper,
+  python3,
+  vulkan-headers,
+  vulkan-loader,
+  vulkan-validation-layers,
 }:
 let
   glslang = fetchFromGitHub {
@@ -44,7 +46,6 @@ let
     rev = "d87f61605b3647fbceae9aaa922fce0031afdc63";
     hash = "sha256-lB2i6wjehIFDOQdIPUvCy3zzcnJSsR5vNawPhGmb0es=";
   };
-
 in
 stdenv.mkDerivation rec {
   pname = "amber";
@@ -67,12 +68,13 @@ stdenv.mkDerivation rec {
     makeWrapper
     pkg-config
     python3
-  ] ++ lib.optionals stdenv.isDarwin [
-    cctools
-  ];
+  ] ++ lib.optionals stdenv.isDarwin [ cctools ];
 
   # Tests are disabled so we do not have to pull in googletest and more dependencies
-  cmakeFlags = [ "-DAMBER_SKIP_TESTS=ON" "-DAMBER_DISABLE_WERROR=ON" ];
+  cmakeFlags = [
+    "-DAMBER_SKIP_TESTS=ON"
+    "-DAMBER_DISABLE_WERROR=ON"
+  ];
 
   prePatch = ''
     cp -r ${glslang}/ third_party/glslang

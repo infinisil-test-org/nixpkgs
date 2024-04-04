@@ -1,16 +1,27 @@
-{ lib, stdenv, llvm_meta
-, monorepoSrc, runCommand, fetchpatch
-, cmake, ninja, python3, fixDarwinDylibNames, version
-, cxxabi ? if stdenv.hostPlatform.isFreeBSD then libcxxrt else libcxxabi
-, libcxxabi, libcxxrt, libunwind
-, enableShared ? !stdenv.hostPlatform.isStatic
+{
+  lib,
+  stdenv,
+  llvm_meta,
+  monorepoSrc,
+  runCommand,
+  fetchpatch,
+  cmake,
+  ninja,
+  python3,
+  fixDarwinDylibNames,
+  version,
+  cxxabi ? if stdenv.hostPlatform.isFreeBSD then libcxxrt else libcxxabi,
+  libcxxabi,
+  libcxxrt,
+  libunwind,
+  enableShared ? !stdenv.hostPlatform.isStatic,
 
-# If headersOnly is true, the resulting package would only include the headers.
-# Use this to break the circular dependency between libcxx and libcxxabi.
-#
-# Some context:
-# https://reviews.llvm.org/rG1687f2bbe2e2aaa092f942d4a97d41fad43eedfb
-, headersOnly ? false
+  # If headersOnly is true, the resulting package would only include the headers.
+  # Use this to break the circular dependency between libcxx and libcxxabi.
+  #
+  # Some context:
+  # https://reviews.llvm.org/rG1687f2bbe2e2aaa092f942d4a97d41fad43eedfb
+  headersOnly ? false,
 }:
 
 let
@@ -23,7 +34,7 @@ stdenv.mkDerivation rec {
   pname = basename + lib.optionalString headersOnly "-headers";
   inherit version;
 
-  src = runCommand "${pname}-src-${version}" {} ''
+  src = runCommand "${pname}-src-${version}" { } ''
     mkdir -p "$out"
     cp -r ${monorepoSrc}/cmake "$out"
     cp -r ${monorepoSrc}/${basename} "$out"
@@ -65,24 +76,38 @@ stdenv.mkDerivation rec {
     patchShebangs utils/cat_files.py
   '';
 
-  nativeBuildInputs = [ cmake ninja python3 ]
-    ++ lib.optional stdenv.isDarwin fixDarwinDylibNames;
+  nativeBuildInputs = [
+    cmake
+    ninja
+    python3
+  ] ++ lib.optional stdenv.isDarwin fixDarwinDylibNames;
 
   buildInputs =
     lib.optionals (!headersOnly) [ cxxabi ]
-    ++ lib.optionals (stdenv.hostPlatform.useLLVM or false && !stdenv.hostPlatform.isWasm) [ libunwind ];
+    ++ lib.optionals (stdenv.hostPlatform.useLLVM or false && !stdenv.hostPlatform.isWasm) [
+      libunwind
+    ];
 
-  cmakeFlags = let
-    # See: https://libcxx.llvm.org/BuildingLibcxx.html#cmdoption-arg-libcxx-cxx-abi-string
-    libcxx_cxx_abi_opt = {
-      "c++abi" = "system-libcxxabi";
-      "cxxrt" = "libcxxrt";
-    }.${cxxabi.libName} or (throw "unknown cxxabi: ${cxxabi.libName} (${cxxabi.pname})");
-  in [
-    "-DLLVM_ENABLE_RUNTIMES=libcxx"
-    "-DLIBCXX_CXX_ABI=${if headersOnly then "none" else libcxx_cxx_abi_opt}"
-  ] ++ lib.optional (!headersOnly && cxxabi.libName == "c++abi") "-DLIBCXX_CXX_ABI_INCLUDE_PATHS=${cxxabi.dev}/include/c++/v1"
-    ++ lib.optional (stdenv.hostPlatform.isMusl || stdenv.hostPlatform.isWasi) "-DLIBCXX_HAS_MUSL_LIBC=1"
+  cmakeFlags =
+    let
+      # See: https://libcxx.llvm.org/BuildingLibcxx.html#cmdoption-arg-libcxx-cxx-abi-string
+      libcxx_cxx_abi_opt =
+        {
+          "c++abi" = "system-libcxxabi";
+          "cxxrt" = "libcxxrt";
+        }
+        .${cxxabi.libName} or (throw "unknown cxxabi: ${cxxabi.libName} (${cxxabi.pname})");
+    in
+    [
+      "-DLLVM_ENABLE_RUNTIMES=libcxx"
+      "-DLIBCXX_CXX_ABI=${if headersOnly then "none" else libcxx_cxx_abi_opt}"
+    ]
+    ++ lib.optional (
+      !headersOnly && cxxabi.libName == "c++abi"
+    ) "-DLIBCXX_CXX_ABI_INCLUDE_PATHS=${cxxabi.dev}/include/c++/v1"
+    ++ lib.optional (
+      stdenv.hostPlatform.isMusl || stdenv.hostPlatform.isWasi
+    ) "-DLIBCXX_HAS_MUSL_LIBC=1"
     ++ lib.optionals (stdenv.hostPlatform.useLLVM or false) [
       "-DLIBCXX_USE_COMPILER_RT=ON"
       # There's precedent for this in llvm-project/libcxx/cmake/caches.
@@ -91,12 +116,14 @@ stdenv.mkDerivation rec {
       #   -DLIBCXXABI_STATICALLY_LINK_UNWINDER_IN_STATIC_LIBRARY=On
       # libcxx appears to require unwind and doesn't pull it in via other means.
       "-DLIBCXX_ADDITIONAL_LIBRARIES=unwind"
-    ] ++ lib.optionals stdenv.hostPlatform.isWasm [
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isWasm [
       "-DLIBCXX_ENABLE_THREADS=OFF"
       "-DLIBCXX_ENABLE_FILESYSTEM=OFF"
       "-DLIBCXX_ENABLE_EXCEPTIONS=OFF"
       "-DUNIX=ON" # Required otherwise libc++ fails to detect the correct linker
-    ] ++ lib.optional (!enableShared) "-DLIBCXX_ENABLE_SHARED=OFF"
+    ]
+    ++ lib.optional (!enableShared) "-DLIBCXX_ENABLE_SHARED=OFF"
     # If we're only building the headers we don't actually *need* a functioning
     # C/C++ compiler:
     ++ lib.optionals (headersOnly) [
@@ -121,6 +148,9 @@ stdenv.mkDerivation rec {
     '';
     # "All of the code in libc++ is dual licensed under the MIT license and the
     # UIUC License (a BSD-like license)":
-    license = with lib.licenses; [ mit ncsa ];
+    license = with lib.licenses; [
+      mit
+      ncsa
+    ];
   };
 }

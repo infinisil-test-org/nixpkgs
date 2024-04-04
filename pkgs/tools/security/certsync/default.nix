@@ -1,6 +1,7 @@
-{ lib
-, python3
-, fetchFromGitHub
+{
+  lib,
+  python3,
+  fetchFromGitHub,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -15,18 +16,14 @@ python3.pkgs.buildPythonApplication rec {
     hash = "sha256-7Pzss83jf3zKmgQZki18R47OWn5VniZZ/d4N8JgZs+0=";
   };
 
-  nativeBuildInputs = with python3.pkgs; [
-    poetry-core
-  ];
+  nativeBuildInputs = with python3.pkgs; [ poetry-core ];
 
   propagatedBuildInputs = with python3.pkgs; [
     certipy-ad
     tqdm
   ];
 
-  pythonImportsCheck = [
-    "certsync"
-  ];
+  pythonImportsCheck = [ "certsync" ];
 
   meta = with lib; {
     description = "Dump NTDS with golden certificates and UnPAC the hash";

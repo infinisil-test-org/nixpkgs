@@ -1,9 +1,10 @@
-{ stdenv
-, lib
-, fetchFromGitLab
-, fetchpatch
-, nasm
-, enableShared ? !stdenv.hostPlatform.isStatic
+{
+  stdenv,
+  lib,
+  fetchFromGitLab,
+  fetchpatch,
+  nasm,
+  enableShared ? !stdenv.hostPlatform.isStatic,
 }:
 
 stdenv.mkDerivation rec {
@@ -30,28 +31,38 @@ stdenv.mkDerivation rec {
     })
   ];
 
-  postPatch = ''
-    patchShebangs .
-  ''
-  # Darwin uses `llvm-strip`, which results in a crash at runtime in assembly-based routines when `-x` is specified.
-  + lib.optionalString stdenv.isDarwin ''
-    substituteInPlace Makefile --replace '$(if $(STRIP), $(STRIP) -x $@)' '$(if $(STRIP), $(STRIP) -S $@)'
-  '';
+  postPatch =
+    ''
+      patchShebangs .
+    ''
+    # Darwin uses `llvm-strip`, which results in a crash at runtime in assembly-based routines when `-x` is specified.
+    + lib.optionalString stdenv.isDarwin ''
+      substituteInPlace Makefile --replace '$(if $(STRIP), $(STRIP) -x $@)' '$(if $(STRIP), $(STRIP) -S $@)'
+    '';
 
   enableParallelBuilding = true;
 
-  outputs = [ "out" "lib" "dev" ];
+  outputs = [
+    "out"
+    "lib"
+    "dev"
+  ];
 
-  preConfigure = lib.optionalString stdenv.hostPlatform.isx86 ''
-    # `AS' is set to the binutils assembler, but we need nasm
-    unset AS
-  '' + lib.optionalString stdenv.hostPlatform.isAarch ''
-    export AS=$CC
-  '';
+  preConfigure =
+    lib.optionalString stdenv.hostPlatform.isx86 ''
+      # `AS' is set to the binutils assembler, but we need nasm
+      unset AS
+    ''
+    + lib.optionalString stdenv.hostPlatform.isAarch ''
+      export AS=$CC
+    '';
 
-  configureFlags = lib.optional enableShared "--enable-shared"
+  configureFlags =
+    lib.optional enableShared "--enable-shared"
     ++ lib.optional (!stdenv.isi686) "--enable-pic"
-    ++ lib.optional (stdenv.buildPlatform != stdenv.hostPlatform) "--cross-prefix=${stdenv.cc.targetPrefix}";
+    ++ lib.optional (
+      stdenv.buildPlatform != stdenv.hostPlatform
+    ) "--cross-prefix=${stdenv.cc.targetPrefix}";
 
   nativeBuildInputs = lib.optional stdenv.hostPlatform.isx86 nasm;
 

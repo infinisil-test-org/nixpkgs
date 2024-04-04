@@ -1,8 +1,9 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, cryptsetup
-, pkg-config
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  cryptsetup,
+  pkg-config,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -16,7 +17,10 @@ rustPlatform.buildRustPackage rec {
     sha256 = "sha256-bXwaFiRHURvS5KtTqIj+3GlGNbEulDgMDP51ZiO1w9o=";
   };
 
-  nativeBuildInputs = [ pkg-config rustPlatform.bindgenHook ];
+  nativeBuildInputs = [
+    pkg-config
+    rustPlatform.bindgenHook
+  ];
 
   buildInputs = [ cryptsetup ];
 
@@ -26,7 +30,10 @@ rustPlatform.buildRustPackage rec {
     description = "Decrypt your LUKS partition using a FIDO2 compatible authenticator";
     homepage = "https://github.com/shimunn/fido2luks";
     license = licenses.mpl20;
-    maintainers = with maintainers; [ prusnak mmahut ];
+    maintainers = with maintainers; [
+      prusnak
+      mmahut
+    ];
     platforms = platforms.linux;
   };
 }

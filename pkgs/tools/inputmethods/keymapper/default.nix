@@ -1,13 +1,14 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, dbus
-, libX11
-, libusb1
-, pkg-config
-, udev
-, wayland
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  dbus,
+  libX11,
+  libusb1,
+  pkg-config,
+  udev,
+  wayland,
 }:
 
 stdenv.mkDerivation (finalAttrs: {

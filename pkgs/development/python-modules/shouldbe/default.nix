@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, pythonAtLeast
-, fetchPypi
-, nose
-, forbiddenfruit
+{
+  lib,
+  buildPythonPackage,
+  pythonAtLeast,
+  fetchPypi,
+  nose,
+  forbiddenfruit,
 }:
 
 buildPythonPackage rec {
@@ -23,8 +24,7 @@ buildPythonPackage rec {
 
   meta = with lib; {
     description = "Python Assertion Helpers inspired by Shouldly";
-    homepage =  "https://pypi.python.org/pypi/shouldbe/";
+    homepage = "https://pypi.python.org/pypi/shouldbe/";
     license = licenses.mit;
   };
-
 }

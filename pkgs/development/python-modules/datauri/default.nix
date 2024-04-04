@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, setuptools
-, pydantic
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  setuptools,
+  pydantic,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -18,13 +19,9 @@ buildPythonPackage rec {
     hash = "sha256-k4tlWRasGa2oQykCD9QJl65UAoZQMJVdyCfqlUBBgqY=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  pythonImportsCheck = [
-    "datauri"
-  ];
+  pythonImportsCheck = [ "datauri" ];
 
   nativeCheckInputs = [
     pydantic

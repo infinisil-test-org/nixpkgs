@@ -1,11 +1,14 @@
-{ lib, stdenv, llvm_meta
-, buildLlvmTools
-, fetch
-, libunwind
-, cmake
-, libxml2
-, libllvm
-, version
+{
+  lib,
+  stdenv,
+  llvm_meta,
+  buildLlvmTools,
+  fetch,
+  libunwind,
+  cmake,
+  libxml2,
+  libllvm,
+  version,
 }:
 
 stdenv.mkDerivation rec {
@@ -14,9 +17,7 @@ stdenv.mkDerivation rec {
 
   src = fetch pname "0qg3fgc7wj34hdkqn21y03zcmsdd01szhhm1hfki63iifrm3y2v9";
 
-  patches = [
-    ./gnu-install-dirs.patch
-  ];
+  patches = [ ./gnu-install-dirs.patch ];
 
   postPatch = ''
     substituteInPlace MachO/CMakeLists.txt --replace \
@@ -26,18 +27,29 @@ stdenv.mkDerivation rec {
   '';
 
   nativeBuildInputs = [ cmake ];
-  buildInputs = [ libllvm libxml2 ];
-
-  cmakeFlags = [
-    "-DLLVM_CONFIG_PATH=${libllvm.dev}/bin/llvm-config${lib.optionalString (stdenv.hostPlatform != stdenv.buildPlatform) "-native"}"
-  ] ++ lib.optionals (stdenv.hostPlatform != stdenv.buildPlatform) [
-    "-DLLVM_TABLEGEN_EXE=${buildLlvmTools.llvm}/bin/llvm-tblgen"
+  buildInputs = [
+    libllvm
+    libxml2
   ];
+
+  cmakeFlags =
+    [
+      "-DLLVM_CONFIG_PATH=${libllvm.dev}/bin/llvm-config${
+        lib.optionalString (stdenv.hostPlatform != stdenv.buildPlatform) "-native"
+      }"
+    ]
+    ++ lib.optionals (stdenv.hostPlatform != stdenv.buildPlatform) [
+      "-DLLVM_TABLEGEN_EXE=${buildLlvmTools.llvm}/bin/llvm-tblgen"
+    ];
 
   # Musl's default stack size is too small for lld to be able to link Firefox.
   LDFLAGS = lib.optionalString stdenv.hostPlatform.isMusl "-Wl,-z,stack-size=2097152";
 
-  outputs = [ "out" "lib" "dev" ];
+  outputs = [
+    "out"
+    "lib"
+    "dev"
+  ];
 
   meta = llvm_meta // {
     homepage = "https://lld.llvm.org/";

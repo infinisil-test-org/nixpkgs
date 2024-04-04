@@ -1,9 +1,10 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, Carbon
-, Cocoa
-, testers
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  Carbon,
+  Cocoa,
+  testers,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -22,9 +23,7 @@ stdenv.mkDerivation (finalAttrs: {
     Cocoa
   ];
 
-  makeFlags = [
-    "BUILD_PATH=$(out)/bin"
-  ];
+  makeFlags = [ "BUILD_PATH=$(out)/bin" ];
 
   env.NIX_CFLAGS_COMPILE = "-Wno-error=implicit-function-declaration";
 
@@ -44,7 +43,12 @@ stdenv.mkDerivation (finalAttrs: {
     homepage = "https://github.com/koekeishiya/skhd";
     license = lib.licenses.mit;
     mainProgram = "skhd";
-    maintainers = with lib.maintainers; [ cmacrae lnl7 periklis khaneliman ];
+    maintainers = with lib.maintainers; [
+      cmacrae
+      lnl7
+      periklis
+      khaneliman
+    ];
     platforms = lib.platforms.darwin;
   };
 })

@@ -1,15 +1,16 @@
-{ buildPythonPackage
-, fetchFromGitHub
-, lib
-, pythonOlder
-, h2
-, multidict
-, pytestCheckHook
-, pytest-asyncio
-, async-timeout
-, faker
-, googleapis-common-protos
-, certifi
+{
+  buildPythonPackage,
+  fetchFromGitHub,
+  lib,
+  pythonOlder,
+  h2,
+  multidict,
+  pytestCheckHook,
+  pytest-asyncio,
+  async-timeout,
+  faker,
+  googleapis-common-protos,
+  certifi,
 }:
 let
   pname = "grpclib";

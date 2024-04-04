@@ -19,40 +19,40 @@ let
       };
 
       nodes = {
-        keycloak = { config, ... }: {
-          security.pki.certificateFiles = [
-            certs.ca.cert
-          ];
+        keycloak =
+          { config, ... }:
+          {
+            security.pki.certificateFiles = [ certs.ca.cert ];
 
-          networking.extraHosts = ''
-            127.0.0.1 ${certs.domain}
-          '';
+            networking.extraHosts = ''
+              127.0.0.1 ${certs.domain}
+            '';
 
-          services.keycloak = {
-            enable = true;
-            settings = {
-              hostname = certs.domain;
+            services.keycloak = {
+              enable = true;
+              settings = {
+                hostname = certs.domain;
+              };
+              inherit initialAdminPassword;
+              sslCertificate = "${certs.${certs.domain}.cert}";
+              sslCertificateKey = "${certs.${certs.domain}.key}";
+              database = {
+                type = databaseType;
+                username = "bogus";
+                name = "also bogus";
+                passwordFile = "${pkgs.writeText "dbPassword" ''wzf6\"vO"Cb\nP>p#6;c&o?eu=q'THE'''H''''E''}";
+              };
+              plugins = with config.services.keycloak.package.plugins; [
+                keycloak-discord
+                keycloak-metrics-spi
+              ];
             };
-            inherit initialAdminPassword;
-            sslCertificate = "${certs.${certs.domain}.cert}";
-            sslCertificateKey = "${certs.${certs.domain}.key}";
-            database = {
-              type = databaseType;
-              username = "bogus";
-              name = "also bogus";
-              passwordFile = "${pkgs.writeText "dbPassword" ''wzf6\"vO"Cb\nP>p#6;c&o?eu=q'THE'''H''''E''}";
-            };
-            plugins = with config.services.keycloak.package.plugins; [
-              keycloak-discord
-              keycloak-metrics-spi
+            environment.systemPackages = with pkgs; [
+              xmlstarlet
+              html-tidy
+              jq
             ];
           };
-          environment.systemPackages = with pkgs; [
-            xmlstarlet
-            html-tidy
-            jq
-          ];
-        };
       };
 
       testScript =
@@ -76,16 +76,21 @@ let
             enabled = true;
             realm = "test-realm";
             clients = [ client ];
-            users = [(
-              user // {
-                enabled = true;
-                credentials = [{
-                  type = "password";
-                  temporary = false;
-                  value = password;
-                }];
-              }
-            )];
+            users = [
+              (
+                user
+                // {
+                  enabled = true;
+                  credentials = [
+                    {
+                      type = "password";
+                      temporary = false;
+                      value = password;
+                    }
+                  ];
+                }
+              )
+            ];
           };
 
           realmDataJson = pkgs.writeText "realm-data.json" (builtins.toJSON realm);
@@ -102,7 +107,8 @@ let
               empty
             end
           '';
-        in ''
+        in
+        ''
           keycloak.start()
           keycloak.wait_for_unit("keycloak.service")
           keycloak.wait_for_open_port(443)

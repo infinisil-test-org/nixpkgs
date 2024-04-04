@@ -1,5 +1,10 @@
-{lib, buildPythonPackage, fetchPypi
-, libgeoip, nose}:
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  libgeoip,
+  nose,
+}:
 
 buildPythonPackage rec {
   pname = "geoip";
@@ -7,9 +12,7 @@ buildPythonPackage rec {
   format = "setuptools";
 
   nativeCheckInputs = [ nose ];
-  propagatedBuildInputs = [
-    libgeoip
-  ];
+  propagatedBuildInputs = [ libgeoip ];
 
   src = fetchPypi {
     pname = "GeoIP";

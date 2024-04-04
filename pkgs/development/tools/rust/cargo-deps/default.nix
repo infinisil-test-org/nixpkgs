@@ -1,4 +1,8 @@
-{ lib, fetchCrate, rustPlatform }:
+{
+  lib,
+  fetchCrate,
+  rustPlatform,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "cargo-deps";
@@ -15,6 +19,9 @@ rustPlatform.buildRustPackage rec {
     description = "Cargo subcommand for building dependency graphs of Rust projects";
     homepage = "https://github.com/m-cat/cargo-deps";
     license = licenses.mit;
-    maintainers = with maintainers; [ arcnmx matthiasbeyer ];
+    maintainers = with maintainers; [
+      arcnmx
+      matthiasbeyer
+    ];
   };
 }

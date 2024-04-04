@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, backports-zoneinfo
-, python-dateutil
-, pytz
-, hypothesis
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  backports-zoneinfo,
+  python-dateutil,
+  pytz,
+  hypothesis,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -24,9 +25,7 @@ buildPythonPackage rec {
   propagatedBuildInputs = [
     python-dateutil
     pytz
-  ] ++ lib.optionals (pythonOlder "3.9") [
-    backports-zoneinfo
-  ];
+  ] ++ lib.optionals (pythonOlder "3.9") [ backports-zoneinfo ];
 
   nativeCheckInputs = [
     hypothesis
@@ -42,5 +41,4 @@ buildPythonPackage rec {
     license = licenses.bsd2;
     maintainers = with maintainers; [ olcai ];
   };
-
 }

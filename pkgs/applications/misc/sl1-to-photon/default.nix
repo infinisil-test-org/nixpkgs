@@ -1,16 +1,17 @@
-{ lib
-, buildPythonApplication
-, fetchFromGitHub
-, pillow
-, pyside2
-, numpy
-, pyphotonfile
-, shiboken2
+{
+  lib,
+  buildPythonApplication,
+  fetchFromGitHub,
+  pillow,
+  pyside2,
+  numpy,
+  pyphotonfile,
+  shiboken2,
 }:
 let
   version = "0.1.3";
 in
- buildPythonApplication rec {
+buildPythonApplication rec {
   pname = "sl1-to-photon";
   inherit version;
 
@@ -21,7 +22,13 @@ in
     sha256 = "1hmb74rcky3nax4lxn7pw6lcd5a66fdbwrm11c84zb31xb51bakw";
   };
 
-  propagatedBuildInputs = [ pyphotonfile pillow numpy pyside2 shiboken2 ];
+  propagatedBuildInputs = [
+    pyphotonfile
+    pillow
+    numpy
+    pyside2
+    shiboken2
+  ];
 
   format = "other";
 
@@ -36,5 +43,4 @@ in
     description = "Tool for converting Slic3r PE's SL1 files to Photon files for the Anycubic Photon 3D-Printer";
     homepage = "https://github.com/fookatchu/SL1toPhoton";
   };
-
 }

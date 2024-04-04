@@ -1,58 +1,55 @@
-{ lib
-, callPackage
-, fetchFromGitHub
-, fetchpatch
-, makeWrapper
-, mkDerivation
-, substituteAll
-, wrapGAppsHook
+{
+  lib,
+  callPackage,
+  fetchFromGitHub,
+  fetchpatch,
+  makeWrapper,
+  mkDerivation,
+  substituteAll,
+  wrapGAppsHook,
 
-, withGrass ? true
-, withWebKit ? false
+  withGrass ? true,
+  withWebKit ? false,
 
-, bison
-, cmake
-, exiv2
-, fcgi
-, flex
-, geos
-, grass
-, gsl
-, hdf5
-, libspatialindex
-, libspatialite
-, libzip
-, netcdf
-, ninja
-, openssl
-# , pdal
-, postgresql
-, proj
-, protobuf
-, python3
-, qca-qt5
-, qscintilla
-, qt3d
-, qtbase
-, qtkeychain
-, qtlocation
-, qtsensors
-, qtserialport
-, qtwebkit
-, qtxmlpatterns
-, qwt
-, sqlite
-, txt2tags
-, zstd
+  bison,
+  cmake,
+  exiv2,
+  fcgi,
+  flex,
+  geos,
+  grass,
+  gsl,
+  hdf5,
+  libspatialindex,
+  libspatialite,
+  libzip,
+  netcdf,
+  ninja,
+  openssl,
+  # , pdal
+  postgresql,
+  proj,
+  protobuf,
+  python3,
+  qca-qt5,
+  qscintilla,
+  qt3d,
+  qtbase,
+  qtkeychain,
+  qtlocation,
+  qtsensors,
+  qtserialport,
+  qtwebkit,
+  qtxmlpatterns,
+  qwt,
+  sqlite,
+  txt2tags,
+  zstd,
 }:
 
 let
   py = python3.override {
-    packageOverrides = self: super: {
-      pyqt5 = super.pyqt5.override {
-        withLocation = true;
-      };
-    };
+    packageOverrides = self: super: { pyqt5 = super.pyqt5.override { withLocation = true; }; };
   };
 
   pythonBuildInputs = with py.pkgs; [
@@ -75,7 +72,8 @@ let
     six
     urllib3
   ];
-in mkDerivation rec {
+in
+mkDerivation rec {
   version = "3.28.15";
   pname = "qgis-ltr-unwrapped";
 
@@ -129,9 +127,7 @@ in mkDerivation rec {
     qt3d
     # pdal
     zstd
-  ] ++ lib.optional withGrass grass
-    ++ lib.optional withWebKit qtwebkit
-    ++ pythonBuildInputs;
+  ] ++ lib.optional withGrass grass ++ lib.optional withWebKit qtwebkit ++ pythonBuildInputs;
 
   patches = [
     (substituteAll {
@@ -148,15 +144,19 @@ in mkDerivation rec {
 
   # PDAL is disabled until https://github.com/qgis/QGIS/pull/54940
   # is backported.
-  cmakeFlags = [
-    "-DWITH_3D=True"
-    "-DWITH_PDAL=False"  # TODO: re-enable PDAL
-    "-DENABLE_TESTS=False"
-  ] ++ lib.optional (!withWebKit) "-DWITH_QTWEBKIT=OFF"
-    ++ lib.optional withGrass (let
+  cmakeFlags =
+    [
+      "-DWITH_3D=True"
+      "-DWITH_PDAL=False" # TODO: re-enable PDAL
+      "-DENABLE_TESTS=False"
+    ]
+    ++ lib.optional (!withWebKit) "-DWITH_QTWEBKIT=OFF"
+    ++ lib.optional withGrass (
+      let
         gmajor = lib.versions.major grass.version;
         gminor = lib.versions.minor grass.version;
-      in "-DGRASS_PREFIX${gmajor}=${grass}/grass${gmajor}${gminor}"
+      in
+      "-DGRASS_PREFIX${gmajor}=${grass}/grass${gmajor}${gminor}"
     );
 
   dontWrapGApps = true; # wrapper params passed below

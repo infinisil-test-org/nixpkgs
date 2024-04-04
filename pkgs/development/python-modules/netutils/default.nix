@@ -1,15 +1,16 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchFromGitHub
-, jinja2
-, jsonschema
-, napalm
-, poetry-core
-, pytestCheckHook
-, pythonOlder
-, pyyaml
-, toml
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchFromGitHub,
+  jinja2,
+  jsonschema,
+  napalm,
+  poetry-core,
+  pytestCheckHook,
+  pythonOlder,
+  pyyaml,
+  toml,
 }:
 
 buildPythonPackage rec {
@@ -26,13 +27,9 @@ buildPythonPackage rec {
     hash = "sha256-B2epTqG0PzcD876Bk222nDSorHHB8Znepp+cgl1++gY=";
   };
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
-  propagatedBuildInputs = [
-    jsonschema
-  ];
+  propagatedBuildInputs = [ jsonschema ];
 
   passthru.optional-dependencies.optionals = [
     jsonschema
@@ -46,9 +43,7 @@ buildPythonPackage rec {
     toml
   ];
 
-  pythonImportsCheck = [
-    "netutils"
-  ];
+  pythonImportsCheck = [ "netutils" ];
 
   disabledTests = [
     # Tests require network access

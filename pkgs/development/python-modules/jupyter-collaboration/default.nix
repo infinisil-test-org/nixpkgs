@@ -1,20 +1,21 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchPypi
-, hatch-jupyter-builder
-, hatch-nodejs-version
-, hatchling
-, jsonschema
-, jupyter-events
-, jupyter-server
-, jupyter-server-fileid
-, jupyter-ydoc
-, jupyterlab
-, pycrdt-websocket
-, pytest-jupyter
-, pytestCheckHook
-, websockets
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchPypi,
+  hatch-jupyter-builder,
+  hatch-nodejs-version,
+  hatchling,
+  jsonschema,
+  jupyter-events,
+  jupyter-server,
+  jupyter-server-fileid,
+  jupyter-ydoc,
+  jupyterlab,
+  pycrdt-websocket,
+  pytest-jupyter,
+  pytestCheckHook,
+  websockets,
 }:
 
 buildPythonPackage rec {
@@ -56,12 +57,11 @@ buildPythonPackage rec {
     websockets
   ];
 
-  pythonImportsCheck = [
-    "jupyter_collaboration"
-  ];
+  pythonImportsCheck = [ "jupyter_collaboration" ];
 
   pytestFlagsArray = [
-    "-W" "ignore::DeprecationWarning"
+    "-W"
+    "ignore::DeprecationWarning"
   ];
 
   preCheck = ''

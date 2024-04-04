@@ -57,7 +57,6 @@ rec {
     hash = "sha256-bJ2C1+zjvLiYp5A5AHTevFPU9Yka99imqLwH+uApuoY=";
   };
 
-
   prePatch = ''
     mkdir -p external/ESExtractor external/amber external/glslang external/jsoncpp external/nvidia-video-samples external/spirv-headers external/spirv-tools external/vulkan-docs
 

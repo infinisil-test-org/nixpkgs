@@ -1,16 +1,17 @@
-{ lib
-, arabic-reshaper
-, buildPythonPackage
-, fetchFromGitHub
-, html5lib
-, pillow
-, pyhanko
-, pypdf
-, pytestCheckHook
-, python-bidi
-, pythonOlder
-, reportlab
-, svglib
+{
+  lib,
+  arabic-reshaper,
+  buildPythonPackage,
+  fetchFromGitHub,
+  html5lib,
+  pillow,
+  pyhanko,
+  pypdf,
+  pytestCheckHook,
+  python-bidi,
+  pythonOlder,
+  reportlab,
+  svglib,
 }:
 
 buildPythonPackage rec {
@@ -38,9 +39,7 @@ buildPythonPackage rec {
     svglib
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   disabledTests = [
     # Tests requires network access

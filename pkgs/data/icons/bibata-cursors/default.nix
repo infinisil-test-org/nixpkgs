@@ -1,9 +1,10 @@
-{ lib
-, stdenvNoCC
-, fetchFromGitHub
-, fetchurl
-, clickgen
-, attrs
+{
+  lib,
+  stdenvNoCC,
+  fetchFromGitHub,
+  fetchurl,
+  clickgen,
+  attrs,
 }:
 
 stdenvNoCC.mkDerivation rec {
@@ -17,7 +18,10 @@ stdenvNoCC.mkDerivation rec {
     sha256 = "zCk7qgPeae0BfzhxxU2Dk1SOWJQOxiWyJuzH/ri+Gq4=";
   };
 
-  buildInputs = [ clickgen attrs ];
+  buildInputs = [
+    clickgen
+    attrs
+  ];
 
   buildPhase = ''
     ctgen build.toml -p x11 -d 'bitmaps/Bibata-Modern-Amber' -n 'Bibata-Modern-Amber' -c 'Yellowish and rounded edge bibata cursors.'
@@ -39,6 +43,9 @@ stdenvNoCC.mkDerivation rec {
     homepage = "https://github.com/ful1e5/Bibata_Cursor";
     license = licenses.gpl3;
     platforms = platforms.linux;
-    maintainers = with maintainers; [ rawkode AdsonCicilioti ];
+    maintainers = with maintainers; [
+      rawkode
+      AdsonCicilioti
+    ];
   };
 }

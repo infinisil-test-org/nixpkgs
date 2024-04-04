@@ -1,13 +1,29 @@
-{ stdenv, lib, fetchFromGitHub, pkg-config, meson, cmake, ninja, gst_all_1, wrapQtAppsHook, qtbase, qtmultimedia, layer-shell-qt }:
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  pkg-config,
+  meson,
+  cmake,
+  ninja,
+  gst_all_1,
+  wrapQtAppsHook,
+  qtbase,
+  qtmultimedia,
+  layer-shell-qt,
+}:
 let
- gstreamerPath = with gst_all_1; lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" [
-     gstreamer
-     gst-plugins-base
-     gst-plugins-good
-     gst-plugins-bad
-     gst-plugins-ugly
- ];
-in stdenv.mkDerivation rec {
+  gstreamerPath =
+    with gst_all_1;
+    lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" [
+      gstreamer
+      gst-plugins-base
+      gst-plugins-good
+      gst-plugins-bad
+      gst-plugins-ugly
+    ];
+in
+stdenv.mkDerivation rec {
   pname = "qt-video-wlr";
   version = "2023-07-22";
 
@@ -41,7 +57,10 @@ in stdenv.mkDerivation rec {
     description = "Qt pip-mode-like video player for wlroots-based wayland compositors";
     homepage = "https://github.com/xdavidwu/qt-video-wlr";
     license = licenses.mit;
-    maintainers = with maintainers; [ fionera rewine ];
+    maintainers = with maintainers; [
+      fionera
+      rewine
+    ];
     platforms = with platforms; linux;
   };
 }

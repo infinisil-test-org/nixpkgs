@@ -1,10 +1,17 @@
 # Support for DRBD, the Distributed Replicated Block Device.
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
-let cfg = config.services.drbd; in
+let
+  cfg = config.services.drbd;
+in
 
 {
 
@@ -28,9 +35,7 @@ let cfg = config.services.drbd; in
         Contents of the {file}`drbd.conf` configuration file.
       '';
     };
-
   };
-
 
   ###### implementation
 
@@ -42,16 +47,19 @@ let cfg = config.services.drbd; in
 
     boot.kernelModules = [ "drbd" ];
 
-    boot.extraModprobeConfig =
-      ''
-        options drbd usermode_helper=/run/current-system/sw/bin/drbdadm
-      '';
+    boot.extraModprobeConfig = ''
+      options drbd usermode_helper=/run/current-system/sw/bin/drbdadm
+    '';
 
-    environment.etc."drbd.conf" =
-      { source = pkgs.writeText "drbd.conf" cfg.config; };
+    environment.etc."drbd.conf" = {
+      source = pkgs.writeText "drbd.conf" cfg.config;
+    };
 
     systemd.services.drbd = {
-      after = [ "systemd-udev.settle.service" "network.target" ];
+      after = [
+        "systemd-udev.settle.service"
+        "network.target"
+      ];
       wants = [ "systemd-udev.settle.service" ];
       wantedBy = [ "multi-user.target" ];
       serviceConfig = {

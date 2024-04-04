@@ -1,8 +1,23 @@
-{ lib, fetchFromGitHub, buildDotnetModule, dotnetCorePackages, stdenvNoCC, testers, roslyn-ls, jq }:
+{
+  lib,
+  fetchFromGitHub,
+  buildDotnetModule,
+  dotnetCorePackages,
+  stdenvNoCC,
+  testers,
+  roslyn-ls,
+  jq,
+}:
 let
   pname = "roslyn-ls";
   # see https://github.com/dotnet/roslyn/blob/main/eng/targets/TargetFrameworks.props
-  dotnet-sdk = with dotnetCorePackages; combinePackages [ sdk_6_0 sdk_7_0 sdk_8_0 ];
+  dotnet-sdk =
+    with dotnetCorePackages;
+    combinePackages [
+      sdk_6_0
+      sdk_7_0
+      sdk_8_0
+    ];
   # need sdk on runtime as well
   dotnet-runtime = dotnetCorePackages.sdk_8_0;
 

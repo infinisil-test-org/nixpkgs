@@ -1,9 +1,10 @@
-{ lib
-, fetchPypi
-, buildPythonPackage
-, parameterized
-, pythonOlder
-, pytestCheckHook
+{
+  lib,
+  fetchPypi,
+  buildPythonPackage,
+  parameterized,
+  pythonOlder,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -18,9 +19,7 @@ buildPythonPackage rec {
     hash = "sha256-fQwas3RwR9Fp+fxLkl0cuj9cE+rwuQw2W3LkflnQCgI=";
   };
 
-  pythonImportsCheck = [
-    "mistletoe"
-  ];
+  pythonImportsCheck = [ "mistletoe" ];
 
   nativeCheckInputs = [
     parameterized

@@ -1,22 +1,23 @@
-{ lib
-, acme
-, aiohttp
-, atomicwrites-homeassistant
-, attrs
-, buildPythonPackage
-, ciso8601
-, cryptography
-, fetchFromGitHub
-, pycognito
-, pytest-aiohttp
-, pytest-timeout
-, pytestCheckHook
-, pythonOlder
-, pythonRelaxDepsHook
-, setuptools
-, snitun
-, syrupy
-, xmltodict
+{
+  lib,
+  acme,
+  aiohttp,
+  atomicwrites-homeassistant,
+  attrs,
+  buildPythonPackage,
+  ciso8601,
+  cryptography,
+  fetchFromGitHub,
+  pycognito,
+  pytest-aiohttp,
+  pytest-timeout,
+  pytestCheckHook,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  setuptools,
+  snitun,
+  syrupy,
+  xmltodict,
 }:
 
 buildPythonPackage rec {
@@ -38,9 +39,7 @@ buildPythonPackage rec {
     pythonRelaxDepsHook
   ];
 
-  pythonRelaxDeps = [
-    "acme"
-  ];
+  pythonRelaxDeps = [ "acme" ];
 
   propagatedBuildInputs = [
     acme
@@ -61,9 +60,7 @@ buildPythonPackage rec {
     xmltodict
   ];
 
-  pythonImportsCheck = [
-    "hass_nabucasa"
-  ];
+  pythonImportsCheck = [ "hass_nabucasa" ];
 
   meta = with lib; {
     homepage = "https://github.com/NabuCasa/hass-nabucasa";

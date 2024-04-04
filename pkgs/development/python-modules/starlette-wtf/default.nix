@@ -1,14 +1,15 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, setuptools
-, itsdangerous
-, python-multipart
-, starlette
-, wtforms
-, httpx
-, jinja2
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  setuptools,
+  itsdangerous,
+  python-multipart,
+  starlette,
+  wtforms,
+  httpx,
+  jinja2,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -23,9 +24,7 @@ buildPythonPackage rec {
     hash = "sha256-TSxcIgINRjQwiyhpGOEEpXJKcPlhFCxMQh4/GY1g1lw=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
   propagatedBuildInputs = [
     itsdangerous
     python-multipart

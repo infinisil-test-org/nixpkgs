@@ -1,8 +1,9 @@
-{ lib
-, stdenvNoCC
-, fetchFromGitHub
-, gnome-themes-extra
-, gtk-engine-murrine
+{
+  lib,
+  stdenvNoCC,
+  fetchFromGitHub,
+  gnome-themes-extra,
+  gtk-engine-murrine,
 }:
 stdenvNoCC.mkDerivation {
   pname = "gruvbox-gtk-theme";
@@ -15,13 +16,9 @@ stdenvNoCC.mkDerivation {
     hash = "sha256-Y+6HuWaVkNqlYc+w5wLkS2LpKcDtpeOpdHnqBmShm5Q=";
   };
 
-  propagatedUserEnvPkgs = [
-    gtk-engine-murrine
-  ];
+  propagatedUserEnvPkgs = [ gtk-engine-murrine ];
 
-  buildInputs = [
-    gnome-themes-extra
-  ];
+  buildInputs = [ gnome-themes-extra ];
 
   dontBuild = true;
 

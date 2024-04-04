@@ -1,38 +1,39 @@
-{ lib
-, stdenv
-, fetchFromGitLab
-, fetchFromGitHub
-, cargo
-, libxml2
-, meson
-, ninja
-, pkg-config
-, python311
-, rustPlatform
-, symlinkJoin
-, rustc
-, wrapGAppsHook4
-, appstream-glib
-, blueprint-compiler
-, cairo
-, cmake
-, dbus
-, desktop-file-utils
-, gdk-pixbuf
-, gettext
-, glib
-, graphene
-, gtk4
-, libGL
-, libadwaita
-, libdrm
-, mesa
-, pango
-, sqlite
-, udev
-, wayland
-, dmidecode
-, vulkan-loader
+{
+  lib,
+  stdenv,
+  fetchFromGitLab,
+  fetchFromGitHub,
+  cargo,
+  libxml2,
+  meson,
+  ninja,
+  pkg-config,
+  python311,
+  rustPlatform,
+  symlinkJoin,
+  rustc,
+  wrapGAppsHook4,
+  appstream-glib,
+  blueprint-compiler,
+  cairo,
+  cmake,
+  dbus,
+  desktop-file-utils,
+  gdk-pixbuf,
+  gettext,
+  glib,
+  graphene,
+  gtk4,
+  libGL,
+  libadwaita,
+  libdrm,
+  mesa,
+  pango,
+  sqlite,
+  udev,
+  wayland,
+  dmidecode,
+  vulkan-loader,
 }:
 
 let
@@ -63,12 +64,9 @@ stdenv.mkDerivation rec {
           "pathfinder_canvas-0.5.0" = "sha256-qEp16TVggPtvFvDuUyWsS6rH6MeO6FW0K6BnACghaCg=";
         };
       })
-      (rustPlatform.importCargoLock {
-        lockFile = ./gatherer-Cargo.lock;
-      })
+      (rustPlatform.importCargoLock { lockFile = ./gatherer-Cargo.lock; })
     ];
   };
-
 
   nativeBuildInputs = [
     blueprint-compiler

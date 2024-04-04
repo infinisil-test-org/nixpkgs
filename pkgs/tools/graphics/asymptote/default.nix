@@ -1,11 +1,35 @@
-{ lib, stdenv, fetchFromGitHub
-, autoreconfHook, bison, glm, flex, wrapQtAppsHook, cmake
-, freeglut, ghostscriptX, imagemagick, fftw
-, boehmgc, libGLU, libGL, mesa, ncurses, readline, gsl, libsigsegv
-, python3, qtbase, qtsvg, boost
-, zlib, perl, curl
-, texliveSmall, texinfo
-, darwin
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  autoreconfHook,
+  bison,
+  glm,
+  flex,
+  wrapQtAppsHook,
+  cmake,
+  freeglut,
+  ghostscriptX,
+  imagemagick,
+  fftw,
+  boehmgc,
+  libGLU,
+  libGL,
+  mesa,
+  ncurses,
+  readline,
+  gsl,
+  libsigsegv,
+  python3,
+  qtbase,
+  qtsvg,
+  boost,
+  zlib,
+  perl,
+  curl,
+  texliveSmall,
+  texinfo,
+  darwin,
 }:
 
 stdenv.mkDerivation rec {
@@ -30,20 +54,55 @@ stdenv.mkDerivation rec {
   ];
 
   buildInputs = [
-    ghostscriptX imagemagick fftw
-    boehmgc ncurses readline gsl libsigsegv
-    zlib perl curl qtbase qtsvg boost
-    (texliveSmall.withPackages (ps: with ps; [ epsf cm-super ps.texinfo media9 ocgx2 collection-latexextra ]))
-    (python3.withPackages (ps: with ps; [ cson numpy pyqt5 ]))
+    ghostscriptX
+    imagemagick
+    fftw
+    boehmgc
+    ncurses
+    readline
+    gsl
+    libsigsegv
+    zlib
+    perl
+    curl
+    qtbase
+    qtsvg
+    boost
+    (texliveSmall.withPackages (
+      ps: with ps; [
+        epsf
+        cm-super
+        ps.texinfo
+        media9
+        ocgx2
+        collection-latexextra
+      ]
+    ))
+    (python3.withPackages (
+      ps: with ps; [
+        cson
+        numpy
+        pyqt5
+      ]
+    ))
   ];
 
-  propagatedBuildInputs = [
-    glm
-  ] ++ lib.optionals stdenv.isLinux [
-    freeglut libGLU libGL mesa.osmesa
-  ] ++ lib.optionals stdenv.isDarwin (with darwin.apple_sdk.frameworks; [
-    OpenGL GLUT Cocoa
-  ]);
+  propagatedBuildInputs =
+    [ glm ]
+    ++ lib.optionals stdenv.isLinux [
+      freeglut
+      libGLU
+      libGL
+      mesa.osmesa
+    ]
+    ++ lib.optionals stdenv.isDarwin (
+      with darwin.apple_sdk.frameworks;
+      [
+        OpenGL
+        GLUT
+        Cocoa
+      ]
+    );
 
   dontWrapQtApps = true;
 
@@ -80,7 +139,7 @@ stdenv.mkDerivation rec {
   enableParallelInstalling = false;
 
   meta = with lib; {
-    description =  "A tool for programming graphics intended to replace Metapost";
+    description = "A tool for programming graphics intended to replace Metapost";
     license = licenses.gpl3Plus;
     maintainers = [ maintainers.raskin ];
     platforms = platforms.linux ++ platforms.darwin;

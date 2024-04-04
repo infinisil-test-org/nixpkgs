@@ -1,26 +1,34 @@
-{ stdenv, lib, fetchurl, gzip, autoPatchelfHook }:
+{
+  stdenv,
+  lib,
+  fetchurl,
+  gzip,
+  autoPatchelfHook,
+}:
 let
 
   inherit (stdenv.hostPlatform) system;
   throwSystem = throw "Unsupported system: ${system}";
 
-  plat = {
-    x86_64-linux = "linux_x64";
-    aarch64-linux = "linux_arm";
-    x86_64-darwin = "macos_x64";
-    aarch64-darwin = "macos_arm";
+  plat =
+    {
+      x86_64-linux = "linux_x64";
+      aarch64-linux = "linux_arm";
+      x86_64-darwin = "macos_x64";
+      aarch64-darwin = "macos_arm";
+    }
+    .${system} or throwSystem;
 
-  }.${system} or throwSystem;
-
-  hash = {
-    x86_64-linux = "sha256-/heSkG7TtDHzNfvXblR6A5y+c12EmuQ8XZGDRqIEvtg=";
-    aarch64-linux = "sha256-WkpcNwWS0e5NURfHloV4xjIGSRPfP0RRflq98NY16AY=";
-    x86_64-darwin = "sha256-nXPaangEVRZf/dEt+i0AWOyT66jGIcRaN4ZO3k/VMh4=";
-    aarch64-darwin = "sha256-hs2lLy9thrp414+oQSf9euwNuU06UggLQ/EuMg/lrc0=";
-  }.${system} or throwSystem;
+  hash =
+    {
+      x86_64-linux = "sha256-/heSkG7TtDHzNfvXblR6A5y+c12EmuQ8XZGDRqIEvtg=";
+      aarch64-linux = "sha256-WkpcNwWS0e5NURfHloV4xjIGSRPfP0RRflq98NY16AY=";
+      x86_64-darwin = "sha256-nXPaangEVRZf/dEt+i0AWOyT66jGIcRaN4ZO3k/VMh4=";
+      aarch64-darwin = "sha256-hs2lLy9thrp414+oQSf9euwNuU06UggLQ/EuMg/lrc0=";
+    }
+    .${system} or throwSystem;
 
   bin = "$out/bin/codeium_language_server";
-
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "codeium";
@@ -63,7 +71,12 @@ stdenv.mkDerivation (finalAttrs: {
     license = lib.licenses.unfree;
     maintainers = with lib.maintainers; [ anpin ];
     mainProgram = "codeium";
-    platforms = [ "aarch64-darwin" "aarch64-linux" "x86_64-linux" "x86_64-darwin" ];
+    platforms = [
+      "aarch64-darwin"
+      "aarch64-linux"
+      "x86_64-linux"
+      "x86_64-darwin"
+    ];
     sourceProvenance = [ lib.sourceTypes.binaryNativeCode ];
   };
 })

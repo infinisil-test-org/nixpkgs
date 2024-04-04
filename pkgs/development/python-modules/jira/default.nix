@@ -1,22 +1,23 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, defusedxml
-, flaky
-, ipython
-, keyring
-, packaging
-, pyjwt
-, pytestCheckHook
-, pythonOlder
-, requests
-, requests-futures
-, requests-mock
-, requests-oauthlib
-, requests-toolbelt
-, setuptools
-, setuptools-scm
-, typing-extensions
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  defusedxml,
+  flaky,
+  ipython,
+  keyring,
+  packaging,
+  pyjwt,
+  pytestCheckHook,
+  pythonOlder,
+  requests,
+  requests-futures,
+  requests-mock,
+  requests-oauthlib,
+  requests-toolbelt,
+  setuptools,
+  setuptools-scm,
+  typing-extensions,
 }:
 
 buildPythonPackage rec {
@@ -58,9 +59,7 @@ buildPythonPackage rec {
       # requests-jwt
       # requests-keyberos
     ];
-    async = [
-      requests-futures
-    ];
+    async = [ requests-futures ];
   };
 
   nativeCheckInputs = [
@@ -74,9 +73,7 @@ buildPythonPackage rec {
       --replace "--cov-report=xml --cov jira" ""
   '';
 
-  pythonImportsCheck = [
-    "jira"
-  ];
+  pythonImportsCheck = [ "jira" ];
 
   # impure tests because of connectivity attempts to jira servers
   doCheck = false;

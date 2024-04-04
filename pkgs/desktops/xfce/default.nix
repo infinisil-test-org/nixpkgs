@@ -1,13 +1,15 @@
-{ config
-, lib
-, pkgs
-, generateSplicesForMkScope
-, makeScopeWithSplicing'
+{
+  config,
+  lib,
+  pkgs,
+  generateSplicesForMkScope,
+  makeScopeWithSplicing',
 }:
 
 makeScopeWithSplicing' {
   otherSplices = generateSplicesForMkScope "xfce";
-  f = (self:
+  f = (
+    self:
     let
       inherit (self) callPackage;
     in
@@ -34,9 +36,7 @@ makeScopeWithSplicing' {
 
       libxfce4windowing = callPackage ./core/libxfce4windowing { };
 
-      thunar = callPackage ./core/thunar {
-        thunarPlugins = [ ];
-      };
+      thunar = callPackage ./core/thunar { thunarPlugins = [ ]; };
 
       thunar-volman = callPackage ./core/thunar-volman { };
 
@@ -65,9 +65,7 @@ makeScopeWithSplicing' {
       xfce4-appfinder = callPackage ./core/xfce4-appfinder { };
 
       xfce4-dev-tools = callPackage ./core/xfce4-dev-tools {
-        mkXfceDerivation = self.mkXfceDerivation.override {
-          xfce4-dev-tools = null;
-        };
+        mkXfceDerivation = self.mkXfceDerivation.override { xfce4-dev-tools = null; };
       };
 
       #### APPLICATIONS
@@ -165,8 +163,8 @@ makeScopeWithSplicing' {
       xfce4-windowck-plugin = callPackage ./panel-plugins/xfce4-windowck-plugin { };
 
       xfce4-pulseaudio-plugin = callPackage ./panel-plugins/xfce4-pulseaudio-plugin { };
-
-    } // lib.optionalAttrs config.allowAliases {
+    }
+    // lib.optionalAttrs config.allowAliases {
       #### ALIASES
 
       xinitrc = self.xfce4-session.xinitrc; # added 2019-11-04
@@ -174,5 +172,6 @@ makeScopeWithSplicing' {
       thunar-bare = self.thunar.override { thunarPlugins = [ ]; }; # added 2019-11-04
 
       xfce4-hardware-monitor-plugin = throw "xfce.xfce4-hardware-monitor-plugin has been removed: abandoned by upstream and does not build"; # added 2023-01-15
-    });
+    }
+  );
 }

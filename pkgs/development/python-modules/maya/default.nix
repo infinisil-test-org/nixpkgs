@@ -1,21 +1,22 @@
-{ lib
-, fetchFromGitHub
-, buildPythonPackage
+{
+  lib,
+  fetchFromGitHub,
+  buildPythonPackage,
 
-# build-system
-, setuptools
+  # build-system
+  setuptools,
 
-# dependencies
-, dateparser
-, humanize
-, tzlocal
-, pendulum
-, snaptime
-, pytz
+  # dependencies
+  dateparser,
+  humanize,
+  tzlocal,
+  pendulum,
+  snaptime,
+  pytz,
 
-# tests
-, freezegun
-, pytestCheckHook
+  # tests
+  freezegun,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -36,9 +37,7 @@ buildPythonPackage rec {
       --replace "humanize.time.abs_timedelta" "humanize.time._abs_timedelta"
   '';
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     dateparser

@@ -1,9 +1,10 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, rustPlatform
-, asciidoctor
-, installShellFiles
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  rustPlatform,
+  asciidoctor,
+  installShellFiles,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -19,7 +20,10 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-s68OCW2KS1ADTp8rWaUOGXCrl+Qapyf9FcLVhSF4QMg=";
 
-  nativeBuildInputs = [ asciidoctor installShellFiles ];
+  nativeBuildInputs = [
+    asciidoctor
+    installShellFiles
+  ];
 
   postInstall = ''
     # Built by ./build.rs using `asciidoctor`

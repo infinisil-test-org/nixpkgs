@@ -1,21 +1,22 @@
-{ lib
-, fetchFromGitHub
-, buildPythonPackage
+{
+  lib,
+  fetchFromGitHub,
+  buildPythonPackage,
 
-# build-system
-, cysignals
-, cython_3
-, pkgconfig
-, setuptools
+  # build-system
+  cysignals,
+  cython_3,
+  pkgconfig,
+  setuptools,
 
-, gmp
-, pari
-, mpfr
-, fplll
-, numpy
+  gmp,
+  pari,
+  mpfr,
+  fplll,
+  numpy,
 
-# tests
-, pytestCheckHook
+  # tests
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -44,13 +45,9 @@ buildPythonPackage rec {
     fplll
   ];
 
-  propagatedBuildInputs = [
-    numpy
-  ];
+  propagatedBuildInputs = [ numpy ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   preCheck = ''
     # Since upstream introduced --doctest-modules in

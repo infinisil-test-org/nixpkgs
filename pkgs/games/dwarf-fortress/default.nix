@@ -1,4 +1,16 @@
-{ stdenv, stdenvNoCC, gccStdenv, lib, recurseIntoAttrs, libsForQt5, newScope, texliveBasic, perlPackages, jdk8, jre8 }:
+{
+  stdenv,
+  stdenvNoCC,
+  gccStdenv,
+  lib,
+  recurseIntoAttrs,
+  libsForQt5,
+  newScope,
+  texliveBasic,
+  perlPackages,
+  jdk8,
+  jre8,
+}:
 
 # To whomever it may concern:
 #
@@ -43,15 +55,25 @@ let
   latestVersion = "0.47.05";
 
   # Converts a version to a package name.
-  versionToName = version: "dwarf-fortress_${lib.replaceStrings ["."] ["_"] version}";
+  versionToName = version: "dwarf-fortress_${lib.replaceStrings [ "." ] [ "_" ] version}";
 
   dwarf-therapist-original = libsForQt5.callPackage ./dwarf-therapist {
-    texlive = texliveBasic.withPackages (ps: with ps; [ float caption wrapfig adjmulticol sidecap preprint enumitem ]);
+    texlive = texliveBasic.withPackages (
+      ps: with ps; [
+        float
+        caption
+        wrapfig
+        adjmulticol
+        sidecap
+        preprint
+        enumitem
+      ]
+    );
   };
 
   # A map of names to each Dwarf Fortress package we know about.
-  df-games = lib.listToAttrs (map
-    (dfVersion: {
+  df-games = lib.listToAttrs (
+    map (dfVersion: {
       name = versionToName dfVersion;
       value =
         let
@@ -78,12 +100,17 @@ let
         in
         callPackage ./wrapper {
           inherit (self) themes;
-          inherit dwarf-fortress twbt dfhack dwarf-therapist;
+          inherit
+            dwarf-fortress
+            twbt
+            dfhack
+            dwarf-therapist
+            ;
 
           jdk = jdk8; # TODO: remove override https://github.com/NixOS/nixpkgs/pull/89731
         };
-    })
-    (lib.attrNames self.df-hashes));
+    }) (lib.attrNames self.df-hashes)
+  );
 
   self = rec {
     df-hashes = lib.importJSON ./game.json;
@@ -94,9 +121,7 @@ let
     dwarf-therapist = dwarf-fortress.dwarf-therapist;
     dwarf-fortress-original = dwarf-fortress.dwarf-fortress;
 
-    dwarf-fortress-full = callPackage ./lazy-pack.nix {
-      inherit df-games versionToName latestVersion;
-    };
+    dwarf-fortress-full = callPackage ./lazy-pack.nix { inherit df-games versionToName latestVersion; };
 
     soundSense = callPackage ./soundsense.nix { };
 
@@ -104,14 +129,11 @@ let
       jre = jre8; # TODO: remove override https://github.com/NixOS/nixpkgs/pull/89731
     };
 
-    themes = recurseIntoAttrs (callPackage ./themes {
-      stdenv = stdenvNoCC;
-    });
+    themes = recurseIntoAttrs (callPackage ./themes { stdenv = stdenvNoCC; });
 
     # Theme aliases
     phoebus-theme = themes.phoebus;
     cla-theme = themes.cla;
   };
-
 in
 self // df-games

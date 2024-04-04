@@ -1,7 +1,8 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -21,5 +22,4 @@ buildPythonPackage rec {
     homepage = "https://bitbucket.org/hhatto/genzshcomp/";
     license = licenses.bsd0;
   };
-
 }

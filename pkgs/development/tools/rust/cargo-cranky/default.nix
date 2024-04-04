@@ -1,6 +1,7 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -20,7 +21,10 @@ rustPlatform.buildRustPackage rec {
     description = "An easy to configure wrapper for Rust's clippy";
     homepage = "https://github.com/ericseppanen/cargo-cranky";
     changelog = "https://github.com/ericseppanen/cargo-cranky/releases/tag/${src.rev}";
-    license = with licenses; [ asl20 mit ];
+    license = with licenses; [
+      asl20
+      mit
+    ];
     maintainers = with maintainers; [ figsoda ];
   };
 }

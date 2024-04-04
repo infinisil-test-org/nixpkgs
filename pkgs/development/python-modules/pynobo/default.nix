@@ -1,7 +1,8 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -21,9 +22,7 @@ buildPythonPackage rec {
   # Project has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "pynobo"
-  ];
+  pythonImportsCheck = [ "pynobo" ];
 
   meta = with lib; {
     description = "Python TCP/IP interface for Nobo Hub/Nobo Energy Control devices";

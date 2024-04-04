@@ -1,12 +1,17 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.services.sonic-server;
 
   settingsFormat = pkgs.formats.toml { };
   configFile = settingsFormat.generate "sonic-server-config.toml" cfg.settings;
-
-in {
+in
+{
   meta.maintainers = [ lib.maintainers.anthonyroussel ];
 
   options = {
@@ -38,18 +43,18 @@ in {
 
   config = lib.mkIf cfg.enable {
     services.sonic-server.settings = lib.mapAttrs (name: lib.mkDefault) {
-      server = {};
-      channel.search = {};
+      server = { };
+      channel.search = { };
       store = {
         kv = {
           path = "/var/lib/sonic/kv";
-          database = {};
-          pool = {};
+          database = { };
+          pool = { };
         };
         fst = {
           path = "/var/lib/sonic/fst";
-          graph = {};
-          pool = {};
+          graph = { };
+          pool = { };
         };
       };
     };

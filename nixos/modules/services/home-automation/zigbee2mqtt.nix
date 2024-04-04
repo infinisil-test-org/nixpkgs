@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -7,14 +12,27 @@ let
 
   format = pkgs.formats.yaml { };
   configFile = format.generate "zigbee2mqtt.yaml" cfg.settings;
-
 in
 {
-  meta.maintainers = with maintainers; [ sweber hexa ];
+  meta.maintainers = with maintainers; [
+    sweber
+    hexa
+  ];
 
   imports = [
     # Remove warning before the 21.11 release
-    (mkRenamedOptionModule [ "services" "zigbee2mqtt" "config" ] [ "services" "zigbee2mqtt" "settings" ])
+    (mkRenamedOptionModule
+      [
+        "services"
+        "zigbee2mqtt"
+        "config"
+      ]
+      [
+        "services"
+        "zigbee2mqtt"
+        "settings"
+      ]
+    )
   ];
 
   options.services.zigbee2mqtt = {
@@ -79,9 +97,7 @@ in
 
         # Hardening
         CapabilityBoundingSet = "";
-        DeviceAllow = [
-          config.services.zigbee2mqtt.settings.serial.port
-        ];
+        DeviceAllow = [ config.services.zigbee2mqtt.settings.serial.port ];
         DevicePolicy = "closed";
         LockPersonality = true;
         MemoryDenyWriteExecute = false;
@@ -108,9 +124,7 @@ in
         RestrictNamespaces = true;
         RestrictRealtime = true;
         RestrictSUIDSGID = true;
-        SupplementaryGroups = [
-          "dialout"
-        ];
+        SupplementaryGroups = [ "dialout" ];
         SystemCallArchitectures = "native";
         SystemCallFilter = [
           "@system-service @pkey"

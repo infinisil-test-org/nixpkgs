@@ -1,7 +1,26 @@
-{ lib, stdenv, fetchFromGitHub
-, cmake, pkg-config, SDL2, SDL2_image, SDL2_mixer, SDL2_net, SDL2_ttf
-, pango, gettext, boost, libvorbis, fribidi, dbus, libpng, pcre, openssl, icu
-, Cocoa, Foundation
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  SDL2,
+  SDL2_image,
+  SDL2_mixer,
+  SDL2_net,
+  SDL2_ttf,
+  pango,
+  gettext,
+  boost,
+  libvorbis,
+  fribidi,
+  dbus,
+  libpng,
+  pcre,
+  openssl,
+  icu,
+  Cocoa,
+  Foundation,
 }:
 
 stdenv.mkDerivation rec {
@@ -15,11 +34,33 @@ stdenv.mkDerivation rec {
     hash = "sha256-nnAMMc1pPYOziaHGUfh8LevECBb/lzCkaPyzFWs4zTY=";
   };
 
-  nativeBuildInputs = [ cmake pkg-config ];
+  nativeBuildInputs = [
+    cmake
+    pkg-config
+  ];
 
-  buildInputs = [ SDL2 SDL2_image SDL2_mixer SDL2_net SDL2_ttf pango gettext boost
-                  libvorbis fribidi dbus libpng pcre openssl icu ]
-                ++ lib.optionals stdenv.isDarwin [ Cocoa Foundation];
+  buildInputs =
+    [
+      SDL2
+      SDL2_image
+      SDL2_mixer
+      SDL2_net
+      SDL2_ttf
+      pango
+      gettext
+      boost
+      libvorbis
+      fribidi
+      dbus
+      libpng
+      pcre
+      openssl
+      icu
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      Cocoa
+      Foundation
+    ];
 
   NIX_LDFLAGS = lib.optionalString stdenv.isDarwin "-framework AppKit";
 

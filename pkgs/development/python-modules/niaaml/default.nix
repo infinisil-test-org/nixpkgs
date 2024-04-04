@@ -1,15 +1,16 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, niapy
-, numpy
-, pandas
-, poetry-core
-, pytestCheckHook
-, pythonOlder
-, pythonRelaxDepsHook
-, scikit-learn
-, toml-adapt
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  niapy,
+  numpy,
+  pandas,
+  poetry-core,
+  pytestCheckHook,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  scikit-learn,
+  toml-adapt,
 }:
 
 buildPythonPackage rec {
@@ -26,9 +27,7 @@ buildPythonPackage rec {
     hash = "sha256-jGbsxYlRJ81g74LqSKpquciPsLP+KSoNBTJPEaD/CHM=";
   };
 
-  pythonRelaxDeps = [
-    "pandas"
-  ];
+  pythonRelaxDeps = [ "pandas" ];
 
   nativeBuildInputs = [
     poetry-core
@@ -49,13 +48,9 @@ buildPythonPackage rec {
     toml-adapt -path pyproject.toml -a change -dep niapy -ver X
   '';
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "niaaml"
-  ];
+  pythonImportsCheck = [ "niaaml" ];
 
   meta = with lib; {
     description = "Python automated machine learning framework";

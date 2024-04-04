@@ -1,21 +1,19 @@
-{ cage
-, fetchFromGitLab
-, gnome
-, lib
-, meson
-, ninja
-, python3
-, weston
-, xorg
-, xwayland
-, withMutter ? false
-, withCage ? false
+{
+  cage,
+  fetchFromGitLab,
+  gnome,
+  lib,
+  meson,
+  ninja,
+  python3,
+  weston,
+  xorg,
+  xwayland,
+  withMutter ? false,
+  withCage ? false,
 }:
 let
-  compositors = [ weston ]
-    ++ lib.optional withMutter gnome.mutter
-    ++ lib.optional withCage cage
-  ;
+  compositors = [ weston ] ++ lib.optional withMutter gnome.mutter ++ lib.optional withCage cage;
 in
 python3.pkgs.buildPythonApplication rec {
   pname = "xwayland-run";
@@ -31,21 +29,36 @@ python3.pkgs.buildPythonApplication rec {
 
   pyproject = false;
 
-  outputs = [ "out" "man" ];
+  outputs = [
+    "out"
+    "man"
+  ];
 
   nativeBuildInputs = [
     meson
     ninja
   ];
 
-
   postInstall = ''
     wrapProgram $out/bin/wlheadless-run \
       --prefix PATH : ${lib.makeBinPath compositors}
     wrapProgram $out/bin/xwayland-run \
-      --prefix PATH : ${lib.makeBinPath [ xwayland xorg.xauth ]}
+      --prefix PATH : ${
+        lib.makeBinPath [
+          xwayland
+          xorg.xauth
+        ]
+      }
     wrapProgram $out/bin/xwfb-run \
-      --prefix PATH : ${lib.makeBinPath (compositors ++ [ xwayland xorg.xauth ])}
+      --prefix PATH : ${
+        lib.makeBinPath (
+          compositors
+          ++ [
+            xwayland
+            xorg.xauth
+          ]
+        )
+      }
   '';
 
   meta = with lib; {

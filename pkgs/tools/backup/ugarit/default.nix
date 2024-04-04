@@ -1,7 +1,14 @@
-{ pkgs, lib, eggDerivation, fetchegg }:
+{
+  pkgs,
+  lib,
+  eggDerivation,
+  fetchegg,
+}:
 let
   eggs = import ./eggs.nix { inherit eggDerivation fetchegg; };
-in with pkgs; eggDerivation rec {
+in
+with pkgs;
+eggDerivation rec {
   pname = "ugarit";
   version = "2.0";
   name = "${pname}-${version}";

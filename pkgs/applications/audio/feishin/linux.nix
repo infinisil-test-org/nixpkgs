@@ -1,21 +1,21 @@
-{ stdenv
-, meta
-, lib
-, fetchurl
-, mpv
-, graphicsmagick
-, electron_24
-, makeDesktopItem
-, makeWrapper
-, pname
-, appname
-, version
+{
+  stdenv,
+  meta,
+  lib,
+  fetchurl,
+  mpv,
+  graphicsmagick,
+  electron_24,
+  makeDesktopItem,
+  makeWrapper,
+  pname,
+  appname,
+  version,
 }:
 
 let
   icon = fetchurl {
-    url =
-      "https://github.com/jeffvli/feishin/raw/development/assets/icons/1024x1024.png";
+    url = "https://github.com/jeffvli/feishin/raw/development/assets/icons/1024x1024.png";
     sha256 = "sha256-8Qigt1CNMa3SDVK2cdqWJuMSl19yfy6nPQfME4qA48I=";
   };
 
@@ -25,7 +25,10 @@ let
     comment = "Full-featured Subsonic/Jellyfin compatible desktop music player";
     icon = "feishin";
     exec = "feishin %u";
-    categories = [ "Audio" "AudioVideo" ];
+    categories = [
+      "Audio"
+      "AudioVideo"
+    ];
     mimeTypes = [ "x-scheme-handler/feishin" ];
   };
 in
@@ -38,8 +41,10 @@ stdenv.mkDerivation {
     hash = "sha256-uYswGxSXz2YddoFs5F7f+ywqAr7qXqp6WryQ7ENSawQ=";
   };
 
-
-  nativeBuildInputs = [ makeWrapper graphicsmagick ];
+  nativeBuildInputs = [
+    makeWrapper
+    graphicsmagick
+  ];
 
   # Installs mpv as a requirement
   propagatedBuildInputs = [ mpv ];

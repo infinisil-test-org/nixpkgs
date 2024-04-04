@@ -1,11 +1,15 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
 
   cfg = config.hardware.nitrokey;
-
 in
 
 {
@@ -21,7 +25,5 @@ in
     };
   };
 
-  config = mkIf cfg.enable {
-    services.udev.packages = [ pkgs.libnitrokey ];
-  };
+  config = mkIf cfg.enable { services.udev.packages = [ pkgs.libnitrokey ]; };
 }

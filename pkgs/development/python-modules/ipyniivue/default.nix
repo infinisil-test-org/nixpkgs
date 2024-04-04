@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, hatchling
-, hatch-jupyter-builder
-, ipywidgets
-, jupyter-ui-poll
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  hatchling,
+  hatch-jupyter-builder,
+  ipywidgets,
+  jupyter-ui-poll,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -34,7 +35,10 @@ buildPythonPackage rec {
     hatch-jupyter-builder
   ];
 
-  propagatedBuildInputs = [ ipywidgets jupyter-ui-poll ];
+  propagatedBuildInputs = [
+    ipywidgets
+    jupyter-ui-poll
+  ];
 
   nativeCheckImports = [ pytestCheckHook ];
   pythonImportsCheck = [ "ipyniivue" ];

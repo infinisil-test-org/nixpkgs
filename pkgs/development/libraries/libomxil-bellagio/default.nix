@@ -1,6 +1,7 @@
-{ lib
-, stdenv
-, fetchurl
+{
+  lib,
+  stdenv,
+  fetchurl,
 }:
 
 stdenv.mkDerivation rec {
@@ -12,8 +13,9 @@ stdenv.mkDerivation rec {
     sha256 = "0k6p6h4npn8p1qlgq6z3jbfld6n1bqswzvxzndki937gr0lhfg2r";
   };
 
-  configureFlags =
-    lib.optionals (stdenv.hostPlatform != stdenv.buildPlatform) [ "ac_cv_func_malloc_0_nonnull=yes" ];
+  configureFlags = lib.optionals (stdenv.hostPlatform != stdenv.buildPlatform) [
+    "ac_cv_func_malloc_0_nonnull=yes"
+  ];
 
   patches = [
     ./fedora-fixes.patch
@@ -34,8 +36,10 @@ stdenv.mkDerivation rec {
 
   env.NIX_CFLAGS_COMPILE =
     # stringop-truncation: see https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1028978
-    if stdenv.cc.isGNU then "-Wno-error=array-bounds -Wno-error=stringop-overflow=8 -Wno-error=stringop-truncation"
-    else "-Wno-error=absolute-value -Wno-error=enum-conversion -Wno-error=logical-not-parentheses -Wno-error=non-literal-null-conversion";
+    if stdenv.cc.isGNU then
+      "-Wno-error=array-bounds -Wno-error=stringop-overflow=8 -Wno-error=stringop-truncation"
+    else
+      "-Wno-error=absolute-value -Wno-error=enum-conversion -Wno-error=logical-not-parentheses -Wno-error=non-literal-null-conversion";
 
   meta = with lib; {
     homepage = "https://omxil.sourceforge.net/";

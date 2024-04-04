@@ -1,9 +1,10 @@
-{ lib
-, fetchFromGitHub
-, stdenv
-, swift
-, swiftpm
-, darwin
+{
+  lib,
+  fetchFromGitHub,
+  stdenv,
+  swift,
+  swiftpm,
+  darwin,
 }:
 
 stdenv.mkDerivation (final: {

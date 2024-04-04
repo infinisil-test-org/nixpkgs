@@ -1,10 +1,11 @@
-{ lib
-, blinker
-, buildPythonPackage
-, fetchPypi
-, flask
-, pythonOlder
-, webob
+{
+  lib,
+  blinker,
+  buildPythonPackage,
+  fetchPypi,
+  flask,
+  pythonOlder,
+  webob,
 }:
 
 buildPythonPackage rec {
@@ -19,9 +20,7 @@ buildPythonPackage rec {
     hash = "sha256-UwlT4a0jzp6vo5ZpB/o3MKJAFHpaDJBcaQvFoctS120=";
   };
 
-  propagatedBuildInputs = [
-    webob
-  ];
+  propagatedBuildInputs = [ webob ];
 
   passthru.optional-dependencies = {
     flask = [
@@ -30,9 +29,7 @@ buildPythonPackage rec {
     ];
   };
 
-  pythonImportsCheck = [
-    "bugsnag"
-  ];
+  pythonImportsCheck = [ "bugsnag" ];
 
   # Module ha no tests
   doCheck = false;

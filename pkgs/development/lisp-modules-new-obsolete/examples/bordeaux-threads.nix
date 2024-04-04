@@ -15,7 +15,7 @@
 
 let
 
-  pkgs = import ../../../../default.nix {};
+  pkgs = import ../../../../default.nix { };
 
   sbcl = "${pkgs.sbcl}/bin/sbcl --script";
 
@@ -39,5 +39,5 @@ let
     lisp = sbcl;
     lispLibs = [ alexandria ];
   };
-
-in bordeaux-threads
+in
+bordeaux-threads

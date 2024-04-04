@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, toolz
-, multipledispatch
-, py
-, pytestCheckHook
-, pytest-html
-, pytest-benchmark
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  toolz,
+  multipledispatch,
+  py,
+  pytestCheckHook,
+  pytest-html,
+  pytest-benchmark,
 }:
 
 buildPythonPackage rec {
@@ -30,7 +31,7 @@ buildPythonPackage rec {
     py
     pytestCheckHook
     pytest-html
-    pytest-benchmark  # Needed for the `--benchmark-skip` flag
+    pytest-benchmark # Needed for the `--benchmark-skip` flag
   ];
 
   pytestFlagsArray = [

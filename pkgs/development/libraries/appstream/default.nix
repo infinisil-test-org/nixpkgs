@@ -1,39 +1,44 @@
-{ lib
-, stdenv
-, substituteAll
-, fetchFromGitHub
-, meson
-, mesonEmulatorHook
-, ninja
-, pkg-config
-, gettext
-, xmlto
-, docbook-xsl-nons
-, docbook_xml_dtd_45
-, libxslt
-, libstemmer
-, glib
-, xapian
-, libxml2
-, libxmlb
-, libyaml
-, gobject-introspection
-, pcre
-, itstool
-, gperf
-, vala
-, curl
-, systemd
-, nixosTests
-, testers
-, withSystemd ? lib.meta.availableOn stdenv.hostPlatform systemd
+{
+  lib,
+  stdenv,
+  substituteAll,
+  fetchFromGitHub,
+  meson,
+  mesonEmulatorHook,
+  ninja,
+  pkg-config,
+  gettext,
+  xmlto,
+  docbook-xsl-nons,
+  docbook_xml_dtd_45,
+  libxslt,
+  libstemmer,
+  glib,
+  xapian,
+  libxml2,
+  libxmlb,
+  libyaml,
+  gobject-introspection,
+  pcre,
+  itstool,
+  gperf,
+  vala,
+  curl,
+  systemd,
+  nixosTests,
+  testers,
+  withSystemd ? lib.meta.availableOn stdenv.hostPlatform systemd,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "appstream";
   version = "1.0.1";
 
-  outputs = [ "out" "dev" "installedTests" ];
+  outputs = [
+    "out"
+    "dev"
+    "installedTests"
+  ];
 
   src = fetchFromGitHub {
     owner = "ximion";
@@ -55,9 +60,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   strictDeps = true;
 
-  depsBuildBuild = [
-    pkg-config
-  ];
+  depsBuildBuild = [ pkg-config ];
 
   nativeBuildInputs = [
     meson
@@ -72,9 +75,7 @@ stdenv.mkDerivation (finalAttrs: {
     itstool
     vala
     gperf
-  ] ++ lib.optionals (!stdenv.buildPlatform.canExecute stdenv.hostPlatform) [
-    mesonEmulatorHook
-  ];
+  ] ++ lib.optionals (!stdenv.buildPlatform.canExecute stdenv.hostPlatform) [ mesonEmulatorHook ];
 
   buildInputs = [
     libstemmer
@@ -85,24 +86,18 @@ stdenv.mkDerivation (finalAttrs: {
     libxmlb
     libyaml
     curl
-  ] ++ lib.optionals withSystemd [
-    systemd
-  ];
+  ] ++ lib.optionals withSystemd [ systemd ];
 
   mesonFlags = [
     "-Dapidocs=false"
     "-Ddocs=false"
     "-Dvapi=true"
     "-Dinstalled_test_prefix=${placeholder "installedTests"}"
-  ] ++ lib.optionals (!withSystemd) [
-    "-Dsystemd=false"
-  ];
+  ] ++ lib.optionals (!withSystemd) [ "-Dsystemd=false" ];
 
   passthru.tests = {
     installed-tests = nixosTests.installed-tests.appstream;
-    pkg-config = testers.hasPkgConfigModules {
-      package = finalAttrs.finalPackage;
-    };
+    pkg-config = testers.hasPkgConfigModules { package = finalAttrs.finalPackage; };
   };
 
   meta = with lib; {

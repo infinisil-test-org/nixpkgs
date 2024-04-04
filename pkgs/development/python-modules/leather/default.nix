@@ -1,10 +1,11 @@
-{ lib
-, fetchPypi
-, buildPythonPackage
-, six
-, cssselect
-, lxml
-, nose
+{
+  lib,
+  fetchPypi,
+  buildPythonPackage,
+  six,
+  cssselect,
+  lxml,
+  nose,
 }:
 
 buildPythonPackage rec {

@@ -1,4 +1,9 @@
-{ appimageTools, makeWrapper, fetchurl, lib }:
+{
+  appimageTools,
+  makeWrapper,
+  fetchurl,
+  lib,
+}:
 
 let
   pname = "notable";
@@ -12,9 +17,7 @@ let
     inherit sha256;
   };
 
-  appimageContents = appimageTools.extract {
-    inherit name src;
-  };
+  appimageContents = appimageTools.extract { inherit name src; };
 
   nativeBuildInputs = [ makeWrapper ];
 in
@@ -27,7 +30,13 @@ appimageTools.wrapType2 rec {
   '';
 
   multiArch = false; # no 32bit needed
-  extraPkgs = p: (appimageTools.defaultFhsEnvArgs.multiPkgs p) ++ [ p.at-spi2-atk p.at-spi2-core ];
+  extraPkgs =
+    p:
+    (appimageTools.defaultFhsEnvArgs.multiPkgs p)
+    ++ [
+      p.at-spi2-atk
+      p.at-spi2-core
+    ];
   extraInstallCommands = ''
     mv $out/bin/{${name},${pname}}
     install -m 444 -D ${appimageContents}/notable.desktop $out/share/applications/notable.desktop

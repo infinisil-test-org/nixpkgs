@@ -1,28 +1,29 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, desktop-file-utils
-, meson
-, ninja
-, pkg-config
-, vala
-, wrapGAppsHook4
-, evolution-data-server
-, glib
-, glib-networking
-, gtk4
-, gtksourceview5
-, gxml
-, json-glib
-, libadwaita
-, libgee
-, libical
-, libportal-gtk4
-, libsecret
-, libsoup_3
-, pantheon
-, sqlite
-, webkitgtk_6_0
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  desktop-file-utils,
+  meson,
+  ninja,
+  pkg-config,
+  vala,
+  wrapGAppsHook4,
+  evolution-data-server,
+  glib,
+  glib-networking,
+  gtk4,
+  gtksourceview5,
+  gxml,
+  json-glib,
+  libadwaita,
+  libgee,
+  libical,
+  libportal-gtk4,
+  libsecret,
+  libsoup_3,
+  pantheon,
+  sqlite,
+  webkitgtk_6_0,
 }:
 
 stdenv.mkDerivation rec {
@@ -64,9 +65,7 @@ stdenv.mkDerivation rec {
     webkitgtk_6_0
   ];
 
-  mesonFlags = [
-    "-Dprofile=default"
-  ];
+  mesonFlags = [ "-Dprofile=default" ];
 
   meta = with lib; {
     description = "Task manager with Todoist support designed for GNU/Linux";

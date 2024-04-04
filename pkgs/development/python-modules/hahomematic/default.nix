@@ -1,19 +1,20 @@
-{ lib
-, aiohttp
-, buildPythonPackage
-, fetchFromGitHub
-, freezegun
-, orjson
-, pydevccu
-, pytest-aiohttp
-, pytestCheckHook
-, python-slugify
-, pythonOlder
-, setuptools
-, voluptuous
-, websocket-client
-, xmltodict
-, wheel
+{
+  lib,
+  aiohttp,
+  buildPythonPackage,
+  fetchFromGitHub,
+  freezegun,
+  orjson,
+  pydevccu,
+  pytest-aiohttp,
+  pytestCheckHook,
+  python-slugify,
+  pythonOlder,
+  setuptools,
+  voluptuous,
+  websocket-client,
+  xmltodict,
+  wheel,
 }:
 
 buildPythonPackage rec {
@@ -57,9 +58,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "hahomematic"
-  ];
+  pythonImportsCheck = [ "hahomematic" ];
 
   meta = with lib; {
     description = "Python module to interact with HomeMatic devices";

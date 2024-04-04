@@ -1,5 +1,20 @@
-{ lib, stdenv, fetchFromGitHub, fetchpatch, buildPackages, cmake, installShellFiles
-, boost, lua, protobuf, rapidjson, shapelib, sqlite, zlib, testers }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  buildPackages,
+  cmake,
+  installShellFiles,
+  boost,
+  lua,
+  protobuf,
+  rapidjson,
+  shapelib,
+  sqlite,
+  zlib,
+  testers,
+}:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "tilemaker";
@@ -18,12 +33,24 @@ stdenv.mkDerivation (finalAttrs: {
       --replace "process.lua" "$out/share/tilemaker/process-openmaptiles.lua"
   '';
 
-  nativeBuildInputs = [ cmake installShellFiles ];
+  nativeBuildInputs = [
+    cmake
+    installShellFiles
+  ];
 
-  buildInputs = [ boost lua protobuf rapidjson shapelib sqlite zlib ];
+  buildInputs = [
+    boost
+    lua
+    protobuf
+    rapidjson
+    shapelib
+    sqlite
+    zlib
+  ];
 
-  cmakeFlags = lib.optional (stdenv.hostPlatform != stdenv.buildPlatform)
-    "-DPROTOBUF_PROTOC_EXECUTABLE=${buildPackages.protobuf}/bin/protoc";
+  cmakeFlags = lib.optional (
+    stdenv.hostPlatform != stdenv.buildPlatform
+  ) "-DPROTOBUF_PROTOC_EXECUTABLE=${buildPackages.protobuf}/bin/protoc";
 
   env.NIX_CFLAGS_COMPILE = toString [ "-DTM_VERSION=${finalAttrs.version}" ];
 

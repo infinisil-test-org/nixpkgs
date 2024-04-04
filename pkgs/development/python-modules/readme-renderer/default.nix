@@ -1,13 +1,14 @@
-{ lib
-, bleach
-, buildPythonPackage
-, cmarkgfm
-, docutils
-, fetchPypi
-, mock
-, pygments
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  bleach,
+  buildPythonPackage,
+  cmarkgfm,
+  docutils,
+  fetchPypi,
+  mock,
+  pygments,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -54,9 +55,7 @@ buildPythonPackage rec {
     "test_invalid_empty"
   ];
 
-  pythonImportsCheck = [
-    "readme_renderer"
-  ];
+  pythonImportsCheck = [ "readme_renderer" ];
 
   meta = with lib; {
     description = "Python library for rendering readme descriptions";

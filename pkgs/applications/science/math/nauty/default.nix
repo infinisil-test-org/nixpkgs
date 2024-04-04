@@ -1,17 +1,23 @@
-{ stdenv
-, lib
-, fetchurl
+{
+  stdenv,
+  lib,
+  fetchurl,
 }:
 stdenv.mkDerivation rec {
   pname = "nauty";
   version = "2.7r4";
 
   src = fetchurl {
-    url = "https://pallini.di.uniroma1.it/nauty${builtins.replaceStrings ["."] [""] version}.tar.gz";
+    url = "https://pallini.di.uniroma1.it/nauty${
+      builtins.replaceStrings [ "." ] [ "" ] version
+    }.tar.gz";
     sha256 = "sha256-uBDIWm/imfO0yfJKr5KcrH+VRsLzXCDh3Qrbx0CISKY=";
   };
 
-  outputs = [ "out" "dev" ];
+  outputs = [
+    "out"
+    "dev"
+  ];
 
   configureFlags = [
     # Prevent nauty from sniffing some cpu features. While those are very

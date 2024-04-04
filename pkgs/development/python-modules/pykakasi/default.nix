@@ -1,14 +1,15 @@
-{ lib
-, buildPythonPackage
-, deprecated
-, fetchFromGitHub
-, importlib-metadata
-, jaconv
-, py-cpuinfo
-, pytest-benchmark
-, pytestCheckHook
-, pythonOlder
-, setuptools-scm
+{
+  lib,
+  buildPythonPackage,
+  deprecated,
+  fetchFromGitHub,
+  importlib-metadata,
+  jaconv,
+  py-cpuinfo,
+  pytest-benchmark,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools-scm,
 }:
 
 buildPythonPackage rec {
@@ -25,16 +26,12 @@ buildPythonPackage rec {
     hash = "sha256-ivlenHPD00bxc0c9G368tfTEckOC3vqDB5kMQzHXbVM==";
   };
 
-  nativeBuildInputs = [
-    setuptools-scm
-  ];
+  nativeBuildInputs = [ setuptools-scm ];
 
   propagatedBuildInputs = [
     jaconv
     deprecated
-  ] ++ lib.optionals (pythonOlder "3.8") [
-    importlib-metadata
-  ];
+  ] ++ lib.optionals (pythonOlder "3.8") [ importlib-metadata ];
 
   nativeCheckInputs = [
     py-cpuinfo
@@ -49,9 +46,7 @@ buildPythonPackage rec {
     "pytest_benchmark_update_json"
   ];
 
-  pythonImportsCheck = [
-    "pykakasi"
-  ];
+  pythonImportsCheck = [ "pykakasi" ];
 
   meta = with lib; {
     description = "Python converter for Japanese Kana-kanji sentences into Kana-Roman";

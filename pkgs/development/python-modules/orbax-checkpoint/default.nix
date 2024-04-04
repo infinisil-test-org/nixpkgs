@@ -1,23 +1,24 @@
-{ lib
-, absl-py
-, buildPythonPackage
-, cached-property
-, etils
-, fetchPypi
-, flit-core
-, importlib-resources
-, jax
-, jaxlib
-, msgpack
-, nest-asyncio
-, numpy
-, protobuf
-, pytest-xdist
-, pytestCheckHook
-, pythonOlder
-, pyyaml
-, tensorstore
-, typing-extensions
+{
+  lib,
+  absl-py,
+  buildPythonPackage,
+  cached-property,
+  etils,
+  fetchPypi,
+  flit-core,
+  importlib-resources,
+  jax,
+  jaxlib,
+  msgpack,
+  nest-asyncio,
+  numpy,
+  protobuf,
+  pytest-xdist,
+  pytestCheckHook,
+  pythonOlder,
+  pyyaml,
+  tensorstore,
+  typing-extensions,
 }:
 
 buildPythonPackage rec {
@@ -33,9 +34,7 @@ buildPythonPackage rec {
     hash = "sha256-zry5byLxFzah+e52x4yIi6roU3Jox/9mY62cujB2xlU=";
   };
 
-  nativeBuildInputs = [
-    flit-core
-  ];
+  nativeBuildInputs = [ flit-core ];
 
   propagatedBuildInputs = [
     absl-py
@@ -58,9 +57,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "orbax"
-  ];
+  pythonImportsCheck = [ "orbax" ];
 
   disabledTestPaths = [
     # Circular dependency flax
@@ -73,6 +70,6 @@ buildPythonPackage rec {
     homepage = "https://github.com/google/orbax/tree/main/checkpoint";
     changelog = "https://github.com/google/orbax/blob/${version}/CHANGELOG.md";
     license = licenses.asl20;
-    maintainers = with maintainers; [fab ];
+    maintainers = with maintainers; [ fab ];
   };
 }

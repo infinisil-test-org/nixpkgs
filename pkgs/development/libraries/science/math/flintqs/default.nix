@@ -1,7 +1,9 @@
-{ lib, stdenv
-, fetchFromGitHub
-, autoreconfHook
-, gmp
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  autoreconfHook,
+  gmp,
 }:
 
 stdenv.mkDerivation rec {
@@ -19,13 +21,9 @@ stdenv.mkDerivation rec {
     touch ChangeLog
   '';
 
-  buildInputs = [
-    gmp
-  ];
+  buildInputs = [ gmp ];
 
-  nativeBuildInputs = [
-    autoreconfHook
-  ];
+  nativeBuildInputs = [ autoreconfHook ];
 
   doCheck = true;
 

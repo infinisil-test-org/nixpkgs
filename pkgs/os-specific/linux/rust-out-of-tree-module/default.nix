@@ -1,4 +1,8 @@
-{ lib, fetchFromGitHub, kernel }:
+{
+  lib,
+  fetchFromGitHub,
+  kernel,
+}:
 kernel.stdenv.mkDerivation {
   name = "rust-out-of-tree-module";
 
@@ -24,5 +28,4 @@ kernel.stdenv.mkDerivation {
     maintainers = [ lib.maintainers.blitz ];
     platforms = lib.platforms.linux;
   };
-
 }

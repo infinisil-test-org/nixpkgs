@@ -1,20 +1,21 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchPypi
-, glibcLocales
-, importlib-metadata
-, logfury
-, pyfakefs
-, pytestCheckHook
-, pytest-lazy-fixture
-, pytest-mock
-, pythonOlder
-, requests
-, setuptools
-, setuptools-scm
-, tqdm
-, typing-extensions
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchPypi,
+  glibcLocales,
+  importlib-metadata,
+  logfury,
+  pyfakefs,
+  pytestCheckHook,
+  pytest-lazy-fixture,
+  pytest-mock,
+  pythonOlder,
+  requests,
+  setuptools,
+  setuptools-scm,
+  tqdm,
+  typing-extensions,
 }:
 
 buildPythonPackage rec {
@@ -34,24 +35,21 @@ buildPythonPackage rec {
     setuptools-scm
   ];
 
-  propagatedBuildInputs = [
-    logfury
-    requests
-    tqdm
-  ] ++ lib.optionals (pythonOlder "3.8") [
-    importlib-metadata
-  ] ++ lib.optionals (pythonOlder "3.12") [
-    typing-extensions
-  ];
+  propagatedBuildInputs =
+    [
+      logfury
+      requests
+      tqdm
+    ]
+    ++ lib.optionals (pythonOlder "3.8") [ importlib-metadata ]
+    ++ lib.optionals (pythonOlder "3.12") [ typing-extensions ];
 
   nativeCheckInputs = [
     pytestCheckHook
     pytest-lazy-fixture
     pytest-mock
     pyfakefs
-  ] ++ lib.optionals stdenv.isLinux [
-    glibcLocales
-  ];
+  ] ++ lib.optionals stdenv.isLinux [ glibcLocales ];
 
   postPatch = ''
     substituteInPlace setup.py \
@@ -72,9 +70,7 @@ buildPythonPackage rec {
     "test_file_info_b2_attributes"
   ];
 
-  pythonImportsCheck = [
-    "b2sdk"
-  ];
+  pythonImportsCheck = [ "b2sdk" ];
 
   meta = with lib; {
     description = "Client library and utilities for access to B2 Cloud Storage (backblaze)";

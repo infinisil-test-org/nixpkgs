@@ -9,7 +9,13 @@ buildPackage {
 
   description = "A HTTP 1.1 webserver, serving static files and CGI/NPH";
 
-  outputs = [ "bin" "lib" "out" "dev" "doc" ];
+  outputs = [
+    "bin"
+    "lib"
+    "out"
+    "dev"
+    "doc"
+  ];
 
   configureFlags = [
     "--libdir=\${lib}/lib"
@@ -36,5 +42,4 @@ buildPackage {
     mv doc $doc/share/doc/tipidee/html
     mv examples $doc/share/doc/tipidee/examples
   '';
-
 }

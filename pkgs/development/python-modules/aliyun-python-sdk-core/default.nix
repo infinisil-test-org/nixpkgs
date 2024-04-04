@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, cryptography
-, fetchPypi
-, jmespath
-, pythonOlder
-, pythonRelaxDepsHook
+{
+  lib,
+  buildPythonPackage,
+  cryptography,
+  fetchPypi,
+  jmespath,
+  pythonOlder,
+  pythonRelaxDepsHook,
 }:
 
 buildPythonPackage rec {
@@ -19,9 +20,7 @@ buildPythonPackage rec {
     hash = "sha256-7cRVVIjYqfHGG9QZx74nsjl0sqBSlxtGFPzSKerus4I=";
   };
 
-  nativeBuildInputs = [
-    pythonRelaxDepsHook
-  ];
+  nativeBuildInputs = [ pythonRelaxDepsHook ];
 
   propagatedBuildInputs = [
     cryptography
@@ -33,9 +32,7 @@ buildPythonPackage rec {
 
   pythonRelaxDeps = true;
 
-  pythonImportsCheck = [
-    "aliyunsdkcore"
-  ];
+  pythonImportsCheck = [ "aliyunsdkcore" ];
 
   meta = with lib; {
     description = "Core module of Aliyun Python SDK";

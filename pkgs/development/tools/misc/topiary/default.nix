@@ -1,8 +1,9 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, stdenv
-, nix-update-script
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  stdenv,
+  nix-update-script,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -32,15 +33,20 @@ rustPlatform.buildRustPackage rec {
     };
   };
 
-  cargoBuildFlags = [ "-p" "topiary-cli" ];
+  cargoBuildFlags = [
+    "-p"
+    "topiary-cli"
+  ];
   cargoTestFlags = cargoBuildFlags;
 
-  env = {
-    TOPIARY_LANGUAGE_DIR = "${placeholder "out"}/share/queries";
-  } // lib.optionalAttrs stdenv.cc.isClang {
-    # Work around https://github.com/NixOS/nixpkgs/issues/166205.
-    NIX_LDFLAGS = "-l${stdenv.cc.libcxx.cxxabi.libName}";
-  };
+  env =
+    {
+      TOPIARY_LANGUAGE_DIR = "${placeholder "out"}/share/queries";
+    }
+    // lib.optionalAttrs stdenv.cc.isClang {
+      # Work around https://github.com/NixOS/nixpkgs/issues/166205.
+      NIX_LDFLAGS = "-l${stdenv.cc.libcxx.cxxabi.libName}";
+    };
 
   postInstall = ''
     install -Dm444 queries/* -t $out/share/queries

@@ -1,7 +1,8 @@
-{ lib
-, python3Packages
-, fetchFromGitHub
-, installShellFiles
+{
+  lib,
+  python3Packages,
+  fetchFromGitHub,
+  installShellFiles,
 }:
 
 python3Packages.buildPythonApplication rec {
@@ -15,9 +16,7 @@ python3Packages.buildPythonApplication rec {
     hash = "sha256-GkOp0iK84HDvVH8RmtmIKJ5EtQIECgZS5g8pmaIhUcc=";
   };
 
-  nativeBuildInputs = [
-    installShellFiles
-  ];
+  nativeBuildInputs = [ installShellFiles ];
 
   propagatedBuildInputs = with python3Packages; [
     dnspython

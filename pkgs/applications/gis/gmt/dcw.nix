@@ -1,4 +1,8 @@
-{ lib, stdenv, fetchurl }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+}:
 
 stdenv.mkDerivation rec {
   pname = "dcw-gmt";
@@ -28,5 +32,4 @@ stdenv.mkDerivation rec {
     license = licenses.lgpl3Plus;
     maintainers = with maintainers; [ tviti ];
   };
-
 }

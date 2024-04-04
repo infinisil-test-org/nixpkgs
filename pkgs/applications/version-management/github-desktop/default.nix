@@ -1,22 +1,23 @@
-{ stdenv
-, lib
-, fetchurl
-, autoPatchelfHook
-, wrapGAppsHook
-, makeWrapper
-, gnome
-, libsecret
-, git
-, curl
-, nss
-, nspr
-, xorg
-, libdrm
-, alsa-lib
-, cups
-, mesa
-, systemd
-, openssl
+{
+  stdenv,
+  lib,
+  fetchurl,
+  autoPatchelfHook,
+  wrapGAppsHook,
+  makeWrapper,
+  gnome,
+  libsecret,
+  git,
+  curl,
+  nss,
+  nspr,
+  xorg,
+  libdrm,
+  alsa-lib,
+  cups,
+  mesa,
+  systemd,
+  openssl,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -70,9 +71,7 @@ stdenv.mkDerivation (finalAttrs: {
     )
   '';
 
-  runtimeDependencies = [
-    (lib.getLib systemd)
-  ];
+  runtimeDependencies = [ (lib.getLib systemd) ];
 
   meta = {
     description = "GUI for managing Git and GitHub.";

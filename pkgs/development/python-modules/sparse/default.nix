@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, dask
-, fetchpatch
-, fetchPypi
-, numba
-, numpy
-, pytestCheckHook
-, pythonOlder
-, scipy
+{
+  lib,
+  buildPythonPackage,
+  dask,
+  fetchpatch,
+  fetchPypi,
+  numba,
+  numpy,
+  pytestCheckHook,
+  pythonOlder,
+  scipy,
 }:
 
 buildPythonPackage rec {
@@ -42,9 +43,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "sparse"
-  ];
+  pythonImportsCheck = [ "sparse" ];
 
   meta = with lib; {
     description = "Sparse n-dimensional arrays computations";

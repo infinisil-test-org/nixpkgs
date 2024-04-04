@@ -1,17 +1,18 @@
-{ lib
-, pythonOlder
-, pythonAtLeast
-, asynctest
-, buildPythonPackage
-, docutils
-, fetchFromGitHub
-, imaplib2
-, mock
-, nose
-, pyopenssl
-, pytestCheckHook
-, pytz
-, tzlocal
+{
+  lib,
+  pythonOlder,
+  pythonAtLeast,
+  asynctest,
+  buildPythonPackage,
+  docutils,
+  fetchFromGitHub,
+  imaplib2,
+  mock,
+  nose,
+  pyopenssl,
+  pytestCheckHook,
+  pytz,
+  tzlocal,
 }:
 
 buildPythonPackage rec {
@@ -50,9 +51,7 @@ buildPythonPackage rec {
     "test_idle"
   ];
 
-  pythonImportsCheck = [
-    "aioimaplib"
-  ];
+  pythonImportsCheck = [ "aioimaplib" ];
 
   meta = with lib; {
     description = "Python asyncio IMAP4rev1 client library";

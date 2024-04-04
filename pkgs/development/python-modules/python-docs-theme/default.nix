@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, flit-core
-, pythonOlder
-, sphinx
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  flit-core,
+  pythonOlder,
+  sphinx,
 }:
 
 buildPythonPackage rec {
@@ -20,17 +21,11 @@ buildPythonPackage rec {
     hash = "sha256-5qn/bROc3wekTyYq+e7rLpJjeI8IBByKvrOE4Kw0fjQ=";
   };
 
-  nativeBuildInputs = [
-    flit-core
-  ];
+  nativeBuildInputs = [ flit-core ];
 
-  propagatedBuildInputs = [
-   sphinx
-  ];
+  propagatedBuildInputs = [ sphinx ];
 
-  pythonImportsCheck = [
-    "python_docs_theme"
-  ];
+  pythonImportsCheck = [ "python_docs_theme" ];
 
   meta = with lib; {
     description = "Sphinx theme for CPython project";

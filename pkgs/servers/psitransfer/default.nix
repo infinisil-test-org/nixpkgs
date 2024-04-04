@@ -1,6 +1,7 @@
-{ lib
-, buildNpmPackage
-, fetchFromGitHub
+{
+  lib,
+  buildNpmPackage,
+  fetchFromGitHub,
 }:
 
 let
@@ -28,7 +29,8 @@ let
       cp -r ../public/app $out
     '';
   };
-in buildNpmPackage {
+in
+buildNpmPackage {
   inherit pname version src;
 
   npmDepsHash = "sha256-H22T5IU8bjbsWhwhchDqppvYfcatbXSWqp6gdoek1Z8=";

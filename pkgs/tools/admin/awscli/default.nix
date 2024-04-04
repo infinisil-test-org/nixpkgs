@@ -1,11 +1,12 @@
-{ lib
-, python3
-, fetchPypi
-, groff
-, less
-, nix-update-script
-, testers
-, awscli
+{
+  lib,
+  python3,
+  fetchPypi,
+  groff,
+  less,
+  nix-update-script,
+  testers,
+  awscli,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -54,7 +55,10 @@ python3.pkgs.buildPythonApplication rec {
     python = python3; # for aws_shell
     updateScript = nix-update-script {
       # Excludes 1.x versions from the Github tags list
-      extraArgs = [ "--version-regex" "^(1\.(.*))" ];
+      extraArgs = [
+        "--version-regex"
+        "^(1\.(.*))"
+      ];
     };
     tests.version = testers.testVersion {
       package = awscli;

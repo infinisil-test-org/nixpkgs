@@ -148,7 +148,7 @@ symlinkJoin {
 
   passthru = {
     inherit client unwrapped;
-    ui = callPackage ./ui.nix {};
+    ui = callPackage ./ui.nix { };
 
     inherit (unwrapped) tests;
   };

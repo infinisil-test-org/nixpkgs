@@ -1,10 +1,11 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
-, installShellFiles
-, nix-update-script
-, testers
-, pulsarctl
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  installShellFiles,
+  nix-update-script,
+  testers,
+  pulsarctl,
 }:
 
 buildGoModule rec {
@@ -22,19 +23,22 @@ buildGoModule rec {
 
   nativeBuildInputs = [ installShellFiles ];
 
-  preBuild = let
-    buildVars = {
-      ReleaseVersion = version;
-      BuildTS = "None";
-      GitHash = src.rev;
-      GitBranch = "None";
-      GoVersion = "$(go version | egrep -o 'go[0-9]+[.][^ ]*')";
-    };
-    buildVarsFlags = lib.concatStringsSep " " (lib.mapAttrsToList (k: v: "-X github.com/streamnative/pulsarctl/pkg/cmdutils.${k}=${v}") buildVars);
-  in
-  ''
-    buildFlagsArray+=("-ldflags=${buildVarsFlags}")
-  '';
+  preBuild =
+    let
+      buildVars = {
+        ReleaseVersion = version;
+        BuildTS = "None";
+        GitHash = src.rev;
+        GitBranch = "None";
+        GoVersion = "$(go version | egrep -o 'go[0-9]+[.][^ ]*')";
+      };
+      buildVarsFlags = lib.concatStringsSep " " (
+        lib.mapAttrsToList (k: v: "-X github.com/streamnative/pulsarctl/pkg/cmdutils.${k}=${v}") buildVars
+      );
+    in
+    ''
+      buildFlagsArray+=("-ldflags=${buildVarsFlags}")
+    '';
 
   excludedPackages = [
     "./pkg/test"
@@ -73,4 +77,3 @@ buildGoModule rec {
     mainProgram = "pulsarctl";
   };
 }
-

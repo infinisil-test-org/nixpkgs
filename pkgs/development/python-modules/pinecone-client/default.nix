@@ -1,18 +1,19 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, setuptools
-, poetry-core
-, pythonRelaxDepsHook
-, numpy
-, pyyaml
-, python-dateutil
-, urllib3
-, tqdm
-, dnspython
-, requests
-, typing-extensions
-, loguru
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  setuptools,
+  poetry-core,
+  pythonRelaxDepsHook,
+  numpy,
+  pyyaml,
+  python-dateutil,
+  urllib3,
+  tqdm,
+  dnspython,
+  requests,
+  typing-extensions,
+  loguru,
 }:
 buildPythonPackage rec {
   pname = "pinecone-client";
@@ -43,15 +44,11 @@ buildPythonPackage rec {
     loguru
   ];
 
-  pythonRelaxDeps = [
-    "urllib3"
-  ];
+  pythonRelaxDeps = [ "urllib3" ];
 
   doCheck = false;
 
-  pythonImportsCheck = [
-    "pinecone"
-  ];
+  pythonImportsCheck = [ "pinecone" ];
 
   meta = with lib; {
     homepage = "https://www.pinecone.io/";

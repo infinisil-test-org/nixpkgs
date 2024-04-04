@@ -1,4 +1,12 @@
-{ lib, stdenv, fetchurl, jre, makeWrapper, substituteAll, coreutils }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  jre,
+  makeWrapper,
+  substituteAll,
+  coreutils,
+}:
 
 stdenv.mkDerivation rec {
   pname = "cytoscape";
@@ -38,7 +46,7 @@ stdenv.mkDerivation rec {
     homepage = "http://www.cytoscape.org";
     description = "A general platform for complex network analysis and visualization";
     license = lib.licenses.lgpl21;
-    maintainers = [lib.maintainers.mimame];
+    maintainers = [ lib.maintainers.mimame ];
     platforms = lib.platforms.unix;
   };
 }

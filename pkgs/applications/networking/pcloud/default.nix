@@ -16,24 +16,24 @@
 
 {
   # Build dependencies
-  appimageTools
-, autoPatchelfHook
-, fetchzip
-, lib
-, stdenv
+  appimageTools,
+  autoPatchelfHook,
+  fetchzip,
+  lib,
+  stdenv,
 
   # Runtime dependencies;
   # A few additional ones (e.g. Node) are already shipped together with the
   # AppImage, so we don't have to duplicate them here.
-, alsa-lib
-, dbus-glib
-, fuse
-, gsettings-desktop-schemas
-, gtk3
-, libdbusmenu-gtk2
-, libXdamage
-, nss
-, udev
+  alsa-lib,
+  dbus-glib,
+  fuse,
+  gsettings-desktop-schemas,
+  gtk3,
+  libdbusmenu-gtk2,
+  libXdamage,
+  nss,
+  udev,
 }:
 
 let
@@ -51,7 +51,6 @@ let
     name = "${pname}-${version}";
     src = "${src}/pcloud";
   };
-
 in
 stdenv.mkDerivation {
   inherit pname version;
@@ -61,9 +60,7 @@ stdenv.mkDerivation {
   dontConfigure = true;
   dontBuild = true;
 
-  nativeBuildInputs = [
-    autoPatchelfHook
-  ];
+  nativeBuildInputs = [ autoPatchelfHook ];
 
   buildInputs = [
     alsa-lib

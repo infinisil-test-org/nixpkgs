@@ -1,18 +1,20 @@
-{ fetchurl
-, lib, stdenv
-, perl
-, libxml2
-, postgresql
-, geos
-, proj
-, gdalMinimal
-, json_c
-, pkg-config
-, file
-, protobufc
-, libiconv
-, pcre2
-, nixosTests
+{
+  fetchurl,
+  lib,
+  stdenv,
+  perl,
+  libxml2,
+  postgresql,
+  geos,
+  proj,
+  gdalMinimal,
+  json_c,
+  pkg-config,
+  file,
+  protobufc,
+  libiconv,
+  pcre2,
+  nixosTests,
 }:
 
 let
@@ -22,23 +24,39 @@ stdenv.mkDerivation rec {
   pname = "postgis";
   version = "3.4.2";
 
-  outputs = [ "out" "doc" ];
+  outputs = [
+    "out"
+    "doc"
+  ];
 
   src = fetchurl {
     url = "https://download.osgeo.org/postgis/source/postgis-${version}.tar.gz";
     sha256 = "sha256-yMh0wAukqYSocDCva/lUSCFQIGCtRz1clvHU0INcWJI=";
   };
 
-  buildInputs = [ libxml2 postgresql geos proj gdal json_c protobufc pcre2.dev ]
-                ++ lib.optional stdenv.isDarwin libiconv;
-  nativeBuildInputs = [ perl pkg-config ] ++ lib.optional postgresql.jitSupport postgresql.llvm;
+  buildInputs = [
+    libxml2
+    postgresql
+    geos
+    proj
+    gdal
+    json_c
+    protobufc
+    pcre2.dev
+  ] ++ lib.optional stdenv.isDarwin libiconv;
+  nativeBuildInputs = [
+    perl
+    pkg-config
+  ] ++ lib.optional postgresql.jitSupport postgresql.llvm;
   dontDisableStatic = true;
 
   # postgis config directory assumes /include /lib from the same root for json-c library
-  NIX_LDFLAGS = "-L${lib.getLib json_c}/lib"
+  NIX_LDFLAGS =
+    "-L${lib.getLib json_c}/lib"
     # Work around https://github.com/NixOS/nixpkgs/issues/166205.
-    + lib.optionalString (stdenv.cc.isClang && stdenv.cc.libcxx != null) " -l${stdenv.cc.libcxx.cxxabi.libName}";
-
+    + lib.optionalString (
+      stdenv.cc.isClang && stdenv.cc.libcxx != null
+    ) " -l${stdenv.cc.libcxx.cxxabi.libName}";
 
   preConfigure = ''
     sed -i 's@/usr/bin/file@${file}/bin/file@' configure

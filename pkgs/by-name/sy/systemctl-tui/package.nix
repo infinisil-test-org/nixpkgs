@@ -1,8 +1,9 @@
-{ lib
-, rustPlatform
-, fetchCrate
-, stdenv
-, darwin
+{
+  lib,
+  rustPlatform,
+  fetchCrate,
+  stdenv,
+  darwin,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -16,9 +17,7 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-zUc6RchoGtJB+gnJNwNu93to775fdM5JDJ4qYwRdJn0=";
 
-  buildInputs = lib.optionals stdenv.isDarwin [
-    darwin.apple_sdk.frameworks.AppKit
-  ];
+  buildInputs = lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.AppKit ];
 
   meta = with lib; {
     description = "A simple TUI for interacting with systemd services and their logs";

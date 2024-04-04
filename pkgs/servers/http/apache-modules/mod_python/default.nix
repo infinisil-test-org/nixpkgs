@@ -1,4 +1,11 @@
-{ lib, stdenv, fetchFromGitHub, apacheHttpd, python3, libintl }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  apacheHttpd,
+  python3,
+  libintl,
+}:
 
 stdenv.mkDerivation rec {
   pname = "mod_python";
@@ -18,10 +25,14 @@ stdenv.mkDerivation rec {
     "BINDIR=$(out)/bin"
   ];
 
-  passthru = { inherit apacheHttpd; };
+  passthru = {
+    inherit apacheHttpd;
+  };
 
-  buildInputs = [ apacheHttpd python3 ]
-    ++ lib.optional stdenv.isDarwin libintl;
+  buildInputs = [
+    apacheHttpd
+    python3
+  ] ++ lib.optional stdenv.isDarwin libintl;
 
   meta = with lib; {
     homepage = "https://modpython.org/";

@@ -1,6 +1,5 @@
-{ lib
-, fetchFromGitHub
-}: rec {
+{ lib, fetchFromGitHub }:
+rec {
   version = "3.7.0";
   format = "setuptools";
 

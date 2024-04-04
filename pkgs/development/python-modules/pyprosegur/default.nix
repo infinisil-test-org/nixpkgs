@@ -1,11 +1,12 @@
-{ lib
-, aiofiles
-, aiohttp
-, backoff
-, buildPythonPackage
-, click
-, fetchFromGitHub
-, pythonOlder
+{
+  lib,
+  aiofiles,
+  aiohttp,
+  backoff,
+  buildPythonPackage,
+  click,
+  fetchFromGitHub,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -32,9 +33,7 @@ buildPythonPackage rec {
   # Project has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "pyprosegur"
-  ];
+  pythonImportsCheck = [ "pyprosegur" ];
 
   meta = with lib; {
     description = "Python module to communicate with Prosegur Residential Alarms";

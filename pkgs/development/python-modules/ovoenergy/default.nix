@@ -1,12 +1,13 @@
-{ lib
-, aiohttp
-, buildPythonPackage
-, click
-, fetchFromGitHub
-, incremental
-, pydantic
-, pythonOlder
-, typer
+{
+  lib,
+  aiohttp,
+  buildPythonPackage,
+  click,
+  fetchFromGitHub,
+  incremental,
+  pydantic,
+  pythonOlder,
+  typer,
 }:
 
 buildPythonPackage rec {
@@ -23,9 +24,7 @@ buildPythonPackage rec {
     hash = "sha256-oeNwBmzlkE8JewSwuFG8OYigyispP4xdwO3s2CAcfW4=";
   };
 
-  nativeBuildInputs = [
-    incremental
-  ];
+  nativeBuildInputs = [ incremental ];
 
   postPatch = ''
     substituteInPlace requirements.txt \
@@ -42,9 +41,7 @@ buildPythonPackage rec {
   # Project has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "ovoenergy"
-  ];
+  pythonImportsCheck = [ "ovoenergy" ];
 
   meta = with lib; {
     description = "Python client for getting data from OVO's API";

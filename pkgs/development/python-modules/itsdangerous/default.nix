@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchPypi
-, freezegun
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchPypi,
+  freezegun,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -23,7 +24,8 @@ buildPythonPackage rec {
   ];
 
   pytestFlagsArray = [
-    "-W" "ignore::DeprecationWarning"
+    "-W"
+    "ignore::DeprecationWarning"
   ];
 
   meta = with lib; {
@@ -31,5 +33,4 @@ buildPythonPackage rec {
     homepage = "https://itsdangerous.palletsprojects.com";
     license = licenses.bsd3;
   };
-
 }

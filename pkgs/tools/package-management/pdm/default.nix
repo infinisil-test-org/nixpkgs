@@ -1,14 +1,15 @@
-{ lib
-, stdenv
-, python3
-, fetchFromGitHub
-, fetchpatch
-, fetchPypi
-, nix-update-script
-, runtimeShell
-, installShellFiles
-, testers
-, pdm
+{
+  lib,
+  stdenv,
+  python3,
+  fetchFromGitHub,
+  fetchpatch,
+  fetchPypi,
+  nix-update-script,
+  runtimeShell,
+  installShellFiles,
+  testers,
+  pdm,
 }:
 let
   python = python3.override {
@@ -50,39 +51,32 @@ buildPythonApplication rec {
     installShellFiles
   ];
 
-  propagatedBuildInputs = [
-    blinker
-    certifi
-    cachecontrol
-    dep-logic
-    findpython
-    installer
-    packaging
-    platformdirs
-    pyproject-hooks
-    python-dotenv
-    requests-toolbelt
-    resolvelib
-    rich
-    shellingham
-    tomlkit
-    unearth
-    virtualenv
-  ]
-  ++ cachecontrol.optional-dependencies.filecache
-  ++ lib.optionals (pythonOlder "3.11") [
-    tomli
-  ]
-  ++ lib.optionals (pythonOlder "3.10") [
-    importlib-metadata
-  ]
-  ++ lib.optionals (pythonAtLeast "3.10") [
-    truststore
-  ];
+  propagatedBuildInputs =
+    [
+      blinker
+      certifi
+      cachecontrol
+      dep-logic
+      findpython
+      installer
+      packaging
+      platformdirs
+      pyproject-hooks
+      python-dotenv
+      requests-toolbelt
+      resolvelib
+      rich
+      shellingham
+      tomlkit
+      unearth
+      virtualenv
+    ]
+    ++ cachecontrol.optional-dependencies.filecache
+    ++ lib.optionals (pythonOlder "3.11") [ tomli ]
+    ++ lib.optionals (pythonOlder "3.10") [ importlib-metadata ]
+    ++ lib.optionals (pythonAtLeast "3.10") [ truststore ];
 
-  makeWrapperArgs = [
-    "--set PDM_CHECK_UPDATE 0"
-  ];
+  makeWrapperArgs = [ "--set PDM_CHECK_UPDATE 0" ];
 
   preInstall = ''
     # Silence network warning during pypaInstallPhase
@@ -105,9 +99,7 @@ buildPythonApplication rec {
     pytest-httpserver
   ] ++ lib.optional stdenv.isLinux first;
 
-  pytestFlagsArray = [
-    "-m 'not network'"
-  ];
+  pytestFlagsArray = [ "-m 'not network'" ];
 
   preCheck = ''
     export HOME=$TMPDIR
@@ -125,9 +117,7 @@ buildPythonApplication rec {
 
   __darwinAllowLocalNetworking = true;
 
-  passthru.tests.version = testers.testVersion {
-    package = pdm;
-  };
+  passthru.tests.version = testers.testVersion { package = pdm; };
 
   passthru.updateScript = nix-update-script { };
 

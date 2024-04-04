@@ -1,24 +1,27 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, AppKit
-, Carbon
-, CoreAudio
-, CoreWLAN
-, CoreVideo
-, DisplayServices
-, IOKit
-, MediaRemote
-, SkyLight
-, testers
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  AppKit,
+  Carbon,
+  CoreAudio,
+  CoreWLAN,
+  CoreVideo,
+  DisplayServices,
+  IOKit,
+  MediaRemote,
+  SkyLight,
+  testers,
 }:
 
 let
   inherit (stdenv.hostPlatform) system;
-  target = {
-    "aarch64-darwin" = "arm64";
-    "x86_64-darwin" = "x86";
-  }.${system} or (throw "Unsupported system: ${system}");
+  target =
+    {
+      "aarch64-darwin" = "arm64";
+      "x86_64-darwin" = "x86";
+    }
+    .${system} or (throw "Unsupported system: ${system}");
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "sketchybar";
@@ -43,9 +46,7 @@ stdenv.mkDerivation (finalAttrs: {
     SkyLight
   ];
 
-  makeFlags = [
-    target
-  ];
+  makeFlags = [ target ];
 
   installPhase = ''
     runHook preInstall
@@ -66,7 +67,10 @@ stdenv.mkDerivation (finalAttrs: {
     homepage = "https://github.com/FelixKratz/SketchyBar";
     license = lib.licenses.gpl3;
     mainProgram = "sketchybar";
-    maintainers = with lib.maintainers; [ azuwis khaneliman ];
+    maintainers = with lib.maintainers; [
+      azuwis
+      khaneliman
+    ];
     platforms = lib.platforms.darwin;
   };
 })

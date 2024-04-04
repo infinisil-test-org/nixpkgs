@@ -1,9 +1,16 @@
-{ lib, stdenv, fetchFromGitHub
-, cmake
-, cunit, ncurses
-, libev, nghttp3, quictls
-, withJemalloc ? false, jemalloc
-, curlHTTP3
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  cunit,
+  ncurses,
+  libev,
+  nghttp3,
+  quictls,
+  withJemalloc ? false,
+  jemalloc,
+  curlHTTP3,
 }:
 
 stdenv.mkDerivation rec {
@@ -17,15 +24,24 @@ stdenv.mkDerivation rec {
     hash = "sha256-/lHsHkSySKyZZdjTTYCo0a6cwcMcbOWNvAEcO36/kEw=";
   };
 
-  outputs = [ "out" "dev" "doc" ];
+  outputs = [
+    "out"
+    "dev"
+    "doc"
+  ];
 
   nativeBuildInputs = [ cmake ];
-  nativeCheckInputs = [ cunit ncurses ];
-  buildInputs = [ libev nghttp3 quictls ] ++ lib.optional withJemalloc jemalloc;
-
-  cmakeFlags = [
-    "-DENABLE_STATIC_LIB=OFF"
+  nativeCheckInputs = [
+    cunit
+    ncurses
   ];
+  buildInputs = [
+    libev
+    nghttp3
+    quictls
+  ] ++ lib.optional withJemalloc jemalloc;
+
+  cmakeFlags = [ "-DENABLE_STATIC_LIB=OFF" ];
 
   doCheck = true;
   enableParallelBuilding = true;

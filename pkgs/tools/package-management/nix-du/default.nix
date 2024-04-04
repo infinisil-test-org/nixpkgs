@@ -1,13 +1,14 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, rustPlatform
-, nix
-, nlohmann_json
-, boost
-, graphviz
-, Security
-, pkg-config
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  rustPlatform,
+  nix,
+  nlohmann_json,
+  boost,
+  graphviz,
+  Security,
+  pkg-config,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -24,7 +25,10 @@ rustPlatform.buildRustPackage rec {
   cargoSha256 = "sha256-oUxxuBqec4aI2h8BAn1WSA44UU7f5APkv0DIwuSun0M=";
 
   doCheck = true;
-  nativeCheckInputs = [ nix graphviz ];
+  nativeCheckInputs = [
+    nix
+    graphviz
+  ];
 
   buildInputs = [
     boost
@@ -32,12 +36,13 @@ rustPlatform.buildRustPackage rec {
     nlohmann_json
   ] ++ lib.optionals stdenv.isDarwin [ Security ];
 
-  nativeBuildInputs = [ pkg-config rustPlatform.bindgenHook ];
+  nativeBuildInputs = [
+    pkg-config
+    rustPlatform.bindgenHook
+  ];
 
   # Workaround for https://github.com/NixOS/nixpkgs/issues/166205
-  env = lib.optionalAttrs stdenv.cc.isClang {
-    NIX_LDFLAGS = "-l${stdenv.cc.libcxx.cxxabi.libName}";
-  };
+  env = lib.optionalAttrs stdenv.cc.isClang { NIX_LDFLAGS = "-l${stdenv.cc.libcxx.cxxabi.libName}"; };
 
   meta = with lib; {
     description = "A tool to determine which gc-roots take space in your nix store";

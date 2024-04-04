@@ -1,4 +1,10 @@
-{ stdenv, lib, fetchFromGitHub, gfortran, cmake }:
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  gfortran,
+  cmake,
+}:
 
 stdenv.mkDerivation rec {
   pname = "test-drive";
@@ -25,7 +31,10 @@ stdenv.mkDerivation rec {
   meta = with lib; {
     description = "Procedural Fortran testing framework";
     homepage = "https://github.com/fortran-lang/test-drive";
-    license = with licenses; [ asl20 mit ] ;
+    license = with licenses; [
+      asl20
+      mit
+    ];
     platforms = platforms.linux;
     maintainers = [ maintainers.sheepforce ];
   };

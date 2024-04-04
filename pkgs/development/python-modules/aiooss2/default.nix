@@ -1,16 +1,17 @@
-{ lib
-, aiohttp
-, buildPythonPackage
-, fetchFromGitHub
-, oss2
-, pytest-asyncio
-, pytest-mock
-, pytestCheckHook
-, pythonOlder
-, pythonRelaxDepsHook
-, requests
-, setuptools
-, setuptools-scm
+{
+  lib,
+  aiohttp,
+  buildPythonPackage,
+  fetchFromGitHub,
+  oss2,
+  pytest-asyncio,
+  pytest-mock,
+  pytestCheckHook,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  requests,
+  setuptools,
+  setuptools-scm,
 }:
 
 buildPythonPackage rec {
@@ -50,9 +51,7 @@ buildPythonPackage rec {
     requests
   ];
 
-  pythonImportsCheck = [
-    "aiooss2"
-  ];
+  pythonImportsCheck = [ "aiooss2" ];
 
   disabledTestPaths = [
     # Tests require network access

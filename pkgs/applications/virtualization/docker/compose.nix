@@ -1,4 +1,8 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+}:
 
 buildGoModule rec {
   pname = "docker-compose";
@@ -18,7 +22,11 @@ buildGoModule rec {
 
   vendorHash = "sha256-Ec2JRCQvdC2VzkK29GyKS2DTrfHgv4wJc/50fbLVKEY=";
 
-  ldflags = [ "-X github.com/docker/compose/v2/internal.Version=${version}" "-s" "-w" ];
+  ldflags = [
+    "-X github.com/docker/compose/v2/internal.Version=${version}"
+    "-s"
+    "-w"
+  ];
 
   doCheck = false;
   installPhase = ''

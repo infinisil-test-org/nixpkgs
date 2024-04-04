@@ -1,5 +1,17 @@
-{ lib, stdenv, fetchFromGitiles, meson, ninja, pkg-config, python3
-, aemu, libdrm, libglvnd, vulkan-headers, vulkan-loader, xorg
+{
+  lib,
+  stdenv,
+  fetchFromGitiles,
+  meson,
+  ninja,
+  pkg-config,
+  python3,
+  aemu,
+  libdrm,
+  libglvnd,
+  vulkan-headers,
+  vulkan-loader,
+  xorg,
 }:
 
 stdenv.mkDerivation {
@@ -12,9 +24,19 @@ stdenv.mkDerivation {
     hash = "sha256-IYXkaHZPEYIE9KW731GN6x6yRS+FYtP1zyHcaSofhIM=";
   };
 
-  nativeBuildInputs = [ meson ninja pkg-config python3 ];
-  buildInputs = [ aemu libglvnd vulkan-headers vulkan-loader xorg.libX11 ]
-    ++ lib.optional (lib.meta.availableOn stdenv.hostPlatform libdrm) libdrm;
+  nativeBuildInputs = [
+    meson
+    ninja
+    pkg-config
+    python3
+  ];
+  buildInputs = [
+    aemu
+    libglvnd
+    vulkan-headers
+    vulkan-loader
+    xorg.libX11
+  ] ++ lib.optional (lib.meta.availableOn stdenv.hostPlatform libdrm) libdrm;
 
   # dlopens libvulkan.
   #

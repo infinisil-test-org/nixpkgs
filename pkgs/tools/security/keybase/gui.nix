@@ -1,7 +1,33 @@
-{ stdenv, lib, fetchurl, alsa-lib, atk, cairo, cups, udev, libdrm, mesa
-, dbus, expat, fontconfig, freetype, gdk-pixbuf, glib, gtk3, libappindicator-gtk3
-, libnotify, nspr, nss, pango, systemd, xorg, autoPatchelfHook, wrapGAppsHook
-, runtimeShell, gsettings-desktop-schemas }:
+{
+  stdenv,
+  lib,
+  fetchurl,
+  alsa-lib,
+  atk,
+  cairo,
+  cups,
+  udev,
+  libdrm,
+  mesa,
+  dbus,
+  expat,
+  fontconfig,
+  freetype,
+  gdk-pixbuf,
+  glib,
+  gtk3,
+  libappindicator-gtk3,
+  libnotify,
+  nspr,
+  nss,
+  pango,
+  systemd,
+  xorg,
+  autoPatchelfHook,
+  wrapGAppsHook,
+  runtimeShell,
+  gsettings-desktop-schemas,
+}:
 
 let
   versionSuffix = "20240101011938.ae7e4a1c15";
@@ -110,7 +136,14 @@ stdenv.mkDerivation rec {
     homepage = "https://www.keybase.io/";
     description = "The Keybase official GUI";
     platforms = [ "x86_64-linux" ];
-    maintainers = with maintainers; [ avaq rvolosatovs puffnfresh np Br1ght0ne shofius ];
+    maintainers = with maintainers; [
+      avaq
+      rvolosatovs
+      puffnfresh
+      np
+      Br1ght0ne
+      shofius
+    ];
     sourceProvenance = with sourceTypes; [ binaryNativeCode ];
     license = licenses.bsd3;
   };

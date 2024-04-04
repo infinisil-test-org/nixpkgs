@@ -1,4 +1,1 @@
-{mkKdeDerivation}:
-mkKdeDerivation {
-  pname = "kded";
-}
+{ mkKdeDerivation }: mkKdeDerivation { pname = "kded"; }

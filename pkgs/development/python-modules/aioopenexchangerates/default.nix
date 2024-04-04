@@ -1,14 +1,15 @@
-{ lib
-, aiohttp
-, aioresponses
-, pydantic
-, buildPythonPackage
-, fetchFromGitHub
-, poetry-core
-, pytest-aiohttp
-, pytestCheckHook
-, pythonOlder
-, pythonRelaxDepsHook
+{
+  lib,
+  aiohttp,
+  aioresponses,
+  pydantic,
+  buildPythonPackage,
+  fetchFromGitHub,
+  poetry-core,
+  pytest-aiohttp,
+  pytestCheckHook,
+  pythonOlder,
+  pythonRelaxDepsHook,
 }:
 
 buildPythonPackage rec {
@@ -35,9 +36,7 @@ buildPythonPackage rec {
     pythonRelaxDepsHook
   ];
 
-  pythonRelaxDeps = [
-    "pydantic"
-  ];
+  pythonRelaxDeps = [ "pydantic" ];
 
   propagatedBuildInputs = [
     aiohttp
@@ -50,9 +49,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "aioopenexchangerates"
-  ];
+  pythonImportsCheck = [ "aioopenexchangerates" ];
 
   meta = with lib; {
     description = "Library for the Openexchangerates API";

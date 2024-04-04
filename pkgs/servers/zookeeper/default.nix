@@ -1,4 +1,13 @@
-{ lib, stdenv, fetchurl, jdk11_headless, makeWrapper, nixosTests, bash, coreutils }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  jdk11_headless,
+  makeWrapper,
+  nixosTests,
+  bash,
+  coreutils,
+}:
 let
   # Latest supported LTS JDK for Zookeeper 3.7:
   # https://zookeeper.apache.org/doc/r3.7.2/zookeeperAdmin.html#sc_requiredSoftware
@@ -48,7 +57,11 @@ stdenv.mkDerivation rec {
     homepage = "https://zookeeper.apache.org";
     description = "Apache Zookeeper";
     license = licenses.asl20;
-    maintainers = with maintainers; [ nathan-gs pradeepchhetri ztzg ];
+    maintainers = with maintainers; [
+      nathan-gs
+      pradeepchhetri
+      ztzg
+    ];
     platforms = platforms.unix;
   };
 }

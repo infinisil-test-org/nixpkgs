@@ -23,7 +23,10 @@
 mkKdeDerivation {
   pname = "k3b";
 
-  extraNativeBuildInputs = [pkg-config shared-mime-info];
+  extraNativeBuildInputs = [
+    pkg-config
+    shared-mime-info
+  ];
 
   # FIXME: Musicbrainz 2.x???, musepack
   extraBuildInputs = [
@@ -38,16 +41,18 @@ mkKdeDerivation {
   ];
 
   qtWrapperArgs = [
-    "--prefix PATH ':' ${lib.makeBinPath [
-      cdrdao
-      cdrtools
-      dvdplusrwtools
-      libburn
-      normalize
-      sox
-      transcode
-      vcdimager
-      flac
-    ]}"
+    "--prefix PATH ':' ${
+      lib.makeBinPath [
+        cdrdao
+        cdrtools
+        dvdplusrwtools
+        libburn
+        normalize
+        sox
+        transcode
+        vcdimager
+        flac
+      ]
+    }"
   ];
 }

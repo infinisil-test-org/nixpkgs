@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, llama-index-core
-, poetry-core
-, pyowm
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  llama-index-core,
+  poetry-core,
+  pyowm,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -17,20 +18,14 @@ buildPythonPackage rec {
 
   sourceRoot = "${src.name}/llama-index-integrations/readers/${pname}";
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
   propagatedBuildInputs = [
     llama-index-core
     pyowm
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "llama_index.readers.weather"
-  ];
+  pythonImportsCheck = [ "llama_index.readers.weather" ];
 }

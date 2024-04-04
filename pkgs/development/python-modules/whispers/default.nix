@@ -1,19 +1,20 @@
-{ lib
-, astroid
-, beautifulsoup4
-, buildPythonPackage
-, crossplane
-, fetchFromGitHub
-, fetchpatch
-, jellyfish
-, jproperties
-, luhn
-, lxml
-, pytest-mock
-, pytestCheckHook
-, pythonOlder
-, pyyaml
-, setuptools
+{
+  lib,
+  astroid,
+  beautifulsoup4,
+  buildPythonPackage,
+  crossplane,
+  fetchFromGitHub,
+  fetchpatch,
+  jellyfish,
+  jproperties,
+  luhn,
+  lxml,
+  pytest-mock,
+  pytestCheckHook,
+  pythonOlder,
+  pyyaml,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -55,9 +56,7 @@ buildPythonPackage rec {
       --replace '"pytest-runner"' ""
   '';
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     astroid
@@ -80,9 +79,7 @@ buildPythonPackage rec {
     export PATH=$out/bin:$PATH
   '';
 
-  pythonImportsCheck = [
-    "whispers"
-  ];
+  pythonImportsCheck = [ "whispers" ];
 
   meta = with lib; {
     description = "Tool to identify hardcoded secrets in static structured text";

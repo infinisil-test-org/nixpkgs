@@ -1,9 +1,10 @@
-{ lib
-, stdenv
-, rustPlatform
-, fetchFromGitHub
-, cmake
-, darwin
+{
+  lib,
+  stdenv,
+  rustPlatform,
+  fetchFromGitHub,
+  cmake,
+  darwin,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -20,14 +21,15 @@ rustPlatform.buildRustPackage rec {
   cargoHash = "sha256-a3LPvPCQklmrtC9XpxARgYeL4bmj2vFsLbiRGjNUGio=";
 
   # Only build the command line client
-  cargoBuildFlags = [ "--bin" "subxt" ];
+  cargoBuildFlags = [
+    "--bin"
+    "subxt"
+  ];
 
   # Needed by wabt-sys
   nativeBuildInputs = [ cmake ];
 
-  buildInputs = lib.optionals stdenv.isDarwin [
-    darwin.apple_sdk.frameworks.Security
-  ];
+  buildInputs = lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.Security ];
 
   # Requires a running substrate node
   doCheck = false;
@@ -35,7 +37,10 @@ rustPlatform.buildRustPackage rec {
   meta = with lib; {
     homepage = "https://github.com/paritytech/subxt";
     description = "Submit transactions to a substrate node via RPC.";
-    license = with licenses; [ gpl3Plus asl20 ];
+    license = with licenses; [
+      gpl3Plus
+      asl20
+    ];
     maintainers = [ maintainers.FlorianFranzen ];
   };
 }

@@ -1,14 +1,15 @@
-{ lib
-, config
-, stdenv
-, fetchFromGitHub
-, cmake
-, darwin
-, removeReferencesTo
-, btop
-, testers
-, cudaSupport ? config.cudaSupport
-, cudaPackages
+{
+  lib,
+  config,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  darwin,
+  removeReferencesTo,
+  btop,
+  testers,
+  cudaSupport ? config.cudaSupport,
+  cudaPackages,
 }:
 
 stdenv.mkDerivation rec {
@@ -22,9 +23,9 @@ stdenv.mkDerivation rec {
     hash = "sha256-kjSyIgLTObTOKMG5dk49XmWPXZpCWbLdpkmAsJcFliA=";
   };
 
-  nativeBuildInputs = [ cmake ] ++ lib.optionals cudaSupport [
-    cudaPackages.autoAddOpenGLRunpathHook
-  ];
+  nativeBuildInputs = [
+    cmake
+  ] ++ lib.optionals cudaSupport [ cudaPackages.autoAddOpenGLRunpathHook ];
 
   buildInputs = lib.optionals stdenv.isDarwin [
     darwin.apple_sdk_11_0.frameworks.CoreFoundation
@@ -37,9 +38,7 @@ stdenv.mkDerivation rec {
     ${removeReferencesTo}/bin/remove-references-to -t ${stdenv.cc.cc} $(readlink -f $out/bin/btop)
   '';
 
-  passthru.tests.version = testers.testVersion {
-    package = btop;
-  };
+  passthru.tests.version = testers.testVersion { package = btop; };
 
   meta = with lib; {
     description = "A monitor of resources";

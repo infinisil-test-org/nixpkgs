@@ -13,15 +13,13 @@ stdenv.mkDerivation rec {
     rev = "v${version}";
     hash = "sha256-zkErOV6Az0kJdwyXzMCnVW1997zpAB79TBvf/41Igic=";
   };
-  buildInputs = [ncurses];
-  makeFlags = [
-    "PREFIX=$(out)"
-  ];
+  buildInputs = [ ncurses ];
+  makeFlags = [ "PREFIX=$(out)" ];
   meta = with lib; {
     description = "Cli snake game that plays itself";
     homepage = "https://github.com/angeljumbo/sssnake";
-    license = with licenses; [mit];
+    license = with licenses; [ mit ];
     platforms = platforms.unix;
-    maintainers = with maintainers; [quantenzitrone];
+    maintainers = with maintainers; [ quantenzitrone ];
   };
 }

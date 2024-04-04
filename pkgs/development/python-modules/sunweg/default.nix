@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pytestCheckHook
-, pythonOlder
-, requests
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pytestCheckHook,
+  pythonOlder,
+  requests,
 }:
 
 buildPythonPackage rec {
@@ -20,16 +21,12 @@ buildPythonPackage rec {
     hash = "sha256-E5dwFfFzOMyYLAqoTdp22/qIS3+IXD6jkVUVZIumk6Y=";
   };
 
-  propagatedBuildInputs = [
-    requests
-  ];
+  propagatedBuildInputs = [ requests ];
 
   # Module has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "sunweg"
-  ];
+  pythonImportsCheck = [ "sunweg" ];
 
   meta = with lib; {
     description = "Module to access the WEG solar energy platform";

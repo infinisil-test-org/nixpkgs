@@ -1,13 +1,14 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, v8
-, perl
-, postgresql
-# For test
-, runCommand
-, coreutils
-, gnugrep
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  v8,
+  perl,
+  postgresql,
+  # For test
+  runCommand,
+  coreutils,
+  gnugrep,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -27,9 +28,7 @@ stdenv.mkDerivation (finalAttrs: {
     ./0001-build-Allow-using-V8-from-system.patch
   ];
 
-  nativeBuildInputs = [
-    perl
-  ];
+  nativeBuildInputs = [ perl ];
 
   buildInputs = [
     v8
@@ -71,16 +70,17 @@ stdenv.mkDerivation (finalAttrs: {
   passthru = {
     tests =
       let
-        postgresqlWithSelf = postgresql.withPackages (_: [
-          finalAttrs.finalPackage
-        ]);
-      in {
-        smoke = runCommand "plv8-smoke-test" {} ''
-          export PATH=${lib.makeBinPath [
-            postgresqlWithSelf
-            coreutils
-            gnugrep
-          ]}
+        postgresqlWithSelf = postgresql.withPackages (_: [ finalAttrs.finalPackage ]);
+      in
+      {
+        smoke = runCommand "plv8-smoke-test" { } ''
+          export PATH=${
+            lib.makeBinPath [
+              postgresqlWithSelf
+              coreutils
+              gnugrep
+            ]
+          }
           db="$PWD/testdb"
           initdb "$db"
           postgres -k "$db" -D "$db" &
@@ -103,7 +103,13 @@ stdenv.mkDerivation (finalAttrs: {
 
         regression = stdenv.mkDerivation {
           name = "plv8-regression";
-          inherit (finalAttrs) src patches nativeBuildInputs buildInputs dontConfigure;
+          inherit (finalAttrs)
+            src
+            patches
+            nativeBuildInputs
+            buildInputs
+            dontConfigure
+            ;
 
           buildPhase = ''
             runHook preBuild
@@ -136,7 +142,10 @@ stdenv.mkDerivation (finalAttrs: {
     description = "V8 Engine Javascript Procedural Language add-on for PostgreSQL";
     homepage = "https://plv8.github.io/";
     maintainers = with maintainers; [ marsam ];
-    platforms = [ "x86_64-linux" "aarch64-linux" ];
+    platforms = [
+      "x86_64-linux"
+      "aarch64-linux"
+    ];
     license = licenses.postgresql;
     broken = postgresql.jitSupport;
   };

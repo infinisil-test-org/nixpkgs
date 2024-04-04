@@ -1,6 +1,13 @@
-{ buildDunePackage
-, irmin, irmin-fs, ppx_irmin, lwt, mtime
-, alcotest, alcotest-lwt, cacert
+{
+  buildDunePackage,
+  irmin,
+  irmin-fs,
+  ppx_irmin,
+  lwt,
+  mtime,
+  alcotest,
+  alcotest-lwt,
+  cacert,
 }:
 
 buildDunePackage {
@@ -9,9 +16,7 @@ buildDunePackage {
   inherit (ppx_irmin) src version strictDeps;
   duneVersion = "3";
 
-  nativeBuildInputs = [
-    ppx_irmin
-  ];
+  nativeBuildInputs = [ ppx_irmin ];
 
   propagatedBuildInputs = [
     irmin

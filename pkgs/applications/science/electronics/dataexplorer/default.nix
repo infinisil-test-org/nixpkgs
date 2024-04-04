@@ -1,9 +1,10 @@
-{ lib
-, stdenv
-, fetchurl
-, jdk
-, ant
-, makeWrapper
+{
+  lib,
+  stdenv,
+  fetchurl,
+  jdk,
+  ant,
+  makeWrapper,
 }:
 
 stdenv.mkDerivation rec {
@@ -15,7 +16,10 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-vU9klb6Mweg8yxnClsIdelG4uW92if64SJ7UHumYYbs=";
   };
 
-  nativeBuildInputs = [ ant makeWrapper ];
+  nativeBuildInputs = [
+    ant
+    makeWrapper
+  ];
 
   buildInputs = [ jdk ];
 
@@ -59,8 +63,8 @@ stdenv.mkDerivation rec {
     platforms = [ "x86_64-linux" ];
     sourceProvenance = with sourceTypes; [
       fromSource
-      binaryNativeCode  # contains RXTXcomm (JNI library with *.so files)
-      binaryBytecode    # contains thirdparty jar files, e.g. javax.json, org.glassfish.json
+      binaryNativeCode # contains RXTXcomm (JNI library with *.so files)
+      binaryBytecode # contains thirdparty jar files, e.g. javax.json, org.glassfish.json
     ];
   };
 }

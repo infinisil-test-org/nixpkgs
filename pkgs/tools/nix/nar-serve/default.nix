@@ -1,6 +1,7 @@
-{ buildGoModule
-, fetchFromGitHub
-, lib
+{
+  buildGoModule,
+  fetchFromGitHub,
+  lib,
 }:
 buildGoModule rec {
   pname = "nar-serve";
@@ -21,6 +22,9 @@ buildGoModule rec {
     description = "Serve NAR file contents via HTTP";
     homepage = "https://github.com/numtide/nar-serve";
     license = licenses.mit;
-    maintainers = with maintainers; [ rizary zimbatm ];
+    maintainers = with maintainers; [
+      rizary
+      zimbatm
+    ];
   };
 }

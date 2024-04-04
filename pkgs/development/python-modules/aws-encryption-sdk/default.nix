@@ -1,16 +1,17 @@
-{ lib
-, attrs
-, boto3
-, buildPythonPackage
-, cryptography
-, fetchPypi
-, mock
-, pytest-mock
-, pytestCheckHook
-, pythonAtLeast
-, pythonOlder
-, setuptools
-, wrapt
+{
+  lib,
+  attrs,
+  boto3,
+  buildPythonPackage,
+  cryptography,
+  fetchPypi,
+  mock,
+  pytest-mock,
+  pytestCheckHook,
+  pythonAtLeast,
+  pythonOlder,
+  setuptools,
+  wrapt,
 }:
 
 buildPythonPackage rec {
@@ -25,9 +26,7 @@ buildPythonPackage rec {
     hash = "sha256-jV+/AY/GjWscrL5N0Df9gFKWx3Nqn+RX62hNBT9/lWM=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     attrs

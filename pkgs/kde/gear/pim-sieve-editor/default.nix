@@ -1,4 +1,1 @@
-{mkKdeDerivation}:
-mkKdeDerivation {
-  pname = "pim-sieve-editor";
-}
+{ mkKdeDerivation }: mkKdeDerivation { pname = "pim-sieve-editor"; }

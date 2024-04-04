@@ -1,4 +1,12 @@
-{ lib, libnotify, buildGoModule, fetchFromGitHub, fetchurl, pkg-config, iconColor ? "#84bd00" }:
+{
+  lib,
+  libnotify,
+  buildGoModule,
+  fetchFromGitHub,
+  fetchurl,
+  pkg-config,
+  iconColor ? "#84bd00",
+}:
 
 buildGoModule rec {
   pname = "yubikey-touch-detector";
@@ -47,7 +55,10 @@ buildGoModule rec {
     description = "A tool to detect when your YubiKey is waiting for a touch";
     homepage = "https://github.com/maximbaz/yubikey-touch-detector";
     maintainers = with maintainers; [ sumnerevans ];
-    license = with licenses; [ bsd2 isc ];
+    license = with licenses; [
+      bsd2
+      isc
+    ];
     platforms = platforms.linux;
     mainProgram = "yubikey-touch-detector";
   };

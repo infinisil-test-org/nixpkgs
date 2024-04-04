@@ -1,20 +1,24 @@
-{ lib
-, fetchFromSourcehut
-, buildGoModule
-, buildPythonPackage
-, srht
-, alembic
-, pytest
-, factory-boy
-, python
-, unzip
-, pythonOlder
-, setuptools
+{
+  lib,
+  fetchFromSourcehut,
+  buildGoModule,
+  buildPythonPackage,
+  srht,
+  alembic,
+  pytest,
+  factory-boy,
+  python,
+  unzip,
+  pythonOlder,
+  setuptools,
 }:
 
 let
   version = "0.75.6";
-  gqlgen = import ./fix-gqlgen-trimpath.nix { inherit unzip; gqlgenVersion = "0.17.36"; };
+  gqlgen = import ./fix-gqlgen-trimpath.nix {
+    inherit unzip;
+    gqlgenVersion = "0.17.36";
+  };
 
   src = fetchFromSourcehut {
     owner = "~sircmpwn";
@@ -23,12 +27,15 @@ let
     hash = "sha256-BPJ1M9dX+xNIw++VZ0Si/rjnfI9BY95TE2o+u7JRVAU=";
   };
 
-  todosrht-api = buildGoModule ({
-    inherit src version;
-    pname = "todosrht-api";
-    modRoot = "api";
-    vendorHash = "sha256-vTKIJFE8AFR2eZFwG9ba6FWPW02og3ZVcrsqUnOkJIQ=";
-  } // gqlgen);
+  todosrht-api = buildGoModule (
+    {
+      inherit src version;
+      pname = "todosrht-api";
+      modRoot = "api";
+      vendorHash = "sha256-vTKIJFE8AFR2eZFwG9ba6FWPW02og3ZVcrsqUnOkJIQ=";
+    }
+    // gqlgen
+  );
 in
 buildPythonPackage rec {
   inherit src version;
@@ -42,9 +49,7 @@ buildPythonPackage rec {
       --replace "all: api" ""
   '';
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     srht
@@ -73,6 +78,9 @@ buildPythonPackage rec {
     homepage = "https://todo.sr.ht/~sircmpwn/todo.sr.ht";
     description = "Ticket tracking service for the sr.ht network";
     license = licenses.agpl3Only;
-    maintainers = with maintainers; [ eadwu christoph-heiss ];
+    maintainers = with maintainers; [
+      eadwu
+      christoph-heiss
+    ];
   };
 }

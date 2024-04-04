@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchPypi
-, substituteAll
-, findutils
-, krb5
-, stdenv
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchPypi,
+  substituteAll,
+  findutils,
+  krb5,
+  stdenv,
 }:
 
 buildPythonPackage rec {

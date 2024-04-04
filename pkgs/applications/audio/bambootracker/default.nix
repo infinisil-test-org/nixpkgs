@@ -1,16 +1,17 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, gitUpdater
-, pkg-config
-, qmake
-, qt5compat ? null
-, qtbase
-, qttools
-, qtwayland
-, rtaudio
-, rtmidi
-, wrapQtAppsHook
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  gitUpdater,
+  pkg-config,
+  qmake,
+  qt5compat ? null,
+  qtbase,
+  qttools,
+  qtwayland,
+  rtaudio,
+  rtmidi,
+  wrapQtAppsHook,
 }:
 
 assert lib.versionAtLeast qtbase.version "6.0" -> qt5compat != null;
@@ -41,14 +42,14 @@ stdenv.mkDerivation (finalAttrs: {
     wrapQtAppsHook
   ];
 
-  buildInputs = [
-    qtbase
-    rtmidi
-  ] ++ lib.optionals stdenv.hostPlatform.isLinux [
-    qtwayland
-  ] ++ lib.optionals (lib.versionAtLeast qtbase.version "6.0") [
-    qt5compat
-  ] ++ rtaudio.buildInputs;
+  buildInputs =
+    [
+      qtbase
+      rtmidi
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isLinux [ qtwayland ]
+    ++ lib.optionals (lib.versionAtLeast qtbase.version "6.0") [ qt5compat ]
+    ++ rtaudio.buildInputs;
 
   qmakeFlags = [
     # we don't have RtAudio 6 yet: https://github.com/NixOS/nixpkgs/pull/245075
@@ -69,9 +70,7 @@ stdenv.mkDerivation (finalAttrs: {
   '';
 
   passthru = {
-    updateScript = gitUpdater {
-      rev-prefix = "v";
-    };
+    updateScript = gitUpdater { rev-prefix = "v"; };
   };
 
   meta = with lib; {

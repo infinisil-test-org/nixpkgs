@@ -1,4 +1,12 @@
-{ lib, stdenv, jre, coursier, makeWrapper, installShellFiles, setJavaClassPath }:
+{
+  lib,
+  stdenv,
+  jre,
+  coursier,
+  makeWrapper,
+  installShellFiles,
+  setJavaClassPath,
+}:
 
 let
   baseName = "scalafix";
@@ -12,14 +20,18 @@ let
       cp $(< deps) $out/share/java/
     '';
     outputHashMode = "recursive";
-    outputHash     = "sha256-lDeg90L484MggtQ2a9OyHv4UcfLPjzG3OJZCaWW2AC8=";
+    outputHash = "sha256-lDeg90L484MggtQ2a9OyHv4UcfLPjzG3OJZCaWW2AC8=";
   };
 in
 stdenv.mkDerivation {
   pname = baseName;
   inherit version;
 
-  nativeBuildInputs = [ makeWrapper installShellFiles setJavaClassPath ];
+  nativeBuildInputs = [
+    makeWrapper
+    installShellFiles
+    setJavaClassPath
+  ];
   buildInputs = [ deps ];
 
   dontUnpack = true;

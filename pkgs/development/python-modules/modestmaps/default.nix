@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pillow
-, isPy27
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pillow,
+  isPy27,
 }:
 
 buildPythonPackage rec {
@@ -22,5 +23,4 @@ buildPythonPackage rec {
     homepage = "http://modestmaps.com";
     license = licenses.bsd3;
   };
-
 }

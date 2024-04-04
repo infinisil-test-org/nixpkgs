@@ -1,17 +1,18 @@
-{ stdenv
-, lib
-, buildPythonPackage
-, fetchFromGitHub
-, cargo
-, rustPlatform
-, rustc
-, libiconv
-, typing-extensions
-, pytestCheckHook
-, hypothesis
-, pytest-timeout
-, pytest-mock
-, dirty-equals
+{
+  stdenv,
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  cargo,
+  rustPlatform,
+  rustc,
+  libiconv,
+  typing-extensions,
+  pytestCheckHook,
+  hypothesis,
+  pytest-timeout,
+  pytest-mock,
+  dirty-equals,
 }:
 
 let
@@ -27,9 +28,7 @@ let
       hash = "sha256-Y3RdDqFrH5C8Jt45FV6jLRV8G9odkqM1fBz6axeXF+4=";
     };
 
-    patches = [
-      ./01-remove-benchmark-flags.patch
-    ];
+    patches = [ ./01-remove-benchmark-flags.patch ];
 
     cargoDeps = rustPlatform.fetchCargoTarball {
       inherit src;
@@ -45,13 +44,9 @@ let
       typing-extensions
     ];
 
-    buildInputs = lib.optionals stdenv.isDarwin [
-      libiconv
-    ];
+    buildInputs = lib.optionals stdenv.isDarwin [ libiconv ];
 
-    propagatedBuildInputs = [
-      typing-extensions
-    ];
+    propagatedBuildInputs = [ typing-extensions ];
 
     pythonImportsCheck = [ "pydantic_core" ];
 
@@ -85,4 +80,5 @@ let
       maintainers = with maintainers; [ blaggacao ];
     };
   };
-in pydantic-core
+in
+pydantic-core

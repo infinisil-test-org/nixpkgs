@@ -1,14 +1,15 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, importlib-metadata
-, nose
-, numpy
-, setuptools
-, setuptools-scm
-, six
-, glibcLocales
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  importlib-metadata,
+  nose,
+  numpy,
+  setuptools,
+  setuptools-scm,
+  six,
+  glibcLocales,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -43,9 +44,7 @@ buildPythonPackage rec {
     "tests/test_Fasta_bgzip.py"
   ];
 
-  pythonImportsCheck = [
-    "pyfaidx"
-  ];
+  pythonImportsCheck = [ "pyfaidx" ];
 
   meta = with lib; {
     homepage = "https://github.com/mdshw5/pyfaidx";

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -7,7 +12,6 @@ let
   cfg = config.services.autofs;
 
   autoMaster = pkgs.writeText "auto.master" cfg.autoMaster;
-
 in
 
 {
@@ -64,11 +68,8 @@ in
           Pass -d and -7 to automount and write log to the system journal.
         '';
       };
-
     };
-
   };
-
 
   ###### implementation
 
@@ -76,25 +77,28 @@ in
 
     boot.kernelModules = [ "autofs" ];
 
-    systemd.services.autofs =
-      { description = "Automounts filesystems on demand";
-        after = [ "network.target" "ypbind.service" "sssd.service" "network-online.target" ];
-        wants = [ "network-online.target" ];
-        wantedBy = [ "multi-user.target" ];
+    systemd.services.autofs = {
+      description = "Automounts filesystems on demand";
+      after = [
+        "network.target"
+        "ypbind.service"
+        "sssd.service"
+        "network-online.target"
+      ];
+      wants = [ "network-online.target" ];
+      wantedBy = [ "multi-user.target" ];
 
-        preStart = ''
-          # There should be only one autofs service managed by systemd, so this should be safe.
-          rm -f /tmp/autofs-running
-        '';
+      preStart = ''
+        # There should be only one autofs service managed by systemd, so this should be safe.
+        rm -f /tmp/autofs-running
+      '';
 
-        serviceConfig = {
-          Type = "forking";
-          PIDFile = "/run/autofs.pid";
-          ExecStart = "${pkgs.autofs5}/bin/automount ${optionalString cfg.debug "-d"} -p /run/autofs.pid -t ${builtins.toString cfg.timeout} ${autoMaster}";
-          ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
-        };
+      serviceConfig = {
+        Type = "forking";
+        PIDFile = "/run/autofs.pid";
+        ExecStart = "${pkgs.autofs5}/bin/automount ${optionalString cfg.debug "-d"} -p /run/autofs.pid -t ${builtins.toString cfg.timeout} ${autoMaster}";
+        ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
       };
-
+    };
   };
-
 }

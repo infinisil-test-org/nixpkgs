@@ -1,7 +1,8 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -20,7 +21,10 @@ buildPythonPackage rec {
     description = "ManageSieve client library for remotely managing Sieve scripts";
     homepage = "https://managesieve.readthedocs.io/";
     # PSFL for the python module, GPLv3 only for sieveshell
-    license = with licenses; [ gpl3Only psfl ];
+    license = with licenses; [
+      gpl3Only
+      psfl
+    ];
     maintainers = with maintainers; [ dadada ];
   };
 }

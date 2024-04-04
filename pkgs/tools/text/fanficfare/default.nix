@@ -1,4 +1,8 @@
-{ lib, python3Packages, fetchPypi }:
+{
+  lib,
+  python3Packages,
+  fetchPypi,
+}:
 
 python3Packages.buildPythonApplication rec {
   pname = "FanFicFare";
@@ -10,9 +14,7 @@ python3Packages.buildPythonApplication rec {
     hash = "sha256-Qfe24Ees3LLnSuU4kjn+dwtKjLBSYgF22U1YAtpw1po=";
   };
 
-  nativeBuildInputs = with python3Packages; [
-    setuptools
-  ];
+  nativeBuildInputs = with python3Packages; [ setuptools ];
 
   propagatedBuildInputs = with python3Packages; [
     beautifulsoup4

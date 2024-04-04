@@ -1,9 +1,14 @@
 {
-  stdenv, lib, fetchFromGitHub, which,
-  buildPackages, libxcrypt, libiconv,
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  which,
+  buildPackages,
+  libxcrypt,
+  libiconv,
   enableStatic ? stdenv.hostPlatform.isStatic,
   enableMinimal ? false,
-  extraConfig ? ""
+  extraConfig ? "",
 }:
 
 let
@@ -21,15 +26,16 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-MMkNLhQP3ztWoRYhCU/cNXE/M+/ny41OK1SA9oM/lZg=";
   };
 
-  depsBuildBuild = optionals (stdenv.hostPlatform != stdenv.buildPlatform) [ buildPackages.stdenv.cc ];
-  buildInputs = [
-    libxcrypt
-  ] ++ optionals stdenv.isDarwin [
-    libiconv
-  ] ++ optionals (enableStatic && stdenv.cc.libc ? static) [
-    stdenv.cc.libc
-    stdenv.cc.libc.static
+  depsBuildBuild = optionals (stdenv.hostPlatform != stdenv.buildPlatform) [
+    buildPackages.stdenv.cc
   ];
+  buildInputs =
+    [ libxcrypt ]
+    ++ optionals stdenv.isDarwin [ libiconv ]
+    ++ optionals (enableStatic && stdenv.cc.libc ? static) [
+      stdenv.cc.libc
+      stdenv.cc.libc.static
+    ];
 
   postPatch = "patchShebangs .";
 
@@ -37,16 +43,15 @@ stdenv.mkDerivation rec {
   passAsFile = [ "extraConfig" ];
 
   configurePhase = ''
-    make ${if enableMinimal then
-      "allnoconfig"
-    else
-      if stdenv.isFreeBSD then
+    make ${
+      if enableMinimal then
+        "allnoconfig"
+      else if stdenv.isFreeBSD then
         "freebsd_defconfig"
+      else if stdenv.isDarwin then
+        "macos_defconfig"
       else
-        if stdenv.isDarwin then
-          "macos_defconfig"
-        else
-          "defconfig"
+        "defconfig"
     }
 
     cat $extraConfigPath .config > .config-

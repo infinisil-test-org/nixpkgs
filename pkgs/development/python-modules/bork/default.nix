@@ -1,17 +1,18 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pytestCheckHook
-, pythonOlder
-, pythonRelaxDepsHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pytestCheckHook,
+  pythonOlder,
+  pythonRelaxDepsHook,
 
-, build
-, coloredlogs
-, packaging
-, pip
-, toml
-, twine
-, wheel
+  build,
+  coloredlogs,
+  packaging,
+  pip,
+  toml,
+  twine,
+  wheel,
 }:
 
 buildPythonPackage rec {
@@ -27,9 +28,7 @@ buildPythonPackage rec {
     hash = "sha256-sHCPT6nTenE6mbTifNPtg0OMNIJCs7LRcF8Xuk+MwLs=";
   };
 
-  nativeBuildInputs = [
-    pythonRelaxDepsHook
-  ];
+  nativeBuildInputs = [ pythonRelaxDepsHook ];
 
   pythonRelaxDeps = [
     "packaging"
@@ -53,12 +52,8 @@ buildPythonPackage rec {
     "bork.cli"
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
-  pytestFlagsArray = [
-    "-m 'not network'"
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
+  pytestFlagsArray = [ "-m 'not network'" ];
 
   meta = with lib; {
     description = "Python build and release management tool";

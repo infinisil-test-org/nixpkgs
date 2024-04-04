@@ -1,4 +1,10 @@
-{ lib, stdenv, fetchzip, fetchpatch, kernel }:
+{
+  lib,
+  stdenv,
+  fetchzip,
+  fetchpatch,
+  kernel,
+}:
 
 stdenv.mkDerivation rec {
   pname = "dpdk-kmods";
@@ -18,9 +24,7 @@ stdenv.mkDerivation rec {
 
   hardeningDisable = [ "pic" ];
 
-  makeFlags = kernel.makeFlags ++ [
-    "INSTALL_MOD_PATH=${placeholder "out"}"
-  ];
+  makeFlags = kernel.makeFlags ++ [ "INSTALL_MOD_PATH=${placeholder "out"}" ];
   KSRC = "${kernel.dev}/lib/modules/${kernel.modDirVersion}/build";
 
   nativeBuildInputs = kernel.moduleBuildDependencies;

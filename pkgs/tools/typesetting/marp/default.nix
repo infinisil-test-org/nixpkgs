@@ -1,11 +1,12 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchYarnDeps
-, makeWrapper
-, nodejs
-, prefetch-yarn-deps
-, yarn
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchYarnDeps,
+  makeWrapper,
+  nodejs,
+  prefetch-yarn-deps,
+  yarn,
 }:
 
 stdenv.mkDerivation (finalAttrs: {

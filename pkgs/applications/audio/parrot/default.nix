@@ -1,16 +1,17 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, cmake
-, ffmpeg
-, libopus
-, makeBinaryWrapper
-, nix-update-script
-, openssl
-, pkg-config
-, stdenv
-, yt-dlp
-, Security
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  cmake,
+  ffmpeg,
+  libopus,
+  makeBinaryWrapper,
+  nix-update-script,
+  openssl,
+  pkg-config,
+  stdenv,
+  yt-dlp,
+  Security,
 }:
 let
   version = "1.6.0";
@@ -28,14 +29,25 @@ rustPlatform.buildRustPackage {
 
   cargoHash = "sha256-e4NHgwoNkZ0//rugHrP0gU3pntaMeBJsV/YSzJfD8r4=";
 
-  nativeBuildInputs = [ cmake makeBinaryWrapper pkg-config ];
+  nativeBuildInputs = [
+    cmake
+    makeBinaryWrapper
+    pkg-config
+  ];
 
-  buildInputs = [ libopus openssl ]
-    ++ lib.optionals stdenv.isDarwin [ Security ];
+  buildInputs = [
+    libopus
+    openssl
+  ] ++ lib.optionals stdenv.isDarwin [ Security ];
 
   postInstall = ''
     wrapProgram $out/bin/parrot \
-      --prefix PATH : ${lib.makeBinPath [ ffmpeg yt-dlp ]}
+      --prefix PATH : ${
+        lib.makeBinPath [
+          ffmpeg
+          yt-dlp
+        ]
+      }
   '';
 
   passthru.updateScript = nix-update-script { };

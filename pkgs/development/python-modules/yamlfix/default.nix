@@ -1,15 +1,16 @@
-{ lib
-, buildPythonPackage
-, click
-, fetchFromGitHub
-, maison
-, pdm-backend
-, pytest-freezegun
-, pytest-xdist
-, pytestCheckHook
-, pythonOlder
-, ruyaml
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  click,
+  fetchFromGitHub,
+  maison,
+  pdm-backend,
+  pytest-freezegun,
+  pytest-xdist,
+  pytestCheckHook,
+  pythonOlder,
+  ruyaml,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -47,9 +48,7 @@ buildPythonPackage rec {
     export HOME=$(mktemp -d)
   '';
 
-  pythonImportsCheck = [
-    "yamlfix"
-  ];
+  pythonImportsCheck = [ "yamlfix" ];
 
   disabledTests = [
     # AssertionError: assert ... Fixed <stdin> in...

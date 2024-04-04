@@ -1,18 +1,19 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, setuptools-scm
-, toml
-, pytestCheckHook
-, pytest-benchmark
-, hatch-vcs
-, hatchling
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  setuptools-scm,
+  toml,
+  pytestCheckHook,
+  pytest-benchmark,
+  hatch-vcs,
+  hatchling,
 }:
 
 buildPythonPackage rec {
   pname = "pure-protobuf";
-  version = "2.3.0";  # Komikku not launching w/ 3.0.0, #280551
+  version = "2.3.0"; # Komikku not launching w/ 3.0.0, #280551
 
   format = "pyproject";
   disabled = pythonOlder "3.7";
@@ -34,9 +35,7 @@ buildPythonPackage rec {
     pytest-benchmark
   ];
 
-  pythonImportsCheck = [
-    "pure_protobuf"
-  ];
+  pythonImportsCheck = [ "pure_protobuf" ];
 
   meta = with lib; {
     description = "Python implementation of Protocol Buffers with dataclass-based schemas";

@@ -1,17 +1,18 @@
-{ lib
-, booleanoperations
-, buildPythonPackage
-, cffsubr
-, compreffor
-, cu2qu
-, defcon
-, fetchPypi
-, fonttools
-, pytestCheckHook
-, pythonOlder
-, setuptools-scm
-, skia-pathops
-, ufolib2
+{
+  lib,
+  booleanoperations,
+  buildPythonPackage,
+  cffsubr,
+  compreffor,
+  cu2qu,
+  defcon,
+  fetchPypi,
+  fonttools,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools-scm,
+  skia-pathops,
+  ufolib2,
 }:
 
 buildPythonPackage rec {
@@ -26,9 +27,7 @@ buildPythonPackage rec {
     hash = "sha256-e6p/H1Vub0Ln0VhQvwsVLuD/p8uNG5oCPhfQPCTl1nY=";
   };
 
-  nativeBuildInputs = [
-    setuptools-scm
-  ];
+  nativeBuildInputs = [ setuptools-scm ];
 
   propagatedBuildInputs = [
     cu2qu
@@ -39,13 +38,9 @@ buildPythonPackage rec {
     cffsubr
     ufolib2
     skia-pathops
-  ]
-  ++ fonttools.optional-dependencies.lxml
-  ++ fonttools.optional-dependencies.ufo;
+  ] ++ fonttools.optional-dependencies.lxml ++ fonttools.optional-dependencies.ufo;
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   disabledTests = [
     # Do not depend on skia.
@@ -60,9 +55,7 @@ buildPythonPackage rec {
     "test_drop_glyph_names_variable"
   ];
 
-  pythonImportsCheck = [
-    "ufo2ft"
-  ];
+  pythonImportsCheck = [ "ufo2ft" ];
 
   meta = with lib; {
     description = "Bridge from UFOs to FontTools objects";

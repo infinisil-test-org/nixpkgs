@@ -1,13 +1,14 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, autoreconfHook
-, pkg-config
-, libuv
-, raft-cowsql
-, sqlite
-, incus
-, gitUpdater
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  autoreconfHook,
+  pkg-config,
+  libuv,
+  raft-cowsql,
+  sqlite,
+  incus,
+  gitUpdater,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -36,14 +37,15 @@ stdenv.mkDerivation (finalAttrs: {
 
   doCheck = true;
 
-  outputs = [ "dev" "out" ];
+  outputs = [
+    "dev"
+    "out"
+  ];
 
   passthru = {
     inherit (incus) tests;
 
-    updateScript = gitUpdater {
-      rev-prefix = "v";
-    };
+    updateScript = gitUpdater { rev-prefix = "v"; };
   };
 
   meta = with lib; {

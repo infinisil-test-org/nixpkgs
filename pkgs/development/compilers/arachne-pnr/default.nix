@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchFromGitHub, icestorm }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  icestorm,
+}:
 
 stdenv.mkDerivation rec {
   pname = "arachne-pnr";
@@ -36,7 +41,10 @@ stdenv.mkDerivation rec {
     '';
     homepage = "https://github.com/cseed/arachne-pnr";
     license = licenses.mit;
-    maintainers = with maintainers; [ shell thoughtpolice ];
+    maintainers = with maintainers; [
+      shell
+      thoughtpolice
+    ];
     platforms = platforms.unix;
   };
 }

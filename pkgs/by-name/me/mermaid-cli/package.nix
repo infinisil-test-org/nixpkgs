@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchYarnDeps
-, makeWrapper
-, nodejs
-, prefetch-yarn-deps
-, yarn
-, chromium
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchYarnDeps,
+  makeWrapper,
+  nodejs,
+  prefetch-yarn-deps,
+  yarn,
+  chromium,
 }:
 
 stdenv.mkDerivation rec {
@@ -25,7 +26,7 @@ stdenv.mkDerivation rec {
     hash = "sha256-RQsRGzkuPgGVuEpF5lzv26XKMPLX2NrsjVkGMMkCbO4=";
   };
 
-  nativeBuildInputs  = [
+  nativeBuildInputs = [
     makeWrapper
     nodejs
     prefetch-yarn-deps
@@ -52,22 +53,25 @@ stdenv.mkDerivation rec {
     runHook postBuild
   '';
 
-  installPhase = ''
-    runHook preInstall
+  installPhase =
+    ''
+      runHook preInstall
 
-    yarn --offline --production install
+      yarn --offline --production install
 
-    mkdir -p "$out/lib/node_modules/@mermaid-js/mermaid-cli"
-    cp -r . "$out/lib/node_modules/@mermaid-js/mermaid-cli"
+      mkdir -p "$out/lib/node_modules/@mermaid-js/mermaid-cli"
+      cp -r . "$out/lib/node_modules/@mermaid-js/mermaid-cli"
 
-    makeWrapper "${nodejs}/bin/node" "$out/bin/mmdc" \
-  '' + lib.optionalString (lib.meta.availableOn stdenv.hostPlatform chromium) ''
+      makeWrapper "${nodejs}/bin/node" "$out/bin/mmdc" \
+    ''
+    + lib.optionalString (lib.meta.availableOn stdenv.hostPlatform chromium) ''
       --set PUPPETEER_EXECUTABLE_PATH '${lib.getExe chromium}' \
-  '' + ''
-      --add-flags "$out/lib/node_modules/@mermaid-js/mermaid-cli/src/cli.js"
+    ''
+    + ''
+        --add-flags "$out/lib/node_modules/@mermaid-js/mermaid-cli/src/cli.js"
 
-    runHook postInstall
-  '';
+      runHook postInstall
+    '';
 
   meta = {
     description = "Generation of diagrams from text in a similar manner as markdown";

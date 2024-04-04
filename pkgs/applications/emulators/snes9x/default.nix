@@ -1,38 +1,35 @@
-{ lib
-, stdenv
-, alsa-lib
-, cmake
-, fetchFromGitHub
-, gtkmm3
-, libepoxy
-, libpng
-, libselinux
-, libX11
-, libXdmcp
-, libXext
-, libXinerama
-, libXrandr
-, libXv
-, minizip
-, ninja
-, pcre2
-, pkg-config
-, portaudio
-, pulseaudio
-, python3
-, SDL2
-, util-linuxMinimal
-, wrapGAppsHook
-, zlib
-, withGtk ? false
+{
+  lib,
+  stdenv,
+  alsa-lib,
+  cmake,
+  fetchFromGitHub,
+  gtkmm3,
+  libepoxy,
+  libpng,
+  libselinux,
+  libX11,
+  libXdmcp,
+  libXext,
+  libXinerama,
+  libXrandr,
+  libXv,
+  minizip,
+  ninja,
+  pcre2,
+  pkg-config,
+  portaudio,
+  pulseaudio,
+  python3,
+  SDL2,
+  util-linuxMinimal,
+  wrapGAppsHook,
+  zlib,
+  withGtk ? false,
 }:
 
 stdenv.mkDerivation rec {
-  pname =
-    if withGtk then
-      "snes9x-gtk"
-    else
-      "snes9x";
+  pname = if withGtk then "snes9x-gtk" else "snes9x";
   version = "1.62.3";
 
   src = fetchFromGitHub {
@@ -43,43 +40,45 @@ stdenv.mkDerivation rec {
     hash = "sha256-+KHpvz7nfwGXjzDAK/V+2JDRT1sa0kXDkg7XcRyvSP8=";
   };
 
-  nativeBuildInputs = [
-    pkg-config
-    python3
-  ]
-  ++ lib.optionals withGtk [
-    cmake
-    ninja
-    wrapGAppsHook
-  ];
+  nativeBuildInputs =
+    [
+      pkg-config
+      python3
+    ]
+    ++ lib.optionals withGtk [
+      cmake
+      ninja
+      wrapGAppsHook
+    ];
 
-  buildInputs = [
-    libX11
-    libXv
-    minizip
-    zlib
-  ]
-  # on non-Linux platforms this will build without sound support on X11 build
-  ++ lib.optionals stdenv.isLinux [
-    alsa-lib
-    pulseaudio
-  ]
-  ++ lib.optionals (!withGtk) [
-    libpng
-    libXext
-    libXinerama
-  ]
-  ++ lib.optionals withGtk [
-    gtkmm3
-    libepoxy
-    libselinux
-    libXdmcp
-    libXrandr
-    pcre2
-    portaudio
-    SDL2
-    util-linuxMinimal # provides libmount
-  ];
+  buildInputs =
+    [
+      libX11
+      libXv
+      minizip
+      zlib
+    ]
+    # on non-Linux platforms this will build without sound support on X11 build
+    ++ lib.optionals stdenv.isLinux [
+      alsa-lib
+      pulseaudio
+    ]
+    ++ lib.optionals (!withGtk) [
+      libpng
+      libXext
+      libXinerama
+    ]
+    ++ lib.optionals withGtk [
+      gtkmm3
+      libepoxy
+      libselinux
+      libXdmcp
+      libXrandr
+      pcre2
+      portaudio
+      SDL2
+      util-linuxMinimal # provides libmount
+    ];
 
   configureFlags =
     lib.optional stdenv.hostPlatform.sse4_1Support "--enable-sse41"
@@ -100,7 +99,8 @@ stdenv.mkDerivation rec {
 
   enableParallelBuilding = true;
 
-  meta = with lib;
+  meta =
+    with lib;
     let
       interface = if withGtk then "GTK" else "X11";
     in
@@ -120,7 +120,11 @@ stdenv.mkDerivation rec {
       license = licenses.unfreeRedistributable // {
         url = "https://github.com/snes9xgit/snes9x/blob/${version}/LICENSE";
       };
-      maintainers = with maintainers; [ qknight xfix thiagokokada ];
+      maintainers = with maintainers; [
+        qknight
+        xfix
+        thiagokokada
+      ];
       platforms = platforms.unix;
       broken = (withGtk && stdenv.isDarwin);
       mainProgram = "snes9x";

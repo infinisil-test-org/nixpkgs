@@ -1,5 +1,13 @@
-{ lib, stdenv, fetchurl, gcc
-, libGLU, libX11, libXext, libXcursor, libpulseaudio
+{
+  lib,
+  stdenv,
+  fetchurl,
+  gcc,
+  libGLU,
+  libX11,
+  libXext,
+  libXcursor,
+  libpulseaudio,
 }:
 stdenv.mkDerivation {
   pname = "scrolls";
@@ -41,5 +49,4 @@ stdenv.mkDerivation {
     mkdir "$out/bin"
     ln -s "$out/opt/Scrolls/Scrolls" "$out/bin/Scrolls"
   '';
-
 }

@@ -1,19 +1,20 @@
-{ lib
-, buildPythonPackage
-, decorator
-, entrypoints
-, fetchPypi
-, hatchling
-, ipykernel
-, ipython
-, jupyter-client
-, psutil
-, python-dateutil
-, pythonOlder
-, pyzmq
-, tornado
-, tqdm
-, traitlets
+{
+  lib,
+  buildPythonPackage,
+  decorator,
+  entrypoints,
+  fetchPypi,
+  hatchling,
+  ipykernel,
+  ipython,
+  jupyter-client,
+  psutil,
+  python-dateutil,
+  pythonOlder,
+  pyzmq,
+  tornado,
+  tqdm,
+  traitlets,
 }:
 
 buildPythonPackage rec {
@@ -36,9 +37,7 @@ buildPythonPackage rec {
       --replace '"jupyterlab>=3.0.0,==3.*",' ""
   '';
 
-  nativeBuildInputs = [
-    hatchling
-  ];
+  nativeBuildInputs = [ hatchling ];
 
   propagatedBuildInputs = [
     decorator
@@ -57,11 +56,9 @@ buildPythonPackage rec {
   # Requires access to cluster
   doCheck = false;
 
-  pythonImportsCheck = [
-    "ipyparallel"
-  ];
+  pythonImportsCheck = [ "ipyparallel" ];
 
-  meta = with lib;{
+  meta = with lib; {
     description = "Interactive Parallel Computing with IPython";
     homepage = "https://ipyparallel.readthedocs.io/";
     license = licenses.bsd3;

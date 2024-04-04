@@ -1,17 +1,18 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, fetchpatch
-, cmake
-, gfortran
-, blas
-, lapack
-, mctc-lib
-, mstore
-, toml-f
-, multicharge
-, dftd4
-, simple-dftd3
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  fetchpatch,
+  cmake,
+  gfortran,
+  blas,
+  lapack,
+  mctc-lib,
+  mstore,
+  toml-f,
+  multicharge,
+  dftd4,
+  simple-dftd3,
 }:
 
 assert !blas.isILP64 && !lapack.isILP64;
@@ -41,7 +42,10 @@ stdenv.mkDerivation rec {
       --replace "\''${prefix}/" ""
   '';
 
-  nativeBuildInputs = [ cmake gfortran ];
+  nativeBuildInputs = [
+    cmake
+    gfortran
+  ];
 
   buildInputs = [
     blas
@@ -54,11 +58,12 @@ stdenv.mkDerivation rec {
     simple-dftd3
   ];
 
-  outputs = [ "out" "dev" ];
-
-  cmakeFlags = [
-    "-DBUILD_SHARED_LIBS=${if stdenv.hostPlatform.isStatic then "OFF" else "ON"}"
+  outputs = [
+    "out"
+    "dev"
   ];
+
+  cmakeFlags = [ "-DBUILD_SHARED_LIBS=${if stdenv.hostPlatform.isStatic then "OFF" else "ON"}" ];
 
   doCheck = true;
   preCheck = ''
@@ -67,7 +72,10 @@ stdenv.mkDerivation rec {
 
   meta = with lib; {
     description = "Light-weight tight-binding framework";
-    license = with licenses; [ gpl3Plus lgpl3Plus ];
+    license = with licenses; [
+      gpl3Plus
+      lgpl3Plus
+    ];
     homepage = "https://github.com/tblite/tblite";
     platforms = platforms.linux;
     maintainers = [ maintainers.sheepforce ];

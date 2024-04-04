@@ -1,16 +1,17 @@
-{ lib
-, attr
-, buildPythonPackage
-, fetchFromGitHub
-, freezegun
-, orjson
-, poetry-core
-, pydantic
-, pytest-asyncio
-, pytestCheckHook
-, pythonOlder
-, pythonRelaxDepsHook
-, requests
+{
+  lib,
+  attr,
+  buildPythonPackage,
+  fetchFromGitHub,
+  freezegun,
+  orjson,
+  poetry-core,
+  pydantic,
+  pytest-asyncio,
+  pytestCheckHook,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  requests,
 }:
 
 buildPythonPackage rec {
@@ -29,9 +30,7 @@ buildPythonPackage rec {
 
   sourceRoot = "${src.name}/python";
 
-  pythonRelaxDeps = [
-    "orjson"
-  ];
+  pythonRelaxDeps = [ "orjson" ];
 
   nativeBuildInputs = [
     poetry-core
@@ -74,9 +73,7 @@ buildPythonPackage rec {
     "tests/unit_tests/test_client.py"
   ];
 
-  pythonImportsCheck = [
-    "langsmith"
-  ];
+  pythonImportsCheck = [ "langsmith" ];
 
   __darwinAllowLocalNetworking = true;
 

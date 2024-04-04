@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, setuptools
-, typing-extensions
-, pip
-, pylint
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  setuptools,
+  typing-extensions,
+  pip,
+  pylint,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -23,13 +24,9 @@ buildPythonPackage rec {
     hash = "sha256-KTmFJKlymI1ACWk3UhbkZF/dB9W8/h6kaAfKLL3yiCA=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = lib.optionals (pythonOlder "3.11") [
-    typing-extensions
-  ];
+  propagatedBuildInputs = lib.optionals (pythonOlder "3.11") [ typing-extensions ];
 
   nativeCheckInputs = [
     pip

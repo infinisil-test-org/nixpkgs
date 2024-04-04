@@ -1,4 +1,11 @@
-{ lib, stdenv, fetchurl, perl, gd, rrdtool }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  perl,
+  gd,
+  rrdtool,
+}:
 
 stdenv.mkDerivation rec {
   pname = "mrtg";

@@ -1,12 +1,13 @@
-{ lib
-, fetchPypi
-, buildPythonPackage
-, pythonOlder
-, boost
-, numpy
-, pytestCheckHook
-, pytest-benchmark
-, setuptools-scm
+{
+  lib,
+  fetchPypi,
+  buildPythonPackage,
+  pythonOlder,
+  boost,
+  numpy,
+  pytestCheckHook,
+  pytest-benchmark,
+  setuptools-scm,
 }:
 
 buildPythonPackage rec {
@@ -22,17 +23,11 @@ buildPythonPackage rec {
     hash = "sha256-z5gmz8/hAzUJa1emH2xlafZfAVklnusiUcW/MdhZ11M=";
   };
 
-  nativeBuildInputs = [
-    setuptools-scm
-  ];
+  nativeBuildInputs = [ setuptools-scm ];
 
-  buildInputs = [
-    boost
-  ];
+  buildInputs = [ boost ];
 
-  propagatedBuildInputs = [
-    numpy
-  ];
+  propagatedBuildInputs = [ numpy ];
 
   nativeCheckInputs = [
     pytestCheckHook

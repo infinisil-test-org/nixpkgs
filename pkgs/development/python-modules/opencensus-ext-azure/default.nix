@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, azure-core
-, azure-identity
-, opencensus
-, psutil
-, requests
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  azure-core,
+  azure-identity,
+  opencensus,
+  psutil,
+  requests,
 }:
 
 buildPythonPackage rec {
@@ -37,6 +38,9 @@ buildPythonPackage rec {
     homepage = "https://github.com/census-instrumentation/opencensus-python/tree/master/contrib/opencensus-ext-azure";
     description = "OpenCensus Azure Monitor Exporter";
     license = licenses.asl20;
-    maintainers = with maintainers; [ billhuang evilmav ];
+    maintainers = with maintainers; [
+      billhuang
+      evilmav
+    ];
   };
 }

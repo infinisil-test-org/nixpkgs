@@ -1,4 +1,8 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+}:
 
 buildGoModule rec {
   pname = "do-agent";
@@ -11,9 +15,7 @@ buildGoModule rec {
     sha256 = "sha256-uMPR1vFu3NMvRyL7PCfjQTGEfUtRiyItOqt4HJ2L+Wo=";
   };
 
-  ldflags = [
-    "-X main.version=${version}"
-  ];
+  ldflags = [ "-X main.version=${version}" ];
 
   vendorHash = null;
 

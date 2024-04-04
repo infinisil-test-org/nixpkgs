@@ -1,10 +1,11 @@
-{ lib
-, buildPythonApplication
-, fetchFromGitHub
-, impacket
-, ldap3
-, pyyaml
-, samba
+{
+  lib,
+  buildPythonApplication,
+  fetchFromGitHub,
+  impacket,
+  ldap3,
+  pyyaml,
+  samba,
 }:
 
 buildPythonApplication rec {

@@ -1,13 +1,14 @@
-{ lib
-, buildGoModule
-, cairo
-, fetchFromGitHub
-, gobject-introspection
-, gtk-layer-shell
-, gtk3
-, pkg-config
-, wrapGAppsHook
-, xdg-utils
+{
+  lib,
+  buildGoModule,
+  cairo,
+  fetchFromGitHub,
+  gobject-introspection,
+  gtk-layer-shell,
+  gtk3,
+  pkg-config,
+  wrapGAppsHook,
+  xdg-utils,
 }:
 
 let
@@ -24,7 +25,12 @@ let
   vendorHash = "sha256-w27zoC0BwTkiKyGVfNWG0k4tyTm5IIAthKqOyIMYBZQ=";
 in
 buildGoModule {
-  inherit pname version src vendorHash;
+  inherit
+    pname
+    version
+    src
+    vendorHash
+    ;
 
   nativeBuildInputs = [
     gobject-introspection

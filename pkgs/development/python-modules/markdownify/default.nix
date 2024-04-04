@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pytestCheckHook
-, beautifulsoup4
-, six
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pytestCheckHook,
+  beautifulsoup4,
+  six,
 }:
 
 buildPythonPackage rec {
@@ -16,7 +17,10 @@ buildPythonPackage rec {
     hash = "sha256-AJskDgyfTI6vHQhWJdzUAR4S8PjOxV3t+epvdlXkm/4=";
   };
 
-  propagatedBuildInputs = [ beautifulsoup4 six ];
+  propagatedBuildInputs = [
+    beautifulsoup4
+    six
+  ];
   nativeCheckInputs = [ pytestCheckHook ];
 
   meta = with lib; {

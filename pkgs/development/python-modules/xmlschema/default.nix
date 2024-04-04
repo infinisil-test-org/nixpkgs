@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, elementpath
-, jinja2
-, lxml
-, pytestCheckHook
-, pythonOlder
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  elementpath,
+  jinja2,
+  lxml,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -23,13 +24,9 @@ buildPythonPackage rec {
     hash = "sha256-jYFhoNx4Oxm7c0LsSQ0xw9fY/yxfQU5JoP5RteHzeYM=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [
-    elementpath
-  ];
+  propagatedBuildInputs = [ elementpath ];
 
   nativeCheckInputs = [
     jinja2
@@ -37,9 +34,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "xmlschema"
-  ];
+  pythonImportsCheck = [ "xmlschema" ];
 
   meta = with lib; {
     changelog = "https://github.com/sissaschool/xmlschema/blob/${src.rev}/CHANGELOG.rst";

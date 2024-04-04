@@ -1,10 +1,11 @@
-{ lib
-, stdenv
-, fetchurl
-, scons
-, boost
-, ladspaH
-, libcxxabi
+{
+  lib,
+  stdenv,
+  fetchurl,
+  scons,
+  boost,
+  ladspaH,
+  libcxxabi,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -36,9 +37,7 @@ stdenv.mkDerivation (finalAttrs: {
       --replace "BOOST_LITTLE_ENDIAN" "BOOST_ENDIAN_LITTLE_BYTE"
   '';
 
-  nativeBuildInputs = [
-    scons
-  ];
+  nativeBuildInputs = [ scons ];
 
   meta = with lib; {
     description = "LADSPA plugins based on filters of nova";

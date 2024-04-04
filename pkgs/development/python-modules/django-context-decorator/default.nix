@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, django
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  django,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -17,9 +18,7 @@ buildPythonPackage rec {
     hash = "sha256-/FDGWGC1Pdu+RLyazDNZv+CMf5vscXprLdN8ELjUFNo=";
   };
 
-  pythonImportsCheck = [
-    "django_context_decorator"
-  ];
+  pythonImportsCheck = [ "django_context_decorator" ];
 
   nativeCheckInputs = [
     django

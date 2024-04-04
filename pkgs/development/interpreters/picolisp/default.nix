@@ -1,4 +1,12 @@
-{ lib, stdenv, fetchurl, jdk, w3m, openssl, makeWrapper }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  jdk,
+  w3m,
+  openssl,
+  makeWrapper,
+}:
 
 stdenv.mkDerivation rec {
   pname = "picoLisp";
@@ -8,7 +16,7 @@ stdenv.mkDerivation rec {
     sha256 = "0l51x98bn1hh6kv40sdgp0x09pzg5i8yxbcjvm9n5bxsd6bbk5w2";
   };
   nativeBuildInputs = [ makeWrapper ];
-  buildInputs = [openssl] ++ lib.optional stdenv.is64bit jdk;
+  buildInputs = [ openssl ] ++ lib.optional stdenv.is64bit jdk;
   patchPhase = ''
     sed -i "s/which java/command -v java/g" mkAsm
 

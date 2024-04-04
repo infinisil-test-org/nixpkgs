@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, hatchling
-, pytest-mock
-, pytestCheckHook
-, tomli
-, twine
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  hatchling,
+  pytest-mock,
+  pytestCheckHook,
+  tomli,
+  twine,
 }:
 
 buildPythonPackage rec {
@@ -20,9 +21,7 @@ buildPythonPackage rec {
     hash = "sha256-UywhFJ8d1+lSFOF5ECsknDeQuO7ppckdy5IqAT14ius=";
   };
 
-  nativeBuildInputs = [
-    hatchling
-  ];
+  nativeBuildInputs = [ hatchling ];
 
   nativeCheckInputs = [
     pytest-mock

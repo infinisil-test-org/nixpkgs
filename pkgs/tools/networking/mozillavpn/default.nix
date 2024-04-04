@@ -1,27 +1,28 @@
-{ buildGoModule
-, cargo
-, cmake
-, fetchFromGitHub
-, go
-, lib
-, libcap
-, libgcrypt
-, libgpg-error
-, libsecret
-, pkg-config
-, polkit
-, python3
-, qt5compat
-, qtbase
-, qtnetworkauth
-, qtsvg
-, qttools
-, qtwebsockets
-, rustPlatform
-, rustc
-, stdenv
-, wireguard-tools
-, wrapQtAppsHook
+{
+  buildGoModule,
+  cargo,
+  cmake,
+  fetchFromGitHub,
+  go,
+  lib,
+  libcap,
+  libgcrypt,
+  libgpg-error,
+  libsecret,
+  pkg-config,
+  polkit,
+  python3,
+  qt5compat,
+  qtbase,
+  qtnetworkauth,
+  qtsvg,
+  qttools,
+  qtwebsockets,
+  rustPlatform,
+  rustc,
+  stdenv,
+  wireguard-tools,
+  wrapQtAppsHook,
 }:
 
 let
@@ -36,11 +37,17 @@ let
   };
   patches = [ ];
 
-  netfilterGoModules = (buildGoModule {
-    inherit pname version src patches;
-    modRoot = "linux/netfilter";
-    vendorHash = "sha256-Cmo0wnl0z5r1paaEf1MhCPbInWeoMhGjnxCxGh0cyO8=";
-  }).goModules;
+  netfilterGoModules =
+    (buildGoModule {
+      inherit
+        pname
+        version
+        src
+        patches
+        ;
+      modRoot = "linux/netfilter";
+      vendorHash = "sha256-Cmo0wnl0z5r1paaEf1MhCPbInWeoMhGjnxCxGh0cyO8=";
+    }).goModules;
 
   extensionBridgeDeps = rustPlatform.fetchCargoTarball {
     inherit src patches;
@@ -60,10 +67,14 @@ let
     preBuild = "cd qtglean";
     hash = "sha256-CTubwS4O3az8AHGa5YQgvjXQfh1j9w6jFmiX37aYjOw=";
   };
-
 in
 stdenv.mkDerivation {
-  inherit pname version src patches;
+  inherit
+    pname
+    version
+    src
+    patches
+    ;
 
   buildInputs = [
     libcap
@@ -142,8 +153,12 @@ stdenv.mkDerivation {
   ];
   dontFixCmake = true;
 
-  qtWrapperArgs =
-    [ "--prefix" "PATH" ":" (lib.makeBinPath [ wireguard-tools ]) ];
+  qtWrapperArgs = [
+    "--prefix"
+    "PATH"
+    ":"
+    (lib.makeBinPath [ wireguard-tools ])
+  ];
 
   meta = {
     description = "Client for the Mozilla VPN service";

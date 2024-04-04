@@ -4,12 +4,28 @@
 { lib }:
 let
   inherit (lib.strings) toInt;
-  inherit (lib.trivial) compare min id warn;
+  inherit (lib.trivial)
+    compare
+    min
+    id
+    warn
+    ;
   inherit (lib.attrsets) mapAttrs;
 in
 rec {
 
-  inherit (builtins) head tail length isList elemAt concatLists filter elem genList map;
+  inherit (builtins)
+    head
+    tail
+    length
+    isList
+    elemAt
+    concatLists
+    filter
+    elem
+    genList
+    map
+    ;
 
   /**
     Create a list consisting of a single element. `singleton x` is
@@ -39,7 +55,7 @@ rec {
 
     :::
   */
-  singleton = x: [x];
+  singleton = x: [ x ];
 
   /**
     Apply the function to each element in the list.
@@ -81,7 +97,6 @@ rec {
     `list` with `nul` as the starting value, i.e.,
     `foldr op nul [x_1 x_2 ... x_n] == op x_1 (op x_2 ... (op x_n nul))`.
 
-
     # Inputs
 
     `op`
@@ -118,21 +133,19 @@ rec {
 
     :::
   */
-  foldr = op: nul: list:
+  foldr =
+    op: nul: list:
     let
       len = length list;
-      fold' = n:
-        if n == len
-        then nul
-        else op (elemAt list n) (fold' (n + 1));
-    in fold' 0;
+      fold' = n: if n == len then nul else op (elemAt list n) (fold' (n + 1));
+    in
+    fold' 0;
 
   /**
     `fold` is an alias of `foldr` for historic reasons
   */
   # FIXME(Profpatsch): deprecate?
   fold = foldr;
-
 
   /**
     “left fold”, like `foldr`, but from the left:
@@ -175,13 +188,12 @@ rec {
 
     :::
   */
-  foldl = op: nul: list:
+  foldl =
+    op: nul: list:
     let
-      foldl' = n:
-        if n == -1
-        then nul
-        else op (foldl' (n - 1)) (elemAt list n);
-    in foldl' (length list - 1);
+      foldl' = n: if n == -1 then nul else op (foldl' (n - 1)) (elemAt list n);
+    in
+    foldl' (length list - 1);
 
   /**
     Reduce a list by applying a binary operator from left to right,
@@ -252,15 +264,12 @@ rec {
     :::
   */
   foldl' =
-    op:
-    acc:
-    list:
+    op: acc: list:
 
     # The builtin `foldl'` is a bit lazier than one might expect.
     # See https://github.com/NixOS/nix/pull/7158.
     # In particular, the initial accumulator value is not forced before the first iteration starts.
-    builtins.seq acc
-      (builtins.foldl' op acc list);
+    builtins.seq acc (builtins.foldl' op acc list);
 
   /**
     Map with index starting from 0
@@ -296,7 +305,6 @@ rec {
 
   /**
     Map with index starting from 1
-
 
     # Inputs
 
@@ -353,13 +361,11 @@ rec {
     Flatten the argument into a single list; that is, nested lists are
     spliced into the top-level lists.
 
-
     # Inputs
 
     `x`
 
     : 1\. Function argument
-
 
     # Examples
     :::{.example}
@@ -374,14 +380,10 @@ rec {
 
     :::
   */
-  flatten = x:
-    if isList x
-    then concatMap (y: flatten y) x
-    else [x];
+  flatten = x: if isList x then concatMap (y: flatten y) x else [ x ];
 
   /**
     Remove elements equal to 'e' from a list.  Useful for buildInputs.
-
 
     # Inputs
 
@@ -410,8 +412,7 @@ rec {
 
     :::
   */
-  remove =
-    e: filter (x: x != e);
+  remove = e: filter (x: x != e);
 
   /**
     Find the sole element in the list matching the specified
@@ -419,7 +420,6 @@ rec {
 
     Returns `default` if no such element exists, or
     `multiple` if there are multiple matching elements.
-
 
     # Inputs
 
@@ -461,14 +461,17 @@ rec {
     :::
   */
   findSingle =
-    pred:
-    default:
-    multiple:
-    list:
-    let found = filter pred list; len = length found;
-    in if len == 0 then default
-      else if len != 1 then multiple
-      else head found;
+    pred: default: multiple: list:
+    let
+      found = filter pred list;
+      len = length found;
+    in
+    if len == 0 then
+      default
+    else if len != 1 then
+      multiple
+    else
+      head found;
 
   /**
     Find the first index in the list matching the specified
@@ -508,9 +511,7 @@ rec {
     :::
   */
   findFirstIndex =
-    pred:
-    default:
-    list:
+    pred: default: list:
     let
       # A naive recursive implementation would be much simpler, but
       # would also overflow the evaluator stack. We use `foldl'` as a workaround
@@ -525,12 +526,13 @@ rec {
       # - if index >= 0 then pred (elemAt list index) and all elements before (elemAt list index) didn't satisfy pred
       #
       # We start with index -1 and the 0'th element of the list, which satisfies the invariant
-      resultIndex = foldl' (index: el:
+      resultIndex = foldl' (
+        index: el:
         if index < 0 then
           # No match yet before the current index, we need to check the element
           if pred el then
             # We have a match! Turn it into the actual index to prevent future iterations from modifying it
-            - index - 1
+            -index - 1
           else
             # Still no match, update the index to the next element (we're counting down, so minus one)
             index - 1
@@ -539,10 +541,7 @@ rec {
           index
       ) (-1) list;
     in
-    if resultIndex < 0 then
-      default
-    else
-      resultIndex;
+    if resultIndex < 0 then default else resultIndex;
 
   /**
     Find the first element in the list matching the specified
@@ -582,16 +581,11 @@ rec {
     :::
   */
   findFirst =
-    pred:
-    default:
-    list:
+    pred: default: list:
     let
       index = findFirstIndex pred null list;
     in
-    if index == null then
-      default
-    else
-      elemAt list index;
+    if index == null then default else elemAt list index;
 
   /**
     Return true if function `pred` returns true for at least one
@@ -690,8 +684,7 @@ rec {
 
     :::
   */
-  count =
-    pred: foldl' (c: x: if pred x then c + 1 else c) 0;
+  count = pred: foldl' (c: x: if pred x then c + 1 else c) 0;
 
   /**
     Return a singleton list or an empty list, depending on a boolean
@@ -727,7 +720,7 @@ rec {
 
     :::
   */
-  optional = cond: elem: if cond then [elem] else [];
+  optional = cond: elem: if cond then [ elem ] else [ ];
 
   /**
     Return a list or an empty list, depending on a boolean value.
@@ -761,10 +754,7 @@ rec {
 
     :::
   */
-  optionals =
-    cond:
-    elems: if cond then elems else [];
-
+  optionals = cond: elems: if cond then elems else [ ];
 
   /**
     If argument is a list, return it; else, wrap it in a singleton
@@ -790,7 +780,7 @@ rec {
 
     :::
   */
-  toList = x: if isList x then x else [x];
+  toList = x: if isList x then x else [ x ];
 
   /**
     Return a list of integers from `first` up to and including `last`.
@@ -824,13 +814,7 @@ rec {
 
     :::
   */
-  range =
-    first:
-    last:
-    if first > last then
-      []
-    else
-      genList (n: first + n) (last - first + 1);
+  range = first: last: if first > last then [ ] else genList (n: first + n) (last - first + 1);
 
   /**
     Return a list with `n` copies of an element.
@@ -922,7 +906,6 @@ rec {
 
     : 4\. Function argument
 
-
     # Examples
     :::{.example}
     ## `lib.lists.groupBy'` usage example
@@ -947,15 +930,21 @@ rec {
 
     :::
   */
-  groupBy' = op: nul: pred: lst: mapAttrs (name: foldl op nul) (groupBy pred lst);
+  groupBy' =
+    op: nul: pred: lst:
+    mapAttrs (name: foldl op nul) (groupBy pred lst);
 
-  groupBy = builtins.groupBy or (
-    pred: foldl' (r: e:
-       let
-         key = pred e;
-       in
-         r // { ${key} = (r.${key} or []) ++ [e]; }
-    ) {});
+  groupBy =
+    builtins.groupBy or (
+      pred:
+      foldl' (
+        r: e:
+        let
+          key = pred e;
+        in
+        r // { ${key} = (r.${key} or [ ]) ++ [ e ]; }
+      ) { }
+    );
 
   /**
     Merges two lists of the same size together. If the sizes aren't the same
@@ -994,11 +983,8 @@ rec {
     :::
   */
   zipListsWith =
-    f:
-    fst:
-    snd:
-    genList
-      (n: f (elemAt fst n) (elemAt snd n)) (min (length fst) (length snd));
+    f: fst: snd:
+    genList (n: f (elemAt fst n) (elemAt snd n)) (min (length fst) (length snd));
 
   /**
     Merges two lists of the same size together. If the sizes aren't the same
@@ -1059,15 +1045,18 @@ rec {
 
     :::
   */
-  reverseList = xs:
-    let l = length xs; in genList (n: elemAt xs (l - n - 1)) l;
+  reverseList =
+    xs:
+    let
+      l = length xs;
+    in
+    genList (n: elemAt xs (l - n - 1)) l;
 
   /**
     Depth-First Search (DFS) for lists `list != []`.
 
     `before a b == true` means that `b` depends on `a` (there's an
     edge from `b` to `a`).
-
 
     # Inputs
 
@@ -1082,7 +1071,6 @@ rec {
     `list`
 
     : 3\. Function argument
-
 
     # Examples
     :::{.example}
@@ -1104,22 +1092,32 @@ rec {
 
     :::
   */
-  listDfs = stopOnCycles: before: list:
+  listDfs =
+    stopOnCycles: before: list:
     let
-      dfs' = us: visited: rest:
+      dfs' =
+        us: visited: rest:
         let
           c = filter (x: before x us) visited;
           b = partition (x: before x us) rest;
-        in if stopOnCycles && (length c > 0)
-           then { cycle = us; loops = c; inherit visited rest; }
-           else if length b.right == 0
-                then # nothing is before us
-                     { minimal = us; inherit visited rest; }
-                else # grab the first one before us and continue
-                     dfs' (head b.right)
-                          ([ us ] ++ visited)
-                          (tail b.right ++ b.wrong);
-    in dfs' (head list) [] (tail list);
+        in
+        if stopOnCycles && (length c > 0) then
+          {
+            cycle = us;
+            loops = c;
+            inherit visited rest;
+          }
+        else if length b.right == 0 then
+          # nothing is before us
+          {
+            minimal = us;
+            inherit visited rest;
+          }
+        else
+          # grab the first one before us and continue
+          dfs' (head b.right) ([ us ] ++ visited) (tail b.right ++ b.wrong);
+    in
+    dfs' (head list) [ ] (tail list);
 
   /**
     Sort a list based on a partial ordering using DFS. This
@@ -1128,7 +1126,6 @@ rec {
 
     `before a b == true` means that `b` should be after `a`
     in the result.
-
 
     # Inputs
 
@@ -1139,7 +1136,6 @@ rec {
     `list`
 
     : 2\. Function argument
-
 
     # Examples
     :::{.example}
@@ -1161,24 +1157,28 @@ rec {
 
     :::
   */
-  toposort = before: list:
+  toposort =
+    before: list:
     let
       dfsthis = listDfs true before list;
       toporest = toposort before (dfsthis.visited ++ dfsthis.rest);
     in
-      if length list < 2
-      then # finish
-           { result =  list; }
-      else if dfsthis ? cycle
-           then # there's a cycle, starting from the current vertex, return it
-                { cycle = reverseList ([ dfsthis.cycle ] ++ dfsthis.visited);
-                  inherit (dfsthis) loops; }
-           else if toporest ? cycle
-                then # there's a cycle somewhere else in the graph, return it
-                     toporest
-                # Slow, but short. Can be made a bit faster with an explicit stack.
-                else # there are no cycles
-                     { result = [ dfsthis.minimal ] ++ toporest.result; };
+    if length list < 2 then
+      # finish
+      { result = list; }
+    else if dfsthis ? cycle then
+      # there's a cycle, starting from the current vertex, return it
+      {
+        cycle = reverseList ([ dfsthis.cycle ] ++ dfsthis.visited);
+        inherit (dfsthis) loops;
+      }
+    else if toporest ? cycle then
+      # there's a cycle somewhere else in the graph, return it
+      toporest
+    # Slow, but short. Can be made a bit faster with an explicit stack.
+    else
+      # there are no cycles
+      { result = [ dfsthis.minimal ] ++ toporest.result; };
 
   /**
     Sort a list based on a comparator function which compares two
@@ -1234,7 +1234,6 @@ rec {
     sortOn f == sort (p: q: f p < f q)
     ```
 
-
     # Inputs
 
     `f`
@@ -1262,18 +1261,22 @@ rec {
 
     :::
   */
-  sortOn = f: list:
+  sortOn =
+    f: list:
     let
       # Heterogenous list as pair may be ugly, but requires minimal allocations.
-      pairs = map (x: [(f x) x]) list;
+      pairs = map (x: [
+        (f x)
+        x
+      ]) list;
     in
-      map
-        (x: builtins.elemAt x 1)
-        (sort
-          # Compare the first element of the pairs
-          # Do not factor out the `<`, to avoid calls in hot code; duplicate instead.
-          (a: b: head a < head b)
-          pairs);
+    map (x: builtins.elemAt x 1) (
+      sort
+        # Compare the first element of the pairs
+        # Do not factor out the `<`, to avoid calls in hot code; duplicate instead.
+        (a: b: head a < head b)
+        pairs
+    );
 
   /**
     Compare two lists element-by-element.
@@ -1292,7 +1295,6 @@ rec {
 
     : 3\. Function argument
 
-
     # Examples
     :::{.example}
     ## `lib.lists.compareLists` usage example
@@ -1310,29 +1312,27 @@ rec {
 
     :::
   */
-  compareLists = cmp: a: b:
-    if a == []
-    then if b == []
-         then 0
-         else -1
-    else if b == []
-         then 1
-         else let rel = cmp (head a) (head b); in
-              if rel == 0
-              then compareLists cmp (tail a) (tail b)
-              else rel;
+  compareLists =
+    cmp: a: b:
+    if a == [ ] then
+      if b == [ ] then 0 else -1
+    else if b == [ ] then
+      1
+    else
+      let
+        rel = cmp (head a) (head b);
+      in
+      if rel == 0 then compareLists cmp (tail a) (tail b) else rel;
 
   /**
     Sort list using "Natural sorting".
     Numeric portions of strings are sorted in numeric order.
-
 
     # Inputs
 
     `lst`
 
     : 1\. Function argument
-
 
     # Examples
     :::{.example}
@@ -1349,17 +1349,20 @@ rec {
 
     :::
   */
-  naturalSort = lst:
+  naturalSort =
+    lst:
     let
       vectorise = s: map (x: if isList x then toInt (head x) else x) (builtins.split "(0|[1-9][0-9]*)" s);
-      prepared = map (x: [ (vectorise x) x ]) lst; # remember vectorised version for O(n) regex splits
+      prepared = map (x: [
+        (vectorise x)
+        x
+      ]) lst; # remember vectorised version for O(n) regex splits
       less = a: b: (compareLists compare (head a) (head b)) < 0;
     in
-      map (x: elemAt x 1) (sort less prepared);
+    map (x: elemAt x 1) (sort less prepared);
 
   /**
     Return the first (at most) N elements of a list.
-
 
     # Inputs
 
@@ -1390,12 +1393,10 @@ rec {
 
     :::
   */
-  take =
-    count: sublist 0 count;
+  take = count: sublist 0 count;
 
   /**
     Remove the first (at most) N elements of a list.
-
 
     # Inputs
 
@@ -1426,13 +1427,10 @@ rec {
 
     :::
   */
-  drop =
-    count:
-    list: sublist count (length list) list;
+  drop = count: list: sublist count (length list) list;
 
   /**
     Whether the first list is a prefix of the second list.
-
 
     # Inputs
 
@@ -1463,10 +1461,7 @@ rec {
 
     :::
   */
-  hasPrefix =
-    list1:
-    list2:
-    take (length list1) list2 == list1;
+  hasPrefix = list1: list2: take (length list1) list2 == list1;
 
   /**
     Remove the first list as a prefix from the second list.
@@ -1502,8 +1497,7 @@ rec {
     :::
   */
   removePrefix =
-    list1:
-    list2:
+    list1: list2:
     if hasPrefix list1 list2 then
       drop (length list1) list2
     else
@@ -1547,19 +1541,21 @@ rec {
     :::
   */
   sublist =
-    start:
-    count:
-    list:
-    let len = length list; in
-    genList
-      (n: elemAt list (n + start))
-      (if start >= len then 0
-       else if start + count > len then len - start
-       else count);
+    start: count: list:
+    let
+      len = length list;
+    in
+    genList (n: elemAt list (n + start)) (
+      if start >= len then
+        0
+      else if start + count > len then
+        len - start
+      else
+        count
+    );
 
   /**
     The common prefix of two lists.
-
 
     # Inputs
 
@@ -1593,8 +1589,7 @@ rec {
     :::
   */
   commonPrefix =
-    list1:
-    list2:
+    list1: list2:
     let
       # Zip the lists together into a list of booleans whether each element matches
       matchings = zipListsWith (fst: snd: fst != snd) list1 list2;
@@ -1610,7 +1605,6 @@ rec {
     Return the last element of a list.
 
     This function throws an error if the list is empty.
-
 
     # Inputs
 
@@ -1635,15 +1629,15 @@ rec {
 
     :::
   */
-  last = list:
-    assert lib.assertMsg (list != []) "lists.last: list must not be empty!";
+  last =
+    list:
+    assert lib.assertMsg (list != [ ]) "lists.last: list must not be empty!";
     elemAt list (length list - 1);
 
   /**
     Return all elements but the last.
 
     This function throws an error if the list is empty.
-
 
     # Inputs
 
@@ -1668,14 +1662,13 @@ rec {
 
     :::
   */
-  init = list:
-    assert lib.assertMsg (list != []) "lists.init: list must not be empty!";
+  init =
+    list:
+    assert lib.assertMsg (list != [ ]) "lists.init: list must not be empty!";
     take (length list - 1) list;
-
 
   /**
     Return the image of the cross product of some lists by a function.
-
 
     # Examples
     :::{.example}
@@ -1688,14 +1681,12 @@ rec {
 
     :::
   */
-  crossLists = warn
-    "lib.crossLists is deprecated, use lib.cartesianProductOfSets instead."
-    (f: foldl (fs: args: concatMap (f: map f args) fs) [f]);
-
+  crossLists = warn "lib.crossLists is deprecated, use lib.cartesianProductOfSets instead." (
+    f: foldl (fs: args: concatMap (f: map f args) fs) [ f ]
+  );
 
   /**
     Remove duplicate elements from the `list`. O(n^2) complexity.
-
 
     # Inputs
 
@@ -1720,11 +1711,10 @@ rec {
 
     :::
   */
-  unique = foldl' (acc: e: if elem e acc then acc else acc ++ [ e ]) [];
+  unique = foldl' (acc: e: if elem e acc then acc else acc ++ [ e ]) [ ];
 
   /**
     Check if list contains only unique elements. O(n^2) complexity.
-
 
     # Inputs
 
@@ -1753,7 +1743,6 @@ rec {
   */
   allUnique = list: (length (unique list) == length list);
 
-
   /**
     Intersects list 'list1' and another list (`list2`).
 
@@ -1768,7 +1757,6 @@ rec {
     `list2`
 
     : Second list
-
 
     # Examples
     :::{.example}
@@ -1798,7 +1786,6 @@ rec {
 
     : Second list
 
-
     # Examples
     :::{.example}
     ## `lib.lists.subtractLists` usage example
@@ -1827,5 +1814,4 @@ rec {
     : 2\. Function argument
   */
   mutuallyExclusive = a: b: length a == 0 || !(any (x: elem x a) b);
-
 }

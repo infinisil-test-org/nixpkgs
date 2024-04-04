@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.programs.screen;
@@ -22,20 +27,22 @@ in
     };
   };
 
-  config = {
-    # TODO: Added in 24.05, remove before 24.11
-    assertions = [
-      {
-        assertion = cfg.screenrc != null -> cfg.enable;
-        message = "`programs.screen.screenrc` has been configured, but `programs.screen.enable` is not true";
-      }
-    ];
-  } // lib.mkIf cfg.enable {
-    environment.etc.screenrc = {
-      enable = cfg.screenrc != null;
-      text = cfg.screenrc;
+  config =
+    {
+      # TODO: Added in 24.05, remove before 24.11
+      assertions = [
+        {
+          assertion = cfg.screenrc != null -> cfg.enable;
+          message = "`programs.screen.screenrc` has been configured, but `programs.screen.enable` is not true";
+        }
+      ];
+    }
+    // lib.mkIf cfg.enable {
+      environment.etc.screenrc = {
+        enable = cfg.screenrc != null;
+        text = cfg.screenrc;
+      };
+      environment.systemPackages = [ cfg.package ];
+      security.pam.services.screen = { };
     };
-    environment.systemPackages = [ cfg.package ];
-    security.pam.services.screen = {};
-  };
 }

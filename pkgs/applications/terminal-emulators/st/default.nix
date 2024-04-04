@@ -1,17 +1,18 @@
-{ lib
-, stdenv
-, fetchurl
-, pkg-config
-, fontconfig
-, freetype
-, libX11
-, libXft
-, ncurses
-, writeText
-, conf ? null
-, patches ? [ ]
-, extraLibs ? [ ]
-, nixosTests
+{
+  lib,
+  stdenv,
+  fetchurl,
+  pkg-config,
+  fontconfig,
+  freetype,
+  libX11,
+  libXft,
+  ncurses,
+  writeText,
+  conf ? null,
+  patches ? [ ],
+  extraLibs ? [ ],
+  nixosTests,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -23,23 +24,24 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-82NZeZc06ueFvss3QGPwvoM88i+ItPFpzSUbmTJOCOc=";
   };
 
-  outputs = [ "out" "terminfo" ];
+  outputs = [
+    "out"
+    "terminfo"
+  ];
 
   inherit patches;
 
-  configFile = lib.optionalString (conf != null)
-    (writeText "config.def.h" conf);
+  configFile = lib.optionalString (conf != null) (writeText "config.def.h" conf);
 
-  postPatch = lib.optionalString (conf != null) "cp ${finalAttrs.configFile} config.def.h"
+  postPatch =
+    lib.optionalString (conf != null) "cp ${finalAttrs.configFile} config.def.h"
     + lib.optionalString stdenv.isDarwin ''
-    substituteInPlace config.mk --replace "-lrt" ""
-  '';
+      substituteInPlace config.mk --replace "-lrt" ""
+    '';
 
   strictDeps = true;
 
-  makeFlags = [
-    "PKG_CONFIG=${stdenv.cc.targetPrefix}pkg-config"
-  ];
+  makeFlags = [ "PKG_CONFIG=${stdenv.cc.targetPrefix}pkg-config" ];
 
   nativeBuildInputs = [
     pkg-config

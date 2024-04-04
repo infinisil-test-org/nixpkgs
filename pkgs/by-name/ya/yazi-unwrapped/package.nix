@@ -1,12 +1,13 @@
-{ rustPlatform
-, fetchFromGitHub
-, lib
+{
+  rustPlatform,
+  fetchFromGitHub,
+  lib,
 
-, installShellFiles
-, stdenv
-, Foundation
+  installShellFiles,
+  stdenv,
+  Foundation,
 
-, nix-update-script
+  nix-update-script,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -40,7 +41,10 @@ rustPlatform.buildRustPackage rec {
     description = "Blazing fast terminal file manager written in Rust, based on async I/O";
     homepage = "https://github.com/sxyazi/yazi";
     license = licenses.mit;
-    maintainers = with maintainers; [ xyenon matthiasbeyer ];
+    maintainers = with maintainers; [
+      xyenon
+      matthiasbeyer
+    ];
     mainProgram = "yazi";
   };
 }

@@ -9,6 +9,13 @@
 mkKdeDerivation {
   pname = "sonnet";
 
-  extraNativeBuildInputs = [qttools pkg-config];
-  extraBuildInputs = [qtdeclarative aspell hunspell];
+  extraNativeBuildInputs = [
+    qttools
+    pkg-config
+  ];
+  extraBuildInputs = [
+    qtdeclarative
+    aspell
+    hunspell
+  ];
 }

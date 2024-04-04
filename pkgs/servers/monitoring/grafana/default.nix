@@ -1,8 +1,19 @@
-{ lib, stdenv, buildGoModule, fetchFromGitHub, removeReferencesTo
-, tzdata, wire
-, yarn, nodejs, python3, cacert
-, jq, moreutils
-, nix-update-script, nixosTests
+{
+  lib,
+  stdenv,
+  buildGoModule,
+  fetchFromGitHub,
+  removeReferencesTo,
+  tzdata,
+  wire,
+  yarn,
+  nodejs,
+  python3,
+  cacert,
+  jq,
+  moreutils,
+  nix-update-script,
+  nixosTests,
 }:
 
 let
@@ -21,10 +32,12 @@ let
 
   # Injects a `t.Skip()` into a given test since
   # there's apparently no other way to skip tests here.
-  skipTest = lineOffset: testCase: file:
+  skipTest =
+    lineOffset: testCase: file:
     let
       jumpAndAppend = lib.concatStringsSep ";" (lib.replicate (lineOffset - 1) "n" ++ [ "a" ]);
-    in ''
+    in
+    ''
       sed -i -e '/${testCase}/{
       ${jumpAndAppend} t.Skip();
       }' ${file}
@@ -34,7 +47,16 @@ buildGoModule rec {
   pname = "grafana";
   version = "10.3.4";
 
-  excludedPackages = [ "alert_webhook_listener" "clean-swagger" "release_publisher" "slow_proxy" "slow_proxy_mac" "macaron" "devenv" "modowners" ];
+  excludedPackages = [
+    "alert_webhook_listener"
+    "clean-swagger"
+    "release_publisher"
+    "slow_proxy"
+    "slow_proxy_mac"
+    "macaron"
+    "devenv"
+    "modowners"
+  ];
 
   src = fetchFromGitHub {
     owner = "grafana";
@@ -47,8 +69,11 @@ buildGoModule rec {
     name = "${pname}-${version}-yarn-offline-cache";
     inherit src;
     nativeBuildInputs = [
-      yarn nodejs cacert
-      jq moreutils
+      yarn
+      nodejs
+      cacert
+      jq
+      moreutils
     ];
     postPatch = ''
       ${patchAwayGrafanaE2E}
@@ -74,7 +99,14 @@ buildGoModule rec {
 
   vendorHash = "sha256-PEPk3T/tCfJNZKOn3tL6p8Bnpc5wZMduNeHrv+l8mmU=";
 
-  nativeBuildInputs = [ wire yarn jq moreutils removeReferencesTo python3 ];
+  nativeBuildInputs = [
+    wire
+    yarn
+    jq
+    moreutils
+    removeReferencesTo
+    python3
+  ];
 
   postPatch = ''
     ${patchAwayGrafanaE2E}
@@ -100,10 +132,14 @@ buildGoModule rec {
     # [...]
     # grafana> t=2021-12-02T14:24:58+0000 lvl=dbug msg="Failed to get latest.json repo from github.com" logger=update.checker error="Get \"https://raw.githubusercontent.com/grafana/grafana/main/latest.json\": dial tcp: lookup raw.githubusercontent.com on [::1]:53: read udp [::1]:36391->[::1]:53: read: connection refused"
     # grafana> t=2021-12-02T14:24:58+0000 lvl=dbug msg="Failed to get plugins repo from grafana.com" logger=plugin.manager error="Get \"https://grafana.com/api/plugins/versioncheck?slugIn=&grafanaVersion=\": dial tcp: lookup grafana.com on [::1]:53: read udp [::1]:41796->[::1]:53: read: connection refused"
-    ${skipTest 1 "Request is not forbidden if from an admin" "pkg/tests/api/plugins/api_plugins_test.go"}
+    ${skipTest 1 "Request is not forbidden if from an admin"
+      "pkg/tests/api/plugins/api_plugins_test.go"
+    }
 
     # Skip a flaky test (https://github.com/NixOS/nixpkgs/pull/126928#issuecomment-861424128)
-    ${skipTest 2 "it should change folder successfully and return correct result" "pkg/services/libraryelements/libraryelements_patch_test.go"}
+    ${skipTest 2 "it should change folder successfully and return correct result"
+      "pkg/services/libraryelements/libraryelements_patch_test.go"
+    }
 
     # Skip flaky tests (https://logs.ofborg.org/?key=nixos/nixpkgs.263185&attempt_id=5b056a17-67a7-4b74-9dc7-888eb1d6c2dd)
     ${skipTest 1 "TestIntegrationRulerAccess" "pkg/tests/api/alerting/api_alertmanager_test.go"}
@@ -144,7 +180,9 @@ buildGoModule rec {
   '';
 
   ldflags = [
-    "-s" "-w" "-X main.version=${version}"
+    "-s"
+    "-w"
+    "-X main.version=${version}"
   ];
 
   # Tests start http servers which need to bind to local addresses:
@@ -169,7 +207,9 @@ buildGoModule rec {
   '';
 
   passthru = {
-    tests = { inherit (nixosTests) grafana; };
+    tests = {
+      inherit (nixosTests) grafana;
+    };
     updateScript = nix-update-script { };
   };
 
@@ -177,7 +217,14 @@ buildGoModule rec {
     description = "Gorgeous metric viz, dashboards & editors for Graphite, InfluxDB & OpenTSDB";
     license = licenses.agpl3;
     homepage = "https://grafana.com";
-    maintainers = with maintainers; [ offline fpletz willibutz globin ma27 Frostman ];
+    maintainers = with maintainers; [
+      offline
+      fpletz
+      willibutz
+      globin
+      ma27
+      Frostman
+    ];
     platforms = platforms.linux ++ platforms.darwin;
     mainProgram = "grafana-server";
   };
