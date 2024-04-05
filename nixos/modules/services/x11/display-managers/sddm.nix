@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   xcfg = config.services.xserver;
@@ -14,9 +19,20 @@ let
   iniFmt = pkgs.formats.ini { };
 
   inherit (lib)
-    concatMapStrings concatStringsSep getExe
-    attrNames getAttr optionalAttrs optionalString
-    mkRemovedOptionModule mkRenamedOptionModule mkIf mkEnableOption mkOption mkPackageOption types
+    concatMapStrings
+    concatStringsSep
+    getExe
+    attrNames
+    getAttr
+    optionalAttrs
+    optionalString
+    mkRemovedOptionModule
+    mkRenamedOptionModule
+    mkIf
+    mkEnableOption
+    mkOption
+    mkPackageOption
+    types
     ;
 
   xserverWrapper = pkgs.writeShellScript "xserver-wrapper" ''
@@ -33,69 +49,73 @@ let
     ${cfg.stopScript}
   '';
 
-  defaultConfig = {
-    General = {
-      HaltCommand = "/run/current-system/systemd/bin/systemctl poweroff";
-      RebootCommand = "/run/current-system/systemd/bin/systemctl reboot";
-      Numlock = if cfg.autoNumlock then "on" else "none"; # on, off none
+  defaultConfig =
+    {
+      General =
+        {
+          HaltCommand = "/run/current-system/systemd/bin/systemctl poweroff";
+          RebootCommand = "/run/current-system/systemd/bin/systemctl reboot";
+          Numlock = if cfg.autoNumlock then "on" else "none"; # on, off none
 
-      # Implementation is done via pkgs/applications/display-managers/sddm/sddm-default-session.patch
-      DefaultSession = optionalString (dmcfg.defaultSession != null) "${dmcfg.defaultSession}.desktop";
+          # Implementation is done via pkgs/applications/display-managers/sddm/sddm-default-session.patch
+          DefaultSession = optionalString (dmcfg.defaultSession != null) "${dmcfg.defaultSession}.desktop";
 
-      DisplayServer = if cfg.wayland.enable then "wayland" else "x11";
-    } // optionalAttrs (cfg.wayland.compositor == "kwin") {
-      GreeterEnvironment = concatStringsSep " " [
-        "LANG=C.UTF-8"
-        "QT_WAYLAND_SHELL_INTEGRATION=layer-shell"
-      ];
-      InputMethod = ""; # needed if we are using --inputmethod with kwin
+          DisplayServer = if cfg.wayland.enable then "wayland" else "x11";
+        }
+        // optionalAttrs (cfg.wayland.compositor == "kwin") {
+          GreeterEnvironment = concatStringsSep " " [
+            "LANG=C.UTF-8"
+            "QT_WAYLAND_SHELL_INTEGRATION=layer-shell"
+          ];
+          InputMethod = ""; # needed if we are using --inputmethod with kwin
+        };
+
+      Theme =
+        {
+          Current = cfg.theme;
+          ThemeDir = "/run/current-system/sw/share/sddm/themes";
+          FacesDir = "/run/current-system/sw/share/sddm/faces";
+        }
+        // optionalAttrs (cfg.theme == "breeze") {
+          CursorTheme = "breeze_cursors";
+          CursorSize = 24;
+        };
+
+      Users = {
+        MaximumUid = config.ids.uids.nixbld;
+        HideUsers = concatStringsSep "," dmcfg.hiddenUsers;
+        HideShells = "/run/current-system/sw/bin/nologin";
+      };
+
+      X11 = {
+        MinimumVT = if xcfg.tty != null then xcfg.tty else 7;
+        ServerPath = toString xserverWrapper;
+        XephyrPath = "${pkgs.xorg.xorgserver.out}/bin/Xephyr";
+        SessionCommand = toString dmcfg.sessionData.wrapper;
+        SessionDir = "${dmcfg.sessionData.desktops}/share/xsessions";
+        XauthPath = "${pkgs.xorg.xauth}/bin/xauth";
+        DisplayCommand = toString Xsetup;
+        DisplayStopCommand = toString Xstop;
+        EnableHiDPI = cfg.enableHidpi;
+      };
+
+      Wayland = {
+        EnableHiDPI = cfg.enableHidpi;
+        SessionDir = "${dmcfg.sessionData.desktops}/share/wayland-sessions";
+        CompositorCommand = lib.optionalString cfg.wayland.enable cfg.wayland.compositorCommand;
+      };
+    }
+    // optionalAttrs dmcfg.autoLogin.enable {
+      Autologin = {
+        User = dmcfg.autoLogin.user;
+        Session = autoLoginSessionName;
+        Relogin = cfg.autoLogin.relogin;
+      };
     };
 
-    Theme = {
-      Current = cfg.theme;
-      ThemeDir = "/run/current-system/sw/share/sddm/themes";
-      FacesDir = "/run/current-system/sw/share/sddm/faces";
-    } // optionalAttrs (cfg.theme == "breeze") {
-      CursorTheme = "breeze_cursors";
-      CursorSize = 24;
-    };
+  cfgFile = iniFmt.generate "sddm.conf" (lib.recursiveUpdate defaultConfig cfg.settings);
 
-    Users = {
-      MaximumUid = config.ids.uids.nixbld;
-      HideUsers = concatStringsSep "," dmcfg.hiddenUsers;
-      HideShells = "/run/current-system/sw/bin/nologin";
-    };
-
-    X11 = {
-      MinimumVT = if xcfg.tty != null then xcfg.tty else 7;
-      ServerPath = toString xserverWrapper;
-      XephyrPath = "${pkgs.xorg.xorgserver.out}/bin/Xephyr";
-      SessionCommand = toString dmcfg.sessionData.wrapper;
-      SessionDir = "${dmcfg.sessionData.desktops}/share/xsessions";
-      XauthPath = "${pkgs.xorg.xauth}/bin/xauth";
-      DisplayCommand = toString Xsetup;
-      DisplayStopCommand = toString Xstop;
-      EnableHiDPI = cfg.enableHidpi;
-    };
-
-    Wayland = {
-      EnableHiDPI = cfg.enableHidpi;
-      SessionDir = "${dmcfg.sessionData.desktops}/share/wayland-sessions";
-      CompositorCommand = lib.optionalString cfg.wayland.enable cfg.wayland.compositorCommand;
-    };
-  } // optionalAttrs dmcfg.autoLogin.enable {
-    Autologin = {
-      User = dmcfg.autoLogin.user;
-      Session = autoLoginSessionName;
-      Relogin = cfg.autoLogin.relogin;
-    };
-  };
-
-  cfgFile =
-    iniFmt.generate "sddm.conf" (lib.recursiveUpdate defaultConfig cfg.settings);
-
-  autoLoginSessionName =
-    "${dmcfg.sessionData.autologinSession}.desktop";
+  autoLoginSessionName = "${dmcfg.sessionData.autologinSession}.desktop";
 
   compositorCmds = {
     kwin = concatStringsSep " " [
@@ -124,22 +144,57 @@ let
       in
       "${getExe pkgs.weston} --shell=kiosk -c ${westonIni}";
   };
-
 in
 {
   imports = [
-    (mkRemovedOptionModule
-      [ "services" "xserver" "displayManager" "sddm" "themes" ]
-      "Set the option `services.xserver.displayManager.sddm.package' instead.")
+    (mkRemovedOptionModule [
+      "services"
+      "xserver"
+      "displayManager"
+      "sddm"
+      "themes"
+    ] "Set the option `services.xserver.displayManager.sddm.package' instead.")
     (mkRenamedOptionModule
-      [ "services" "xserver" "displayManager" "sddm" "autoLogin" "enable" ]
-      [ "services" "xserver" "displayManager" "autoLogin" "enable" ])
+      [
+        "services"
+        "xserver"
+        "displayManager"
+        "sddm"
+        "autoLogin"
+        "enable"
+      ]
+      [
+        "services"
+        "xserver"
+        "displayManager"
+        "autoLogin"
+        "enable"
+      ]
+    )
     (mkRenamedOptionModule
-      [ "services" "xserver" "displayManager" "sddm" "autoLogin" "user" ]
-      [ "services" "xserver" "displayManager" "autoLogin" "user" ])
-    (mkRemovedOptionModule
-      [ "services" "xserver" "displayManager" "sddm" "extraConfig" ]
-      "Set the option `services.xserver.displayManager.sddm.settings' instead.")
+      [
+        "services"
+        "xserver"
+        "displayManager"
+        "sddm"
+        "autoLogin"
+        "user"
+      ]
+      [
+        "services"
+        "xserver"
+        "displayManager"
+        "autoLogin"
+        "user"
+      ]
+    )
+    (mkRemovedOptionModule [
+      "services"
+      "xserver"
+      "displayManager"
+      "sddm"
+      "extraConfig"
+    ] "Set the option `services.xserver.displayManager.sddm.settings' instead.")
   ];
 
   options = {
@@ -153,7 +208,10 @@ in
         '';
       };
 
-      package = mkPackageOption pkgs [ "plasma5Packages" "sddm" ] { };
+      package = mkPackageOption pkgs [
+        "plasma5Packages"
+        "sddm"
+      ] { };
 
       enableHidpi = mkOption {
         type = types.bool;
@@ -327,9 +385,7 @@ in
 
     environment = {
       etc."sddm.conf".source = cfgFile;
-      pathsToLink = [
-        "/share/sddm"
-      ];
+      pathsToLink = [ "/share/sddm" ];
       systemPackages = [ sddm ];
     };
 
@@ -356,9 +412,7 @@ in
           "plymouth-quit.service"
           "systemd-logind.service"
         ];
-        conflicts = [
-          "getty@tty7.service"
-        ];
+        conflicts = [ "getty@tty7.service" ];
       };
     };
   };

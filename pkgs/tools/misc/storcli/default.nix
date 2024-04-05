@@ -1,7 +1,8 @@
-{ lib
-, stdenvNoCC
-, fetchzip
-, rpmextract
+{
+  lib,
+  stdenvNoCC,
+  fetchzip,
+  rpmextract,
 }:
 
 stdenvNoCC.mkDerivation rec {
@@ -15,16 +16,18 @@ stdenvNoCC.mkDerivation rec {
 
   nativeBuildInputs = [ rpmextract ];
 
-  unpackPhase = let
-    inherit (stdenvNoCC.hostPlatform) system;
-    platforms = {
-      x86_64-linux = "Linux";
-      aarch64-linux = "ARM/Linux";
-    };
-    platform = platforms.${system} or (throw "unsupported system: ${system}");
-  in ''
-    rpmextract $src/${platform}/storcli-00${version}00.0000-1.*.rpm
-  '';
+  unpackPhase =
+    let
+      inherit (stdenvNoCC.hostPlatform) system;
+      platforms = {
+        x86_64-linux = "Linux";
+        aarch64-linux = "ARM/Linux";
+      };
+      platform = platforms.${system} or (throw "unsupported system: ${system}");
+    in
+    ''
+      rpmextract $src/${platform}/storcli-00${version}00.0000-1.*.rpm
+    '';
 
   dontPatch = true;
   dontConfigure = true;
@@ -47,6 +50,9 @@ stdenvNoCC.mkDerivation rec {
     sourceProvenance = with sourceTypes; [ binaryNativeCode ];
     license = licenses.unfree;
     maintainers = with maintainers; [ panicgh ];
-    platforms = [ "x86_64-linux" "aarch64-linux" ];
+    platforms = [
+      "x86_64-linux"
+      "aarch64-linux"
+    ];
   };
 }

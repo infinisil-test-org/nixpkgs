@@ -1,16 +1,17 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, gflanguages
-, num2words
-, poetry-core
-, protobuf
-, pytestCheckHook
-, strictyaml
-, termcolor
-, ufo2ft
-, vharfbuzz
-, youseedee
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  gflanguages,
+  num2words,
+  poetry-core,
+  protobuf,
+  pytestCheckHook,
+  strictyaml,
+  termcolor,
+  ufo2ft,
+  vharfbuzz,
+  youseedee,
 }:
 
 buildPythonPackage rec {
@@ -37,14 +38,10 @@ buildPythonPackage rec {
     vharfbuzz
     youseedee
   ];
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
   doCheck = true;
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   meta = with lib; {
     description = "Tool to test OpenType fonts for language support";

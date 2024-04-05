@@ -1,17 +1,18 @@
-{ lib
-, config
-, callPackage
-, stdenv
-, fetchFromGitHub
-, asio
-, cmake
-, eigen
-, libcpr
-, onnxruntime
-, opencv
-, isBeta ? false
-, cudaSupport ? config.cudaSupport
-, cudaPackages ? { }
+{
+  lib,
+  config,
+  callPackage,
+  stdenv,
+  fetchFromGitHub,
+  asio,
+  cmake,
+  eigen,
+  libcpr,
+  onnxruntime,
+  opencv,
+  isBeta ? false,
+  cudaSupport ? config.cudaSupport,
+  cudaPackages ? { },
 }:
 
 let
@@ -54,24 +55,27 @@ stdenv.mkDerivation (finalAttr: {
     asio
     cmake
     fastdeploy.cmake
-  ] ++ lib.optionals cudaSupport [
-    cudaPackages.cuda_nvcc
-  ];
+  ] ++ lib.optionals cudaSupport [ cudaPackages.cuda_nvcc ];
 
-  buildInputs = [
-    fastdeploy
-    libcpr
-    onnxruntime
-    opencv
-  ] ++ lib.optionals cudaSupport (with cudaPackages; [
-    cuda_cccl # cub/cub.cuh
-    libcublas # cublas_v2.h
-    libcurand # curand.h
-    libcusparse # cusparse.h
-    libcufft # cufft.h
-    cudnn # cudnn.h
-    cuda_cudart
-  ]);
+  buildInputs =
+    [
+      fastdeploy
+      libcpr
+      onnxruntime
+      opencv
+    ]
+    ++ lib.optionals cudaSupport (
+      with cudaPackages;
+      [
+        cuda_cccl # cub/cub.cuh
+        libcublas # cublas_v2.h
+        libcurand # curand.h
+        libcusparse # cusparse.h
+        libcufft # cufft.h
+        cudnn # cudnn.h
+        cuda_cudart
+      ]
+    );
 
   cmakeFlags = [
     (lib.cmakeFeature "CMAKE_BUILD_TYPE" "None")

@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
@@ -6,7 +11,8 @@ let
   cfg = config.services.netatalk;
   settingsFormat = pkgs.formats.ini { };
   afpConfFile = settingsFormat.generate "afp.conf" cfg.settings;
-in {
+in
+{
   options = {
     services.netatalk = {
 
@@ -22,7 +28,9 @@ in {
         inherit (settingsFormat) type;
         default = { };
         example = {
-          Global = { "uam list" = "uams_guest.so"; };
+          Global = {
+            "uam list" = "uams_guest.so";
+          };
           Homes = {
             path = "afp-data";
             "basedir regex" = "/home";
@@ -46,17 +54,25 @@ in {
           See {manpage}`extmap.conf(5)`. for more information.
         '';
       };
-
     };
   };
 
-  imports = (map (option:
-    mkRemovedOptionModule [ "services" "netatalk" option ]
-    "This option was removed in favor of `services.netatalk.settings`.") [
-      "extraConfig"
-      "homes"
-      "volumes"
-    ]);
+  imports = (
+    map
+      (
+        option:
+        mkRemovedOptionModule [
+          "services"
+          "netatalk"
+          option
+        ] "This option was removed in favor of `services.netatalk.settings`."
+      )
+      [
+        "extraConfig"
+        "homes"
+        "volumes"
+      ]
+  );
 
   config = mkIf cfg.enable {
 
@@ -67,9 +83,11 @@ in {
 
     systemd.services.netatalk = {
       description = "Netatalk AFP fileserver for Macintosh clients";
-      unitConfig.Documentation =
-        "man:afp.conf(5) man:netatalk(8) man:afpd(8) man:cnid_metad(8) man:cnid_dbd(8)";
-      after = [ "network.target" "avahi-daemon.service" ];
+      unitConfig.Documentation = "man:afp.conf(5) man:netatalk(8) man:afpd(8) man:cnid_metad(8) man:cnid_dbd(8)";
+      after = [
+        "network.target"
+        "avahi-daemon.service"
+      ];
       wantedBy = [ "multi-user.target" ];
 
       path = [ pkgs.netatalk ];
@@ -85,11 +103,8 @@ in {
         RestartSec = 1;
         StateDirectory = [ "netatalk/CNID" ];
       };
-
     };
 
     security.pam.services.netatalk.unixAuth = true;
-
   };
-
 }

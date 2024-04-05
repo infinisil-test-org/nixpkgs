@@ -1,18 +1,19 @@
-{ stdenv
-, lib
-, runCommand
-, patchelf
-, fetchFromGitHub
-, rustPlatform
-, makeBinaryWrapper
-, pkg-config
-, openssl
-, curl
-, zlib
-, Security
-, CoreServices
-, libiconv
-, xz
+{
+  stdenv,
+  lib,
+  runCommand,
+  patchelf,
+  fetchFromGitHub,
+  rustPlatform,
+  makeBinaryWrapper,
+  pkg-config,
+  openssl,
+  curl,
+  zlib,
+  Security,
+  CoreServices,
+  libiconv,
+  xz,
 }:
 
 let
@@ -36,25 +37,42 @@ rustPlatform.buildRustPackage rec {
     lockFile = ./Cargo.lock;
   };
 
-  nativeBuildInputs = [ makeBinaryWrapper pkg-config ];
+  nativeBuildInputs = [
+    makeBinaryWrapper
+    pkg-config
+  ];
 
-  buildInputs = [
-    (curl.override { inherit openssl; })
-    zlib
-  ] ++ lib.optionals stdenv.isDarwin [ CoreServices Security libiconv xz ];
+  buildInputs =
+    [
+      (curl.override { inherit openssl; })
+      zlib
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      CoreServices
+      Security
+      libiconv
+      xz
+    ];
 
   buildFeatures = [ "no-self-update" ];
 
   checkFeatures = [ ];
 
   patches = lib.optionals stdenv.isLinux [
-    (runCommand "0001-dynamically-patchelf-binaries.patch" { CC = stdenv.cc; patchelf = patchelf; libPath = "$ORIGIN/../lib:${libPath}"; } ''
-      export dynamicLinker=$(cat $CC/nix-support/dynamic-linker)
-      substitute ${./0001-dynamically-patchelf-binaries.patch} $out \
-        --subst-var patchelf \
-        --subst-var dynamicLinker \
-        --subst-var libPath
-    '')
+    (runCommand "0001-dynamically-patchelf-binaries.patch"
+      {
+        CC = stdenv.cc;
+        patchelf = patchelf;
+        libPath = "$ORIGIN/../lib:${libPath}";
+      }
+      ''
+        export dynamicLinker=$(cat $CC/nix-support/dynamic-linker)
+        substitute ${./0001-dynamically-patchelf-binaries.patch} $out \
+          --subst-var patchelf \
+          --subst-var dynamicLinker \
+          --subst-var libPath
+      ''
+    )
   ];
 
   doCheck = !stdenv.isAarch64 && !stdenv.isDarwin;
@@ -101,7 +119,10 @@ rustPlatform.buildRustPackage rec {
   meta = with lib; {
     description = "The Rust toolchain installer";
     homepage = "https://www.rustup.rs/";
-    license = with licenses; [ asl20 /* or */ mit ];
+    license = with licenses; [
+      asl20 # or
+      mit
+    ];
     maintainers = [ maintainers.mic92 ];
   };
 }

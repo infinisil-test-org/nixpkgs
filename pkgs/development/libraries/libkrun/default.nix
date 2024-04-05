@@ -1,14 +1,15 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, rustPlatform
-, cargo
-, pkg-config
-, glibc
-, openssl
-, libkrunfw
-, rustc
-, sevVariant ? false
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  rustPlatform,
+  cargo,
+  pkg-config,
+  glibc,
+  openssl,
+  libkrunfw,
+  rustc,
+  sevVariant ? false,
 }:
 
 stdenv.mkDerivation rec {
@@ -31,23 +32,15 @@ stdenv.mkDerivation rec {
     rustPlatform.cargoSetupHook
     cargo
     rustc
-  ] ++ lib.optionals sevVariant [
-    pkg-config
-  ];
+  ] ++ lib.optionals sevVariant [ pkg-config ];
 
   buildInputs = [
     (libkrunfw.override { inherit sevVariant; })
     glibc
     glibc.static
-  ] ++ lib.optionals sevVariant [
-    openssl
-  ];
+  ] ++ lib.optionals sevVariant [ openssl ];
 
-  makeFlags = [
-    "PREFIX=${placeholder "out"}"
-  ] ++ lib.optionals sevVariant [
-    "SEV=1"
-  ];
+  makeFlags = [ "PREFIX=${placeholder "out"}" ] ++ lib.optionals sevVariant [ "SEV=1" ];
 
   meta = with lib; {
     description = "A dynamic library providing Virtualization-based process isolation capabilities";

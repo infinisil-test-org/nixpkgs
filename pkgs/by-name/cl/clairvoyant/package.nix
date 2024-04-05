@@ -1,12 +1,13 @@
-{ lib
-, fetchFromGitHub
-, gtk4
-, libadwaita
-, meson
-, ninja
-, pkg-config
-, stdenv
-, vala
+{
+  lib,
+  fetchFromGitHub,
+  gtk4,
+  libadwaita,
+  meson,
+  ninja,
+  pkg-config,
+  stdenv,
+  vala,
 }:
 
 stdenv.mkDerivation rec {

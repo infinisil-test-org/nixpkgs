@@ -1,5 +1,11 @@
-{ lib, stdenv, llvm_meta, version, src, cmake
-, enableShared ? !stdenv.hostPlatform.isStatic
+{
+  lib,
+  stdenv,
+  llvm_meta,
+  version,
+  src,
+  cmake,
+  enableShared ? !stdenv.hostPlatform.isStatic,
 }:
 
 stdenv.mkDerivation rec {
@@ -9,11 +15,12 @@ stdenv.mkDerivation rec {
   inherit src;
   sourceRoot = "${src.name}/${pname}";
 
-  patches = [
-    ./gnu-install-dirs.patch
-  ];
+  patches = [ ./gnu-install-dirs.patch ];
 
-  outputs = [ "out" "dev" ];
+  outputs = [
+    "out"
+    "dev"
+  ];
 
   nativeBuildInputs = [ cmake ];
 

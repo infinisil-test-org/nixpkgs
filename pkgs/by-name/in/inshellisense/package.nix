@@ -1,4 +1,8 @@
-{ lib, buildNpmPackage, fetchFromGitHub }:
+{
+  lib,
+  buildNpmPackage,
+  fetchFromGitHub,
+}:
 
 buildNpmPackage rec {
   pname = "inshellisense";
@@ -20,4 +24,3 @@ buildNpmPackage rec {
     maintainers = [ maintainers.malo ];
   };
 }
-

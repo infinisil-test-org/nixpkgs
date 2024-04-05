@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
@@ -11,10 +16,18 @@ let
     pidfile /run/sniproxy.pid
     ${cfg.config}
   '';
-
 in
 {
-  imports = [ (mkRemovedOptionModule [ "services" "sniproxy" "logDir" ] "Now done by LogsDirectory=. Set to a custom path if you log to a different folder in your config.") ];
+  imports = [
+    (mkRemovedOptionModule
+      [
+        "services"
+        "sniproxy"
+        "logDir"
+      ]
+      "Now done by LogsDirectory=. Set to a custom path if you log to a different folder in your config."
+    )
+  ];
 
   options = {
     services.sniproxy = {
@@ -53,7 +66,6 @@ in
         '';
       };
     };
-
   };
 
   config = mkIf cfg.enable {
@@ -83,6 +95,5 @@ in
         gid = config.ids.gids.sniproxy;
       };
     };
-
   };
 }

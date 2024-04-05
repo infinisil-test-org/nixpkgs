@@ -1,4 +1,17 @@
-{ stdenv, lib, fetchFromGitHub, git, gperf, pcre, unbound, libev, tokyocabinet, pkg-config, bash, libsrs2 }:
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  git,
+  gperf,
+  pcre,
+  unbound,
+  libev,
+  tokyocabinet,
+  pkg-config,
+  bash,
+  libsrs2,
+}:
 
 let
   version = "0.9";
@@ -18,7 +31,6 @@ let
     rev = "b07e6bdea3d24748e0d39783d7d817096d10cc67";
     sha256 = "14fxldp29j4vmfmhfgwwi37pj8cz0flm1aykkxlbgakz92d4pm35";
   };
-
 in
 
 stdenv.mkDerivation {
@@ -30,7 +42,16 @@ stdenv.mkDerivation {
   patches = [ ./0001-Fix-build-with-unbound-1.6.1.patch ];
 
   nativeBuildInputs = [ pkg-config ];
-  buildInputs = [git gperf pcre unbound libev tokyocabinet bash libsrs2];
+  buildInputs = [
+    git
+    gperf
+    pcre
+    unbound
+    libev
+    tokyocabinet
+    bash
+    libsrs2
+  ];
 
   postUnpack = ''
     cp -Rp ${libCommonSrc}/* ${srcRoot}/common;
@@ -47,7 +68,10 @@ stdenv.mkDerivation {
 
   env.NIX_CFLAGS_COMPILE = "-Wno-error=unused-result -Wno-error=nonnull-compare -Wno-error=format-truncation";
 
-  makeFlags = [ "DESTDIR=$(out)" "prefix=" ];
+  makeFlags = [
+    "DESTDIR=$(out)"
+    "prefix="
+  ];
 
   meta = {
     description = "A collection of postfix-related tools";

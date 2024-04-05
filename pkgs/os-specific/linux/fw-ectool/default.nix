@@ -1,8 +1,9 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, pkg-config
-, hostname
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  pkg-config,
+  hostname,
 }:
 
 stdenv.mkDerivation {

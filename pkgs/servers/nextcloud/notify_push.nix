@@ -1,7 +1,8 @@
-{ lib
-, fetchFromGitHub
-, nixosTests
-, rustPlatform
+{
+  lib,
+  fetchFromGitHub,
+  nixosTests,
+  rustPlatform,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -34,7 +35,8 @@ rustPlatform.buildRustPackage rec {
       inherit (nixosTests.nextcloud)
         with-postgresql-and-redis26
         with-postgresql-and-redis27
-        with-postgresql-and-redis28;
+        with-postgresql-and-redis28
+        ;
       inherit test_client;
     };
   };

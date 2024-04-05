@@ -1,10 +1,27 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   inherit (lib) maintainers;
   inherit (lib.meta) getExe;
   inherit (lib.modules) mkIf mkMerge;
-  inherit (lib.options) literalExpression mkEnableOption mkOption mkPackageOption;
-  inherit (lib.types) bool enum nullOr port str submodule;
+  inherit (lib.options)
+    literalExpression
+    mkEnableOption
+    mkOption
+    mkPackageOption
+    ;
+  inherit (lib.types)
+    bool
+    enum
+    nullOr
+    port
+    str
+    submodule
+    ;
 
   cfg = config.services.scrutiny;
   # Define the settings format used for this program
@@ -64,7 +81,10 @@ in
           };
 
           options.log.level = mkOption {
-            type = enum [ "INFO" "DEBUG" ];
+            type = enum [
+              "INFO"
+              "DEBUG"
+            ];
             default = "INFO";
             description = "Log level for Scrutiny.";
           };
@@ -146,7 +166,10 @@ in
             };
 
             options.log.level = mkOption {
-              type = enum [ "INFO" "DEBUG" ];
+              type = enum [
+                "INFO"
+                "DEBUG"
+              ];
               default = "INFO";
               description = "Log level for Scrutiny collector.";
             };
@@ -160,9 +183,7 @@ in
     (mkIf cfg.enable {
       services.influxdb2.enable = cfg.influxdb.enable;
 
-      networking.firewall = mkIf cfg.openFirewall {
-        allowedTCPPorts = [ cfg.settings.web.listen.port ];
-      };
+      networking.firewall = mkIf cfg.openFirewall { allowedTCPPorts = [ cfg.settings.web.listen.port ]; };
 
       systemd.services.scrutiny = {
         description = "Hard Drive S.M.A.R.T Monitoring, Historical Trends & Real World Failure Thresholds";

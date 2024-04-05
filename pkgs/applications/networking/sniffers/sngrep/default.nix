@@ -1,13 +1,14 @@
-{ lib
-, stdenv
-, autoconf
-, automake
-, fetchFromGitHub
-, fetchpatch
-, libpcap
-, ncurses
-, openssl
-, pcre
+{
+  lib,
+  stdenv,
+  autoconf,
+  automake,
+  fetchFromGitHub,
+  fetchpatch,
+  libpcap,
+  ncurses,
+  openssl,
+  pcre,
 }:
 
 stdenv.mkDerivation rec {

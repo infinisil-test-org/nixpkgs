@@ -1,33 +1,35 @@
-{ lib
-, buildNpmPackage
-, cargo
-, copyDesktopItems
-, dbus
-, electron_28
-, fetchFromGitHub
-, glib
-, gnome
-, gtk3
-, jq
-, libsecret
-, makeDesktopItem
-, makeWrapper
-, moreutils
-, napi-rs-cli
-, nodejs_18
-, patchutils_0_4_2
-, pkg-config
-, python3
-, runCommand
-, rustc
-, rustPlatform
+{
+  lib,
+  buildNpmPackage,
+  cargo,
+  copyDesktopItems,
+  dbus,
+  electron_28,
+  fetchFromGitHub,
+  glib,
+  gnome,
+  gtk3,
+  jq,
+  libsecret,
+  makeDesktopItem,
+  makeWrapper,
+  moreutils,
+  napi-rs-cli,
+  nodejs_18,
+  patchutils_0_4_2,
+  pkg-config,
+  python3,
+  runCommand,
+  rustc,
+  rustPlatform,
 }:
 
 let
   description = "A secure and free password manager for all of your devices";
   icon = "bitwarden";
   electron = electron_28;
-in buildNpmPackage rec {
+in
+buildNpmPackage rec {
   pname = "bitwarden-desktop";
   version = "2024.3.0";
 
@@ -38,9 +40,7 @@ in buildNpmPackage rec {
     hash = "sha256-XEZB95GnfSy/wtTWpF8KlUQwyephUZmSLtbOwbcvd7g=";
   };
 
-  patches = [
-    ./electron-builder-package-lock.patch
-  ];
+  patches = [ ./electron-builder-package-lock.patch ];
 
   # The nested package-lock.json from upstream is out-of-date, so copy the
   # lock metadata from the root package-lock.json.
@@ -65,15 +65,12 @@ in buildNpmPackage rec {
   cargoDeps = rustPlatform.fetchCargoTarball {
     name = "${pname}-${version}";
     inherit src;
-    patches = map
-      (patch: runCommand
-        (builtins.baseNameOf patch)
-        { nativeBuildInputs = [ patchutils_0_4_2 ]; }
-        ''
-          < ${patch} filterdiff -p1 --include=${lib.escapeShellArg cargoRoot}'/*' > $out
-        ''
-      )
-      patches;
+    patches = map (
+      patch:
+      runCommand (builtins.baseNameOf patch) { nativeBuildInputs = [ patchutils_0_4_2 ]; } ''
+        < ${patch} filterdiff -p1 --include=${lib.escapeShellArg cargoRoot}'/*' > $out
+      ''
+    ) patches;
     patchFlags = [ "-p4" ];
     sourceRoot = "${src.name}/${cargoRoot}";
     hash = "sha256-qAqEFlUzT28fw6kLB8d7U8yXWevAU+q03zjN2xWsGyI=";
@@ -130,9 +127,7 @@ in buildNpmPackage rec {
     (gnome.gnome-keyring.override { useWrappedDaemon = false; })
   ];
 
-  checkFlags = [
-    "--skip=password::password::tests::test"
-  ];
+  checkFlags = [ "--skip=password::password::tests::test" ];
 
   checkPhase = ''
     runHook preCheck
@@ -192,7 +187,10 @@ in buildNpmPackage rec {
     inherit description;
     homepage = "https://bitwarden.com";
     license = lib.licenses.gpl3;
-    maintainers = with lib.maintainers; [ amarshall kiwi ];
+    maintainers = with lib.maintainers; [
+      amarshall
+      kiwi
+    ];
     platforms = [ "x86_64-linux" ];
     mainProgram = "bitwarden";
   };

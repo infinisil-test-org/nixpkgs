@@ -1,4 +1,10 @@
-{ lib, buildPythonApplication, fetchFromGitHub, python-dotenv, pyyaml }:
+{
+  lib,
+  buildPythonApplication,
+  fetchFromGitHub,
+  python-dotenv,
+  pyyaml,
+}:
 
 buildPythonApplication rec {
   version = "1.0.6";
@@ -11,7 +17,10 @@ buildPythonApplication rec {
     sha256 = "sha256-TsNM5xORqwWge+UCijKptwbAcIz1uZFN9BuIOl28vIU=";
   };
 
-  propagatedBuildInputs = [ pyyaml python-dotenv ];
+  propagatedBuildInputs = [
+    pyyaml
+    python-dotenv
+  ];
 
   meta = {
     description = "An implementation of docker-compose with podman backend";

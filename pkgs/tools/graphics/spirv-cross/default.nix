@@ -1,4 +1,10 @@
-{ lib, stdenv, fetchFromGitHub, cmake, python3 }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  python3,
+}:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "spirv-cross";
@@ -11,7 +17,10 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-jWTTUHUvUyF5Vern3QXZo96Yvp7/T1WQjt3OpvJczsw=";
   };
 
-  nativeBuildInputs = [ cmake python3 ];
+  nativeBuildInputs = [
+    cmake
+    python3
+  ];
 
   postFixup = ''
     substituteInPlace $out/lib/pkgconfig/*.pc \

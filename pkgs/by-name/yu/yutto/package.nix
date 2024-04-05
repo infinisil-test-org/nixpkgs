@@ -1,8 +1,9 @@
-{ lib
-, python3Packages
-, fetchFromGitHub
-, ffmpeg
-, nix-update-script
+{
+  lib,
+  python3Packages,
+  fetchFromGitHub,
+  ffmpeg,
+  nix-update-script,
 }:
 
 python3Packages.buildPythonApplication {
@@ -19,18 +20,19 @@ python3Packages.buildPythonApplication {
     hash = "sha256-/zTQt+/sCjnQPt8YyKvRXpWVpN/yi2LrhpFH4FPbeOc=";
   };
 
-  nativeBuildInputs = with python3Packages; [
-    poetry-core
-  ];
+  nativeBuildInputs = with python3Packages; [ poetry-core ];
 
-  propagatedBuildInputs = with python3Packages; [
-    httpx
-    aiofiles
-    biliass
-    dict2xml
-    colorama
-    typing-extensions
-  ] ++ (with httpx.optional-dependencies; http2 ++ socks);
+  propagatedBuildInputs =
+    with python3Packages;
+    [
+      httpx
+      aiofiles
+      biliass
+      dict2xml
+      colorama
+      typing-extensions
+    ]
+    ++ (with httpx.optional-dependencies; http2 ++ socks);
 
   preFixup = ''
     makeWrapperArgs+=(--prefix PATH : ${lib.makeBinPath [ ffmpeg ]})

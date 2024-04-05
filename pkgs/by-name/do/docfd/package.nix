@@ -1,8 +1,9 @@
-{ lib
-, ocamlPackages
-, fetchFromGitHub
-, python3
-, dune_3
+{
+  lib,
+  ocamlPackages,
+  fetchFromGitHub,
+  python3,
+  dune_3,
 }:
 
 ocamlPackages.buildDunePackage rec {
@@ -18,7 +19,10 @@ ocamlPackages.buildDunePackage rec {
     hash = "sha256-pJ5LlOfC+9NRfY7ng9LAxEnjr+mtJmhRNTo9Im6Lkbo=";
   };
 
-  nativeBuildInputs = [ python3 dune_3 ];
+  nativeBuildInputs = [
+    python3
+    dune_3
+  ];
   buildInputs = with ocamlPackages; [
     cmdliner
     containers-data

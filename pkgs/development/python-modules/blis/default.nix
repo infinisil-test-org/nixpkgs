@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, setuptools
-, cython
-, hypothesis
-, numpy
-, pytestCheckHook
-, pythonOlder
-, gitUpdater
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  setuptools,
+  cython,
+  hypothesis,
+  numpy,
+  pytestCheckHook,
+  pythonOlder,
+  gitUpdater,
 }:
 
 buildPythonPackage rec {
@@ -41,18 +42,14 @@ buildPythonPackage rec {
     cython
   ];
 
-  propagatedBuildInputs = [
-    numpy
-  ];
+  propagatedBuildInputs = [ numpy ];
 
   nativeCheckInputs = [
     hypothesis
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "blis"
-  ];
+  pythonImportsCheck = [ "blis" ];
 
   passthru = {
     # Do not update to BLIS 0.9.x until the following issue is resolved:

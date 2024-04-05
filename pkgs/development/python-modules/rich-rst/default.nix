@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, setuptools
-, docutils
-, rich
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  setuptools,
+  docutils,
+  rich,
 }:
 
 buildPythonPackage rec {
@@ -18,11 +19,12 @@ buildPythonPackage rec {
     hash = "sha256-jFPboZ5/T2I6EuyVM+45lrLWen8Kqf94gWXS1WDf1qU=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [ docutils rich ];
+  propagatedBuildInputs = [
+    docutils
+    rich
+  ];
 
   # Module has no tests
   doCheck = false;

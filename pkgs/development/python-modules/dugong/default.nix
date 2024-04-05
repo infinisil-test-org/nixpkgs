@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, pythonAtLeast
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  pythonAtLeast,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -19,9 +20,7 @@ buildPythonPackage rec {
     sha256 = "1063c1779idc5nrjzfv5w1xqvyy3crapb2a2xll9y6xphxclnkjc";
   };
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   # Lots of tests hang during teardown with:
   #   ssl.SSLEOFError: EOF occurred in violation of protocol (_ssl.c:2396)
@@ -32,7 +31,10 @@ buildPythonPackage rec {
   meta = with lib; {
     description = "HTTP 1.1 client designed for REST-ful APIs";
     homepage = "https://github.com/python-dugong/python-dugong/";
-    license = with licenses; [ psfl asl20 ];
+    license = with licenses; [
+      psfl
+      asl20
+    ];
     maintainers = with maintainers; [ ];
   };
 }

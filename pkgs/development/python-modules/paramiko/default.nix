@@ -1,17 +1,18 @@
-{ lib
-, bcrypt
-, buildPythonPackage
-, cryptography
-, fetchpatch
-, fetchPypi
-, gssapi
-, icecream
-, invoke
-, mock
-, pyasn1
-, pynacl
-, pytestCheckHook
-, six
+{
+  lib,
+  bcrypt,
+  buildPythonPackage,
+  cryptography,
+  fetchpatch,
+  fetchPypi,
+  gssapi,
+  icecream,
+  invoke,
+  mock,
+  pyasn1,
+  pynacl,
+  pytestCheckHook,
+  six,
 }:
 
 buildPythonPackage rec {
@@ -41,8 +42,14 @@ buildPythonPackage rec {
   ] ++ passthru.optional-dependencies.ed25519; # remove on 3.0 update
 
   passthru.optional-dependencies = {
-    gssapi = [ pyasn1 gssapi ];
-    ed25519 = [ pynacl bcrypt ];
+    gssapi = [
+      pyasn1
+      gssapi
+    ];
+    ed25519 = [
+      pynacl
+      bcrypt
+    ];
     invoke = [ invoke ];
   };
 
@@ -53,7 +60,8 @@ buildPythonPackage rec {
   ] ++ lib.flatten (builtins.attrValues passthru.optional-dependencies);
 
   pytestFlagsArray = [
-    "-W" "ignore::pytest.PytestRemovedIn8Warning"
+    "-W"
+    "ignore::pytest.PytestRemovedIn8Warning"
   ];
 
   disabledTestPaths = [
@@ -62,9 +70,7 @@ buildPythonPackage rec {
     "tests/test_ssh_gss.py"
   ];
 
-  pythonImportsCheck = [
-    "paramiko"
-  ];
+  pythonImportsCheck = [ "paramiko" ];
 
   __darwinAllowLocalNetworking = true;
 

@@ -1,14 +1,15 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, nix-update-script
-, overrides
-, setuptools
-, pytest-check
-, pytest-mock
-, pytestCheckHook
-, pydantic_1
-, pyyaml
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  nix-update-script,
+  overrides,
+  setuptools,
+  pytest-check,
+  pytest-mock,
+  pytestCheckHook,
+  pydantic_1,
+  pyyaml,
 }:
 
 buildPythonPackage rec {
@@ -24,17 +25,11 @@ buildPythonPackage rec {
     hash = "sha256-23KLIO2yHXGe/zb3B8LirJsh+LY9z0c5ZGtF392Kszo";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [
-    overrides
-  ];
+  propagatedBuildInputs = [ overrides ];
 
-  pythonImportsCheck = [
-    "craft_grammar"
-  ];
+  pythonImportsCheck = [ "craft_grammar" ];
 
   nativeCheckInputs = [
     pydantic_1
@@ -55,4 +50,3 @@ buildPythonPackage rec {
     platforms = lib.platforms.linux;
   };
 }
-

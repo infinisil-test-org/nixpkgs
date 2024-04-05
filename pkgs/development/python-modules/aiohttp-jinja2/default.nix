@@ -1,11 +1,12 @@
-{ lib
-, aiohttp
-, buildPythonPackage
-, fetchPypi
-, jinja2
-, pytest-aiohttp
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  aiohttp,
+  buildPythonPackage,
+  fetchPypi,
+  jinja2,
+  pytest-aiohttp,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -40,9 +41,7 @@ buildPythonPackage rec {
     "ignore::DeprecationWarning"
   ];
 
-  pythonImportsCheck = [
-    "aiohttp_jinja2"
-  ];
+  pythonImportsCheck = [ "aiohttp_jinja2" ];
 
   # Tests are outdated (1.5)
   # pytest.PytestUnhandledCoroutineWarning: async def functions...

@@ -1,17 +1,18 @@
-{ lib
-, stdenv
-, python
-, buildPythonPackage
-, pythonOlder
-, fetchPypi
-, babel
-, markupsafe
-, pytestCheckHook
-, sphinxHook
-, pallets-sphinx-themes
-, setuptools
-, sphinxcontrib-log-cabinet
-, sphinx-issues
+{
+  lib,
+  stdenv,
+  python,
+  buildPythonPackage,
+  pythonOlder,
+  fetchPypi,
+  babel,
+  markupsafe,
+  pytestCheckHook,
+  sphinxHook,
+  pallets-sphinx-themes,
+  setuptools,
+  sphinxcontrib-log-cabinet,
+  sphinx-issues,
 }:
 
 buildPythonPackage rec {
@@ -27,27 +28,19 @@ buildPythonPackage rec {
     hash = "sha256-rIvWVE1Lssl5K/OhWegLuo/afwfoG8Ou1WVDLVklupA=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [
-    markupsafe
-  ];
+  propagatedBuildInputs = [ markupsafe ];
 
   passthru.optional-dependencies = {
-    i18n = [
-      babel
-    ];
+    i18n = [ babel ];
   };
 
   # Multiple tests run out of stack space on 32bit systems with python2.
   # See https://github.com/pallets/jinja/issues/1158
   doCheck = !stdenv.is32bit;
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ] ++ passthru.optional-dependencies.i18n;
+  nativeCheckInputs = [ pytestCheckHook ] ++ passthru.optional-dependencies.i18n;
 
   passthru.doc = stdenv.mkDerivation {
     # Forge look and feel of multi-output derivation as best as we can.

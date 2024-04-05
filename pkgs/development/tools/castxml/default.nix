@@ -1,14 +1,15 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, libffi
-, libxml2
-, zlib
-, withManual ? true
-, withHTML ? true
-, llvmPackages
-, python3
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  libffi,
+  libxml2,
+  zlib,
+  withManual ? true,
+  withHTML ? true,
+  llvmPackages,
+  python3,
 }:
 
 let
@@ -29,9 +30,7 @@ stdenv.mkDerivation (finalAttrs: {
   nativeBuildInputs = [
     cmake
     llvm.dev
-  ] ++ lib.optionals (withManual || withHTML) [
-    sphinx
-  ];
+  ] ++ lib.optionals (withManual || withHTML) [ sphinx ];
 
   buildInputs = [
     libclang
@@ -40,9 +39,7 @@ stdenv.mkDerivation (finalAttrs: {
     zlib
   ];
 
-  propagatedBuildInputs = [
-    libclang
-  ];
+  propagatedBuildInputs = [ libclang ];
 
   cmakeFlags = [
     "-DCLANG_RESOURCE_DIR=${libclang.dev}/"

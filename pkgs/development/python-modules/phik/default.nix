@@ -1,22 +1,23 @@
-{ lib
-, buildPythonPackage
-, cmake
-, fetchFromGitHub
-, joblib
-, jupyter
-, jupyter-client
-, matplotlib
-, nbconvert
-, ninja
-, numba
-, numpy
-, pandas
-, pybind11
-, pytestCheckHook
-, pythonOlder
-, scikit-build
-, scipy
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  cmake,
+  fetchFromGitHub,
+  joblib,
+  jupyter,
+  jupyter-client,
+  matplotlib,
+  nbconvert,
+  ninja,
+  numba,
+  numpy,
+  pandas,
+  pybind11,
+  pytestCheckHook,
+  pythonOlder,
+  scikit-build,
+  scipy,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -60,9 +61,7 @@ buildPythonPackage rec {
   # Uses setuptools to drive build process
   dontUseCmakeConfigure = true;
 
-  pythonImportsCheck = [
-    "phik"
-  ];
+  pythonImportsCheck = [ "phik" ];
 
   postInstall = ''
     rm -r $out/bin

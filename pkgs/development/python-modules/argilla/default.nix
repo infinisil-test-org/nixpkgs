@@ -1,99 +1,107 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, pythonRelaxDepsHook
-, deprecated
-, rich
-, backoff
-, packaging
-, pydantic
-, typer
-, tqdm
-, wrapt
-, numpy
-, httpx
-, pandas
-, monotonic
-# optional-dependencies
-, fastapi
-, opensearch-py
-, elasticsearch8
-, uvicorn
-, smart-open
-, brotli-asgi
-, alembic
-, sqlalchemy
-, greenlet
-, aiosqlite
-, luqum
-, scikit-learn
-, aiofiles
-, pyyaml
-, python-multipart
-, python-jose
-, passlib
-, psutil
-# , segment-analytics-python
-, asyncpg
-, psycopg2
-, schedule
-, prodict
-, cleanlab
-, datasets
-, huggingface-hub
-# , flair
-, faiss
-, flyingsquid
-, pgmpy
-, plotly
-, snorkel
-, spacy
-, transformers
-, evaluate
-, seqeval
-# , setfit
-# , span_marker
-, openai
-, peft
-# test dependencies
-, pytestCheckHook
-, pytest-cov
-, pytest-mock
-, pytest-asyncio
-, factory-boy
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  deprecated,
+  rich,
+  backoff,
+  packaging,
+  pydantic,
+  typer,
+  tqdm,
+  wrapt,
+  numpy,
+  httpx,
+  pandas,
+  monotonic,
+  # optional-dependencies
+  fastapi,
+  opensearch-py,
+  elasticsearch8,
+  uvicorn,
+  smart-open,
+  brotli-asgi,
+  alembic,
+  sqlalchemy,
+  greenlet,
+  aiosqlite,
+  luqum,
+  scikit-learn,
+  aiofiles,
+  pyyaml,
+  python-multipart,
+  python-jose,
+  passlib,
+  psutil,
+  # , segment-analytics-python
+  asyncpg,
+  psycopg2,
+  schedule,
+  prodict,
+  cleanlab,
+  datasets,
+  huggingface-hub,
+  # , flair
+  faiss,
+  flyingsquid,
+  pgmpy,
+  plotly,
+  snorkel,
+  spacy,
+  transformers,
+  evaluate,
+  seqeval,
+  # , setfit
+  # , span_marker
+  openai,
+  peft,
+  # test dependencies
+  pytestCheckHook,
+  pytest-cov,
+  pytest-mock,
+  pytest-asyncio,
+  factory-boy,
 }:
 let
   pname = "argilla";
   version = "1.26.1";
   optional-dependencies = {
-    server = [
-      fastapi
-      opensearch-py
-      elasticsearch8
-      uvicorn
-      smart-open
-      brotli-asgi
-      alembic
-      sqlalchemy
-      greenlet
-      aiosqlite
-      luqum
-      scikit-learn
-      aiofiles
-      pyyaml
-      python-multipart
-      python-jose
-      passlib
-      psutil
-      # segment-analytics-python
-    ] ++
-      elasticsearch8.optional-dependencies.async ++
-      uvicorn.optional-dependencies.standard ++
-      python-jose.optional-dependencies.cryptography ++
-      passlib.optional-dependencies.bcrypt;
-    postgresql = [ asyncpg psycopg2 ];
-    listeners = [ schedule prodict ];
+    server =
+      [
+        fastapi
+        opensearch-py
+        elasticsearch8
+        uvicorn
+        smart-open
+        brotli-asgi
+        alembic
+        sqlalchemy
+        greenlet
+        aiosqlite
+        luqum
+        scikit-learn
+        aiofiles
+        pyyaml
+        python-multipart
+        python-jose
+        passlib
+        psutil
+        # segment-analytics-python
+      ]
+      ++ elasticsearch8.optional-dependencies.async
+      ++ uvicorn.optional-dependencies.standard
+      ++ python-jose.optional-dependencies.cryptography
+      ++ passlib.optional-dependencies.bcrypt;
+    postgresql = [
+      asyncpg
+      psycopg2
+    ];
+    listeners = [
+      schedule
+      prodict
+    ];
     integrations = [
       pyyaml
       cleanlab
@@ -135,9 +143,7 @@ buildPythonPackage {
     "numpy"
   ];
 
-  nativeBuildInputs = [
-    pythonRelaxDepsHook
-  ];
+  nativeBuildInputs = [ pythonRelaxDepsHook ];
 
   propagatedBuildInputs = [
     httpx
@@ -161,13 +167,14 @@ buildPythonPackage {
     export HOME=$(mktemp -d)
   '';
 
-  nativeCheckInputs = [
-    pytestCheckHook
-    pytest-cov
-    pytest-mock
-    pytest-asyncio
-    factory-boy
-  ]
+  nativeCheckInputs =
+    [
+      pytestCheckHook
+      pytest-cov
+      pytest-mock
+      pytest-asyncio
+      factory-boy
+    ]
     ++ optional-dependencies.server
     ++ optional-dependencies.postgresql
     ++ optional-dependencies.listeners

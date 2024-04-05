@@ -1,10 +1,11 @@
-{ lib
-, stdenv
-, fetchCrate
-, rustPlatform
-, openssl
-, pkg-config
-, Security
+{
+  lib,
+  stdenv,
+  fetchCrate,
+  rustPlatform,
+  openssl,
+  pkg-config,
+  Security,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -22,15 +23,9 @@ rustPlatform.buildRustPackage rec {
     rm .cargo/config.toml
   '';
 
-  nativeBuildInputs = [
-    pkg-config
-  ];
+  nativeBuildInputs = [ pkg-config ];
 
-  buildInputs = [
-    openssl
-  ] ++ lib.optionals stdenv.isDarwin [
-    Security
-  ];
+  buildInputs = [ openssl ] ++ lib.optionals stdenv.isDarwin [ Security ];
 
   meta = with lib; {
     description = "A command-line tool for downloading APK files from various sources";

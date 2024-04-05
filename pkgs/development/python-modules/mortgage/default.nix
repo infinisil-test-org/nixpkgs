@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -15,9 +16,7 @@ buildPythonPackage rec {
     sha256 = "18fcb356c631e9cc27fa7019f6ff6021707e34b9ce3a3b7dc815661288709921";
   };
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   doCheck = false; # No tests in sdist
 
@@ -27,5 +26,4 @@ buildPythonPackage rec {
     description = "Mortgage calculator";
     license = lib.licenses.mit;
   };
-
 }

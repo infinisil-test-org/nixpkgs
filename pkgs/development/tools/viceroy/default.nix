@@ -1,4 +1,10 @@
-{ rustPlatform, fetchFromGitHub, lib, stdenv, Security }:
+{
+  rustPlatform,
+  fetchFromGitHub,
+  lib,
+  stdenv,
+  Security,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "viceroy";
@@ -15,16 +21,17 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-+zlRLs/m9ThiBgzKWkIpUIL3jWMz/o+hD0m0Vks4HzY=";
 
-  cargoTestFlags = [
-    "--package viceroy-lib"
-  ];
+  cargoTestFlags = [ "--package viceroy-lib" ];
 
   meta = with lib; {
     description = "Viceroy provides local testing for developers working with Compute@Edge";
     mainProgram = "viceroy";
     homepage = "https://github.com/fastly/Viceroy";
     license = licenses.asl20;
-    maintainers = with maintainers; [ ereslibre shyim ];
+    maintainers = with maintainers; [
+      ereslibre
+      shyim
+    ];
     platforms = platforms.unix;
   };
 }

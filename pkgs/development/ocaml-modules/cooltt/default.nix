@@ -1,23 +1,24 @@
-{ lib
-, fetchFromGitHub
-, fetchurl
-, buildDunePackage
-, bos
-, bwd
-, cmdliner
-, containers
-, ezjsonm
-, findlib
-, menhir
-, menhirLib
-, ppx_deriving
-, ppxlib
-, uuseg
-, uutf
-, yuujinchou
-, ounit2
-, qcheck
-, qcheck-core
+{
+  lib,
+  fetchFromGitHub,
+  fetchurl,
+  buildDunePackage,
+  bos,
+  bwd,
+  cmdliner,
+  containers,
+  ezjsonm,
+  findlib,
+  menhir,
+  menhirLib,
+  ppx_deriving,
+  ppxlib,
+  uuseg,
+  uutf,
+  yuujinchou,
+  ounit2,
+  qcheck,
+  qcheck-core,
 }:
 
 let
@@ -31,7 +32,11 @@ let
       hash = "sha256-s6lUTs3VRl6YhLAn3PO4aniANhFp8ytoTsFAgcOlee4=";
     };
 
-    propagatedBuildInputs = [ bos ezjsonm findlib ];
+    propagatedBuildInputs = [
+      bos
+      ezjsonm
+      findlib
+    ];
 
     meta = {
       description = "Extensible Library Management and Path Resolution";
@@ -75,9 +80,7 @@ buildDunePackage {
     hash = "sha256-48bEf59rtPRrCRjab7+GxppjfR2c87HjQ+uKY2Bag0I=";
   };
 
-  nativeBuildInputs = [
-    menhir
-  ];
+  nativeBuildInputs = [ menhir ];
 
   buildInputs = [
     cmdliner

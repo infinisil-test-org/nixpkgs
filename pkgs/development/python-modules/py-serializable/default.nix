@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, defusedxml
-, fetchFromGitHub
-, lxml
-, poetry-core
-, pytestCheckHook
-, pythonOlder
-, xmldiff
+{
+  lib,
+  buildPythonPackage,
+  defusedxml,
+  fetchFromGitHub,
+  lxml,
+  poetry-core,
+  pytestCheckHook,
+  pythonOlder,
+  xmldiff,
 }:
 
 buildPythonPackage rec {
@@ -23,13 +24,9 @@ buildPythonPackage rec {
     hash = "sha256-RhipoPTewPaYwspTnywLr5FvFVUaFixfRQk6aUMvB4w=";
   };
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
-  propagatedBuildInputs = [
-    defusedxml
-  ];
+  propagatedBuildInputs = [ defusedxml ];
 
   nativeCheckInputs = [
     lxml
@@ -37,9 +34,7 @@ buildPythonPackage rec {
     xmldiff
   ];
 
-  pythonImportsCheck = [
-    "serializable"
-  ];
+  pythonImportsCheck = [ "serializable" ];
 
   disabledTests = [
     # AssertionError: '<ns0[155 chars]itle>The Phoenix

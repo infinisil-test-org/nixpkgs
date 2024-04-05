@@ -1,19 +1,20 @@
-{ lib
-, buildPythonPackage
-, cython
-, fetchFromGitHub
-, fetchurl
-, matplotlib
-, pillow
-, pytest-mock
-, pytestCheckHook
-, pythonOlder
-, pywavelets
-, scikit-learn
-, setuptools
-, torch
-, torchvision
-, tqdm
+{
+  lib,
+  buildPythonPackage,
+  cython,
+  fetchFromGitHub,
+  fetchurl,
+  matplotlib,
+  pillow,
+  pytest-mock,
+  pytestCheckHook,
+  pythonOlder,
+  pywavelets,
+  scikit-learn,
+  setuptools,
+  torch,
+  torchvision,
+  tqdm,
 }:
 let
   MobileNetV3 = fetchurl {
@@ -73,9 +74,7 @@ buildPythonPackage rec {
     ln -s ${EfficientNet} $HOME/.cache/torch/hub/checkpoints/${EfficientNet.name}
   '';
 
-  pythonImportsCheck = [
-    "imagededup"
-  ];
+  pythonImportsCheck = [ "imagededup" ];
 
   meta = with lib; {
     homepage = "https://idealo.github.io/imagededup/";

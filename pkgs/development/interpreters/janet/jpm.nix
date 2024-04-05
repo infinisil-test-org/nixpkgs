@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchFromGitHub, janet }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  janet,
+}:
 
 let
   platformFiles = {
@@ -9,7 +14,6 @@ let
   };
 
   platformFile = platformFiles.${stdenv.hostPlatform.system};
-
 in
 stdenv.mkDerivation rec {
   pname = "jpm";

@@ -1,7 +1,8 @@
-{ lib
-, fetchFromGitHub
-, gitMinimal
-, python3
+{
+  lib,
+  fetchFromGitHub,
+  gitMinimal,
+  python3,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -37,16 +38,12 @@ python3.pkgs.buildPythonApplication rec {
     tqdm
   ];
 
-  pythonRelaxDeps = [
-    "r2pipe"
-  ];
+  pythonRelaxDeps = [ "r2pipe" ];
 
   # Project has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "quark"
-  ];
+  pythonImportsCheck = [ "quark" ];
 
   meta = with lib; {
     description = "Android malware (analysis and scoring) system";

@@ -1,4 +1,13 @@
-{ stdenv, fetchurl, lib, pkg-config, alsa-lib, libogg, libpulseaudio ? null, libjack2 ? null }:
+{
+  stdenv,
+  fetchurl,
+  lib,
+  pkg-config,
+  alsa-lib,
+  libogg,
+  libpulseaudio ? null,
+  libjack2 ? null,
+}:
 
 stdenv.mkDerivation rec {
   pname = "alsa-plugins";
@@ -12,10 +21,10 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ pkg-config ];
 
   # ToDo: a52, etc.?
-  buildInputs =
-    [ alsa-lib libogg ]
-    ++ lib.optional (libpulseaudio != null) libpulseaudio
-    ++ lib.optional (libjack2 != null) libjack2;
+  buildInputs = [
+    alsa-lib
+    libogg
+  ] ++ lib.optional (libpulseaudio != null) libpulseaudio ++ lib.optional (libjack2 != null) libjack2;
 
   meta = with lib; {
     description = "Various plugins for ALSA";

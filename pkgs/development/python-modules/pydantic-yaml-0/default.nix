@@ -1,17 +1,18 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, nix-update-script
-, deprecated
-, importlib-metadata
-, pydantic_1
-, ruamel-yaml
-, semver
-, types-deprecated
-, setuptools
-, setuptools-scm
-, pytest-mock
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  nix-update-script,
+  deprecated,
+  importlib-metadata,
+  pydantic_1,
+  ruamel-yaml,
+  semver,
+  types-deprecated,
+  setuptools,
+  setuptools-scm,
+  pytest-mock,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -46,9 +47,7 @@ buildPythonPackage rec {
     types-deprecated
   ];
 
-  pythonImportsCheck = [
-    "pydantic_yaml"
-  ];
+  pythonImportsCheck = [ "pydantic_yaml" ];
 
   nativeCheckInputs = [
     pytest-mock
@@ -65,4 +64,3 @@ buildPythonPackage rec {
     maintainers = with lib.maintainers; [ jnsgruk ];
   };
 }
-

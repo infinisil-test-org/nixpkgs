@@ -1,16 +1,17 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, hatchling
-, aiosqlite
-, anyio
-, channels
-, pycrdt
-, pytest-asyncio
-, pytestCheckHook
-, uvicorn
-, websockets
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  hatchling,
+  aiosqlite,
+  anyio,
+  channels,
+  pycrdt,
+  pytest-asyncio,
+  pytestCheckHook,
+  uvicorn,
+  websockets,
 }:
 
 buildPythonPackage rec {
@@ -27,9 +28,7 @@ buildPythonPackage rec {
     hash = "sha256-e4VEEudsdtfC2ek8wODxxoFuaOwl4GKS1cX3QeshuD8=";
   };
 
-  nativeBuildInputs = [
-    hatchling
-  ];
+  nativeBuildInputs = [ hatchling ];
 
   propagatedBuildInputs = [
     aiosqlite
@@ -38,14 +37,10 @@ buildPythonPackage rec {
   ];
 
   passthru.optional-dependencies = {
-    django = [
-      channels
-    ];
+    django = [ channels ];
   };
 
-  pythonImportsCheck = [
-    "pycrdt_websocket"
-  ];
+  pythonImportsCheck = [ "pycrdt_websocket" ];
 
   nativeCheckInputs = [
     pytest-asyncio

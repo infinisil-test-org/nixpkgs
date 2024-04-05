@@ -1,4 +1,11 @@
-{ lib, bundlerApp, makeWrapper, bundlerUpdateScript, puppet-bolt, testers }:
+{
+  lib,
+  bundlerApp,
+  makeWrapper,
+  bundlerUpdateScript,
+  puppet-bolt,
+  testers,
+}:
 
 bundlerApp {
   pname = "bolt";

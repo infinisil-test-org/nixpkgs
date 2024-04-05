@@ -1,4 +1,13 @@
-{ lib, stdenv, util-linux, coreutils, fetchurl, groff, system-sendmail, udev }:
+{
+  lib,
+  stdenv,
+  util-linux,
+  coreutils,
+  fetchurl,
+  groff,
+  system-sendmail,
+  udev,
+}:
 
 stdenv.mkDerivation rec {
   pname = "mdadm";
@@ -14,14 +23,19 @@ stdenv.mkDerivation rec {
     ./fix-hardcoded-mapdir.patch
   ];
 
-  makeFlags = [
-    "NIXOS=1" "INSTALL=install" "BINDIR=$(out)/sbin"
-    "SYSTEMD_DIR=$(out)/lib/systemd/system"
-    "MANDIR=$(out)/share/man" "RUN_DIR=/dev/.mdadm"
-    "STRIP="
-  ] ++ lib.optionals (stdenv.hostPlatform != stdenv.buildPlatform) [
-    "CROSS_COMPILE=${stdenv.cc.targetPrefix}"
-  ];
+  makeFlags =
+    [
+      "NIXOS=1"
+      "INSTALL=install"
+      "BINDIR=$(out)/sbin"
+      "SYSTEMD_DIR=$(out)/lib/systemd/system"
+      "MANDIR=$(out)/share/man"
+      "RUN_DIR=/dev/.mdadm"
+      "STRIP="
+    ]
+    ++ lib.optionals (stdenv.hostPlatform != stdenv.buildPlatform) [
+      "CROSS_COMPILE=${stdenv.cc.targetPrefix}"
+    ];
 
   installFlags = [ "install-systemd" ];
 

@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchFromGitHub, xsel }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  xsel,
+}:
 
 stdenv.mkDerivation rec {
   pname = "yank";
@@ -30,5 +35,4 @@ stdenv.mkDerivation rec {
     platforms = platforms.unix;
     mainProgram = "yank";
   };
-
 }

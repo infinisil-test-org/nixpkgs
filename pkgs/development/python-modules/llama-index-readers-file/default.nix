@@ -1,14 +1,15 @@
-{ lib
-, beautifulsoup4
-, buildPythonPackage
-, fetchPypi
-, llama-index-core
-, poetry-core
-, pymupdf
-, pypdf
-, pythonOlder
-, pythonRelaxDepsHook
-, striprtf
+{
+  lib,
+  beautifulsoup4,
+  buildPythonPackage,
+  fetchPypi,
+  llama-index-core,
+  poetry-core,
+  pymupdf,
+  pypdf,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  striprtf,
 }:
 
 buildPythonPackage rec {
@@ -29,9 +30,7 @@ buildPythonPackage rec {
     "pypdf"
   ];
 
-  pythonRemoveDeps = [
-    "bs4"
-  ];
+  pythonRemoveDeps = [ "bs4" ];
 
   build-system = [
     poetry-core
@@ -49,9 +48,7 @@ buildPythonPackage rec {
   # Tests are only available in the mono repo
   doCheck = false;
 
-  pythonImportsCheck = [
-    "llama_index.readers.file"
-  ];
+  pythonImportsCheck = [ "llama_index.readers.file" ];
 
   meta = with lib; {
     description = "LlamaIndex Readers Integration for files";

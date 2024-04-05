@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, vulkan-headers
-, vulkan-loader
-, glslang
-, opencv
-, protobuf
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  vulkan-headers,
+  vulkan-loader,
+  glslang,
+  opencv,
+  protobuf,
 }:
 
 stdenv.mkDerivation rec {
@@ -20,9 +21,7 @@ stdenv.mkDerivation rec {
     hash = "sha256-kk70oLY+2QJOkyYq10whLRMxBuibQMWMOBA9dcbKf/I=";
   };
 
-  patches = [
-    ./cmakelists.patch
-  ];
+  patches = [ ./cmakelists.patch ];
 
   cmakeFlags = [
     "-DNCNN_CMAKE_VERBOSE=1" # Only for debugging the build
@@ -36,7 +35,13 @@ stdenv.mkDerivation rec {
   ];
 
   nativeBuildInputs = [ cmake ];
-  buildInputs = [ vulkan-headers vulkan-loader glslang opencv protobuf ];
+  buildInputs = [
+    vulkan-headers
+    vulkan-loader
+    glslang
+    opencv
+    protobuf
+  ];
 
   meta = with lib; {
     description = "ncnn is a high-performance neural network inference framework optimized for the mobile platform";

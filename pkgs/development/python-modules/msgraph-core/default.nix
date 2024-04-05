@@ -1,16 +1,17 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, setuptools
-, httpx
-, microsoft-kiota-abstractions
-, microsoft-kiota-authentication-azure
- ,microsoft-kiota-http
-, requests
-, azure-identity
-, pytestCheckHook
-, responses
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  setuptools,
+  httpx,
+  microsoft-kiota-abstractions,
+  microsoft-kiota-authentication-azure,
+  microsoft-kiota-http,
+  requests,
+  azure-identity,
+  pytestCheckHook,
+  responses,
 }:
 
 buildPythonPackage rec {
@@ -20,7 +21,6 @@ buildPythonPackage rec {
 
   disabled = pythonOlder "3.5";
 
-
   src = fetchFromGitHub {
     owner = "microsoftgraph";
     repo = "msgraph-sdk-python-core";
@@ -28,9 +28,7 @@ buildPythonPackage rec {
     hash = "sha256-VizjN7sXqPvo9VOSaaUnogTlUDJ1OA2COYNTcVRqhJA=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     httpx
@@ -38,7 +36,6 @@ buildPythonPackage rec {
     microsoft-kiota-authentication-azure
     microsoft-kiota-http
     requests
-
   ];
 
   nativeCheckInputs = [
@@ -47,9 +44,7 @@ buildPythonPackage rec {
     responses
   ];
 
-  pythonImportsCheck = [
-    "msgraph_core"
-  ];
+  pythonImportsCheck = [ "msgraph_core" ];
 
   meta = {
     description = "Core component of the Microsoft Graph Python SDK";

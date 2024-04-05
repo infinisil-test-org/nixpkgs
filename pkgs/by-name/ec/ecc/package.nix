@@ -1,10 +1,11 @@
-{ lib
-, makeWrapper
-, fetchFromGitHub
-, rustPackages
-, pkg-config
-, elfutils
-, zlib
+{
+  lib,
+  makeWrapper,
+  fetchFromGitHub,
+  rustPackages,
+  pkg-config,
+  elfutils,
+  zlib,
 }:
 let
   inherit (rustPackages.rustc) llvmPackages;
@@ -49,7 +50,6 @@ let
     rev = "933f83becb45f5586ed5fd089e60d382aeefb409";
     hash = "sha256-CVEmKkzdFNLKCbcbeSIoM5QjYVLQglpz6gy7+ZFPgCY=";
   };
-
 in
 rustPlatform.buildRustPackage rec {
   pname = "ecc";
@@ -111,7 +111,15 @@ rustPlatform.buildRustPackage rec {
   postFixup = ''
     wrapProgram $out/bin/ecc-rs \
       --prefix LIBCLANG_PATH : ${llvmPackages.libclang.lib}/lib \
-      --prefix PATH : ${lib.makeBinPath (with llvmPackages; [clang bintools-unwrapped])}
+      --prefix PATH : ${
+        lib.makeBinPath (
+          with llvmPackages;
+          [
+            clang
+            bintools-unwrapped
+          ]
+        )
+      }
   '';
 
   meta = with lib; {

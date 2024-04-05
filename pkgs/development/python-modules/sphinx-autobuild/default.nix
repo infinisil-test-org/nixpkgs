@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, flit-core
-, colorama
-, sphinx
-, livereload
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  flit-core,
+  colorama,
+  sphinx,
+  livereload,
 }:
 
 buildPythonPackage rec {
@@ -18,9 +19,7 @@ buildPythonPackage rec {
     hash = "sha256-y50hIaF21i1FRxYkhyr8X613Va1mJzir5ADs9KeVQwM=";
   };
 
-  build-system = [
-    flit-core
-  ];
+  build-system = [ flit-core ];
 
   dependencies = [
     colorama
@@ -38,6 +37,6 @@ buildPythonPackage rec {
     mainProgram = "sphinx-autobuild";
     homepage = "https://github.com/sphinx-doc/sphinx-autobuild";
     license = with licenses; [ mit ];
-    maintainers = with maintainers; [holgerpeters];
+    maintainers = with maintainers; [ holgerpeters ];
   };
 }

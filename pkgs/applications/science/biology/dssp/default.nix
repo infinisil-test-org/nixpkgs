@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, cmake
-, eigen
-, fetchFromGitHub
-, fetchpatch
-, libcifpp
-, libmcfp
-, zlib
+{
+  lib,
+  stdenv,
+  cmake,
+  eigen,
+  fetchFromGitHub,
+  fetchpatch,
+  libcifpp,
+  libmcfp,
+  zlib,
 }:
 let
   libcifpp' = libcifpp.overrideAttrs (oldAttrs: {
@@ -38,9 +39,7 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-X0aMWqoMhmQVRHWKVm2S6JAOYiBuBBMzMoivMdpNx0M=";
   };
 
-  nativeBuildInputs = [
-    cmake
-  ];
+  nativeBuildInputs = [ cmake ];
 
   buildInputs = [
     eigen

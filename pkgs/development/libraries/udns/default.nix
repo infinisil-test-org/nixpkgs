@@ -1,4 +1,8 @@
-{ lib, stdenv, fetchurl }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+}:
 
 # this expression is mostly based on debian's packaging
 # https://tracker.debian.org/media/packages/u/udns/rules-0.5-1
@@ -52,5 +56,4 @@ stdenv.mkDerivation rec {
     maintainers = [ maintainers.womfoo ];
     platforms = platforms.unix;
   };
-
 }

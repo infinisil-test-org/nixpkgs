@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, cerberus
-, fetchFromGitHub
-, fetchpatch
-, pythonOlder
-, pyyaml
-, ruamel-yaml
+{
+  lib,
+  buildPythonPackage,
+  cerberus,
+  fetchFromGitHub,
+  fetchpatch,
+  pythonOlder,
+  pyyaml,
+  ruamel-yaml,
 }:
 
 buildPythonPackage rec {
@@ -31,9 +32,7 @@ buildPythonPackage rec {
   # Module has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "riscv_config"
-  ];
+  pythonImportsCheck = [ "riscv_config" ];
 
   meta = with lib; {
     description = "RISC-V configuration validator";

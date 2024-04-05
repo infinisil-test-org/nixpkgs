@@ -1,20 +1,21 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchPypi
-, isPyPy
-, python
-, oldest-supported-numpy
-, setuptools
-, wheel
-, numpy
-, zlib
-, netcdf
-, hdf5
-, curl
-, libjpeg
-, cython
-, cftime
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchPypi,
+  isPyPy,
+  python,
+  oldest-supported-numpy,
+  setuptools,
+  wheel,
+  numpy,
+  zlib,
+  netcdf,
+  hdf5,
+  curl,
+  libjpeg,
+  cython,
+  cftime,
 }:
 
 buildPythonPackage rec {
@@ -59,9 +60,7 @@ buildPythonPackage rec {
     NETCDF4_DIR = netcdf;
     CURL_DIR = curl.dev;
     JPEG_DIR = libjpeg.dev;
-  } // lib.optionalAttrs stdenv.cc.isClang {
-    NIX_CFLAGS_COMPILE = "-Wno-error=int-conversion";
-  };
+  } // lib.optionalAttrs stdenv.cc.isClang { NIX_CFLAGS_COMPILE = "-Wno-error=int-conversion"; };
 
   pythonImportsCheck = [ "netCDF4" ];
 

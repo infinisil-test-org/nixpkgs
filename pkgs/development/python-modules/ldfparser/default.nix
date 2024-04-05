@@ -1,13 +1,14 @@
-{ lib
-, bitstruct
-, buildPythonPackage
-, fetchFromGitHub
-, jinja2
-, jsonschema
-, lark
-, pytestCheckHook
-, pythonOlder
-, setuptools
+{
+  lib,
+  bitstruct,
+  buildPythonPackage,
+  fetchFromGitHub,
+  jinja2,
+  jsonschema,
+  lark,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -24,9 +25,7 @@ buildPythonPackage rec {
     hash = "sha256-+7L2WCQEDpWPDBPVt4ddoz0U4YkJ9GqQqp0cKj2fAXM=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     bitstruct
@@ -39,9 +38,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "ldfparser"
-  ];
+  pythonImportsCheck = [ "ldfparser" ];
 
   disabledTestPaths = [
     # We don't care about benchmarks

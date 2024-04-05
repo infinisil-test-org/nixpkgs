@@ -1,4 +1,9 @@
-{ lib, fetchFromGitHub, nix-update-script, ocamlPackages }:
+{
+  lib,
+  fetchFromGitHub,
+  nix-update-script,
+  ocamlPackages,
+}:
 
 let
   inherit (ocamlPackages) buildDunePackage camomile;
@@ -15,9 +20,7 @@ buildDunePackage rec {
     sha256 = "sha256-RL80ggcJSJFu2UTECUNP6KufRhR8ZnG7sQeYzhrw37g=";
   };
 
-  propagatedBuildInputs = [
-    camomile
-  ];
+  propagatedBuildInputs = [ camomile ];
 
   passthru.updateScript = nix-update-script { };
 

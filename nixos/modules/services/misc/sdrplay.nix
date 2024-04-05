@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 {
   options.services.sdrplayApi = {
@@ -30,6 +35,5 @@ with lib;
       };
     };
     services.udev.packages = [ pkgs.sdrplay ];
-
   };
 }

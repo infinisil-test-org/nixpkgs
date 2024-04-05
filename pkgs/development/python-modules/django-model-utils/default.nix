@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, django
-, pythonOlder
-, setuptools-scm
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  django,
+  pythonOlder,
+  setuptools-scm,
 }:
 
 buildPythonPackage rec {
@@ -20,20 +21,14 @@ buildPythonPackage rec {
     hash = "sha256-ZEnDk4kCXyhLvq3CZTK/zP3IK6BsNRqbkfqKAuU6Mfk=";
   };
 
-  build-system = [
-    setuptools-scm
-  ];
+  build-system = [ setuptools-scm ];
 
-  dependencies = [
-    django
-  ];
+  dependencies = [ django ];
 
   # Test requires postgres database
   doCheck = false;
 
-  pythonImportsCheck = [
-    "model_utils"
-  ];
+  pythonImportsCheck = [ "model_utils" ];
 
   meta = with lib; {
     homepage = "https://github.com/jazzband/django-model-utils";

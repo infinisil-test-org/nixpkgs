@@ -3,7 +3,7 @@
   jdk17_headless,
   lib,
   makeBinaryWrapper,
-  stdenv
+  stdenv,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -15,9 +15,7 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-XpMLT6oBoZv7V69l7XLm7B/ioeNHSqKkl+4UAsMcYao=";
   };
 
-  nativeBuildInputs = [
-    makeBinaryWrapper
-  ];
+  nativeBuildInputs = [ makeBinaryWrapper ];
 
   installPhase = ''
     runHook preInstall

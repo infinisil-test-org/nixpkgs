@@ -1,9 +1,10 @@
-{ fetchurl
-, jre
-, lib
-, makeBinaryWrapper
-, nix-update-script
-, stdenv
+{
+  fetchurl,
+  jre,
+  lib,
+  makeBinaryWrapper,
+  nix-update-script,
+  stdenv,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -15,9 +16,7 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-pUIE2pTa+5Rt8PNYtfbtqoX0dxdS6lViqdqjJU5feoo=";
   };
 
-  nativeBuildInputs = [
-    makeBinaryWrapper
-  ];
+  nativeBuildInputs = [ makeBinaryWrapper ];
 
   buildCommand = ''
     install -Dm644 $src $out/lib/open-pdf-sign.jar

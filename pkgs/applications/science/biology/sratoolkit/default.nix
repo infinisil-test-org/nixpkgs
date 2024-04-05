@@ -1,12 +1,12 @@
-{ stdenv
-, lib
-, fetchurl
-, autoPatchelfHook
-, libidn
-, zlib
-, bzip2
+{
+  stdenv,
+  lib,
+  fetchurl,
+  autoPatchelfHook,
+  libidn,
+  zlib,
+  bzip2,
 }:
-
 
 let
   libidn11 = libidn.overrideAttrs (old: {
@@ -17,7 +17,6 @@ let
       sha256 = "0g3fzypp0xjcgr90c5cyj57apx1cmy0c6y9lvw2qdcigbyby469p";
     };
   });
-
 in
 
 stdenv.mkDerivation rec {
@@ -29,9 +28,7 @@ stdenv.mkDerivation rec {
     sha256 = "1590lc4cplxr3lhjqci8fjncy67imn2h14qd2l87chmhjh243qvx";
   };
 
-  nativeBuildInputs = [
-    autoPatchelfHook
-  ];
+  nativeBuildInputs = [ autoPatchelfHook ];
 
   buildInputs = [
     libidn11

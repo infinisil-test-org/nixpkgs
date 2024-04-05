@@ -1,15 +1,16 @@
-{ stdenv
-, lib
-, buildPythonPackage
-, cryptography
-, fetchFromGitHub
-, keyring
-, pytestCheckHook
-, pythonOlder
-, pythonRelaxDepsHook
-, playwright
-, setuptools
-, setuptools-scm
+{
+  stdenv,
+  lib,
+  buildPythonPackage,
+  cryptography,
+  fetchFromGitHub,
+  keyring,
+  pytestCheckHook,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  playwright,
+  setuptools,
+  setuptools-scm,
 }:
 
 buildPythonPackage rec {
@@ -47,9 +48,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "pycookiecheat"
-  ];
+  pythonImportsCheck = [ "pycookiecheat" ];
 
   preCheck = ''
     export HOME=$(mktemp -d)
@@ -63,9 +62,7 @@ buildPythonPackage rec {
     "test_load_firefox_cookie_db"
     "test_firefox_no_cookies"
     "test_firefox_get_default_profile"
-  ] ++ lib.optionals stdenv.isDarwin [
-    "test_slack_config"
-  ];
+  ] ++ lib.optionals stdenv.isDarwin [ "test_slack_config" ];
 
   meta = with lib; {
     description = "Borrow cookies from your browser's authenticated session for use in Python scripts";

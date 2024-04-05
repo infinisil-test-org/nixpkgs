@@ -1,14 +1,15 @@
-{ lib
-, stdenv
-, ps
-, coreutils
-, fetchurl
-, jdk
-, jre
-, ant
-, gettext
-, which
-, java-service-wrapper
+{
+  lib,
+  stdenv,
+  ps,
+  coreutils,
+  fetchurl,
+  jdk,
+  jre,
+  ant,
+  gettext,
+  which,
+  java-service-wrapper,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -24,7 +25,12 @@ stdenv.mkDerivation (finalAttrs: {
     sha256 = "sha256-MO+K/K0P/6/ZTTCsMH+GtaazGOLB9EoCMAWEGh/NB3w=";
   };
 
-  buildInputs = [ jdk ant gettext which ];
+  buildInputs = [
+    jdk
+    ant
+    gettext
+    which
+  ];
   patches = [ ./i2p.patch ];
 
   buildPhase = ''
@@ -79,7 +85,11 @@ stdenv.mkDerivation (finalAttrs: {
       mit
       publicDomain
     ];
-    platforms = [ "x86_64-linux" "i686-linux" "aarch64-linux" ];
+    platforms = [
+      "x86_64-linux"
+      "i686-linux"
+      "aarch64-linux"
+    ];
     maintainers = with maintainers; [ joelmo ];
     mainProgram = "i2prouter-plain";
   };

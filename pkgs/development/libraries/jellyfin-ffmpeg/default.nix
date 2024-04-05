@@ -1,6 +1,7 @@
-{ ffmpeg_6-full
-, fetchFromGitHub
-, lib
+{
+  ffmpeg_6-full,
+  fetchFromGitHub,
+  lib,
 }:
 
 let
@@ -15,30 +16,31 @@ in
     rev = "v${version}";
     hash = "sha256-UINiXO61nB/AL0HJJy7G7emujakk/mQv81aUioyJz0Y=";
   };
-}).overrideAttrs (old: {
-  pname = "jellyfin-ffmpeg";
+}).overrideAttrs
+  (old: {
+    pname = "jellyfin-ffmpeg";
 
-  # Clobber upstream patches as they don't apply to the Jellyfin fork
-  patches = [];
+    # Clobber upstream patches as they don't apply to the Jellyfin fork
+    patches = [ ];
 
-  configureFlags = old.configureFlags ++ [
-    "--extra-version=Jellyfin"
-    "--disable-ptx-compression" # https://github.com/jellyfin/jellyfin/issues/7944#issuecomment-1156880067
-  ];
+    configureFlags = old.configureFlags ++ [
+      "--extra-version=Jellyfin"
+      "--disable-ptx-compression" # https://github.com/jellyfin/jellyfin/issues/7944#issuecomment-1156880067
+    ];
 
-  postPatch = ''
-    for file in $(cat debian/patches/series); do
-      patch -p1 < debian/patches/$file
-    done
+    postPatch = ''
+      for file in $(cat debian/patches/series); do
+        patch -p1 < debian/patches/$file
+      done
 
-    ${old.postPatch or ""}
-  '';
+      ${old.postPatch or ""}
+    '';
 
-  meta = with lib; {
-    description = "${old.meta.description} (Jellyfin fork)";
-    homepage = "https://github.com/jellyfin/jellyfin-ffmpeg";
-    license = licenses.gpl3;
-    maintainers = with maintainers; [ justinas ];
-    pkgConfigModules = [ "libavutil" ];
-  };
-})
+    meta = with lib; {
+      description = "${old.meta.description} (Jellyfin fork)";
+      homepage = "https://github.com/jellyfin/jellyfin-ffmpeg";
+      license = licenses.gpl3;
+      maintainers = with maintainers; [ justinas ];
+      pkgConfigModules = [ "libavutil" ];
+    };
+  })

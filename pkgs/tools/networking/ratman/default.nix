@@ -1,15 +1,16 @@
-{ lib
-, fetchFromGitLab
-, installShellFiles
-, libsodium
-, pkg-config
-, protobuf
-, rustPlatform
-, fetchYarnDeps
-, prefetch-yarn-deps
-, stdenv
-, yarn
-, nodejs
+{
+  lib,
+  fetchFromGitLab,
+  installShellFiles,
+  libsodium,
+  pkg-config,
+  protobuf,
+  rustPlatform,
+  fetchYarnDeps,
+  prefetch-yarn-deps,
+  stdenv,
+  yarn,
+  nodejs,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -26,9 +27,17 @@ rustPlatform.buildRustPackage rec {
 
   cargoSha256 = "Nsux0QblBtzlhLEgfKYvkQrOz8+oVd2pqT3CL8TnQEc=";
 
-  nativeBuildInputs = [ protobuf pkg-config installShellFiles ];
+  nativeBuildInputs = [
+    protobuf
+    pkg-config
+    installShellFiles
+  ];
 
-  cargoBuildFlags = [ "--all-features" "-p" "ratman" ];
+  cargoBuildFlags = [
+    "--all-features"
+    "-p"
+    "ratman"
+  ];
   cargoTestFlags = cargoBuildFlags;
 
   buildInputs = [ libsodium ];
@@ -49,9 +58,16 @@ rustPlatform.buildRustPackage rec {
       sha256 = "sha256-pWjKL41r/bTvWv+5qCgCFVL9+o64BiV2/ISdLeKEOqE=";
     };
 
-    nativeBuildInputs = [ yarn nodejs prefetch-yarn-deps ];
+    nativeBuildInputs = [
+      yarn
+      nodejs
+      prefetch-yarn-deps
+    ];
 
-    outputs = [ "out" "dist" ];
+    outputs = [
+      "out"
+      "dist"
+    ];
 
     buildPhase = ''
       # Yarn writes temporary files to $HOME. Copied from mkYarnModules.
@@ -88,6 +104,9 @@ rustPlatform.buildRustPackage rec {
     homepage = "https://git.irde.st/we/irdest";
     platforms = platforms.unix;
     license = licenses.agpl3Only;
-    maintainers = with maintainers; [ spacekookie yuka ];
+    maintainers = with maintainers; [
+      spacekookie
+      yuka
+    ];
   };
 }

@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
@@ -11,9 +16,7 @@ in
     services.teleport = with lib.types; {
       enable = mkEnableOption (lib.mdDoc "the Teleport service");
 
-      package = mkPackageOption pkgs "teleport" {
-        example = "teleport_11";
-      };
+      package = mkPackageOption pkgs "teleport" { example = "teleport_11"; };
 
       settings = mkOption {
         type = settingsYaml.type;
@@ -45,22 +48,26 @@ in
         '';
       };
 
-      insecure.enable = mkEnableOption (lib.mdDoc ''
-        starting teleport in insecure mode.
+      insecure.enable = mkEnableOption (
+        lib.mdDoc ''
+          starting teleport in insecure mode.
 
-        This is dangerous!
-        Sensitive information will be logged to console and certificates will not be verified.
-        Proceed with caution!
+          This is dangerous!
+          Sensitive information will be logged to console and certificates will not be verified.
+          Proceed with caution!
 
-        Teleport starts with disabled certificate validation on Proxy Service, validation still occurs on Auth Service
-      '');
+          Teleport starts with disabled certificate validation on Proxy Service, validation still occurs on Auth Service
+        ''
+      );
 
       diag = {
-        enable = mkEnableOption (lib.mdDoc ''
-          endpoints for monitoring purposes.
+        enable = mkEnableOption (
+          lib.mdDoc ''
+            endpoints for monitoring purposes.
 
-          See <https://goteleport.com/docs/setup/admin/troubleshooting/#troubleshooting/>
-        '');
+            See <https://goteleport.com/docs/setup/admin/troubleshooting/#troubleshooting/>
+          ''
+        );
 
         addr = mkOption {
           type = str;
@@ -88,7 +95,11 @@ in
           ${cfg.package}/bin/teleport start \
             ${optionalString cfg.insecure.enable "--insecure"} \
             ${optionalString cfg.diag.enable "--diag-addr=${cfg.diag.addr}:${toString cfg.diag.port}"} \
-            ${optionalString (cfg.settings != { }) "--config=${settingsYaml.generate "teleport.yaml" cfg.settings}"}
+            ${
+              optionalString (
+                cfg.settings != { }
+              ) "--config=${settingsYaml.generate "teleport.yaml" cfg.settings}"
+            }
         '';
         ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
         LimitNOFILE = 65536;
@@ -100,4 +111,3 @@ in
     };
   };
 }
-

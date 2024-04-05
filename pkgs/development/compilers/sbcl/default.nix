@@ -1,20 +1,35 @@
-{ lib, stdenv, callPackage, clisp, coreutils, fetchurl, strace, texinfo, which, writeText, zstd
-, threadSupport ? (stdenv.hostPlatform.isx86 || "aarch64-linux" == stdenv.hostPlatform.system || "aarch64-darwin" == stdenv.hostPlatform.system)
-, linkableRuntime ? stdenv.hostPlatform.isx86
-, disableImmobileSpace ? false
+{
+  lib,
+  stdenv,
+  callPackage,
+  clisp,
+  coreutils,
+  fetchurl,
+  strace,
+  texinfo,
+  which,
+  writeText,
+  zstd,
+  threadSupport ? (
+    stdenv.hostPlatform.isx86
+    || "aarch64-linux" == stdenv.hostPlatform.system
+    || "aarch64-darwin" == stdenv.hostPlatform.system
+  ),
+  linkableRuntime ? stdenv.hostPlatform.isx86,
+  disableImmobileSpace ? false,
   # Meant for sbcl used for creating binaries portable to non-NixOS via save-lisp-and-die.
   # Note that the created binaries still need `patchelf --set-interpreter ...`
   # to get rid of ${glibc} dependency.
-, purgeNixReferences ? false
-, coreCompression ? lib.versionAtLeast version "2.2.6"
-, markRegionGC ? lib.versionAtLeast version "2.4.0"
-, version
+  purgeNixReferences ? false,
+  coreCompression ? lib.versionAtLeast version "2.2.6",
+  markRegionGC ? lib.versionAtLeast version "2.4.0",
+  version,
   # Set this to a lisp binary to use a custom bootstrap lisp compiler for
   # SBCL. Leave as null to use the default. This is useful for local development
   # of SBCL, because you can use your existing stock SBCL as a boostrap. On Hydra
   # of course we can’t do that because SBCL hasn’t been built yet, so we use
   # CLISP, but that’s much slower.
-, bootstrapLisp ? null
+  bootstrapLisp ? null,
 }:
 
 let
@@ -63,12 +78,12 @@ let
     cfg = bootstrapBinaries.${stdenv.hostPlatform.system};
   };
   bootstrapLisp' =
-    if bootstrapLisp != null
-    then bootstrapLisp
-    else if (builtins.hasAttr stdenv.hostPlatform.system bootstrapBinaries)
-    then "${sbclBootstrap}/bin/sbcl --disable-debugger --no-userinit --no-sysinit"
-    else "${clisp}/bin/clisp -E UTF-8 --silent -norc";
-
+    if bootstrapLisp != null then
+      bootstrapLisp
+    else if (builtins.hasAttr stdenv.hostPlatform.system bootstrapBinaries) then
+      "${sbclBootstrap}/bin/sbcl --disable-debugger --no-userinit --no-sysinit"
+    else
+      "${clisp}/bin/clisp -E UTF-8 --silent -norc";
 in
 
 stdenv.mkDerivation (self: rec {
@@ -80,15 +95,11 @@ stdenv.mkDerivation (self: rec {
     inherit (versionMap.${version}) sha256;
   };
 
-  nativeBuildInputs = [
-    texinfo
-  ] ++ lib.optionals self.doCheck (
-    [
-      which
-    ] ++ lib.optionals (builtins.elem stdenv.system strace.meta.platforms) [
-      strace
-    ]
-  );
+  nativeBuildInputs =
+    [ texinfo ]
+    ++ lib.optionals self.doCheck (
+      [ which ] ++ lib.optionals (builtins.elem stdenv.system strace.meta.platforms) [ strace ]
+    );
   buildInputs = lib.optionals coreCompression (
     # Declare at the point of actual use in case the caller wants to override
     # buildInputs to sidestep this.
@@ -102,50 +113,55 @@ stdenv.mkDerivation (self: rec {
   # them and move forward with the succeeding tests than block testing
   # altogether. One by one hopefully we can fix these (on ofBorg,
   # upstream--somehow some way) in due time.
-  disabledTestFiles = lib.optionals (builtins.elem stdenv.hostPlatform.system [
-    "x86_64-linux"
-    "aarch64-linux"
-  ]) [
-    "foreign-stack-alignment.impure.lisp"
-    # Floating point tests are fragile
-    # https://sourceforge.net/p/sbcl/mailman/message/58728554/
-    "compiler.pure.lisp"
-    "float.pure.lisp"
-  ] ++ lib.optionals (stdenv.hostPlatform.system == "aarch64-linux") [
-    # This is failing on aarch64-linux on ofBorg. Not on my local machine nor on
-    # a VM on my laptop. Not sure what’s wrong.
-    "traceroot.impure.lisp"
-    # Heisentest, sometimes fails on ofBorg, would rather just disable it than
-    # have it block a release.
-    "futex-wait.test.sh"
-  ];
-  postPatch = lib.optionalString (self.disabledTestFiles != [ ]) ''
-    (cd tests ; rm -f ${lib.concatStringsSep " " self.disabledTestFiles})
-  ''
-  + lib.optionalString purgeNixReferences ''
-    # This is the default location to look for the core; by default in $out/lib/sbcl
-    sed 's@^\(#define SBCL_HOME\) .*$@\1 "/no-such-path"@' \
-        -i src/runtime/runtime.c
-  ''
-  + ''
-    (
-      shopt -s nullglob
-      # Tests need patching regardless of purging of paths from the final
-      # binary. There are some tricky files in nested directories which should
-      # definitely NOT be patched this way, hence just a single * (and no
-      # globstar).
-      substituteInPlace ${if purgeNixReferences then "tests" else "{tests,src/code}"}/*.{lisp,sh} \
-        --replace-quiet /usr/bin/env "${coreutils}/bin/env" \
-        --replace-quiet /bin/uname "${coreutils}/bin/uname" \
-        --replace-quiet /bin/sh "${stdenv.shell}"
-    )
-    # Official source release tarballs will have a version.lispexpr, but if you
-    # want to override { src = ... } it might not exist. It’s required for
-    # building, so create a mock version as a backup.
-    if [[ ! -a version.lisp-expr ]]; then
-      echo '"${version}.nixos"' > version.lisp-expr
-    fi
-  '';
+  disabledTestFiles =
+    lib.optionals
+      (builtins.elem stdenv.hostPlatform.system [
+        "x86_64-linux"
+        "aarch64-linux"
+      ])
+      [
+        "foreign-stack-alignment.impure.lisp"
+        # Floating point tests are fragile
+        # https://sourceforge.net/p/sbcl/mailman/message/58728554/
+        "compiler.pure.lisp"
+        "float.pure.lisp"
+      ]
+    ++ lib.optionals (stdenv.hostPlatform.system == "aarch64-linux") [
+      # This is failing on aarch64-linux on ofBorg. Not on my local machine nor on
+      # a VM on my laptop. Not sure what’s wrong.
+      "traceroot.impure.lisp"
+      # Heisentest, sometimes fails on ofBorg, would rather just disable it than
+      # have it block a release.
+      "futex-wait.test.sh"
+    ];
+  postPatch =
+    lib.optionalString (self.disabledTestFiles != [ ]) ''
+      (cd tests ; rm -f ${lib.concatStringsSep " " self.disabledTestFiles})
+    ''
+    + lib.optionalString purgeNixReferences ''
+      # This is the default location to look for the core; by default in $out/lib/sbcl
+      sed 's@^\(#define SBCL_HOME\) .*$@\1 "/no-such-path"@' \
+          -i src/runtime/runtime.c
+    ''
+    + ''
+      (
+        shopt -s nullglob
+        # Tests need patching regardless of purging of paths from the final
+        # binary. There are some tricky files in nested directories which should
+        # definitely NOT be patched this way, hence just a single * (and no
+        # globstar).
+        substituteInPlace ${if purgeNixReferences then "tests" else "{tests,src/code}"}/*.{lisp,sh} \
+          --replace-quiet /usr/bin/env "${coreutils}/bin/env" \
+          --replace-quiet /bin/uname "${coreutils}/bin/uname" \
+          --replace-quiet /bin/sh "${stdenv.shell}"
+      )
+      # Official source release tarballs will have a version.lispexpr, but if you
+      # want to override { src = ... } it might not exist. It’s required for
+      # building, so create a mock version as a backup.
+      if [[ ! -a version.lisp-expr ]]; then
+        echo '"${version}.nixos"' > version.lisp-expr
+      fi
+    '';
 
   preBuild = ''
     export INSTALL_ROOT=$out
@@ -153,35 +169,43 @@ stdenv.mkDerivation (self: rec {
     export HOME=$PWD/test-home
   '';
 
-  enableFeatures = with lib;
-    optional threadSupport "sb-thread" ++
-    optional linkableRuntime "sb-linkable-runtime" ++
-    optional coreCompression "sb-core-compression" ++
-    optional stdenv.isAarch32 "arm" ++
-    optional markRegionGC "mark-region-gc";
+  enableFeatures =
+    with lib;
+    optional threadSupport "sb-thread"
+    ++ optional linkableRuntime "sb-linkable-runtime"
+    ++ optional coreCompression "sb-core-compression"
+    ++ optional stdenv.isAarch32 "arm"
+    ++ optional markRegionGC "mark-region-gc";
 
-  disableFeatures = with lib;
-    optional (!threadSupport) "sb-thread" ++
-    optionals disableImmobileSpace [ "immobile-space" "immobile-code" "compact-instance-header" ];
+  disableFeatures =
+    with lib;
+    optional (!threadSupport) "sb-thread"
+    ++ optionals disableImmobileSpace [
+      "immobile-space"
+      "immobile-code"
+      "compact-instance-header"
+    ];
 
-  buildArgs = [
-    "--prefix=$out"
-    "--xc-host=${lib.escapeShellArg bootstrapLisp'}"
-  ] ++ builtins.map (x: "--with-${x}") self.enableFeatures
-  ++ builtins.map (x: "--without-${x}") self.disableFeatures
-  ++ lib.optionals (stdenv.hostPlatform.system == "aarch64-darwin") [
-    "--arch=arm64"
-  ];
+  buildArgs =
+    [
+      "--prefix=$out"
+      "--xc-host=${lib.escapeShellArg bootstrapLisp'}"
+    ]
+    ++ builtins.map (x: "--with-${x}") self.enableFeatures
+    ++ builtins.map (x: "--without-${x}") self.disableFeatures
+    ++ lib.optionals (stdenv.hostPlatform.system == "aarch64-darwin") [ "--arch=arm64" ];
 
-  env.NIX_CFLAGS_COMPILE = toString (lib.optionals (lib.versionOlder self.version "2.1.10") [
-    # Workaround build failure on -fno-common toolchains like upstream
-    # clang-13. Without the change build fails as:
-    #   duplicate symbol '_static_code_space_free_pointer' in: alloc.o traceroot.o
-    # Should be fixed past 2.1.10 release.
-    "-fcommon"
-  ]
+  env.NIX_CFLAGS_COMPILE = toString (
+    lib.optionals (lib.versionOlder self.version "2.1.10") [
+      # Workaround build failure on -fno-common toolchains like upstream
+      # clang-13. Without the change build fails as:
+      #   duplicate symbol '_static_code_space_free_pointer' in: alloc.o traceroot.o
+      # Should be fixed past 2.1.10 release.
+      "-fcommon"
+    ]
     # Fails to find `O_LARGEFILE` otherwise.
-    ++ [ "-D_GNU_SOURCE" ]);
+    ++ [ "-D_GNU_SOURCE" ]
+  );
 
   buildPhase = ''
     runHook preBuild
@@ -207,30 +231,34 @@ stdenv.mkDerivation (self: rec {
     runHook postCheck
   '';
 
-  installPhase = ''
-    runHook preInstall
+  installPhase =
+    ''
+      runHook preInstall
 
-    INSTALL_ROOT=$out sh install.sh
+      INSTALL_ROOT=$out sh install.sh
 
-  ''
-  + lib.optionalString (!purgeNixReferences) ''
-    cp -r src $out/lib/sbcl
-    cp -r contrib $out/lib/sbcl
-    cat >$out/lib/sbcl/sbclrc <<EOF
-     (setf (logical-pathname-translations "SYS")
-       '(("SYS:SRC;**;*.*.*" #P"$out/lib/sbcl/src/**/*.*")
-         ("SYS:CONTRIB;**;*.*.*" #P"$out/lib/sbcl/contrib/**/*.*")))
-    EOF
-  '' + ''
-    runHook postInstall
-  '';
+    ''
+    + lib.optionalString (!purgeNixReferences) ''
+      cp -r src $out/lib/sbcl
+      cp -r contrib $out/lib/sbcl
+      cat >$out/lib/sbcl/sbclrc <<EOF
+       (setf (logical-pathname-translations "SYS")
+         '(("SYS:SRC;**;*.*.*" #P"$out/lib/sbcl/src/**/*.*")
+           ("SYS:CONTRIB;**;*.*.*" #P"$out/lib/sbcl/contrib/**/*.*")))
+      EOF
+    ''
+    + ''
+      runHook postInstall
+    '';
 
-  setupHook = lib.optional purgeNixReferences (writeText "setupHook.sh" ''
-    addEnvHooks "$targetOffset" _setSbclHome
-    _setSbclHome() {
-      export SBCL_HOME='@out@/lib/sbcl/'
-    }
-  '');
+  setupHook = lib.optional purgeNixReferences (
+    writeText "setupHook.sh" ''
+      addEnvHooks "$targetOffset" _setSbclHome
+      _setSbclHome() {
+        export SBCL_HOME='@out@/lib/sbcl/'
+      }
+    ''
+  );
 
   meta = with lib; {
     description = "Common Lisp compiler";

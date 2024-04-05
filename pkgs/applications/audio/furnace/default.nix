@@ -1,28 +1,29 @@
-{ stdenv
-, lib
-, testers
-, furnace
-, fetchFromGitHub
-, cmake
-, pkg-config
-, makeWrapper
-, fftw
-, fmt_8
-, libsndfile
-, libX11
-, rtmidi
-, SDL2
-, zlib
-, withJACK ? stdenv.hostPlatform.isUnix
-, libjack2
-, withGUI ? true
-, Cocoa
-, portaudio
-, alsa-lib
-# Enable GL/GLES rendering
-, withGL ? !stdenv.hostPlatform.isDarwin
-# Use GLES instead of GL, some platforms have better support for one than the other
-, preferGLES ? stdenv.hostPlatform.isAarch
+{
+  stdenv,
+  lib,
+  testers,
+  furnace,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  makeWrapper,
+  fftw,
+  fmt_8,
+  libsndfile,
+  libX11,
+  rtmidi,
+  SDL2,
+  zlib,
+  withJACK ? stdenv.hostPlatform.isUnix,
+  libjack2,
+  withGUI ? true,
+  Cocoa,
+  portaudio,
+  alsa-lib,
+  # Enable GL/GLES rendering
+  withGL ? !stdenv.hostPlatform.isDarwin,
+  # Use GLES instead of GL, some platforms have better support for one than the other
+  preferGLES ? stdenv.hostPlatform.isAarch,
 }:
 
 stdenv.mkDerivation rec {
@@ -47,26 +48,24 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [
     cmake
     pkg-config
-  ] ++ lib.optionals stdenv.hostPlatform.isDarwin [
-    makeWrapper
-  ];
+  ] ++ lib.optionals stdenv.hostPlatform.isDarwin [ makeWrapper ];
 
-  buildInputs = [
-    fftw
-    fmt_8
-    libsndfile
-    rtmidi
-    SDL2
-    zlib
-    portaudio
-  ] ++ lib.optionals withJACK [
-    libjack2
-  ] ++ lib.optionals stdenv.hostPlatform.isLinux [
-    # portaudio pkg-config is pulling this in as a link dependency, not set in propagatedBuildInputs
-    alsa-lib
-  ] ++ lib.optionals stdenv.hostPlatform.isDarwin [
-    Cocoa
-  ];
+  buildInputs =
+    [
+      fftw
+      fmt_8
+      libsndfile
+      rtmidi
+      SDL2
+      zlib
+      portaudio
+    ]
+    ++ lib.optionals withJACK [ libjack2 ]
+    ++ lib.optionals stdenv.hostPlatform.isLinux [
+      # portaudio pkg-config is pulling this in as a link dependency, not set in propagatedBuildInputs
+      alsa-lib
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isDarwin [ Cocoa ];
 
   cmakeFlags = [
     "-DBUILD_GUI=${if withGUI then "ON" else "OFF"}"
@@ -82,9 +81,7 @@ stdenv.mkDerivation rec {
     "-DWITH_RENDER_SDL=ON"
     "-DWITH_RENDER_OPENGL=${lib.boolToString withGL}"
     "-DWARNINGS_ARE_ERRORS=ON"
-  ] ++ lib.optionals withGL [
-    "-DUSE_GLES=${lib.boolToString preferGLES}"
-  ];
+  ] ++ lib.optionals withGL [ "-DUSE_GLES=${lib.boolToString preferGLES}" ];
 
   postInstall = lib.optionalString stdenv.hostPlatform.isDarwin ''
     # Normal CMake install phase on Darwin only installs the binary, the user is expected to use CPack to build a
@@ -104,9 +101,7 @@ stdenv.mkDerivation rec {
 
   passthru = {
     updateScript = ./update.sh;
-    tests.version = testers.testVersion {
-      package = furnace;
-    };
+    tests.version = testers.testVersion { package = furnace; };
   };
 
   meta = with lib; {

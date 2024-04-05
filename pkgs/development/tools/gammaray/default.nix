@@ -1,13 +1,14 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, pkg-config
-, wrapQtAppsHook
-, qtbase
-, wayland
-, elfutils
-, libbfd
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  wrapQtAppsHook,
+  qtbase,
+  wayland,
+  elfutils,
+  libbfd,
 }:
 
 stdenv.mkDerivation rec {
@@ -43,4 +44,3 @@ stdenv.mkDerivation rec {
     mainProgram = "gammaray";
   };
 }
-

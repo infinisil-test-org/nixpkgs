@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, isPy3k
-, jsonpickle
-, mock
-, pytest
-, pytestCheckHook
-, requests
-, responses
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  isPy3k,
+  jsonpickle,
+  mock,
+  pytest,
+  pytestCheckHook,
+  requests,
+  responses,
 }:
 
 buildPythonPackage rec {
@@ -32,16 +33,14 @@ buildPythonPackage rec {
     pytest
     pytestCheckHook
     responses
-  ] ++ lib.optionals (!isPy3k) [
-    mock
-  ];
+  ] ++ lib.optionals (!isPy3k) [ mock ];
 
   preCheck = ''
     cd digitalocean
   '';
 
   # Test tries to access the network
-  disabledTests = ["TestFirewall"];
+  disabledTests = [ "TestFirewall" ];
 
   pythonImportsCheck = [ "digitalocean" ];
 
@@ -49,6 +48,9 @@ buildPythonPackage rec {
     description = "Python API to manage Digital Ocean Droplets and Images";
     homepage = "https://github.com/koalalorenzo/python-digitalocean";
     license = with licenses; [ lgpl3Only ];
-    maintainers = with maintainers; [ kiwi teh ];
+    maintainers = with maintainers; [
+      kiwi
+      teh
+    ];
   };
 }

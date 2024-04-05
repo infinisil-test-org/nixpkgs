@@ -1,20 +1,21 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, gjs
-, glib
-, gobject-introspection
-, gtk3
-, gtk4
-, gcr_4
-, libadwaita
-, meson
-, ninja
-, pango
-, pkg-config
-, vala
-, desktop-file-utils
-, wrapGAppsHook
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  gjs,
+  glib,
+  gobject-introspection,
+  gtk3,
+  gtk4,
+  gcr_4,
+  libadwaita,
+  meson,
+  ninja,
+  pango,
+  pkg-config,
+  vala,
+  desktop-file-utils,
+  wrapGAppsHook,
 }:
 
 stdenv.mkDerivation rec {
@@ -28,9 +29,7 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-MpoeLXGdLfas/E3x5ojJW5Dd3H8XZORtFaBHgRGJXxg=";
   };
 
-  patches = [
-    ./fix-paths.patch
-  ];
+  patches = [ ./fix-paths.patch ];
 
   # TODO: switch to substituteAll with placeholder
   # https://github.com/NixOS/nix/issues/1846

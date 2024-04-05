@@ -1,21 +1,22 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, appstream-glib
-, desktop-file-utils
-, gettext
-, glib
-, gst_all_1
-, gtk4
-, hicolor-icon-theme
-, isocodes
-, itstool
-, libxml2
-, meson
-, ninja
-, pkg-config
-, python3
-, wrapGAppsHook
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  appstream-glib,
+  desktop-file-utils,
+  gettext,
+  glib,
+  gst_all_1,
+  gtk4,
+  hicolor-icon-theme,
+  isocodes,
+  itstool,
+  libxml2,
+  meson,
+  ninja,
+  pkg-config,
+  python3,
+  wrapGAppsHook,
 }:
 
 stdenv.mkDerivation rec {
@@ -74,7 +75,10 @@ stdenv.mkDerivation rec {
     '';
     homepage = "https://www.parlatype.org/";
     license = licenses.gpl3Plus;
-    maintainers = with maintainers; [ alexshpilkin melchips ];
+    maintainers = with maintainers; [
+      alexshpilkin
+      melchips
+    ];
     platforms = platforms.linux;
   };
 }

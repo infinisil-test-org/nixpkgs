@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -19,16 +20,12 @@ buildPythonPackage rec {
     hash = "sha256-5UnjIv57b4JV/vFyQpe+AS4e/fiE2y7ynZx5g6+oSyQ=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   # Module has no test
   doCheck = false;
 
-  pythonImportsCheck = [
-    "dropmqttapi"
-  ];
+  pythonImportsCheck = [ "dropmqttapi" ];
 
   meta = with lib; {
     description = "Python MQTT API for DROP water management products";

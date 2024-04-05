@@ -1,6 +1,7 @@
-{ python3
-, fetchPypi
-, rustPlatform
+{
+  python3,
+  fetchPypi,
+  rustPlatform,
 }:
 
 let
@@ -25,4 +26,6 @@ let
       });
     };
   };
-in with python.pkgs; toPythonApplication pynitrokey
+in
+with python.pkgs;
+toPythonApplication pynitrokey

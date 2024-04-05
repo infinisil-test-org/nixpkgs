@@ -1,17 +1,18 @@
-{ lib
-, anyio
-, asgi-lifespan
-, buildPythonPackage
-, fastapi
-, fetchFromGitHub
-, httpx
-, pdm-backend
-, psutil
-, pytest-asyncio
-, pytestCheckHook
-, pythonOlder
-, starlette
-, uvicorn
+{
+  lib,
+  anyio,
+  asgi-lifespan,
+  buildPythonPackage,
+  fastapi,
+  fetchFromGitHub,
+  httpx,
+  pdm-backend,
+  psutil,
+  pytest-asyncio,
+  pytestCheckHook,
+  pythonOlder,
+  starlette,
+  uvicorn,
 }:
 
 buildPythonPackage rec {
@@ -28,9 +29,7 @@ buildPythonPackage rec {
     hash = "sha256-kDcSG/3foP7fMZKYrkKx6FHvT9c9rSzxyv2EHjQ2WSA=";
   };
 
-  build-system = [
-    pdm-backend
-  ];
+  build-system = [ pdm-backend ];
 
   dependencies = [
     anyio
@@ -47,9 +46,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "sse_starlette"
-  ];
+  pythonImportsCheck = [ "sse_starlette" ];
 
   disabledTests = [
     # AssertionError

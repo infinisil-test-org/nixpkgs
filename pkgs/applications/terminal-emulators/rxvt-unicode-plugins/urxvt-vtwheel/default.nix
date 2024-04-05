@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchgit, perl }:
+{
+  lib,
+  stdenv,
+  fetchgit,
+  perl,
+}:
 
 stdenv.mkDerivation {
   pname = "rxvt-unicode-vtwheel";
@@ -23,5 +28,4 @@ stdenv.mkDerivation {
     maintainers = with maintainers; [ danbst ];
     platforms = with platforms; unix;
   };
-
 }

@@ -1,15 +1,16 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, glslang
-, meson
-, ninja
-, windows
-, pkgsBuildHost
-, enableMoltenVKCompat ? false
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  glslang,
+  meson,
+  ninja,
+  windows,
+  pkgsBuildHost,
+  enableMoltenVKCompat ? false,
 }:
 
-stdenv.mkDerivation (finalAttrs:  {
+stdenv.mkDerivation (finalAttrs: {
   pname = "dxvk";
   version = "1.10.3";
 
@@ -30,12 +31,18 @@ stdenv.mkDerivation (finalAttrs:  {
     ./darwin-thread-primitives.patch
   ];
 
-  nativeBuildInputs = [ glslang meson ninja ];
+  nativeBuildInputs = [
+    glslang
+    meson
+    ninja
+  ];
   buildInputs = [ windows.pthreads ];
 
   mesonFlags = [
-    "--buildtype" "release"
-    "--prefix" "${placeholder "out"}"
+    "--buildtype"
+    "release"
+    "--prefix"
+    "${placeholder "out"}"
   ];
 
   meta = {

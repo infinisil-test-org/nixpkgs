@@ -1,26 +1,27 @@
-{ stdenv
-, lib
-, fetchFromGitLab
-, gitUpdater
-, testers
-, boost
-, cmake
-, cmake-extras
-, dbus
-, dbus-cpp
-, doxygen
-, gettext
-, glog
-, graphviz
-, gtest
-, libapparmor
-, newt
-, pkg-config
-, process-cpp
-, properties-cpp
-, qtbase
-, qtdeclarative
-, validatePkgConfig
+{
+  stdenv,
+  lib,
+  fetchFromGitLab,
+  gitUpdater,
+  testers,
+  boost,
+  cmake,
+  cmake-extras,
+  dbus,
+  dbus-cpp,
+  doxygen,
+  gettext,
+  glog,
+  graphviz,
+  gtest,
+  libapparmor,
+  newt,
+  pkg-config,
+  process-cpp,
+  properties-cpp,
+  qtbase,
+  qtdeclarative,
+  validatePkgConfig,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -41,16 +42,18 @@ stdenv.mkDerivation (finalAttrs: {
     "bin"
   ];
 
-  postPatch = ''
-    # pkg-config patching hook expects prefix variable
-    substituteInPlace data/trust-store.pc.in \
-      --replace 'includedir=''${exec_prefix}' 'includedir=''${prefix}'
+  postPatch =
+    ''
+      # pkg-config patching hook expects prefix variable
+      substituteInPlace data/trust-store.pc.in \
+        --replace 'includedir=''${exec_prefix}' 'includedir=''${prefix}'
 
-    substituteInPlace src/core/trust/terminal_agent.h \
-      --replace '/bin/whiptail' '${lib.getExe' newt "whiptail"}'
-  '' + lib.optionalString (!finalAttrs.doCheck) ''
-    sed -i CMakeLists.txt -e '/add_subdirectory(tests)/d'
-  '';
+      substituteInPlace src/core/trust/terminal_agent.h \
+        --replace '/bin/whiptail' '${lib.getExe' newt "whiptail"}'
+    ''
+    + lib.optionalString (!finalAttrs.doCheck) ''
+      sed -i CMakeLists.txt -e '/add_subdirectory(tests)/d'
+    '';
 
   strictDeps = true;
 
@@ -76,13 +79,9 @@ stdenv.mkDerivation (finalAttrs: {
     qtdeclarative
   ];
 
-  nativeCheckInputs = [
-    dbus
-  ];
+  nativeCheckInputs = [ dbus ];
 
-  checkInputs = [
-    gtest
-  ];
+  checkInputs = [ gtest ];
 
   dontWrapQtApps = true;
 
@@ -120,8 +119,6 @@ stdenv.mkDerivation (finalAttrs: {
     license = licenses.lgpl3Only;
     maintainers = teams.lomiri.members;
     platforms = platforms.linux;
-    pkgConfigModules = [
-      "trust-store"
-    ];
+    pkgConfigModules = [ "trust-store" ];
   };
 })

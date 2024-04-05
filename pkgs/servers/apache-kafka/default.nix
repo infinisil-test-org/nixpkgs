@@ -1,5 +1,17 @@
-{ lib, stdenv, fetchurl, jdk17_headless, jdk11_headless, makeWrapper, bash, coreutils, gnugrep, gnused, ps,
-  majorVersion ? "1.0" }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  jdk17_headless,
+  jdk11_headless,
+  makeWrapper,
+  bash,
+  coreutils,
+  gnugrep,
+  gnused,
+  ps,
+  majorVersion ? "1.0",
+}:
 
 let
   versionMap = {
@@ -45,7 +57,6 @@ let
       sha256 = "sha256-inZXZJSs8ivtEqF6E/ApoyUHn8vg38wUG3KhowP8mfQ=";
       jre = jdk11_headless;
     };
-
   };
 in
 
@@ -61,7 +72,14 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ makeWrapper ];
-  buildInputs = [ jre bash gnugrep gnused coreutils ps ];
+  buildInputs = [
+    jre
+    bash
+    gnugrep
+    gnused
+    coreutils
+    ps
+  ];
 
   installPhase = ''
     mkdir -p $out

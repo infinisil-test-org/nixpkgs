@@ -1,4 +1,8 @@
-{ lib, appimageTools, fetchurl }:
+{
+  lib,
+  appimageTools,
+  fetchurl,
+}:
 
 appimageTools.wrapType2 rec {
   name = "steam-rom-manager";
@@ -9,9 +13,11 @@ appimageTools.wrapType2 rec {
     sha256 = "sha256-NRqryY9v6s51/eoCdqqID6m5Osx5PPChKGxjmLhh7ac=";
   };
 
-  extraInstallCommands = let
-    appimageContents = appimageTools.extract { inherit name src; };
-    in ''
+  extraInstallCommands =
+    let
+      appimageContents = appimageTools.extract { inherit name src; };
+    in
+    ''
       install -m 444 -D ${appimageContents}/${name}.desktop -t $out/share/applications
       substituteInPlace $out/share/applications/${name}.desktop \
         --replace 'Exec=AppRun' 'Exec=${name}'

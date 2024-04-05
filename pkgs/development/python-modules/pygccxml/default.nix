@@ -1,10 +1,11 @@
-{ lib
-, castxml
-, fetchFromGitHub
-, buildPythonPackage
-, llvmPackages
-, pythonOlder
-, setuptools
+{
+  lib,
+  castxml,
+  fetchFromGitHub,
+  buildPythonPackage,
+  llvmPackages,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -21,9 +22,7 @@ buildPythonPackage rec {
     hash = "sha256-rw99afv68c92LWmKUErB1y0Cts69UEpI0GCxSMvD+B8=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   buildInputs = [
     castxml

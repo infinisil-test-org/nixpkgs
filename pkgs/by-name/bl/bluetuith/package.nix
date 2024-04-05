@@ -1,7 +1,8 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
-, nix-update-script
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  nix-update-script,
 }:
 
 buildGoModule rec {
@@ -41,6 +42,9 @@ buildGoModule rec {
     license = licenses.mit;
     platforms = platforms.linux;
     mainProgram = "bluetuith";
-    maintainers = with maintainers; [ thehedgeh0g katexochen ];
+    maintainers = with maintainers; [
+      thehedgeh0g
+      katexochen
+    ];
   };
 }

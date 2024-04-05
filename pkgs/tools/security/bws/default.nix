@@ -1,12 +1,13 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, pkg-config
-, oniguruma
-, openssl
-, stdenv
-, darwin
-, python3
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  pkg-config,
+  oniguruma,
+  openssl,
+  stdenv,
+  darwin,
+  python3,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -22,18 +23,12 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-nmsAfXNn1nqmqHzGD7jl2JNrif/nJycCJZWZYjv7G4c=";
 
-  nativeBuildInputs = [
-    pkg-config
-  ];
+  nativeBuildInputs = [ pkg-config ];
 
-  buildInputs =
-    [
-      oniguruma
-      openssl
-    ]
-    ++ lib.optionals stdenv.isDarwin [
-      darwin.apple_sdk.frameworks.Security
-    ];
+  buildInputs = [
+    oniguruma
+    openssl
+  ] ++ lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.Security ];
 
   env = {
     PYO3_PYTHON = "${python3}/bin/python3";

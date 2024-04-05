@@ -1,4 +1,9 @@
-{ stdenv, lib, fetchFromGitHub, fetchurl }:
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  fetchurl,
+}:
 
 stdenv.mkDerivation rec {
   pname = "mp4v2";

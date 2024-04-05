@@ -1,4 +1,11 @@
-{ stdenv, lib, fetchurl, dpkg, makeWrapper, electron }:
+{
+  stdenv,
+  lib,
+  fetchurl,
+  dpkg,
+  makeWrapper,
+  electron,
+}:
 
 stdenv.mkDerivation rec {
   pname = "clockify";

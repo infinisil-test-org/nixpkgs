@@ -1,20 +1,21 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchpatch
-, curl
-, makeWrapper
-, which
-, unzip
-, lua
-, file
-, nix-prefetch-git
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  curl,
+  makeWrapper,
+  which,
+  unzip,
+  lua,
+  file,
+  nix-prefetch-git,
   # for 'luarocks pack'
-, zip
-, nix-update-script
+  zip,
+  nix-update-script,
   # some packages need to be compiled with cmake
-, cmake
-, installShellFiles
+  cmake,
+  installShellFiles,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -28,9 +29,7 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-mSwwBuLWoMT38iYaV/BTdDmmBz4heTRJzxBHC0Vrvc4=";
   };
 
-  patches = [
-    ./darwin-3.7.0.patch
-  ];
+  patches = [ ./darwin-3.7.0.patch ];
 
   postPatch = lib.optionalString stdenv.targetPlatform.isDarwin ''
     substituteInPlace src/luarocks/core/cfg.lua --subst-var-by 'darwinMinVersion' '${stdenv.targetPlatform.darwinMinVersion}'
@@ -53,41 +52,61 @@ stdenv.mkDerivation (finalAttrs: {
     fi
   '';
 
-  nativeBuildInputs = [ makeWrapper installShellFiles lua unzip ];
+  nativeBuildInputs = [
+    makeWrapper
+    installShellFiles
+    lua
+    unzip
+  ];
 
-  buildInputs = [ curl which ];
+  buildInputs = [
+    curl
+    which
+  ];
 
-  postInstall = ''
-    sed -e "1s@.*@#! ${lua}/bin/lua$LUA_SUFFIX@" -i "$out"/bin/*
-    substituteInPlace $out/etc/luarocks/* \
-     --replace '${lua.luaOnBuild}' '${lua}'
-   ''
+  postInstall =
+    ''
+      sed -e "1s@.*@#! ${lua}/bin/lua$LUA_SUFFIX@" -i "$out"/bin/*
+      substituteInPlace $out/etc/luarocks/* \
+       --replace '${lua.luaOnBuild}' '${lua}'
+    ''
     + lib.optionalString (stdenv.buildPlatform.canExecute stdenv.hostPlatform) ''
-    installShellCompletion --cmd luarocks \
-      --bash <($out/bin/luarocks completion bash) \
-      --fish <($out/bin/luarocks completion fish) \
-      --zsh <($out/bin/luarocks completion zsh)
+      installShellCompletion --cmd luarocks \
+        --bash <($out/bin/luarocks completion bash) \
+        --fish <($out/bin/luarocks completion fish) \
+        --zsh <($out/bin/luarocks completion zsh)
 
-    installShellCompletion --cmd luarocks-admin \
-      --bash <($out/bin/luarocks-admin completion bash) \
-      --fish <($out/bin/luarocks-admin completion fish) \
-      --zsh <($out/bin/luarocks-admin completion zsh)
-  ''
-  + ''
-    for i in "$out"/bin/*; do
-        test -L "$i" || {
-            wrapProgram "$i" \
-              --suffix LUA_PATH ";" "$(echo "$out"/share/lua/*/)?.lua" \
-              --suffix LUA_PATH ";" "$(echo "$out"/share/lua/*/)?/init.lua" \
-              --suffix LUA_CPATH ";" "$(echo "$out"/lib/lua/*/)?.so" \
-              --suffix LUA_CPATH ";" "$(echo "$out"/share/lua/*/)?/init.lua" \
-              --suffix PATH : ${lib.makeBinPath ([ unzip ] ++
-                lib.optionals (finalAttrs.pname == "luarocks-nix") [ file nix-prefetch-git ])}
-        }
-    done
-  '';
+      installShellCompletion --cmd luarocks-admin \
+        --bash <($out/bin/luarocks-admin completion bash) \
+        --fish <($out/bin/luarocks-admin completion fish) \
+        --zsh <($out/bin/luarocks-admin completion zsh)
+    ''
+    + ''
+      for i in "$out"/bin/*; do
+          test -L "$i" || {
+              wrapProgram "$i" \
+                --suffix LUA_PATH ";" "$(echo "$out"/share/lua/*/)?.lua" \
+                --suffix LUA_PATH ";" "$(echo "$out"/share/lua/*/)?/init.lua" \
+                --suffix LUA_CPATH ";" "$(echo "$out"/lib/lua/*/)?.so" \
+                --suffix LUA_CPATH ";" "$(echo "$out"/share/lua/*/)?/init.lua" \
+                --suffix PATH : ${
+                  lib.makeBinPath (
+                    [ unzip ]
+                    ++ lib.optionals (finalAttrs.pname == "luarocks-nix") [
+                      file
+                      nix-prefetch-git
+                    ]
+                  )
+                }
+          }
+      done
+    '';
 
-  propagatedBuildInputs = [ zip unzip cmake ];
+  propagatedBuildInputs = [
+    zip
+    unzip
+    cmake
+  ];
 
   # unpack hook for src.rock and rockspec files
   setupHook = ./setup-hook.sh;
@@ -111,7 +130,10 @@ stdenv.mkDerivation (finalAttrs: {
   meta = with lib; {
     description = "A package manager for Lua";
     license = licenses.mit;
-    maintainers = with maintainers; [ raskin teto ];
+    maintainers = with maintainers; [
+      raskin
+      teto
+    ];
     platforms = platforms.linux ++ platforms.darwin;
     downloadPage = "http://luarocks.org/releases/";
   };

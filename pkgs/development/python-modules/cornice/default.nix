@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pyramid
-, simplejson
-, six
-, venusian
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pyramid,
+  simplejson,
+  six,
+  venusian,
 }:
 
 buildPythonPackage rec {
@@ -17,7 +18,12 @@ buildPythonPackage rec {
     sha256 = "sha256-v9G2wqmRp8yxsggrbenjuPGYtqK0oHqwgA4F3wWkU2E=";
   };
 
-  propagatedBuildInputs = [ pyramid simplejson six venusian ];
+  propagatedBuildInputs = [
+    pyramid
+    simplejson
+    six
+    venusian
+  ];
 
   # tests not packaged with pypi release
   doCheck = false;

@@ -1,5 +1,10 @@
 # neard service.
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -10,7 +15,6 @@ with lib;
       enable = mkEnableOption (lib.mdDoc "neard, NFC daemon");
     };
   };
-
 
   ###### implementation
   config = mkIf config.services.neard.enable {

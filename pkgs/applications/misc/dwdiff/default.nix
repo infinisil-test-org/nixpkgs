@@ -1,9 +1,10 @@
-{ lib
-, stdenv
-, fetchurl
-, gettext
-, pkg-config
-, icu
+{
+  lib,
+  stdenv,
+  fetchurl,
+  gettext,
+  pkg-config,
+  icu,
 }:
 
 stdenv.mkDerivation rec {
@@ -28,5 +29,4 @@ stdenv.mkDerivation rec {
     license = licenses.gpl3Only;
     maintainers = with maintainers; [ onny ];
   };
-
 }

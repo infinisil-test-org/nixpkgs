@@ -1,24 +1,25 @@
-{ lib
-, fetchPypi
-, buildPythonPackage
-, isPyPy
-, python
-, libev
-, cffi
-, cython_3
-, greenlet
-, importlib-metadata
-, setuptools
-, wheel
-, zope-event
-, zope-interface
-, pythonOlder
+{
+  lib,
+  fetchPypi,
+  buildPythonPackage,
+  isPyPy,
+  python,
+  libev,
+  cffi,
+  cython_3,
+  greenlet,
+  importlib-metadata,
+  setuptools,
+  wheel,
+  zope-event,
+  zope-interface,
+  pythonOlder,
 
-# for passthru.tests
-, dulwich
-, gunicorn
-, opentracing
-, pika
+  # for passthru.tests
+  dulwich,
+  gunicorn,
+  opentracing,
+  pika,
 }:
 
 buildPythonPackage rec {
@@ -37,21 +38,15 @@ buildPythonPackage rec {
     cython_3
     setuptools
     wheel
-  ] ++ lib.optionals (!isPyPy) [
-    cffi
-  ];
+  ] ++ lib.optionals (!isPyPy) [ cffi ];
 
-  buildInputs = [
-    libev
-  ];
+  buildInputs = [ libev ];
 
   propagatedBuildInputs = [
     importlib-metadata
     zope-event
     zope-interface
-  ] ++ lib.optionals (!isPyPy) [
-    greenlet
-  ];
+  ] ++ lib.optionals (!isPyPy) [ greenlet ];
 
   # Bunch of failures.
   doCheck = false;
@@ -66,7 +61,8 @@ buildPythonPackage rec {
       dulwich
       gunicorn
       opentracing
-      pika;
+      pika
+      ;
   } // lib.filterAttrs (k: v: lib.hasInfix "gevent" k) python.pkgs;
 
   meta = with lib; {

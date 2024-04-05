@@ -1,16 +1,17 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchFromGitHub
-, flatten-dict
-, funcy
-, matplotlib
-, tabulate
-, pytestCheckHook
-, pytest-mock
-, pytest-test-utils
-, pythonOlder
-, setuptools-scm
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchFromGitHub,
+  flatten-dict,
+  funcy,
+  matplotlib,
+  tabulate,
+  pytestCheckHook,
+  pytest-mock,
+  pytest-test-utils,
+  pythonOlder,
+  setuptools-scm,
 }:
 
 buildPythonPackage rec {
@@ -27,9 +28,7 @@ buildPythonPackage rec {
     hash = "sha256-7rmmhf6Y6teoHR8u1+Ce1Xq0rdtC1/MWLXb282OOEnc=";
   };
 
-  nativeBuildInputs = [
-    setuptools-scm
-  ];
+  nativeBuildInputs = [ setuptools-scm ];
 
   passthru.optional-dependencies = {
     table = [
@@ -47,17 +46,11 @@ buildPythonPackage rec {
     pytestCheckHook
     pytest-mock
     pytest-test-utils
-  ]
-  ++ passthru.optional-dependencies.table
-  ++ passthru.optional-dependencies.markdown;
+  ] ++ passthru.optional-dependencies.table ++ passthru.optional-dependencies.markdown;
 
-  disabledTestPaths = lib.optionals stdenv.isDarwin [
-    "tests/test_vega.py"
-  ];
+  disabledTestPaths = lib.optionals stdenv.isDarwin [ "tests/test_vega.py" ];
 
-  pythonImportsCheck = [
-    "dvc_render"
-  ];
+  pythonImportsCheck = [ "dvc_render" ];
 
   meta = with lib; {
     description = "Library for rendering DVC plots";

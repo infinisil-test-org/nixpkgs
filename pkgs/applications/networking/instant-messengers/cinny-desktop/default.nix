@@ -1,17 +1,18 @@
-{ lib
-, fetchFromGitHub
-, rustPlatform
-, cinny
-, copyDesktopItems
-, wrapGAppsHook
-, pkg-config
-, openssl
-, dbus
-, glib
-, glib-networking
-, libayatana-appindicator
-, webkitgtk
-, makeDesktopItem
+{
+  lib,
+  fetchFromGitHub,
+  rustPlatform,
+  cinny,
+  copyDesktopItems,
+  wrapGAppsHook,
+  pkg-config,
+  openssl,
+  dbus,
+  glib,
+  glib-networking,
+  libayatana-appindicator,
+  webkitgtk,
+  makeDesktopItem,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -30,17 +31,21 @@ rustPlatform.buildRustPackage rec {
   # modififying $cargoDepsCopy requires the lock to be vendored
   cargoLock.lockFile = ./Cargo.lock;
 
-  postPatch = let
-    cinny' =
-      assert lib.assertMsg (cinny.version == version) "cinny.version (${cinny.version}) != cinny-desktop.version (${version})";
-      cinny;
-  in ''
-    substituteInPlace tauri.conf.json \
-      --replace '"distDir": "../cinny/dist",' '"distDir": "${cinny'}",'
+  postPatch =
+    let
+      cinny' =
+        assert lib.assertMsg (
+          cinny.version == version
+        ) "cinny.version (${cinny.version}) != cinny-desktop.version (${version})";
+        cinny;
+    in
+    ''
+      substituteInPlace tauri.conf.json \
+        --replace '"distDir": "../cinny/dist",' '"distDir": "${cinny'}",'
 
-    substituteInPlace $cargoDepsCopy/libappindicator-sys-*/src/lib.rs \
-      --replace "libayatana-appindicator3.so.1" "${libayatana-appindicator}/lib/libayatana-appindicator3.so.1"
-  '';
+      substituteInPlace $cargoDepsCopy/libappindicator-sys-*/src/lib.rs \
+        --replace "libayatana-appindicator3.so.1" "${libayatana-appindicator}/lib/libayatana-appindicator3.so.1"
+    '';
 
   postInstall = ''
     install -DT icons/128x128@2x.png $out/share/icons/hicolor/256x256@2/apps/cinny.png
@@ -70,7 +75,10 @@ rustPlatform.buildRustPackage rec {
       icon = "cinny";
       desktopName = "Cinny";
       comment = meta.description;
-      categories = [ "Network" "InstantMessaging" ];
+      categories = [
+        "Network"
+        "InstantMessaging"
+      ];
     })
   ];
 

@@ -1,6 +1,7 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
 }:
 
 buildGoModule rec {
@@ -16,9 +17,16 @@ buildGoModule rec {
 
   vendorHash = "sha256-0I/PFMZXqE3EZv52CESsao4ygvYXIEgRE4EyV1CqM54=";
 
-  subPackages = [ "." "tools/mount_gcsfuse" ];
+  subPackages = [
+    "."
+    "tools/mount_gcsfuse"
+  ];
 
-  ldflags = [ "-s" "-w" "-X main.gcsfuseVersion=${version}" ];
+  ldflags = [
+    "-s"
+    "-w"
+    "-X main.gcsfuseVersion=${version}"
+  ];
 
   preCheck =
     let

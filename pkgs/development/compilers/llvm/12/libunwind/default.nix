@@ -1,5 +1,13 @@
-{ lib, stdenv, llvm_meta, version, fetch, libcxx, llvm, cmake
-, enableShared ? !stdenv.hostPlatform.isStatic
+{
+  lib,
+  stdenv,
+  llvm_meta,
+  version,
+  fetch,
+  libcxx,
+  llvm,
+  cmake,
+  enableShared ? !stdenv.hostPlatform.isStatic,
 }:
 
 stdenv.mkDerivation rec {
@@ -13,11 +21,12 @@ stdenv.mkDerivation rec {
     ln -s ${libcxx.src}/llvm .
   '';
 
-  patches = [
-    ./gnu-install-dirs.patch
-  ];
+  patches = [ ./gnu-install-dirs.patch ];
 
-  outputs = [ "out" "dev" ];
+  outputs = [
+    "out"
+    "dev"
+  ];
 
   nativeBuildInputs = [ cmake ];
 

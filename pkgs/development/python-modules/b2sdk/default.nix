@@ -1,21 +1,22 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchFromGitHub
-, glibcLocales
-, importlib-metadata
-, packaging
-, logfury
-, pyfakefs
-, pytestCheckHook
-, pytest-lazy-fixture
-, pytest-mock
-, pythonOlder
-, pythonRelaxDepsHook
-, pdm-backend
-, requests
-, tqdm
-, typing-extensions
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchFromGitHub,
+  glibcLocales,
+  importlib-metadata,
+  packaging,
+  logfury,
+  pyfakefs,
+  pytestCheckHook,
+  pytest-lazy-fixture,
+  pytest-mock,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  pdm-backend,
+  requests,
+  tqdm,
+  typing-extensions,
 }:
 
 buildPythonPackage rec {
@@ -37,29 +38,24 @@ buildPythonPackage rec {
     pythonRelaxDepsHook
   ];
 
-  pythonRemoveDeps = [
-    "setuptools"
-  ];
+  pythonRemoveDeps = [ "setuptools" ];
 
-  propagatedBuildInputs = [
-    packaging
-    logfury
-    requests
-    tqdm
-  ] ++ lib.optionals (pythonOlder "3.8") [
-    importlib-metadata
-  ] ++ lib.optionals (pythonOlder "3.12") [
-    typing-extensions
-  ];
+  propagatedBuildInputs =
+    [
+      packaging
+      logfury
+      requests
+      tqdm
+    ]
+    ++ lib.optionals (pythonOlder "3.8") [ importlib-metadata ]
+    ++ lib.optionals (pythonOlder "3.12") [ typing-extensions ];
 
   nativeCheckInputs = [
     pytestCheckHook
     pytest-lazy-fixture
     pytest-mock
     pyfakefs
-  ] ++ lib.optionals stdenv.isLinux [
-    glibcLocales
-  ];
+  ] ++ lib.optionals stdenv.isLinux [ glibcLocales ];
 
   disabledTestPaths = [
     # requires aws s3 auth
@@ -75,9 +71,7 @@ buildPythonPackage rec {
     "test_file_info_b2_attributes"
   ];
 
-  pythonImportsCheck = [
-    "b2sdk"
-  ];
+  pythonImportsCheck = [ "b2sdk" ];
 
   meta = with lib; {
     description = "Client library and utilities for access to B2 Cloud Storage (backblaze)";

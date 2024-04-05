@@ -1,20 +1,29 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, rustPlatform
-, pkg-config
-, ncurses
-, openssl
-, Cocoa
-, withALSA ? true, alsa-lib
-, withClipboard ? true, libxcb, python3
-, withCover ? false, ueberzug
-, withPulseAudio ? false, libpulseaudio
-, withPortAudio ? false, portaudio
-, withMPRIS ? true, withNotify ? true, dbus
-, nix-update-script
-, testers
-, ncspot
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  rustPlatform,
+  pkg-config,
+  ncurses,
+  openssl,
+  Cocoa,
+  withALSA ? true,
+  alsa-lib,
+  withClipboard ? true,
+  libxcb,
+  python3,
+  withCover ? false,
+  ueberzug,
+  withPulseAudio ? false,
+  libpulseaudio,
+  withPortAudio ? false,
+  portaudio,
+  withMPRIS ? true,
+  withNotify ? true,
+  dbus,
+  nix-update-script,
+  testers,
+  ncspot,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -30,10 +39,10 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-8ZUgm1O4NmZpxgNRKnh1MNhiFNoBWQHo22kyP3hWJwI=";
 
-  nativeBuildInputs = [ pkg-config ]
-    ++ lib.optional withClipboard python3;
+  nativeBuildInputs = [ pkg-config ] ++ lib.optional withClipboard python3;
 
-  buildInputs = [ ncurses ]
+  buildInputs =
+    [ ncurses ]
     ++ lib.optional stdenv.isLinux openssl
     ++ lib.optional withALSA alsa-lib
     ++ lib.optional withClipboard libxcb
@@ -47,7 +56,8 @@ rustPlatform.buildRustPackage rec {
 
   buildNoDefaultFeatures = true;
 
-  buildFeatures = [ "cursive/pancurses-backend" ]
+  buildFeatures =
+    [ "cursive/pancurses-backend" ]
     ++ lib.optional withALSA "alsa_backend"
     ++ lib.optional withClipboard "share_clipboard"
     ++ lib.optional withCover "cover"
@@ -71,7 +81,10 @@ rustPlatform.buildRustPackage rec {
     homepage = "https://github.com/hrkfdn/ncspot";
     changelog = "https://github.com/hrkfdn/ncspot/releases/tag/v${version}";
     license = licenses.bsd2;
-    maintainers = with maintainers; [ marsam liff ];
+    maintainers = with maintainers; [
+      marsam
+      liff
+    ];
     mainProgram = "ncspot";
   };
 }

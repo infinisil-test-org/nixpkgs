@@ -1,12 +1,28 @@
-{ lib, stdenv
-, buildPythonPackage, fetchFromGitHub, fetchpatch
-, pkg-config, cython, docutils
-, kivy-garden
-, mesa, mtdev, SDL2, SDL2_image, SDL2_ttf, SDL2_mixer
-, Accelerate, ApplicationServices, AVFoundation, libcxx
-, withGstreamer ? true
-, gst_all_1
-, pillow, requests, pygments
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchFromGitHub,
+  fetchpatch,
+  pkg-config,
+  cython,
+  docutils,
+  kivy-garden,
+  mesa,
+  mtdev,
+  SDL2,
+  SDL2_image,
+  SDL2_ttf,
+  SDL2_mixer,
+  Accelerate,
+  ApplicationServices,
+  AVFoundation,
+  libcxx,
+  withGstreamer ? true,
+  gst_all_1,
+  pillow,
+  requests,
+  pygments,
 }:
 
 buildPythonPackage rec {
@@ -35,26 +51,33 @@ buildPythonPackage rec {
     docutils
   ];
 
-  buildInputs = [
-    SDL2
-    SDL2_image
-    SDL2_ttf
-    SDL2_mixer
-  ] ++ lib.optionals stdenv.isLinux [
-    mesa
-    mtdev
-  ] ++ lib.optionals stdenv.isDarwin [
-    Accelerate
-    ApplicationServices
-    AVFoundation
-    libcxx
-  ] ++ lib.optionals withGstreamer (with gst_all_1; [
-    # NOTE: The degree to which gstreamer actually works is unclear
-    gstreamer
-    gst-plugins-base
-    gst-plugins-good
-    gst-plugins-bad
-  ]);
+  buildInputs =
+    [
+      SDL2
+      SDL2_image
+      SDL2_ttf
+      SDL2_mixer
+    ]
+    ++ lib.optionals stdenv.isLinux [
+      mesa
+      mtdev
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      Accelerate
+      ApplicationServices
+      AVFoundation
+      libcxx
+    ]
+    ++ lib.optionals withGstreamer (
+      with gst_all_1;
+      [
+        # NOTE: The degree to which gstreamer actually works is unclear
+        gstreamer
+        gst-plugins-base
+        gst-plugins-good
+        gst-plugins-bad
+      ]
+    );
 
   propagatedBuildInputs = [
     kivy-garden

@@ -1,14 +1,25 @@
-{ lib, stdenv, fetchFromGitHub, autoreconfHook, python3, ibus, pkg-config, gtk3, m17n_lib
-, wrapGAppsHook, gobject-introspection
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  autoreconfHook,
+  python3,
+  ibus,
+  pkg-config,
+  gtk3,
+  m17n_lib,
+  wrapGAppsHook,
+  gobject-introspection,
 }:
 
 let
 
-  python = python3.withPackages (ps: with ps; [
-    pygobject3
-    dbus-python
-  ]);
-
+  python = python3.withPackages (
+    ps: with ps; [
+      pygobject3
+      dbus-python
+    ]
+  );
 in
 
 stdenv.mkDerivation rec {
@@ -22,8 +33,18 @@ stdenv.mkDerivation rec {
     hash = "sha256-5WQTJdGKEp231r5vibbNEOPLoLFz7Scnq65FiVar5kY=";
   };
 
-  nativeBuildInputs = [ autoreconfHook pkg-config wrapGAppsHook gobject-introspection ];
-  buildInputs = [ python ibus gtk3 m17n_lib ];
+  nativeBuildInputs = [
+    autoreconfHook
+    pkg-config
+    wrapGAppsHook
+    gobject-introspection
+  ];
+  buildInputs = [
+    python
+    ibus
+    gtk3
+    m17n_lib
+  ];
 
   preFixup = ''
     gappsWrapperArgs+=(--prefix LD_LIBRARY_PATH : "${m17n_lib}/lib")

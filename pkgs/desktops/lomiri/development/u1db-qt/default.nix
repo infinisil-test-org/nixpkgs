@@ -1,13 +1,14 @@
-{ stdenv
-, lib
-, fetchFromGitLab
-, gitUpdater
-, testers
-, cmake
-, dbus-test-runner
-, pkg-config
-, qtbase
-, qtdeclarative
+{
+  stdenv,
+  lib,
+  fetchFromGitLab,
+  gitUpdater,
+  testers,
+  cmake,
+  dbus-test-runner,
+  pkg-config,
+  qtbase,
+  qtdeclarative,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -27,17 +28,19 @@ stdenv.mkDerivation (finalAttrs: {
     "examples"
   ];
 
-  postPatch = ''
-    patchShebangs tests/strict-qmltestrunner.sh
+  postPatch =
+    ''
+      patchShebangs tests/strict-qmltestrunner.sh
 
-    # QMake query response is broken
-    substituteInPlace modules/U1db/CMakeLists.txt \
-      --replace "\''${QT_IMPORTS_DIR}" "$out/$qtQmlPrefix"
-  '' + lib.optionalString (!finalAttrs.doCheck) ''
-    # Other locations add dependencies to custom check target from tests
-    substituteInPlace CMakeLists.txt \
-      --replace 'add_subdirectory(tests)' 'add_custom_target(check COMMAND "echo check dummy")'
-  '';
+      # QMake query response is broken
+      substituteInPlace modules/U1db/CMakeLists.txt \
+        --replace "\''${QT_IMPORTS_DIR}" "$out/$qtQmlPrefix"
+    ''
+    + lib.optionalString (!finalAttrs.doCheck) ''
+      # Other locations add dependencies to custom check target from tests
+      substituteInPlace CMakeLists.txt \
+        --replace 'add_subdirectory(tests)' 'add_custom_target(check COMMAND "echo check dummy")'
+    '';
 
   strictDeps = true;
 
@@ -52,9 +55,7 @@ stdenv.mkDerivation (finalAttrs: {
     qtdeclarative
   ];
 
-  nativeCheckInputs = [
-    dbus-test-runner
-  ];
+  nativeCheckInputs = [ dbus-test-runner ];
 
   cmakeFlags = [
     # Needs qdoc
@@ -95,8 +96,6 @@ stdenv.mkDerivation (finalAttrs: {
     license = licenses.lgpl3Only;
     maintainers = teams.lomiri.members;
     platforms = platforms.linux;
-    pkgConfigModules = [
-      "libu1db-qt5"
-    ];
+    pkgConfigModules = [ "libu1db-qt5" ];
   };
 })

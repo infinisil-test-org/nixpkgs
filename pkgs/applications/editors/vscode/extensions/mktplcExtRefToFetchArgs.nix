@@ -1,4 +1,10 @@
-{ publisher, name, version, arch ? "", sha256 ? "" }:
+{
+  publisher,
+  name,
+  version,
+  arch ? "",
+  sha256 ? "",
+}:
 let
   archurl = (if arch == "" then "" else "?targetPlatform=${arch}");
 in

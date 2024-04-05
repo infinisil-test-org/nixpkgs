@@ -1,4 +1,8 @@
-{ lib, buildDunePackage, fetchurl }:
+{
+  lib,
+  buildDunePackage,
+  fetchurl,
+}:
 
 buildDunePackage rec {
   pname = "vector";
@@ -19,5 +23,4 @@ buildDunePackage rec {
     homepage = "https://github.com/backtracking/vector";
     maintainers = [ lib.maintainers.vbgl ];
   };
-
 }

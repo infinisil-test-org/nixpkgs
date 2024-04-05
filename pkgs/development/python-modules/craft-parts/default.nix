@@ -1,26 +1,27 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, nix-update-script
-, overrides
-, pydantic_1
-, pydantic-yaml-0
-, pyxdg
-, pyyaml
-, requests
-, requests-unixsocket
-, types-pyyaml
-, urllib3
-, pytestCheckHook
-, pytest-check
-, pytest-mock
-, pytest-subprocess
-, requests-mock
-, hypothesis
-, git
-, squashfsTools
-, setuptools
-, setuptools-scm
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  nix-update-script,
+  overrides,
+  pydantic_1,
+  pydantic-yaml-0,
+  pyxdg,
+  pyyaml,
+  requests,
+  requests-unixsocket,
+  types-pyyaml,
+  urllib3,
+  pytestCheckHook,
+  pytest-check,
+  pytest-mock,
+  pytest-subprocess,
+  requests-mock,
+  hypothesis,
+  git,
+  squashfsTools,
+  setuptools,
+  setuptools-scm,
 }:
 
 buildPythonPackage rec {
@@ -36,9 +37,7 @@ buildPythonPackage rec {
     hash = "sha256-3AWiuRGUGj6q6ZEnShc64DSL1S6kTsry4Z1IYMelvzg=";
   };
 
-  patches = [
-    ./bash-path.patch
-  ];
+  patches = [ ./bash-path.patch ];
 
   postPatch = ''
     substituteInPlace setup.py \
@@ -63,9 +62,7 @@ buildPythonPackage rec {
     urllib3
   ];
 
-  pythonImportsCheck = [
-    "craft_parts"
-  ];
+  pythonImportsCheck = [ "craft_parts" ];
 
   nativeCheckInputs = [
     git
@@ -116,4 +113,3 @@ buildPythonPackage rec {
     platforms = lib.platforms.linux;
   };
 }
-

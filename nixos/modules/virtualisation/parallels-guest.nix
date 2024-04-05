@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -41,7 +46,6 @@ in
         '';
       };
     };
-
   };
 
   config = mkIf config.hardware.parallels.enable {
@@ -52,8 +56,11 @@ in
 
     boot.extraModulePackages = [ prl-tools ];
 
-    boot.kernelModules = [ "prl_fs" "prl_fs_freeze" "prl_tg" ]
-      ++ optional (pkgs.stdenv.hostPlatform.system == "aarch64-linux") "prl_notifier";
+    boot.kernelModules = [
+      "prl_fs"
+      "prl_fs_freeze"
+      "prl_tg"
+    ] ++ optional (pkgs.stdenv.hostPlatform.system == "aarch64-linux") "prl_notifier";
 
     services.timesyncd.enable = false;
 
@@ -140,6 +147,5 @@ in
         };
       };
     };
-
   };
 }

@@ -1,4 +1,11 @@
-{ lib, stdenv, cmake, fetchgit, libubox, libjson }:
+{
+  lib,
+  stdenv,
+  cmake,
+  fetchgit,
+  libubox,
+  libjson,
+}:
 
 stdenv.mkDerivation {
   pname = "ubus";
@@ -11,7 +18,10 @@ stdenv.mkDerivation {
   };
 
   cmakeFlags = [ "-DBUILD_LUA=OFF" ];
-  buildInputs = [ libubox libjson ];
+  buildInputs = [
+    libubox
+    libjson
+  ];
   nativeBuildInputs = [ cmake ];
 
   meta = with lib; {

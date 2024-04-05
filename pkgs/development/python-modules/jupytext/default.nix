@@ -1,20 +1,21 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchPypi
-, hatch-jupyter-builder
-, hatchling
-, jupyter-client
-, markdown-it-py
-, mdit-py-plugins
-, nbformat
-, notebook
-, packaging
-, pytest-xdist
-, pytestCheckHook
-, pythonOlder
-, pyyaml
-, toml
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchPypi,
+  hatch-jupyter-builder,
+  hatchling,
+  jupyter-client,
+  markdown-it-py,
+  mdit-py-plugins,
+  nbformat,
+  notebook,
+  packaging,
+  pytest-xdist,
+  pytestCheckHook,
+  pythonOlder,
+  pyyaml,
+  toml,
 }:
 
 buildPythonPackage rec {
@@ -56,9 +57,7 @@ buildPythonPackage rec {
     export PATH=$out/bin:$PATH;
   '';
 
-  disabledTestPaths = [
-    "tests/external"
-  ];
+  disabledTestPaths = [ "tests/external" ];
 
   disabledTests = lib.optionals stdenv.isDarwin [
     # requires access to trash

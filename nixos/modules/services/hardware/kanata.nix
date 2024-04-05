@@ -1,4 +1,10 @@
-{ config, lib, pkgs, utils, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  utils,
+  ...
+}:
 
 with lib;
 
@@ -77,7 +83,8 @@ let
 
   mkName = name: "kanata-${name}";
 
-  mkDevices = devices:
+  mkDevices =
+    devices:
     let
       devicesString = pipe devices [
         (map (device: "\"" + device + "\""))
@@ -86,68 +93,72 @@ let
     in
     optionalString ((length devices) > 0) "linux-dev (${devicesString})";
 
-  mkConfig = name: keyboard: pkgs.writeText "${mkName name}-config.kdb" ''
-    (defcfg
-      ${keyboard.extraDefCfg}
-      ${mkDevices keyboard.devices}
-      linux-continue-if-no-devs-found yes)
+  mkConfig =
+    name: keyboard:
+    pkgs.writeText "${mkName name}-config.kdb" ''
+      (defcfg
+        ${keyboard.extraDefCfg}
+        ${mkDevices keyboard.devices}
+        linux-continue-if-no-devs-found yes)
 
-    ${keyboard.config}
-  '';
+      ${keyboard.config}
+    '';
 
-  mkService = name: keyboard: nameValuePair (mkName name) {
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "notify";
-      ExecStart = ''
-        ${getExe cfg.package} \
-          --cfg ${mkConfig name keyboard} \
-          --symlink-path ''${RUNTIME_DIRECTORY}/${name} \
-          ${optionalString (keyboard.port != null) "--port ${toString keyboard.port}"} \
-          ${utils.escapeSystemdExecArgs keyboard.extraArgs}
-      '';
+  mkService =
+    name: keyboard:
+    nameValuePair (mkName name) {
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig = {
+        Type = "notify";
+        ExecStart = ''
+          ${getExe cfg.package} \
+            --cfg ${mkConfig name keyboard} \
+            --symlink-path ''${RUNTIME_DIRECTORY}/${name} \
+            ${optionalString (keyboard.port != null) "--port ${toString keyboard.port}"} \
+            ${utils.escapeSystemdExecArgs keyboard.extraArgs}
+        '';
 
-      DynamicUser = true;
-      RuntimeDirectory = mkName name;
-      SupplementaryGroups = with config.users.groups; [
-        input.name
-        uinput.name
-      ];
+        DynamicUser = true;
+        RuntimeDirectory = mkName name;
+        SupplementaryGroups = with config.users.groups; [
+          input.name
+          uinput.name
+        ];
 
-      # hardening
-      DeviceAllow = [
-        "/dev/uinput rw"
-        "char-input r"
-      ];
-      CapabilityBoundingSet = [ "" ];
-      DevicePolicy = "closed";
-      IPAddressAllow = optional (keyboard.port != null) "localhost";
-      IPAddressDeny = [ "any" ];
-      LockPersonality = true;
-      MemoryDenyWriteExecute = true;
-      PrivateNetwork = keyboard.port == null;
-      PrivateUsers = true;
-      ProcSubset = "pid";
-      ProtectClock = true;
-      ProtectControlGroups = true;
-      ProtectHome = true;
-      ProtectHostname = true;
-      ProtectKernelLogs = true;
-      ProtectKernelModules = true;
-      ProtectKernelTunables = true;
-      ProtectProc = "invisible";
-      RestrictAddressFamilies = [ "AF_UNIX" ] ++ optional (keyboard.port != null) "AF_INET";
-      RestrictNamespaces = true;
-      RestrictRealtime = true;
-      SystemCallArchitectures = [ "native" ];
-      SystemCallFilter = [
-        "@system-service"
-        "~@privileged"
-        "~@resources"
-      ];
-      UMask = "0077";
+        # hardening
+        DeviceAllow = [
+          "/dev/uinput rw"
+          "char-input r"
+        ];
+        CapabilityBoundingSet = [ "" ];
+        DevicePolicy = "closed";
+        IPAddressAllow = optional (keyboard.port != null) "localhost";
+        IPAddressDeny = [ "any" ];
+        LockPersonality = true;
+        MemoryDenyWriteExecute = true;
+        PrivateNetwork = keyboard.port == null;
+        PrivateUsers = true;
+        ProcSubset = "pid";
+        ProtectClock = true;
+        ProtectControlGroups = true;
+        ProtectHome = true;
+        ProtectHostname = true;
+        ProtectKernelLogs = true;
+        ProtectKernelModules = true;
+        ProtectKernelTunables = true;
+        ProtectProc = "invisible";
+        RestrictAddressFamilies = [ "AF_UNIX" ] ++ optional (keyboard.port != null) "AF_INET";
+        RestrictNamespaces = true;
+        RestrictRealtime = true;
+        SystemCallArchitectures = [ "native" ];
+        SystemCallFilter = [
+          "@system-service"
+          "~@privileged"
+          "~@resources"
+        ];
+        UMask = "0077";
+      };
     };
-  };
 in
 {
   options.services.kanata = {
@@ -175,7 +186,8 @@ in
         existEmptyDevices = length (attrNames keyboardsWithEmptyDevices) > 0;
         moreThanOneKeyboard = length (attrNames cfg.keyboards) > 1;
       in
-      optional (existEmptyDevices && moreThanOneKeyboard) "One device can only be intercepted by one kanata instance.  Setting services.kanata.keyboards.${head (attrNames keyboardsWithEmptyDevices)}.devices = [ ] and using more than one services.kanata.keyboards may cause a race condition.";
+      optional (existEmptyDevices && moreThanOneKeyboard)
+        "One device can only be intercepted by one kanata instance.  Setting services.kanata.keyboards.${head (attrNames keyboardsWithEmptyDevices)}.devices = [ ] and using more than one services.kanata.keyboards may cause a race condition.";
 
     hardware.uinput.enable = true;
 

@@ -1,16 +1,17 @@
-{ lib
-, config
-, stdenv
-, fetchFromGitHub
-, cmake
-, darwin
-, removeReferencesTo
-, btop
-, testers
-, cudaSupport ? config.cudaSupport
-, cudaPackages
-, rocmSupport ? config.rocmSupport
-, rocmPackages
+{
+  lib,
+  config,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  darwin,
+  removeReferencesTo,
+  btop,
+  testers,
+  cudaSupport ? config.cudaSupport,
+  cudaPackages,
+  rocmSupport ? config.rocmSupport,
+  rocmPackages,
 }:
 
 stdenv.mkDerivation rec {
@@ -24,9 +25,7 @@ stdenv.mkDerivation rec {
     hash = "sha256-kjSyIgLTObTOKMG5dk49XmWPXZpCWbLdpkmAsJcFliA=";
   };
 
-  nativeBuildInputs = [ cmake ] ++ lib.optionals cudaSupport [
-    cudaPackages.autoAddDriverRunpath
-  ];
+  nativeBuildInputs = [ cmake ] ++ lib.optionals cudaSupport [ cudaPackages.autoAddDriverRunpath ];
 
   buildInputs = lib.optionals stdenv.isDarwin [
     darwin.apple_sdk_11_0.frameworks.CoreFoundation
@@ -44,9 +43,7 @@ stdenv.mkDerivation rec {
     patchelf --add-rpath ${lib.getLib rocmPackages.rocm-smi}/lib $out/bin/btop
   '';
 
-  passthru.tests.version = testers.testVersion {
-    package = btop;
-  };
+  passthru.tests.version = testers.testVersion { package = btop; };
 
   meta = with lib; {
     description = "A monitor of resources";

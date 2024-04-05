@@ -1,6 +1,7 @@
-{ lib
-, fetchurl
-, appimageTools
+{
+  lib,
+  fetchurl,
+  appimageTools,
 }:
 
 let
@@ -33,4 +34,3 @@ appimageTools.wrapType2 rec {
     mainProgram = "sonixd";
   };
 }
-

@@ -1,4 +1,11 @@
-{ lib, buildKodiAddon, fetchzip, addonUpdateScript, defusedxml, kodi-six }:
+{
+  lib,
+  buildKodiAddon,
+  fetchzip,
+  addonUpdateScript,
+  defusedxml,
+  kodi-six,
+}:
 
 buildKodiAddon rec {
   pname = "keymap";
@@ -16,9 +23,7 @@ buildKodiAddon rec {
   ];
 
   passthru = {
-    updateScript = addonUpdateScript {
-      attrPath = "kodi.packages.keymap";
-    };
+    updateScript = addonUpdateScript { attrPath = "kodi.packages.keymap"; };
   };
 
   meta = with lib; {

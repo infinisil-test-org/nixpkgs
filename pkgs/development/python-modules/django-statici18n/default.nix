@@ -1,17 +1,18 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
 
-# build-system
-, setuptools
+  # build-system
+  setuptools,
 
-# dependencies
-, django
-, django-appconf
+  # dependencies
+  django,
+  django-appconf,
 
-# tests
-, pytest-django
-, pytestCheckHook
+  # tests
+  pytest-django,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -27,18 +28,14 @@ buildPythonPackage rec {
     hash = "sha256-KrIlWmN7um9ad2avfANOza579bjYkxTo9F0UFpvLu3A=";
   };
 
-  build-system = [
-    setuptools
-  ];
+  build-system = [ setuptools ];
 
   dependencies = [
     django
     django-appconf
   ];
 
-  pythonImportsCheck = [
-    "statici18n"
-  ];
+  pythonImportsCheck = [ "statici18n" ];
 
   env.DJANGO_SETTINGS_MODULE = "tests.test_project.project.settings";
 
@@ -51,6 +48,9 @@ buildPythonPackage rec {
     description = "Helper for generating Javascript catalog to static files";
     homepage = "https://github.com/zyegfryed/django-statici18n";
     license = licenses.bsd3;
-    maintainers = with maintainers; [ greizgh schmittlauch ];
+    maintainers = with maintainers; [
+      greizgh
+      schmittlauch
+    ];
   };
 }

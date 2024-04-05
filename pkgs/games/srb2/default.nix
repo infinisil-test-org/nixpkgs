@@ -1,21 +1,22 @@
-{ lib
-, stdenv
-, fetchurl
-, fetchFromGitHub
-, cmake
-, curl
-, nasm
-, libopenmpt
-, p7zip
-, game-music-emu
-, libpng
-, SDL2
-, SDL2_mixer
-, zlib
-, unzip
-, makeWrapper
-, makeDesktopItem
-, copyDesktopItems
+{
+  lib,
+  stdenv,
+  fetchurl,
+  fetchFromGitHub,
+  cmake,
+  curl,
+  nasm,
+  libopenmpt,
+  p7zip,
+  game-music-emu,
+  libpng,
+  SDL2,
+  SDL2_mixer,
+  zlib,
+  unzip,
+  makeWrapper,
+  makeDesktopItem,
+  copyDesktopItems,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -51,12 +52,12 @@ stdenv.mkDerivation (finalAttrs: {
     pname = "srb2-data";
     version = finalAttrs.version;
 
-    nativeBuildInputs = [
-      unzip
-    ];
+    nativeBuildInputs = [ unzip ];
 
     src = fetchurl {
-      url = "https://github.com/STJr/SRB2/releases/download/SRB2_release_${finalAttrs.version}/SRB2-v${lib.replaceStrings ["."] [""] finalAttrs.version}-Full.zip";
+      url = "https://github.com/STJr/SRB2/releases/download/SRB2_release_${finalAttrs.version}/SRB2-v${
+        lib.replaceStrings [ "." ] [ "" ] finalAttrs.version
+      }-Full.zip";
       hash = "sha256-g7kaNRE1tjcF5J2v+kTnrDzz4zs5f1b/NH67ce2ifUo=";
     };
 
@@ -112,7 +113,10 @@ stdenv.mkDerivation (finalAttrs: {
     homepage = "https://www.srb2.org/";
     platforms = platforms.linux;
     license = licenses.gpl2Plus;
-    maintainers = with maintainers; [ zeratax donovanglover ];
+    maintainers = with maintainers; [
+      zeratax
+      donovanglover
+    ];
     mainProgram = "srb2";
   };
 })

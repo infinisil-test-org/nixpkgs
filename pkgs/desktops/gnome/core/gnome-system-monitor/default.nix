@@ -1,24 +1,25 @@
-{ lib
-, stdenv
-, gettext
-, fetchurl
-, pkg-config
-, gtkmm3
-, libxml2
-, bash
-, gtk3
-, libhandy
-, glib
-, wrapGAppsHook
-, meson
-, ninja
-, gsettings-desktop-schemas
-, itstool
-, gnome
-, librsvg
-, gdk-pixbuf
-, libgtop
-, systemd
+{
+  lib,
+  stdenv,
+  gettext,
+  fetchurl,
+  pkg-config,
+  gtkmm3,
+  libxml2,
+  bash,
+  gtk3,
+  libhandy,
+  glib,
+  wrapGAppsHook,
+  meson,
+  ninja,
+  gsettings-desktop-schemas,
+  itstool,
+  gnome,
+  librsvg,
+  gdk-pixbuf,
+  libgtop,
+  systemd,
 }:
 
 stdenv.mkDerivation rec {

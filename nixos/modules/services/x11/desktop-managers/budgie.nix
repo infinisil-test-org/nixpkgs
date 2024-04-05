@@ -1,7 +1,22 @@
-{ lib, pkgs, config, utils, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  utils,
+  ...
+}:
 
 let
-  inherit (lib) concatMapStrings literalExpression mdDoc mkDefault mkEnableOption mkIf mkOption types;
+  inherit (lib)
+    concatMapStrings
+    literalExpression
+    mdDoc
+    mkDefault
+    mkEnableOption
+    mkIf
+    mkOption
+    types
+    ;
 
   cfg = config.services.xserver.desktopManager.budgie;
 
@@ -43,7 +58,8 @@ let
   budgie-control-center = pkgs.budgie.budgie-control-center.override {
     enableSshSocket = config.services.openssh.startWhenNeeded;
   };
-in {
+in
+{
   meta.maintainers = lib.teams.budgie.members;
 
   options = {
@@ -58,7 +74,7 @@ in {
           Note that this should be a last resort; patching the package is preferred (see GPaste).
         '';
         type = types.listOf types.package;
-        default = [];
+        default = [ ];
         example = literalExpression "[ pkgs.gnome.gpaste ]";
       };
 
@@ -71,13 +87,13 @@ in {
       extraGSettingsOverridePackages = mkOption {
         description = mdDoc "List of packages for which GSettings are overridden.";
         type = types.listOf types.path;
-        default = [];
+        default = [ ];
       };
 
       extraPlugins = mkOption {
         description = mdDoc "Extra plugins for the Budgie desktop";
         type = types.listOf types.package;
-        default = [];
+        default = [ ];
         example = literalExpression "[ pkgs.budgiePlugins.budgie-analogue-clock-applet ]";
       };
     };
@@ -85,21 +101,28 @@ in {
     environment.budgie.excludePackages = mkOption {
       description = mdDoc "Which packages Budgie should exclude from the default environment.";
       type = types.listOf types.package;
-      default = [];
+      default = [ ];
       example = literalExpression "[ pkgs.mate-terminal ]";
     };
   };
 
   config = mkIf cfg.enable {
-    services.xserver.displayManager.sessionPackages = with pkgs; [
-      budgie.budgie-desktop
-    ];
+    services.xserver.displayManager.sessionPackages = with pkgs; [ budgie.budgie-desktop ];
 
     services.xserver.displayManager.lightdm.greeters.slick = {
       enable = mkDefault true;
-      theme = mkDefault { name = "Qogir"; package = pkgs.qogir-theme; };
-      iconTheme = mkDefault { name = "Qogir"; package = pkgs.qogir-icon-theme; };
-      cursorTheme = mkDefault { name = "Qogir"; package = pkgs.qogir-icon-theme; };
+      theme = mkDefault {
+        name = "Qogir";
+        package = pkgs.qogir-theme;
+      };
+      iconTheme = mkDefault {
+        name = "Qogir";
+        package = pkgs.qogir-icon-theme;
+      };
+      cursorTheme = mkDefault {
+        name = "Qogir";
+        package = pkgs.qogir-icon-theme;
+      };
     };
 
     services.xserver.desktopManager.budgie.sessionPath = [ pkgs.budgie.budgie-desktop-view ];
@@ -116,7 +139,8 @@ in {
       '') cfg.sessionPath}
     '';
 
-    environment.systemPackages = with pkgs;
+    environment.systemPackages =
+      with pkgs;
       [
         # Budgie Desktop.
         budgie.budgie-backgrounds
@@ -140,23 +164,23 @@ in {
       ]
       ++ lib.optional config.networking.networkmanager.enable pkgs.networkmanagerapplet
       ++ (utils.removePackagesByName [
-          cinnamon.nemo
-          mate.eom
-          mate.pluma
-          mate.atril
-          mate.engrampa
-          mate.mate-calc
-          mate.mate-system-monitor
-          vlc
+        cinnamon.nemo
+        mate.eom
+        mate.pluma
+        mate.atril
+        mate.engrampa
+        mate.mate-calc
+        mate.mate-system-monitor
+        vlc
 
-          # Desktop themes.
-          qogir-theme
-          qogir-icon-theme
-          nixos-background-info
+        # Desktop themes.
+        qogir-theme
+        qogir-icon-theme
+        nixos-background-info
 
-          # Default settings.
-          nixos-gsettings-overrides
-        ] config.environment.budgie.excludePackages)
+        # Default settings.
+        nixos-gsettings-overrides
+      ] config.environment.budgie.excludePackages)
       ++ cfg.sessionPath;
 
     # Both budgie-desktop-view and nemo defaults to this emulator.
@@ -168,8 +192,8 @@ in {
       pkgs.hack-font
     ];
     fonts.fontconfig.defaultFonts = {
-      sansSerif = mkDefault ["Noto Sans"];
-      monospace = mkDefault ["Hack"];
+      sansSerif = mkDefault [ "Noto Sans" ];
+      monospace = mkDefault [ "Hack" ];
     };
 
     # Qt application style.
@@ -191,7 +215,7 @@ in {
     programs.dconf.enable = true;
 
     # Required by Budgie Screensaver.
-    security.pam.services.budgie-screensaver = {};
+    security.pam.services.budgie-screensaver = { };
 
     # Required by Budgie's Polkit Dialog.
     security.polkit.enable = mkDefault true;
@@ -240,14 +264,10 @@ in {
     services.gvfs.enable = mkDefault true;
 
     # Register packages for DBus.
-    services.dbus.packages = [
-      budgie-control-center
-    ];
+    services.dbus.packages = [ budgie-control-center ];
 
     # Register packages for udev.
-    services.udev.packages = with pkgs; [
-      budgie.magpie
-    ];
+    services.udev.packages = with pkgs; [ budgie.magpie ];
 
     # Shell integration for MATE Terminal.
     programs.bash.vteIntegration = true;

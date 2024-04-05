@@ -1,7 +1,17 @@
-{ lib, stdenv, fetchurl, zlib, imagemagick, libpng, glib, pkg-config, libgsf
-, libxml2, bzip2
-, autoreconfHook
-, buildPackages
+{
+  lib,
+  stdenv,
+  fetchurl,
+  zlib,
+  imagemagick,
+  libpng,
+  glib,
+  pkg-config,
+  libgsf,
+  libxml2,
+  bzip2,
+  autoreconfHook,
+  buildPackages,
 }:
 
 stdenv.mkDerivation rec {
@@ -13,8 +23,19 @@ stdenv.mkDerivation rec {
     sha256 = "17f16lkdv1c3amaz2hagiicih59ynpp4786k1m2qa1sw68xhswsc";
   };
 
-  nativeBuildInputs = [ pkg-config autoreconfHook ];
-  buildInputs = [ zlib imagemagick libpng glib libgsf libxml2 bzip2 ];
+  nativeBuildInputs = [
+    pkg-config
+    autoreconfHook
+  ];
+  buildInputs = [
+    zlib
+    imagemagick
+    libpng
+    glib
+    libgsf
+    libxml2
+    bzip2
+  ];
 
   configureFlags = [
     "PKG_CONFIG=${buildPackages.pkg-config}/bin/${buildPackages.pkg-config.targetPrefix}pkg-config"

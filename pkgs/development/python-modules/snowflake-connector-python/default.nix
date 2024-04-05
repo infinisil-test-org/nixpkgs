@@ -1,28 +1,29 @@
-{ lib
-, asn1crypto
-, buildPythonPackage
-, pythonRelaxDepsHook
-, certifi
-, cffi
-, charset-normalizer
-, fetchPypi
-, filelock
-, idna
-, keyring
-, oscrypto
-, packaging
-, platformdirs
-, pycryptodomex
-, pyjwt
-, pyopenssl
-, pythonOlder
-, pytz
-, requests
-, setuptools
-, sortedcontainers
-, tomlkit
-, typing-extensions
-, wheel
+{
+  lib,
+  asn1crypto,
+  buildPythonPackage,
+  pythonRelaxDepsHook,
+  certifi,
+  cffi,
+  charset-normalizer,
+  fetchPypi,
+  filelock,
+  idna,
+  keyring,
+  oscrypto,
+  packaging,
+  platformdirs,
+  pycryptodomex,
+  pyjwt,
+  pyopenssl,
+  pythonOlder,
+  pytz,
+  requests,
+  setuptools,
+  sortedcontainers,
+  tomlkit,
+  typing-extensions,
+  wheel,
 }:
 
 buildPythonPackage rec {

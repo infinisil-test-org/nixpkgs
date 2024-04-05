@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, beniget
-, frilouz
-, gast
-, nbconvert
-, nbformat
-, pythonOlder
-, pyyaml
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  beniget,
+  frilouz,
+  gast,
+  nbconvert,
+  nbformat,
+  pythonOlder,
+  pyyaml,
 }:
 
 buildPythonPackage rec {
@@ -34,9 +35,7 @@ buildPythonPackage rec {
   # Tests are not detected and so the checkPhase fails
   doCheck = false;
 
-  pythonImportsCheck = [
-    "memestra"
-  ];
+  pythonImportsCheck = [ "memestra" ];
 
   meta = with lib; {
     description = "A linter that tracks reference to deprecated functions.";

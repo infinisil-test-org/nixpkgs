@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, poetry-core
-, langchain-core
-, lxml
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  poetry-core,
+  langchain-core,
+  lxml,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -20,9 +21,7 @@ buildPythonPackage rec {
     hash = "sha256-rEWfqYeZ9RF61UJakzCyGWEyHjC8GaKi+fdh3a3WKqE=";
   };
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
   propagatedBuildInputs = [
     langchain-core
@@ -32,9 +31,7 @@ buildPythonPackage rec {
   # PyPI source does not have tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "langchain_text_splitters"
-  ];
+  pythonImportsCheck = [ "langchain_text_splitters" ];
 
   meta = with lib; {
     description = "Build context-aware reasoning applications";

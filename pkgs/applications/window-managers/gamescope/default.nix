@@ -1,35 +1,36 @@
-{ stdenv
-, fetchFromGitHub
-, meson
-, pkg-config
-, ninja
-, xorg
-, libdrm
-, vulkan-loader
-, vulkan-headers
-, wayland
-, wayland-protocols
-, libxkbcommon
-, glm
-, gbenchmark
-, libcap
-, libavif
-, SDL2
-, pipewire
-, pixman
-, libinput
-, glslang
-, hwdata
-, openvr
-, stb
-, wlroots
-, libliftoff
-, libdisplay-info
-, lib
-, makeBinaryWrapper
-, nix-update-script
-, enableExecutable ? true
-, enableWsi ? true
+{
+  stdenv,
+  fetchFromGitHub,
+  meson,
+  pkg-config,
+  ninja,
+  xorg,
+  libdrm,
+  vulkan-loader,
+  vulkan-headers,
+  wayland,
+  wayland-protocols,
+  libxkbcommon,
+  glm,
+  gbenchmark,
+  libcap,
+  libavif,
+  SDL2,
+  pipewire,
+  pixman,
+  libinput,
+  glslang,
+  hwdata,
+  openvr,
+  stb,
+  wlroots,
+  libliftoff,
+  libdisplay-info,
+  lib,
+  makeBinaryWrapper,
+  nix-update-script,
+  enableExecutable ? true,
+  enableWsi ? true,
 }:
 let
   joshShaders = fetchFromGitHub {
@@ -71,76 +72,89 @@ stdenv.mkDerivation (finalAttrs: {
   ];
 
   # don't install vendored vkroots etc
-  mesonInstallFlags = ["--skip-subprojects"];
+  mesonInstallFlags = [ "--skip-subprojects" ];
 
   strictDeps = true;
 
-  depsBuildBuild = [
-    pkg-config
-  ];
+  depsBuildBuild = [ pkg-config ];
 
-  nativeBuildInputs = [
-    meson
-    pkg-config
-    ninja
-  ] ++ lib.optionals enableExecutable [
-    makeBinaryWrapper
-    glslang
-  ];
+  nativeBuildInputs =
+    [
+      meson
+      pkg-config
+      ninja
+    ]
+    ++ lib.optionals enableExecutable [
+      makeBinaryWrapper
+      glslang
+    ];
 
-  buildInputs = [
-    pipewire
-    hwdata
-    xorg.libX11
-    wayland
-    wayland-protocols
-    vulkan-loader
-    openvr
-    glm
-  ] ++ lib.optionals enableWsi [
-    vulkan-headers
-  ] ++ lib.optionals enableExecutable [
-    xorg.libXcomposite
-    xorg.libXcursor
-    xorg.libXdamage
-    xorg.libXext
-    xorg.libXi
-    xorg.libXmu
-    xorg.libXrender
-    xorg.libXres
-    xorg.libXtst
-    xorg.libXxf86vm
-    libavif
-    libdrm
-    libliftoff
-    SDL2
-    wlroots
-    libinput
-    libxkbcommon
-    gbenchmark
-    pixman
-    libcap
-    stb
-    libdisplay-info
-  ];
+  buildInputs =
+    [
+      pipewire
+      hwdata
+      xorg.libX11
+      wayland
+      wayland-protocols
+      vulkan-loader
+      openvr
+      glm
+    ]
+    ++ lib.optionals enableWsi [ vulkan-headers ]
+    ++ lib.optionals enableExecutable [
+      xorg.libXcomposite
+      xorg.libXcursor
+      xorg.libXdamage
+      xorg.libXext
+      xorg.libXi
+      xorg.libXmu
+      xorg.libXrender
+      xorg.libXres
+      xorg.libXtst
+      xorg.libXxf86vm
+      libavif
+      libdrm
+      libliftoff
+      SDL2
+      wlroots
+      libinput
+      libxkbcommon
+      gbenchmark
+      pixman
+      libcap
+      stb
+      libdisplay-info
+    ];
 
   postInstall = lib.optionalString enableExecutable ''
     # --debug-layers flag expects these in the path
     wrapProgram "$out/bin/gamescope" \
-      --prefix PATH : ${with xorg; lib.makeBinPath [xprop xwininfo]}
+      --prefix PATH : ${
+        with xorg;
+        lib.makeBinPath [
+          xprop
+          xwininfo
+        ]
+      }
 
     # Install ReShade shaders
     mkdir -p $out/share/gamescope/reshade
     cp -r ${joshShaders}/* $out/share/gamescope/reshade/
   '';
 
-  passthru.updateScript = nix-update-script {};
+  passthru.updateScript = nix-update-script { };
 
   meta = with lib; {
     description = "SteamOS session compositing window manager";
     homepage = "https://github.com/ValveSoftware/gamescope";
     license = licenses.bsd2;
-    maintainers = with maintainers; [ nrdxp pedrohlc Scrumplex zhaofengli k900 ];
+    maintainers = with maintainers; [
+      nrdxp
+      pedrohlc
+      Scrumplex
+      zhaofengli
+      k900
+    ];
     platforms = platforms.linux;
     mainProgram = "gamescope";
   };

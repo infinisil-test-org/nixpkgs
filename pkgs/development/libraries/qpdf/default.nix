@@ -1,4 +1,12 @@
-{ lib, stdenv, fetchFromGitHub, libjpeg, zlib, cmake, perl }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  libjpeg,
+  zlib,
+  cmake,
+  perl,
+}:
 
 stdenv.mkDerivation rec {
   pname = "qpdf";
@@ -11,9 +19,15 @@ stdenv.mkDerivation rec {
     hash = "sha256-HD7+2TBDLBIt+VaPO5WgnDjNZOj8naltFmYdYzOIn+4=";
   };
 
-  nativeBuildInputs = [ cmake perl ];
+  nativeBuildInputs = [
+    cmake
+    perl
+  ];
 
-  buildInputs = [ zlib libjpeg ];
+  buildInputs = [
+    zlib
+    libjpeg
+  ];
 
   preConfigure = ''
     patchShebangs qtest/bin/qtest-driver

@@ -1,12 +1,13 @@
-{ lib
-, fetchFromGitHub
-, perl
-, libiconv
-, openssl
-, rustPlatform
-, Security
-, stdenv
-, SystemConfiguration
+{
+  lib,
+  fetchFromGitHub,
+  perl,
+  libiconv,
+  openssl,
+  rustPlatform,
+  Security,
+  stdenv,
+  SystemConfiguration,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -24,8 +25,15 @@ rustPlatform.buildRustPackage rec {
 
   nativeBuildInputs = [ perl ];
 
-  buildInputs = [ libiconv openssl ]
-    ++ lib.optionals stdenv.isDarwin [ Security SystemConfiguration ];
+  buildInputs =
+    [
+      libiconv
+      openssl
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      Security
+      SystemConfiguration
+    ];
 
   doCheck = false;
 

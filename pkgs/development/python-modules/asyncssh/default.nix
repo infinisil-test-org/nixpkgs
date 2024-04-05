@@ -1,21 +1,22 @@
-{ lib
-, stdenv
-, bcrypt
-, buildPythonPackage
-, cryptography
-, fetchPypi
-, fido2
-, gssapi
-, libnacl
-, libsodium
-, nettle
-, openssh
-, openssl
-, pyopenssl
-, pytestCheckHook
-, python-pkcs11
-, pythonOlder
-, typing-extensions
+{
+  lib,
+  stdenv,
+  bcrypt,
+  buildPythonPackage,
+  cryptography,
+  fetchPypi,
+  fido2,
+  gssapi,
+  libnacl,
+  libsodium,
+  nettle,
+  openssh,
+  openssl,
+  pyopenssl,
+  pytestCheckHook,
+  python-pkcs11,
+  pythonOlder,
+  typing-extensions,
 }:
 
 buildPythonPackage rec {
@@ -38,24 +39,12 @@ buildPythonPackage rec {
   ];
 
   passthru.optional-dependencies = {
-    bcrypt = [
-      bcrypt
-    ];
-    fido2 = [
-      fido2
-    ];
-    gssapi = [
-      gssapi
-    ];
-    libnacl = [
-      libnacl
-    ];
-    pkcs11 = [
-      python-pkcs11
-    ];
-    pyOpenSSL = [
-      pyopenssl
-    ];
+    bcrypt = [ bcrypt ];
+    fido2 = [ fido2 ];
+    gssapi = [ gssapi ];
+    libnacl = [ libnacl ];
+    pkcs11 = [ python-pkcs11 ];
+    pyOpenSSL = [ pyopenssl ];
   };
 
   __darwinAllowLocalNetworking = true;
@@ -90,9 +79,7 @@ buildPythonPackage rec {
     "test_forward_remote"
   ];
 
-  pythonImportsCheck = [
-    "asyncssh"
-  ];
+  pythonImportsCheck = [ "asyncssh" ];
 
   meta = with lib; {
     description = "Asynchronous SSHv2 Python client and server library";

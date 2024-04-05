@@ -1,7 +1,8 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, telegram-desktop
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  telegram-desktop,
 }:
 
 telegram-desktop.overrideAttrs (old: rec {

@@ -1,11 +1,12 @@
-{ lib
-, python3
-, fetchFromGitea
-, gobject-introspection
-, gtk3
-, libhandy
-, modemmanager
-, wrapGAppsHook
+{
+  lib,
+  python3,
+  fetchFromGitea,
+  gobject-introspection,
+  gtk3,
+  libhandy,
+  modemmanager,
+  wrapGAppsHook,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -15,7 +16,7 @@ python3.pkgs.buildPythonApplication rec {
   pyproject = true;
 
   src = fetchFromGitea {
-    domain ="codeberg.org";
+    domain = "codeberg.org";
     owner = "tpikonen";
     repo = "satellite";
     rev = version;

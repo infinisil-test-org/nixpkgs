@@ -12,7 +12,15 @@
 mkKdeDerivation {
   pname = "tokodon";
 
-  extraNativeBuildInputs = [pkg-config];
-  extraBuildInputs = [qtmultimedia qtsvg qtwebsockets qtwebview mpv kitemmodels sonnet];
+  extraNativeBuildInputs = [ pkg-config ];
+  extraBuildInputs = [
+    qtmultimedia
+    qtsvg
+    qtwebsockets
+    qtwebview
+    mpv
+    kitemmodels
+    sonnet
+  ];
   meta.mainProgram = "tokodon";
 }

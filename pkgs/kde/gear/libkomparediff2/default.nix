@@ -1,9 +1,6 @@
-{
-  mkKdeDerivation,
-  qt5compat,
-}:
+{ mkKdeDerivation, qt5compat }:
 mkKdeDerivation {
   pname = "libkomparediff2";
 
-  extraBuildInputs = [qt5compat];
+  extraBuildInputs = [ qt5compat ];
 }

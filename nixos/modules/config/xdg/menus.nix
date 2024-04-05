@@ -25,5 +25,4 @@ with lib;
       "/etc/xdg/menus/applications-merged"
     ];
   };
-
 }

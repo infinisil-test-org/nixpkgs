@@ -1,15 +1,16 @@
-{ lib
-, buildGoModule
-, fetchFromSourcehut
-, makeWrapper
-, wails
-, scdoc
-, installShellFiles
-, xorg
-, gtk3
-, webkitgtk
-, gsettings-desktop-schemas
-, snippetexpanderd
+{
+  lib,
+  buildGoModule,
+  fetchFromSourcehut,
+  makeWrapper,
+  wails,
+  scdoc,
+  installShellFiles,
+  xorg,
+  gtk3,
+  webkitgtk,
+  gsettings-desktop-schemas,
+  snippetexpanderd,
 }:
 
 buildGoModule rec {

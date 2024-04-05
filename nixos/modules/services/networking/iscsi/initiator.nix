@@ -1,14 +1,22 @@
-{ config, lib, pkgs, ... }: with lib;
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib;
 let
   cfg = config.services.openiscsi;
 in
 {
   options.services.openiscsi = with types; {
     enable = mkEnableOption (lib.mdDoc "the openiscsi iscsi daemon");
-    enableAutoLoginOut = mkEnableOption (lib.mdDoc ''
-      automatic login and logout of all automatic targets.
-      You probably do not want this
-    '');
+    enableAutoLoginOut = mkEnableOption (
+      lib.mdDoc ''
+        automatic login and logout of all automatic targets.
+        You probably do not want this
+      ''
+    );
     discoverPortal = mkOption {
       type = nullOr str;
       default = null;
@@ -38,7 +46,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    environment.etc."iscsi/iscsid.conf.fragment".source = pkgs.runCommand "iscsid.conf" {} ''
+    environment.etc."iscsi/iscsid.conf.fragment".source = pkgs.runCommand "iscsid.conf" { } ''
       cat "${cfg.package}/etc/iscsi/iscsid.conf" > $out
       cat << 'EOF' >> $out
       ${cfg.extraConfig}
@@ -61,7 +69,8 @@ in
               echo "Warning: services.openiscsi.extraConfigFile ${cfg.extraConfigFile} does not exist!" >&2
             fi
           '';
-        in ''
+        in
+        ''
           (
             cat ${config.environment.etc."iscsi/iscsid.conf.fragment".source}
             ${extraCfgDumper}
@@ -72,7 +81,9 @@ in
 
     systemd.services."iscsi" = mkIf cfg.enableAutoLoginOut {
       wantedBy = [ "remote-fs.target" ];
-      serviceConfig.ExecStartPre = mkIf (cfg.discoverPortal != null) "${cfg.package}/bin/iscsiadm --mode discoverydb --type sendtargets --portal ${escapeShellArg cfg.discoverPortal} --discover";
+      serviceConfig.ExecStartPre =
+        mkIf (cfg.discoverPortal != null)
+          "${cfg.package}/bin/iscsiadm --mode discoverydb --type sendtargets --portal ${escapeShellArg cfg.discoverPortal} --discover";
     };
 
     environment.systemPackages = [ cfg.package ];

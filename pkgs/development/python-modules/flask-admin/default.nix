@@ -1,30 +1,31 @@
-{ lib
-, arrow
-, azure-storage-blob
-, boto
-, buildPythonPackage
-, colour
-, email-validator
-, enum34
-, fetchpatch
-, fetchPypi
-, flask
-, flask-babelex
-, flask-mongoengine
-, flask-sqlalchemy
-, geoalchemy2
-, mongoengine
-, pillow
-, psycopg2
-, pymongo
-, pytestCheckHook
-, pythonOlder
-, shapely
-, sqlalchemy
-, sqlalchemy-citext
-, sqlalchemy-utils
-, wtf-peewee
-, wtforms
+{
+  lib,
+  arrow,
+  azure-storage-blob,
+  boto,
+  buildPythonPackage,
+  colour,
+  email-validator,
+  enum34,
+  fetchpatch,
+  fetchPypi,
+  flask,
+  flask-babelex,
+  flask-mongoengine,
+  flask-sqlalchemy,
+  geoalchemy2,
+  mongoengine,
+  pillow,
+  psycopg2,
+  pymongo,
+  pytestCheckHook,
+  pythonOlder,
+  shapely,
+  sqlalchemy,
+  sqlalchemy-citext,
+  sqlalchemy-utils,
+  wtf-peewee,
+  wtforms,
 }:
 
 buildPythonPackage rec {
@@ -55,12 +56,8 @@ buildPythonPackage rec {
   ];
 
   passthru.optional-dependencies = {
-    aws = [
-      boto
-    ];
-    azure = [
-      azure-storage-blob
-    ];
+    aws = [ boto ];
+    azure = [ azure-storage-blob ];
   };
 
   nativeCheckInputs = [
@@ -111,9 +108,7 @@ buildPythonPackage rec {
     "flask_admin/tests/fileadmin/test_fileadmin.py"
   ];
 
-  pythonImportsCheck = [
-    "flask_admin"
-  ];
+  pythonImportsCheck = [ "flask_admin" ];
 
   meta = with lib; {
     description = "Admin interface framework for Flask";

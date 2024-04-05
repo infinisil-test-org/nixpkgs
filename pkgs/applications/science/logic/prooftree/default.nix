@@ -1,4 +1,11 @@
-{ lib, stdenv, fetchurl, pkg-config, ncurses, ocamlPackages }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  pkg-config,
+  ncurses,
+  ocamlPackages,
+}:
 
 stdenv.mkDerivation rec {
   pname = "prooftree";
@@ -11,11 +18,20 @@ stdenv.mkDerivation rec {
 
   strictDeps = true;
 
-  nativeBuildInputs = [ pkg-config ] ++ (with ocamlPackages; [ ocaml findlib camlp5 ]);
+  nativeBuildInputs =
+    [ pkg-config ]
+    ++ (with ocamlPackages; [
+      ocaml
+      findlib
+      camlp5
+    ]);
   buildInputs = [ ncurses ] ++ (with ocamlPackages; [ lablgtk ]);
 
   dontAddPrefix = true;
-  configureFlags = [ "--prefix" "$(out)" ];
+  configureFlags = [
+    "--prefix"
+    "$(out)"
+  ];
 
   meta = with lib; {
     description = "A program for proof-tree visualization";

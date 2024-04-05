@@ -1,6 +1,7 @@
-{ lib
-, rustPlatform
-, fetchFromSourcehut
+{
+  lib,
+  rustPlatform,
+  fetchFromSourcehut,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -24,5 +25,4 @@ rustPlatform.buildRustPackage rec {
     platforms = platforms.linux;
     mainProgram = "wayout";
   };
-
 }

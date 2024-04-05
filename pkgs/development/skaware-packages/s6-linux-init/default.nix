@@ -1,4 +1,10 @@
-{ lib, skawarePackages, skalibs, execline, s6 }:
+{
+  lib,
+  skawarePackages,
+  skalibs,
+  execline,
+  s6,
+}:
 
 skawarePackages.buildPackage {
   pname = "s6-linux-init";
@@ -8,7 +14,12 @@ skawarePackages.buildPackage {
   description = "A set of minimalistic tools used to create a s6-based init system, including a /sbin/init binary, on a Linux kernel";
   platforms = lib.platforms.linux;
 
-  outputs = [ "bin" "dev" "doc" "out" ];
+  outputs = [
+    "bin"
+    "dev"
+    "doc"
+    "out"
+  ];
 
   configureFlags = [
     "--bindir=\${bin}/bin"
@@ -33,5 +44,4 @@ skawarePackages.buildPackage {
 
     mv doc $doc/share/doc/s6-linux-init/html
   '';
-
 }

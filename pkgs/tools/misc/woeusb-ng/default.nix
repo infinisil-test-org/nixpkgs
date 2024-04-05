@@ -1,10 +1,11 @@
-{ lib
-, python3Packages
-, fetchFromGitHub
-, wrapGAppsHook
-, p7zip
-, parted
-, grub2
+{
+  lib,
+  python3Packages,
+  fetchFromGitHub,
+  wrapGAppsHook,
+  p7zip,
+  parted,
+  grub2,
 }:
 
 with python3Packages;
@@ -26,9 +27,7 @@ buildPythonApplication rec {
       --replace "/usr/" "$out/"
   '';
 
-  nativeBuildInputs = [
-    wrapGAppsHook
-  ];
+  nativeBuildInputs = [ wrapGAppsHook ];
 
   propagatedBuildInputs = [
     p7zip

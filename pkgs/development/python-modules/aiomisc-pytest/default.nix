@@ -1,11 +1,12 @@
-{ lib
-, aiomisc
-, buildPythonPackage
-, fetchPypi
-, poetry-core
-, pytest
-, pythonOlder
-, pythonRelaxDepsHook
+{
+  lib,
+  aiomisc,
+  buildPythonPackage,
+  fetchPypi,
+  poetry-core,
+  pytest,
+  pythonOlder,
+  pythonRelaxDepsHook,
 }:
 
 buildPythonPackage rec {
@@ -26,21 +27,13 @@ buildPythonPackage rec {
     pythonRelaxDepsHook
   ];
 
-  pythonRelaxDeps = [
-    "pytest"
-  ];
+  pythonRelaxDeps = [ "pytest" ];
 
-  buildInputs = [
-    pytest
-  ];
+  buildInputs = [ pytest ];
 
-  propagatedBuildInputs = [
-    aiomisc
-  ];
+  propagatedBuildInputs = [ aiomisc ];
 
-  pythonImportsCheck = [
-    "aiomisc_pytest"
-  ];
+  pythonImportsCheck = [ "aiomisc_pytest" ];
 
   # Module has no tests
   doCheck = false;

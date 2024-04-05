@@ -1,17 +1,24 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.services.samba-wsdd;
-
-in {
+in
+{
   options = {
     services.samba-wsdd = {
-      enable = mkEnableOption (lib.mdDoc ''
-        Web Services Dynamic Discovery host daemon. This enables (Samba) hosts, like your local NAS device,
-        to be found by Web Service Discovery Clients like Windows.
-      '');
+      enable = mkEnableOption (
+        lib.mdDoc ''
+          Web Services Dynamic Discovery host daemon. This enables (Samba) hosts, like your local NAS device,
+          to be found by Web Service Discovery Clients like Windows.
+        ''
+      );
       interface = mkOption {
         type = types.nullOr types.str;
         default = null;
@@ -61,7 +68,12 @@ in {
       extraOptions = mkOption {
         type = types.listOf types.str;
         default = [ "--shortlog" ];
-        example = [ "--verbose" "--no-http" "--ipv4only" "--no-host" ];
+        example = [
+          "--verbose"
+          "--no-http"
+          "--ipv4only"
+          "--no-host"
+        ];
         description = lib.mdDoc "Additional wsdd options.";
       };
     };
@@ -80,7 +92,9 @@ in {
         Type = "simple";
         ExecStart = ''
           ${pkgs.wsdd}/bin/wsdd ${optionalString (cfg.interface != null) "--interface '${cfg.interface}'"} \
-                                ${optionalString (cfg.hoplimit != null) "--hoplimit '${toString cfg.hoplimit}'"} \
+                                ${
+                                  optionalString (cfg.hoplimit != null) "--hoplimit '${toString cfg.hoplimit}'"
+                                } \
                                 ${optionalString (cfg.workgroup != null) "--workgroup '${cfg.workgroup}'"} \
                                 ${optionalString (cfg.hostname != null) "--hostname '${cfg.hostname}'"} \
                                 ${optionalString (cfg.domain != null) "--domain '${cfg.domain}'"} \
@@ -108,7 +122,12 @@ in {
         ProtectKernelModules = true;
         ProtectKernelLogs = true;
         ProtectControlGroups = true;
-        RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" "AF_NETLINK" ];
+        RestrictAddressFamilies = [
+          "AF_UNIX"
+          "AF_INET"
+          "AF_INET6"
+          "AF_NETLINK"
+        ];
         RestrictNamespaces = true;
         LockPersonality = true;
         MemoryDenyWriteExecute = true;

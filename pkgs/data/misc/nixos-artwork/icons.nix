@@ -1,6 +1,7 @@
-{ stdenv
-, fetchFromGitHub
-, imagemagick
+{
+  stdenv,
+  fetchFromGitHub,
+  imagemagick,
 }:
 
 stdenv.mkDerivation {
@@ -14,9 +15,7 @@ stdenv.mkDerivation {
     sha256 = "ZoanCzn4pqGB1fyMzMyGQVT0eIhNdL7ZHJSn1VZWVRs=";
   };
 
-  nativeBuildInputs = [
-    imagemagick
-  ];
+  nativeBuildInputs = [ imagemagick ];
 
   makeFlags = [
     "DESTDIR=${placeholder "out"}"

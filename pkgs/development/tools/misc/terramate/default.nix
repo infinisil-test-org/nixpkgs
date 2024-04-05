@@ -1,7 +1,8 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
-, git
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  git,
 }:
 
 buildGoModule rec {
@@ -20,7 +21,10 @@ buildGoModule rec {
   # required for version info
   nativeBuildInputs = [ git ];
 
-  ldflags = [ "-extldflags" "-static" ];
+  ldflags = [
+    "-extldflags"
+    "-static"
+  ];
 
   meta = with lib; {
     description = "Adds code generation, stacks, orchestration, change detection, data sharing and more to Terraform";

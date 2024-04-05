@@ -1,14 +1,21 @@
-{ lib, stdenv, ruby, rake, fetchFromGitHub, testers }:
+{
+  lib,
+  stdenv,
+  ruby,
+  rake,
+  fetchFromGitHub,
+  testers,
+}:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "mruby";
   version = "3.3.0";
 
   src = fetchFromGitHub {
-    owner   = "mruby";
-    repo    = "mruby";
-    rev     = finalAttrs.version;
-    sha256  = "sha256-rCoEC1ioX6bOocPoPi+Lsn4PM8gY0DjKja1/MJvJ1n8=";
+    owner = "mruby";
+    repo = "mruby";
+    rev = finalAttrs.version;
+    sha256 = "sha256-rCoEC1ioX6bOocPoPi+Lsn4PM8gY0DjKja1/MJvJ1n8=";
   };
 
   nativeBuildInputs = [ rake ];
@@ -29,15 +36,16 @@ stdenv.mkDerivation (finalAttrs: {
   checkTarget = "test";
 
   passthru.tests = {
-    version = testers.testVersion {
-      package = finalAttrs.finalPackage;
-    };
+    version = testers.testVersion { package = finalAttrs.finalPackage; };
   };
 
   meta = with lib; {
     description = "An embeddable implementation of the Ruby language";
     homepage = "https://mruby.org";
-    maintainers = with maintainers; [ nicknovitski marsam ];
+    maintainers = with maintainers; [
+      nicknovitski
+      marsam
+    ];
     license = licenses.mit;
     platforms = platforms.all;
     mainProgram = "mruby";

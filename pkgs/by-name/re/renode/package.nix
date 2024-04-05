@@ -1,24 +1,27 @@
-{ stdenv
-, lib
-, fetchurl
-, autoPatchelfHook
-, makeWrapper
-, nix-update-script
-, glibcLocales
-, python3Packages
-, gtk-sharp-2_0
-, gtk2-x11
-, screen
+{
+  stdenv,
+  lib,
+  fetchurl,
+  autoPatchelfHook,
+  makeWrapper,
+  nix-update-script,
+  glibcLocales,
+  python3Packages,
+  gtk-sharp-2_0,
+  gtk2-x11,
+  screen,
 }:
 
 let
-  pythonLibs = with python3Packages; makePythonPath [
-    construct
-    psutil
-    pyyaml
-    requests
-    robotframework
-  ];
+  pythonLibs =
+    with python3Packages;
+    makePythonPath [
+      construct
+      psutil
+      pyyaml
+      requests
+      robotframework
+    ];
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "renode";

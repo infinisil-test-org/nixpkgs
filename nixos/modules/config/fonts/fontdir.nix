@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -19,7 +24,6 @@ let
     ${pkgs.xorg.mkfontdir}/bin/mkfontdir
     cat $(find ${pkgs.xorg.fontalias}/ -name fonts.alias) >fonts.alias
   '';
-
 in
 
 {
@@ -45,7 +49,6 @@ in
           {file}`/run/current-system/sw/share/X11/fonts`.
         '';
       };
-
     };
   };
 
@@ -57,11 +60,19 @@ in
     services.xserver.filesSection = ''
       FontPath "${x11Fonts}/share/X11/fonts"
     '';
-
   };
 
   imports = [
-    (mkRenamedOptionModule [ "fonts" "enableFontDir" ] [ "fonts" "fontDir" "enable" ])
+    (mkRenamedOptionModule
+      [
+        "fonts"
+        "enableFontDir"
+      ]
+      [
+        "fonts"
+        "fontDir"
+        "enable"
+      ]
+    )
   ];
-
 }

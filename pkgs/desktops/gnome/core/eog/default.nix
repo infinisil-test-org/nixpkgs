@@ -1,39 +1,44 @@
-{ lib
-, stdenv
-, fetchurl
-, meson
-, ninja
-, gettext
-, itstool
-, pkg-config
-, libxml2
-, libjpeg
-, libpeas
-, libportal-gtk3
-, gnome
-, gtk3
-, libhandy
-, glib
-, gsettings-desktop-schemas
-, gnome-desktop
-, lcms2
-, gdk-pixbuf
-, exempi
-, shared-mime-info
-, wrapGAppsHook
-, librsvg
-, webp-pixbuf-loader
-, libheif
-, libexif
-, gobject-introspection
-, gi-docgen
+{
+  lib,
+  stdenv,
+  fetchurl,
+  meson,
+  ninja,
+  gettext,
+  itstool,
+  pkg-config,
+  libxml2,
+  libjpeg,
+  libpeas,
+  libportal-gtk3,
+  gnome,
+  gtk3,
+  libhandy,
+  glib,
+  gsettings-desktop-schemas,
+  gnome-desktop,
+  lcms2,
+  gdk-pixbuf,
+  exempi,
+  shared-mime-info,
+  wrapGAppsHook,
+  librsvg,
+  webp-pixbuf-loader,
+  libheif,
+  libexif,
+  gobject-introspection,
+  gi-docgen,
 }:
 
 stdenv.mkDerivation rec {
   pname = "eog";
   version = "45.3";
 
-  outputs = [ "out" "dev" "devdoc" ];
+  outputs = [
+    "out"
+    "dev"
+    "devdoc"
+  ];
 
   src = fetchurl {
     url = "mirror://gnome/sources/${pname}/${lib.versions.major version}/${pname}-${version}.tar.xz";
@@ -76,20 +81,20 @@ stdenv.mkDerivation rec {
     shared-mime-info
   ];
 
-  mesonFlags = [
-    "-Dgtk_doc=true"
-  ];
+  mesonFlags = [ "-Dgtk_doc=true" ];
 
   postInstall = ''
     # Pull in WebP support for gnome-backgrounds.
     # In postInstall to run before gappsWrapperArgsHook.
-    export GDK_PIXBUF_MODULE_FILE="${gnome._gdkPixbufCacheBuilder_DO_NOT_USE {
-      extraLoaders = [
-        librsvg
-        webp-pixbuf-loader
-        libheif.out
-      ];
-    }}"
+    export GDK_PIXBUF_MODULE_FILE="${
+      gnome._gdkPixbufCacheBuilder_DO_NOT_USE {
+        extraLoaders = [
+          librsvg
+          webp-pixbuf-loader
+          libheif.out
+        ];
+      }
+    }"
   '';
 
   preFixup = ''

@@ -1,14 +1,15 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, fontconfig
-, graphviz
-, poetry-core
-, pytestCheckHook
-, pythonOlder
-, six
-, substituteAll
-, withGraphviz ? true
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  fontconfig,
+  graphviz,
+  poetry-core,
+  pytestCheckHook,
+  pythonOlder,
+  six,
+  substituteAll,
+  withGraphviz ? true,
 }:
 
 buildPythonPackage rec {
@@ -32,21 +33,16 @@ buildPythonPackage rec {
     })
   ];
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
-  propagatedBuildInputs = [
-    six
-  ];
+  propagatedBuildInputs = [ six ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   pytestFlagsArray = [
     # pytest.PytestRemovedIn8Warning: Support for nose tests is deprecated and will be removed in a future release.
-    "-W" "ignore::pytest.PytestRemovedIn8Warning"
+    "-W"
+    "ignore::pytest.PytestRemovedIn8Warning"
   ];
 
   # Tests print “Fontconfig error: Cannot load default config file”
@@ -57,9 +53,7 @@ buildPythonPackage rec {
   # Circular dependency anytree → graphviz → pango → glib → gtk-doc → anytree
   doCheck = withGraphviz;
 
-  pythonImportsCheck = [
-    "anytree"
-  ];
+  pythonImportsCheck = [ "anytree" ];
 
   meta = with lib; {
     description = "Powerful and Lightweight Python Tree Data Structure";

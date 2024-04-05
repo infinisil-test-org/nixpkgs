@@ -1,7 +1,8 @@
-{ lib
-, python3
-, fetchPypi
-, buildPythonPackage
+{
+  lib,
+  python3,
+  fetchPypi,
+  buildPythonPackage,
 }:
 
 buildPythonPackage rec {
@@ -14,9 +15,7 @@ buildPythonPackage rec {
     hash = "sha256-4mHXPes1NdYu53XEN7gq626cKy9ju1M7U6n6akfbuVo=";
   };
 
-  nativeBuildInputs = [
-    python3.pkgs.poetry-core
-  ];
+  nativeBuildInputs = [ python3.pkgs.poetry-core ];
 
   propagatedBuildInputs = with python3.pkgs; [
     aiohttp

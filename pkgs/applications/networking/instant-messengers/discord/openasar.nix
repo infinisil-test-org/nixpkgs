@@ -1,4 +1,12 @@
-{ lib, stdenv, fetchFromGitHub, nodejs, bash, asar, unzip }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  nodejs,
+  bash,
+  asar,
+  unzip,
+}:
 
 stdenv.mkDerivation rec {
   pname = "openasar";

@@ -1,9 +1,30 @@
-{ stdenv, lib, fetchFromGitHub, makeWrapper
-, pkg-config, which, perl, jq, libXrandr, coreutils
-, cairo, dbus, systemd, gdk-pixbuf, glib, libX11, libXScrnSaver
-, wayland, wayland-protocols
-, libXinerama, libnotify, pango, xorgproto, librsvg
-, testers, dunst
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  makeWrapper,
+  pkg-config,
+  which,
+  perl,
+  jq,
+  libXrandr,
+  coreutils,
+  cairo,
+  dbus,
+  systemd,
+  gdk-pixbuf,
+  glib,
+  libX11,
+  libXScrnSaver,
+  wayland,
+  wayland-protocols,
+  libXinerama,
+  libnotify,
+  pango,
+  xorgproto,
+  librsvg,
+  testers,
+  dunst,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -17,15 +38,35 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-6smFUdWqOuYB0btsDgHtIpDBfHhkpIQfjyZ8wtRg1bQ=";
   };
 
-  nativeBuildInputs = [ perl pkg-config which systemd makeWrapper ];
-
-  buildInputs = [
-    cairo dbus gdk-pixbuf glib libX11 libXScrnSaver
-    libXinerama libnotify pango xorgproto librsvg libXrandr
-    wayland wayland-protocols
+  nativeBuildInputs = [
+    perl
+    pkg-config
+    which
+    systemd
+    makeWrapper
   ];
 
-  outputs = [ "out" "man" ];
+  buildInputs = [
+    cairo
+    dbus
+    gdk-pixbuf
+    glib
+    libX11
+    libXScrnSaver
+    libXinerama
+    libnotify
+    pango
+    xorgproto
+    librsvg
+    libXrandr
+    wayland
+    wayland-protocols
+  ];
+
+  outputs = [
+    "out"
+    "man"
+  ];
 
   makeFlags = [
     "PREFIX=$(out)"
@@ -40,7 +81,12 @@ stdenv.mkDerivation (finalAttrs: {
       --set GDK_PIXBUF_MODULE_FILE "$GDK_PIXBUF_MODULE_FILE"
 
     wrapProgram $out/bin/dunstctl \
-      --prefix PATH : "${lib.makeBinPath [ coreutils dbus ]}"
+      --prefix PATH : "${
+        lib.makeBinPath [
+          coreutils
+          dbus
+        ]
+      }"
 
     install -D contrib/_dunst.zshcomp $out/share/zsh/site-functions/_dunst
     install -D contrib/_dunstctl.zshcomp $out/share/zsh/site-functions/_dunstctl

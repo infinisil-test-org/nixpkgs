@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchpatch
-, openjdk8
-, ant
-, makeWrapper
-, makeDesktopItem
-, copyDesktopItems
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  openjdk8,
+  ant,
+  makeWrapper,
+  makeDesktopItem,
+  copyDesktopItems,
 }:
 
 stdenv.mkDerivation rec {
@@ -20,7 +21,11 @@ stdenv.mkDerivation rec {
     sha256 = "09qrhqhv264x8phnf3pnb0cwq75l7xdsj9xkwlvhry81nxz0d5v0";
   };
 
-  nativeBuildInputs = [ ant makeWrapper copyDesktopItems ];
+  nativeBuildInputs = [
+    ant
+    makeWrapper
+    copyDesktopItems
+  ];
 
   buildInputs = [ openjdk8 ];
 
@@ -69,7 +74,16 @@ stdenv.mkDerivation rec {
       exec = "brmodelo";
       icon = "brmodelo";
       comment = meta.description;
-      categories = [ "Development" "Education" "Database" "2DGraphics" "ComputerScience" "DataVisualization" "Engineering" "Java" ];
+      categories = [
+        "Development"
+        "Education"
+        "Database"
+        "2DGraphics"
+        "ComputerScience"
+        "DataVisualization"
+        "Engineering"
+        "Java"
+      ];
     })
   ];
 

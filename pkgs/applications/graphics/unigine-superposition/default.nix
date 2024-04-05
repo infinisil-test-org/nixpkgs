@@ -1,35 +1,36 @@
-{ lib
-, glib
-, stdenv
-, dbus
-, freetype
-, fontconfig
-, zlib
-, qtquickcontrols2
-, libXinerama
-, libxcb
-, libSM
-, libXi
-, libglvnd
-, libXext
-, libXrandr
-, mailspring
-, libX11
-, libICE
-, libXrender
-, autoPatchelfHook
-, makeWrapper
-, mkDerivation
-, xkeyboard_config
-, fetchurl
-, buildFHSEnv
-, openal
-, makeDesktopItem
+{
+  lib,
+  glib,
+  stdenv,
+  dbus,
+  freetype,
+  fontconfig,
+  zlib,
+  qtquickcontrols2,
+  libXinerama,
+  libxcb,
+  libSM,
+  libXi,
+  libglvnd,
+  libXext,
+  libXrandr,
+  mailspring,
+  libX11,
+  libICE,
+  libXrender,
+  autoPatchelfHook,
+  makeWrapper,
+  mkDerivation,
+  xkeyboard_config,
+  fetchurl,
+  buildFHSEnv,
+  openal,
+  makeDesktopItem,
 }:
 
 let
 
-  superposition = stdenv.mkDerivation rec{
+  superposition = stdenv.mkDerivation rec {
     pname = "unigine-superposition";
     version = "1.1";
 
@@ -90,7 +91,6 @@ let
     icon = "Superposition";
     desktopName = "Superposition Benchmark";
   };
-
 in
 
 # We can patch the "/bin/superposition", but "/bin/launcher" checks it for changes.

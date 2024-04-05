@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, packaging
-, setuptools
-, sip
-, wheel
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  packaging,
+  setuptools,
+  sip,
+  wheel,
 }:
 
 buildPythonPackage rec {
@@ -23,7 +24,10 @@ buildPythonPackage rec {
     wheel
   ];
 
-  propagatedBuildInputs = [ packaging sip ];
+  propagatedBuildInputs = [
+    packaging
+    sip
+  ];
 
   pythonImportsCheck = [ "pyqtbuild" ];
 

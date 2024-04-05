@@ -1,4 +1,8 @@
-{ lib, buildGoModule, fetchFromGitHub, nix-update-script
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  nix-update-script,
 }:
 let
   version = "0.0.42";
@@ -20,7 +24,7 @@ buildGoModule {
 
   modRoot = "go/cli/mcap";
 
-  GOWORK="off";
+  GOWORK = "off";
 
   # copy the local versions of the workspace modules
   postConfigure = ''
@@ -43,8 +47,10 @@ buildGoModule {
     description = "MCAP CLI tool to inspect and fix MCAP files";
     homepage = "https://github.com/foxglove/mcap";
     license = with licenses; [ mit ];
-    maintainers = with maintainers; [ squalus therishidesai ];
+    maintainers = with maintainers; [
+      squalus
+      therishidesai
+    ];
     mainProgram = "mcap";
   };
-
 }

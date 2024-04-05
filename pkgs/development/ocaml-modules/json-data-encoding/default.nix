@@ -1,4 +1,11 @@
-{ lib, fetchFromGitLab, buildDunePackage, uri, crowbar, alcotest }:
+{
+  lib,
+  fetchFromGitLab,
+  buildDunePackage,
+  uri,
+  crowbar,
+  alcotest,
+}:
 
 buildDunePackage rec {
   pname = "json-data-encoding";
@@ -12,9 +19,7 @@ buildDunePackage rec {
     hash = "sha256-ticulOKiFNQIZNFOQE9UQOw/wqRfygQwLVIc4kkmwg4=";
   };
 
-  propagatedBuildInputs = [
-    uri
-  ];
+  propagatedBuildInputs = [ uri ];
 
   checkInputs = [
     crowbar

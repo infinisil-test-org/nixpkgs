@@ -1,9 +1,10 @@
-{ lib
-, stdenv
-, fetchurl
-, perl
-, buildsystem
-, iconv
+{
+  lib,
+  stdenv,
+  fetchurl,
+  perl,
+  buildsystem,
+  iconv,
 }:
 
 stdenv.mkDerivation (finalAttrs: {

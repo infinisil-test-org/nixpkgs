@@ -1,32 +1,35 @@
-{ lib
-, stdenv
-, fetchFromGitLab
-, fetchpatch
-, makeWrapper
-, pkg-config
-, libxslt
-, meson
-, ninja
-, python3
-, dbus
-, umockdev
-, libeatmydata
-, gtk-doc
-, docbook-xsl-nons
-, udev
-, libgudev
-, libusb1
-, glib
-, gettext
-, systemd
-, nixosTests
-, useIMobileDevice ? true
-, libimobiledevice
-, withDocs ? withIntrospection
-, mesonEmulatorHook
-, withIntrospection ? lib.meta.availableOn stdenv.hostPlatform gobject-introspection && stdenv.hostPlatform.emulatorAvailable buildPackages
-, buildPackages
-, gobject-introspection
+{
+  lib,
+  stdenv,
+  fetchFromGitLab,
+  fetchpatch,
+  makeWrapper,
+  pkg-config,
+  libxslt,
+  meson,
+  ninja,
+  python3,
+  dbus,
+  umockdev,
+  libeatmydata,
+  gtk-doc,
+  docbook-xsl-nons,
+  udev,
+  libgudev,
+  libusb1,
+  glib,
+  gettext,
+  systemd,
+  nixosTests,
+  useIMobileDevice ? true,
+  libimobiledevice,
+  withDocs ? withIntrospection,
+  mesonEmulatorHook,
+  withIntrospection ?
+    lib.meta.availableOn stdenv.hostPlatform gobject-introspection
+    && stdenv.hostPlatform.emulatorAvailable buildPackages,
+  buildPackages,
+  gobject-introspection,
 }:
 
 assert withDocs -> withIntrospection;
@@ -35,8 +38,11 @@ stdenv.mkDerivation (finalAttrs: {
   pname = "upower";
   version = "1.90.2";
 
-  outputs = [ "out" "dev" "installedTests" ]
-    ++ lib.optionals withDocs [ "devdoc" ];
+  outputs = [
+    "out"
+    "dev"
+    "installedTests"
+  ] ++ lib.optionals withDocs [ "devdoc" ];
 
   src = fetchFromGitLab {
     domain = "gitlab.freedesktop.org";
@@ -46,41 +52,41 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-7WzMAJuf1czU8ZalsEU/NwCXYqTGvcqEqxFt5ocgt48=";
   };
 
-  patches = lib.optionals (stdenv.hostPlatform.system == "i686-linux") [
-    # Remove when this is fixed upstream:
-    # https://gitlab.freedesktop.org/upower/upower/-/issues/214
-    ./i686-test-remove-battery-check.patch
-  ] ++ [
-    ./installed-tests-path.patch
-    (fetchpatch {
-      url = "https://gitlab.freedesktop.org/upower/upower/-/merge_requests/207.diff";
-      hash = "sha256-ldr1bKbSAdYpwbbe/Iq9i0Q9zQrHWvIvBGym/F3+vxs=";
-    })
-  ];
+  patches =
+    lib.optionals (stdenv.hostPlatform.system == "i686-linux") [
+      # Remove when this is fixed upstream:
+      # https://gitlab.freedesktop.org/upower/upower/-/issues/214
+      ./i686-test-remove-battery-check.patch
+    ]
+    ++ [
+      ./installed-tests-path.patch
+      (fetchpatch {
+        url = "https://gitlab.freedesktop.org/upower/upower/-/merge_requests/207.diff";
+        hash = "sha256-ldr1bKbSAdYpwbbe/Iq9i0Q9zQrHWvIvBGym/F3+vxs=";
+      })
+    ];
 
   strictDeps = true;
 
-  depsBuildBuild = [
-    pkg-config
-  ];
+  depsBuildBuild = [ pkg-config ];
 
-  nativeBuildInputs = [
-    meson
-    ninja
-    python3
-    docbook-xsl-nons
-    gettext
-    libxslt
-    makeWrapper
-    pkg-config
-    glib
-  ] ++ lib.optionals withIntrospection [
-    gobject-introspection
-  ] ++ lib.optionals withDocs [
-    gtk-doc
-  ] ++ lib.optionals (withDocs && !stdenv.buildPlatform.canExecute stdenv.hostPlatform) [
-    mesonEmulatorHook
-  ];
+  nativeBuildInputs =
+    [
+      meson
+      ninja
+      python3
+      docbook-xsl-nons
+      gettext
+      libxslt
+      makeWrapper
+      pkg-config
+      glib
+    ]
+    ++ lib.optionals withIntrospection [ gobject-introspection ]
+    ++ lib.optionals withDocs [ gtk-doc ]
+    ++ lib.optionals (withDocs && !stdenv.buildPlatform.canExecute stdenv.hostPlatform) [
+      mesonEmulatorHook
+    ];
 
   buildInputs = [
     libgudev
@@ -97,9 +103,7 @@ stdenv.mkDerivation (finalAttrs: {
       pp.pygobject3
       pp.packaging
     ]))
-  ] ++ lib.optionals useIMobileDevice [
-    libimobiledevice
-  ];
+  ] ++ lib.optionals useIMobileDevice [ libimobiledevice ];
 
   nativeCheckInputs = [
     python3.pkgs.dbus-python
@@ -111,9 +115,7 @@ stdenv.mkDerivation (finalAttrs: {
     python3.pkgs.packaging
   ];
 
-  propagatedBuildInputs = [
-    glib
-  ];
+  propagatedBuildInputs = [ glib ];
 
   mesonFlags = [
     "--localstatedir=/var"
@@ -187,13 +189,13 @@ stdenv.mkDerivation (finalAttrs: {
 
   postFixup = ''
     wrapProgram "$installedTests/libexec/upower/integration-test.py" \
-      --prefix GI_TYPELIB_PATH : "${lib.makeSearchPath "lib/girepository-1.0" [
-        "$out"
-        umockdev.out
-      ]}" \
-      --prefix PATH : "${lib.makeBinPath [
-        umockdev
-      ]}"
+      --prefix GI_TYPELIB_PATH : "${
+        lib.makeSearchPath "lib/girepository-1.0" [
+          "$out"
+          umockdev.out
+        ]
+      }" \
+      --prefix PATH : "${lib.makeBinPath [ umockdev ]}"
   '';
 
   env = {

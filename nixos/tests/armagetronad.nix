@@ -1,6 +1,7 @@
-{ system ? builtins.currentSystem,
-  config ? {},
-  pkgs ? import ../.. { inherit system config; }
+{
+  system ? builtins.currentSystem,
+  config ? { },
+  pkgs ? import ../.. { inherit system config; },
 }:
 
 with import ../lib/testing-python.nix { inherit system pkgs; };
@@ -11,7 +12,11 @@ let
   client =
     { pkgs, ... }:
 
-    { imports = [ ./common/user-account.nix ./common/x11.nix ];
+    {
+      imports = [
+        ./common/user-account.nix
+        ./common/x11.nix
+      ];
       hardware.opengl.driSupport = true;
       virtualisation.memorySize = 256;
       environment = {
@@ -20,7 +25,6 @@ let
       };
       test-support.displayManager.auto.user = user;
     };
-
 in
 makeTest {
   name = "armagetronad";
@@ -30,72 +34,75 @@ makeTest {
 
   enableOCR = true;
 
-  nodes =
-    {
-      server = {
-        services.armagetronad.servers = {
-          high-rubber = {
-            enable = true;
-            name = "Smoke Test High Rubber Server";
-            port = 4534;
-            settings = {
-              SERVER_OPTIONS = "High Rubber server made to run smoke tests.";
-              CYCLE_RUBBER = 40;
-              SIZE_FACTOR = 0.5;
-            };
-            roundSettings = {
-              SAY = [
-                "NixOS Smoke Test Server"
-                "https://nixos.org"
-              ];
-            };
+  nodes = {
+    server = {
+      services.armagetronad.servers = {
+        high-rubber = {
+          enable = true;
+          name = "Smoke Test High Rubber Server";
+          port = 4534;
+          settings = {
+            SERVER_OPTIONS = "High Rubber server made to run smoke tests.";
+            CYCLE_RUBBER = 40;
+            SIZE_FACTOR = 0.5;
           };
-          sty = {
-            enable = true;
-            name = "Smoke Test sty+ct+ap Server";
-            package = pkgs.armagetronad."0.2.9-sty+ct+ap".dedicated;
-            port = 4535;
-            settings = {
-              SERVER_OPTIONS = "sty+ct+ap server made to run smoke tests.";
-              CYCLE_RUBBER = 20;
-              SIZE_FACTOR = 0.5;
-            };
-            roundSettings = {
-              SAY = [
-                "NixOS Smoke Test sty+ct+ap Server"
-                "https://nixos.org"
-              ];
-            };
+          roundSettings = {
+            SAY = [
+              "NixOS Smoke Test Server"
+              "https://nixos.org"
+            ];
           };
-          trunk = {
-            enable = true;
-            name = "Smoke Test trunk Server";
-            package = pkgs.armagetronad."0.4".dedicated;
-            port = 4536;
-            settings = {
-              SERVER_OPTIONS = "0.4 server made to run smoke tests.";
-              CYCLE_RUBBER = 20;
-              SIZE_FACTOR = 0.5;
-            };
-            roundSettings = {
-              SAY = [
-                "NixOS Smoke Test 0.4 Server"
-                "https://nixos.org"
-              ];
-            };
+        };
+        sty = {
+          enable = true;
+          name = "Smoke Test sty+ct+ap Server";
+          package = pkgs.armagetronad."0.2.9-sty+ct+ap".dedicated;
+          port = 4535;
+          settings = {
+            SERVER_OPTIONS = "sty+ct+ap server made to run smoke tests.";
+            CYCLE_RUBBER = 20;
+            SIZE_FACTOR = 0.5;
+          };
+          roundSettings = {
+            SAY = [
+              "NixOS Smoke Test sty+ct+ap Server"
+              "https://nixos.org"
+            ];
+          };
+        };
+        trunk = {
+          enable = true;
+          name = "Smoke Test trunk Server";
+          package = pkgs.armagetronad."0.4".dedicated;
+          port = 4536;
+          settings = {
+            SERVER_OPTIONS = "0.4 server made to run smoke tests.";
+            CYCLE_RUBBER = 20;
+            SIZE_FACTOR = 0.5;
+          };
+          roundSettings = {
+            SAY = [
+              "NixOS Smoke Test 0.4 Server"
+              "https://nixos.org"
+            ];
           };
         };
       };
-
-      client1 = client;
-      client2 = client;
     };
 
-  testScript = let
-    xdo = name: text: let
-      xdoScript = pkgs.writeText "${name}.xdo" text;
-    in "${pkgs.xdotool}/bin/xdotool ${xdoScript}";
-  in
+    client1 = client;
+    client2 = client;
+  };
+
+  testScript =
+    let
+      xdo =
+        name: text:
+        let
+          xdoScript = pkgs.writeText "${name}.xdo" text;
+        in
+        "${pkgs.xdotool}/bin/xdotool ${xdoScript}";
+    in
     ''
       import shlex
       import threading
@@ -274,5 +281,4 @@ makeTest {
         )
         srv.node.wait_until_fails(f"ss --numeric --udp --listening | grep -q {srv.port}")
     '';
-
 }

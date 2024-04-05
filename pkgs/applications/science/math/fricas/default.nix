@@ -1,4 +1,16 @@
-{ lib, stdenv, fetchurl, sbcl, libX11, libXpm, libICE, libSM, libXt, libXau, libXdmcp }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  sbcl,
+  libX11,
+  libXpm,
+  libICE,
+  libSM,
+  libXt,
+  libXau,
+  libXdmcp,
+}:
 
 stdenv.mkDerivation rec {
   pname = "fricas";
@@ -9,7 +21,16 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-5RPcffM0GN0l6r8IgHJlwdxwwp2y4kIdJ5M3JnGZCzc=";
   };
 
-  buildInputs = [ sbcl libX11 libXpm libICE libSM libXt libXau libXdmcp ];
+  buildInputs = [
+    sbcl
+    libX11
+    libXpm
+    libICE
+    libSM
+    libXt
+    libXau
+    libXdmcp
+  ];
 
   dontStrip = true;
 

@@ -1,4 +1,9 @@
-{ stdenv, lib, fetchFromGitHub, chez }:
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  chez,
+}:
 
 stdenv.mkDerivation {
   pname = "chez-srfi";
@@ -29,5 +34,4 @@ stdenv.mkDerivation {
     maintainers = [ maintainers.jitwit ];
     license = licenses.x11;
   };
-
 }

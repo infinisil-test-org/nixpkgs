@@ -1,23 +1,27 @@
-{ lib
-, fetchFromSourcehut
-, buildGoModule
-, buildPythonPackage
-, srht
-, redis
-, celery
-, pyyaml
-, markdown
-, ansi2html
-, lxml
-, python
-, unzip
-, pip
-, pythonOlder
-, setuptools
+{
+  lib,
+  fetchFromSourcehut,
+  buildGoModule,
+  buildPythonPackage,
+  srht,
+  redis,
+  celery,
+  pyyaml,
+  markdown,
+  ansi2html,
+  lxml,
+  python,
+  unzip,
+  pip,
+  pythonOlder,
+  setuptools,
 }:
 let
   version = "0.89.13";
-  gqlgen = import ./fix-gqlgen-trimpath.nix { inherit unzip; gqlgenVersion = "0.17.39"; };
+  gqlgen = import ./fix-gqlgen-trimpath.nix {
+    inherit unzip;
+    gqlgenVersion = "0.17.39";
+  };
 
   src = fetchFromSourcehut {
     owner = "~sircmpwn";
@@ -26,19 +30,25 @@ let
     hash = "sha256-JpRVRzuHB6cgk/qW1j4zF8/K1xwz3J4nZhijmz5kVWU=";
   };
 
-  buildsrht-api = buildGoModule ({
-    inherit src version;
-    pname = "buildsrht-api";
-    modRoot = "api";
-    vendorHash = "sha256-kTqoUfFEoNdDDzVNJ7XIbH7tbsl5MdBL+/UDHFv7D+A=";
-  } // gqlgen);
+  buildsrht-api = buildGoModule (
+    {
+      inherit src version;
+      pname = "buildsrht-api";
+      modRoot = "api";
+      vendorHash = "sha256-kTqoUfFEoNdDDzVNJ7XIbH7tbsl5MdBL+/UDHFv7D+A=";
+    }
+    // gqlgen
+  );
 
-  buildsrht-worker = buildGoModule ({
-    inherit src version;
-    pname = "buildsrht-worker";
-    modRoot = "worker";
-    vendorHash = "sha256-kTqoUfFEoNdDDzVNJ7XIbH7tbsl5MdBL+/UDHFv7D+A=";
-  } // gqlgen);
+  buildsrht-worker = buildGoModule (
+    {
+      inherit src version;
+      pname = "buildsrht-worker";
+      modRoot = "worker";
+      vendorHash = "sha256-kTqoUfFEoNdDDzVNJ7XIbH7tbsl5MdBL+/UDHFv7D+A=";
+    }
+    // gqlgen
+  );
 in
 buildPythonPackage rec {
   inherit src version;
@@ -89,6 +99,9 @@ buildPythonPackage rec {
     homepage = "https://git.sr.ht/~sircmpwn/builds.sr.ht";
     description = "Continuous integration service for the sr.ht network";
     license = licenses.agpl3Only;
-    maintainers = with maintainers; [ eadwu christoph-heiss ];
+    maintainers = with maintainers; [
+      eadwu
+      christoph-heiss
+    ];
   };
 }

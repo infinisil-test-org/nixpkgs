@@ -1,4 +1,9 @@
-{ stdenv, pkgsBuildBuild, fetchFromGitHub, lib }:
+{
+  stdenv,
+  pkgsBuildBuild,
+  fetchFromGitHub,
+  lib,
+}:
 
 let
   generator = pkgsBuildBuild.buildGoModule rec {
@@ -20,7 +25,12 @@ let
   };
 in
 stdenv.mkDerivation {
-  inherit (generator) pname version src meta;
+  inherit (generator)
+    pname
+    version
+    src
+    meta
+    ;
   buildPhase = ''
     runHook preBuild
     ${generator}/bin/domain-list-community -datapath $src/data

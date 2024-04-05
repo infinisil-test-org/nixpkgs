@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, buildGoModule
-, fetchFromGitHub
-, fetchpatch
-, pkg-config
-, btrfs-progs
-, gpgme
-, lvm2
+{
+  lib,
+  stdenv,
+  buildGoModule,
+  fetchFromGitHub,
+  fetchpatch,
+  pkg-config,
+  btrfs-progs,
+  gpgme,
+  lvm2,
 }:
 
 buildGoModule rec {
@@ -24,9 +25,17 @@ buildGoModule rec {
 
   nativeBuildInputs = [ pkg-config ];
 
-  buildInputs = lib.optionals stdenv.isLinux [ btrfs-progs gpgme lvm2 ];
+  buildInputs = lib.optionals stdenv.isLinux [
+    btrfs-progs
+    gpgme
+    lvm2
+  ];
 
-  ldflags = [ "-s" "-w" "-X main.version=${version}" ];
+  ldflags = [
+    "-s"
+    "-w"
+    "-X main.version=${version}"
+  ];
 
   meta = with lib; {
     description = "A tool for exploring each layer in a docker image";
@@ -34,6 +43,9 @@ buildGoModule rec {
     homepage = "https://github.com/wagoodman/dive";
     changelog = "https://github.com/wagoodman/dive/releases/tag/v${version}";
     license = licenses.mit;
-    maintainers = with maintainers; [ marsam SuperSandro2000 ];
+    maintainers = with maintainers; [
+      marsam
+      SuperSandro2000
+    ];
   };
 }

@@ -1,4 +1,13 @@
-{ lib, stdenv, fetchurl, dpkg, jdk11_headless, makeWrapper, writeText, xorg }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  dpkg,
+  jdk11_headless,
+  makeWrapper,
+  writeText,
+  xorg,
+}:
 
 let
   xorgModulePaths = writeText "module-paths" ''
@@ -9,7 +18,6 @@ let
       ModulePath "${xorg.xf86videodummy}/lib/xorg/modules/drivers
     EndSection
   '';
-
 in
 stdenv.mkDerivation rec {
   pname = "jibri";
@@ -20,7 +28,10 @@ stdenv.mkDerivation rec {
   };
 
   dontBuild = true;
-  nativeBuildInputs = [ dpkg makeWrapper ];
+  nativeBuildInputs = [
+    dpkg
+    makeWrapper
+  ];
 
   installPhase = ''
     runHook preInstall

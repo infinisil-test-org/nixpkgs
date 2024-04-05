@@ -1,10 +1,11 @@
-{ stdenv
-, lib
-, buildGoModule
-, fetchFromGitHub
-, makeWrapper
-, nixosTests
-, systemd
+{
+  stdenv,
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  makeWrapper,
+  nixosTests,
+  systemd,
 }:
 
 buildGoModule rec {
@@ -28,7 +29,7 @@ buildGoModule rec {
     "cmd/logcli"
   ];
 
-  tags = ["promtail_journal_enabled"];
+  tags = [ "promtail_journal_enabled" ];
 
   nativeBuildInputs = [ makeWrapper ];
   buildInputs = lib.optionals stdenv.isLinux [ systemd.dev ];
@@ -38,24 +39,41 @@ buildGoModule rec {
       --prefix LD_LIBRARY_PATH : "${lib.getLib systemd}/lib"
   '';
 
-  passthru.tests = { inherit (nixosTests) loki; };
+  passthru.tests = {
+    inherit (nixosTests) loki;
+  };
 
-  ldflags = let t = "github.com/grafana/loki/pkg/util/build"; in [
-    "-s"
-    "-w"
-    "-X ${t}.Version=${version}"
-    "-X ${t}.BuildUser=nix@nixpkgs"
-    "-X ${t}.BuildDate=unknown"
-    "-X ${t}.Branch=unknown"
-    "-X ${t}.Revision=unknown"
-  ];
+  ldflags =
+    let
+      t = "github.com/grafana/loki/pkg/util/build";
+    in
+    [
+      "-s"
+      "-w"
+      "-X ${t}.Version=${version}"
+      "-X ${t}.BuildUser=nix@nixpkgs"
+      "-X ${t}.BuildDate=unknown"
+      "-X ${t}.Branch=unknown"
+      "-X ${t}.Revision=unknown"
+    ];
 
   meta = with lib; {
     description = "Like Prometheus, but for logs";
     mainProgram = "promtail";
-    license = with licenses; [ agpl3Only asl20 ];
+    license = with licenses; [
+      agpl3Only
+      asl20
+    ];
     homepage = "https://grafana.com/oss/loki/";
     changelog = "https://github.com/grafana/loki/releases/tag/v${version}";
-    maintainers = with maintainers; [ willibutz globin mmahut emilylange ] ++ teams.helsinki-systems.members;
+    maintainers =
+      with maintainers;
+      [
+        willibutz
+        globin
+        mmahut
+        emilylange
+      ]
+      ++ teams.helsinki-systems.members;
   };
 }

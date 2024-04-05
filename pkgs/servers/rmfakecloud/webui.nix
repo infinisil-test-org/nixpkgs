@@ -1,4 +1,13 @@
-{ version, src, stdenv, lib, fetchYarnDeps, prefetch-yarn-deps, yarn, nodejs }:
+{
+  version,
+  src,
+  stdenv,
+  lib,
+  fetchYarnDeps,
+  prefetch-yarn-deps,
+  yarn,
+  nodejs,
+}:
 
 stdenv.mkDerivation rec {
   inherit version src;
@@ -10,7 +19,11 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-4boZCEly4HovK9BXlSoFd3wZoPaGnzbJg5AygSC/Lrg=";
   };
 
-  nativeBuildInputs = [ prefetch-yarn-deps yarn nodejs ];
+  nativeBuildInputs = [
+    prefetch-yarn-deps
+    yarn
+    nodejs
+  ];
 
   buildPhase = ''
     export HOME=$(mktemp -d)

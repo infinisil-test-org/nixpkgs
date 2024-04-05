@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, hatchling
-, ptyprocess
-, tornado
-, pytest-timeout
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  hatchling,
+  ptyprocess,
+  tornado,
+  pytest-timeout,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -18,18 +19,14 @@ buildPythonPackage rec {
     hash = "sha256-HqCKibg13RuMDJANkoSBR87yU3JDNhsuP03BXfm2/e0=";
   };
 
-  nativeBuildInputs = [
-    hatchling
-  ];
+  nativeBuildInputs = [ hatchling ];
 
   propagatedBuildInputs = [
     ptyprocess
     tornado
   ];
 
-  pythonImportsCheck = [
-    "terminado"
-  ];
+  pythonImportsCheck = [ "terminado" ];
 
   __darwinAllowLocalNetworking = true;
 

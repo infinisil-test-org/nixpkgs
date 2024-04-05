@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, doxygen
-, boost
-, eigen
-, numpy
-, scipy
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  doxygen,
+  boost,
+  eigen,
+  numpy,
+  scipy,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -34,9 +35,7 @@ stdenv.mkDerivation (finalAttrs: {
     scipy
   ];
 
-  buildInputs = [
-    boost
-  ];
+  buildInputs = [ boost ];
 
   propagatedBuildInputs = [
     eigen
@@ -44,16 +43,17 @@ stdenv.mkDerivation (finalAttrs: {
   ];
 
   doCheck = true;
-  pythonImportsCheck = [
-    "eigenpy"
-  ];
+  pythonImportsCheck = [ "eigenpy" ];
 
   meta = with lib; {
     description = "Bindings between Numpy and Eigen using Boost.Python";
     homepage = "https://github.com/stack-of-tasks/eigenpy";
     changelog = "https://github.com/stack-of-tasks/eigenpy/releases/tag/v${version}";
     license = licenses.bsd2;
-    maintainers = with maintainers; [ nim65s wegank ];
+    maintainers = with maintainers; [
+      nim65s
+      wegank
+    ];
     platforms = platforms.unix;
   };
 })

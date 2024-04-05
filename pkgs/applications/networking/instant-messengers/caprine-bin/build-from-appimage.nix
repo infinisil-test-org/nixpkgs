@@ -1,11 +1,12 @@
-{ lib
-, fetchurl
-, appimageTools
-, xorg
-, pname
-, version
-, sha256
-, metaCommon ? { }
+{
+  lib,
+  fetchurl,
+  appimageTools,
+  xorg,
+  pname,
+  version,
+  sha256,
+  metaCommon ? { },
 }:
 
 let

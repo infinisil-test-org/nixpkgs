@@ -1,8 +1,9 @@
-{ lib
-, python3Packages
-, fetchFromGitHub
-, nix-update-script
-, ...
+{
+  lib,
+  python3Packages,
+  fetchFromGitHub,
+  nix-update-script,
+  ...
 }:
 
 python3Packages.buildPythonPackage rec {

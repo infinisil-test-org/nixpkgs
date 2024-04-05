@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, buildPythonPackage
-, pythonOlder
-, pymupdf
-, numpy
-, ipython
-, texlive
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  buildPythonPackage,
+  pythonOlder,
+  pymupdf,
+  numpy,
+  ipython,
+  texlive,
 }:
 
 buildPythonPackage rec {

@@ -1,14 +1,22 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
 
   cfg = config.services.surrealdb;
-in {
+in
+{
 
   options = {
     services.surrealdb = {
-      enable = mkEnableOption (lib.mdDoc "SurrealDB, a scalable, distributed, collaborative, document-graph database, for the realtime web");
+      enable = mkEnableOption (
+        lib.mdDoc "SurrealDB, a scalable, distributed, collaborative, document-graph database, for the realtime web"
+      );
 
       package = mkPackageOption pkgs "surrealdb" { };
 
@@ -42,8 +50,13 @@ in {
 
       extraFlags = mkOption {
         type = types.listOf types.str;
-        default = [];
-        example = [ "--allow-all" "--auth" "--user root" "--pass root" ];
+        default = [ ];
+        example = [
+          "--allow-all"
+          "--auth"
+          "--user root"
+          "--pass root"
+        ];
         description = lib.mdDoc ''
           Specify a list of additional command line flags,
           which get escaped and are then passed to surrealdb.
@@ -55,7 +68,7 @@ in {
   config = mkIf cfg.enable {
 
     # Used to connect to the running service
-    environment.systemPackages = [ cfg.package ] ;
+    environment.systemPackages = [ cfg.package ];
 
     systemd.services.surrealdb = {
       description = "A scalable, distributed, collaborative, document-graph database, for the realtime web ";
@@ -84,7 +97,10 @@ in {
         RestrictNamespaces = true;
         LockPersonality = true;
         RemoveIPC = true;
-        SystemCallFilter = [ "@system-service" "~@privileged" ];
+        SystemCallFilter = [
+          "@system-service"
+          "~@privileged"
+        ];
       };
     };
   };

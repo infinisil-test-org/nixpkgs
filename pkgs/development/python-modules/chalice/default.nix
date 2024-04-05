@@ -1,25 +1,26 @@
-{ lib
-, attrs
-, botocore
-, buildPythonPackage
-, click
-, fetchFromGitHub
-, hypothesis
-, inquirer
-, jmespath
-, mock
-, mypy-extensions
-, pip
-, pytestCheckHook
-, pythonOlder
-, pyyaml
-, requests
-, setuptools
-, six
-, typing-extensions
-, watchdog
-, websocket-client
-, wheel
+{
+  lib,
+  attrs,
+  botocore,
+  buildPythonPackage,
+  click,
+  fetchFromGitHub,
+  hypothesis,
+  inquirer,
+  jmespath,
+  mock,
+  mypy-extensions,
+  pip,
+  pytestCheckHook,
+  pythonOlder,
+  pyyaml,
+  requests,
+  setuptools,
+  six,
+  typing-extensions,
+  watchdog,
+  websocket-client,
+  wheel,
 }:
 
 buildPythonPackage rec {
@@ -67,7 +68,8 @@ buildPythonPackage rec {
   ];
 
   pytestFlagsArray = [
-    "-W" "ignore::pytest.PytestRemovedIn8Warning"
+    "-W"
+    "ignore::pytest.PytestRemovedIn8Warning"
   ];
 
   disabledTestPaths = [
@@ -100,9 +102,7 @@ buildPythonPackage rec {
     "test_both_tar_bz2"
   ];
 
-  pythonImportsCheck = [
-    "chalice"
-  ];
+  pythonImportsCheck = [ "chalice" ];
 
   meta = with lib; {
     description = "Python Serverless Microframework for AWS";

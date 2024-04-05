@@ -1,16 +1,17 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchurl
-, rust
-, rustPlatform
-, cargo-c
-, python3
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchurl,
+  rust,
+  rustPlatform,
+  cargo-c,
+  python3,
 
-# tests
-, testers
-, vips
-, libimagequant
+  # tests
+  testers,
+  vips,
+  libimagequant,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -62,6 +63,9 @@ rustPlatform.buildRustPackage rec {
     longDescription = "Small, portable C library for high-quality conversion of RGBA images to 8-bit indexed-color (palette) images.";
     license = licenses.gpl3Plus;
     platforms = platforms.unix;
-    maintainers = with maintainers; [ ma9e marsam ];
+    maintainers = with maintainers; [
+      ma9e
+      marsam
+    ];
   };
 }

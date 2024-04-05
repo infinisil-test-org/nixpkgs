@@ -1,27 +1,29 @@
-{ lib
-, fetchbzr
-, mkDerivation
-, qmake
-, qtserialport
-, qtmultimedia
-, qttools
-, qtscript
+{
+  lib,
+  fetchbzr,
+  mkDerivation,
+  qmake,
+  qtserialport,
+  qtmultimedia,
+  qttools,
+  qtscript,
 }:
 
 let
   generic =
-    { version
-    , release
-    , branch
-    , rev
-    , sha256
-    , extraPostPatch ? ""
-    , extraBuildInputs ? [ ]
-    , iconPath ? "resources/icons/simulide.png"
-    , installFiles ? ''
+    {
+      version,
+      release,
+      branch,
+      rev,
+      sha256,
+      extraPostPatch ? "",
+      extraBuildInputs ? [ ],
+      iconPath ? "resources/icons/simulide.png",
+      installFiles ? ''
         cp -r data examples $out/share/simulide
         cp simulide $out/bin/simulide
-      ''
+      '',
     }:
     mkDerivation {
       pname = "simulide";
@@ -51,9 +53,7 @@ let
         cd build_XX
       '';
 
-      nativeBuildInputs = [
-        qmake
-      ];
+      nativeBuildInputs = [ qmake ];
 
       buildInputs = [
         qtserialport
@@ -85,7 +85,10 @@ let
         homepage = "https://simulide.com/";
         license = lib.licenses.gpl3Only;
         mainProgram = "simulide";
-        maintainers = with lib.maintainers; [ carloscraveiro tomasajt ];
+        maintainers = with lib.maintainers; [
+          carloscraveiro
+          tomasajt
+        ];
         platforms = [ "x86_64-linux" ];
       };
     };

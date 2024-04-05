@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
@@ -13,8 +18,8 @@ let
     "twoGbMaxExtentFlat"
     "streamOptimized"
   ];
-
-in {
+in
+{
   options = {
     vmware = {
       baseImageSize = mkOption {

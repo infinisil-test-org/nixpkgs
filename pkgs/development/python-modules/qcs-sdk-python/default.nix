@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, rustPlatform
-, quil
-, pytest-asyncio
-, pytestCheckHook
-, syrupy
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  rustPlatform,
+  quil,
+  pytest-asyncio,
+  pytestCheckHook,
+  syrupy,
 }:
 
 buildPythonPackage rec {
@@ -37,9 +38,7 @@ buildPythonPackage rec {
     rustPlatform.maturinBuildHook
   ];
 
-  propagatedBuildInputs = [
-    quil
-  ];
+  propagatedBuildInputs = [ quil ];
 
   nativeCheckInputs = [
     pytest-asyncio

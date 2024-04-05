@@ -1,19 +1,20 @@
-{ lib
-, stdenv
-, buildPythonApplication
-, fetchFromGitHub
-, aria2
-, ffmpeg
-, libnotify
-, pulseaudio
-, psutil
-, pyqt5
-, requests
-, setproctitle
-, setuptools
-, sound-theme-freedesktop
-, wrapQtAppsHook
-, yt-dlp
+{
+  lib,
+  stdenv,
+  buildPythonApplication,
+  fetchFromGitHub,
+  aria2,
+  ffmpeg,
+  libnotify,
+  pulseaudio,
+  psutil,
+  pyqt5,
+  requests,
+  setproctitle,
+  setuptools,
+  sound-theme-freedesktop,
+  wrapQtAppsHook,
+  yt-dlp,
 }:
 
 buildPythonApplication rec {
@@ -30,17 +31,18 @@ buildPythonApplication rec {
   # see: https://github.com/persepolisdm/persepolis/blob/3.2.0/setup.py#L130
   doCheck = false;
 
-  preBuild=
-  # Make setup automatic
-  ''
-    substituteInPlace setup.py --replace "answer = input(" "answer = 'y'#"
-  '' +
-  # Replace abandoned youtube-dl with maintained fork yt-dlp. Fixes https://github.com/persepolisdm/persepolis/issues/930,
-  # can be removed if that issue is fixed and/or https://github.com/persepolisdm/persepolis/pull/936 is merged
-  ''
-    substituteInPlace setup.py ./persepolis/scripts/video_finder_addlink.py --replace \
-        "import youtube_dl" "import yt_dlp as youtube_dl"
-  '';
+  preBuild =
+    # Make setup automatic
+    ''
+      substituteInPlace setup.py --replace "answer = input(" "answer = 'y'#"
+    ''
+    +
+      # Replace abandoned youtube-dl with maintained fork yt-dlp. Fixes https://github.com/persepolisdm/persepolis/issues/930,
+      # can be removed if that issue is fixed and/or https://github.com/persepolisdm/persepolis/pull/936 is merged
+      ''
+        substituteInPlace setup.py ./persepolis/scripts/video_finder_addlink.py --replace \
+            "import youtube_dl" "import yt_dlp as youtube_dl"
+      '';
 
   patches = lib.optionals stdenv.isDarwin [
     # Upstream is abandonware, the last commit to master was on 2021-08-26.
@@ -57,8 +59,8 @@ buildPythonApplication rec {
   '';
 
   postInstall = ''
-     mkdir -p $out/share/applications
-     cp $src/xdg/com.github.persepolisdm.persepolis.desktop $out/share/applications
+    mkdir -p $out/share/applications
+    cp $src/xdg/com.github.persepolisdm.persepolis.desktop $out/share/applications
   '';
 
   # prevent double wrapping
@@ -67,7 +69,13 @@ buildPythonApplication rec {
 
   # feed args to wrapPythonApp
   makeWrapperArgs = [
-    "--prefix PATH : ${lib.makeBinPath [ aria2 ffmpeg libnotify ]}"
+    "--prefix PATH : ${
+      lib.makeBinPath [
+        aria2
+        ffmpeg
+        libnotify
+      ]
+    }"
     "\${qtWrapperArgs[@]}"
   ];
 

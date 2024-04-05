@@ -1,20 +1,22 @@
-{ lib
-, formats
-, stdenvNoCC
-, fetchFromGitHub
-, qtgraphicaleffects
-  /* An example of how you can override the background on the NixOS logo
-  *
-  *  environment.systemPackages = [
-  *    (pkgs.where-is-my-sddm-theme.override {
-  *      themeConfig.General = {
-  *        background = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-  *        backgroundMode = "none";
-  *      };
-  *    })
-  *  ];
+{
+  lib,
+  formats,
+  stdenvNoCC,
+  fetchFromGitHub,
+  qtgraphicaleffects,
+  /*
+    An example of how you can override the background on the NixOS logo
+    *
+    *  environment.systemPackages = [
+    *    (pkgs.where-is-my-sddm-theme.override {
+    *      themeConfig.General = {
+    *        background = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+    *        backgroundMode = "none";
+    *      };
+    *    })
+    *  ];
   */
-, themeConfig ? null
+  themeConfig ? null,
 }:
 
 let
@@ -34,12 +36,14 @@ stdenvNoCC.mkDerivation rec {
 
   propagatedUserEnvPkgs = [ qtgraphicaleffects ];
 
-  installPhase = ''
-    mkdir -p $out/share/sddm/themes/
-    cp -r where_is_my_sddm_theme/ $out/share/sddm/themes/
-  '' + lib.optionalString (lib.isAttrs themeConfig) ''
-    ln -sf ${user-cfg} $out/share/sddm/themes/where_is_my_sddm_theme/theme.conf.user
-  '';
+  installPhase =
+    ''
+      mkdir -p $out/share/sddm/themes/
+      cp -r where_is_my_sddm_theme/ $out/share/sddm/themes/
+    ''
+    + lib.optionalString (lib.isAttrs themeConfig) ''
+      ln -sf ${user-cfg} $out/share/sddm/themes/where_is_my_sddm_theme/theme.conf.user
+    '';
 
   meta = with lib; {
     description = "The most minimalistic SDDM theme among all themes";

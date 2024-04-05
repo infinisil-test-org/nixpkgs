@@ -1,20 +1,21 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, hatchling
-, anyio
-, distro
-, dirty-equals
-, httpx
-, google-auth
-, sniffio
-, pydantic
-, pytest-asyncio
-, respx
-, tokenizers
-, typing-extensions
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  hatchling,
+  anyio,
+  distro,
+  dirty-equals,
+  httpx,
+  google-auth,
+  sniffio,
+  pydantic,
+  pytest-asyncio,
+  respx,
+  tokenizers,
+  typing-extensions,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -31,9 +32,7 @@ buildPythonPackage rec {
     hash = "sha256-D9asbwZ9puOuIK6w7cWJ2HmC3JYjamUZPOxVKWq+Va4=";
   };
 
-  nativeBuildInputs = [
-    hatchling
-  ];
+  nativeBuildInputs = [ hatchling ];
 
   propagatedBuildInputs = [
     anyio
@@ -61,9 +60,7 @@ buildPythonPackage rec {
     "tests/api_resources"
   ];
 
-  pythonImportsCheck = [
-    "anthropic"
-  ];
+  pythonImportsCheck = [ "anthropic" ];
 
   meta = with lib; {
     description = "Anthropic's safety-first language model APIs";

@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, fetchpatch
-, pymysql
-, pythonOlder
-, setuptools-scm
-, wheel
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  fetchpatch,
+  pymysql,
+  pythonOlder,
+  setuptools-scm,
+  wheel,
 }:
 
 buildPythonPackage rec {
@@ -37,16 +38,12 @@ buildPythonPackage rec {
     wheel
   ];
 
-  propagatedBuildInputs = [
-    pymysql
-  ];
+  propagatedBuildInputs = [ pymysql ];
 
   # Tests require MySQL database
   doCheck = false;
 
-  pythonImportsCheck = [
-    "aiomysql"
-  ];
+  pythonImportsCheck = [ "aiomysql" ];
 
   meta = with lib; {
     description = "MySQL driver for asyncio";

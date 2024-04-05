@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, buildNpmPackage
-, fetchFromGitHub
-, imagemagick
-, makeWrapper
-, makeDesktopItem
-, copyDesktopItems
-, electron_28
+{
+  lib,
+  stdenv,
+  buildNpmPackage,
+  fetchFromGitHub,
+  imagemagick,
+  makeWrapper,
+  makeDesktopItem,
+  copyDesktopItems,
+  electron_28,
 }:
 
 let
@@ -81,7 +82,10 @@ buildNpmPackage rec {
     homepage = "https://blockbench.net/";
     license = lib.licenses.gpl3Only;
     mainProgram = "blockbench";
-    maintainers = with lib.maintainers; [ ckie tomasajt ];
+    maintainers = with lib.maintainers; [
+      ckie
+      tomasajt
+    ];
     broken = stdenv.isDarwin;
   };
 }

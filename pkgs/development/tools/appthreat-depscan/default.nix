@@ -1,6 +1,7 @@
-{ lib
-, fetchFromGitHub
-, python3
+{
+  lib,
+  fetchFromGitHub,
+  python3,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -21,9 +22,7 @@ python3.pkgs.buildPythonApplication rec {
     rich
   ];
 
-  nativeCheckInputs = with python3.pkgs; [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = with python3.pkgs; [ pytestCheckHook ];
 
   postPatch = ''
     substituteInPlace pytest.ini \
@@ -39,9 +38,7 @@ python3.pkgs.buildPythonApplication rec {
     "test_query_metadata2"
   ];
 
-  pythonImportsCheck = [
-    "depscan"
-  ];
+  pythonImportsCheck = [ "depscan" ];
 
   meta = with lib; {
     description = "Tool to audit dependencies based on known vulnerabilities and advisories";

@@ -1,5 +1,20 @@
-{ pkgs, lib, stdenv, fetchFromGitHub, runCommand, rustPlatform, makeWrapper, llvmPackages
-, buildNpmPackage, cmake, nodejs, unzip, python3, pkg-config, libsecret, darwin
+{
+  pkgs,
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  runCommand,
+  rustPlatform,
+  makeWrapper,
+  llvmPackages,
+  buildNpmPackage,
+  cmake,
+  nodejs,
+  unzip,
+  python3,
+  pkg-config,
+  libsecret,
+  darwin,
 }:
 assert lib.versionAtLeast python3.version "3.5";
 let
@@ -70,12 +85,15 @@ let
       pkg-config
     ];
 
-    buildInputs = [
-      libsecret
-    ] ++ lib.optionals stdenv.isDarwin (with darwin.apple_sdk.frameworks; [
-      Security
-      AppKit
-    ]);
+    buildInputs =
+      [ libsecret ]
+      ++ lib.optionals stdenv.isDarwin (
+        with darwin.apple_sdk.frameworks;
+        [
+          Security
+          AppKit
+        ]
+      );
 
     dontNpmBuild = true;
 
@@ -88,14 +106,25 @@ let
       runHook postInstall
     '';
   };
-
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "vscode-extension-${publisher}-${pname}";
-  inherit src version vscodeExtUniqueId vscodeExtPublisher vscodeExtName;
+  inherit
+    src
+    version
+    vscodeExtUniqueId
+    vscodeExtPublisher
+    vscodeExtName
+    ;
 
   installPrefix = "share/vscode/extensions/${vscodeExtUniqueId}";
 
-  nativeBuildInputs = [ cmake nodejs unzip makeWrapper ];
+  nativeBuildInputs = [
+    cmake
+    nodejs
+    unzip
+    makeWrapper
+  ];
 
   patches = [ ./cmake-build-extension-only.patch ];
 

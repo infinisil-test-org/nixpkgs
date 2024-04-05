@@ -1,20 +1,21 @@
-{ lib
-, writeShellScript
-, buildFHSEnv
-, stdenvNoCC
-, fetchurl
-, autoPatchelfHook
-, dpkg
-, nss
-, cacert
-, alsa-lib
-, libvorbis
-, libdrm
-, libGL
-, wayland
-, xkeyboard_config
-, libthai
-, libsForQt5
+{
+  lib,
+  writeShellScript,
+  buildFHSEnv,
+  stdenvNoCC,
+  fetchurl,
+  autoPatchelfHook,
+  dpkg,
+  nss,
+  cacert,
+  alsa-lib,
+  libvorbis,
+  libdrm,
+  libGL,
+  wayland,
+  xkeyboard_config,
+  libthai,
+  libsForQt5,
 }:
 
 let
@@ -23,23 +24,23 @@ let
   version = "3.8.7.50516";
   ubuntu-dist = "mantic_amd64";
   meta = with lib; {
-    platforms = ["x86_64-linux"];
+    platforms = [ "x86_64-linux" ];
     sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
     license = licenses.unfree;
     maintainers = with maintainers; [ hellwolf ];
     homepage = "https://www.insynchq.com";
     description = "Google Drive sync and backup with multiple account support";
     longDescription = ''
-     Insync is a commercial application that syncs your Drive files to your
-     computer.  It has more advanced features than Google's official client
-     such as multiple account support, Google Doc conversion, symlink support,
-     and built in sharing.
+      Insync is a commercial application that syncs your Drive files to your
+      computer.  It has more advanced features than Google's official client
+      such as multiple account support, Google Doc conversion, symlink support,
+      and built in sharing.
 
-     There is a 15-day free trial, and it is a paid application after that.
+      There is a 15-day free trial, and it is a paid application after that.
 
-     Known bug(s):
+      Known bug(s):
 
-     1) Currently the system try icon does not render correctly.
+      1) Currently the system try icon does not render correctly.
     '';
     mainProgram = "insync";
   };
@@ -86,15 +87,16 @@ let
     # NB! This did the trick, otherwise it segfaults! However I don't understand why!
     dontStrip = true;
   };
-
-in buildFHSEnv {
+in
+buildFHSEnv {
   name = pname;
   inherit meta;
 
-  targetPkgs = pkgs: with pkgs; [
-    libudev0-shim
-    insync-pkg
-  ];
+  targetPkgs =
+    pkgs: with pkgs; [
+      libudev0-shim
+      insync-pkg
+    ];
 
   extraInstallCommands = ''
     cp -rsHf "${insync-pkg}"/share $out
@@ -108,14 +110,14 @@ in buildFHSEnv {
     # export QT_DEBUG_PLUGINS=1
 
     exec /usr/lib/insync/insync "$@"
-    '';
+  '';
 
   # As intended by this bubble wrap, share as much namespaces as possible with user.
-  unshareUser   = false;
-  unshareIpc    = false;
-  unsharePid    = false;
-  unshareNet    = false;
-  unshareUts    = false;
+  unshareUser = false;
+  unshareIpc = false;
+  unsharePid = false;
+  unshareNet = false;
+  unshareUts = false;
   unshareCgroup = false;
 
   dieWithParent = true;

@@ -1,16 +1,17 @@
-{ lib
-, fetchFromSourcehut
-, buildGoModule
-, buildPythonPackage
-, python
-, srht
-, scmsrht
-, pygit2
-, minio
-, pythonOlder
-, unzip
-, pip
-, setuptools
+{
+  lib,
+  fetchFromSourcehut,
+  buildGoModule,
+  buildPythonPackage,
+  python,
+  srht,
+  scmsrht,
+  pygit2,
+  minio,
+  pythonOlder,
+  unzip,
+  pip,
+  setuptools,
 }:
 let
   version = "0.85.7";
@@ -23,60 +24,75 @@ let
     hash = "sha256-jkESrrVE+0O2g64zzPOpqhl8DpvmosQvuF0s6Xd+lbM=";
   };
 
-  gitApi = buildGoModule ({
-    inherit src version;
-    pname = "gitsrht-api";
-    modRoot = "api";
-    vendorHash = "sha256-yWVpldqwpEZmeI18tvdIgof8GgSFEP70c8T5XDkryn0=";
-  } // gqlgen);
+  gitApi = buildGoModule (
+    {
+      inherit src version;
+      pname = "gitsrht-api";
+      modRoot = "api";
+      vendorHash = "sha256-yWVpldqwpEZmeI18tvdIgof8GgSFEP70c8T5XDkryn0=";
+    }
+    // gqlgen
+  );
 
-  gitDispatch = buildGoModule ({
-    inherit src version;
-    pname = "gitsrht-dispatch";
-    modRoot = "gitsrht-dispatch";
-    vendorHash = "sha256-yWVpldqwpEZmeI18tvdIgof8GgSFEP70c8T5XDkryn0=";
+  gitDispatch = buildGoModule (
+    {
+      inherit src version;
+      pname = "gitsrht-dispatch";
+      modRoot = "gitsrht-dispatch";
+      vendorHash = "sha256-yWVpldqwpEZmeI18tvdIgof8GgSFEP70c8T5XDkryn0=";
 
-    postPatch = ''
-      substituteInPlace gitsrht-dispatch/main.go \
-        --replace /var/log/gitsrht-dispatch /var/log/sourcehut/gitsrht-dispatch
-    '';
-  } // gqlgen);
+      postPatch = ''
+        substituteInPlace gitsrht-dispatch/main.go \
+          --replace /var/log/gitsrht-dispatch /var/log/sourcehut/gitsrht-dispatch
+      '';
+    }
+    // gqlgen
+  );
 
-  gitKeys = buildGoModule ({
-    inherit src version;
-    pname = "gitsrht-keys";
-    modRoot = "gitsrht-keys";
-    vendorHash = "sha256-yWVpldqwpEZmeI18tvdIgof8GgSFEP70c8T5XDkryn0=";
+  gitKeys = buildGoModule (
+    {
+      inherit src version;
+      pname = "gitsrht-keys";
+      modRoot = "gitsrht-keys";
+      vendorHash = "sha256-yWVpldqwpEZmeI18tvdIgof8GgSFEP70c8T5XDkryn0=";
 
-    postPatch = ''
-      substituteInPlace gitsrht-keys/main.go \
-        --replace /var/log/gitsrht-keys /var/log/sourcehut/gitsrht-keys
-    '';
-  } // gqlgen);
+      postPatch = ''
+        substituteInPlace gitsrht-keys/main.go \
+          --replace /var/log/gitsrht-keys /var/log/sourcehut/gitsrht-keys
+      '';
+    }
+    // gqlgen
+  );
 
-  gitShell = buildGoModule ({
-    inherit src version;
-    pname = "gitsrht-shell";
-    modRoot = "gitsrht-shell";
-    vendorHash = "sha256-yWVpldqwpEZmeI18tvdIgof8GgSFEP70c8T5XDkryn0=";
+  gitShell = buildGoModule (
+    {
+      inherit src version;
+      pname = "gitsrht-shell";
+      modRoot = "gitsrht-shell";
+      vendorHash = "sha256-yWVpldqwpEZmeI18tvdIgof8GgSFEP70c8T5XDkryn0=";
 
-    postPatch = ''
-      substituteInPlace gitsrht-shell/main.go \
-        --replace /var/log/gitsrht-shell /var/log/sourcehut/gitsrht-shell
-    '';
-  } // gqlgen);
+      postPatch = ''
+        substituteInPlace gitsrht-shell/main.go \
+          --replace /var/log/gitsrht-shell /var/log/sourcehut/gitsrht-shell
+      '';
+    }
+    // gqlgen
+  );
 
-  gitUpdateHook = buildGoModule ({
-    inherit src version;
-    pname = "gitsrht-update-hook";
-    modRoot = "gitsrht-update-hook";
-    vendorHash = "sha256-yWVpldqwpEZmeI18tvdIgof8GgSFEP70c8T5XDkryn0=";
+  gitUpdateHook = buildGoModule (
+    {
+      inherit src version;
+      pname = "gitsrht-update-hook";
+      modRoot = "gitsrht-update-hook";
+      vendorHash = "sha256-yWVpldqwpEZmeI18tvdIgof8GgSFEP70c8T5XDkryn0=";
 
-    postPatch = ''
-      substituteInPlace gitsrht-update-hook/main.go \
-        --replace /var/log/gitsrht-update-hook /var/log/sourcehut/gitsrht-update-hook
-    '';
-  } // gqlgen);
+      postPatch = ''
+        substituteInPlace gitsrht-update-hook/main.go \
+          --replace /var/log/gitsrht-update-hook /var/log/sourcehut/gitsrht-update-hook
+      '';
+    }
+    // gqlgen
+  );
 in
 buildPythonPackage rec {
   inherit src version;
@@ -122,6 +138,9 @@ buildPythonPackage rec {
     homepage = "https://git.sr.ht/~sircmpwn/git.sr.ht";
     description = "Git repository hosting service for the sr.ht network";
     license = licenses.agpl3Only;
-    maintainers = with maintainers; [ eadwu christoph-heiss ];
+    maintainers = with maintainers; [
+      eadwu
+      christoph-heiss
+    ];
   };
 }

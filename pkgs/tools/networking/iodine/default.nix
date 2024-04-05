@@ -1,4 +1,11 @@
-{ lib, stdenv, fetchFromGitHub, zlib, nettools, nixosTests }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  zlib,
+  nettools,
+  nixosTests,
+}:
 
 stdenv.mkDerivation rec {
   pname = "iodine";

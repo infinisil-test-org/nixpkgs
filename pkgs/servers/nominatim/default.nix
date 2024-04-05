@@ -1,8 +1,20 @@
-{ stdenv, lib, fetchFromGitHub, fetchurl
-, clang-tools, cmake, bzip2, zlib, expat, boost, git, pandoc
-# Nominatim needs to be built with the same postgres version it will target
-, postgresql
-, python3, php
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  fetchurl,
+  clang-tools,
+  cmake,
+  bzip2,
+  zlib,
+  expat,
+  boost,
+  git,
+  pandoc,
+  # Nominatim needs to be built with the same postgres version it will target
+  postgresql,
+  python3,
+  php,
 }:
 
 let
@@ -37,16 +49,18 @@ stdenv.mkDerivation rec {
     zlib
     expat
     boost
-    (python3.withPackages (ps: with ps; [
-      pyyaml
-      python-dotenv
-      psycopg2
-      psutil
-      jinja2
-      pyicu
-      datrie
-      pyosmium
-    ]))
+    (python3.withPackages (
+      ps: with ps; [
+        pyyaml
+        python-dotenv
+        psycopg2
+        psutil
+        jinja2
+        pyicu
+        datrie
+        pyosmium
+      ]
+    ))
     # python3Packages.pylint  # We don't want to run pylint because the package could break on pylint bumps which is really annoying.
     # python3Packages.pytest  # disabled since I can't get it to run tests anyway
     # python3Packages.behave  # disabled since I can't get it to run tests anyway

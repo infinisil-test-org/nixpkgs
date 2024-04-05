@@ -1,12 +1,13 @@
-{ lib
-, fetchFromGitHub
-, buildGoModule
-, buildNpmPackage
-, makeWrapper
-, exiftool
-, ffmpeg
-, testers
-, photofield
+{
+  lib,
+  fetchFromGitHub,
+  buildGoModule,
+  buildNpmPackage,
+  makeWrapper,
+  exiftool,
+  ffmpeg,
+  testers,
+  photofield,
 }:
 
 let
@@ -60,7 +61,12 @@ buildGoModule rec {
 
   postInstall = ''
     wrapProgram $out/bin/photofield \
-      --prefix PATH : "${lib.makeBinPath [exiftool ffmpeg]}"
+      --prefix PATH : "${
+        lib.makeBinPath [
+          exiftool
+          ffmpeg
+        ]
+      }"
   '';
 
   passthru.tests.version = testers.testVersion {

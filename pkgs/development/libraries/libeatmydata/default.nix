@@ -1,10 +1,11 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchpatch2
-, autoreconfHook
-, strace
-, which
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch2,
+  autoreconfHook,
+  strace,
+  which,
 }:
 
 stdenv.mkDerivation rec {
@@ -30,9 +31,7 @@ stdenv.mkDerivation rec {
     patchShebangs .
   '';
 
-  nativeBuildInputs = [
-    autoreconfHook
-  ];
+  nativeBuildInputs = [ autoreconfHook ];
 
   nativeCheckInputs = [
     strace

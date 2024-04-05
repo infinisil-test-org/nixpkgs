@@ -1,4 +1,11 @@
-{ lib, stdenv, fetchFromGitHub, autoreconfHook, installShellFiles, util-linux }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  autoreconfHook,
+  installShellFiles,
+  util-linux,
+}:
 
 stdenv.mkDerivation rec {
   pname = "swapspace";
@@ -40,7 +47,10 @@ stdenv.mkDerivation rec {
     homepage = "https://github.com/Tookmund/Swapspace";
     license = licenses.gpl2Only;
     platforms = platforms.linux;
-    maintainers = with maintainers; [ misuzu Luflosi ];
+    maintainers = with maintainers; [
+      misuzu
+      Luflosi
+    ];
     mainProgram = "swapspace";
   };
 }

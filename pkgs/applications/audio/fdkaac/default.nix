@@ -1,4 +1,11 @@
-{ lib, stdenv, autoreconfHook, fetchFromGitHub, fetchpatch, fdk_aac }:
+{
+  lib,
+  stdenv,
+  autoreconfHook,
+  fetchFromGitHub,
+  fetchpatch,
+  fdk_aac,
+}:
 
 stdenv.mkDerivation rec {
   pname = "fdkaac";

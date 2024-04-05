@@ -1,8 +1,9 @@
-{ lib
-, fetchzip
-, ocamlPackages
-, soupault
-, testers
+{
+  lib,
+  fetchzip,
+  ocamlPackages,
+  soupault,
+  testers,
 }:
 
 let

@@ -1,6 +1,19 @@
-{ lib, stdenv, fetchurl, system ? builtins.currentSystem, ovftoolBundles ? {}
-, autoPatchelfHook, makeWrapper, unzip
-, glibc, c-ares, libxcrypt-legacy, expat, icu60, xercesc, zlib
+{
+  lib,
+  stdenv,
+  fetchurl,
+  system ? builtins.currentSystem,
+  ovftoolBundles ? { },
+  autoPatchelfHook,
+  makeWrapper,
+  unzip,
+  glibc,
+  c-ares,
+  libxcrypt-legacy,
+  expat,
+  icu60,
+  xercesc,
+  zlib,
 }:
 
 let
@@ -20,33 +33,36 @@ let
     runHook postUnpack
   '';
 
-  ovftoolSystems = let
-    baseUrl = "https://vdc-download.vmware.com/vmwb-repository/dcr-public";
-  in {
-    "i686-linux" = rec {
-      name = "VMware-ovftool-${version_i686}-lin.i386.zip";
-      url = "${baseUrl}/7254abb2-434d-4f5d-83e2-9311ced9752e/57e666a2-874c-48fe-b1d2-4b6381f7fe97/${name}";
-      hash = "sha256-qEOr/3SW643G5ZQQNJTelZbUxB8HmxPd5uD+Gqsoxz0=";
-      unpackPhase = ovftoolZipUnpackPhase;
+  ovftoolSystems =
+    let
+      baseUrl = "https://vdc-download.vmware.com/vmwb-repository/dcr-public";
+    in
+    {
+      "i686-linux" = rec {
+        name = "VMware-ovftool-${version_i686}-lin.i386.zip";
+        url = "${baseUrl}/7254abb2-434d-4f5d-83e2-9311ced9752e/57e666a2-874c-48fe-b1d2-4b6381f7fe97/${name}";
+        hash = "sha256-qEOr/3SW643G5ZQQNJTelZbUxB8HmxPd5uD+Gqsoxz0=";
+        unpackPhase = ovftoolZipUnpackPhase;
+      };
+      "x86_64-linux" = rec {
+        name = "VMware-ovftool-${version}-lin.x86_64.zip";
+        url = "${baseUrl}/8a93ce23-4f88-4ae8-b067-ae174291e98f/c609234d-59f2-4758-a113-0ec5bbe4b120/${name}";
+        hash = "sha256-3B1cUDldoTqLsbSARj2abM65nv+Ot0z/Fa35/klJXEY=";
+        unpackPhase = ovftoolZipUnpackPhase;
+      };
     };
-    "x86_64-linux" = rec {
-      name = "VMware-ovftool-${version}-lin.x86_64.zip";
-      url = "${baseUrl}/8a93ce23-4f88-4ae8-b067-ae174291e98f/c609234d-59f2-4758-a113-0ec5bbe4b120/${name}";
-      hash = "sha256-3B1cUDldoTqLsbSARj2abM65nv+Ot0z/Fa35/klJXEY=";
-      unpackPhase = ovftoolZipUnpackPhase;
-    };
-  };
 
-  ovftoolSystem = if builtins.hasAttr system ovftoolSystems then
-                    ovftoolSystems.${system}
-                  else throw "System '${system}' is unsupported by ovftool";
+  ovftoolSystem =
+    if builtins.hasAttr system ovftoolSystems then
+      ovftoolSystems.${system}
+    else
+      throw "System '${system}' is unsupported by ovftool";
 
-  ovftoolSource = if builtins.hasAttr system ovftoolBundles then
-                    ovftoolBundles.${system}
-                  else
-                    fetchurl {
-                      inherit (ovftoolSystem) name url hash;
-                    };
+  ovftoolSource =
+    if builtins.hasAttr system ovftoolBundles then
+      ovftoolBundles.${system}
+    else
+      fetchurl { inherit (ovftoolSystem) name url hash; };
 in
 stdenv.mkDerivation rec {
   pname = "ovftool";
@@ -64,7 +80,11 @@ stdenv.mkDerivation rec {
     zlib
   ];
 
-  nativeBuildInputs = [ autoPatchelfHook makeWrapper unzip ];
+  nativeBuildInputs = [
+    autoPatchelfHook
+    makeWrapper
+    unzip
+  ];
 
   preferLocalBuild = true;
 
@@ -143,7 +163,10 @@ stdenv.mkDerivation rec {
     description = "VMWare tools for working with OVF, OVA, and VMX images";
     sourceProvenance = with sourceTypes; [ binaryNativeCode ];
     license = licenses.unfree;
-    maintainers = with maintainers; [ numinit wolfangaukang ];
+    maintainers = with maintainers; [
+      numinit
+      wolfangaukang
+    ];
     platforms = builtins.attrNames ovftoolSystems;
     mainProgram = "ovftool";
   };

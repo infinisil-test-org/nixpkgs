@@ -1,15 +1,16 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
 
-# dependencies
-, cssutils
-, lxml
-, requests
+  # dependencies
+  cssutils,
+  lxml,
+  requests,
 
-# tests
-, ipdb
-, pytestCheckHook
+  # tests
+  ipdb,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -30,9 +31,7 @@ buildPythonPackage rec {
     requests
   ];
 
-  pythonImportsCheck = [
-    "inlinestyler"
-  ];
+  pythonImportsCheck = [ "inlinestyler" ];
 
   nativeCheckInputs = [
     ipdb

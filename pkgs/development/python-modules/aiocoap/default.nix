@@ -1,25 +1,26 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonAtLeast
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonAtLeast,
+  pythonOlder,
 
-# build-system
-, setuptools
+  # build-system
+  setuptools,
 
-# optionals
-, cbor2
-, cbor-diag
-, cryptography
-, filelock
-, ge25519
-, dtlssocket
-, websockets
-, termcolor
-, pygments
+  # optionals
+  cbor2,
+  cbor-diag,
+  cryptography,
+  filelock,
+  ge25519,
+  dtlssocket,
+  websockets,
+  termcolor,
+  pygments,
 
-# tests
-, pytestCheckHook
+  # tests
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -36,9 +37,7 @@ buildPythonPackage rec {
     hash = "sha256-4iwoPfmIwk+PlWUp60aqA5qZgzyj34pnZHf9uH5UhnY=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   passthru.optional-dependencies = {
     oscore = [
@@ -47,12 +46,8 @@ buildPythonPackage rec {
       filelock
       ge25519
     ];
-    tinydtls = [
-      dtlssocket
-    ];
-    ws = [
-      websockets
-    ];
+    tinydtls = [ dtlssocket ];
+    ws = [ websockets ];
     prettyprint = [
       termcolor
       cbor2
@@ -61,9 +56,7 @@ buildPythonPackage rec {
     ];
   };
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   pytestFlagsArray = lib.optionals (pythonAtLeast "3.12") [
     # https://github.com/chrysn/aiocoap/issues/339
@@ -94,9 +87,7 @@ buildPythonPackage rec {
     "test_uri_parser"
   ];
 
-  pythonImportsCheck = [
-    "aiocoap"
-  ];
+  pythonImportsCheck = [ "aiocoap" ];
 
   meta = with lib; {
     description = "Python CoAP library";

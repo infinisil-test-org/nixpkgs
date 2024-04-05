@@ -1,4 +1,11 @@
-{ lib, rustPlatform, fetchFromGitHub, makeWrapper, z3, pkgsHostTarget }:
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  makeWrapper,
+  z3,
+  pkgsHostTarget,
+}:
 
 let
   runtimeDeps = [

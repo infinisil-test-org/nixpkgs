@@ -1,20 +1,21 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, huggingface-hub
-, nltk
-, numpy
-, pytestCheckHook
-, pythonOlder
-, scikit-learn
-, scipy
-, sentencepiece
-, setuptools
-, tokenizers
-, torch
-, torchvision
-, tqdm
-, transformers
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  huggingface-hub,
+  nltk,
+  numpy,
+  pytestCheckHook,
+  pythonOlder,
+  scikit-learn,
+  scipy,
+  sentencepiece,
+  setuptools,
+  tokenizers,
+  torch,
+  torchvision,
+  tqdm,
+  transformers,
 }:
 
 buildPythonPackage rec {
@@ -31,9 +32,7 @@ buildPythonPackage rec {
     hash = "sha256-09AAuv/yXTbBvjA4gu5ueZrQkVja0BTIGNLZ2tLSyh8=";
   };
 
-  build-system = [
-    setuptools
-  ];
+  build-system = [ setuptools ];
 
   dependencies = [
     huggingface-hub
@@ -49,13 +48,9 @@ buildPythonPackage rec {
     transformers
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "sentence_transformers"
-  ];
+  pythonImportsCheck = [ "sentence_transformers" ];
 
   disabledTests = [
     # Tests require network access

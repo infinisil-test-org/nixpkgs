@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchFromGitHub, premake5 }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  premake5,
+}:
 
 stdenv.mkDerivation rec {
   pname = "otfcc";
@@ -34,5 +39,4 @@ stdenv.mkDerivation rec {
     platforms = platforms.unix;
     maintainers = with maintainers; [ ttuegel ];
   };
-
 }

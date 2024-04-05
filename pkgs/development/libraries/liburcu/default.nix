@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchurl, perl }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  perl,
+}:
 
 stdenv.mkDerivation rec {
   version = "0.14.0";
@@ -9,7 +14,11 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-ykO/Jh1NOSz/IN+uRAg2YDvwCfziT9ybJpfYN6IjnU8=";
   };
 
-  outputs = [ "out" "dev" "doc" ];
+  outputs = [
+    "out"
+    "dev"
+    "doc"
+  ];
 
   nativeCheckInputs = [ perl ];
 
@@ -24,5 +33,4 @@ stdenv.mkDerivation rec {
     platforms = platforms.unix;
     maintainers = [ maintainers.bjornfor ];
   };
-
 }

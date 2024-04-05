@@ -1,20 +1,21 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, dbus-glib
-, glib
-, gnome-desktop
-, gtk3
-, intltool
-, libgnomekbd
-, libX11
-, linux-pam
-, meson
-, ninja
-, pkg-config
-, systemd
-, wrapGAppsHook
-, xorg
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  dbus-glib,
+  glib,
+  gnome-desktop,
+  gtk3,
+  intltool,
+  libgnomekbd,
+  libX11,
+  linux-pam,
+  meson,
+  ninja,
+  pkg-config,
+  systemd,
+  wrapGAppsHook,
+  xorg,
 }:
 
 stdenv.mkDerivation (finalAttrs: {

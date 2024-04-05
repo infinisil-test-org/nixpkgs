@@ -3,18 +3,22 @@
   config,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.programs.direnv;
-in {
+in
+{
   options.programs.direnv = {
 
-    enable = lib.mkEnableOption (lib.mdDoc ''
-      direnv integration. Takes care of both installation and
-      setting up the sourcing of the shell. Additionally enables nix-direnv
-      integration. Note that you need to logout and login for this change to apply
-    '');
+    enable = lib.mkEnableOption (
+      lib.mdDoc ''
+        direnv integration. Takes care of both installation and
+        setting up the sourcing of the shell. Additionally enables nix-direnv
+        integration. Note that you need to logout and login for this change to apply
+      ''
+    );
 
-    package = lib.mkPackageOption pkgs "direnv" {};
+    package = lib.mkPackageOption pkgs "direnv" { };
 
     direnvrcExtra = lib.mkOption {
       type = lib.types.lines;
@@ -28,23 +32,29 @@ in {
       '';
     };
 
-    silent = lib.mkEnableOption (lib.mdDoc ''
-      the hiding of direnv logging
-    '');
+    silent = lib.mkEnableOption (
+      lib.mdDoc ''
+        the hiding of direnv logging
+      ''
+    );
 
     loadInNixShell =
-      lib.mkEnableOption (lib.mdDoc ''
-        loading direnv in `nix-shell` `nix shell` or `nix develop`
-      '')
+      lib.mkEnableOption (
+        lib.mdDoc ''
+          loading direnv in `nix-shell` `nix shell` or `nix develop`
+        ''
+      )
       // {
         default = true;
       };
 
     nix-direnv = {
       enable =
-        (lib.mkEnableOption (lib.mdDoc ''
-          a faster, persistent implementation of use_nix and use_flake, to replace the built-in one
-        ''))
+        (lib.mkEnableOption (
+          lib.mdDoc ''
+            a faster, persistent implementation of use_nix and use_flake, to replace the built-in one
+          ''
+        ))
         // {
           default = true;
         };
@@ -61,7 +71,11 @@ in {
   };
 
   imports = [
-    (lib.mkRemovedOptionModule ["programs" "direnv" "persistDerivations"] "persistDerivations was removed as it is no longer necessary")
+    (lib.mkRemovedOptionModule [
+      "programs"
+      "direnv"
+      "persistDerivations"
+    ] "persistDerivations was removed as it is no longer necessary")
   ];
 
   config = lib.mkIf cfg.enable {
@@ -91,17 +105,19 @@ in {
 
     environment = {
       systemPackages =
-        if cfg.loadInNixShell then [cfg.package]
-        else [
-          #direnv has a fish library which sources direnv for some reason
-          (cfg.package.overrideAttrs (old: {
-            installPhase =
-              (old.installPhase or "")
-              + ''
-                rm -rf $out/share/fish
-              '';
-          }))
-        ];
+        if cfg.loadInNixShell then
+          [ cfg.package ]
+        else
+          [
+            #direnv has a fish library which sources direnv for some reason
+            (cfg.package.overrideAttrs (old: {
+              installPhase =
+                (old.installPhase or "")
+                + ''
+                  rm -rf $out/share/fish
+                '';
+            }))
+          ];
 
       variables = {
         DIRENV_CONFIG = "/etc/direnv";

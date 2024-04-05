@@ -1,10 +1,11 @@
-{ lib
-, pythonOlder
-, fetchFromGitHub
-, fetchpatch
-, buildPythonPackage
-, cython
-, slurm
+{
+  lib,
+  pythonOlder,
+  fetchFromGitHub,
+  fetchpatch,
+  buildPythonPackage,
+  cython,
+  slurm,
 }:
 
 buildPythonPackage rec {
@@ -21,15 +22,23 @@ buildPythonPackage rec {
     hash = "sha256-Qi0XftneKj7hdDiLY2hoRONRrPv49mfQlvlNkudH54Y=";
   };
 
-  patches = [ (fetchpatch {
-    name = "remove-undeclared-KILL_JOB_ARRAY";
-    url = "https://github.com/PySlurm/pyslurm/commit/f7a7d8beb8ceb4e4c1b248bab2ebb995dcae77e2.patch";
-    hash = "sha256-kQLGiGzAhqP8Z6pObz9vdTRdITd12w7KuUDXsfyLIU8=";
-  })];
+  patches = [
+    (fetchpatch {
+      name = "remove-undeclared-KILL_JOB_ARRAY";
+      url = "https://github.com/PySlurm/pyslurm/commit/f7a7d8beb8ceb4e4c1b248bab2ebb995dcae77e2.patch";
+      hash = "sha256-kQLGiGzAhqP8Z6pObz9vdTRdITd12w7KuUDXsfyLIU8=";
+    })
+  ];
 
-  buildInputs = [ cython slurm ];
+  buildInputs = [
+    cython
+    slurm
+  ];
 
-  setupPyBuildFlags = [ "--slurm-lib=${lib.getLib slurm}/lib" "--slurm-inc=${lib.getDev slurm}/include" ];
+  setupPyBuildFlags = [
+    "--slurm-lib=${lib.getLib slurm}/lib"
+    "--slurm-inc=${lib.getDev slurm}/include"
+  ];
 
   # Test cases need /etc/slurm/slurm.conf and require a working slurm installation
   doCheck = false;

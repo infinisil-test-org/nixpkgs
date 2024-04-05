@@ -1,4 +1,8 @@
-{ lib, stdenvNoCC, buildPackages }:
+{
+  lib,
+  stdenvNoCC,
+  buildPackages,
+}:
 
 let
   rpath = lib.makeLibraryPath [
@@ -37,7 +41,6 @@ let
     rustc = bootstrapCrossRust;
     cargo = bootstrapCrossRust;
   };
-
 in
 redoxRustPlatform.buildRustPackage rec {
   pname = "relibc";

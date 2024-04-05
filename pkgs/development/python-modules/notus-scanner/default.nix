@@ -1,15 +1,16 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, paho-mqtt
-, poetry-core
-, psutil
-, pytestCheckHook
-, python-gnupg
-, pythonOlder
-, pythonRelaxDepsHook
-, sentry-sdk
-, tomli
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  paho-mqtt,
+  poetry-core,
+  psutil,
+  pytestCheckHook,
+  python-gnupg,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  sentry-sdk,
+  tomli,
 }:
 
 buildPythonPackage rec {
@@ -41,17 +42,11 @@ buildPythonPackage rec {
     psutil
     python-gnupg
     sentry-sdk
-  ] ++ lib.optionals (pythonOlder "3.11") [
-    tomli
-  ];
+  ] ++ lib.optionals (pythonOlder "3.11") [ tomli ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "notus.scanner"
-  ];
+  pythonImportsCheck = [ "notus.scanner" ];
 
   meta = with lib; {
     description = "Helper to create results from local security checks";

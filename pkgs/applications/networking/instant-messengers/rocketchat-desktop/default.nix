@@ -1,4 +1,10 @@
-{ lib, stdenv, pkgs, fetchurl, wrapGAppsHook }:
+{
+  lib,
+  stdenv,
+  pkgs,
+  fetchurl,
+  wrapGAppsHook,
+}:
 let
   libPathNative = { packages }: lib.makeLibraryPath packages;
 in
@@ -12,7 +18,7 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [
-    wrapGAppsHook #to fully work with gnome also needs programs.dconf.enable = true in your configuration.nix
+    wrapGAppsHook # to fully work with gnome also needs programs.dconf.enable = true in your configuration.nix
   ];
 
   buildInputs = with pkgs; [

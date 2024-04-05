@@ -1,6 +1,7 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
 }:
 
 buildGoModule rec {
@@ -16,9 +17,7 @@ buildGoModule rec {
 
   vendorHash = "sha256-fGOta+IsX/McUkQGOvf9ZlnCD1falDJSeU+AX359Zpw=";
 
-  subPackages = [
-    "cmd/xeol/"
-  ];
+  subPackages = [ "cmd/xeol/" ];
 
   ldflags = [
     "-w"

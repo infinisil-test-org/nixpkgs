@@ -1,16 +1,17 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, cached-property
-, packaging
-, pdm-backend
-, requests
-, flask
-, pytest-httpserver
-, pytestCheckHook
-, requests-wsgi-adapter
-, trustme
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  cached-property,
+  packaging,
+  pdm-backend,
+  requests,
+  flask,
+  pytest-httpserver,
+  pytestCheckHook,
+  requests-wsgi-adapter,
+  trustme,
 }:
 
 buildPythonPackage rec {
@@ -25,9 +26,7 @@ buildPythonPackage rec {
     hash = "sha256-883fuUrA+GX7z5ZCMVVu9xgwEDecALASBVF6UMeKGG0=";
   };
 
-  nativeBuildInputs = [
-    pdm-backend
-  ];
+  nativeBuildInputs = [ pdm-backend ];
 
   propagatedBuildInputs = [
     packaging
@@ -44,9 +43,7 @@ buildPythonPackage rec {
     trustme
   ];
 
-  pythonImportsCheck = [
-    "unearth"
-  ];
+  pythonImportsCheck = [ "unearth" ];
 
   meta = with lib; {
     description = "A utility to fetch and download Python packages";

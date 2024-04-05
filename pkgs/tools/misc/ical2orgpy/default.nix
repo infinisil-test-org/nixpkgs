@@ -1,6 +1,7 @@
-{ lib
-, python3
-, fetchFromGitHub
+{
+  lib,
+  python3,
+  fetchFromGitHub,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -39,5 +40,4 @@ python3.pkgs.buildPythonApplication rec {
     maintainers = with maintainers; [ StillerHarpo ];
     mainProgram = "ical2orgpy";
   };
-
 }

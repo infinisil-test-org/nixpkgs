@@ -1,19 +1,20 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, click
-, colorama
-, coverage
-, fetchpatch
-, fetchPypi
-, flit-core
-, pytest-sugar
-, pytest-xdist
-, pytestCheckHook
-, pythonOlder
-, rich
-, shellingham
-, typing-extensions
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  click,
+  colorama,
+  coverage,
+  fetchpatch,
+  fetchPypi,
+  flit-core,
+  pytest-sugar,
+  pytest-xdist,
+  pytestCheckHook,
+  pythonOlder,
+  rich,
+  shellingham,
+  typing-extensions,
 }:
 
 buildPythonPackage rec {
@@ -37,9 +38,7 @@ buildPythonPackage rec {
     })
   ];
 
-  nativeBuildInputs = [
-    flit-core
-  ];
+  nativeBuildInputs = [ flit-core ];
 
   propagatedBuildInputs = [
     click
@@ -71,13 +70,9 @@ buildPythonPackage rec {
     # fails also on Linux
     "test_show_completion"
     "test_install_completion"
-  ] ++ lib.optionals (stdenv.isLinux && stdenv.isAarch64) [
-    "test_install_completion"
-  ];
+  ] ++ lib.optionals (stdenv.isLinux && stdenv.isAarch64) [ "test_install_completion" ];
 
-  pythonImportsCheck = [
-    "typer"
-  ];
+  pythonImportsCheck = [ "typer" ];
 
   meta = with lib; {
     description = "Library for building CLI applications";

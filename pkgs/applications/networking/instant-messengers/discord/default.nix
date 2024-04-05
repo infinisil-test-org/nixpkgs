@@ -1,17 +1,26 @@
-{ branch ? "stable", callPackage, fetchurl, lib, stdenv }:
+{
+  branch ? "stable",
+  callPackage,
+  fetchurl,
+  lib,
+  stdenv,
+}:
 let
   versions =
-    if stdenv.isLinux then {
-      stable = "0.0.46";
-      ptb = "0.0.76";
-      canary = "0.0.323";
-      development = "0.0.16";
-    } else {
-      stable = "0.0.296";
-      ptb = "0.0.102";
-      canary = "0.0.435";
-      development = "0.0.31";
-    };
+    if stdenv.isLinux then
+      {
+        stable = "0.0.46";
+        ptb = "0.0.76";
+        canary = "0.0.323";
+        development = "0.0.16";
+      }
+    else
+      {
+        stable = "0.0.296";
+        ptb = "0.0.102";
+        canary = "0.0.435";
+        development = "0.0.31";
+      };
   version = versions.${branch};
   srcs = rec {
     x86_64-linux = {
@@ -60,25 +69,43 @@ let
     downloadPage = "https://discordapp.com/download";
     sourceProvenance = with sourceTypes; [ binaryNativeCode ];
     license = licenses.unfree;
-    maintainers = with maintainers; [ MP2E Scrumplex artturin infinidoge jopejoe1 ];
-    platforms = [ "x86_64-linux" "x86_64-darwin" "aarch64-darwin" ];
+    maintainers = with maintainers; [
+      MP2E
+      Scrumplex
+      artturin
+      infinidoge
+      jopejoe1
+    ];
+    platforms = [
+      "x86_64-linux"
+      "x86_64-darwin"
+      "aarch64-darwin"
+    ];
     mainProgram = "discord";
   };
-  package =
-    if stdenv.isLinux
-    then ./linux.nix
-    else ./darwin.nix;
+  package = if stdenv.isLinux then ./linux.nix else ./darwin.nix;
 
   openasar = callPackage ./openasar.nix { };
 
   packages = (
     builtins.mapAttrs
-      (_: value:
-        callPackage package (value
+      (
+        _: value:
+        callPackage package (
+          value
           // {
-          inherit src version openasar branch;
-          meta = meta // { mainProgram = value.binaryName; };
-        }))
+            inherit
+              src
+              version
+              openasar
+              branch
+              ;
+            meta = meta // {
+              mainProgram = value.binaryName;
+            };
+          }
+        )
+      )
       {
         stable = rec {
           pname = "discord";

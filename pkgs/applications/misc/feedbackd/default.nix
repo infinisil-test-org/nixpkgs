@@ -1,23 +1,24 @@
-{ lib
-, stdenv
-, fetchFromGitLab
-, fetchpatch2
-, docbook-xsl-nons
-, docutils
-, gi-docgen
-, gobject-introspection
-, gtk-doc
-, libxslt
-, meson
-, ninja
-, pkg-config
-, vala
-, wrapGAppsHook
-, glib
-, gsound
-, json-glib
-, libgudev
-, dbus
+{
+  lib,
+  stdenv,
+  fetchFromGitLab,
+  fetchpatch2,
+  docbook-xsl-nons,
+  docutils,
+  gi-docgen,
+  gobject-introspection,
+  gtk-doc,
+  libxslt,
+  meson,
+  ninja,
+  pkg-config,
+  vala,
+  wrapGAppsHook,
+  glib,
+  gsound,
+  json-glib,
+  libgudev,
+  dbus,
 }:
 
 let
@@ -33,7 +34,11 @@ stdenv.mkDerivation rec {
   pname = "feedbackd";
   version = "0.2.0";
 
-  outputs = [ "out" "dev" "devdoc" ];
+  outputs = [
+    "out"
+    "dev"
+    "devdoc"
+  ];
 
   src = fetchFromGitLab {
     domain = "source.puri.sm";
@@ -44,9 +49,7 @@ stdenv.mkDerivation rec {
     fetchSubmodules = true;
   };
 
-  depsBuildBuild = [
-    pkg-config
-  ];
+  depsBuildBuild = [ pkg-config ];
 
   nativeBuildInputs = [
     docbook-xsl-nons
@@ -74,9 +77,7 @@ stdenv.mkDerivation rec {
     "-Dman=true"
   ];
 
-  nativeCheckInputs = [
-    dbus
-  ];
+  nativeCheckInputs = [ dbus ];
 
   doCheck = true;
 
@@ -101,7 +102,10 @@ stdenv.mkDerivation rec {
     description = "A daemon to provide haptic (and later more) feedback on events";
     homepage = "https://source.puri.sm/Librem5/feedbackd";
     license = licenses.gpl3Plus;
-    maintainers = with maintainers; [ pacman99 tomfitzhenry ];
+    maintainers = with maintainers; [
+      pacman99
+      tomfitzhenry
+    ];
     platforms = platforms.linux;
   };
 }

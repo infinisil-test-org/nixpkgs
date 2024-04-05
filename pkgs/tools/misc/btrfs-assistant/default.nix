@@ -1,19 +1,20 @@
-{ lib
-, stdenv
-, fetchFromGitLab
-, bash
-, btrfs-progs
-, cmake
-, coreutils
-, git
-, pkg-config
-, qtbase
-, qtsvg
-, qttools
-, snapper
-, util-linux
-, wrapQtAppsHook
-, enableSnapper ? true
+{
+  lib,
+  stdenv,
+  fetchFromGitLab,
+  bash,
+  btrfs-progs,
+  cmake,
+  coreutils,
+  git,
+  pkg-config,
+  qtbase,
+  qtsvg,
+  qttools,
+  snapper,
+  util-linux,
+  wrapQtAppsHook,
+  enableSnapper ? true,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -42,41 +43,43 @@ stdenv.mkDerivation (finalAttrs: {
 
   propagatedBuildInputs = [ wrapQtAppsHook ];
 
-  prePatch = ''
-    substituteInPlace src/util/System.cpp \
-      --replace '/bin/bash' "${lib.getExe bash}"
-  ''
-  + lib.optionalString enableSnapper ''
-    substituteInPlace src/main.cpp \
-      --replace '/usr/bin/snapper' "${lib.getExe snapper}"
-  '';
+  prePatch =
+    ''
+      substituteInPlace src/util/System.cpp \
+        --replace '/bin/bash' "${lib.getExe bash}"
+    ''
+    + lib.optionalString enableSnapper ''
+      substituteInPlace src/main.cpp \
+        --replace '/usr/bin/snapper' "${lib.getExe snapper}"
+    '';
 
-  postPatch = ''
-    substituteInPlace src/org.btrfs-assistant.pkexec.policy \
-      --replace '/usr/bin' "$out/bin"
+  postPatch =
+    ''
+      substituteInPlace src/org.btrfs-assistant.pkexec.policy \
+        --replace '/usr/bin' "$out/bin"
 
-    substituteInPlace src/btrfs-assistant \
-      --replace 'btrfs-assistant-bin' "$out/bin/btrfs-assistant-bin"
+      substituteInPlace src/btrfs-assistant \
+        --replace 'btrfs-assistant-bin' "$out/bin/btrfs-assistant-bin"
 
-    substituteInPlace src/btrfs-assistant-launcher \
-      --replace 'btrfs-assistant' "$out/bin/btrfs-assistant"
-  ''
-  + lib.optionalString enableSnapper ''
-    substituteInPlace src/btrfs-assistant.conf \
-      --replace '/usr/bin/snapper' "${lib.getExe snapper}"
-  '';
+      substituteInPlace src/btrfs-assistant-launcher \
+        --replace 'btrfs-assistant' "$out/bin/btrfs-assistant"
+    ''
+    + lib.optionalString enableSnapper ''
+      substituteInPlace src/btrfs-assistant.conf \
+        --replace '/usr/bin/snapper' "${lib.getExe snapper}"
+    '';
 
   qtWrapperArgs =
     let
-      runtimeDeps = lib.makeBinPath ([
-        coreutils
-        util-linux
-      ]
-      ++ lib.optionals enableSnapper [ snapper ]);
+      runtimeDeps = lib.makeBinPath (
+        [
+          coreutils
+          util-linux
+        ]
+        ++ lib.optionals enableSnapper [ snapper ]
+      );
     in
-    [
-      "--prefix PATH : ${runtimeDeps}"
-    ];
+    [ "--prefix PATH : ${runtimeDeps}" ];
 
   meta = {
     description = "A GUI management tool to make managing a Btrfs filesystem easier";

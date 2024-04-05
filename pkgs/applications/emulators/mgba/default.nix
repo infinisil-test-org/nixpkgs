@@ -1,28 +1,30 @@
-{ lib
-, SDL2
-, cmake
-, fetchFromGitHub
-, ffmpeg
-, discord-rpc
-, libedit
-, elfutils
-, libepoxy
-, libsForQt5
-, libzip
-, lua
-, minizip
-, pkg-config
-, stdenv
-, wrapGAppsHook
-, enableDiscordRpc ? false
+{
+  lib,
+  SDL2,
+  cmake,
+  fetchFromGitHub,
+  ffmpeg,
+  discord-rpc,
+  libedit,
+  elfutils,
+  libepoxy,
+  libsForQt5,
+  libzip,
+  lua,
+  minizip,
+  pkg-config,
+  stdenv,
+  wrapGAppsHook,
+  enableDiscordRpc ? false,
 }:
 
 let
-    inherit (libsForQt5)
-      qtbase
-      qtmultimedia
-      qttools
-      wrapQtAppsHook;
+  inherit (libsForQt5)
+    qtbase
+    qtmultimedia
+    qttools
+    wrapQtAppsHook
+    ;
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "mgba";
@@ -35,7 +37,13 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-wSt3kyjRxKBnDOVY10jq4cpv7uIaBUIcsZr6aU7XnMA=";
   };
 
-  outputs = [ "out" "dev" "doc" "lib" "man" ];
+  outputs = [
+    "out"
+    "dev"
+    "doc"
+    "lib"
+    "man"
+  ];
 
   nativeBuildInputs = [
     SDL2
@@ -57,12 +65,9 @@ stdenv.mkDerivation (finalAttrs: {
     qtbase
     qtmultimedia
     qttools
-  ]
-  ++ lib.optionals enableDiscordRpc [ discord-rpc ];
+  ] ++ lib.optionals enableDiscordRpc [ discord-rpc ];
 
-  cmakeFlags = [
-    (lib.cmakeBool "USE_DISCORD_RPC" enableDiscordRpc)
-  ];
+  cmakeFlags = [ (lib.cmakeBool "USE_DISCORD_RPC" enableDiscordRpc) ];
 
   strictDeps = true;
 
@@ -92,7 +97,10 @@ stdenv.mkDerivation (finalAttrs: {
     changelog = "https://raw.githubusercontent.com/mgba-emu/mgba/${finalAttrs.src.rev}/CHANGES";
     license = with lib.licenses; [ mpl20 ];
     mainProgram = "mgba";
-    maintainers = with lib.maintainers; [ MP2E AndersonTorres ];
+    maintainers = with lib.maintainers; [
+      MP2E
+      AndersonTorres
+    ];
     platforms = lib.platforms.linux;
     broken = enableDiscordRpc; # Some obscure `ld` error
   };

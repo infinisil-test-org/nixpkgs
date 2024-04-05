@@ -1,20 +1,21 @@
-{ lib
-, stdenv
-, bash
-, buildPythonPackage
-, fetchFromGitHub
-, fetchpatch
-, gnumake
-, httpx
-, openssl
-, paramiko
-, pytest-asyncio
-, pytest-mock
-, pytestCheckHook
-, pythonOlder
-, setuptools-scm
-, typing-extensions
-, wheel
+{
+  lib,
+  stdenv,
+  bash,
+  buildPythonPackage,
+  fetchFromGitHub,
+  fetchpatch,
+  gnumake,
+  httpx,
+  openssl,
+  paramiko,
+  pytest-asyncio,
+  pytest-mock,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools-scm,
+  typing-extensions,
+  wheel,
 }:
 
 buildPythonPackage rec {
@@ -86,9 +87,7 @@ buildPythonPackage rec {
     "integration"
   ];
 
-  pythonImportsCheck = [
-    "proxy"
-  ];
+  pythonImportsCheck = [ "proxy" ];
 
   meta = with lib; {
     description = "Python proxy framework";

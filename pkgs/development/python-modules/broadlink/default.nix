@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, cryptography
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  cryptography,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -17,20 +18,16 @@ buildPythonPackage rec {
     hash = "sha256-3+WKuMbH79v2i4wurObKQZowCmFbVsxlQp3aSk+eelg=";
   };
 
-  propagatedBuildInputs = [
-    cryptography
-  ];
+  propagatedBuildInputs = [ cryptography ];
 
   # Module has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "broadlink"
-  ];
+  pythonImportsCheck = [ "broadlink" ];
 
   meta = with lib; {
     description = "Python API for controlling Broadlink IR controllers";
-    homepage =  "https://github.com/mjg59/python-broadlink";
+    homepage = "https://github.com/mjg59/python-broadlink";
     changelog = "https://github.com/mjg59/python-broadlink/releases/tag/${version}";
     license = licenses.mit;
     maintainers = with maintainers; [ fab ];

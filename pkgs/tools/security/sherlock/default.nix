@@ -1,7 +1,8 @@
-{ lib
-, fetchFromGitHub
-, makeWrapper
-, python3
+{
+  lib,
+  fetchFromGitHub,
+  makeWrapper,
+  python3,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -44,9 +45,7 @@ python3.pkgs.buildPythonApplication rec {
       --prefix PYTHONPATH : "$PYTHONPATH"
   '';
 
-  checkInputs = with python3.pkgs; [
-    exrex
-  ];
+  checkInputs = with python3.pkgs; [ exrex ];
 
   checkPhase = ''
     runHook preCheck

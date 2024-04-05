@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, pytestCheckHook
-, setuptools-scm
-, nipreps-versions
-, pybids
-, requests
-, tqdm
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  pytestCheckHook,
+  setuptools-scm,
+  nipreps-versions,
+  pybids,
+  requests,
+  tqdm,
 }:
 
 buildPythonPackage rec {
@@ -32,7 +33,7 @@ buildPythonPackage rec {
     tqdm
   ];
 
-  doCheck = false;  # most tests try to download data
+  doCheck = false; # most tests try to download data
   #pythonImportsCheck = [ "templateflow" ];  # touches $HOME/.cache, hence needs https://github.com/NixOS/nixpkgs/pull/120300
 
   meta = with lib; {

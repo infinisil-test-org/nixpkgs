@@ -1,13 +1,14 @@
-{ lib
-, stdenv
-, fetchFromGitea
-, libxkbcommon
-, pam
-, pkg-config
-, scdoc
-, wayland
-, wayland-protocols
-, zig_0_11
+{
+  lib,
+  stdenv,
+  fetchFromGitea,
+  libxkbcommon,
+  pam,
+  pkg-config,
+  scdoc,
+  wayland,
+  wayland-protocols,
+  zig_0_11,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -45,7 +46,10 @@ stdenv.mkDerivation (finalAttrs: {
     changelog = "https://codeberg.org/ifreund/waylock/releases/tag/v${finalAttrs.version}";
     description = "A small screenlocker for Wayland compositors";
     license = lib.licenses.isc;
-    maintainers = with lib.maintainers; [ adamcstephens jordanisaacs ];
+    maintainers = with lib.maintainers; [
+      adamcstephens
+      jordanisaacs
+    ];
     mainProgram = "waylock";
     platforms = lib.platforms.linux;
   };

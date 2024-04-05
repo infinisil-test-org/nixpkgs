@@ -1,13 +1,15 @@
-{ lib
-, python3
-, fetchPypi
-, fetchFromGitHub
-, ffmpeg
+{
+  lib,
+  python3,
+  fetchPypi,
+  fetchFromGitHub,
+  ffmpeg,
 }:
 
 let
   python = python3;
-in python.pkgs.buildPythonApplication rec {
+in
+python.pkgs.buildPythonApplication rec {
   pname = "spotdl";
   version = "4.2.4";
   pyproject = true;
@@ -26,28 +28,31 @@ in python.pkgs.buildPythonApplication rec {
 
   pythonRelaxDeps = true;
 
-  propagatedBuildInputs = with python.pkgs; [
-    spotipy
-    ytmusicapi
-    pytube
-    yt-dlp
-    mutagen
-    rich
-    beautifulsoup4
-    requests
-    rapidfuzz
-    python-slugify
-    uvicorn
-    pydantic
-    fastapi
-    platformdirs
-    pykakasi
-    syncedlyrics
-    typing-extensions
-    soundcloud-v2
-    bandcamp-api
-    setuptools # for pkg_resources
-  ] ++ python-slugify.optional-dependencies.unidecode;
+  propagatedBuildInputs =
+    with python.pkgs;
+    [
+      spotipy
+      ytmusicapi
+      pytube
+      yt-dlp
+      mutagen
+      rich
+      beautifulsoup4
+      requests
+      rapidfuzz
+      python-slugify
+      uvicorn
+      pydantic
+      fastapi
+      platformdirs
+      pykakasi
+      syncedlyrics
+      typing-extensions
+      soundcloud-v2
+      bandcamp-api
+      setuptools # for pkg_resources
+    ]
+    ++ python-slugify.optional-dependencies.unidecode;
 
   nativeCheckInputs = with python.pkgs; [
     pytestCheckHook
@@ -86,7 +91,10 @@ in python.pkgs.buildPythonApplication rec {
   ];
 
   makeWrapperArgs = [
-    "--prefix" "PATH" ":" (lib.makeBinPath [ ffmpeg ])
+    "--prefix"
+    "PATH"
+    ":"
+    (lib.makeBinPath [ ffmpeg ])
   ];
 
   meta = with lib; {

@@ -1,4 +1,10 @@
-{ config, lib, utils, pkgs, ... }:
+{
+  config,
+  lib,
+  utils,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -11,7 +17,6 @@ let
     extraGSettingsOverridePackages = cfg.extraGSettingsOverridePackages;
     extraGSettingsOverrides = cfg.extraGSettingsOverrides;
   };
-
 in
 
 {
@@ -26,11 +31,10 @@ in
     services.pantheon = {
 
       contractor = {
-         enable = mkEnableOption (lib.mdDoc "contractor, a desktop-wide extension service used by Pantheon");
+        enable = mkEnableOption (lib.mdDoc "contractor, a desktop-wide extension service used by Pantheon");
       };
 
       apps.enable = mkEnableOption (lib.mdDoc "Pantheon default applications");
-
     };
 
     services.xserver.desktopManager.pantheon = {
@@ -41,7 +45,7 @@ in
       };
 
       sessionPath = mkOption {
-        default = [];
+        default = [ ];
         type = types.listOf types.package;
         example = literalExpression "[ pkgs.gnome.gpaste ]";
         description = lib.mdDoc ''
@@ -71,24 +75,21 @@ in
       };
 
       extraGSettingsOverridePackages = mkOption {
-        default = [];
+        default = [ ];
         type = types.listOf types.path;
         description = lib.mdDoc "List of packages for which gsettings are overridden.";
       };
 
       debug = mkEnableOption (lib.mdDoc "gnome-session debug messages");
-
     };
 
     environment.pantheon.excludePackages = mkOption {
-      default = [];
+      default = [ ];
       example = literalExpression "[ pkgs.pantheon.elementary-camera ]";
       type = types.listOf types.package;
       description = lib.mdDoc "Which packages pantheon should exclude from the default environment";
     };
-
   };
-
 
   config = mkMerge [
     (mkIf cfg.enable {
@@ -100,10 +101,9 @@ in
 
       # Ensure lightdm is used when Pantheon is enabled
       # Without it screen locking will be nonfunctional because of the use of lightlocker
-      warnings = optional (config.services.xserver.displayManager.lightdm.enable != true)
-        ''
-          Using Pantheon without LightDM as a displayManager will break screenlocking from the UI.
-        '';
+      warnings = optional (config.services.xserver.displayManager.lightdm.enable != true) ''
+        Using Pantheon without LightDM as a displayManager will break screenlocking from the UI.
+      '';
 
       services.xserver.displayManager.lightdm.greeters.pantheon.enable = mkDefault true;
 
@@ -114,16 +114,18 @@ in
       services.xserver.displayManager.sessionCommands = ''
         if test "$XDG_CURRENT_DESKTOP" = "Pantheon"; then
             true
-            ${concatMapStrings (p: ''
-              if [ -d "${p}/share/gsettings-schemas/${p.name}" ]; then
-                export XDG_DATA_DIRS=$XDG_DATA_DIRS''${XDG_DATA_DIRS:+:}${p}/share/gsettings-schemas/${p.name}
-              fi
+            ${
+              concatMapStrings (p: ''
+                if [ -d "${p}/share/gsettings-schemas/${p.name}" ]; then
+                  export XDG_DATA_DIRS=$XDG_DATA_DIRS''${XDG_DATA_DIRS:+:}${p}/share/gsettings-schemas/${p.name}
+                fi
 
-              if [ -d "${p}/lib/girepository-1.0" ]; then
-                export GI_TYPELIB_PATH=$GI_TYPELIB_PATH''${GI_TYPELIB_PATH:+:}${p}/lib/girepository-1.0
-                export LD_LIBRARY_PATH=$LD_LIBRARY_PATH''${LD_LIBRARY_PATH:+:}${p}/lib
-              fi
-            '') cfg.sessionPath}
+                if [ -d "${p}/lib/girepository-1.0" ]; then
+                  export GI_TYPELIB_PATH=$GI_TYPELIB_PATH''${GI_TYPELIB_PATH:+:}${p}/lib/girepository-1.0
+                  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH''${LD_LIBRARY_PATH:+:}${p}/lib
+                fi
+              '') cfg.sessionPath
+            }
         fi
       '';
 
@@ -155,7 +157,11 @@ in
       services.gvfs.enable = true;
       services.gnome.rygel.enable = mkDefault true;
       services.gsignond.enable = mkDefault true;
-      services.gsignond.plugins = with pkgs.gsignondPlugins; [ lastfm mail oauth ];
+      services.gsignond.plugins = with pkgs.gsignondPlugins; [
+        lastfm
+        mail
+        oauth
+      ];
       services.udisks2.enable = true;
       services.upower.enable = config.powerManagement.enable;
       services.xserver.libinput.enable = mkDefault true;
@@ -207,45 +213,46 @@ in
       };
 
       # Global environment
-      environment.systemPackages = (with pkgs.pantheon; [
-        elementary-session-settings
-        elementary-settings-daemon
-        gala
-        gnome-settings-daemon
-        (switchboard-with-plugs.override {
-          plugs = cfg.extraSwitchboardPlugs;
-        })
-        (wingpanel-with-indicators.override {
-          indicators = cfg.extraWingpanelIndicators;
-        })
-      ]) ++ utils.removePackagesByName ((with pkgs; [
-        desktop-file-utils
-        glib # for gsettings program
-        gnome-menus
-        gnome.adwaita-icon-theme
-        gtk3.out # for gtk-launch program
-        onboard
-        orca # elementary/greeter#668
-        sound-theme-freedesktop
-        xdg-user-dirs # Update user dirs as described in https://freedesktop.org/wiki/Software/xdg-user-dirs/
-      ]) ++ (with pkgs.pantheon; [
-        # Artwork
-        elementary-gtk-theme
-        elementary-icon-theme
-        elementary-sound-theme
-        elementary-wallpapers
+      environment.systemPackages =
+        (with pkgs.pantheon; [
+          elementary-session-settings
+          elementary-settings-daemon
+          gala
+          gnome-settings-daemon
+          (switchboard-with-plugs.override { plugs = cfg.extraSwitchboardPlugs; })
+          (wingpanel-with-indicators.override { indicators = cfg.extraWingpanelIndicators; })
+        ])
+        ++ utils.removePackagesByName (
+          (with pkgs; [
+            desktop-file-utils
+            glib # for gsettings program
+            gnome-menus
+            gnome.adwaita-icon-theme
+            gtk3.out # for gtk-launch program
+            onboard
+            orca # elementary/greeter#668
+            sound-theme-freedesktop
+            xdg-user-dirs # Update user dirs as described in https://freedesktop.org/wiki/Software/xdg-user-dirs/
+          ])
+          ++ (with pkgs.pantheon; [
+            # Artwork
+            elementary-gtk-theme
+            elementary-icon-theme
+            elementary-sound-theme
+            elementary-wallpapers
 
-        # Desktop
-        elementary-default-settings
-        elementary-dock
-        elementary-shortcut-overlay
+            # Desktop
+            elementary-default-settings
+            elementary-dock
+            elementary-shortcut-overlay
 
-        # Services
-        elementary-capnet-assist
-        elementary-notifications
-        pantheon-agent-geoclue2
-        pantheon-agent-polkit
-      ])) config.environment.pantheon.excludePackages;
+            # Services
+            elementary-capnet-assist
+            elementary-notifications
+            pantheon-agent-geoclue2
+            pantheon-agent-polkit
+          ])
+        ) config.environment.pantheon.excludePackages;
 
       # Settings from elementary-default-settings
       environment.etc."gtk-3.0/settings.ini".source = "${pkgs.pantheon.elementary-default-settings}/etc/gtk-3.0/settings.ini";
@@ -254,13 +261,13 @@ in
       xdg.icons.enable = true;
 
       xdg.portal.enable = true;
-      xdg.portal.extraPortals = [
-        pkgs.xdg-desktop-portal-gtk
-      ] ++ (with pkgs.pantheon; [
-        elementary-files
-        elementary-settings-daemon
-        xdg-desktop-portal-pantheon
-      ]);
+      xdg.portal.extraPortals =
+        [ pkgs.xdg-desktop-portal-gtk ]
+        ++ (with pkgs.pantheon; [
+          elementary-files
+          elementary-settings-daemon
+          xdg-desktop-portal-pantheon
+        ]);
 
       xdg.portal.configPackages = mkDefault [ pkgs.pantheon.elementary-default-settings ];
 
@@ -307,33 +314,36 @@ in
       programs.evince.enable = mkDefault true;
       programs.file-roller.enable = mkDefault true;
 
-      environment.systemPackages = utils.removePackagesByName ([
-        pkgs.gnome.gnome-font-viewer
-      ] ++ (with pkgs.pantheon; [
-        elementary-calculator
-        elementary-calendar
-        elementary-camera
-        elementary-code
-        elementary-files
-        elementary-mail
-        elementary-music
-        elementary-photos
-        elementary-screenshot
-        elementary-tasks
-        elementary-terminal
-        elementary-videos
-        epiphany
-      ] ++ lib.optionals config.services.flatpak.enable [
-        # Only install appcenter if flatpak is enabled before
-        # https://github.com/NixOS/nixpkgs/issues/15932 is resolved.
-        appcenter
-        sideload
-      ])) config.environment.pantheon.excludePackages;
+      environment.systemPackages = utils.removePackagesByName (
+        [ pkgs.gnome.gnome-font-viewer ]
+        ++ (
+          with pkgs.pantheon;
+          [
+            elementary-calculator
+            elementary-calendar
+            elementary-camera
+            elementary-code
+            elementary-files
+            elementary-mail
+            elementary-music
+            elementary-photos
+            elementary-screenshot
+            elementary-tasks
+            elementary-terminal
+            elementary-videos
+            epiphany
+          ]
+          ++ lib.optionals config.services.flatpak.enable [
+            # Only install appcenter if flatpak is enabled before
+            # https://github.com/NixOS/nixpkgs/issues/15932 is resolved.
+            appcenter
+            sideload
+          ]
+        )
+      ) config.environment.pantheon.excludePackages;
 
       # needed by screenshot
-      fonts.packages = [
-        pkgs.pantheon.elementary-redacted-script
-      ];
+      fonts.packages = [ pkgs.pantheon.elementary-redacted-script ];
     })
 
     (mkIf serviceCfg.contractor.enable {
@@ -342,10 +352,7 @@ in
         file-roller-contract
       ];
 
-      environment.pathsToLink = [
-        "/share/contractor"
-      ];
+      environment.pathsToLink = [ "/share/contractor" ];
     })
-
   ];
 }

@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, fetchFromGitLab
-, fetchurl
-, darwin
-, abseil-cpp
-, meson
-, ninja
-, pkg-config
+{
+  lib,
+  stdenv,
+  fetchFromGitLab,
+  fetchurl,
+  darwin,
+  abseil-cpp,
+  meson,
+  ninja,
+  pkg-config,
 }:
 
 stdenv.mkDerivation rec {
@@ -30,7 +31,10 @@ stdenv.mkDerivation rec {
     })
   ];
 
-  outputs = [ "out" "dev" ];
+  outputs = [
+    "out"
+    "dev"
+  ];
 
   nativeBuildInputs = [
     meson
@@ -38,11 +42,15 @@ stdenv.mkDerivation rec {
     pkg-config
   ];
 
-  propagatedBuildInputs = [
-    abseil-cpp
-  ];
+  propagatedBuildInputs = [ abseil-cpp ];
 
-  buildInputs = lib.optionals stdenv.isDarwin (with darwin.apple_sdk.frameworks; [ ApplicationServices Foundation ]);
+  buildInputs = lib.optionals stdenv.isDarwin (
+    with darwin.apple_sdk.frameworks;
+    [
+      ApplicationServices
+      Foundation
+    ]
+  );
 
   env = lib.optionalAttrs stdenv.isx86_32 {
     # https://gitlab.freedesktop.org/pulseaudio/webrtc-audio-processing/-/issues/5

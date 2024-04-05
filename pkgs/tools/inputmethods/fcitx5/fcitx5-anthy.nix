@@ -1,4 +1,14 @@
-{ lib, stdenv, fetchurl, cmake, extra-cmake-modules, pkg-config, fcitx5, anthy, gettext }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  cmake,
+  extra-cmake-modules,
+  pkg-config,
+  fcitx5,
+  anthy,
+  gettext,
+}:
 
 stdenv.mkDerivation rec {
   pname = "fcitx5-anthy";
@@ -9,8 +19,16 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-pOJYe5+/11j8YmuJDyAbFPFsnUa9DQqbYirSwD992zY=";
   };
 
-  nativeBuildInputs = [ cmake extra-cmake-modules pkg-config ];
-  buildInputs = [ fcitx5 anthy gettext ];
+  nativeBuildInputs = [
+    cmake
+    extra-cmake-modules
+    pkg-config
+  ];
+  buildInputs = [
+    fcitx5
+    anthy
+    gettext
+  ];
 
   meta = with lib; {
     description = "Anthy Wrapper for Fcitx5";

@@ -1,19 +1,21 @@
-{ lib, stdenv
-, fetchurl
-, pkg-config
-, AudioToolbox
-, AudioUnit
-, CoreServices
-, SDL2
-, flac
-, fluidsynth
-, libmodplug
-, libogg
-, libvorbis
-, mpg123
-, opusfile
-, smpeg2
-, timidity
+{
+  lib,
+  stdenv,
+  fetchurl,
+  pkg-config,
+  AudioToolbox,
+  AudioUnit,
+  CoreServices,
+  SDL2,
+  flac,
+  fluidsynth,
+  libmodplug,
+  libogg,
+  libvorbis,
+  mpg123,
+  opusfile,
+  smpeg2,
+  timidity,
 }:
 
 stdenv.mkDerivation rec {
@@ -25,20 +27,22 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-HPs0yHsm29vHr9aMT1RcARarX5C7/sxa6+Kpy0uzFUk=";
   };
 
-  configureFlags = [
-    "--disable-music-ogg-shared"
-    "--disable-music-flac-shared"
-    "--disable-music-mod-modplug-shared"
-    "--disable-music-mp3-mpg123-shared"
-    "--disable-music-opus-shared"
-    "--disable-music-midi-fluidsynth-shared"
+  configureFlags =
+    [
+      "--disable-music-ogg-shared"
+      "--disable-music-flac-shared"
+      "--disable-music-mod-modplug-shared"
+      "--disable-music-mp3-mpg123-shared"
+      "--disable-music-opus-shared"
+      "--disable-music-midi-fluidsynth-shared"
 
-    # override default path to allow MIDI files to be played
-    "--with-timidity-cfg=${timidity}/share/timidity/timidity.cfg"
-  ] ++ lib.optionals stdenv.isDarwin [
-    "--disable-sdltest"
-    "--disable-smpegtest"
-  ];
+      # override default path to allow MIDI files to be played
+      "--with-timidity-cfg=${timidity}/share/timidity/timidity.cfg"
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      "--disable-sdltest"
+      "--disable-smpegtest"
+    ];
 
   nativeBuildInputs = [ pkg-config ];
 
@@ -62,7 +66,10 @@ stdenv.mkDerivation rec {
     timidity
   ];
 
-  outputs = [ "out" "dev" ];
+  outputs = [
+    "out"
+    "dev"
+  ];
 
   meta = with lib; {
     description = "SDL multi-channel audio mixer library";

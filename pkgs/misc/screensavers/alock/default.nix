@@ -1,5 +1,15 @@
-{ lib, stdenv, fetchFromGitHub, pkg-config, autoreconfHook
-, libX11, pam, libgcrypt, libXrender, imlib2 }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  pkg-config,
+  autoreconfHook,
+  libX11,
+  pam,
+  libgcrypt,
+  libXrender,
+  imlib2,
+}:
 
 stdenv.mkDerivation rec {
   pname = "alock";
@@ -21,10 +31,16 @@ stdenv.mkDerivation rec {
     "--enable-imlib2"
   ];
 
-  nativeBuildInputs = [ pkg-config autoreconfHook ];
+  nativeBuildInputs = [
+    pkg-config
+    autoreconfHook
+  ];
   buildInputs = [
     libX11
-    pam libgcrypt libXrender imlib2
+    pam
+    libgcrypt
+    libXrender
+    imlib2
   ];
 
   meta = with lib; {
@@ -41,7 +57,10 @@ stdenv.mkDerivation rec {
       X session.
     '';
     platforms = platforms.linux;
-    maintainers = with maintainers; [ ftrvxmtrx chris-martin ];
+    maintainers = with maintainers; [
+      ftrvxmtrx
+      chris-martin
+    ];
     license = licenses.mit;
   };
 }

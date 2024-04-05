@@ -1,23 +1,24 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, fetchPypi
-, fetchpatch
-, pythonOlder
-, pytestCheckHook
-, cmake
-, ninja
-, scikit-build-core
-, charls
-, eigen
-, fmt
-, numpy
-, pillow
-, pybind11
-, setuptools
-, pathspec
-, pyproject-metadata
-, setuptools-scm
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  fetchPypi,
+  fetchpatch,
+  pythonOlder,
+  pytestCheckHook,
+  cmake,
+  ninja,
+  scikit-build-core,
+  charls,
+  eigen,
+  fmt,
+  numpy,
+  pillow,
+  pybind11,
+  setuptools,
+  pathspec,
+  pyproject-metadata,
+  setuptools-scm,
 }:
 
 buildPythonPackage rec {
@@ -58,20 +59,19 @@ buildPythonPackage rec {
     pyproject-metadata
   ];
 
-  pypaBuildFlags = [ "-C" "cmake.args='--preset=sysdeps'" ];
+  pypaBuildFlags = [
+    "-C"
+    "cmake.args='--preset=sysdeps'"
+  ];
   dontUseCmakeConfigure = true;
 
   env.SETUPTOOLS_SCM_PRETEND_VERSION = version;
 
-  checkInputs = [
-    pytestCheckHook
-  ];
+  checkInputs = [ pytestCheckHook ];
   # prevent importing from build during test collection:
   preCheck = ''rm -rf pillow_jpls'';
 
-  pythonImportsCheck = [
-    "pillow_jpls"
-  ];
+  pythonImportsCheck = [ "pillow_jpls" ];
 
   meta = with lib; {
     description = "A JPEG-LS plugin for the Python Pillow library";

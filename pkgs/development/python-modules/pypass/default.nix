@@ -1,21 +1,22 @@
-{ stdenv
-, lib
-, buildPythonPackage
-, click
-, colorama
-, enum34
-, fetchPypi
-, git
-, gnugrep
-, gnupg
-, nose
-, pbr
-, pexpect
-, pythonAtLeast
-, pythonOlder
-, substituteAll
-, tree
-, xclip
+{
+  stdenv,
+  lib,
+  buildPythonPackage,
+  click,
+  colorama,
+  enum34,
+  fetchPypi,
+  git,
+  gnugrep,
+  gnupg,
+  nose,
+  pbr,
+  pexpect,
+  pythonAtLeast,
+  pythonOlder,
+  substituteAll,
+  tree,
+  xclip,
 }:
 
 # Use the `pypass` top-level attribute, if you're interested in the

@@ -1,21 +1,22 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, autoconf-archive
-, autoreconfHook
-, gobject-introspection
-, makeWrapper
-, pkg-config
-, wrapGAppsHook
-, systemd
-, dbus
-, pcsclite
-, PCSC
-, wget
-, coreutils
-, perlPackages
-, testers
-, nix-update-script
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  autoconf-archive,
+  autoreconfHook,
+  gobject-introspection,
+  makeWrapper,
+  pkg-config,
+  wrapGAppsHook,
+  systemd,
+  dbus,
+  pcsclite,
+  PCSC,
+  wget,
+  coreutils,
+  perlPackages,
+  testers,
+  nix-update-script,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -29,13 +30,13 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-+cvgSNlSYSJ2Zr2iWk96AacyQ38ru9/RK8yeK3ceqCo=";
   };
 
-  configureFlags = [
-    "--datarootdir=${placeholder "out"}/share"
-  ];
+  configureFlags = [ "--datarootdir=${placeholder "out"}/share" ];
 
-  buildInputs = [ dbus perlPackages.perl pcsclite ]
-    ++ lib.optional stdenv.isDarwin PCSC
-    ++ lib.optional stdenv.isLinux systemd;
+  buildInputs = [
+    dbus
+    perlPackages.perl
+    pcsclite
+  ] ++ lib.optional stdenv.isDarwin PCSC ++ lib.optional stdenv.isLinux systemd;
 
   nativeBuildInputs = [
     autoconf-archive
@@ -52,11 +53,19 @@ stdenv.mkDerivation (finalAttrs: {
 
   postInstall = ''
     wrapProgram $out/bin/scriptor \
-      --set PERL5LIB "${with perlPackages; makePerlPath [ ChipcardPCSC libintl-perl ]}"
+      --set PERL5LIB "${
+        with perlPackages;
+        makePerlPath [
+          ChipcardPCSC
+          libintl-perl
+        ]
+      }"
 
     wrapProgram $out/bin/gscriptor \
       ''${makeWrapperArgs[@]} \
-      --set PERL5LIB "${with perlPackages; makePerlPath [
+      --set PERL5LIB "${
+        with perlPackages;
+        makePerlPath [
           ChipcardPCSC
           libintl-perl
           GlibObjectIntrospection
@@ -65,13 +74,25 @@ stdenv.mkDerivation (finalAttrs: {
           Pango
           Cairo
           CairoGObject
-      ]}"
+        ]
+      }"
 
     wrapProgram $out/bin/ATR_analysis \
-      --set PERL5LIB "${with perlPackages; makePerlPath [ ChipcardPCSC libintl-perl ]}"
+      --set PERL5LIB "${
+        with perlPackages;
+        makePerlPath [
+          ChipcardPCSC
+          libintl-perl
+        ]
+      }"
 
     wrapProgram $out/bin/pcsc_scan \
-      --prefix PATH : "$out/bin:${lib.makeBinPath [ coreutils wget ]}"
+      --prefix PATH : "$out/bin:${
+        lib.makeBinPath [
+          coreutils
+          wget
+        ]
+      }"
 
     install -Dm444 -t $out/share/pcsc smartcard_list.txt
   '';
@@ -90,7 +111,10 @@ stdenv.mkDerivation (finalAttrs: {
     changelog = "https://github.com/LudovicRousseau/pcsc-tools/releases/tag/${finalAttrs.version}";
     license = licenses.gpl2Plus;
     mainProgram = "pcsc_scan";
-    maintainers = with maintainers; [ peterhoeg anthonyroussel ];
+    maintainers = with maintainers; [
+      peterhoeg
+      anthonyroussel
+    ];
     platforms = platforms.unix;
   };
 })

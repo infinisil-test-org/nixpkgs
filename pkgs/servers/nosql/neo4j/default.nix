@@ -1,4 +1,13 @@
-{ stdenv, lib, fetchurl, nixosTests, makeWrapper, openjdk17, which, gawk }:
+{
+  stdenv,
+  lib,
+  fetchurl,
+  nixosTests,
+  makeWrapper,
+  openjdk17,
+  which,
+  gawk,
+}:
 
 stdenv.mkDerivation rec {
   pname = "neo4j";
@@ -21,7 +30,13 @@ stdenv.mkDerivation rec {
         chmod +x "$out/share/neo4j/bin/$NEO4J_SCRIPT"
         makeWrapper "$out/share/neo4j/bin/$NEO4J_SCRIPT" \
             "$out/bin/$NEO4J_SCRIPT" \
-            --prefix PATH : "${lib.makeBinPath [ openjdk17 which gawk ]}" \
+            --prefix PATH : "${
+              lib.makeBinPath [
+                openjdk17
+                which
+                gawk
+              ]
+            }" \
             --set JAVA_HOME "${openjdk17}"
     done
 
@@ -38,7 +53,10 @@ stdenv.mkDerivation rec {
     description = "A highly scalable, robust (fully ACID) native graph database";
     homepage = "https://neo4j.com/";
     license = licenses.gpl3;
-    maintainers = with maintainers; [ jonringer offline ];
+    maintainers = with maintainers; [
+      jonringer
+      offline
+    ];
     platforms = platforms.unix;
   };
 }

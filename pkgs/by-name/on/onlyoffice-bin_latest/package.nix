@@ -1,39 +1,40 @@
-{ stdenv
-, lib
-, fetchurl
-, buildFHSEnv
+{
+  stdenv,
+  lib,
+  fetchurl,
+  buildFHSEnv,
   # Alphabetic ordering below
-, alsa-lib
-, at-spi2-atk
-, atk
-, autoPatchelfHook
-, cairo
-, curl
-, dbus
-, dconf
-, dpkg
-, fontconfig
-, gcc-unwrapped
-, gdk-pixbuf
-, glib
-, glibc
-, gsettings-desktop-schemas
-, gst_all_1
-, gtk2
-, gtk3
-, libpulseaudio
-, libudev0-shim
-, libdrm
-, makeWrapper
-, mesa
-, noto-fonts-cjk-sans
-, nspr
-, nss
-, pulseaudio
-, qt5
-, wrapGAppsHook
-, xkeyboard_config
-, xorg
+  alsa-lib,
+  at-spi2-atk,
+  atk,
+  autoPatchelfHook,
+  cairo,
+  curl,
+  dbus,
+  dconf,
+  dpkg,
+  fontconfig,
+  gcc-unwrapped,
+  gdk-pixbuf,
+  glib,
+  glibc,
+  gsettings-desktop-schemas,
+  gst_all_1,
+  gtk2,
+  gtk3,
+  libpulseaudio,
+  libudev0-shim,
+  libdrm,
+  makeWrapper,
+  mesa,
+  noto-fonts-cjk-sans,
+  nspr,
+  nss,
+  pulseaudio,
+  qt5,
+  wrapGAppsHook,
+  xkeyboard_config,
+  xorg,
 }:
 let
 
@@ -157,7 +158,6 @@ let
       )
     '';
   };
-
 in
 
 # In order to download plugins, OnlyOffice uses /usr/bin/curl so we have to wrap it.
@@ -198,6 +198,9 @@ buildFHSEnv {
     platforms = [ "x86_64-linux" ];
     sourceProvenance = with sourceTypes; [ binaryNativeCode ];
     license = licenses.agpl3Plus;
-    maintainers = with maintainers; [ nh2 gtrunsec ];
+    maintainers = with maintainers; [
+      nh2
+      gtrunsec
+    ];
   };
 }

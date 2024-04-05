@@ -1,24 +1,22 @@
-{ lib
-, SDL2
-, cmake
-, extra-cmake-modules
-, fetchFromGitHub
-, libarchive
-, libpcap
-, libsForQt5
-, libslirp
-, libGL
-, pkg-config
-, stdenv
-, wayland
-, zstd
+{
+  lib,
+  SDL2,
+  cmake,
+  extra-cmake-modules,
+  fetchFromGitHub,
+  libarchive,
+  libpcap,
+  libsForQt5,
+  libslirp,
+  libGL,
+  pkg-config,
+  stdenv,
+  wayland,
+  zstd,
 }:
 
 let
-  inherit (libsForQt5)
-    qtbase
-    qtmultimedia
-    wrapQtAppsHook;
+  inherit (libsForQt5) qtbase qtmultimedia wrapQtAppsHook;
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "melonDS";
@@ -51,9 +49,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   strictDeps = true;
 
-  qtWrapperArgs = [
-    "--prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ libpcap ]}"
-  ];
+  qtWrapperArgs = [ "--prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ libpcap ]}" ];
 
   meta = {
     homepage = "https://melonds.kuribo64.net/";

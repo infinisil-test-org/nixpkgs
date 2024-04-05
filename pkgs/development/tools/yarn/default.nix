@@ -1,4 +1,11 @@
-{ lib, fetchFromGitHub, fetchzip, nodejs, stdenvNoCC, testers }:
+{
+  lib,
+  fetchFromGitHub,
+  fetchzip,
+  nodejs,
+  stdenvNoCC,
+  testers,
+}:
 
 let
   completion = fetchFromGitHub {
@@ -34,7 +41,11 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     homepage = "https://classic.yarnpkg.com/";
     changelog = "https://github.com/yarnpkg/yarn/blob/v${finalAttrs.version}/CHANGELOG.md";
     license = licenses.bsd2;
-    maintainers = with maintainers; [ offline screendriver marsam ];
+    maintainers = with maintainers; [
+      offline
+      screendriver
+      marsam
+    ];
     platforms = nodejs.meta.platforms;
     mainProgram = "yarn";
   };

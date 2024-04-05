@@ -1,4 +1,12 @@
-{ lib, stdenv, fetchFromGitHub, SDL2, glew, lua5_4, desktopToDarwinBundle }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  SDL2,
+  glew,
+  lua5_4,
+  desktopToDarwinBundle,
+}:
 
 stdenv.mkDerivation rec {
   pname = "cadzinho";
@@ -17,7 +25,11 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = lib.optional stdenv.isDarwin desktopToDarwinBundle;
 
-  buildInputs = [ SDL2 glew lua5_4 ];
+  buildInputs = [
+    SDL2
+    glew
+    lua5_4
+  ];
 
   makeFlags = [ "CC:=$(CC)" ];
 

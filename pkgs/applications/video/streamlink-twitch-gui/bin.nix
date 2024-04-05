@@ -1,50 +1,55 @@
-{ autoPatchelfHook
-, fetchurl
-, lib
-, makeDesktopItem
-, makeWrapper
-, stdenv
-, wrapGAppsHook
-, at-spi2-core
-, atk
-, alsa-lib
-, cairo
-, cups
-, dbus
-, expat
-, gcc-unwrapped
-, gdk-pixbuf
-, glib
-, pango
-, gtk3-x11
-, libudev0-shim
-, libuuid
-, mesa
-, nss
-, nspr
-, xorg
-, streamlink
+{
+  autoPatchelfHook,
+  fetchurl,
+  lib,
+  makeDesktopItem,
+  makeWrapper,
+  stdenv,
+  wrapGAppsHook,
+  at-spi2-core,
+  atk,
+  alsa-lib,
+  cairo,
+  cups,
+  dbus,
+  expat,
+  gcc-unwrapped,
+  gdk-pixbuf,
+  glib,
+  pango,
+  gtk3-x11,
+  libudev0-shim,
+  libuuid,
+  mesa,
+  nss,
+  nspr,
+  xorg,
+  streamlink,
 }:
 let
   basename = "streamlink-twitch-gui";
-  runtimeLibs = lib.makeLibraryPath [ gtk3-x11 libudev0-shim ];
+  runtimeLibs = lib.makeLibraryPath [
+    gtk3-x11
+    libudev0-shim
+  ];
   runtimeBins = lib.makeBinPath [ streamlink ];
-
 in
 stdenv.mkDerivation rec {
   pname = "${basename}-bin";
   version = "2.4.1";
 
-  src = {
-    x86_64-linux = fetchurl {
-      url = "https://github.com/streamlink/${basename}/releases/download/v${version}/${basename}-v${version}-linux64.tar.gz";
-      hash = "sha256-uzD61Q1XIthAwoJHb0H4sTdYkUj0qGeGs1h0XFeV03E=";
-    };
-    i686-linux = fetchurl {
-      url = "https://github.com/streamlink/${basename}/releases/download/v${version}/${basename}-v${version}-linux32.tar.gz";
-      hash = "sha256-akJEd94PmH9YeBud+l5+5QpbnzXAD0jDBKJM4h/t2EA=";
-    };
-  }.${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
+  src =
+    {
+      x86_64-linux = fetchurl {
+        url = "https://github.com/streamlink/${basename}/releases/download/v${version}/${basename}-v${version}-linux64.tar.gz";
+        hash = "sha256-uzD61Q1XIthAwoJHb0H4sTdYkUj0qGeGs1h0XFeV03E=";
+      };
+      i686-linux = fetchurl {
+        url = "https://github.com/streamlink/${basename}/releases/download/v${version}/${basename}-v${version}-linux32.tar.gz";
+        hash = "sha256-akJEd94PmH9YeBud+l5+5QpbnzXAD0jDBKJM4h/t2EA=";
+      };
+    }
+    .${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
 
   nativeBuildInputs = with xorg; [
     at-spi2-core
@@ -111,7 +116,10 @@ stdenv.mkDerivation rec {
     icon = basename;
     desktopName = "Streamlink Twitch GUI";
     genericName = meta.description;
-    categories = [ "AudioVideo" "Network" ];
+    categories = [
+      "AudioVideo"
+      "Network"
+    ];
   };
 
   meta = with lib; {
@@ -123,6 +131,9 @@ stdenv.mkDerivation rec {
     license = licenses.mit;
     mainProgram = "streamlink-twitch-gui";
     maintainers = with maintainers; [ rileyinman ];
-    platforms = [ "x86_64-linux" "i686-linux" ];
+    platforms = [
+      "x86_64-linux"
+      "i686-linux"
+    ];
   };
 }

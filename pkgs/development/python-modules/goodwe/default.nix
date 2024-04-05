@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pytestCheckHook
-, pythonOlder
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -26,18 +27,11 @@ buildPythonPackage rec {
       --replace-fail "version: file: VERSION" "version = ${version}"
   '';
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  pythonImportsCheck = [
-    "goodwe"
-  ];
+  pythonImportsCheck = [ "goodwe" ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
-
+  nativeCheckInputs = [ pytestCheckHook ];
 
   meta = with lib; {
     description = "Python library for connecting to GoodWe inverter";

@@ -1,11 +1,12 @@
-{ lib
-, aiohttp
-, buildPythonPackage
-, fetchFromGitHub
-, fetchpatch
-, certifi
-, pythonOlder
-, pytestCheckHook
+{
+  lib,
+  aiohttp,
+  buildPythonPackage,
+  fetchFromGitHub,
+  fetchpatch,
+  certifi,
+  pythonOlder,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -36,17 +37,13 @@ buildPythonPackage rec {
     certifi
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   postPatch = ''
     sed -i '/codecov/d' requirements.txt
   '';
 
-  pythonImportsCheck = [
-    "crownstone_cloud"
-  ];
+  pythonImportsCheck = [ "crownstone_cloud" ];
 
   meta = with lib; {
     description = "Python module for communicating with Crownstone Cloud and devices";

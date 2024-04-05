@@ -1,16 +1,17 @@
-{ lib
-, attrs
-, bidict
-, bitstruct
-, buildPythonPackage
-, fetchFromGitHub
-, fetchpatch
-, more-itertools
-, poetry-core
-, pprintpp
-, pythonOlder
-, pythonRelaxDepsHook
-, tbm-utils
+{
+  lib,
+  attrs,
+  bidict,
+  bitstruct,
+  buildPythonPackage,
+  fetchFromGitHub,
+  fetchpatch,
+  more-itertools,
+  poetry-core,
+  pprintpp,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  tbm-utils,
 }:
 
 buildPythonPackage rec {
@@ -58,9 +59,7 @@ buildPythonPackage rec {
   # Tests require ward which is not ready to be used
   doCheck = false;
 
-  pythonImportsCheck = [
-    "audio_metadata"
-  ];
+  pythonImportsCheck = [ "audio_metadata" ];
 
   meta = with lib; {
     homepage = "https://github.com/thebigmunch/audio-metadata";

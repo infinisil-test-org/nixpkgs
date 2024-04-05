@@ -1,6 +1,7 @@
-{ lib
-, fetchFromGitHub
-, python3
+{
+  lib,
+  fetchFromGitHub,
+  python3,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -15,19 +16,18 @@ python3.pkgs.buildPythonApplication rec {
     hash = "sha256-r+xWwXRKuTp5ifUUlF1K6BIVWh67hNLMBKBB7wnLLAM=";
   };
 
-  nativeBuildInputs = with python3.pkgs; [
-    poetry-core
-  ];
+  nativeBuildInputs = with python3.pkgs; [ poetry-core ];
 
-  propagatedBuildInputs = with python3.pkgs; [
-    pytenable
-    typer
-    validators
-  ] ++ typer.optional-dependencies.all;
+  propagatedBuildInputs =
+    with python3.pkgs;
+    [
+      pytenable
+      typer
+      validators
+    ]
+    ++ typer.optional-dependencies.all;
 
-  pythonImportsCheck = [
-    "audiness"
-  ];
+  pythonImportsCheck = [ "audiness" ];
 
   meta = with lib; {
     description = "CLI tool to interact with Nessus";

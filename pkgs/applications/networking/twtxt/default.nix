@@ -1,4 +1,14 @@
-{ lib, fetchFromGitHub, buildPythonApplication, aiohttp, python-dateutil, humanize, click, pytestCheckHook, tox }:
+{
+  lib,
+  fetchFromGitHub,
+  buildPythonApplication,
+  aiohttp,
+  python-dateutil,
+  humanize,
+  click,
+  pytestCheckHook,
+  tox,
+}:
 
 buildPythonApplication rec {
   pname = "twtxt";
@@ -19,13 +29,21 @@ buildPythonApplication rec {
       --replace 'humanize>=0.5.1,<1' 'humanize'
   '';
 
-  propagatedBuildInputs = [ aiohttp python-dateutil humanize click ];
+  propagatedBuildInputs = [
+    aiohttp
+    python-dateutil
+    humanize
+    click
+  ];
 
-  nativeCheckInputs = [ pytestCheckHook tox ];
+  nativeCheckInputs = [
+    pytestCheckHook
+    tox
+  ];
 
   disabledTests = [
-     # Disable test using relative date and time
-     "test_tweet_relative_datetime"
+    # Disable test using relative date and time
+    "test_tweet_relative_datetime"
   ];
 
   meta = with lib; {

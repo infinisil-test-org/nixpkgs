@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.services.haproxy;
@@ -10,14 +15,15 @@ let
 
     ${cfg.config}
   '';
-
 in
 with lib;
 {
   options = {
     services.haproxy = {
 
-      enable = mkEnableOption (lib.mdDoc "HAProxy, the reliable, high performance TCP/HTTP load balancer.");
+      enable = mkEnableOption (
+        lib.mdDoc "HAProxy, the reliable, high performance TCP/HTTP load balancer."
+      );
 
       package = mkPackageOption pkgs "haproxy" { };
 
@@ -46,10 +52,12 @@ with lib;
 
   config = mkIf cfg.enable {
 
-    assertions = [{
-      assertion = cfg.config != null;
-      message = "You must provide services.haproxy.config.";
-    }];
+    assertions = [
+      {
+        assertion = cfg.config != null;
+        message = "You must provide services.haproxy.config.";
+      }
+    ];
 
     # configuration file indirection is needed to support reloading
     environment.etc."haproxy.cfg".source = haproxyCfg;
@@ -87,7 +95,7 @@ with lib;
         ProtectKernelTunables = true;
         ProtectKernelModules = true;
         ProtectControlGroups = true;
-        SystemCallFilter= "~@cpu-emulation @keyring @module @obsolete @raw-io @reboot @swap @sync";
+        SystemCallFilter = "~@cpu-emulation @keyring @module @obsolete @raw-io @reboot @swap @sync";
         # needed in case we bind to port < 1024
         AmbientCapabilities = "CAP_NET_BIND_SERVICE";
       };
@@ -100,8 +108,6 @@ with lib;
       };
     };
 
-    users.groups = optionalAttrs (cfg.group == "haproxy") {
-      haproxy = {};
-    };
+    users.groups = optionalAttrs (cfg.group == "haproxy") { haproxy = { }; };
   };
 }

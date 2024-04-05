@@ -1,10 +1,11 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, libusb1
-, pkg-config
-, installShellFiles
-, git
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  libusb1,
+  pkg-config,
+  installShellFiles,
+  git,
 }:
 
 stdenv.mkDerivation rec {
@@ -25,9 +26,7 @@ stdenv.mkDerivation rec {
     git
   ];
 
-  buildInputs = [
-    libusb1
-  ];
+  buildInputs = [ libusb1 ];
 
   preBuild = ''
     makeFlagsArray+=(

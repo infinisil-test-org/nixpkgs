@@ -1,19 +1,18 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, buildNpmPackage
-, curl
-, jdk
-, jq
-, makeWrapper
-, maven
-, writeText
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  buildNpmPackage,
+  curl,
+  jdk,
+  jq,
+  makeWrapper,
+  maven,
+  writeText,
 }:
 
 let
-  maven' = maven.override {
-    inherit jdk;
-  };
+  maven' = maven.override { inherit jdk; };
 
   version = "3.7.9";
   src = fetchFromGitHub {
@@ -46,8 +45,8 @@ let
       cp -r modules/core/3rdparty/* $out/
     '';
   };
-
-in maven'.buildMavenPackage {
+in
+maven'.buildMavenPackage {
   inherit src version;
 
   pname = "openrefine";
@@ -60,39 +59,43 @@ in maven'.buildMavenPackage {
 
   nativeBuildInputs = [ makeWrapper ];
 
-  installPhase = let
-    gitProperties = writeText "git.properties" (builtins.toJSON {
-      "git.build.version" = version;
-      "git.branch" = "none";
-      "git.build.time" = "1970-01-01T00:00:00+0000";
-      "git.commit.id.abbrev" = "none";
-      "git.commit.id.describe" = "none";
-    });
-  in ''
-    mkdir -p $out/lib/server/target/lib
-    cp -r server/target/lib/* $out/lib/server/target/lib/
-    cp server/target/openrefine-*-server.jar $out/lib/server/target/lib/
+  installPhase =
+    let
+      gitProperties = writeText "git.properties" (
+        builtins.toJSON {
+          "git.build.version" = version;
+          "git.branch" = "none";
+          "git.build.time" = "1970-01-01T00:00:00+0000";
+          "git.commit.id.abbrev" = "none";
+          "git.commit.id.describe" = "none";
+        }
+      );
+    in
+    ''
+      mkdir -p $out/lib/server/target/lib
+      cp -r server/target/lib/* $out/lib/server/target/lib/
+      cp server/target/openrefine-*-server.jar $out/lib/server/target/lib/
 
-    mkdir -p $out/lib/webapp
-    cp -r main/webapp/{WEB-INF,modules} $out/lib/webapp/
-    (
-      cd extensions
-      for ext in * ; do
-        if [ -d "$ext/module" ] ; then
-          mkdir -p "$out/lib/webapp/extensions/$ext"
-          cp -r "$ext/module" "$out/lib/webapp/extensions/$ext/"
-        fi
-      done
-    )
+      mkdir -p $out/lib/webapp
+      cp -r main/webapp/{WEB-INF,modules} $out/lib/webapp/
+      (
+        cd extensions
+        for ext in * ; do
+          if [ -d "$ext/module" ] ; then
+            mkdir -p "$out/lib/webapp/extensions/$ext"
+            cp -r "$ext/module" "$out/lib/webapp/extensions/$ext/"
+          fi
+        done
+      )
 
-    cp ${gitProperties} $out/lib/webapp/WEB-INF/classes/git.properties
+      cp ${gitProperties} $out/lib/webapp/WEB-INF/classes/git.properties
 
-    mkdir -p $out/etc
-    cp refine.ini $out/etc/
+      mkdir -p $out/etc
+      cp refine.ini $out/etc/
 
-    mkdir -p $out/bin
-    cp refine $out/bin/
-  '';
+      mkdir -p $out/bin
+      cp refine $out/bin/
+    '';
 
   preFixup = ''
     find $out -name '*.java' -delete
@@ -113,7 +116,12 @@ in maven'.buildMavenPackage {
     EOF
 
     wrapProgram $out/bin/refine \
-      --prefix PATH : '${lib.makeBinPath [ jdk curl ]}' \
+      --prefix PATH : '${
+        lib.makeBinPath [
+          jdk
+          curl
+        ]
+      }' \
       --set-default REFINE_INI_PATH "$out/etc/refine.ini"
   '';
 
@@ -129,9 +137,9 @@ in maven'.buildMavenPackage {
     maintainers = with maintainers; [ ris ];
     sourceProvenance = with sourceTypes; [
       fromSource
-      binaryBytecode  # maven dependencies
+      binaryBytecode # maven dependencies
     ];
-    broken = stdenv.isDarwin;  # builds, doesn't run
+    broken = stdenv.isDarwin; # builds, doesn't run
     mainProgram = "refine";
   };
 }

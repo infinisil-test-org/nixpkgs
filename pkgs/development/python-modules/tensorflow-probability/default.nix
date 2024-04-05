@@ -1,29 +1,30 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, bazel_6
-, buildBazelPackage
-, buildPythonPackage
-, cctools
-, python
-, setuptools
-, wheel
-, absl-py
-, tensorflow
-, six
-, numpy
-, dm-tree
-, keras
-, decorator
-, cloudpickle
-, gast
-, hypothesis
-, scipy
-, pandas
-, mpmath
-, matplotlib
-, mock
-, pytest
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  bazel_6,
+  buildBazelPackage,
+  buildPythonPackage,
+  cctools,
+  python,
+  setuptools,
+  wheel,
+  absl-py,
+  tensorflow,
+  six,
+  numpy,
+  dm-tree,
+  keras,
+  decorator,
+  cloudpickle,
+  gast,
+  hypothesis,
+  scipy,
+  pandas,
+  mpmath,
+  matplotlib,
+  mock,
+  pytest,
 }:
 
 let
@@ -75,7 +76,8 @@ let
       '';
     };
   };
-in buildPythonPackage {
+in
+buildPythonPackage {
   inherit version pname;
   format = "wheel";
 

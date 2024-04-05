@@ -1,18 +1,19 @@
-{ lib
-, stdenv
-, fetchhg
-, autoreconfHook
-, fltk
-, libXcursor
-, libXi
-, libXinerama
-, libjpeg
-, libpng
-, mbedtls_2
-, openssl
-, perl
-, pkg-config
-, which
+{
+  lib,
+  stdenv,
+  fetchhg,
+  autoreconfHook,
+  fltk,
+  libXcursor,
+  libXi,
+  libXinerama,
+  libjpeg,
+  libpng,
+  mbedtls_2,
+  openssl,
+  perl,
+  pkg-config,
+  which,
 }:
 
 stdenv.mkDerivation {

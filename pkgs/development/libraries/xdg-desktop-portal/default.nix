@@ -1,39 +1,43 @@
-{ lib
-, fetchFromGitHub
-, flatpak
-, fuse3
-, bubblewrap
-, docbook_xml_dtd_412
-, docbook_xml_dtd_43
-, docbook_xsl
-, docutils
-, systemdMinimal
-, geoclue2
-, glib
-, gsettings-desktop-schemas
-, json-glib
-, libportal
-, libxml2
-, meson
-, ninja
-, nixosTests
-, pipewire
-, gdk-pixbuf
-, librsvg
-, python3
-, pkg-config
-, stdenv
-, runCommand
-, wrapGAppsHook
-, xmlto
-, enableGeoLocation ? true
+{
+  lib,
+  fetchFromGitHub,
+  flatpak,
+  fuse3,
+  bubblewrap,
+  docbook_xml_dtd_412,
+  docbook_xml_dtd_43,
+  docbook_xsl,
+  docutils,
+  systemdMinimal,
+  geoclue2,
+  glib,
+  gsettings-desktop-schemas,
+  json-glib,
+  libportal,
+  libxml2,
+  meson,
+  ninja,
+  nixosTests,
+  pipewire,
+  gdk-pixbuf,
+  librsvg,
+  python3,
+  pkg-config,
+  stdenv,
+  runCommand,
+  wrapGAppsHook,
+  xmlto,
+  enableGeoLocation ? true,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "xdg-desktop-portal";
   version = "1.18.3";
 
-  outputs = [ "out" "installedTests" ];
+  outputs = [
+    "out"
+    "installedTests"
+  ];
 
   src = fetchFromGitHub {
     owner = "flatpak";
@@ -89,12 +93,8 @@ stdenv.mkDerivation (finalAttrs: {
     librsvg
 
     # For document-fuse installed test.
-    (python3.withPackages (pp: with pp; [
-      pygobject3
-    ]))
-  ] ++ lib.optionals enableGeoLocation [
-    geoclue2
-  ];
+    (python3.withPackages (pp: with pp; [ pygobject3 ]))
+  ] ++ lib.optionals enableGeoLocation [ geoclue2 ];
 
   nativeCheckInputs = [
     python3.pkgs.pytest
@@ -107,9 +107,7 @@ stdenv.mkDerivation (finalAttrs: {
     "--sysconfdir=/etc"
     "-Dinstalled-tests=true"
     "-Dinstalled_test_prefix=${placeholder "installedTests"}"
-  ] ++ lib.optionals (!enableGeoLocation) [
-    "-Dgeoclue=disabled"
-  ];
+  ] ++ lib.optionals (!enableGeoLocation) [ "-Dgeoclue=disabled" ];
 
   doCheck = true;
 

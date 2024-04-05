@@ -1,4 +1,9 @@
-{ lib, fetchurl, buildDunePackage, cstruct }:
+{
+  lib,
+  fetchurl,
+  buildDunePackage,
+  cstruct,
+}:
 
 buildDunePackage rec {
   minimalOCamlVersion = "4.07";
@@ -19,5 +24,4 @@ buildDunePackage rec {
     license = lib.licenses.mit;
     maintainers = [ lib.maintainers.vbgl ];
   };
-
 }

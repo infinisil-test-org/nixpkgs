@@ -1,19 +1,20 @@
-{ buildGoModule
-, cairo
-, fetchFromGitHub
-, gdk-pixbuf
-, glib
-, gobject-introspection
-, graphene
-, gst_all_1
-, gtk4
-, lib
-, libadwaita
-, libcanberra-gtk3
-, pango
-, pkg-config
-, sound-theme-freedesktop
-, wrapGAppsHook4
+{
+  buildGoModule,
+  cairo,
+  fetchFromGitHub,
+  gdk-pixbuf,
+  glib,
+  gobject-introspection,
+  graphene,
+  gst_all_1,
+  gtk4,
+  lib,
+  libadwaita,
+  libcanberra-gtk3,
+  pango,
+  pkg-config,
+  sound-theme-freedesktop,
+  wrapGAppsHook4,
 }:
 
 buildGoModule rec {
@@ -63,6 +64,10 @@ buildGoModule rec {
     homepage = "https://github.com/diamondburned/dissent";
     license = licenses.gpl3Only;
     mainProgram = "dissent";
-    maintainers = with maintainers; [ hmenke urandom aleksana ];
+    maintainers = with maintainers; [
+      hmenke
+      urandom
+      aleksana
+    ];
   };
 }

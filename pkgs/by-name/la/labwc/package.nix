@@ -1,27 +1,28 @@
-{ lib
-, cairo
-, fetchFromGitHub
-, gettext
-, glib
-, libdrm
-, libinput
-, libpng
-, librsvg
-, libxcb
-, libxkbcommon
-, libxml2
-, meson
-, ninja
-, pango
-, pkg-config
-, scdoc
-, stdenv
-, wayland
-, wayland-protocols
-, wayland-scanner
-, wlroots
-, xcbutilwm
-, xwayland
+{
+  lib,
+  cairo,
+  fetchFromGitHub,
+  gettext,
+  glib,
+  libdrm,
+  libinput,
+  libpng,
+  librsvg,
+  libxcb,
+  libxkbcommon,
+  libxml2,
+  meson,
+  ninja,
+  pango,
+  pkg-config,
+  scdoc,
+  stdenv,
+  wayland,
+  wayland-protocols,
+  wayland-scanner,
+  wlroots,
+  xcbutilwm,
+  xwayland,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -35,7 +36,10 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-6l+pYEMFQT8P0j40IcujSzlKgXzR5GIyuxkAJi65RiY=";
   };
 
-  outputs = [ "out" "man" ];
+  outputs = [
+    "out"
+    "man"
+  ];
 
   nativeBuildInputs = [
     gettext
@@ -66,9 +70,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   strictDeps = true;
 
-  mesonFlags = [
-    (lib.mesonEnable "xwayland" true)
-  ];
+  mesonFlags = [ (lib.mesonEnable "xwayland" true) ];
 
   passthru = {
     providedSessions = [ "labwc" ];

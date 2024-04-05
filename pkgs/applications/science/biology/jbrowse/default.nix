@@ -1,4 +1,9 @@
-{ lib, fetchurl, appimageTools, wrapGAppsHook }:
+{
+  lib,
+  fetchurl,
+  appimageTools,
+  wrapGAppsHook,
+}:
 
 let
   pname = "jbrowse";
@@ -9,10 +14,7 @@ let
     sha256 = "sha256-YLsyA+RVoFvjE4MfAtglJYdUgic487SxwdUhvolzBPc=";
   };
 
-  appimageContents = appimageTools.extractType2 {
-    inherit pname version src;
-  };
-
+  appimageContents = appimageTools.extractType2 { inherit pname version src; };
 in
 appimageTools.wrapType2 {
   inherit pname version src;

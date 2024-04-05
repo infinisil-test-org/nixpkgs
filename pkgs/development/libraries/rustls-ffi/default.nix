@@ -1,4 +1,12 @@
-{ lib, stdenv, fetchFromGitHub, rustPlatform, Security, apacheHttpd, curl }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  rustPlatform,
+  Security,
+  apacheHttpd,
+  curl,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "rustls-ffi";
@@ -28,13 +36,20 @@ rustPlatform.buildRustPackage rec {
 
   passthru.tests = {
     apacheHttpd = apacheHttpd.override { modTlsSupport = true; };
-    curl = curl.override { opensslSupport = false; rustlsSupport = true; };
+    curl = curl.override {
+      opensslSupport = false;
+      rustlsSupport = true;
+    };
   };
 
   meta = with lib; {
     description = "C-to-rustls bindings";
     homepage = "https://github.com/rustls/rustls-ffi/";
-    license = with lib.licenses; [ mit asl20 isc ];
+    license = with lib.licenses; [
+      mit
+      asl20
+      isc
+    ];
     maintainers = [ maintainers.lesuisse ];
   };
 }

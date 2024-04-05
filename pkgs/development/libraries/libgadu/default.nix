@@ -1,4 +1,11 @@
-{ lib, stdenv, fetchFromGitHub, zlib, protobufc, autoreconfHook }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  zlib,
+  protobufc,
+  autoreconfHook,
+}:
 
 stdenv.mkDerivation rec {
   pname = "libgadu";
@@ -21,5 +28,4 @@ stdenv.mkDerivation rec {
     platforms = lib.platforms.linux;
     license = lib.licenses.lgpl21;
   };
-
 }

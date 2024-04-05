@@ -1,7 +1,8 @@
-{ lib
-, python3Packages
-, fetchFromGitHub
-, fetchpatch
+{
+  lib,
+  python3Packages,
+  fetchFromGitHub,
+  fetchpatch,
 }:
 
 python3Packages.buildPythonApplication rec {
@@ -26,9 +27,7 @@ python3Packages.buildPythonApplication rec {
     })
   ];
 
-  nativeBuildInputs = with python3Packages; [
-    setuptools
-  ];
+  nativeBuildInputs = with python3Packages; [ setuptools ];
 
   propagatedBuildInputs = with python3Packages; [
     click
@@ -46,9 +45,7 @@ python3Packages.buildPythonApplication rec {
     mkdir test-reports
   '';
 
-  pythonImportsCheck = [
-    "nordicsemi"
-  ];
+  pythonImportsCheck = [ "nordicsemi" ];
 
   meta = with lib; {
     homepage = "https://github.com/adafruit/Adafruit_nRF52_nrfutil";

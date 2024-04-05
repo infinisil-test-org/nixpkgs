@@ -1,17 +1,25 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
-let cfg = config.services.ombi;
-
-in {
+let
+  cfg = config.services.ombi;
+in
+{
   options = {
     services.ombi = {
-      enable = mkEnableOption (lib.mdDoc ''
-        Ombi.
-        Optionally see <https://docs.ombi.app/info/reverse-proxy>
-        on how to set up a reverse proxy
-      '');
+      enable = mkEnableOption (
+        lib.mdDoc ''
+          Ombi.
+          Optionally see <https://docs.ombi.app/info/reverse-proxy>
+          on how to set up a reverse proxy
+        ''
+      );
 
       dataDir = mkOption {
         type = types.str;
@@ -46,9 +54,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    systemd.tmpfiles.rules = [
-      "d '${cfg.dataDir}' 0700 ${cfg.user} ${cfg.group} - -"
-    ];
+    systemd.tmpfiles.rules = [ "d '${cfg.dataDir}' 0700 ${cfg.user} ${cfg.group} - -" ];
 
     systemd.services.ombi = {
       description = "Ombi";
@@ -64,9 +70,7 @@ in {
       };
     };
 
-    networking.firewall = mkIf cfg.openFirewall {
-      allowedTCPPorts = [ cfg.port ];
-    };
+    networking.firewall = mkIf cfg.openFirewall { allowedTCPPorts = [ cfg.port ]; };
 
     users.users = mkIf (cfg.user == "ombi") {
       ombi = {

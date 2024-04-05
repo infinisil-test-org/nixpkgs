@@ -1,8 +1,9 @@
-{ lib
-, stdenvNoCC
-, buildGoModule
-, fetchFromGitHub
-, dbip-country-lite
+{
+  lib,
+  stdenvNoCC,
+  buildGoModule,
+  fetchFromGitHub,
+  dbip-country-lite,
 }:
 
 let
@@ -53,7 +54,9 @@ stdenvNoCC.mkDerivation rec {
     runHook postInstall
   '';
 
-  passthru = { inherit generator; };
+  passthru = {
+    inherit generator;
+  };
 
   meta = generator.meta // {
     inherit (dbip-country-lite.meta) license;

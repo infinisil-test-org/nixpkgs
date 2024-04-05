@@ -1,4 +1,11 @@
-{ lib, stdenv, fetchurl, apacheAnt, jdk, unzip }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  apacheAnt,
+  jdk,
+  unzip,
+}:
 
 stdenv.mkDerivation rec {
   pname = "axis2";
@@ -10,7 +17,10 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ unzip ];
-  buildInputs = [ apacheAnt jdk ];
+  buildInputs = [
+    apacheAnt
+    jdk
+  ];
   builder = ./builder.sh;
 
   meta = {

@@ -1,4 +1,10 @@
-{ fetchFromGitHub, lib, nodejs, stdenv, yarn }:
+{
+  fetchFromGitHub,
+  lib,
+  nodejs,
+  stdenv,
+  yarn,
+}:
 
 stdenv.mkDerivation rec {
   name = "yarn-berry";
@@ -11,13 +17,9 @@ stdenv.mkDerivation rec {
     hash = "sha256-75bERA1uZeywMjYznFDyk4+AtVDLo7eIajVtWdAD/RA=";
   };
 
-  buildInputs = [
-    nodejs
-  ];
+  buildInputs = [ nodejs ];
 
-  nativeBuildInputs = [
-    yarn
-  ];
+  nativeBuildInputs = [ yarn ];
 
   dontConfigure = true;
 
@@ -39,7 +41,11 @@ stdenv.mkDerivation rec {
     homepage = "https://yarnpkg.com/";
     description = "Fast, reliable, and secure dependency management.";
     license = licenses.bsd2;
-    maintainers = with maintainers; [ ryota-ka thehedgeh0g DimitarNestorov ];
+    maintainers = with maintainers; [
+      ryota-ka
+      thehedgeh0g
+      DimitarNestorov
+    ];
     platforms = platforms.unix;
     mainProgram = "yarn";
   };

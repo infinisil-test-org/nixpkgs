@@ -16,7 +16,7 @@ python3.pkgs.buildPythonApplication rec {
     sha256 = "sha256-lL6n3hcsIbLmrRKPi/ckWW2XUAtmBqvMSplkWOF4VKQ=";
   };
 
-   nativeBuildInputs = [
+  nativeBuildInputs = [
     qt6.wrapQtAppsHook
     qt6.qtbase
   ];
@@ -45,8 +45,7 @@ python3.pkgs.buildPythonApplication rec {
 
   meta = with lib; {
     homepage = "https://github.com/NanoVNA-Saver/nanovna-saver";
-    description =
-      "A tool for reading, displaying and saving data from the NanoVNA";
+    description = "A tool for reading, displaying and saving data from the NanoVNA";
     mainProgram = "NanoVNASaver";
     longDescription = ''
       A multiplatform tool to save Touchstone files from the NanoVNA, sweep
@@ -54,6 +53,9 @@ python3.pkgs.buildPythonApplication rec {
       generally display and analyze the resulting data.
     '';
     license = licenses.gpl3Only;
-    maintainers = with maintainers; [ zaninime tmarkus ];
+    maintainers = with maintainers; [
+      zaninime
+      tmarkus
+    ];
   };
 }

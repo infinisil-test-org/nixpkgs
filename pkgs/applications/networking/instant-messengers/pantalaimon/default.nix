@@ -1,10 +1,11 @@
-{ lib
-, stdenv
-, python3Packages
-, fetchFromGitHub
-, installShellFiles
-, nixosTests
-, enableDbusUi ? true
+{
+  lib,
+  stdenv,
+  python3Packages,
+  fetchFromGitHub,
+  installShellFiles,
+  nixosTests,
+  enableDbusUi ? true,
 }:
 
 python3Packages.buildPythonApplication rec {
@@ -20,32 +21,32 @@ python3Packages.buildPythonApplication rec {
     hash = "sha256-yMhE3wKRbFHoL0vdFR8gMkNU7Su4FHbAwKQYADaaWpk=";
   };
 
-  build-system = [
-    installShellFiles
-  ] ++ (with python3Packages; [
-    setuptools
-    pythonRelaxDepsHook
-  ]);
+  build-system =
+    [ installShellFiles ]
+    ++ (with python3Packages; [
+      setuptools
+      pythonRelaxDepsHook
+    ]);
 
-  pythonRelaxDeps = [
-    "matrix-nio"
-  ];
+  pythonRelaxDeps = [ "matrix-nio" ];
 
-  dependencies = with python3Packages; [
-    aiohttp
-    appdirs
-    attrs
-    cachetools
-    click
-    janus
-    keyring
-    logbook
-    matrix-nio
-    peewee
-    prompt-toolkit
-  ]
-  ++ matrix-nio.optional-dependencies.e2e
-  ++ lib.optionals enableDbusUi optional-dependencies.ui;
+  dependencies =
+    with python3Packages;
+    [
+      aiohttp
+      appdirs
+      attrs
+      cachetools
+      click
+      janus
+      keyring
+      logbook
+      matrix-nio
+      peewee
+      prompt-toolkit
+    ]
+    ++ matrix-nio.optional-dependencies.e2e
+    ++ lib.optionals enableDbusUi optional-dependencies.ui;
 
   optional-dependencies.ui = with python3Packages; [
     dbus-python
@@ -54,13 +55,15 @@ python3Packages.buildPythonApplication rec {
     pydbus
   ];
 
-  nativeCheckInputs = with python3Packages; [
-    aioresponses
-    faker
-    pytest-aiohttp
-    pytestCheckHook
-  ]
-  ++ lib.flatten (lib.attrValues optional-dependencies);
+  nativeCheckInputs =
+    with python3Packages;
+    [
+      aioresponses
+      faker
+      pytest-aiohttp
+      pytestCheckHook
+    ]
+    ++ lib.flatten (lib.attrValues optional-dependencies);
 
   # darwin has difficulty communicating with server, fails some integration tests
   doCheck = !stdenv.isDarwin;

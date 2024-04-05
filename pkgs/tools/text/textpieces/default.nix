@@ -1,23 +1,24 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, python3
-, meson
-, ninja
-, pkg-config
-, vala
-, glib
-, gtk4
-, libgee
-, libadwaita
-, libportal-gtk4
-, json-glib
-, blueprint-compiler
-, gtksourceview5
-, gobject-introspection
-, wrapGAppsHook4
-, appstream-glib
-, desktop-file-utils
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  python3,
+  meson,
+  ninja,
+  pkg-config,
+  vala,
+  glib,
+  gtk4,
+  libgee,
+  libadwaita,
+  libportal-gtk4,
+  json-glib,
+  blueprint-compiler,
+  gtksourceview5,
+  gobject-introspection,
+  wrapGAppsHook4,
+  appstream-glib,
+  desktop-file-utils,
 }:
 
 let
@@ -57,9 +58,7 @@ stdenv.mkDerivation (finalAttrs: {
     gtksourceview5
   ];
 
-  runtimeDependencies = [
-    pythonEnv
-  ];
+  runtimeDependencies = [ pythonEnv ];
 
   postPatch = ''
     chmod +x build-aux/meson/postinstall.py

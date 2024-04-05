@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -20,11 +25,8 @@ with lib;
           `portmap`.
         '';
       };
-
     };
-
   };
-
 
   ###### implementation
 
@@ -52,5 +54,4 @@ with lib;
       uid = config.ids.uids.rpc;
     };
   };
-
 }

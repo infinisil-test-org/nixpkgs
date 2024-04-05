@@ -1,21 +1,22 @@
-{ lib
-, mkDerivation
-, fetchFromGitHub
-, cmake
-, pkg-config
-, lxqt-build-tools
-, qtbase
-, qttools
-, qtsvg
-, kwindowsystem
-, liblxqt
-, libqtxdg
-, lxqt-globalkeys
-, qtx11extras
-, menu-cache
-, muparser
-, pcre
-, gitUpdater
+{
+  lib,
+  mkDerivation,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  lxqt-build-tools,
+  qtbase,
+  qttools,
+  qtsvg,
+  kwindowsystem,
+  liblxqt,
+  libqtxdg,
+  lxqt-globalkeys,
+  qtx11extras,
+  menu-cache,
+  muparser,
+  pcre,
+  gitUpdater,
 }:
 
 mkDerivation rec {

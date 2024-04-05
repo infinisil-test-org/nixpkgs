@@ -1,4 +1,12 @@
-{ lib, buildKodiAddon, fetchzip, addonUpdateScript, requests, inputstream-adaptive, inputstreamhelper }:
+{
+  lib,
+  buildKodiAddon,
+  fetchzip,
+  addonUpdateScript,
+  requests,
+  inputstream-adaptive,
+  inputstreamhelper,
+}:
 
 buildKodiAddon rec {
   pname = "invidious";
@@ -18,9 +26,7 @@ buildKodiAddon rec {
 
   passthru = {
     pythonPath = "resources/lib";
-    updateScript = addonUpdateScript {
-      attrPath = "kodi.packages.invidious";
-    };
+    updateScript = addonUpdateScript { attrPath = "kodi.packages.invidious"; };
   };
 
   meta = with lib; {

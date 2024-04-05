@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, hopcroftkarp
-, multiset
-, pytestCheckHook
-, hypothesis
-, setuptools-scm
-, isPy27
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  hopcroftkarp,
+  multiset,
+  pytestCheckHook,
+  hypothesis,
+  setuptools-scm,
+  isPy27,
 }:
 
 buildPythonPackage rec {
@@ -29,9 +30,7 @@ buildPythonPackage rec {
       --replace "multiset>=2.0,<3.0" "multiset"
   '';
 
-  nativeBuildInputs = [
-    setuptools-scm
-  ];
+  nativeBuildInputs = [ setuptools-scm ];
 
   propagatedBuildInputs = [
     hopcroftkarp
@@ -43,9 +42,7 @@ buildPythonPackage rec {
     hypothesis
   ];
 
-  pythonImportsCheck = [
-    "matchpy"
-  ];
+  pythonImportsCheck = [ "matchpy" ];
 
   meta = with lib; {
     description = "A library for pattern matching on symbolic expressions";

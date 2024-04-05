@@ -1,17 +1,18 @@
-{ autoPatchelfHook
-, fetchurl
-, gcc-unwrapped
-, gsettings-desktop-schemas
-, gtk3
-, lib
-, makeDesktopItem
-, makeWrapper
-, nwjs
-, stdenv
-, unzip
-, udev
-, wrapGAppsHook
-, copyDesktopItems
+{
+  autoPatchelfHook,
+  fetchurl,
+  gcc-unwrapped,
+  gsettings-desktop-schemas,
+  gtk3,
+  lib,
+  makeDesktopItem,
+  makeWrapper,
+  nwjs,
+  stdenv,
+  unzip,
+  udev,
+  wrapGAppsHook,
+  copyDesktopItems,
 }:
 
 stdenv.mkDerivation rec {
@@ -45,20 +46,29 @@ stdenv.mkDerivation rec {
   dontUnpack = true;
 
   makeWrapperArgs = [
-    "--prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ gcc-unwrapped.lib gtk3 udev ]}"
+    "--prefix LD_LIBRARY_PATH : ${
+      lib.makeLibraryPath [
+        gcc-unwrapped.lib
+        gtk3
+        udev
+      ]
+    }"
     "--prefix PATH : ${lib.makeBinPath [ stdenv.cc ]}"
   ];
 
   desktopItem = makeDesktopItem {
-      name = pname;
-      exec = pname;
-      icon = pname;
-      comment = meta.description;
-      genericName = meta.description;
-      type = "Application";
-      desktopName = "Popcorn-Time";
-      categories = [ "Video" "AudioVideo" ];
-    };
+    name = pname;
+    exec = pname;
+    icon = pname;
+    comment = meta.description;
+    genericName = meta.description;
+    type = "Application";
+    desktopName = "Popcorn-Time";
+    categories = [
+      "Video"
+      "AudioVideo"
+    ];
+  };
 
   # Extract and copy executable in $out/bin
   installPhase = ''

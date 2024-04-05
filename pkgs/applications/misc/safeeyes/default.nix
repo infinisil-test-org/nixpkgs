@@ -1,17 +1,18 @@
-{ lib
-, python3
-, fetchPypi
-, alsa-utils
-, gobject-introspection
-, libappindicator-gtk3
-, libnotify
-, wlrctl
-, gtk3
-, safeeyes
-, testers
-, xprintidle
-, xprop
-, wrapGAppsHook
+{
+  lib,
+  python3,
+  fetchPypi,
+  alsa-utils,
+  gobject-introspection,
+  libappindicator-gtk3,
+  libnotify,
+  wlrctl,
+  gtk3,
+  safeeyes,
+  testers,
+  xprintidle,
+  xprop,
+  wrapGAppsHook,
 }:
 
 with python3.pkgs;
@@ -59,7 +60,14 @@ buildPythonApplication rec {
   preFixup = ''
     makeWrapperArgs+=(
       "''${gappsWrapperArgs[@]}"
-      --prefix PATH : ${lib.makeBinPath [ alsa-utils wlrctl xprintidle xprop ]}
+      --prefix PATH : ${
+        lib.makeBinPath [
+          alsa-utils
+          wlrctl
+          xprintidle
+          xprop
+        ]
+      }
     )
   '';
 

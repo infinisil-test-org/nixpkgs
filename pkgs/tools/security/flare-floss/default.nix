@@ -1,6 +1,7 @@
-{ lib
-, python3
-, fetchFromGitHub
+{
+  lib,
+  python3,
+  fetchFromGitHub,
 }:
 
 python3.pkgs.buildPythonPackage rec {
@@ -24,22 +25,23 @@ python3.pkgs.buildPythonPackage rec {
       --replace 'sigs_path = os.path.join(get_default_root(), "sigs")' 'sigs_path = "'"$out"'/share/flare-floss/sigs"'
   '';
 
-  nativeBuildInputs = with python3.pkgs; [
-    setuptools
-  ];
+  nativeBuildInputs = with python3.pkgs; [ setuptools ];
 
-  propagatedBuildInputs = with python3.pkgs; [
-    binary2strings
-    halo
-    networkx
-    pefile
-    pydantic_1
-    rich
-    tabulate
-    tqdm
-    viv-utils
-    vivisect
-  ] ++ viv-utils.optional-dependencies.flirt;
+  propagatedBuildInputs =
+    with python3.pkgs;
+    [
+      binary2strings
+      halo
+      networkx
+      pefile
+      pydantic_1
+      rich
+      tabulate
+      tqdm
+      viv-utils
+      vivisect
+    ]
+    ++ viv-utils.optional-dependencies.flirt;
 
   nativeCheckInputs = with python3.pkgs; [
     pytest-sugar

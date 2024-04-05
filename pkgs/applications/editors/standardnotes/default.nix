@@ -1,12 +1,20 @@
-{ lib, stdenv, fetchurl, dpkg, makeWrapper, electron, libsecret
-, desktop-file-utils , callPackage }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  dpkg,
+  makeWrapper,
+  electron,
+  libsecret,
+  desktop-file-utils,
+  callPackage,
+}:
 
 let
 
   srcjson = builtins.fromJSON (builtins.readFile ./src.json);
 
   throwSystem = throw "Unsupported system: ${stdenv.hostPlatform.system}";
-
 in
 
 stdenv.mkDerivation rec {
@@ -21,7 +29,11 @@ stdenv.mkDerivation rec {
 
   dontBuild = true;
 
-  nativeBuildInputs = [ makeWrapper dpkg desktop-file-utils ];
+  nativeBuildInputs = [
+    makeWrapper
+    dpkg
+    desktop-file-utils
+  ];
 
   unpackPhase = "dpkg-deb --fsys-tarfile $src | tar -x --no-same-permissions --no-same-owner";
 
@@ -34,7 +46,12 @@ stdenv.mkDerivation rec {
 
     makeWrapper ${electron}/bin/electron $out/bin/standardnotes \
       --add-flags $out/share/standardnotes/app.asar \
-      --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ libsecret stdenv.cc.cc.lib ]}
+      --prefix LD_LIBRARY_PATH : ${
+        lib.makeLibraryPath [
+          libsecret
+          stdenv.cc.cc.lib
+        ]
+      }
 
     ${desktop-file-utils}/bin/desktop-file-install --dir $out/share/applications \
       --set-key Exec --set-value standardnotes usr/share/applications/standard-notes.desktop
@@ -42,7 +59,7 @@ stdenv.mkDerivation rec {
     runHook postInstall
   '';
 
-  passthru.updateScript = callPackage ./update.nix {};
+  passthru.updateScript = callPackage ./update.nix { };
 
   meta = with lib; {
     description = "A simple and private notes app";
@@ -52,7 +69,11 @@ stdenv.mkDerivation rec {
     '';
     homepage = "https://standardnotes.org";
     license = licenses.agpl3Only;
-    maintainers = with maintainers; [ mgregoire chuangzhu squalus ];
+    maintainers = with maintainers; [
+      mgregoire
+      chuangzhu
+      squalus
+    ];
     sourceProvenance = [ sourceTypes.binaryNativeCode ];
     platforms = builtins.attrNames srcjson.deb;
     mainProgram = "standardnotes";

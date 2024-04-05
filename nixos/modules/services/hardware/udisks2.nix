@@ -1,13 +1,20 @@
 # Udisks daemon.
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 
 let
   cfg = config.services.udisks2;
   settingsFormat = pkgs.formats.ini {
-    listToValue = concatMapStringsSep "," (generators.mkValueStringDefault {});
+    listToValue = concatMapStringsSep "," (generators.mkValueStringDefault { });
   };
-  configFiles = mapAttrs (name: value: (settingsFormat.generate name value)) (mapAttrs' (name: value: nameValuePair name value ) config.services.udisks2.settings);
+  configFiles = mapAttrs (name: value: (settingsFormat.generate name value)) (
+    mapAttrs' (name: value: nameValuePair name value) config.services.udisks2.settings
+  );
 in
 
 {
@@ -18,7 +25,9 @@ in
 
     services.udisks2 = {
 
-      enable = mkEnableOption (mdDoc "udisks2, a DBus service that allows applications to query and manipulate storage devices");
+      enable = mkEnableOption (
+        mdDoc "udisks2, a DBus service that allows applications to query and manipulate storage devices"
+      );
 
       mountOnMedia = mkOption {
         type = types.bool;
@@ -45,13 +54,13 @@ in
           };
         };
         example = literalExpression ''
-        {
-          "WDC-WD10EZEX-60M2NA0-WD-WCC3F3SJ0698.conf" = {
-            ATA = {
-              StandbyTimeout = 50;
+          {
+            "WDC-WD10EZEX-60M2NA0-WD-WCC3F3SJ0698.conf" = {
+              ATA = {
+                StandbyTimeout = 50;
+              };
             };
           };
-        };
         '';
         description = mdDoc ''
           Options passed to udisksd.
@@ -59,11 +68,8 @@ in
           drive configuration in [here](http://manpages.ubuntu.com/manpages/latest/en/man8/udisks.8.html) for supported options.
         '';
       };
-
     };
-
   };
-
 
   ###### implementation
 
@@ -71,23 +77,28 @@ in
 
     environment.systemPackages = [ pkgs.udisks2 ];
 
-    environment.etc = (mapAttrs' (name: value: nameValuePair "udisks2/${name}" { source = value; } ) configFiles) // (
-    let
-      libblockdev = pkgs.udisks2.libblockdev;
-      majorVer = versions.major libblockdev.version;
-    in {
-      # We need to make sure /etc/libblockdev/@major_ver@/conf.d is populated to avoid
-      # warnings
-      "libblockdev/${majorVer}/conf.d/00-default.cfg".source = "${libblockdev}/etc/libblockdev/${majorVer}/conf.d/00-default.cfg";
-      "libblockdev/${majorVer}/conf.d/10-lvm-dbus.cfg".source = "${libblockdev}/etc/libblockdev/${majorVer}/conf.d/10-lvm-dbus.cfg";
-    });
+    environment.etc =
+      (mapAttrs' (name: value: nameValuePair "udisks2/${name}" { source = value; }) configFiles)
+      // (
+        let
+          libblockdev = pkgs.udisks2.libblockdev;
+          majorVer = versions.major libblockdev.version;
+        in
+        {
+          # We need to make sure /etc/libblockdev/@major_ver@/conf.d is populated to avoid
+          # warnings
+          "libblockdev/${majorVer}/conf.d/00-default.cfg".source = "${libblockdev}/etc/libblockdev/${majorVer}/conf.d/00-default.cfg";
+          "libblockdev/${majorVer}/conf.d/10-lvm-dbus.cfg".source = "${libblockdev}/etc/libblockdev/${majorVer}/conf.d/10-lvm-dbus.cfg";
+        }
+      );
 
     security.polkit.enable = true;
 
     services.dbus.packages = [ pkgs.udisks2 ];
 
-    systemd.tmpfiles.rules = [ "d /var/lib/udisks2 0755 root root -" ]
-      ++ optional cfg.mountOnMedia "D! /media 0755 root root -";
+    systemd.tmpfiles.rules = [
+      "d /var/lib/udisks2 0755 root root -"
+    ] ++ optional cfg.mountOnMedia "D! /media 0755 root root -";
 
     services.udev.packages = [ pkgs.udisks2 ];
 
@@ -97,5 +108,4 @@ in
 
     systemd.packages = [ pkgs.udisks2 ];
   };
-
 }

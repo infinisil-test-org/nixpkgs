@@ -1,5 +1,19 @@
-{ lib, buildPythonApplication, fetchFromGitHub, wrapGAppsHook, gobject-introspection, gtk3, pango
-, pillow, pycurl, beautifulsoup4, pygeoip, pygobject3, cairocffi, selenium }:
+{
+  lib,
+  buildPythonApplication,
+  fetchFromGitHub,
+  wrapGAppsHook,
+  gobject-introspection,
+  gtk3,
+  pango,
+  pillow,
+  pycurl,
+  beautifulsoup4,
+  pygeoip,
+  pygobject3,
+  cairocffi,
+  selenium,
+}:
 
 buildPythonApplication rec {
   pname = "xsser";
@@ -22,7 +36,10 @@ buildPythonApplication rec {
     substituteInPlace setup.py --replace /usr/share share
   '';
 
-  nativeBuildInputs = [ wrapGAppsHook gobject-introspection ];
+  nativeBuildInputs = [
+    wrapGAppsHook
+    gobject-introspection
+  ];
 
   buildInputs = [
     gtk3

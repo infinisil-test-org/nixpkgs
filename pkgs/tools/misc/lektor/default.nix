@@ -1,10 +1,11 @@
-{ lib
-, fetchFromGitHub
-, fetchNpmDeps
-, fetchPypi
-, nodejs
-, npmHooks
-, python3
+{
+  lib,
+  fetchFromGitHub,
+  fetchNpmDeps,
+  fetchPypi,
+  nodejs,
+  npmHooks,
+  python3,
 }:
 
 let
@@ -74,17 +75,13 @@ python.pkgs.buildPythonApplication rec {
     pythonRelaxDepsHook
   ];
 
-  pythonRelaxDeps = [
-    "werkzeug"
-  ];
+  pythonRelaxDeps = [ "werkzeug" ];
 
   postInstall = ''
     cp -r lektor/translations "$out/${python.sitePackages}/lektor/"
   '';
 
-  pythonImportsCheck = [
-    "lektor"
-  ];
+  pythonImportsCheck = [ "lektor" ];
 
   disabledTests = [
     # Tests require network access

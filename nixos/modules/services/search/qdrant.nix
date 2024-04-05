@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
@@ -7,11 +12,14 @@ let
 
   settingsFormat = pkgs.formats.yaml { };
   configFile = settingsFormat.generate "config.yaml" cfg.settings;
-in {
+in
+{
 
   options = {
     services.qdrant = {
-      enable = mkEnableOption (lib.mdDoc "Vector Search Engine for the next generation of AI applications");
+      enable = mkEnableOption (
+        lib.mdDoc "Vector Search Engine for the next generation of AI applications"
+      );
 
       settings = mkOption {
         description = lib.mdDoc ''
@@ -100,7 +108,7 @@ in {
       after = [ "network.target" ];
 
       serviceConfig = {
-        LimitNOFILE=65536;
+        LimitNOFILE = 65536;
         ExecStart = "${pkgs.qdrant}/bin/qdrant --config-path ${configFile}";
         DynamicUser = true;
         Restart = "on-failure";
@@ -122,7 +130,10 @@ in {
         RestrictNamespaces = true;
         LockPersonality = true;
         RemoveIPC = true;
-        SystemCallFilter = [ "@system-service" "~@privileged" ];
+        SystemCallFilter = [
+          "@system-service"
+          "~@privileged"
+        ];
       };
     };
   };

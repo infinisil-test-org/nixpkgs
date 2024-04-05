@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pycrypto
-, pythonOlder
-, enum34
-, python
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pycrypto,
+  pythonOlder,
+  enum34,
+  python,
 }:
 
 buildPythonPackage rec {
@@ -19,9 +20,7 @@ buildPythonPackage rec {
     sha256 = "0c436hv64ddqrjs77pa7z6spiv49pjflbmgg31p38haj5mzlrqvw";
   };
 
-  propagatedBuildInputs = [
-    pycrypto
-  ] ++ lib.optional (pythonOlder "3.4") enum34;
+  propagatedBuildInputs = [ pycrypto ] ++ lib.optional (pythonOlder "3.4") enum34;
 
   checkPhase = ''
     ${python.interpreter} -m android_backup.tests

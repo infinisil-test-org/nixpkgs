@@ -1,10 +1,11 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, pkg-config
-, elfutils
-, zlib
-, libbpf
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  pkg-config,
+  elfutils,
+  zlib,
+  libbpf,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -26,9 +27,7 @@ rustPlatform.buildRustPackage rec {
     zlib
   ];
 
-  nativeBuildInputs = [
-    pkg-config
-  ];
+  nativeBuildInputs = [ pkg-config ];
 
   meta = {
     description = "A dynamic real-time view of running eBPF programs";

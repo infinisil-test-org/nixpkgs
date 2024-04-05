@@ -1,10 +1,11 @@
-{ buildPythonPackage
-, fetchFromGitHub
-, lib
-, setuptools
-, pytestCheckHook
-, regex
-, wcwidth
+{
+  buildPythonPackage,
+  fetchFromGitHub,
+  lib,
+  setuptools,
+  pytestCheckHook,
+  regex,
+  wcwidth,
 }:
 
 buildPythonPackage rec {
@@ -19,18 +20,14 @@ buildPythonPackage rec {
     hash = "sha256-cmzyRbq4tCbuyrNnT0UYxoxuwXrFkIcWdrogSTfxSys=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     wcwidth
     regex
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   pythonImportsCheck = [ "wikitextparser" ];
 

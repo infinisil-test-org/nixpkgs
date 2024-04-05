@@ -1,13 +1,14 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, rustPlatform
-, pkg-config
-, openssl
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  rustPlatform,
+  pkg-config,
+  openssl,
   # darwin dependencies
-, darwin
-, libiconv
-, curl
+  darwin,
+  libiconv,
+  curl,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -22,9 +23,19 @@ rustPlatform.buildRustPackage rec {
   };
   cargoHash = "sha256-B6Ka35y2fJEDVd891P60TNppr5HGFnzVjLhhfoFCYUA=";
 
-  buildInputs = [ openssl ]
-    ++ lib.optionals stdenv.isDarwin (with darwin.apple_sdk.frameworks; [ CoreFoundation Security libiconv curl ]);
-  nativeBuildInputs = [ pkg-config ]
+  buildInputs =
+    [ openssl ]
+    ++ lib.optionals stdenv.isDarwin (
+      with darwin.apple_sdk.frameworks;
+      [
+        CoreFoundation
+        Security
+        libiconv
+        curl
+      ]
+    );
+  nativeBuildInputs =
+    [ pkg-config ]
     # curl-sys wants to run curl-config on darwin
     ++ lib.optionals stdenv.isDarwin [ curl.dev ];
 
@@ -54,7 +65,14 @@ rustPlatform.buildRustPackage rec {
       dependency selection but it can not help you decide when and why unsafe
       code is appropriate.
     '';
-    license = with licenses; [ asl20 /* or */ mit ];
-    maintainers = with maintainers; [ evanjs jk matthiasbeyer ];
+    license = with licenses; [
+      asl20 # or
+      mit
+    ];
+    maintainers = with maintainers; [
+      evanjs
+      jk
+      matthiasbeyer
+    ];
   };
 }

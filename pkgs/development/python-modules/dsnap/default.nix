@@ -1,17 +1,18 @@
-{ lib
-, aws-sam-cli
-, boto3
-, buildPythonPackage
-, cfn-lint
-, fetchFromGitHub
-, mock
-, moto
-, mypy-boto3-ebs
-, poetry-core
-, pytestCheckHook
-, pythonOlder
-, typer
-, urllib3
+{
+  lib,
+  aws-sam-cli,
+  boto3,
+  buildPythonPackage,
+  cfn-lint,
+  fetchFromGitHub,
+  mock,
+  moto,
+  mypy-boto3-ebs,
+  poetry-core,
+  pytestCheckHook,
+  pythonOlder,
+  typer,
+  urllib3,
 }:
 
 buildPythonPackage rec {
@@ -34,9 +35,7 @@ buildPythonPackage rec {
       --replace 'urllib3 = "^1.26.4"' 'urllib3 = "*"'
   '';
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
   propagatedBuildInputs = [
     boto3
@@ -44,9 +43,7 @@ buildPythonPackage rec {
   ];
 
   passthru.optional-dependencies = {
-    cli = [
-      typer
-    ];
+    cli = [ typer ];
     scannerd = [
       aws-sam-cli
       cfn-lint
@@ -60,9 +57,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ] ++ lib.flatten (builtins.attrValues passthru.optional-dependencies);
 
-  pythonImportsCheck = [
-    "dsnap"
-  ];
+  pythonImportsCheck = [ "dsnap" ];
 
   meta = with lib; {
     description = "Utility for downloading and mounting EBS snapshots using the EBS Direct API's";
@@ -73,4 +68,3 @@ buildPythonPackage rec {
     maintainers = with maintainers; [ fab ];
   };
 }
-

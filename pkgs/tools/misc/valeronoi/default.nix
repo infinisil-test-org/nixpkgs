@@ -1,16 +1,17 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, boost
-, cgal
-, cmake
-, copyDesktopItems
-, gpp
-, mpfr
-, qtbase
-, qtimageformats
-, qtsvg
-, wrapQtAppsHook
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  boost,
+  cgal,
+  cmake,
+  copyDesktopItems,
+  gpp,
+  mpfr,
+  qtbase,
+  qtimageformats,
+  qtsvg,
+  wrapQtAppsHook,
 }:
 
 stdenv.mkDerivation rec {
@@ -47,7 +48,10 @@ stdenv.mkDerivation rec {
     description = "A WiFi mapping companion app for Valetudo";
     license = licenses.gpl3Only;
     platforms = [ "x86_64-linux" ];
-    maintainers = with maintainers; [ nova-madeline maeve ];
+    maintainers = with maintainers; [
+      nova-madeline
+      maeve
+    ];
     mainProgram = "valeronoi";
   };
 }

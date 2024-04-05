@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, fetchurl
-, electron_28
-, makeWrapper
+{
+  lib,
+  stdenv,
+  fetchurl,
+  electron_28,
+  makeWrapper,
 }:
 
 let
@@ -23,7 +24,6 @@ let
   };
 
   inherit (stdenv.hostPlatform) system;
-
 in
 
 stdenv.mkDerivation {
@@ -64,7 +64,10 @@ stdenv.mkDerivation {
     homepage = "https://about.mattermost.com/";
     sourceProvenance = with sourceTypes; [ binaryNativeCode ];
     license = licenses.asl20;
-    platforms = [ "x86_64-linux" "aarch64-linux" ];
+    platforms = [
+      "x86_64-linux"
+      "aarch64-linux"
+    ];
     maintainers = [ maintainers.joko ];
   };
 }

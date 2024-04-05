@@ -1,15 +1,16 @@
-{ lib
-, arviz
-, buildPythonPackage
-, cachetools
-, cloudpickle
-, fastprogress
-, fetchFromGitHub
-, numpy
-, pytensor
-, pythonOlder
-, scipy
-, typing-extensions
+{
+  lib,
+  arviz,
+  buildPythonPackage,
+  cachetools,
+  cloudpickle,
+  fastprogress,
+  fetchFromGitHub,
+  numpy,
+  pytensor,
+  pythonOlder,
+  scipy,
+  typing-extensions,
 }:
 
 buildPythonPackage rec {
@@ -46,9 +47,7 @@ buildPythonPackage rec {
   # indicative for package usability hence tests are disabled by default.
   doCheck = false;
 
-  pythonImportsCheck = [
-    "pymc"
-  ];
+  pythonImportsCheck = [ "pymc" ];
 
   meta = with lib; {
     description = "Bayesian estimation, particularly using Markov chain Monte Carlo (MCMC)";

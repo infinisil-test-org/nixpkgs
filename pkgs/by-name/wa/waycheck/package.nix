@@ -1,13 +1,14 @@
-{ lib
-, stdenv
-, fetchFromGitLab
-, meson
-, ninja
-, pkg-config
-, qt6
-, wayland
-, glib
-, wrapGAppsHook
+{
+  lib,
+  stdenv,
+  fetchFromGitLab,
+  meson,
+  ninja,
+  pkg-config,
+  qt6,
+  wayland,
+  glib,
+  wrapGAppsHook,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -51,7 +52,10 @@ stdenv.mkDerivation (finalAttrs: {
     description = "Simple GUI that displays the protocols implemented by a Wayland compositor";
     homepage = "https://gitlab.freedesktop.org/serebit/waycheck";
     license = lib.licenses.asl20;
-    maintainers = with lib.maintainers; [ julienmalka federicoschonborn ];
+    maintainers = with lib.maintainers; [
+      julienmalka
+      federicoschonborn
+    ];
     mainProgram = "waycheck";
     platforms = lib.platforms.linux;
   };

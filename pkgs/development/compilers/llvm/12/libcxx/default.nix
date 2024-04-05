@@ -1,9 +1,20 @@
-{ lib, stdenv, llvm_meta
-, fetchFromGitHub, runCommand, substitute
-, cmake, lndir, ninja, python3, fixDarwinDylibNames, version
-, cxxabi ? if stdenv.hostPlatform.isFreeBSD then libcxxrt else null
-, libcxxrt, libunwind
-, enableShared ? !stdenv.hostPlatform.isStatic
+{
+  lib,
+  stdenv,
+  llvm_meta,
+  fetchFromGitHub,
+  runCommand,
+  substitute,
+  cmake,
+  lndir,
+  ninja,
+  python3,
+  fixDarwinDylibNames,
+  version,
+  cxxabi ? if stdenv.hostPlatform.isFreeBSD then libcxxrt else null,
+  libcxxrt,
+  libunwind,
+  enableShared ? !stdenv.hostPlatform.isStatic,
 }:
 
 # external cxxabi is not supported on Darwin as the build will not link libcxx
@@ -19,47 +30,47 @@ let
   # Note: useLLVM is likely false for Darwin but true under pkgsLLVM
   useLLVM = stdenv.hostPlatform.useLLVM or false;
 
-  cxxabiCMakeFlags = lib.optionals (useLLVM && !stdenv.hostPlatform.isWasm) [
-    "-DLIBCXXABI_USE_COMPILER_RT=ON"
-    "-DLIBCXXABI_USE_LLVM_UNWINDER=ON"
-  ] ++ lib.optionals stdenv.hostPlatform.isWasm [
-    "-DLIBCXXABI_ENABLE_THREADS=OFF"
-    "-DLIBCXXABI_ENABLE_EXCEPTIONS=OFF"
-  ] ++ lib.optionals (!enableShared) [
-    "-DLIBCXXABI_ENABLE_SHARED=OFF"
-  ];
+  cxxabiCMakeFlags =
+    lib.optionals (useLLVM && !stdenv.hostPlatform.isWasm) [
+      "-DLIBCXXABI_USE_COMPILER_RT=ON"
+      "-DLIBCXXABI_USE_LLVM_UNWINDER=ON"
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isWasm [
+      "-DLIBCXXABI_ENABLE_THREADS=OFF"
+      "-DLIBCXXABI_ENABLE_EXCEPTIONS=OFF"
+    ]
+    ++ lib.optionals (!enableShared) [ "-DLIBCXXABI_ENABLE_SHARED=OFF" ];
 
-  cxxCMakeFlags = [
-    "-DLIBCXX_CXX_ABI=${cxxabiName}"
-  ] ++ lib.optionals (cxxabi != null) [
-    "-DLIBCXX_CXX_ABI_INCLUDE_PATHS=${lib.getDev cxxabi}/include"
-  ] ++ lib.optionals (stdenv.hostPlatform.isMusl || stdenv.hostPlatform.isWasi) [
-    "-DLIBCXX_HAS_MUSL_LIBC=1"
-  ] ++ lib.optionals useLLVM [
-    "-DLIBCXX_USE_COMPILER_RT=ON"
-  ] ++ lib.optionals stdenv.hostPlatform.isWasm [
-    "-DLIBCXX_ENABLE_THREADS=OFF"
-    "-DLIBCXX_ENABLE_FILESYSTEM=OFF"
-    "-DLIBCXX_ENABLE_EXCEPTIONS=OFF"
-  ] ++ lib.optionals (!enableShared) [
-    "-DLIBCXX_ENABLE_SHARED=OFF"
-  ];
+  cxxCMakeFlags =
+    [ "-DLIBCXX_CXX_ABI=${cxxabiName}" ]
+    ++ lib.optionals (cxxabi != null) [ "-DLIBCXX_CXX_ABI_INCLUDE_PATHS=${lib.getDev cxxabi}/include" ]
+    ++ lib.optionals (stdenv.hostPlatform.isMusl || stdenv.hostPlatform.isWasi) [
+      "-DLIBCXX_HAS_MUSL_LIBC=1"
+    ]
+    ++ lib.optionals useLLVM [ "-DLIBCXX_USE_COMPILER_RT=ON" ]
+    ++ lib.optionals stdenv.hostPlatform.isWasm [
+      "-DLIBCXX_ENABLE_THREADS=OFF"
+      "-DLIBCXX_ENABLE_FILESYSTEM=OFF"
+      "-DLIBCXX_ENABLE_EXCEPTIONS=OFF"
+    ]
+    ++ lib.optionals (!enableShared) [ "-DLIBCXX_ENABLE_SHARED=OFF" ];
 
-  cmakeFlags = [
-    "-DLLVM_ENABLE_RUNTIMES=${lib.concatStringsSep ";" runtimes}"
-  ] ++ lib.optionals (useLLVM && !stdenv.hostPlatform.isWasm) [
-    # libcxxabi's CMake looks as though it treats -nostdlib++ as implying -nostdlib,
-    # but that does not appear to be the case for example when building
-    # pkgsLLVM.libcxxabi (which uses clangNoCompilerRtWithLibc).
-    "-DCMAKE_EXE_LINKER_FLAGS=-nostdlib"
-    "-DCMAKE_SHARED_LINKER_FLAGS=-nostdlib"
-  ] ++ lib.optionals stdenv.hostPlatform.isWasm [
-    "-DCMAKE_C_COMPILER_WORKS=ON"
-    "-DCMAKE_CXX_COMPILER_WORKS=ON"
-    "-DUNIX=ON" # Required otherwise libc++ fails to detect the correct linker
-  ] ++ cxxCMakeFlags
+  cmakeFlags =
+    [ "-DLLVM_ENABLE_RUNTIMES=${lib.concatStringsSep ";" runtimes}" ]
+    ++ lib.optionals (useLLVM && !stdenv.hostPlatform.isWasm) [
+      # libcxxabi's CMake looks as though it treats -nostdlib++ as implying -nostdlib,
+      # but that does not appear to be the case for example when building
+      # pkgsLLVM.libcxxabi (which uses clangNoCompilerRtWithLibc).
+      "-DCMAKE_EXE_LINKER_FLAGS=-nostdlib"
+      "-DCMAKE_SHARED_LINKER_FLAGS=-nostdlib"
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isWasm [
+      "-DCMAKE_C_COMPILER_WORKS=ON"
+      "-DCMAKE_CXX_COMPILER_WORKS=ON"
+      "-DUNIX=ON" # Required otherwise libc++ fails to detect the correct linker
+    ]
+    ++ cxxCMakeFlags
     ++ lib.optionals (cxxabi == null) cxxabiCMakeFlags;
-
 in
 
 stdenv.mkDerivation rec {
@@ -80,23 +91,32 @@ stdenv.mkDerivation rec {
     hash = "sha256-etxgXIdWxMTmbZ83Hsc0w6Jt5OSQSUEPVEWqLkHsNBY=";
   };
 
-  outputs = [ "out" "dev" ];
-
-  patches = [
-    (substitute {
-      src = ../../common/libcxxabi/wasm.patch;
-      replacements = [
-        "--replace-fail" "/cmake/" "/llvm/cmake/"
-      ];
-    })
-  ] ++ lib.optionals stdenv.hostPlatform.isMusl [
-    (substitute {
-      src = ../../common/libcxx/libcxx-0001-musl-hacks.patch;
-      replacements = [
-        "--replace-fail" "/include/" "/libcxx/include/"
-      ];
-    })
+  outputs = [
+    "out"
+    "dev"
   ];
+
+  patches =
+    [
+      (substitute {
+        src = ../../common/libcxxabi/wasm.patch;
+        replacements = [
+          "--replace-fail"
+          "/cmake/"
+          "/llvm/cmake/"
+        ];
+      })
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isMusl [
+      (substitute {
+        src = ../../common/libcxx/libcxx-0001-musl-hacks.patch;
+        replacements = [
+          "--replace-fail"
+          "/include/"
+          "/libcxx/include/"
+        ];
+      })
+    ];
 
   postPatch = ''
     cd runtimes
@@ -106,12 +126,13 @@ stdenv.mkDerivation rec {
     patchShebangs utils/cat_files.py
   '';
 
-  nativeBuildInputs = [ cmake ninja python3 ]
-    ++ lib.optional stdenv.isDarwin fixDarwinDylibNames
-    ++ lib.optional (cxxabi != null) lndir;
+  nativeBuildInputs = [
+    cmake
+    ninja
+    python3
+  ] ++ lib.optional stdenv.isDarwin fixDarwinDylibNames ++ lib.optional (cxxabi != null) lndir;
 
-  buildInputs = [ cxxabi ]
-    ++ lib.optionals (useLLVM && !stdenv.hostPlatform.isWasm) [ libunwind ];
+  buildInputs = [ cxxabi ] ++ lib.optionals (useLLVM && !stdenv.hostPlatform.isWasm) [ libunwind ];
 
   # libc++.so is a linker script which expands to multiple libraries,
   # libc++.so.1 and libc++abi.so or the external cxxabi. ld-wrapper doesn't
@@ -134,6 +155,9 @@ stdenv.mkDerivation rec {
     '';
     # "All of the code in libc++ is dual licensed under the MIT license and the
     # UIUC License (a BSD-like license)":
-    license = with lib.licenses; [ mit ncsa ];
+    license = with lib.licenses; [
+      mit
+      ncsa
+    ];
   };
 }

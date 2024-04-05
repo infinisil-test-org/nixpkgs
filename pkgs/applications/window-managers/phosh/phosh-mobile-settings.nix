@@ -1,21 +1,22 @@
-{ lib
-, stdenv
-, fetchurl
-, directoryListingUpdater
-, meson
-, ninja
-, pkg-config
-, wrapGAppsHook
-, desktop-file-utils
-, feedbackd
-, gtk4
-, libadwaita
-, lm_sensors
-, phoc
-, phosh
-, wayland-protocols
-, json-glib
-, gsound
+{
+  lib,
+  stdenv,
+  fetchurl,
+  directoryListingUpdater,
+  meson,
+  ninja,
+  pkg-config,
+  wrapGAppsHook,
+  desktop-file-utils,
+  feedbackd,
+  gtk4,
+  libadwaita,
+  lm_sensors,
+  phoc,
+  phosh,
+  wayland-protocols,
+  json-glib,
+  gsound,
 }:
 
 stdenv.mkDerivation rec {

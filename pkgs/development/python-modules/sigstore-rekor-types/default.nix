@@ -1,9 +1,10 @@
-{ lib
-, pythonOlder
-, pydantic
-, flit-core
-, fetchFromGitHub
-, buildPythonPackage
+{
+  lib,
+  pythonOlder,
+  pydantic,
+  flit-core,
+  fetchFromGitHub,
+  buildPythonPackage,
 }:
 
 buildPythonPackage rec {
@@ -20,13 +21,9 @@ buildPythonPackage rec {
     hash = "sha256-B6u2YbtZtgjYJoWL2DfgP7LL20onNaaTTFbC6JIA4bE=";
   };
 
-  nativeBuildInputs = [
-    flit-core
-  ];
+  nativeBuildInputs = [ flit-core ];
 
-  propagatedBuildInputs = [
-    pydantic
-  ] ++ pydantic.optional-dependencies.email;
+  propagatedBuildInputs = [ pydantic ] ++ pydantic.optional-dependencies.email;
 
   # Module has no tests
   doCheck = false;

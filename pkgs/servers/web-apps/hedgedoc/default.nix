@@ -1,13 +1,14 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, gitMinimal
-, cacert
-, yarn
-, makeBinaryWrapper
-, nodejs
-, python3
-, nixosTests
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  gitMinimal,
+  cacert,
+  yarn,
+  makeBinaryWrapper,
+  nodejs,
+  python3,
+  nixosTests,
 }:
 
 let
@@ -44,8 +45,8 @@ let
     outputHashMode = "recursive";
     outputHash = "sha256-Ga+tl4oZlum43tdfez1oWGMHZAfyePGl47S+9NRRvW8=";
   };
-
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "hedgedoc";
   inherit version src;
 
@@ -103,7 +104,9 @@ in stdenv.mkDerivation {
 
   passthru = {
     inherit offlineCache;
-    tests = { inherit (nixosTests) hedgedoc; };
+    tests = {
+      inherit (nixosTests) hedgedoc;
+    };
   };
 
   meta = {

@@ -1,4 +1,12 @@
-{ lib, rel, buildKodiBinaryAddon, fetchFromGitHub, kodi, bzip2, zlib }:
+{
+  lib,
+  rel,
+  buildKodiBinaryAddon,
+  fetchFromGitHub,
+  kodi,
+  bzip2,
+  zlib,
+}:
 
 buildKodiBinaryAddon rec {
   pname = "inputstream-ffmpegdirect";
@@ -12,7 +20,11 @@ buildKodiBinaryAddon rec {
     sha256 = "sha256-+u28Wzp2TonL5jaa5WJUr9igR6KiaxizZAX9jqqBUns=";
   };
 
-  extraBuildInputs = [ bzip2 zlib kodi.ffmpeg ];
+  extraBuildInputs = [
+    bzip2
+    zlib
+    kodi.ffmpeg
+  ];
 
   meta = with lib; {
     homepage = "https://github.com/xbmc/inputstream.ffmpegdirect/";

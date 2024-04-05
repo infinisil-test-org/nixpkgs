@@ -1,4 +1,9 @@
-{ stdenv, lib, fetchFromGitHub, buildPackages }:
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  buildPackages,
+}:
 
 stdenv.mkDerivation rec {
   pname = "oksh";

@@ -1,31 +1,32 @@
-{ lib
-, stdenv
-, buildPythonApplication
-, cepa
-, colorama
-, fetchFromGitHub
-, flask
-, flask-compress
-, flask-httpauth
-, flask-socketio
-, gevent-socketio
-, gevent-websocket
-, obfs4
-, psutil
-, pycrypto
-, pynacl
-, pyqt5
-, pyside6
-, pysocks
-, pytestCheckHook
-, qrcode
-, qt5
-, requests
-, snowflake
-, substituteAll
-, tor
-, unidecode
-, waitress
+{
+  lib,
+  stdenv,
+  buildPythonApplication,
+  cepa,
+  colorama,
+  fetchFromGitHub,
+  flask,
+  flask-compress,
+  flask-httpauth,
+  flask-socketio,
+  gevent-socketio,
+  gevent-websocket,
+  obfs4,
+  psutil,
+  pycrypto,
+  pynacl,
+  pyqt5,
+  pyside6,
+  pysocks,
+  pytestCheckHook,
+  qrcode,
+  qt5,
+  requests,
+  snowflake,
+  substituteAll,
+  tor,
+  unidecode,
+  waitress,
 }:
 
 let
@@ -63,7 +64,6 @@ let
 
   # TODO: package meek https://support.torproject.org/glossary/meek/
   meek = "/meek-not-available";
-
 in
 rec {
   onionshare = buildPythonApplication {
@@ -74,7 +74,12 @@ rec {
       # hardcode store paths of dependencies
       (substituteAll {
         src = ./fix-paths.patch;
-        inherit tor meek obfs4 snowflake;
+        inherit
+          tor
+          meek
+          obfs4
+          snowflake
+          ;
         inherit (tor) geoip;
       })
     ];
@@ -102,25 +107,25 @@ rec {
       tor
     ];
 
-    nativeCheckInputs = [
-      pytestCheckHook
-    ];
+    nativeCheckInputs = [ pytestCheckHook ];
 
     preCheck = ''
       # Tests use the home directory
       export HOME="$(mktemp -d)"
     '';
 
-    disabledTests = lib.optionals stdenv.isLinux [
-      "test_get_tor_paths_linux"  # expects /usr instead of /nix/store
-    ] ++ lib.optionals stdenv.isDarwin [
-      # requires meek-client which is not packaged
-      "test_get_tor_paths_darwin"
-      # on darwin (and only on darwin) onionshare attempts to discover
-      # user's *real* homedir via /etc/passwd, making it more painful
-      # to fake
-      "test_receive_mode_webhook"
-    ];
+    disabledTests =
+      lib.optionals stdenv.isLinux [
+        "test_get_tor_paths_linux" # expects /usr instead of /nix/store
+      ]
+      ++ lib.optionals stdenv.isDarwin [
+        # requires meek-client which is not packaged
+        "test_get_tor_paths_darwin"
+        # on darwin (and only on darwin) onionshare attempts to discover
+        # user's *real* homedir via /etc/passwd, making it more painful
+        # to fake
+        "test_receive_mode_webhook"
+      ];
 
     meta = meta // {
       mainProgram = "onionshare-cli";
@@ -135,7 +140,12 @@ rec {
       # hardcode store paths of dependencies
       (substituteAll {
         src = ./fix-paths-gui.patch;
-        inherit tor meek obfs4 snowflake;
+        inherit
+          tor
+          meek
+          obfs4
+          snowflake
+          ;
         inherit (tor) geoip;
       })
     ];

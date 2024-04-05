@@ -1,9 +1,10 @@
-{ lib
-, stdenvNoCC
-, fetchurl
-, makeWrapper
-, jdk17_headless
-, nixosTests
+{
+  lib,
+  stdenvNoCC,
+  fetchurl,
+  makeWrapper,
+  jdk17_headless,
+  nixosTests,
 }:
 
 stdenvNoCC.mkDerivation rec {
@@ -15,9 +16,7 @@ stdenvNoCC.mkDerivation rec {
     sha256 = "sha256-WKiybcQH+xxBUUbuXrN2u7oIBbQBp34Y1mgJe0u7hiI=";
   };
 
-  nativeBuildInputs = [
-    makeWrapper
-  ];
+  nativeBuildInputs = [ makeWrapper ];
 
   buildCommand = ''
     makeWrapper ${jdk17_headless}/bin/java $out/bin/komga --add-flags "-jar $src"
@@ -35,5 +34,4 @@ stdenvNoCC.mkDerivation rec {
     maintainers = with lib.maintainers; [ govanify ];
     mainProgram = "komga";
   };
-
 }

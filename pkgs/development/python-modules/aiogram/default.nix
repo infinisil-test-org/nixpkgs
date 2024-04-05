@@ -1,25 +1,26 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, pythonRelaxDepsHook
-, pytestCheckHook
-, aiohttp
-, aiohttp-socks
-, aiofiles
-, aresponses
-, babel
-, certifi
-, magic-filter
-, pycryptodomex
-, pytest-aiohttp
-, pytest-asyncio
-, pytest-lazy-fixture
-, redis
-, hatchling
-, pydantic
-, pytz
-, gitUpdater
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  pytestCheckHook,
+  aiohttp,
+  aiohttp-socks,
+  aiofiles,
+  aresponses,
+  babel,
+  certifi,
+  magic-filter,
+  pycryptodomex,
+  pytest-aiohttp,
+  pytest-asyncio,
+  pytest-lazy-fixture,
+  redis,
+  hatchling,
+  pydantic,
+  pytz,
+  gitUpdater,
 }:
 
 buildPythonPackage rec {
@@ -41,9 +42,7 @@ buildPythonPackage rec {
     pythonRelaxDepsHook
   ];
 
-  pythonRelaxDeps = [
-    "pydantic"
-  ];
+  pythonRelaxDeps = [ "pydantic" ];
 
   propagatedBuildInputs = [
     aiofiles
@@ -67,15 +66,15 @@ buildPythonPackage rec {
   ];
 
   pytestFlagsArray = [
-    "-W" "ignore::pluggy.PluggyTeardownRaisedWarning"
-    "-W" "ignore::pytest.PytestDeprecationWarning"
+    "-W"
+    "ignore::pluggy.PluggyTeardownRaisedWarning"
+    "-W"
+    "ignore::pytest.PytestDeprecationWarning"
   ];
 
   pythonImportsCheck = [ "aiogram" ];
 
-  passthru.updateScript = gitUpdater {
-    rev-prefix = "v";
-  };
+  passthru.updateScript = gitUpdater { rev-prefix = "v"; };
 
   meta = with lib; {
     description = "Modern and fully asynchronous framework for Telegram Bot API";

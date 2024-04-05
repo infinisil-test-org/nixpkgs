@@ -1,4 +1,11 @@
-{ lib, buildKodiAddon, fetchzip, addonUpdateScript, requests, routing }:
+{
+  lib,
+  buildKodiAddon,
+  fetchzip,
+  addonUpdateScript,
+  requests,
+  routing,
+}:
 
 buildKodiAddon rec {
   pname = "media.ccc.de";
@@ -16,9 +23,7 @@ buildKodiAddon rec {
   ];
 
   passthru = {
-    updateScript = addonUpdateScript {
-      attrPath = "kodi.packages.mediacccde";
-    };
+    updateScript = addonUpdateScript { attrPath = "kodi.packages.mediacccde"; };
   };
 
   meta = with lib; {

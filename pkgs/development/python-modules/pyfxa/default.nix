@@ -1,18 +1,19 @@
-{ lib
-, buildPythonPackage
-, cryptography
-, fetchPypi
-, grequests
-, hawkauthlib
-, mock
-, pybrowserid
-, pyjwt
-, pytestCheckHook
-, pythonOlder
-, requests
-, responses
-, setuptools
-, six
+{
+  lib,
+  buildPythonPackage,
+  cryptography,
+  fetchPypi,
+  grequests,
+  hawkauthlib,
+  mock,
+  pybrowserid,
+  pyjwt,
+  pytestCheckHook,
+  pythonOlder,
+  requests,
+  responses,
+  setuptools,
+  six,
 }:
 
 buildPythonPackage rec {
@@ -45,9 +46,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "fxa"
-  ];
+  pythonImportsCheck = [ "fxa" ];
 
   disabledTestPaths = [
     # Requires network access

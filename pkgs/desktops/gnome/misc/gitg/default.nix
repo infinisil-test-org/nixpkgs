@@ -1,31 +1,32 @@
-{ lib
-, stdenv
-, fetchurl
-, fetchpatch
-, vala
-, gettext
-, pkg-config
-, gtk3
-, glib
-, json-glib
-, wrapGAppsHook
-, libpeas
-, bash
-, gobject-introspection
-, gtksourceview4
-, gsettings-desktop-schemas
-, adwaita-icon-theme
-, gnome
-, gspell
-, shared-mime-info
-, libgee
-, libgit2-glib
-, libsecret
-, libxml2
-, meson
-, ninja
-, python3
-, libdazzle
+{
+  lib,
+  stdenv,
+  fetchurl,
+  fetchpatch,
+  vala,
+  gettext,
+  pkg-config,
+  gtk3,
+  glib,
+  json-glib,
+  wrapGAppsHook,
+  libpeas,
+  bash,
+  gobject-introspection,
+  gtksourceview4,
+  gsettings-desktop-schemas,
+  adwaita-icon-theme,
+  gnome,
+  gspell,
+  shared-mime-info,
+  libgee,
+  libgit2-glib,
+  libsecret,
+  libxml2,
+  meson,
+  ninja,
+  python3,
+  libdazzle,
 }:
 
 stdenv.mkDerivation rec {
@@ -90,9 +91,7 @@ stdenv.mkDerivation rec {
   '';
 
   passthru = {
-    updateScript = gnome.updateScript {
-      packageName = pname;
-    };
+    updateScript = gnome.updateScript { packageName = pname; };
   };
 
   meta = with lib; {

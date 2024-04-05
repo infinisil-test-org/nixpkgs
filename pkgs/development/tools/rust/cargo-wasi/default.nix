@@ -1,10 +1,11 @@
-{ lib
-, rustPlatform
-, fetchCrate
-, pkg-config
-, stdenv
-, openssl
-, Security
+{
+  lib,
+  rustPlatform,
+  fetchCrate,
+  pkg-config,
+  stdenv,
+  openssl,
+  Security,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -21,7 +22,8 @@ rustPlatform.buildRustPackage rec {
 
   nativeBuildInputs = [ pkg-config ];
 
-  buildInputs = lib.optionals stdenv.isLinux [ openssl ]
+  buildInputs =
+    lib.optionals stdenv.isLinux [ openssl ]
     ++ lib.optionals stdenv.isDarwin [ Security ];
 
   # Checks need to be disabled here because the current test suite makes assumptions

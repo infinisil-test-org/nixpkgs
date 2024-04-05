@@ -1,8 +1,9 @@
-{ cmake
-, lib
-, stdenv
-, fetchFromGitHub
-, gitUpdater
+{
+  cmake,
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  gitUpdater,
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "lib60870";
@@ -21,9 +22,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   preConfigure = "cd lib60870-C";
 
-  passthru.updateScript = gitUpdater {
-    rev-prefix = "v";
-  };
+  passthru.updateScript = gitUpdater { rev-prefix = "v"; };
 
   meta = with lib; {
     description = "Implementation of the IEC 60870-5-101/104 protocol";

@@ -9,7 +9,12 @@
 mkKdeDerivation {
   pname = "kdepim-runtime";
 
-  extraNativeBuildInputs = [shared-mime-info];
+  extraNativeBuildInputs = [ shared-mime-info ];
   # FIXME: libkolabxml, libetebase
-  extraBuildInputs = [qtnetworkauth qtspeech qtwebengine cyrus_sasl];
+  extraBuildInputs = [
+    qtnetworkauth
+    qtspeech
+    qtwebengine
+    cyrus_sasl
+  ];
 }

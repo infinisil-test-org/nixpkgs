@@ -1,17 +1,21 @@
-{ stdenv
-, lib
-, buildEnv
-, gnome-panel
-, gnome-flashback
-, xorg
-, glib
-, wrapGAppsHook
-, panelModulePackages ? [ ]
+{
+  stdenv,
+  lib,
+  buildEnv,
+  gnome-panel,
+  gnome-flashback,
+  xorg,
+  glib,
+  wrapGAppsHook,
+  panelModulePackages ? [ ],
 }:
 
 let
   # We always want to find the built-in panel applets.
-  selectedPanelModulePackages = [ gnome-panel gnome-flashback ] ++ panelModulePackages;
+  selectedPanelModulePackages = [
+    gnome-panel
+    gnome-flashback
+  ] ++ panelModulePackages;
 
   panelModulesEnv = buildEnv {
     name = "gnome-panel-modules-env";
@@ -28,8 +32,9 @@ stdenv.mkDerivation {
     wrapGAppsHook
   ];
 
-  buildInputs = selectedPanelModulePackages ++
-    lib.forEach selectedPanelModulePackages (x: x.buildInputs or [ ]);
+  buildInputs =
+    selectedPanelModulePackages
+    ++ lib.forEach selectedPanelModulePackages (x: x.buildInputs or [ ]);
 
   dontUnpack = true;
   dontConfigure = true;
@@ -62,5 +67,7 @@ stdenv.mkDerivation {
     )
   '';
 
-  meta = gnome-panel.meta // { outputsToInstall = [ "out" ]; };
+  meta = gnome-panel.meta // {
+    outputsToInstall = [ "out" ];
+  };
 }

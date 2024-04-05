@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, sage-src
-, cython_3
-, jinja2
-, pkgconfig # the python module, not the pkg-config alias
+{
+  lib,
+  buildPythonPackage,
+  sage-src,
+  cython_3,
+  jinja2,
+  pkgconfig, # the python module, not the pkg-config alias
 }:
 
 buildPythonPackage rec {

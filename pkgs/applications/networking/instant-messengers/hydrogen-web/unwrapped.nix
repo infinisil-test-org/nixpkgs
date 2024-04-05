@@ -1,10 +1,11 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchYarnDeps
-, yarn
-, prefetch-yarn-deps
-, nodejs
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchYarnDeps,
+  yarn,
+  prefetch-yarn-deps,
+  nodejs,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -23,7 +24,11 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-N9lUAhfYLlEAIaWSNS3Ecq+aBTz+f7Z22Sclwj9rp6w=";
   };
 
-  nativeBuildInputs = [ yarn prefetch-yarn-deps nodejs ];
+  nativeBuildInputs = [
+    yarn
+    prefetch-yarn-deps
+    nodejs
+  ];
 
   configurePhase = ''
     runHook preConfigure

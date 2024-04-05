@@ -1,4 +1,9 @@
-{ lib, buildKodiAddon, fetchzip, addonUpdateScript }:
+{
+  lib,
+  buildKodiAddon,
+  fetchzip,
+  addonUpdateScript,
+}:
 buildKodiAddon rec {
   pname = "signals";
   namespace = "script.module.addon.signals";
@@ -9,11 +14,9 @@ buildKodiAddon rec {
     sha256 = "sha256-WsLR7iUh5F+LXMISBpWx71dLAtg/AMYF6BsiyKZakuE=";
   };
 
-  passthru= {
+  passthru = {
     pythonPath = "lib";
-    updateScript = addonUpdateScript {
-      attrPath = "kodi.packages.signals";
-    };
+    updateScript = addonUpdateScript { attrPath = "kodi.packages.signals"; };
   };
 
   meta = with lib; {

@@ -1,14 +1,15 @@
-{ lib
-, buildPythonPackage
-, docutils
-, fetchPypi
-, flit-core
-, jinja2
-, markdown-it-py
-, mdit-py-plugins
-, pythonOlder
-, pyyaml
-, typing-extensions
+{
+  lib,
+  buildPythonPackage,
+  docutils,
+  fetchPypi,
+  flit-core,
+  jinja2,
+  markdown-it-py,
+  mdit-py-plugins,
+  pythonOlder,
+  pyyaml,
+  typing-extensions,
 }:
 
 buildPythonPackage rec {
@@ -22,9 +23,7 @@ buildPythonPackage rec {
     hash = "sha256-WmmPEg+bINmeId+pjR6bbp8qzjfSXfEel+sQEdPIu8Y=";
   };
 
-  nativeBuildInputs = [
-    flit-core
-  ];
+  nativeBuildInputs = [ flit-core ];
 
   propagatedBuildInputs = [
     docutils

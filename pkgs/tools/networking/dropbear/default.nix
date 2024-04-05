@@ -1,6 +1,11 @@
-{ lib, stdenv, fetchurl, zlib, libxcrypt
-, enableSCP ? false
-, sftpPath ? "/run/current-system/sw/libexec/sftp-server"
+{
+  lib,
+  stdenv,
+  fetchurl,
+  zlib,
+  libxcrypt,
+  enableSCP ? false,
+  sftpPath ? "/run/current-system/sw/libexec/sftp-server",
 }:
 
 let
@@ -10,7 +15,6 @@ let
     SFTPSERVER_PATH = sftpPath;
     DROPBEAR_PATH_SSH_PROGRAM = "${placeholder "out"}/bin/dbclient";
   };
-
 in
 
 stdenv.mkDerivation rec {
@@ -31,7 +35,17 @@ stdenv.mkDerivation rec {
   preConfigure = ''
     makeFlagsArray=(
       VPATH=$(cat $NIX_CC/nix-support/orig-libc)/lib
-      PROGRAMS="${lib.concatStringsSep " " ([ "dropbear" "dbclient" "dropbearkey" "dropbearconvert" ] ++ lib.optionals enableSCP ["scp"])}"
+      PROGRAMS="${
+        lib.concatStringsSep " " (
+          [
+            "dropbear"
+            "dbclient"
+            "dropbearkey"
+            "dropbearconvert"
+          ]
+          ++ lib.optionals enableSCP [ "scp" ]
+        )
+      }"
     )
   '';
 
@@ -45,7 +59,10 @@ stdenv.mkDerivation rec {
     ./pass-path.patch
   ];
 
-  buildInputs = [ zlib libxcrypt ];
+  buildInputs = [
+    zlib
+    libxcrypt
+  ];
 
   meta = with lib; {
     description = "A small footprint implementation of the SSH 2 protocol";

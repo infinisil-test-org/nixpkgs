@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, buildPackages
-, unstableGitUpdater
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  buildPackages,
+  unstableGitUpdater,
 }:
 
 stdenv.mkDerivation rec {
@@ -16,15 +17,19 @@ stdenv.mkDerivation rec {
     hash = "sha256-QH8mLlcCOuq77vLer8RsSnD9VeJu9kAVv2qWAH3ky6I=";
   };
 
-  checkPhase = let emulator = stdenv.hostPlatform.emulator buildPackages; in ''
-    runHook preCheck
+  checkPhase =
+    let
+      emulator = stdenv.hostPlatform.emulator buildPackages;
+    in
+    ''
+      runHook preCheck
 
-    for testcase in selftest1 selftest2; do
-      ${emulator} ./eigenmath "test/$testcase"
-    done
+      for testcase in selftest1 selftest2; do
+        ${emulator} ./eigenmath "test/$testcase"
+      done
 
-    runHook postCheck
-  '';
+      runHook postCheck
+    '';
 
   installPhase = ''
     runHook preInstall
@@ -38,7 +43,7 @@ stdenv.mkDerivation rec {
     updateScript = unstableGitUpdater { };
   };
 
-  meta = with lib;{
+  meta = with lib; {
     description = "Computer algebra system written in C";
     mainProgram = "eigenmath";
     homepage = "https://georgeweigt.github.io";

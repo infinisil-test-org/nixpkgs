@@ -1,39 +1,40 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchpatch
-, arcan
-, audit
-, dbus
-, libepoxy
-, fontutil
-, libGL
-, libX11
-, libXau
-, libXdmcp
-, libXfont2
-, libdrm
-, libgcrypt
-, libmd
-, libselinux
-, libtirpc
-, libxcb
-, libxkbfile
-, libxshmfence
-, mesa
-, meson
-, nettle
-, ninja
-, openssl
-, pixman
-, pkg-config
-, systemd
-, xcbutil
-, xcbutilwm
-, xkbcomp
-, xkeyboard_config
-, xorgproto
-, xtrans
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  arcan,
+  audit,
+  dbus,
+  libepoxy,
+  fontutil,
+  libGL,
+  libX11,
+  libXau,
+  libXdmcp,
+  libXfont2,
+  libdrm,
+  libgcrypt,
+  libmd,
+  libselinux,
+  libtirpc,
+  libxcb,
+  libxkbfile,
+  libxshmfence,
+  mesa,
+  meson,
+  nettle,
+  ninja,
+  openssl,
+  pixman,
+  pkg-config,
+  systemd,
+  xcbutil,
+  xcbutilwm,
+  xkbcomp,
+  xkeyboard_config,
+  xorgproto,
+  xtrans,
 }:
 
 stdenv.mkDerivation (finalPackages: {
@@ -104,7 +105,7 @@ stdenv.mkDerivation (finalPackages: {
     "--with-xkb-path=${xkeyboard_config}/share/X11/xkb"
   ];
 
-  meta =  {
+  meta = {
     homepage = "https://github.com/letoram/letoram";
     description = "Patched Xserver that bridges connections to Arcan";
     mainProgram = "Xarcan";

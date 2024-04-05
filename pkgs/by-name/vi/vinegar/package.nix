@@ -1,35 +1,34 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
-, makeBinaryWrapper
-, pkg-config
-, libGL
-, libxkbcommon
-, xorg
-, wayland
-, vulkan-headers
-, wine64Packages
-, fetchpatch
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  makeBinaryWrapper,
+  pkg-config,
+  libGL,
+  libxkbcommon,
+  xorg,
+  wayland,
+  vulkan-headers,
+  wine64Packages,
+  fetchpatch,
 }:
 let
   # wine-staging doesn't support overrideAttrs for now
   wine = wine64Packages.staging.overrideDerivation (oldAttrs: {
-    patches =
-      (oldAttrs.patches or [])
-      ++ [
-        # upstream issue: https://bugs.winehq.org/show_bug.cgi?id=55604
-        # Here are the currently applied patches for Roblox to run under WINE:
-        (fetchpatch {
-          name = "vinegar-wine-segregrevert.patch";
-          url = "https://raw.githubusercontent.com/flathub/org.vinegarhq.Vinegar/e24cb9dfa996bcfeaa46504c0375660fe271148d/patches/wine/segregrevert.patch";
-          hash = "sha256-+3Nld81nG3GufI4jAF6yrWfkJmsSCOku39rx0Hov29c=";
-        })
-        (fetchpatch {
-          name = "vinegar-wine-mouselock.patch";
-          url = "https://raw.githubusercontent.com/flathub/org.vinegarhq.Vinegar/e24cb9dfa996bcfeaa46504c0375660fe271148d/patches/wine/mouselock.patch";
-          hash = "sha256-0AGA4AQbxTL5BGVbm072moav7xVA3zpotYqM8pcEDa4=";
-        })
-      ];
+    patches = (oldAttrs.patches or [ ]) ++ [
+      # upstream issue: https://bugs.winehq.org/show_bug.cgi?id=55604
+      # Here are the currently applied patches for Roblox to run under WINE:
+      (fetchpatch {
+        name = "vinegar-wine-segregrevert.patch";
+        url = "https://raw.githubusercontent.com/flathub/org.vinegarhq.Vinegar/e24cb9dfa996bcfeaa46504c0375660fe271148d/patches/wine/segregrevert.patch";
+        hash = "sha256-+3Nld81nG3GufI4jAF6yrWfkJmsSCOku39rx0Hov29c=";
+      })
+      (fetchpatch {
+        name = "vinegar-wine-mouselock.patch";
+        url = "https://raw.githubusercontent.com/flathub/org.vinegarhq.Vinegar/e24cb9dfa996bcfeaa46504c0375660fe271148d/patches/wine/mouselock.patch";
+        hash = "sha256-0AGA4AQbxTL5BGVbm072moav7xVA3zpotYqM8pcEDa4=";
+      })
+    ];
   });
 in
 buildGoModule rec {
@@ -45,8 +44,20 @@ buildGoModule rec {
 
   vendorHash = "sha256-OaMfWecOPQh6quXjYkZLyBDHZ9TINSA7Ue/Y0sz5ZYY=";
 
-  nativeBuildInputs = [ pkg-config makeBinaryWrapper ];
-  buildInputs = [ libGL libxkbcommon xorg.libX11 xorg.libXcursor xorg.libXfixes wayland vulkan-headers wine ];
+  nativeBuildInputs = [
+    pkg-config
+    makeBinaryWrapper
+  ];
+  buildInputs = [
+    libGL
+    libxkbcommon
+    xorg.libX11
+    xorg.libXcursor
+    xorg.libXfixes
+    wayland
+    vulkan-headers
+    wine
+  ];
 
   buildPhase = ''
     runHook preBuild
@@ -62,7 +73,7 @@ buildGoModule rec {
 
   postInstall = ''
     wrapProgram $out/bin/vinegar \
-      --prefix PATH : ${lib.makeBinPath [wine]}
+      --prefix PATH : ${lib.makeBinPath [ wine ]}
   '';
 
   meta = with lib; {

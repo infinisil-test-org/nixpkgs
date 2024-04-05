@@ -1,14 +1,15 @@
-{ lib
-, buildPythonPackage
-, dirty-equals
-, fastapi
-, fetchFromGitHub
-, poetry-core
-, pydantic
-, pytest-asyncio
-, pytestCheckHook
-, pythonOlder
-, sqlalchemy
+{
+  lib,
+  buildPythonPackage,
+  dirty-equals,
+  fastapi,
+  fetchFromGitHub,
+  poetry-core,
+  pydantic,
+  pytest-asyncio,
+  pytestCheckHook,
+  pythonOlder,
+  sqlalchemy,
 }:
 
 buildPythonPackage rec {
@@ -25,9 +26,7 @@ buildPythonPackage rec {
     hash = "sha256-hDJcekn0ExYUCs8kBZkJzsWqXsB/cI6RbW3EhRCCioM=";
   };
 
-  build-system = [
-    poetry-core
-  ];
+  build-system = [ poetry-core ];
 
   dependencies = [
     pydantic
@@ -41,9 +40,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "sqlmodel"
-  ];
+  pythonImportsCheck = [ "sqlmodel" ];
 
   disabledTests = [
     # AssertionError: assert 'enum_field VARCHAR(1)

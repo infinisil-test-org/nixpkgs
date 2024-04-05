@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pamqp
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pamqp,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -19,16 +20,12 @@ buildPythonPackage rec {
     hash = "sha256-fssPknJn1tLtzb+2SFyZjfdhUdD8jqkwlInoi5uaplk=";
   };
 
-  propagatedBuildInputs = [
-    pamqp
-  ];
+  propagatedBuildInputs = [ pamqp ];
 
   # Tests assume rabbitmq server running
   doCheck = false;
 
-  pythonImportsCheck = [
-    "aioamqp"
-  ];
+  pythonImportsCheck = [ "aioamqp" ];
 
   meta = with lib; {
     description = "AMQP implementation using asyncio";

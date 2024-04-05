@@ -1,17 +1,25 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.hardware.tuxedo-rs;
-
 in
 {
   options = {
     hardware.tuxedo-rs = {
-      enable = mkEnableOption (lib.mdDoc "Rust utilities for interacting with hardware from TUXEDO Computers");
+      enable = mkEnableOption (
+        lib.mdDoc "Rust utilities for interacting with hardware from TUXEDO Computers"
+      );
 
-      tailor-gui.enable = mkEnableOption (lib.mdDoc "tailor-gui, an alternative to TUXEDO Control Center, written in Rust");
+      tailor-gui.enable = mkEnableOption (
+        lib.mdDoc "tailor-gui, an alternative to TUXEDO Control Center, written in Rust"
+      );
     };
   };
 
@@ -40,9 +48,7 @@ in
 
       environment.systemPackages = [ pkgs.tuxedo-rs ];
     }
-    (mkIf cfg.tailor-gui.enable {
-      environment.systemPackages = [ pkgs.tailor-gui ];
-    })
+    (mkIf cfg.tailor-gui.enable { environment.systemPackages = [ pkgs.tailor-gui ]; })
   ]);
 
   meta.maintainers = with maintainers; [ mrcjkb ];

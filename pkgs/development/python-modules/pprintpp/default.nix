@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchpatch
-, fetchPypi
-, nose
-, parameterized
-, python
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchpatch,
+  fetchPypi,
+  nose,
+  parameterized,
+  python,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -43,9 +44,7 @@ buildPythonPackage rec {
     ${python.interpreter} test.py
   '';
 
-  pythonImportsCheck = [
-    "pprintpp"
-  ];
+  pythonImportsCheck = [ "pprintpp" ];
 
   meta = with lib; {
     description = "A drop-in replacement for pprint that's actually pretty";

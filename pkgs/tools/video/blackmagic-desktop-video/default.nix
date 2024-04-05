@@ -1,12 +1,13 @@
-{ stdenv
-, cacert
-, curl
-, runCommandLocal
-, lib
-, autoPatchelfHook
-, libcxx
-, libGL
-, gcc7
+{
+  stdenv,
+  cacert,
+  curl,
+  runCommandLocal,
+  lib,
+  autoPatchelfHook,
+  libcxx,
+  libGL,
+  gcc7,
 }:
 
 stdenv.mkDerivation rec {
@@ -22,55 +23,56 @@ stdenv.mkDerivation rec {
 
   # yes, the below download function is an absolute mess.
   # blame blackmagicdesign.
-  src = runCommandLocal "${pname}-${lib.versions.majorMinor version}-src.tar.gz"
-    rec {
-      outputHashMode = "recursive";
-      outputHashAlgo = "sha256";
-      outputHash = "sha256-ss7Ab5dy7cmXp9LBirFXMeGY4ZbYHvWnXmYvNeBq0RY=";
+  src =
+    runCommandLocal "${pname}-${lib.versions.majorMinor version}-src.tar.gz"
+      rec {
+        outputHashMode = "recursive";
+        outputHashAlgo = "sha256";
+        outputHash = "sha256-ss7Ab5dy7cmXp9LBirFXMeGY4ZbYHvWnXmYvNeBq0RY=";
 
-      impureEnvVars = lib.fetchers.proxyImpureEnvVars;
+        impureEnvVars = lib.fetchers.proxyImpureEnvVars;
 
-      nativeBuildInputs = [ curl ];
+        nativeBuildInputs = [ curl ];
 
-      # ENV VARS
-      SSL_CERT_FILE = "${cacert}/etc/ssl/certs/ca-bundle.crt";
+        # ENV VARS
+        SSL_CERT_FILE = "${cacert}/etc/ssl/certs/ca-bundle.crt";
 
-      # from the URL that the POST happens to, see browser console
-      DOWNLOADID = "fecacc0f9b2f4c2e8bf2863e9e26c8e1";
-      # from the URL the download page where you click the "only download" button is at
-      REFERID = "052d944af6744608b27da496dfc4396d";
-      SITEURL = "https://www.blackmagicdesign.com/api/register/us/download/${DOWNLOADID}";
+        # from the URL that the POST happens to, see browser console
+        DOWNLOADID = "fecacc0f9b2f4c2e8bf2863e9e26c8e1";
+        # from the URL the download page where you click the "only download" button is at
+        REFERID = "052d944af6744608b27da496dfc4396d";
+        SITEURL = "https://www.blackmagicdesign.com/api/register/us/download/${DOWNLOADID}";
 
-      USERAGENT = builtins.concatStringsSep " " [
-        "User-Agent: Mozilla/5.0 (X11; Linux ${stdenv.hostPlatform.linuxArch})"
-        "AppleWebKit/537.36 (KHTML, like Gecko)"
-        "Chrome/77.0.3865.75"
-        "Safari/537.36"
-      ];
+        USERAGENT = builtins.concatStringsSep " " [
+          "User-Agent: Mozilla/5.0 (X11; Linux ${stdenv.hostPlatform.linuxArch})"
+          "AppleWebKit/537.36 (KHTML, like Gecko)"
+          "Chrome/77.0.3865.75"
+          "Safari/537.36"
+        ];
 
-      REQJSON = builtins.toJSON {
-        "country" = "nl";
-        "downloadOnly" = true;
-        "platform" = "Linux";
-        "policy" = true;
-      };
+        REQJSON = builtins.toJSON {
+          "country" = "nl";
+          "downloadOnly" = true;
+          "platform" = "Linux";
+          "policy" = true;
+        };
+      }
+      ''
+        RESOLVEURL=$(curl \
+          -s \
+          -H "$USERAGENT" \
+          -H 'Content-Type: application/json;charset=UTF-8' \
+          -H "Referer: https://www.blackmagicdesign.com/support/download/$REFERID/Linux" \
+          --data-ascii "$REQJSON" \
+          --compressed \
+          "$SITEURL")
 
-    } ''
-    RESOLVEURL=$(curl \
-      -s \
-      -H "$USERAGENT" \
-      -H 'Content-Type: application/json;charset=UTF-8' \
-      -H "Referer: https://www.blackmagicdesign.com/support/download/$REFERID/Linux" \
-      --data-ascii "$REQJSON" \
-      --compressed \
-      "$SITEURL")
-
-    curl \
-      --retry 3 --retry-delay 3 \
-      --compressed \
-      "$RESOLVEURL" \
-      > $out
-  '';
+        curl \
+          --retry 3 --retry-delay 3 \
+          --compressed \
+          "$RESOLVEURL" \
+          > $out
+      '';
 
   postUnpack = ''
     tar xf Blackmagic_Desktop_Video_Linux_${lib.versions.majorMinor version}/other/${stdenv.hostPlatform.uname.processor}/desktopvideo-${version}-${stdenv.hostPlatform.uname.processor}.tar.gz

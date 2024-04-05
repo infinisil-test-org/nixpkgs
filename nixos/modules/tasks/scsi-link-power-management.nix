@@ -14,7 +14,6 @@ let
     "medium_power"
     "med_power_with_dipm"
   ];
-
 in
 
 {
@@ -33,9 +32,7 @@ in
         4.15 and newer.
       '';
     };
-
   };
-
 
   ###### implementation
 
@@ -50,5 +47,4 @@ in
       SUBSYSTEM=="scsi_host", ACTION=="add", KERNEL=="host*", ATTR{link_power_management_policy}="${cfg}"
     '';
   };
-
 }

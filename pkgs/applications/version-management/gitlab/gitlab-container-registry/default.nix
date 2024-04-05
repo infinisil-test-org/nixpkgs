@@ -1,4 +1,8 @@
-{ lib, buildGoModule, fetchFromGitLab }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitLab,
+}:
 
 buildGoModule rec {
   pname = "gitlab-container-registry";
@@ -15,9 +19,7 @@ buildGoModule rec {
 
   vendorHash = "sha256-KZWdM8Q8ipsgm7OoLyOuHo+4Vg2Nve+yZtTSUDgjOW4=";
 
-  patches = [
-    ./Disable-inmemory-storage-driver-test.patch
-  ];
+  patches = [ ./Disable-inmemory-storage-driver-test.patch ];
 
   postPatch = ''
     substituteInPlace health/checks/checks_test.go \
@@ -29,7 +31,10 @@ buildGoModule rec {
   meta = with lib; {
     description = "The GitLab Docker toolset to pack, ship, store, and deliver content";
     license = licenses.asl20;
-    maintainers = with maintainers; [ yayayayaka xanderio ];
+    maintainers = with maintainers; [
+      yayayayaka
+      xanderio
+    ];
     platforms = platforms.unix;
   };
 }

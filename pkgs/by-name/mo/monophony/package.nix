@@ -1,13 +1,14 @@
-{ lib
-, fetchFromGitLab
-, python3Packages
-, wrapGAppsHook4
-, gst_all_1
-, gobject-introspection
-, yt-dlp
-, libadwaita
-, glib-networking
-, nix-update-script
+{
+  lib,
+  fetchFromGitLab,
+  python3Packages,
+  wrapGAppsHook4,
+  gst_all_1,
+  gobject-introspection,
+  yt-dlp,
+  libadwaita,
+  glib-networking,
+  nix-update-script,
 }:
 python3Packages.buildPythonApplication rec {
   pname = "monophony";
@@ -34,15 +35,17 @@ python3Packages.buildPythonApplication rec {
     wrapGAppsHook4
   ];
 
-  buildInputs = [
-    libadwaita
-    # needed for gstreamer https
-    glib-networking
-  ] ++ (with gst_all_1; [
-    gst-plugins-base
-    gst-plugins-good
-    gstreamer
-  ]);
+  buildInputs =
+    [
+      libadwaita
+      # needed for gstreamer https
+      glib-networking
+    ]
+    ++ (with gst_all_1; [
+      gst-plugins-base
+      gst-plugins-good
+      gstreamer
+    ]);
 
   installFlags = [ "prefix=$(out)" ];
 
@@ -50,7 +53,7 @@ python3Packages.buildPythonApplication rec {
     buildPythonPath "$pythonPath"
     gappsWrapperArgs+=(
       --prefix PYTHONPATH : "$program_PYTHONPATH"
-      --prefix PATH : "${lib.makeBinPath [yt-dlp]}"
+      --prefix PATH : "${lib.makeBinPath [ yt-dlp ]}"
     )
   '';
 

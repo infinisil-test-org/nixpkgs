@@ -1,22 +1,23 @@
-{ lib
-, stdenv
-, fetchurl
-, meson
-, ninja
-, pkg-config
-, vala
-, glib
-, gtk3
-, libgnome-games-support
-, gnome
-, desktop-file-utils
-, clutter
-, clutter-gtk
-, gettext
-, itstool
-, libxml2
-, wrapGAppsHook
-, python3
+{
+  lib,
+  stdenv,
+  fetchurl,
+  meson,
+  ninja,
+  pkg-config,
+  vala,
+  glib,
+  gtk3,
+  libgnome-games-support,
+  gnome,
+  desktop-file-utils,
+  clutter,
+  clutter-gtk,
+  gettext,
+  itstool,
+  libxml2,
+  wrapGAppsHook,
+  python3,
 }:
 
 stdenv.mkDerivation rec {

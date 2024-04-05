@@ -1,18 +1,19 @@
-{ lib
-, stdenv
-, fetchFromGitLab
+{
+  lib,
+  stdenv,
+  fetchFromGitLab,
 
-, cmake
+  cmake,
 
-, glm
-, libGL
-, openxr-loader
-, python3
-, vulkan-headers
-, vulkan-loader
-, xorg
+  glm,
+  libGL,
+  openxr-loader,
+  python3,
+  vulkan-headers,
+  vulkan-loader,
+  xorg,
 
-, nix-update-script
+  nix-update-script,
 }:
 
 stdenv.mkDerivation {
@@ -26,9 +27,7 @@ stdenv.mkDerivation {
     hash = "sha256-qF5oMI9B5a1oE2gQb/scbom/39Efccja0pTPHHaHMA8=";
   };
 
-  nativeBuildInputs = [
-    cmake
-  ];
+  nativeBuildInputs = [ cmake ];
 
   buildInputs = [
     glm
@@ -52,9 +51,7 @@ stdenv.mkDerivation {
     runHook postInstall
   '';
 
-  passthru.updateScript = nix-update-script {
-    extraArgs = [ "--version=branch=openxr" ];
-  };
+  passthru.updateScript = nix-update-script { extraArgs = [ "--version=branch=openxr" ]; };
 
   meta = with lib; {
     description = "Reimplementation of OpenVR, translating calls to OpenXR";

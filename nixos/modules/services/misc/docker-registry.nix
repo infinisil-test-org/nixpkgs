@@ -1,16 +1,19 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.services.dockerRegistry;
 
-  blobCache = if cfg.enableRedisCache
-    then "redis"
-    else "inmemory";
+  blobCache = if cfg.enableRedisCache then "redis" else "inmemory";
 
   registryConfig = {
-    version =  "0.1";
+    version = "0.1";
     log.fields.service = "registry";
     storage = {
       cache.blobdescriptor = blobCache;
@@ -18,7 +21,7 @@ let
     } // (optionalAttrs (cfg.storagePath != null) { filesystem.rootdirectory = cfg.storagePath; });
     http = {
       addr = "${cfg.listenAddress}:${builtins.toString cfg.port}";
-      headers.X-Content-Type-Options = ["nosniff"];
+      headers.X-Content-Type-Options = [ "nosniff" ];
     };
     health.storagedriver = {
       enabled = true;
@@ -41,15 +44,15 @@ let
     };
   };
 
-  configFile = pkgs.writeText "docker-registry-config.yml" (builtins.toJSON (recursiveUpdate registryConfig cfg.extraConfig));
-
-in {
+  configFile = pkgs.writeText "docker-registry-config.yml" (
+    builtins.toJSON (recursiveUpdate registryConfig cfg.extraConfig)
+  );
+in
+{
   options.services.dockerRegistry = {
     enable = mkEnableOption (lib.mdDoc "Docker Registry");
 
-    package = mkPackageOption pkgs "docker-distribution" {
-      example = "gitlab-container-registry";
-    };
+    package = mkPackageOption pkgs "docker-distribution" { example = "gitlab-container-registry"; };
 
     listenAddress = mkOption {
       description = lib.mdDoc "Docker registry host or ip to bind to.";
@@ -102,7 +105,7 @@ in {
       description = lib.mdDoc ''
         Docker extra registry configuration via environment variables.
       '';
-      default = {};
+      default = { };
       type = types.attrs;
     };
 
@@ -155,14 +158,13 @@ in {
       (optionalAttrs (cfg.storagePath != null) {
         createHome = true;
         home = cfg.storagePath;
-      }) // {
+      })
+      // {
         group = "docker-registry";
         isSystemUser = true;
       };
-    users.groups.docker-registry = {};
+    users.groups.docker-registry = { };
 
-    networking.firewall = mkIf cfg.openFirewall {
-      allowedTCPPorts = [ cfg.port ];
-    };
+    networking.firewall = mkIf cfg.openFirewall { allowedTCPPorts = [ cfg.port ]; };
   };
 }

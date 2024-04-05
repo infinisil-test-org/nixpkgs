@@ -1,24 +1,23 @@
-import ./make-test-python.nix ({ pkgs, ... }: {
-  name = "ladybird";
-  meta = with pkgs.lib.maintainers; {
-    maintainers = [ fgaz ];
-  };
+import ./make-test-python.nix (
+  { pkgs, ... }:
+  {
+    name = "ladybird";
+    meta = with pkgs.lib.maintainers; {
+      maintainers = [ fgaz ];
+    };
 
-  nodes.machine = { config, pkgs, ... }: {
-    imports = [
-      ./common/x11.nix
-    ];
+    nodes.machine =
+      { config, pkgs, ... }:
+      {
+        imports = [ ./common/x11.nix ];
 
-    services.xserver.enable = true;
-    environment.systemPackages = [
-      pkgs.ladybird
-    ];
-  };
+        services.xserver.enable = true;
+        environment.systemPackages = [ pkgs.ladybird ];
+      };
 
-  enableOCR = true;
+    enableOCR = true;
 
-  testScript =
-    ''
+    testScript = ''
       machine.wait_for_x()
       machine.succeed("echo '<!DOCTYPE html><html><body><h1>Hello world</h1></body></html>' > page.html")
       machine.execute("Ladybird file://$(pwd)/page.html >&2 &")
@@ -27,4 +26,5 @@ import ./make-test-python.nix ({ pkgs, ... }: {
       machine.wait_for_text("Hello world")
       machine.screenshot("screen")
     '';
-})
+  }
+)

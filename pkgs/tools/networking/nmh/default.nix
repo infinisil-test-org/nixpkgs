@@ -1,18 +1,19 @@
-{ lib
-, stdenv
-, autoreconfHook
-, bison
-, coreutils
-, cyrus_sasl
-, db
-, fetchFromSavannah
-, flex
-, gdbm
-, liblockfile
-, ncurses
-, openssl
-, readline
-, runtimeShell
+{
+  lib,
+  stdenv,
+  autoreconfHook,
+  bison,
+  coreutils,
+  cyrus_sasl,
+  db,
+  fetchFromSavannah,
+  flex,
+  gdbm,
+  liblockfile,
+  ncurses,
+  openssl,
+  readline,
+  runtimeShell,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -81,5 +82,4 @@ stdenv.mkDerivation (finalAttrs: {
       maildir.
     '';
   };
-
 })

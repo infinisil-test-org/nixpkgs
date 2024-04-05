@@ -1,13 +1,14 @@
-{ lib
-, stdenv
-, buildGoModule
-, fetchFromSourcehut
-, pkg-config
-, makeWrapper
-, scdoc
-, installShellFiles
-, xorg
-, gtk3
+{
+  lib,
+  stdenv,
+  buildGoModule,
+  fetchFromSourcehut,
+  pkg-config,
+  makeWrapper,
+  scdoc,
+  installShellFiles,
+  xorg,
+  gtk3,
 }:
 
 buildGoModule rec {

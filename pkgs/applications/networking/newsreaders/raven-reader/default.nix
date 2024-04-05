@@ -1,4 +1,8 @@
-{ lib, fetchurl, appimageTools }:
+{
+  lib,
+  fetchurl,
+  appimageTools,
+}:
 
 let
   pname = "raven-reader";
@@ -8,7 +12,6 @@ let
     sha256 = "sha256-RkpUWM1hAH73ePpQPj2C3SOukLpcPXbaXmb1VbcHaSU=";
   };
   appimageContents = appimageTools.extractType2 { inherit pname version src; };
-
 in
 appimageTools.wrapType2 {
   inherit pname version src;

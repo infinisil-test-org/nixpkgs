@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, hatchling
-, django
-, freezegun
-, qrcode
-, pytest
-, python
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  hatchling,
+  django,
+  freezegun,
+  qrcode,
+  pytest,
+  python,
 }:
 
 buildPythonPackage rec {
@@ -21,9 +22,7 @@ buildPythonPackage rec {
     hash = "sha256-Q8YTCYERyoAXenSiDabxuxaWiD6ZeJKKKgaR/Rg3y20=";
   };
 
-  build-system = [
-    hatchling
-  ];
+  build-system = [ hatchling ];
 
   dependencies = [
     django
@@ -47,13 +46,9 @@ buildPythonPackage rec {
     runHook postCheck
   '';
 
-  pytestFlagsArray = [
-    "src/django_otp/test.py"
-  ];
+  pytestFlagsArray = [ "src/django_otp/test.py" ];
 
-  pythonImportsCheck = [
-    "django_otp"
-  ];
+  pythonImportsCheck = [ "django_otp" ];
 
   meta = with lib; {
     homepage = "https://github.com/django-otp/django-otp";

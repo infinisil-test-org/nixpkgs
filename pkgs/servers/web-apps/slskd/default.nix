@@ -1,10 +1,11 @@
-{ lib
-, buildNpmPackage
-, fetchFromGitHub
-, dotnetCorePackages
-, buildDotnetModule
-, mono
-, nodejs_18
+{
+  lib,
+  buildNpmPackage,
+  fetchFromGitHub,
+  dotnetCorePackages,
+  buildDotnetModule,
+  mono,
+  nodejs_18,
 }:
 let
   pname = "slskd";
@@ -21,7 +22,10 @@ let
     description = "A modern client-server application for the Soulseek file sharing network";
     homepage = "https://github.com/slskd/slskd";
     license = licenses.agpl3Plus;
-    maintainers = with maintainers; [ ppom melvyn2 ];
+    maintainers = with maintainers; [
+      ppom
+      melvyn2
+    ];
     platforms = platforms.linux;
   };
 
@@ -37,9 +41,14 @@ let
       cp -r build $out
     '';
   };
-
-in buildDotnetModule {
-  inherit pname version src meta;
+in
+buildDotnetModule {
+  inherit
+    pname
+    version
+    src
+    meta
+    ;
 
   runtimeDeps = [ mono ];
 

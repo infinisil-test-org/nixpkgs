@@ -1,27 +1,28 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, pythonRelaxDepsHook
-, attrs
-, boto3
-, cloudpickle
-, google-pasta
-, numpy
-, protobuf
-, smdebug-rulesconfig
-, importlib-metadata
-, packaging
-, pandas
-, pathos
-, schema
-, pyyaml
-, jsonschema
-, platformdirs
-, tblib
-, urllib3
-, docker
-, scipy
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  pythonRelaxDepsHook,
+  attrs,
+  boto3,
+  cloudpickle,
+  google-pasta,
+  numpy,
+  protobuf,
+  smdebug-rulesconfig,
+  importlib-metadata,
+  packaging,
+  pandas,
+  pathos,
+  schema,
+  pyyaml,
+  jsonschema,
+  platformdirs,
+  tblib,
+  urllib3,
+  docker,
+  scipy,
 }:
 
 buildPythonPackage rec {
@@ -38,9 +39,7 @@ buildPythonPackage rec {
     hash = "sha256-3V4boilVpqvwRBBuZv/AKEks+BH9PFnigfq6Z5kFhqQ=";
   };
 
-  nativeBuildInputs = [
-    pythonRelaxDepsHook
-  ];
+  nativeBuildInputs = [ pythonRelaxDepsHook ];
 
   pythonRelaxDeps = [
     "attrs"
@@ -74,7 +73,11 @@ buildPythonPackage rec {
   ];
 
   passthru.optional-dependencies = {
-    local = [ urllib3 docker pyyaml ];
+    local = [
+      urllib3
+      docker
+      pyyaml
+    ];
     scipy = [ scipy ];
     # feature-processor = [ pyspark sagemaker-feature-store-pyspark ]; # not available in nixpkgs
   };

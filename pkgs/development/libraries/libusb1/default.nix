@@ -1,16 +1,17 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchpatch
-, autoreconfHook
-, pkg-config
-, enableUdev ? stdenv.isLinux && !stdenv.hostPlatform.isStatic
-, udev
-, libobjc
-, IOKit
-, Security
-, withExamples ? false
-, withStatic ? false
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  autoreconfHook,
+  pkg-config,
+  enableUdev ? stdenv.isLinux && !stdenv.hostPlatform.isStatic,
+  udev,
+  libobjc,
+  IOKit,
+  Security,
+  withExamples ? false,
+  withStatic ? false,
 }:
 
 stdenv.mkDerivation rec {
@@ -24,12 +25,22 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-OtzYxWwiba0jRK9X+4deWWDDTeZWlysEt0qMyGUarDo=";
   };
 
-  outputs = [ "out" "dev" ];
+  outputs = [
+    "out"
+    "dev"
+  ];
 
-  nativeBuildInputs = [ pkg-config autoreconfHook ];
+  nativeBuildInputs = [
+    pkg-config
+    autoreconfHook
+  ];
   propagatedBuildInputs =
-    lib.optional enableUdev udev ++
-    lib.optionals stdenv.isDarwin [ libobjc IOKit Security ];
+    lib.optional enableUdev udev
+    ++ lib.optionals stdenv.isDarwin [
+      libobjc
+      IOKit
+      Security
+    ];
 
   dontDisableStatic = withStatic;
 
@@ -58,6 +69,9 @@ stdenv.mkDerivation rec {
     '';
     platforms = platforms.all;
     license = licenses.lgpl21Plus;
-    maintainers = with maintainers; [ prusnak realsnick ];
+    maintainers = with maintainers; [
+      prusnak
+      realsnick
+    ];
   };
 }

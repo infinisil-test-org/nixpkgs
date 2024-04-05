@@ -1,19 +1,34 @@
-{ lib, stdenv, fetchFromGitHub, readline, ncurses
-, autoreconfHook, pkg-config, gettext }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  readline,
+  ncurses,
+  autoreconfHook,
+  pkg-config,
+  gettext,
+}:
 
 stdenv.mkDerivation rec {
   pname = "hstr";
   version = "3.1";
 
   src = fetchFromGitHub {
-    owner  = "dvorka";
-    repo   = "hstr";
-    rev    = version;
-    hash   = "sha256-OuLy1aiEwUJDGy3+UXYF1Vx1nNXic46WIZEM1xrIPfA=";
+    owner = "dvorka";
+    repo = "hstr";
+    rev = version;
+    hash = "sha256-OuLy1aiEwUJDGy3+UXYF1Vx1nNXic46WIZEM1xrIPfA=";
   };
 
-  nativeBuildInputs = [ autoreconfHook pkg-config ];
-  buildInputs = [ readline ncurses gettext ];
+  nativeBuildInputs = [
+    autoreconfHook
+    pkg-config
+  ];
+  buildInputs = [
+    readline
+    ncurses
+    gettext
+  ];
 
   configureFlags = [ "--prefix=$(out)" ];
 
@@ -24,5 +39,4 @@ stdenv.mkDerivation rec {
     maintainers = [ lib.maintainers.matthiasbeyer ];
     platforms = with lib.platforms; linux ++ darwin;
   };
-
 }

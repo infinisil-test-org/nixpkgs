@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, requests
-, ciso8601
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  requests,
+  ciso8601,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -26,9 +27,7 @@ buildPythonPackage rec {
   # All tests require network access
   doCheck = false;
 
-  pythonImportsCheck = [
-    "dwdwfsapi"
-  ];
+  pythonImportsCheck = [ "dwdwfsapi" ];
 
   meta = with lib; {
     description = "Python client to retrieve data provided by DWD via their geoserver WFS API";

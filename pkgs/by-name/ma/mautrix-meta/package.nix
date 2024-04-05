@@ -1,4 +1,10 @@
-{ lib, buildGoModule, fetchFromGitHub, olm, config }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  olm,
+  config,
+}:
 
 buildGoModule rec {
   pname = "mautrix-meta";

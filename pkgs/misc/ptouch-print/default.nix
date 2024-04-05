@@ -1,8 +1,10 @@
-{ lib, stdenv
-, fetchgit
-, autoreconfHook
-, gd
-, libusb1
+{
+  lib,
+  stdenv,
+  fetchgit,
+  autoreconfHook,
+  gd,
+  libusb1,
 }:
 
 stdenv.mkDerivation rec {
@@ -15,9 +17,7 @@ stdenv.mkDerivation rec {
     sha256 = "0i57asg2hj1nfwy5lcb0vhrpvb9dqfhf81vh4i929h1kiqhlw2hx";
   };
 
-  nativeBuildInputs = [
-    autoreconfHook
-  ];
+  nativeBuildInputs = [ autoreconfHook ];
 
   buildInputs = [
     gd

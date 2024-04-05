@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, setuptools
-, proton-keyring-linux
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  setuptools,
+  proton-keyring-linux,
+  pytestCheckHook,
 }:
 
 buildPythonPackage {
@@ -18,13 +19,9 @@ buildPythonPackage {
     hash = "sha256-JlhvJBpbewT2c8k31CPMUlvvo/orWW1qfylFZLnDxeY=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [
-    proton-keyring-linux
-  ];
+  propagatedBuildInputs = [ proton-keyring-linux ];
 
   postPatch = ''
     substituteInPlace setup.cfg \
@@ -33,9 +30,7 @@ buildPythonPackage {
 
   pythonImportsCheck = [ "proton.keyring_linux" ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   meta = with lib; {
     description = "ProtonVPN component to access Linux's keyring secret service API";

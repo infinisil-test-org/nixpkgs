@@ -1,16 +1,17 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, pcre2
-, sqlite
-, ncurses
-, readline
-, zlib
-, bzip2
-, autoconf
-, automake
-, curl
-, buildPackages
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  pcre2,
+  sqlite,
+  ncurses,
+  readline,
+  zlib,
+  bzip2,
+  autoconf,
+  automake,
+  curl,
+  buildPackages,
 }:
 
 stdenv.mkDerivation rec {
@@ -71,5 +72,4 @@ stdenv.mkDerivation rec {
     platforms = platforms.unix;
     mainProgram = "lnav";
   };
-
 }

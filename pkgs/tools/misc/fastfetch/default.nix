@@ -1,44 +1,45 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, chafa
-, cmake
-, darwin
-, dbus
-, dconf
-, ddcutil
-, glib
-, hwdata
-, imagemagick_light
-, libXrandr
-, libglvnd
-, libpulseaudio
-, libselinux
-, libsepol
-, libxcb
-, makeBinaryWrapper
-, networkmanager
-, nix-update-script
-, ocl-icd
-, opencl-headers
-, pcre
-, pcre2
-, pkg-config
-, python3
-, rpm
-, sqlite
-, testers
-, util-linux
-, vulkan-loader
-, wayland
-, xfce
-, xorg
-, yyjson
-, zlib
-, rpmSupport ? false
-, vulkanSupport ? true
-, waylandSupport ? true
-, x11Support ? true
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  chafa,
+  cmake,
+  darwin,
+  dbus,
+  dconf,
+  ddcutil,
+  glib,
+  hwdata,
+  imagemagick_light,
+  libXrandr,
+  libglvnd,
+  libpulseaudio,
+  libselinux,
+  libsepol,
+  libxcb,
+  makeBinaryWrapper,
+  networkmanager,
+  nix-update-script,
+  ocl-icd,
+  opencl-headers,
+  pcre,
+  pcre2,
+  pkg-config,
+  python3,
+  rpm,
+  sqlite,
+  testers,
+  util-linux,
+  vulkan-loader,
+  wayland,
+  xfce,
+  xorg,
+  yyjson,
+  zlib,
+  rpmSupport ? false,
+  vulkanSupport ? true,
+  waylandSupport ? true,
+  x11Support ? true,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -52,7 +53,10 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-D9WErPf9Um7McUK465c2FzZkWz/+dtPSIFMA04ak7Y4=";
   };
 
-  outputs = [ "out" "man" ];
+  outputs = [
+    "out"
+    "man"
+  ];
 
   nativeBuildInputs = [
     cmake
@@ -61,57 +65,60 @@ stdenv.mkDerivation (finalAttrs: {
     python3
   ];
 
-  buildInputs = [
-    chafa
-    imagemagick_light
-    pcre
-    pcre2
-    sqlite
-    yyjson
-  ] ++ lib.optionals stdenv.isLinux [
-    dbus
-    dconf
-    ddcutil
-    glib
-    hwdata
-    libpulseaudio
-    libselinux
-    libsepol
-    networkmanager
-    ocl-icd
-    opencl-headers
-    util-linux
-    zlib
-  ] ++ lib.optionals rpmSupport [
-    rpm
-  ] ++ lib.optionals vulkanSupport [
-    vulkan-loader
-  ] ++ lib.optionals waylandSupport [
-    wayland
-  ] ++ lib.optionals x11Support [
-    libXrandr
-    libglvnd
-    libxcb
-    xorg.libXau
-    xorg.libXdmcp
-    xorg.libXext
-  ] ++ lib.optionals (x11Support && (!stdenv.isDarwin)) [
-    xfce.xfconf
-  ] ++ lib.optionals stdenv.isDarwin (with darwin.apple_sdk_11_0.frameworks; [
-    Apple80211
-    AppKit
-    AVFoundation
-    Cocoa
-    CoreDisplay
-    CoreVideo
-    CoreWLAN
-    DisplayServices
-    IOBluetooth
-    MediaRemote
-    OpenCL
-    SystemConfiguration
-    darwin.moltenvk
-  ]);
+  buildInputs =
+    [
+      chafa
+      imagemagick_light
+      pcre
+      pcre2
+      sqlite
+      yyjson
+    ]
+    ++ lib.optionals stdenv.isLinux [
+      dbus
+      dconf
+      ddcutil
+      glib
+      hwdata
+      libpulseaudio
+      libselinux
+      libsepol
+      networkmanager
+      ocl-icd
+      opencl-headers
+      util-linux
+      zlib
+    ]
+    ++ lib.optionals rpmSupport [ rpm ]
+    ++ lib.optionals vulkanSupport [ vulkan-loader ]
+    ++ lib.optionals waylandSupport [ wayland ]
+    ++ lib.optionals x11Support [
+      libXrandr
+      libglvnd
+      libxcb
+      xorg.libXau
+      xorg.libXdmcp
+      xorg.libXext
+    ]
+    ++ lib.optionals (x11Support && (!stdenv.isDarwin)) [ xfce.xfconf ]
+    ++ lib.optionals stdenv.isDarwin (
+      with darwin.apple_sdk_11_0.frameworks;
+      [
+        Apple80211
+        AppKit
+        AVFoundation
+        Cocoa
+        CoreDisplay
+        CoreVideo
+        CoreWLAN
+        DisplayServices
+        IOBluetooth
+        MediaRemote
+        OpenCL
+        SystemConfiguration
+        darwin.moltenvk
+      ]
+    );
 
   cmakeFlags = [
     (lib.cmakeOptionType "filepath" "CMAKE_INSTALL_SYSCONFDIR" "${placeholder "out"}/etc")
@@ -151,7 +158,11 @@ stdenv.mkDerivation (finalAttrs: {
     description = "Like neofetch, but much faster because written in C";
     homepage = "https://github.com/fastfetch-cli/fastfetch";
     license = lib.licenses.mit;
-    maintainers = with lib.maintainers; [ gerg-l khaneliman federicoschonborn ];
+    maintainers = with lib.maintainers; [
+      gerg-l
+      khaneliman
+      federicoschonborn
+    ];
     platforms = lib.platforms.all;
     mainProgram = "fastfetch";
   };

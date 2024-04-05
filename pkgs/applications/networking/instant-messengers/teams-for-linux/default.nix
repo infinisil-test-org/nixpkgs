@@ -1,21 +1,22 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, makeWrapper
-, makeDesktopItem
-, copyDesktopItems
-, yarn
-, nodejs
-, fetchYarnDeps
-, prefetch-yarn-deps
-, electron
-, libnotify
-, libpulseaudio
-, pipewire
-, alsa-utils
-, which
-, testers
-, teams-for-linux
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  makeWrapper,
+  makeDesktopItem,
+  copyDesktopItems,
+  yarn,
+  nodejs,
+  fetchYarnDeps,
+  prefetch-yarn-deps,
+  electron,
+  libnotify,
+  libpulseaudio,
+  pipewire,
+  alsa-utils,
+  which,
+  testers,
+  teams-for-linux,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -34,7 +35,13 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-++ZPsBH0qHCykexpY2aZukAc+Ak1wEzAUker8ZLxA9Q=";
   };
 
-  nativeBuildInputs = [ yarn prefetch-yarn-deps nodejs copyDesktopItems makeWrapper ];
+  nativeBuildInputs = [
+    yarn
+    prefetch-yarn-deps
+    nodejs
+    copyDesktopItems
+    makeWrapper
+  ];
 
   configurePhase = ''
     runHook preConfigure
@@ -52,7 +59,9 @@ stdenv.mkDerivation (finalAttrs: {
     runHook preBuild
 
     yarn --offline electron-builder \
-      --dir ${if stdenv.isDarwin then "--macos" else "--linux"} ${if stdenv.hostPlatform.isAarch64 then "--arm64" else "--x64"} \
+      --dir ${if stdenv.isDarwin then "--macos" else "--linux"} ${
+        if stdenv.hostPlatform.isAarch64 then "--arm64" else "--x64"
+      } \
       -c.electronDist=${electron}/libexec/electron \
       -c.electronVersion=${electron.version}
 
@@ -63,7 +72,9 @@ stdenv.mkDerivation (finalAttrs: {
     runHook preInstall
 
     mkdir -p $out/share/{applications,teams-for-linux}
-    cp dist/${if stdenv.isDarwin then "darwin-" else "linux-"}${lib.optionalString stdenv.hostPlatform.isAarch64 "arm64-"}unpacked/resources/app.asar $out/share/teams-for-linux/
+    cp dist/${
+      if stdenv.isDarwin then "darwin-" else "linux-"
+    }${lib.optionalString stdenv.hostPlatform.isAarch64 "arm64-"}unpacked/resources/app.asar $out/share/teams-for-linux/
 
     pushd build/icons
     for image in *png; do
@@ -75,8 +86,19 @@ stdenv.mkDerivation (finalAttrs: {
     # Linux needs 'aplay' for notification sounds, 'libpulse' for meeting sound, 'libpipewire' for screen sharing and 'libnotify' for notifications
     makeWrapper '${electron}/bin/electron' "$out/bin/teams-for-linux" \
       ${lib.optionalString stdenv.isLinux ''
-        --prefix PATH : ${lib.makeBinPath [ alsa-utils which ]} \
-        --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ libpulseaudio pipewire libnotify ]} \
+        --prefix PATH : ${
+          lib.makeBinPath [
+            alsa-utils
+            which
+          ]
+        } \
+        --prefix LD_LIBRARY_PATH : ${
+          lib.makeLibraryPath [
+            libpulseaudio
+            pipewire
+            libnotify
+          ]
+        } \
       ''} \
       --add-flags "$out/share/teams-for-linux/app.asar" \
       --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform-hint=auto --enable-features=WaylandWindowDecorations}}"
@@ -84,14 +106,20 @@ stdenv.mkDerivation (finalAttrs: {
     runHook postInstall
   '';
 
-  desktopItems = [(makeDesktopItem {
-    name = finalAttrs.pname;
-    exec = finalAttrs.pname;
-    icon = finalAttrs.pname;
-    desktopName = "Microsoft Teams for Linux";
-    comment = finalAttrs.meta.description;
-    categories = [ "Network" "InstantMessaging" "Chat" ];
-  })];
+  desktopItems = [
+    (makeDesktopItem {
+      name = finalAttrs.pname;
+      exec = finalAttrs.pname;
+      icon = finalAttrs.pname;
+      desktopName = "Microsoft Teams for Linux";
+      comment = finalAttrs.meta.description;
+      categories = [
+        "Network"
+        "InstantMessaging"
+        "Chat"
+      ];
+    })
+  ];
 
   passthru.updateScript = ./update.sh;
   passthru.tests.version = testers.testVersion rec {
@@ -104,7 +132,12 @@ stdenv.mkDerivation (finalAttrs: {
     mainProgram = "teams-for-linux";
     homepage = "https://github.com/IsmaelMartinez/teams-for-linux";
     license = lib.licenses.gpl3Only;
-    maintainers = with lib.maintainers; [ muscaln lilyinstarlight qjoly chvp ];
+    maintainers = with lib.maintainers; [
+      muscaln
+      lilyinstarlight
+      qjoly
+      chvp
+    ];
     platforms = lib.platforms.unix;
     broken = stdenv.isDarwin;
   };

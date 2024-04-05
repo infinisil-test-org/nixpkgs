@@ -1,18 +1,19 @@
-{ lib
-, archinfo
-, buildPythonPackage
-, cffi
-, fetchFromGitHub
-, minidump
-, pefile
-, pyelftools
-, pynose
-, pytestCheckHook
-, pythonOlder
-, pyvex
-, pyxbe
-, setuptools
-, sortedcontainers
+{
+  lib,
+  archinfo,
+  buildPythonPackage,
+  cffi,
+  fetchFromGitHub,
+  minidump,
+  pefile,
+  pyelftools,
+  pynose,
+  pytestCheckHook,
+  pythonOlder,
+  pyvex,
+  pyxbe,
+  setuptools,
+  sortedcontainers,
 }:
 
 let
@@ -26,7 +27,6 @@ let
     rev = "refs/tags/v${version}";
     hash = "sha256-FiPEqfNaAXI+xSWE+So//Uwz9k3bANHQ++nRSPKkddM=";
   };
-
 in
 buildPythonPackage rec {
   pname = "cle";
@@ -42,9 +42,7 @@ buildPythonPackage rec {
     hash = "sha256-tain1I7Td+0v7n+px3mQnz7reKZUbGYDWfKnDhvmU8I=";
   };
 
-  build-system = [
-    setuptools
-  ];
+  build-system = [ setuptools ];
 
   dependencies = [
     archinfo
@@ -82,9 +80,7 @@ buildPythonPackage rec {
     "test_remote_file_map"
   ];
 
-  pythonImportsCheck = [
-    "cle"
-  ];
+  pythonImportsCheck = [ "cle" ];
 
   meta = with lib; {
     description = "Python loader for many binary formats";

@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, setuptools
-, aiohttp
-, bcrypt
-, pyopenssl
-, python-gnupg
-, requests
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  setuptools,
+  aiohttp,
+  bcrypt,
+  pyopenssl,
+  python-gnupg,
+  requests,
+  pytestCheckHook,
 }:
 
 buildPythonPackage {
@@ -22,9 +23,7 @@ buildPythonPackage {
     hash = "sha256-hchwrolc65tVmSe2IzxwH2zDU2JZzXrCMzWaETWcMDI=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     bcrypt
@@ -41,9 +40,7 @@ buildPythonPackage {
 
   pythonImportsCheck = [ "proton" ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   disabledTestPaths = [
     # Single test, requires internet connection

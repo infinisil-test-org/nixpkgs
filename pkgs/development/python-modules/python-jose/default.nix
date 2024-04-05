@@ -1,22 +1,23 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
 
-# build-system
-, setuptools
+  # build-system
+  setuptools,
 
-# dependencies
-, ecdsa
-, rsa
-, pyasn1
+  # dependencies
+  ecdsa,
+  rsa,
+  pyasn1,
 
-# optional-dependencies
-, cryptography
-, pycrypto
-, pycryptodome
+  # optional-dependencies
+  cryptography,
+  pycrypto,
+  pycryptodome,
 
-# tests
-, pytestCheckHook
+  # tests
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -36,9 +37,7 @@ buildPythonPackage rec {
       --replace '"pytest-runner",' ""
   '';
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     ecdsa
@@ -47,20 +46,12 @@ buildPythonPackage rec {
   ];
 
   passthru.optional-dependencies = {
-    cryptography = [
-      cryptography
-    ];
-    pycrypto = [
-      pycrypto
-    ];
-    pycryptodome = [
-      pycryptodome
-    ];
+    cryptography = [ cryptography ];
+    pycrypto = [ pycrypto ];
+    pycryptodome = [ pycryptodome ];
   };
 
-  pythonImportsCheck = [
-    "jose"
-  ];
+  pythonImportsCheck = [ "jose" ];
 
   nativeCheckInputs = [
     pytestCheckHook

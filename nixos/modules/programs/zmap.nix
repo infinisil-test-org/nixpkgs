@@ -1,10 +1,16 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.programs.zmap;
-in {
+in
+{
   options.programs.zmap = {
     enable = mkEnableOption (lib.mdDoc "ZMap");
   };

@@ -1,22 +1,23 @@
-{ lib
-, astropy
-, buildPythonPackage
-, fetchpatch
-, fetchPypi
-, matplotlib
-, numpy
-, pillow
-, pyavm
-, pyregion
-, pytest-astropy
-, pytestCheckHook
-, pythonOlder
-, reproject
-, scikit-image
-, setuptools
-, setuptools-scm
-, shapely
-, wheel
+{
+  lib,
+  astropy,
+  buildPythonPackage,
+  fetchpatch,
+  fetchPypi,
+  matplotlib,
+  numpy,
+  pillow,
+  pyavm,
+  pyregion,
+  pytest-astropy,
+  pytestCheckHook,
+  pythonOlder,
+  reproject,
+  scikit-image,
+  setuptools,
+  setuptools-scm,
+  shapely,
+  wheel,
 }:
 
 buildPythonPackage rec {
@@ -59,9 +60,7 @@ buildPythonPackage rec {
     OPENMP_EXPECTED=0
   '';
 
-  pythonImportsCheck = [
-    "aplpy"
-  ];
+  pythonImportsCheck = [ "aplpy" ];
 
   meta = with lib; {
     description = "The Astronomical Plotting Library in Python";

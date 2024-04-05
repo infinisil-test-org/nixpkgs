@@ -1,8 +1,14 @@
-{ stdenv, lib, fetchurl, zip, unzip
-, jdk, python2
-, confFile ? ""
-, extraLibraryPaths ? []
-, extraJars ? []
+{
+  stdenv,
+  lib,
+  fetchurl,
+  zip,
+  unzip,
+  jdk,
+  python2,
+  confFile ? "",
+  extraLibraryPaths ? [ ],
+  extraJars ? [ ],
 }:
 
 stdenv.mkDerivation rec {
@@ -15,7 +21,10 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-VFNcaISPBRMGR5l/P6/pGnK7lHClDW2AmXJ00gzxwMY=";
   };
 
-  nativeBuildInputs = [ zip unzip ];
+  nativeBuildInputs = [
+    zip
+    unzip
+  ];
 
   installPhase = ''
     mkdir -p $out/share/${name}
@@ -64,7 +73,10 @@ stdenv.mkDerivation rec {
     description = "Distributed realtime computation system";
     sourceProvenance = with sourceTypes; [ binaryBytecode ];
     license = licenses.asl20;
-    maintainers = with maintainers; [ edwtjo vizanto ];
+    maintainers = with maintainers; [
+      edwtjo
+      vizanto
+    ];
     platforms = with platforms; unix;
   };
 }

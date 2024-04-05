@@ -1,22 +1,23 @@
-{ lib
-, buildDotnetModule
-, writeShellScript
-, glibc
-, gtk3
-, libappindicator
-, webkitgtk
-, e2fsprogs
-, libnotify
-, libgit2
-, openssl
-, xdelta
-, file
-, busybox
-, openjdk
-, patchelf
-, fetchFromGitHub
-, buildFHSEnv
-, glib-networking
+{
+  lib,
+  buildDotnetModule,
+  writeShellScript,
+  glibc,
+  gtk3,
+  libappindicator,
+  webkitgtk,
+  e2fsprogs,
+  libnotify,
+  libgit2,
+  openssl,
+  xdelta,
+  file,
+  busybox,
+  openjdk,
+  patchelf,
+  fetchFromGitHub,
+  buildFHSEnv,
+  glib-networking,
 }:
 let
   am2r-run = buildFHSEnv {
@@ -24,7 +25,8 @@ let
 
     multiArch = true;
 
-    multiPkgs = pkgs: with pkgs; [
+    multiPkgs =
+      pkgs: with pkgs; [
         stdenv.cc.cc.lib
         xorg.libX11
         xorg.libXext
@@ -77,7 +79,15 @@ buildDotnetModule {
 
   postFixup = ''
     wrapProgram $out/bin/AM2RLauncher.Gtk \
-      --prefix PATH : ${lib.makeBinPath [ am2r-run xdelta file openjdk patchelf ]} \
+      --prefix PATH : ${
+        lib.makeBinPath [
+          am2r-run
+          xdelta
+          file
+          openjdk
+          patchelf
+        ]
+      } \
       --prefix GIO_EXTRA_MODULES : ${glib-networking}/lib/gio/modules
 
     mkdir -p $out/share/icons

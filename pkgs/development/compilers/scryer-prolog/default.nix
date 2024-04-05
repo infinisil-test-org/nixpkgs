@@ -1,12 +1,13 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, pkg-config
-, openssl
-, gmp
-, libmpc
-, mpfr
-, stdenv
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  pkg-config,
+  openssl,
+  gmp,
+  libmpc,
+  mpfr,
+  stdenv,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -23,7 +24,12 @@ rustPlatform.buildRustPackage rec {
   cargoSha256 = "sha256-q8s6HAJhKnMhsgZk5plR+ar3CpLKNqjrD14roDWLwfo=";
 
   nativeBuildInputs = [ pkg-config ];
-  buildInputs = [ openssl gmp libmpc mpfr ];
+  buildInputs = [
+    openssl
+    gmp
+    libmpc
+    mpfr
+  ];
 
   CARGO_FEATURE_USE_SYSTEM_LIBS = true;
 
@@ -33,6 +39,9 @@ rustPlatform.buildRustPackage rec {
     mainProgram = "scryer-prolog";
     homepage = "https://github.com/mthom/scryer-prolog";
     license = with licenses; [ bsd3 ];
-    maintainers = with maintainers; [ malbarbo wkral ];
+    maintainers = with maintainers; [
+      malbarbo
+      wkral
+    ];
   };
 }

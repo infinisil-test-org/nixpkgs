@@ -1,4 +1,11 @@
-{ lib, fetchFromGitHub, buildGoModule, installShellFiles, symlinkJoin, stdenv }:
+{
+  lib,
+  fetchFromGitHub,
+  buildGoModule,
+  installShellFiles,
+  symlinkJoin,
+  stdenv,
+}:
 
 let
   metaCommon = with lib; {
@@ -32,7 +39,10 @@ let
 
     nativeBuildInputs = [ installShellFiles ];
 
-    excludedPackages = [ "./cmd/docgen" "./tests" ];
+    excludedPackages = [
+      "./cmd/docgen"
+      "./tests"
+    ];
 
     ldflags = [
       "-s"
@@ -79,7 +89,10 @@ let
 
     excludedPackages = [ "./cmd/copyright" ];
 
-    ldflags = [ "-s" "-w" ];
+    ldflags = [
+      "-s"
+      "-w"
+    ];
 
     preCheck = ''
       export HOME=$(mktemp -d)
@@ -108,7 +121,9 @@ symlinkJoin rec {
     tctl
   ];
 
-  passthru = { inherit tctl tctl-next; };
+  passthru = {
+    inherit tctl tctl-next;
+  };
 
   meta = metaCommon // {
     mainProgram = "temporal";

@@ -1,23 +1,24 @@
-{ lib
-, mkDerivation
-, cmake
-, elfutils
-, extra-cmake-modules
-, fetchFromGitHub
-, kconfigwidgets
-, ki18n
-, kio
-, kitemmodels
-, kitemviews
-, kparts
-, kwindowsystem
-, libelf
-, qtbase
-, threadweaver
-, qtx11extras
-, zstd
-, kddockwidgets
-, rustc-demangle
+{
+  lib,
+  mkDerivation,
+  cmake,
+  elfutils,
+  extra-cmake-modules,
+  fetchFromGitHub,
+  kconfigwidgets,
+  ki18n,
+  kio,
+  kitemmodels,
+  kitemviews,
+  kparts,
+  kwindowsystem,
+  libelf,
+  qtbase,
+  threadweaver,
+  qtx11extras,
+  zstd,
+  kddockwidgets,
+  rustc-demangle,
 }:
 
 mkDerivation rec {
@@ -62,9 +63,7 @@ mkDerivation rec {
     mkdir -p 3rdparty/{perfparser,PrefixTickLabels}/.git
   '';
 
-  qtWrapperArgs = [
-    "--prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ rustc-demangle ]}"
-  ];
+  qtWrapperArgs = [ "--prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ rustc-demangle ]}" ];
 
   meta = with lib; {
     description = "A GUI for Linux perf";
@@ -76,7 +75,10 @@ mkDerivation rec {
     '';
     homepage = "https://github.com/KDAB/hotspot";
     changelog = "https://github.com/KDAB/hotspot/releases/tag/v${version}";
-    license = with licenses; [ gpl2Only gpl3Only ];
+    license = with licenses; [
+      gpl2Only
+      gpl3Only
+    ];
     platforms = platforms.linux;
     maintainers = with maintainers; [ nh2 ];
   };

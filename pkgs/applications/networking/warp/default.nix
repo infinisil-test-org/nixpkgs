@@ -1,22 +1,23 @@
-{ lib
-, stdenv
-, fetchFromGitLab
-, appstream-glib
-, cargo
-, desktop-file-utils
-, itstool
-, meson
-, ninja
-, pkg-config
-, python3
-, rustPlatform
-, rustc
-, wrapGAppsHook4
-, glib
-, gtk4
-, libadwaita
-, Security
-, Foundation
+{
+  lib,
+  stdenv,
+  fetchFromGitLab,
+  appstream-glib,
+  cargo,
+  desktop-file-utils,
+  itstool,
+  meson,
+  ninja,
+  pkg-config,
+  python3,
+  rustPlatform,
+  rustc,
+  wrapGAppsHook4,
+  glib,
+  gtk4,
+  libadwaita,
+  Security,
+  Foundation,
 }:
 
 stdenv.mkDerivation rec {
@@ -55,20 +56,25 @@ stdenv.mkDerivation rec {
     rustc
   ];
 
-  buildInputs = [
-    glib
-    gtk4
-    libadwaita
-  ] ++ lib.optionals stdenv.isDarwin [
-    Security
-    Foundation
-  ];
+  buildInputs =
+    [
+      glib
+      gtk4
+      libadwaita
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      Security
+      Foundation
+    ];
 
   meta = {
     description = "Fast and secure file transfer";
     homepage = "https://apps.gnome.org/Warp/";
     license = lib.licenses.gpl3Only;
-    maintainers = with lib.maintainers; [ dotlambda foo-dogsquared ];
+    maintainers = with lib.maintainers; [
+      dotlambda
+      foo-dogsquared
+    ];
     platforms = lib.platforms.all;
     mainProgram = "warp";
     broken = stdenv.isDarwin;

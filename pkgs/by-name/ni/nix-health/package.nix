@@ -1,10 +1,12 @@
-{ lib, stdenv
-, rustPlatform
-, fetchCrate
-, libiconv
-, openssl
-, pkg-config
-, darwin
+{
+  lib,
+  stdenv,
+  rustPlatform,
+  fetchCrate,
+  libiconv,
+  openssl,
+  pkg-config,
+  darwin,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -20,13 +22,20 @@ rustPlatform.buildRustPackage rec {
   cargoHash = "sha256-xmuosy9T/52D90uXMQAIxtaYDOlCekNCtzpu/3GyQXE=";
 
   nativeBuildInputs = [ pkg-config ];
-  buildInputs = [ libiconv openssl ]
+  buildInputs =
+    [
+      libiconv
+      openssl
+    ]
     # Use a newer SDK for CoreFoundation, because the sysinfo crate requires
     # it, https://github.com/GuillaumeGomez/sysinfo/issues/915
-    ++ lib.optionals stdenv.isDarwin (with darwin.apple_sdk_11_0.frameworks;
-      [ IOKit
+    ++ lib.optionals stdenv.isDarwin (
+      with darwin.apple_sdk_11_0.frameworks;
+      [
+        IOKit
         CoreFoundation
-      ]);
+      ]
+    );
 
   meta = with lib; {
     description = "Check the health of your Nix setup";

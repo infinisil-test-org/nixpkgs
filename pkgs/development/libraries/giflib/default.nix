@@ -1,10 +1,11 @@
-{ stdenv
-, lib
-, fetchurl
-, fetchpatch
-, fixDarwinDylibNames
-, pkgsStatic
-, imagemagick_light
+{
+  stdenv,
+  lib,
+  fetchurl,
+  fetchpatch,
+  fixDarwinDylibNames,
+  pkgsStatic,
+  imagemagick_light,
 }:
 
 stdenv.mkDerivation rec {
@@ -16,28 +17,22 @@ stdenv.mkDerivation rec {
     hash = "sha256-vn/70FfK3r4qoURUL9kMaDjGoIO16KkEi47jtmsp1fs=";
   };
 
-  patches = [
-    ./CVE-2021-40633.patch
-  ] ++ lib.optionals stdenv.hostPlatform.isMinGW [
-    # Build dll libraries.
-    (fetchurl {
-      url = "https://aur.archlinux.org/cgit/aur.git/plain/001-mingw-build.patch?h=mingw-w64-giflib&id=4cf1e519bcf51338dc607d23388fca47d71790c0";
-      sha256 = "KyJi3eqH/Ae+guEK6znraZI5+IPImaoYoW5NTkCvjsg=";
-    })
+  patches =
+    [ ./CVE-2021-40633.patch ]
+    ++ lib.optionals stdenv.hostPlatform.isMinGW [
+      # Build dll libraries.
+      (fetchurl {
+        url = "https://aur.archlinux.org/cgit/aur.git/plain/001-mingw-build.patch?h=mingw-w64-giflib&id=4cf1e519bcf51338dc607d23388fca47d71790c0";
+        sha256 = "KyJi3eqH/Ae+guEK6znraZI5+IPImaoYoW5NTkCvjsg=";
+      })
 
-    # Install executables.
-    ./mingw-install-exes.patch
-  ];
+      # Install executables.
+      ./mingw-install-exes.patch
+    ];
 
-  nativeBuildInputs = [
-    imagemagick_light
-  ] ++ lib.optionals stdenv.isDarwin [
-    fixDarwinDylibNames
-  ];
+  nativeBuildInputs = [ imagemagick_light ] ++ lib.optionals stdenv.isDarwin [ fixDarwinDylibNames ];
 
-  makeFlags = [
-    "PREFIX=${builtins.placeholder "out"}"
-  ];
+  makeFlags = [ "PREFIX=${builtins.placeholder "out"}" ];
 
   postPatch = lib.optionalString stdenv.hostPlatform.isStatic ''
     # Upstream build system does not support NOT building shared libraries.

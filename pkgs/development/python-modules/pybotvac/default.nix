@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, requests
-, requests-oauthlib
-, voluptuous
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  requests,
+  requests-oauthlib,
+  voluptuous,
 }:
 
 buildPythonPackage rec {
@@ -19,9 +20,7 @@ buildPythonPackage rec {
     hash = "sha256-SXIs9AUXWm1H49MVDT4z6msNPaW5sAU20rcsWZ7ERdU=";
   };
 
-  patches = [
-    ./urllib3-2.0-compat.patch
-  ];
+  patches = [ ./urllib3-2.0-compat.patch ];
 
   propagatedBuildInputs = [
     requests
@@ -32,9 +31,7 @@ buildPythonPackage rec {
   # Module no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "pybotvac"
-  ];
+  pythonImportsCheck = [ "pybotvac" ];
 
   meta = with lib; {
     description = "Python module for interacting with Neato Botvac Connected vacuum robots";

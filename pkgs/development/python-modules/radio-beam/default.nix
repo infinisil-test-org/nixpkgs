@@ -1,14 +1,15 @@
-{ lib
-, fetchPypi
-, buildPythonPackage
-, setuptools-scm
-, astropy
-, numpy
-, matplotlib
-, scipy
-, six
-, pytestCheckHook
-, pytest-astropy
+{
+  lib,
+  fetchPypi,
+  buildPythonPackage,
+  setuptools-scm,
+  astropy,
+  numpy,
+  matplotlib,
+  scipy,
+  six,
+  pytestCheckHook,
+  pytest-astropy,
 }:
 
 buildPythonPackage rec {
@@ -21,9 +22,7 @@ buildPythonPackage rec {
     hash = "sha256-7AFkuuYLzibwwgz6zrFw0fBXCnGLzdm4OgT+Chve5jU=";
   };
 
-  nativeBuildInputs = [
-    setuptools-scm
-  ];
+  nativeBuildInputs = [ setuptools-scm ];
 
   propagatedBuildInputs = [
     astropy
@@ -38,9 +37,7 @@ buildPythonPackage rec {
     pytest-astropy
   ];
 
-  pythonImportsCheck = [
-    "radio_beam"
-  ];
+  pythonImportsCheck = [ "radio_beam" ];
 
   meta = with lib; {
     description = "Tools for Beam IO and Manipulation";
@@ -50,5 +47,3 @@ buildPythonPackage rec {
     maintainers = with maintainers; [ smaret ];
   };
 }
-
-

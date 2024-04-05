@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchFromGitHub, fetchpatch }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+}:
 
 stdenv.mkDerivation rec {
   pname = "kakoune-unwrapped";
@@ -21,7 +26,10 @@ stdenv.mkDerivation rec {
       hash = "sha256-M0jKaEDhkpvX+n7k8Jf2lWaRNy8bqZ1kRHR4eG4npss=";
     })
   ];
-  makeFlags = [ "debug=no" "PREFIX=${placeholder "out"}" ];
+  makeFlags = [
+    "debug=no"
+    "PREFIX=${placeholder "out"}"
+  ];
 
   preConfigure = ''
     export version="v${version}"

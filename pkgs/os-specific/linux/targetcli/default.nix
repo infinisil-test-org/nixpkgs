@@ -1,4 +1,9 @@
-{ lib, python3, fetchFromGitHub, nixosTests }:
+{
+  lib,
+  python3,
+  fetchFromGitHub,
+  nixosTests,
+}:
 
 python3.pkgs.buildPythonApplication rec {
   pname = "targetcli";
@@ -11,7 +16,10 @@ python3.pkgs.buildPythonApplication rec {
     hash = "sha256-9QYo7jGk9iWr26j0qPQCqYsJ+vLXAsO4Xs7+7VT9/yc=";
   };
 
-  propagatedBuildInputs = with python3.pkgs; [ configshell rtslib ];
+  propagatedBuildInputs = with python3.pkgs; [
+    configshell
+    rtslib
+  ];
 
   postInstall = ''
     install -D targetcli.8 -t $out/share/man/man8/

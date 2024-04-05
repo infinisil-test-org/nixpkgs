@@ -1,15 +1,16 @@
-{ lib
-, callPackage
-, rustPlatform
-, fetchFromGitHub
-, fetchNpmDeps
-, npmHooks
-, binaryen
-, gzip
-, nodejs
-, rustc
-, wasm-bindgen-cli
-, wasm-pack
+{
+  lib,
+  callPackage,
+  rustPlatform,
+  fetchFromGitHub,
+  fetchNpmDeps,
+  npmHooks,
+  binaryen,
+  gzip,
+  nodejs,
+  rustc,
+  wasm-bindgen-cli,
+  wasm-pack,
 }:
 
 let
@@ -19,7 +20,6 @@ let
     hash = "sha256-1VwY8vQy7soKEgbki4LD+v259751kKxSxmo/gqE6yV0=";
     cargoHash = "sha256-aACJ+lYNEU8FFBs158G1/JG8sc6Rq080PeKCMnwdpH0=";
   };
-
 in
 
 rustPlatform.buildRustPackage rec {

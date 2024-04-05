@@ -1,8 +1,9 @@
-{ lib,
+{
+  lib,
   bundlerApp,
   bundlerUpdateScript,
   makeWrapper,
-  gnumake
+  gnumake,
 }:
 
 bundlerApp {
@@ -20,8 +21,8 @@ bundlerApp {
 
   meta = with lib; {
     description = "Puppet Development Kit";
-    homepage    = "https://github.com/puppetlabs/pdk";
-    license     = licenses.asl20;
+    homepage = "https://github.com/puppetlabs/pdk";
+    license = licenses.asl20;
     maintainers = with maintainers; [ netali ];
   };
 }

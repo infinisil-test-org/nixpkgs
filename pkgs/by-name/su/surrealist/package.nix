@@ -1,27 +1,28 @@
-{ buildGoModule
-, cacert
-, cairo
-, cargo
-, cargo-tauri
-, esbuild
-, fetchFromGitHub
-, gdk-pixbuf
-, gobject-introspection
-, jq
-, lib
-, libsoup
-, llvmPackages_15
-, makeBinaryWrapper
-, moreutils
-, nodePackages
-, pango
-, pkg-config
-, rustc
-, rustPlatform
-, stdenv
-, stdenvNoCC
-, wasm-bindgen-cli
-, webkitgtk
+{
+  buildGoModule,
+  cacert,
+  cairo,
+  cargo,
+  cargo-tauri,
+  esbuild,
+  fetchFromGitHub,
+  gdk-pixbuf,
+  gobject-introspection,
+  jq,
+  lib,
+  libsoup,
+  llvmPackages_15,
+  makeBinaryWrapper,
+  moreutils,
+  nodePackages,
+  pango,
+  pkg-config,
+  rustc,
+  rustPlatform,
+  stdenv,
+  stdenvNoCC,
+  wasm-bindgen-cli,
+  webkitgtk,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -77,7 +78,12 @@ stdenv.mkDerivation (finalAttrs: {
     pname = "${finalAttrs.pname}-pnpm-deps";
     dontFixup = true;
 
-    nativeBuildInputs = [ cacert jq moreutils nodePackages.pnpm ];
+    nativeBuildInputs = [
+      cacert
+      jq
+      moreutils
+      nodePackages.pnpm
+    ];
 
     postInstall = ''
       export HOME=$(mktemp -d)
@@ -103,20 +109,29 @@ stdenv.mkDerivation (finalAttrs: {
     pname = "${finalAttrs.pname}-ui";
     dontFixup = true;
 
-    ESBUILD_BINARY_PATH = let version = "0.18.20";
-    in "${lib.getExe (esbuild.override {
-      buildGoModule = args:
-        buildGoModule (args // {
-          inherit version;
-          src = fetchFromGitHub {
-            owner = "evanw";
-            repo = "esbuild";
-            rev = "v${version}";
-            hash = "sha256-mED3h+mY+4H465m02ewFK/BgA1i/PQ+ksUNxBlgpUoI=";
-          };
-          vendorHash = "sha256-+BfxCyg0KkDQpHt/wycy/8CTG6YBA/VJvJFhhzUnSiQ=";
-        });
-    })}";
+    ESBUILD_BINARY_PATH =
+      let
+        version = "0.18.20";
+      in
+      "${lib.getExe (
+        esbuild.override {
+          buildGoModule =
+            args:
+            buildGoModule (
+              args
+              // {
+                inherit version;
+                src = fetchFromGitHub {
+                  owner = "evanw";
+                  repo = "esbuild";
+                  rev = "v${version}";
+                  hash = "sha256-mED3h+mY+4H465m02ewFK/BgA1i/PQ+ksUNxBlgpUoI=";
+                };
+                vendorHash = "sha256-+BfxCyg0KkDQpHt/wycy/8CTG6YBA/VJvJFhhzUnSiQ=";
+              }
+            );
+        }
+      )}";
 
     nativeBuildInputs = [ nodePackages.pnpm ];
 
@@ -139,8 +154,7 @@ stdenv.mkDerivation (finalAttrs: {
   cargoDeps = rustPlatform.importCargoLock {
     lockFile = ./Cargo.lock;
     outputHashes = {
-      "tauri-plugin-localhost-0.1.0" =
-        "sha256-7PJgz6t/jPEwX/2xaOe0SYawfPSZw/F1QtOrc6iPiP0=";
+      "tauri-plugin-localhost-0.1.0" = "sha256-7PJgz6t/jPEwX/2xaOe0SYawfPSZw/F1QtOrc6iPiP0=";
     };
   };
 
@@ -153,8 +167,14 @@ stdenv.mkDerivation (finalAttrs: {
     rustPlatform.cargoSetupHook
   ];
 
-  buildInputs =
-    [ cairo gdk-pixbuf gobject-introspection libsoup pango webkitgtk ];
+  buildInputs = [
+    cairo
+    gdk-pixbuf
+    gobject-introspection
+    libsoup
+    pango
+    webkitgtk
+  ];
 
   postPatch = ''
     substituteInPlace ./tauri.conf.json \

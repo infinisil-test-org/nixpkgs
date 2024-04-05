@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pulsectl
-, pythonOlder
-, setuptools
-, wheel
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pulsectl,
+  pythonOlder,
+  setuptools,
+  wheel,
 }:
 
 buildPythonPackage rec {
@@ -26,16 +27,12 @@ buildPythonPackage rec {
     wheel
   ];
 
-  propagatedBuildInputs = [
-    pulsectl
-  ];
+  propagatedBuildInputs = [ pulsectl ];
 
   # Tests require a running pulseaudio instance
   doCheck = false;
 
-  pythonImportsCheck = [
-    "pulsectl_asyncio"
-  ];
+  pythonImportsCheck = [ "pulsectl_asyncio" ];
 
   meta = with lib; {
     description = "Python bindings library for PulseAudio";

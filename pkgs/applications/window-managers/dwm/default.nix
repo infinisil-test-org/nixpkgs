@@ -1,4 +1,14 @@
-{ lib, stdenv, fetchurl, libX11, libXinerama, libXft, writeText, patches ? [ ], conf ? null}:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  libX11,
+  libXinerama,
+  libXft,
+  writeText,
+  patches ? [ ],
+  conf ? null,
+}:
 
 stdenv.mkDerivation rec {
   pname = "dwm";
@@ -9,7 +19,11 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-Ideev6ny+5MUGDbCZmy4H0eExp1k5/GyNS+blwuglyk=";
   };
 
-  buildInputs = [ libX11 libXinerama libXft ];
+  buildInputs = [
+    libX11
+    libXinerama
+    libXft
+  ];
 
   prePatch = ''
     sed -i "s@/usr/local@$out@" config.mk
@@ -22,8 +36,7 @@ stdenv.mkDerivation rec {
   postPatch =
     let
       configFile =
-        if lib.isDerivation conf || builtins.isPath conf
-        then conf else writeText "config.def.h" conf;
+        if lib.isDerivation conf || builtins.isPath conf then conf else writeText "config.def.h" conf;
     in
     lib.optionalString (conf != null) "cp ${configFile} config.def.h";
 
@@ -42,7 +55,10 @@ stdenv.mkDerivation rec {
       tags.
     '';
     license = licenses.mit;
-    maintainers = with maintainers; [ viric neonfuz ];
+    maintainers = with maintainers; [
+      viric
+      neonfuz
+    ];
     platforms = platforms.all;
     mainProgram = "dwm";
   };

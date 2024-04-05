@@ -1,4 +1,8 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+}:
 
 buildGoModule rec {
   pname = "tegola";
@@ -15,7 +19,11 @@ buildGoModule rec {
 
   subPackages = [ "cmd/tegola" ];
 
-  ldflags = [ "-s" "-w" "-X github.com/go-spatial/tegola/internal/build.Version=${version}" ];
+  ldflags = [
+    "-s"
+    "-w"
+    "-X github.com/go-spatial/tegola/internal/build.Version=${version}"
+  ];
 
   meta = with lib; {
     homepage = "https://www.tegola.io/";

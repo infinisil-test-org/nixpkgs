@@ -6,6 +6,6 @@
 mkKdeDerivation {
   pname = "plasma-mobile";
 
-  extraNativeBuildInputs = [pkg-config];
-  extraBuildInputs = [qtsensors];
+  extraNativeBuildInputs = [ pkg-config ];
+  extraBuildInputs = [ qtsensors ];
 }

@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchFromGitHub, cmake } :
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+}:
 
 stdenv.mkDerivation rec {
   pname = "catimg";
@@ -21,5 +26,4 @@ stdenv.mkDerivation rec {
     platforms = platforms.unix;
     mainProgram = "catimg";
   };
-
 }

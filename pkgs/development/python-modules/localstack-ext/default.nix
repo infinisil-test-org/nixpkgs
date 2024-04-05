@@ -1,29 +1,30 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
 
-# build-system
-, setuptools
-, plux
+  # build-system
+  setuptools,
+  plux,
 
-# dependencies
-, cachetools
-, click
-, cryptography
-, dill
-, dnslib
-, dnspython
-, psutil
-, python-dotenv
-, pyyaml
-, requests
-, rich
-, semver
-, stevedore
-, tailer
+  # dependencies
+  cachetools,
+  click,
+  cryptography,
+  dill,
+  dnslib,
+  dnspython,
+  psutil,
+  python-dotenv,
+  pyyaml,
+  requests,
+  rich,
+  semver,
+  stevedore,
+  tailer,
 
-# Sensitive downstream dependencies
-, localstack
+  # Sensitive downstream dependencies
+  localstack,
 }:
 
 buildPythonPackage rec {

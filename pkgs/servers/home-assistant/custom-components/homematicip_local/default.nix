@@ -1,7 +1,8 @@
-{ lib
-, buildHomeAssistantComponent
-, fetchFromGitHub
-, hahomematic
+{
+  lib,
+  buildHomeAssistantComponent,
+  fetchFromGitHub,
+  hahomematic,
 }:
 
 buildHomeAssistantComponent rec {
@@ -16,9 +17,7 @@ buildHomeAssistantComponent rec {
     hash = "sha256-ianM29eF2MN2THS3CTg4tBkd+8pV/m1fg8VvMDhhadg=";
   };
 
-  dependencies = [
-    hahomematic
-  ];
+  dependencies = [ hahomematic ];
 
   meta = {
     changelog = "https://github.com/danielperna84/custom_homematic/blob/${version}/changelog.md";

@@ -1,7 +1,8 @@
-{ lib
-, fetchFromGitHub
-, python3
-, wrapQtAppsHook
+{
+  lib,
+  fetchFromGitHub,
+  python3,
+  wrapQtAppsHook,
 }:
 
 # As of 2.1, puddletag has started pinning versions of all dependencies that it
@@ -17,7 +18,6 @@
 # `overrideVersions`. While we technically run the risk of breaking something by
 # ignoring the pinned versions, it's just something we will have to accept
 # unless we want to vendor those versions.
-
 
 python3.pkgs.buildPythonApplication rec {
   pname = "puddletag";
@@ -75,7 +75,10 @@ python3.pkgs.buildPythonApplication rec {
     mainProgram = "puddletag";
     homepage = "https://docs.puddletag.net";
     license = licenses.gpl3Plus;
-    maintainers = with maintainers; [ peterhoeg dschrempf ];
+    maintainers = with maintainers; [
+      peterhoeg
+      dschrempf
+    ];
     platforms = platforms.linux;
   };
 }

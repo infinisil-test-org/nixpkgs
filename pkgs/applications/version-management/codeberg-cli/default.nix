@@ -1,12 +1,13 @@
-{ lib
-, CoreServices
-, Security
-, fetchFromGitea
-, installShellFiles
-, openssl
-, pkg-config
-, rustPlatform
-, stdenv
+{
+  lib,
+  CoreServices,
+  Security,
+  fetchFromGitea,
+  installShellFiles,
+  openssl,
+  pkg-config,
+  rustPlatform,
+  stdenv,
 }:
 rustPlatform.buildRustPackage rec {
   pname = "codeberg-cli";
@@ -21,10 +22,17 @@ rustPlatform.buildRustPackage rec {
   };
 
   cargoHash = "sha256-RE4Zwa5vUWPc42w5GaaYkS6fLIbges1fAsOUuwqR2ag=";
-  nativeBuildInputs = [ pkg-config installShellFiles ];
+  nativeBuildInputs = [
+    pkg-config
+    installShellFiles
+  ];
 
-  buildInputs = [ openssl ]
-    ++ lib.optionals stdenv.isDarwin [ CoreServices Security ];
+  buildInputs =
+    [ openssl ]
+    ++ lib.optionals stdenv.isDarwin [
+      CoreServices
+      Security
+    ];
 
   postInstall = ''
     installShellCompletion --cmd berg \

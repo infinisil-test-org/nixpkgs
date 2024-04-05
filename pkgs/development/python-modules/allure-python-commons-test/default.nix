@@ -1,13 +1,14 @@
-{ lib
-, fetchPypi
-, buildPythonPackage
-, pythonOlder
-, attrs
-, pluggy
-, six
-, pyhamcrest
-, setuptools-scm
-, python
+{
+  lib,
+  fetchPypi,
+  buildPythonPackage,
+  pythonOlder,
+  attrs,
+  pluggy,
+  six,
+  pyhamcrest,
+  setuptools-scm,
+  python,
 }:
 
 buildPythonPackage rec {
@@ -22,11 +23,14 @@ buildPythonPackage rec {
     hash = "sha256-WPthxhyKlN6fGdKXJLrjh3nbQ8h6CacYToyadh/p49M=";
   };
 
-  nativeBuildInputs = [
-    setuptools-scm
-  ];
+  nativeBuildInputs = [ setuptools-scm ];
 
-  propagatedBuildInputs = [ attrs pluggy six pyhamcrest ];
+  propagatedBuildInputs = [
+    attrs
+    pluggy
+    six
+    pyhamcrest
+  ];
 
   checkPhase = ''
     ${python.interpreter} -m doctest ./src/container.py

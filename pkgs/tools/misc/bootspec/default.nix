@@ -1,7 +1,8 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, fetchpatch
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  fetchpatch,
 }:
 rustPlatform.buildRustPackage rec {
   pname = "bootspec";
@@ -22,7 +23,6 @@ rustPlatform.buildRustPackage rec {
       url = "https://github.com/DeterminateSystems/bootspec/commit/1d0e925f360f0199f13422fb7541225fd162fd4f.patch";
       sha256 = "sha256-wU/jWnOqVBrU2swANdXbQfzRpNd/JIS4cxSyCvixZM0=";
     })
-
   ];
 
   cargoHash = "sha256-eGSKVHjPnHK7WyGkO5LIjocNGHawahYQR3H5Lgk1C9s=";

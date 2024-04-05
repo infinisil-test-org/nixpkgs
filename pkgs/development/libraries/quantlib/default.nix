@@ -1,15 +1,19 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, boost
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  boost,
 }:
 
 stdenv.mkDerivation rec {
   pname = "quantlib";
   version = "1.29";
 
-  outputs = [ "out" "dev" ];
+  outputs = [
+    "out"
+    "dev"
+  ];
 
   src = fetchFromGitHub {
     owner = "lballabio";
@@ -26,6 +30,6 @@ stdenv.mkDerivation rec {
     homepage = "https://quantlib.org";
     platforms = platforms.unix;
     license = licenses.bsd3;
-    maintainers = [];
+    maintainers = [ ];
   };
 }

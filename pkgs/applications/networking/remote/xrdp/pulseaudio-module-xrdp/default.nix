@@ -1,11 +1,12 @@
-{ stdenv
-, fetchFromGitHub
-, lib
-, nix-update-script
-, pulseaudio
-, autoreconfHook
-, pkg-config
-, nixosTests
+{
+  stdenv,
+  fetchFromGitHub,
+  lib,
+  nix-update-script,
+  pulseaudio,
+  autoreconfHook,
+  pkg-config,
+  nixosTests,
 }:
 
 stdenv.mkDerivation rec {

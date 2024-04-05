@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, libftdi1
-, libusb1
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  libftdi1,
+  libusb1,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -29,9 +30,7 @@ buildPythonPackage rec {
       --replace "self._load_library('libftdi')" "cdll.LoadLibrary('${libftdi1.out}/lib/libftdi1.so')"
   '';
 
-  pythonImportsCheck = [
-    "pylibftdi"
-  ];
+  pythonImportsCheck = [ "pylibftdi" ];
 
   meta = with lib; {
     description = "Wrapper to Intra2net's libftdi driver for FTDI's USB devices";

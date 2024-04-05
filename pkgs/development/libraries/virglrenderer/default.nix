@@ -1,5 +1,17 @@
-{ lib, stdenv, fetchurl, meson, ninja, pkg-config, python3
-, libGLU, libepoxy, libX11, libdrm, mesa, gitUpdater
+{
+  lib,
+  stdenv,
+  fetchurl,
+  meson,
+  ninja,
+  pkg-config,
+  python3,
+  libGLU,
+  libepoxy,
+  libX11,
+  libdrm,
+  mesa,
+  gitUpdater,
 }:
 
 stdenv.mkDerivation rec {
@@ -13,9 +25,20 @@ stdenv.mkDerivation rec {
 
   separateDebugInfo = true;
 
-  buildInputs = [ libGLU libepoxy libX11 libdrm mesa ];
+  buildInputs = [
+    libGLU
+    libepoxy
+    libX11
+    libdrm
+    mesa
+  ];
 
-  nativeBuildInputs = [ meson ninja pkg-config python3 ];
+  nativeBuildInputs = [
+    meson
+    ninja
+    pkg-config
+    python3
+  ];
 
   passthru = {
     updateScript = gitUpdater {

@@ -1,18 +1,19 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, setuptools
-, setuptools-scm
-, wheel
-, pytestCheckHook
-, pytest-asyncio
-, pytest-timeout
-, numpy
-, pandas
-, rich
-, tkinter
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  setuptools,
+  setuptools-scm,
+  wheel,
+  pytestCheckHook,
+  pytest-asyncio,
+  pytest-timeout,
+  numpy,
+  pandas,
+  rich,
+  tkinter,
 }:
 
 buildPythonPackage rec {
@@ -34,30 +35,32 @@ buildPythonPackage rec {
   # https://github.com/tqdm/tqdm/issues/1537
   doCheck = pythonOlder "3.12";
 
-  nativeCheckInputs = [
-    pytestCheckHook
-    pytest-asyncio
-    pytest-timeout
-    # tests of optional features
-    numpy
-    rich
-    tkinter
-  ] ++
+  nativeCheckInputs =
+    [
+      pytestCheckHook
+      pytest-asyncio
+      pytest-timeout
+      # tests of optional features
+      numpy
+      rich
+      tkinter
+    ]
+    ++
     # pandas is not supported on i686 or risc-v
     lib.optional (!stdenv.isi686 && !stdenv.hostPlatform.isRiscV) pandas;
 
   pytestFlagsArray = [
-    "-W" "ignore::FutureWarning"
-    "-W" "ignore::DeprecationWarning"
+    "-W"
+    "ignore::FutureWarning"
+    "-W"
+    "ignore::DeprecationWarning"
   ];
 
   # Remove performance testing.
   # Too sensitive for on Hydra.
-  disabledTests = [
-    "perf"
-  ];
+  disabledTests = [ "perf" ];
 
-  LC_ALL="en_US.UTF-8";
+  LC_ALL = "en_US.UTF-8";
 
   pythonImportsCheck = [ "tqdm" ];
 

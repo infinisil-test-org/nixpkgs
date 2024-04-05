@@ -1,13 +1,14 @@
-{ lib
-, callPackage
-, stdenv
-, chromium
-, fetchFromGitHub
-, fetchYarnDeps
-, makeWrapper
-, nodejs
-, prefetch-yarn-deps
-, yarn
+{
+  lib,
+  callPackage,
+  stdenv,
+  chromium,
+  fetchFromGitHub,
+  fetchYarnDeps,
+  makeWrapper,
+  nodejs,
+  prefetch-yarn-deps,
+  yarn,
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "aws-azure-login";
@@ -67,9 +68,7 @@ stdenv.mkDerivation (finalAttrs: {
     runHook postInstall
   '';
 
-  passthru.tests.aws-azure-login = callPackage ./tests.nix {
-    package = finalAttrs.finalPackage;
-  };
+  passthru.tests.aws-azure-login = callPackage ./tests.nix { package = finalAttrs.finalPackage; };
 
   meta = {
     description = "Use Azure AD SSO to log into the AWS via CLI";

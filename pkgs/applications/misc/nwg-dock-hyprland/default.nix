@@ -1,9 +1,10 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
-, pkg-config
-, wrapGAppsHook
-, gtk-layer-shell
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  pkg-config,
+  wrapGAppsHook,
+  gtk-layer-shell,
 }:
 
 buildGoModule rec {
@@ -19,9 +20,15 @@ buildGoModule rec {
 
   vendorHash = "sha256-5fN/6HASfTMb80YYAIoWRqnRGMvvX4d8C2UvOc0jQU0=";
 
-  ldflags = [ "-s" "-w" ];
+  ldflags = [
+    "-s"
+    "-w"
+  ];
 
-  nativeBuildInputs = [ pkg-config wrapGAppsHook ];
+  nativeBuildInputs = [
+    pkg-config
+    wrapGAppsHook
+  ];
   buildInputs = [ gtk-layer-shell ];
 
   meta = with lib; {

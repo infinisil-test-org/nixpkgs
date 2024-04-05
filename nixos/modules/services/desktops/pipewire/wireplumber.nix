@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   inherit (builtins) attrNames concatMap length;
@@ -36,16 +41,17 @@ in
       configPackages = mkOption {
         type = listOf package;
         default = [ ];
-        example = literalExpression ''[
-          (pkgs.writeTextDir "share/wireplumber/wireplumber.conf.d/10-bluez.conf" '''
-            monitor.bluez.properties = {
-              bluez5.roles = [ a2dp_sink a2dp_source bap_sink bap_source hsp_hs hsp_ag hfp_hf hfp_ag ]
-              bluez5.codecs = [ sbc sbc_xq aac ]
-              bluez5.enable-sbc-xq = true
-              bluez5.hfphsp-backend = "native"
-            }
-          ''')
-        ]'';
+        example = literalExpression ''
+          [
+                    (pkgs.writeTextDir "share/wireplumber/wireplumber.conf.d/10-bluez.conf" '''
+                      monitor.bluez.properties = {
+                        bluez5.roles = [ a2dp_sink a2dp_source bap_sink bap_source hsp_hs hsp_ag hfp_hf hfp_ag ]
+                        bluez5.codecs = [ sbc sbc_xq aac ]
+                        bluez5.enable-sbc-xq = true
+                        bluez5.hfphsp-backend = "native"
+                      }
+                    ''')
+                  ]'';
         description = ''
           List of packages that provide WirePlumber configuration, in the form of
           `share/wireplumber/*/*.conf` files.
@@ -57,7 +63,7 @@ in
 
       extraLv2Packages = mkOption {
         type = listOf package;
-        default = [];
+        default = [ ];
         example = literalExpression "[ pkgs.lsp-plugins ]";
         description = ''
           List of packages that provide LV2 plugins in `lib/lv2` that should
@@ -96,9 +102,10 @@ in
         }
       '';
 
-      configPackages = cfg.configPackages
-          ++ optional (!pwUsedForAudio) pwNotForAudioConfigPkg
-          ++ optional pwCfg.systemWide systemwideConfigPkg;
+      configPackages =
+        cfg.configPackages
+        ++ optional (!pwUsedForAudio) pwNotForAudioConfigPkg
+        ++ optional pwCfg.systemWide systemwideConfigPkg;
 
       configs = pkgs.buildEnv {
         name = "wireplumber-configs";
@@ -106,14 +113,15 @@ in
         pathsToLink = [ "/share/wireplumber" ];
       };
 
-      requiredLv2Packages = flatten
-        (
-          concatMap
-            (p:
-              attrByPath ["passthru" "requiredLv2Packages"] [] p
-            )
-            configPackages
-        );
+      requiredLv2Packages = flatten (
+        concatMap (
+          p:
+          attrByPath [
+            "passthru"
+            "requiredLv2Packages"
+          ] [ ] p
+        ) configPackages
+      );
 
       lv2Plugins = pkgs.buildEnv {
         name = "wireplumber-lv2-plugins";
@@ -128,15 +136,14 @@ in
           message = "Using WirePlumber conflicts with hsphfpd, as it provides the same functionality. `hardware.bluetooth.hsphfpd.enable` needs be set to false";
         }
         {
-          assertion = length
-            (attrNames
-              (
-                filterAttrs
-                  (name: value:
-                    hasPrefix "wireplumber/" name || name == "wireplumber"
-                  )
-                  config.environment.etc
-              )) == 1;
+          assertion =
+            length (
+              attrNames (
+                filterAttrs (
+                  name: value: hasPrefix "wireplumber/" name || name == "wireplumber"
+                ) config.environment.etc
+              )
+            ) == 1;
           message = "Using `environment.etc.\"wireplumber<...>\"` directly is no longer supported in 24.05. Use `services.pipewire.wireplumber.configPackages` instead.";
         }
       ];
@@ -159,7 +166,8 @@ in
         LV2_PATH = "${lv2Plugins}/lib/lv2";
       };
 
-      systemd.user.services.wireplumber.environment.LV2_PATH =
-        mkIf (!pwCfg.systemWide) "${lv2Plugins}/lib/lv2";
+      systemd.user.services.wireplumber.environment.LV2_PATH = mkIf (
+        !pwCfg.systemWide
+      ) "${lv2Plugins}/lib/lv2";
     };
 }

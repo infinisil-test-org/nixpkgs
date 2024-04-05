@@ -1,9 +1,10 @@
-{ lib
-, python3
-, buildNpmPackage
-, fetchFromGitHub
-, jq
-, stdenv
+{
+  lib,
+  python3,
+  buildNpmPackage,
+  fetchFromGitHub,
+  jq,
+  stdenv,
 }:
 
 let
@@ -27,7 +28,10 @@ let
 
     npmDepsHash = "sha256-0U+semrNWTkNu3uQQkiJKZT1hB0/IfkL84G7/oP8XYY=";
 
-    nativeBuildInputs = [ jq python ];
+    nativeBuildInputs = [
+      jq
+      python
+    ];
 
     postPatch = ''
       ${jq}/bin/jq '. += {"version": "${version}"}' < package.json > package.json.tmp
@@ -39,7 +43,6 @@ let
       cp -R pyca/ui/static/* $out/static/
     '';
   };
-
 in
 python3.pkgs.buildPythonApplication rec {
   pname = "pyca";
@@ -80,4 +83,3 @@ python3.pkgs.buildPythonApplication rec {
     maintainers = with maintainers; [ pmiddend ];
   };
 }
-

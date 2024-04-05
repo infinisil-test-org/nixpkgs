@@ -1,22 +1,23 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, nix-update-script
-, desktop-file-utils
-, pkg-config
-, writeScript
-, gnome-keyring
-, gnome-session
-, wingpanel
-, orca
-, onboard
-, elementary-default-settings
-, gnome-settings-daemon
-, runtimeShell
-, systemd
-, writeText
-, meson
-, ninja
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  nix-update-script,
+  desktop-file-utils,
+  pkg-config,
+  writeScript,
+  gnome-keyring,
+  gnome-session,
+  wingpanel,
+  orca,
+  onboard,
+  elementary-default-settings,
+  gnome-settings-daemon,
+  runtimeShell,
+  systemd,
+  writeText,
+  meson,
+  ninja,
 }:
 
 let
@@ -86,7 +87,6 @@ let
     DesktopNames=Pantheon
     Type=Application
   '';
-
 in
 
 stdenv.mkDerivation rec {
@@ -146,9 +146,7 @@ stdenv.mkDerivation rec {
   passthru = {
     updateScript = nix-update-script { };
 
-    providedSessions = [
-      "pantheon"
-    ];
+    providedSessions = [ "pantheon" ];
   };
 
   meta = with lib; {

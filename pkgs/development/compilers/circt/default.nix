@@ -1,14 +1,15 @@
-{ stdenv
-, lib
-, cmake
-, coreutils
-, python3
-, git
-, fetchFromGitHub
-, ninja
-, lit
-, gitUpdater
-, callPackage
+{
+  stdenv,
+  lib,
+  cmake,
+  coreutils,
+  python3,
+  git,
+  fetchFromGitHub,
+  ninja,
+  lit,
+  gitUpdater,
+  callPackage,
 }:
 
 let
@@ -28,7 +29,12 @@ stdenv.mkDerivation rec {
 
   requiredSystemFeatures = [ "big-parallel" ];
 
-  nativeBuildInputs = [ cmake ninja git pythonEnv ];
+  nativeBuildInputs = [
+    cmake
+    ninja
+    git
+    pythonEnv
+  ];
   buildInputs = [ circt-llvm ];
 
   cmakeFlags = [
@@ -64,16 +70,18 @@ stdenv.mkDerivation rec {
   doCheck = true;
   checkTarget = "check-circt check-circt-integration";
 
-  outputs = [ "out" "lib" "dev" ];
+  outputs = [
+    "out"
+    "lib"
+    "dev"
+  ];
 
   postInstall = ''
     moveToOutput lib "$lib"
   '';
 
   passthru = {
-    updateScript = gitUpdater {
-      rev-prefix = "firtool-";
-    };
+    updateScript = gitUpdater { rev-prefix = "firtool-"; };
     llvm = circt-llvm;
   };
 
@@ -81,7 +89,10 @@ stdenv.mkDerivation rec {
     description = "Circuit IR compilers and tools";
     homepage = "https://circt.org/";
     license = lib.licenses.asl20;
-    maintainers = with lib.maintainers; [ sharzy pineapplehunter ];
+    maintainers = with lib.maintainers; [
+      sharzy
+      pineapplehunter
+    ];
     platforms = lib.platforms.all;
   };
 }

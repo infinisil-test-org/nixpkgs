@@ -1,14 +1,15 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, flit-core
-, mock
-, pbr
-, pytest-mock
-, pytestCheckHook
-, pytz
-, requests
-, six
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  flit-core,
+  mock,
+  pbr,
+  pytest-mock,
+  pytestCheckHook,
+  pytz,
+  requests,
+  six,
 }:
 
 buildPythonPackage rec {
@@ -49,5 +50,4 @@ buildPythonPackage rec {
     maintainers = with maintainers; [ drets ] ++ teams.deshaw.members;
     license = licenses.mit;
   };
-
 }

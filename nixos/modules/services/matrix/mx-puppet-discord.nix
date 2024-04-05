@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
@@ -6,16 +11,18 @@ let
   dataDir = "/var/lib/mx-puppet-discord";
   registrationFile = "${dataDir}/discord-registration.yaml";
   cfg = config.services.mx-puppet-discord;
-  settingsFormat = pkgs.formats.json {};
+  settingsFormat = pkgs.formats.json { };
   settingsFile = settingsFormat.generate "mx-puppet-discord-config.json" cfg.settings;
-
-in {
+in
+{
   options = {
     services.mx-puppet-discord = {
-      enable = mkEnableOption (lib.mdDoc ''
-        mx-puppet-discord is a discord puppeting bridge for matrix.
-        It handles bridging private and group DMs, as well as Guilds (servers)
-      '');
+      enable = mkEnableOption (
+        lib.mdDoc ''
+          mx-puppet-discord is a discord puppeting bridge for matrix.
+          It handles bridging private and group DMs, as well as Guilds (servers)
+        ''
+      );
 
       settings = mkOption rec {
         apply = recursiveUpdate default;

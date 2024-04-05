@@ -1,25 +1,26 @@
-{ lib
-, anyascii
-, beautifulsoup4
-, buildPythonPackage
-, callPackage
-, django
-, django-filter
-, django-modelcluster
-, django-taggit
-, django-treebeard
-, djangorestframework
-, draftjs-exporter
-, fetchPypi
-, html5lib
-, l18n
-, openpyxl
-, permissionedforms
-, pillow
-, pythonOlder
-, requests
-, telepath
-, willow
+{
+  lib,
+  anyascii,
+  beautifulsoup4,
+  buildPythonPackage,
+  callPackage,
+  django,
+  django-filter,
+  django-modelcluster,
+  django-taggit,
+  django-treebeard,
+  djangorestframework,
+  draftjs-exporter,
+  fetchPypi,
+  html5lib,
+  l18n,
+  openpyxl,
+  permissionedforms,
+  pillow,
+  pythonOlder,
+  requests,
+  telepath,
+  willow,
 }:
 
 buildPythonPackage rec {

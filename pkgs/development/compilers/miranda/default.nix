@@ -1,4 +1,9 @@
-{ stdenv, lib, fetchzip, fetchpatch }:
+{
+  stdenv,
+  lib,
+  fetchzip,
+  fetchpatch,
+}:
 
 stdenv.mkDerivation rec {
   pname = "miranda";
@@ -14,7 +19,9 @@ stdenv.mkDerivation rec {
   # Using `fetchzip` will make all the source files have `mtime=1`
   # from the start so this mismatch cannot occur.
   src = fetchzip {
-    url = "https://www.cs.kent.ac.uk/people/staff/dat/miranda/src/mira-${builtins.replaceStrings [ "." ] [ "" ] version}-src.tgz";
+    url = "https://www.cs.kent.ac.uk/people/staff/dat/miranda/src/mira-${
+      builtins.replaceStrings [ "." ] [ "" ] version
+    }-src.tgz";
     sha256 = "KE/FTL9YW9l7VBAgkFZlqgSM1Bt/BXT6GkkONtyKJjQ=";
   };
 

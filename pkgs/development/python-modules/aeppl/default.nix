@@ -1,12 +1,13 @@
-{ lib
-, aesara
-, buildPythonPackage
-, fetchFromGitHub
-, numdifftools
-, numpy
-, pytestCheckHook
-, pythonOlder
-, scipy
+{
+  lib,
+  aesara,
+  buildPythonPackage,
+  fetchFromGitHub,
+  numdifftools,
+  numpy,
+  pytestCheckHook,
+  pythonOlder,
+  scipy,
 }:
 
 buildPythonPackage rec {
@@ -38,9 +39,7 @@ buildPythonPackage rec {
     export HOME=$(mktemp -d);
   '';
 
-  pythonImportsCheck = [
-    "aeppl"
-  ];
+  pythonImportsCheck = [ "aeppl" ];
 
   disabledTests = [
     # Compute issue

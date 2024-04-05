@@ -1,4 +1,8 @@
-{ lib, buildDunePackage, fetchFromGitHub }:
+{
+  lib,
+  buildDunePackage,
+  fetchFromGitHub,
+}:
 
 buildDunePackage rec {
   pname = "trie";
@@ -19,5 +23,4 @@ buildDunePackage rec {
     description = "Strict impure trie tree";
     maintainers = [ lib.maintainers.vbgl ];
   };
-
 }

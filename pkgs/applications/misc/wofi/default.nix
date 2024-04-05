@@ -1,13 +1,14 @@
-{ stdenv
-, lib
-, fetchFromSourcehut
-, pkg-config
-, meson
-, ninja
-, wayland
-, gtk3
-, wrapGAppsHook
-, installShellFiles
+{
+  stdenv,
+  lib,
+  fetchFromSourcehut,
+  pkg-config,
+  meson,
+  ninja,
+  wayland,
+  gtk3,
+  wrapGAppsHook,
+  installShellFiles,
 }:
 stdenv.mkDerivation rec {
   pname = "wofi";
@@ -21,8 +22,17 @@ stdenv.mkDerivation rec {
     vc = "hg";
   };
 
-  nativeBuildInputs = [ pkg-config meson ninja wrapGAppsHook installShellFiles ];
-  buildInputs = [ wayland gtk3 ];
+  nativeBuildInputs = [
+    pkg-config
+    meson
+    ninja
+    wrapGAppsHook
+    installShellFiles
+  ];
+  buildInputs = [
+    wayland
+    gtk3
+  ];
 
   patches = [
     # https://todo.sr.ht/~scoopta/wofi/121

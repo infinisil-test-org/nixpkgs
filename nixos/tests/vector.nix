@@ -1,5 +1,8 @@
-{ system ? builtins.currentSystem, config ? { }
-, pkgs ? import ../.. { inherit system config; } }:
+{
+  system ? builtins.currentSystem,
+  config ? { },
+  pkgs ? import ../.. { inherit system config; },
+}:
 
 with import ../lib/testing-python.nix { inherit system pkgs; };
 with pkgs.lib;
@@ -9,24 +12,28 @@ with pkgs.lib;
     name = "vector-test1";
     meta.maintainers = [ pkgs.lib.maintainers.happysalada ];
 
-    nodes.machine = { config, pkgs, ... }: {
-      services.vector = {
-        enable = true;
-        journaldAccess = true;
-        settings = {
-          sources.journald.type = "journald";
+    nodes.machine =
+      { config, pkgs, ... }:
+      {
+        services.vector = {
+          enable = true;
+          journaldAccess = true;
+          settings = {
+            sources.journald.type = "journald";
 
-          sinks = {
-            file = {
-              type = "file";
-              inputs = [ "journald" ];
-              path = "/var/lib/vector/logs.log";
-              encoding = { codec = "json"; };
+            sinks = {
+              file = {
+                type = "file";
+                inputs = [ "journald" ];
+                path = "/var/lib/vector/logs.log";
+                encoding = {
+                  codec = "json";
+                };
+              };
             };
           };
         };
       };
-    };
 
     # ensure vector is forwarding the messages appropriately
     testScript = ''

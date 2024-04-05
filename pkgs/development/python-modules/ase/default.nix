@@ -1,13 +1,14 @@
-{ lib
-, fetchPypi
-, buildPythonPackage
-, isPy27
-, numpy
-, scipy
-, matplotlib
-, flask
-, pillow
-, psycopg2
+{
+  lib,
+  fetchPypi,
+  buildPythonPackage,
+  isPy27,
+  numpy,
+  scipy,
+  matplotlib,
+  flask,
+  pillow,
+  psycopg2,
 }:
 
 buildPythonPackage rec {
@@ -21,7 +22,14 @@ buildPythonPackage rec {
     hash = "sha256-AE32sOoEsRFMeQ+t/kXUEl6w5TElxmqTQlr4U9gqtDI=";
   };
 
-  propagatedBuildInputs = [ numpy scipy matplotlib flask pillow psycopg2 ];
+  propagatedBuildInputs = [
+    numpy
+    scipy
+    matplotlib
+    flask
+    pillow
+    psycopg2
+  ];
 
   checkPhase = ''
     $out/bin/ase test

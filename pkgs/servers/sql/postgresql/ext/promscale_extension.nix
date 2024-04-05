@@ -1,10 +1,11 @@
-{ lib
-, fetchFromGitHub
-, fetchpatch
-, buildPgxExtension
-, postgresql
-, stdenv
-, nixosTests
+{
+  lib,
+  fetchFromGitHub,
+  fetchpatch,
+  buildPgxExtension,
+  postgresql,
+  stdenv,
+  nixosTests,
 }:
 
 buildPgxExtension rec {

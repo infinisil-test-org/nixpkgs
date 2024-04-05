@@ -1,11 +1,12 @@
-{ lib
-, stdenv
-, buildPerlPackage
-, exiftool
-, fetchurl
-, gitUpdater
-, shortenPerlShebang
-, testers
+{
+  lib,
+  stdenv,
+  buildPerlPackage,
+  exiftool,
+  fetchurl,
+  gitUpdater,
+  shortenPerlShebang,
+  testers,
 }:
 
 buildPerlPackage rec {
@@ -28,9 +29,7 @@ buildPerlPackage rec {
       command = "${lib.getExe exiftool} -ver";
       package = exiftool;
     };
-    updateScript = gitUpdater {
-      url = "https://github.com/exiftool/exiftool.git";
-    };
+    updateScript = gitUpdater { url = "https://github.com/exiftool/exiftool.git"; };
   };
 
   meta = {
@@ -48,8 +47,14 @@ buildPerlPackage rec {
     '';
     homepage = "https://exiftool.org/";
     changelog = "https://exiftool.org/history.html";
-    license = with lib.licenses; [ gpl1Plus /* or */ artistic2 ];
-    maintainers = with lib.maintainers; [ kiloreux anthonyroussel ];
+    license = with lib.licenses; [
+      gpl1Plus # or
+      artistic2
+    ];
+    maintainers = with lib.maintainers; [
+      kiloreux
+      anthonyroussel
+    ];
     mainProgram = "exiftool";
   };
 }

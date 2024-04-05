@@ -1,10 +1,11 @@
-{ lib
-, fetchFromGitHub
-, gobject-introspection
-, gtk-layer-shell
-, gtk3
-, python3Packages
-, wrapGAppsHook
+{
+  lib,
+  fetchFromGitHub,
+  gobject-introspection,
+  gtk-layer-shell,
+  gtk3,
+  python3Packages,
+  wrapGAppsHook,
 }:
 
 python3Packages.buildPythonApplication rec {
@@ -28,9 +29,7 @@ python3Packages.buildPythonApplication rec {
     gtk-layer-shell
   ];
 
-  propagatedBuildInputs = [
-    python3Packages.pygobject3
-  ];
+  propagatedBuildInputs = [ python3Packages.pygobject3 ];
 
   postPatch = ''
     # hard coded paths

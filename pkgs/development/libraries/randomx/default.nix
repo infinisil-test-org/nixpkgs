@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchFromGitHub, cmake }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+}:
 
 stdenv.mkDerivation rec {
   pname = "randomX";
@@ -20,5 +25,4 @@ stdenv.mkDerivation rec {
     maintainers = with maintainers; [ rnhmjoj ];
     platforms = platforms.unix;
   };
-
 }

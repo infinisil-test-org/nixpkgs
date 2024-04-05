@@ -1,21 +1,22 @@
-{ lib
-, fetchFromGitHub
-, coreutils
-, curl
-, gnugrep
-, gnused
-, gzip
-, nix
-, python
+{
+  lib,
+  fetchFromGitHub,
+  coreutils,
+  curl,
+  gnugrep,
+  gnused,
+  gzip,
+  nix,
+  python,
   # python libs
-, colorlog
-, graphviz
-, numpy
-, packageurl-python
-, pandas
-, requests
-, reuse
-, tabulate
+  colorlog,
+  graphviz,
+  numpy,
+  packageurl-python,
+  pandas,
+  requests,
+  reuse,
+  tabulate,
 }:
 
 python.pkgs.buildPythonApplication rec {
@@ -30,7 +31,17 @@ python.pkgs.buildPythonApplication rec {
   };
 
   makeWrapperArgs = [
-    "--prefix PATH : ${lib.makeBinPath [ coreutils curl gnugrep gnused gzip graphviz nix ]}"
+    "--prefix PATH : ${
+      lib.makeBinPath [
+        coreutils
+        curl
+        gnugrep
+        gnused
+        gzip
+        graphviz
+        nix
+      ]
+    }"
   ];
 
   propagatedBuildInputs = [
@@ -49,7 +60,14 @@ python.pkgs.buildPythonApplication rec {
   meta = with lib; {
     description = "Generate SBOMs for nix targets";
     homepage = "https://github.com/tiiuae/sbomnix";
-    license = with licenses; [ asl20 bsd3 cc-by-30 ];
-    maintainers = with maintainers; [ henrirosten jk ];
+    license = with licenses; [
+      asl20
+      bsd3
+      cc-by-30
+    ];
+    maintainers = with maintainers; [
+      henrirosten
+      jk
+    ];
   };
 }

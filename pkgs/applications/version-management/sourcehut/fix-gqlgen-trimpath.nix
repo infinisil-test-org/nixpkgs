@@ -1,15 +1,18 @@
-{ unzip
-, gqlgenVersion ? "0.17.42"
+{
+  unzip,
+  gqlgenVersion ? "0.17.42",
 }:
 {
-  overrideModAttrs = (_: {
-    # No need to workaround -trimpath: it's not used in goModules,
-    # but do download `go generate`'s dependencies nonetheless.
-    preBuild = ''
-      go generate ./loaders
-      go generate ./graph
-    '';
-  });
+  overrideModAttrs = (
+    _: {
+      # No need to workaround -trimpath: it's not used in goModules,
+      # but do download `go generate`'s dependencies nonetheless.
+      preBuild = ''
+        go generate ./loaders
+        go generate ./graph
+      '';
+    }
+  );
 
   # Workaround this error:
   #   go: git.sr.ht/~emersion/go-emailthreads@v0.0.0-20220412093310-4fd792e343ba: module lookup disabled by GOPROXY=off

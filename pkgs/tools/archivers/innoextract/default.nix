@@ -1,6 +1,14 @@
-{ lib, stdenv, fetchurl, cmake, makeWrapper
-, boost, xz
-, withGog ? false, unar ? null }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  cmake,
+  makeWrapper,
+  boost,
+  xz,
+  withGog ? false,
+  unar ? null,
+}:
 
 stdenv.mkDerivation rec {
   pname = "innoextract";
@@ -11,12 +19,18 @@ stdenv.mkDerivation rec {
     sha256 = "09l1z1nbl6ijqqwszdwch9mqr54qb7df0wp2sd77v17dq6gsci33";
   };
 
-  buildInputs = [ xz boost ];
+  buildInputs = [
+    xz
+    boost
+  ];
 
   # Python is reported as missing during the build, however
   # including Python does not change the output.
 
-  nativeBuildInputs = [ cmake makeWrapper ];
+  nativeBuildInputs = [
+    cmake
+    makeWrapper
+  ];
 
   strictDeps = true;
 

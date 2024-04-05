@@ -1,8 +1,19 @@
-{ stdenv, lib, fetchFromGitHub, makeWrapper, openresolv, coreutils, systemd }:
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  makeWrapper,
+  openresolv,
+  coreutils,
+  systemd,
+}:
 
 let
-  binPath = lib.makeBinPath [ coreutils openresolv systemd ];
-
+  binPath = lib.makeBinPath [
+    coreutils
+    openresolv
+    systemd
+  ];
 in
 stdenv.mkDerivation {
   pname = "update-resolv-conf";

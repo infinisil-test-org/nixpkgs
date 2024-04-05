@@ -1,17 +1,26 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, autoreconfHook
-, pkg-config
-, libtasn1, openssl, fuse, glib, libseccomp, json-glib
-, libtpms
-, unixtools, expect, socat
-, gnutls
-, perl
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  autoreconfHook,
+  pkg-config,
+  libtasn1,
+  openssl,
+  fuse,
+  glib,
+  libseccomp,
+  json-glib,
+  libtpms,
+  unixtools,
+  expect,
+  socat,
+  gnutls,
+  perl,
 
-# Tests
-, python3, which
-, nixosTests
+  # Tests
+  python3,
+  which,
+  nixosTests,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -26,31 +35,32 @@ stdenv.mkDerivation (finalAttrs: {
   };
 
   nativeBuildInputs = [
-    pkg-config unixtools.netstat expect socat
+    pkg-config
+    unixtools.netstat
+    expect
+    socat
     perl # for pod2man
     python3
     autoreconfHook
   ];
 
-  nativeCheckInputs = [
-    which
-  ];
+  nativeCheckInputs = [ which ];
 
-  buildInputs = [
-    libtpms
-    openssl libtasn1
-    glib json-glib
-    gnutls
-  ] ++ lib.optionals stdenv.isLinux [
-    fuse
-    libseccomp
-  ];
+  buildInputs =
+    [
+      libtpms
+      openssl
+      libtasn1
+      glib
+      json-glib
+      gnutls
+    ]
+    ++ lib.optionals stdenv.isLinux [
+      fuse
+      libseccomp
+    ];
 
-  configureFlags = [
-    "--localstatedir=/var"
-  ] ++ lib.optionals stdenv.isLinux [
-    "--with-cuse"
-  ];
+  configureFlags = [ "--localstatedir=/var" ] ++ lib.optionals stdenv.isLinux [ "--with-cuse" ];
 
   postPatch = ''
     patchShebangs tests/*
@@ -91,9 +101,14 @@ stdenv.mkDerivation (finalAttrs: {
   doCheck = true;
   enableParallelBuilding = true;
 
-  outputs = [ "out" "man" ];
+  outputs = [
+    "out"
+    "man"
+  ];
 
-  passthru.tests = { inherit (nixosTests) systemd-cryptenroll; };
+  passthru.tests = {
+    inherit (nixosTests) systemd-cryptenroll;
+  };
 
   meta = with lib; {
     description = "Libtpms-based TPM emulator";

@@ -1,22 +1,32 @@
-{ config, lib, pkgs, options, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  options,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.services.prometheus.exporters.smartctl;
-  args = lib.escapeShellArgs ([
-    "--web.listen-address=${cfg.listenAddress}:${toString cfg.port}"
-    "--smartctl.path=${pkgs.smartmontools}/bin/smartctl"
-    "--smartctl.interval=${cfg.maxInterval}"
-  ] ++ map (device: "--smartctl.device=${device}") cfg.devices
-  ++ cfg.extraFlags);
-in {
+  args = lib.escapeShellArgs (
+    [
+      "--web.listen-address=${cfg.listenAddress}:${toString cfg.port}"
+      "--smartctl.path=${pkgs.smartmontools}/bin/smartctl"
+      "--smartctl.interval=${cfg.maxInterval}"
+    ]
+    ++ map (device: "--smartctl.device=${device}") cfg.devices
+    ++ cfg.extraFlags
+  );
+in
+{
   port = 9633;
 
   extraOpts = {
     devices = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
       example = literalExpression ''
         [ "/dev/sda", "/dev/nvme0n1" ];
       '';
@@ -58,7 +68,10 @@ in {
       ProtectProc = "invisible";
       ProcSubset = "pid";
       SupplementaryGroups = [ "disk" ];
-      SystemCallFilter = [ "@system-service" "~@privileged" ];
+      SystemCallFilter = [
+        "@system-service"
+        "~@privileged"
+      ];
     };
   };
 }

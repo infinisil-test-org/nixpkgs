@@ -1,22 +1,23 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, nix-update-script
-, packaging
-, platformdirs
-, pydantic_1
-, pyyaml
-, requests-unixsocket
-, setuptools
-, setuptools-scm
-, urllib3
-, pytest-check
-, pytest-mock
-, pytestCheckHook
-, responses
-, freezegun
-, pytest-subprocess
-, pytest-logdog
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  nix-update-script,
+  packaging,
+  platformdirs,
+  pydantic_1,
+  pyyaml,
+  requests-unixsocket,
+  setuptools,
+  setuptools-scm,
+  urllib3,
+  pytest-check,
+  pytest-mock,
+  pytestCheckHook,
+  responses,
+  freezegun,
+  pytest-subprocess,
+  pytest-logdog,
 }:
 
 buildPythonPackage rec {
@@ -32,9 +33,7 @@ buildPythonPackage rec {
     hash = "sha256-9ZoNgpuGytwozRsw0wnS3d2UBOIsh3VI/uzB1RD2Zac=";
   };
 
-  patches = [
-    ./inject-snaps.patch
-  ];
+  patches = [ ./inject-snaps.patch ];
 
   postPatch = ''
     substituteInPlace craft_providers/lxd/installer.py \
@@ -64,9 +63,7 @@ buildPythonPackage rec {
     urllib3
   ];
 
-  pythonImportsCheck = [
-    "craft_providers"
-  ];
+  pythonImportsCheck = [ "craft_providers" ];
 
   nativeCheckInputs = [
     freezegun

@@ -1,8 +1,18 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.services.seatd;
-  inherit (lib) mkEnableOption mkOption mdDoc types;
+  inherit (lib)
+    mkEnableOption
+    mkOption
+    mdDoc
+    types
+    ;
 in
 {
   meta.maintainers = with lib.maintainers; [ sinanmohd ];
@@ -21,15 +31,23 @@ in
       description = mdDoc "Group to own the seatd socket";
     };
     logLevel = mkOption {
-      type = types.enum [ "debug" "info" "error" "silent" ];
+      type = types.enum [
+        "debug"
+        "info"
+        "error"
+        "silent"
+      ];
       default = "info";
       description = mdDoc "Logging verbosity";
     };
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [ seatd sdnotify-wrapper ];
-    users.groups.seat = lib.mkIf (cfg.group == "seat") {};
+    environment.systemPackages = with pkgs; [
+      seatd
+      sdnotify-wrapper
+    ];
+    users.groups.seat = lib.mkIf (cfg.group == "seat") { };
 
     systemd.services.seatd = {
       description = "Seat management daemon";

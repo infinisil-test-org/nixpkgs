@@ -1,4 +1,10 @@
-{ config, lib, pkgs, options, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  options,
+  ...
+}:
 
 with lib;
 
@@ -11,7 +17,7 @@ in
   extraOpts = {
     settings.process_names = mkOption {
       type = types.listOf types.anything;
-      default = [];
+      default = [ ];
       example = literalExpression ''
         [
           # Remove nix store path from process name

@@ -1,4 +1,18 @@
-{ lib, stdenv, fetchFromGitHub, boost, cmake, cpp-hocon, curl, leatherman, libwhereami, yaml-cpp, openssl, ruby, util-linux }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  boost,
+  cmake,
+  cpp-hocon,
+  curl,
+  leatherman,
+  libwhereami,
+  yaml-cpp,
+  openssl,
+  ruby,
+  util-linux,
+}:
 
 stdenv.mkDerivation rec {
   pname = "facter";
@@ -26,7 +40,17 @@ stdenv.mkDerivation rec {
   env.NIX_CFLAGS_COMPILE = "-Wno-error";
 
   nativeBuildInputs = [ cmake ];
-  buildInputs = [ boost cpp-hocon curl leatherman libwhereami yaml-cpp openssl ruby util-linux ];
+  buildInputs = [
+    boost
+    cpp-hocon
+    curl
+    leatherman
+    libwhereami
+    yaml-cpp
+    openssl
+    ruby
+    util-linux
+  ];
 
   meta = with lib; {
     homepage = "https://github.com/puppetlabs/facter";

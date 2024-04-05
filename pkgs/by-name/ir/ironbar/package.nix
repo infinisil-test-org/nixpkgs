@@ -1,22 +1,23 @@
-{ gtk3
-, gdk-pixbuf
-, librsvg
-, webp-pixbuf-loader
-, gobject-introspection
-, glib-networking
-, glib
-, shared-mime-info
-, gsettings-desktop-schemas
-, wrapGAppsHook
-, gtk-layer-shell
-, gnome
-, libxkbcommon
-, openssl
-, pkg-config
-, hicolor-icon-theme
-, rustPlatform
-, lib
-, fetchFromGitHub
+{
+  gtk3,
+  gdk-pixbuf,
+  librsvg,
+  webp-pixbuf-loader,
+  gobject-introspection,
+  glib-networking,
+  glib,
+  shared-mime-info,
+  gsettings-desktop-schemas,
+  wrapGAppsHook,
+  gtk-layer-shell,
+  gnome,
+  libxkbcommon,
+  openssl,
+  pkg-config,
+  hicolor-icon-theme,
+  rustPlatform,
+  lib,
+  fetchFromGitHub,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -52,9 +53,7 @@ rustPlatform.buildRustPackage rec {
     gobject-introspection
   ];
 
-  propagatedBuildInputs = [
-    gtk3
-  ];
+  propagatedBuildInputs = [ gtk3 ];
 
   preFixup = ''
     gappsWrapperArgs+=(
@@ -74,7 +73,11 @@ rustPlatform.buildRustPackage rec {
     description = "Customizable gtk-layer-shell wlroots/sway bar written in Rust";
     license = licenses.mit;
     platforms = platforms.linux;
-    maintainers = with maintainers; [ yavko donovanglover jakestanger ];
+    maintainers = with maintainers; [
+      yavko
+      donovanglover
+      jakestanger
+    ];
     mainProgram = "ironbar";
   };
 }

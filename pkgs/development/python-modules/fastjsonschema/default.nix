@@ -1,9 +1,10 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchFromGitHub
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -21,28 +22,27 @@ buildPythonPackage rec {
     hash = "sha256-t6JnqQgsWAL8oL8+LO0xrXMYsZOlTF3DlXkRiqUzYtU=";
   };
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   pytestFlagsArray = [
-    "-W" "ignore::pytest.PytestRemovedIn8Warning"
+    "-W"
+    "ignore::pytest.PytestRemovedIn8Warning"
   ];
 
   dontUseSetuptoolsCheck = true;
 
-  disabledTests = [
-    "benchmark"
-    # these tests require network access
-    "remote ref"
-    "definitions"
-  ] ++ lib.optionals stdenv.isDarwin [
-    "test_compile_to_code_custom_format"  # cannot import temporary module created during test
-  ];
+  disabledTests =
+    [
+      "benchmark"
+      # these tests require network access
+      "remote ref"
+      "definitions"
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      "test_compile_to_code_custom_format" # cannot import temporary module created during test
+    ];
 
-  pythonImportsCheck = [
-    "fastjsonschema"
-  ];
+  pythonImportsCheck = [ "fastjsonschema" ];
 
   meta = with lib; {
     description = "JSON schema validator for Python";

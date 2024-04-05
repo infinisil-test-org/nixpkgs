@@ -1,7 +1,8 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, cryptography
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  cryptography,
 }:
 
 buildPythonPackage rec {
@@ -15,16 +16,12 @@ buildPythonPackage rec {
     hash = "sha256-e8oAz8Tn75xdJmPGocBow1eY5ZZwWVQ59ilue6PVgIM=";
   };
 
-  propagatedBuildInputs = [
-    cryptography
-  ];
+  propagatedBuildInputs = [ cryptography ];
 
   # Module doesn't have tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "OpenSSL-stubs"
-  ];
+  pythonImportsCheck = [ "OpenSSL-stubs" ];
 
   meta = with lib; {
     description = "Typing stubs for pyopenssl";

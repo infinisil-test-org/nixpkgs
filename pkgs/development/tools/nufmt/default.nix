@@ -1,4 +1,3 @@
-
 {
   lib,
   fetchFromGitHub,
@@ -22,6 +21,6 @@ rustPlatform.buildRustPackage rec {
     description = "The nushell formatter";
     homepage = "https://github.com/nushell/nufmt";
     license = licenses.mit;
-    maintainers = with maintainers; [iogamaster];
+    maintainers = with maintainers; [ iogamaster ];
   };
 }

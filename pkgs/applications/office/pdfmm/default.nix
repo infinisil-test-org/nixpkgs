@@ -1,13 +1,14 @@
-{ bash
-, coreutils
-, fetchFromGitHub
-, ghostscript
-, glibc
-, gnome
-, gnused
-, lib
-, resholve
-, xorg
+{
+  bash,
+  coreutils,
+  fetchFromGitHub,
+  ghostscript,
+  glibc,
+  gnome,
+  gnused,
+  lib,
+  resholve,
+  xorg,
 }:
 
 resholve.mkDerivation rec {
@@ -28,9 +29,7 @@ resholve.mkDerivation rec {
   '';
 
   solutions.default = {
-    scripts = [
-      "bin/pdfmm"
-    ];
+    scripts = [ "bin/pdfmm" ];
     interpreter = "${bash}/bin/bash";
     inputs = [
       coreutils

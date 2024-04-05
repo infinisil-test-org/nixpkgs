@@ -1,15 +1,16 @@
-{ lib
-, aiofiles
-, buildPythonPackage
-, click
-, fetchFromGitHub
-, h2
-, httpx
-, lxml
-, pythonOlder
-, requests
-, setuptools
-, socksio
+{
+  lib,
+  aiofiles,
+  buildPythonPackage,
+  click,
+  fetchFromGitHub,
+  h2,
+  httpx,
+  lxml,
+  pythonOlder,
+  requests,
+  setuptools,
+  socksio,
 }:
 
 buildPythonPackage rec {
@@ -26,25 +27,23 @@ buildPythonPackage rec {
     hash = "sha256-OZFkSFyXC2MFP2MbKwF/qR8zvCFzPKgLmX+nuIztOpw=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [
-    aiofiles
-    click
-    h2
-    httpx
-    lxml
-    requests
-    socksio
-  ] ++ httpx.optional-dependencies.brotli
+  propagatedBuildInputs =
+    [
+      aiofiles
+      click
+      h2
+      httpx
+      lxml
+      requests
+      socksio
+    ]
+    ++ httpx.optional-dependencies.brotli
     ++ httpx.optional-dependencies.http2
     ++ httpx.optional-dependencies.socks;
 
-  pythonImportsCheck = [
-    "duckduckgo_search"
-  ];
+  pythonImportsCheck = [ "duckduckgo_search" ];
 
   meta = with lib; {
     description = "Python CLI and library for searching for words, documents, images, videos, news, maps and text translation using the DuckDuckGo.com search engine";

@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, python3
-, gettext
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  python3,
+  gettext,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -17,9 +18,7 @@ python3.pkgs.buildPythonApplication rec {
     hash = "sha256-z7Qp74cai8GfsxB4n9dSCWQepp0/4PimFiRJQBaVSoo=";
   };
 
-  nativeBuildInputs = [
-    gettext
-  ];
+  nativeBuildInputs = [ gettext ];
 
   propagatedBuildInputs = with python3.pkgs; [
     argcomplete
@@ -43,14 +42,16 @@ python3.pkgs.buildPythonApplication rec {
     "test_timeit2"
   ];
 
-  disabledTestPaths = [
-    "tests/checker/telnetserver.py"
-    "tests/checker/test_telnet.py"
-  ] ++ lib.optionals stdenv.isDarwin [
-    "tests/checker/test_content_allows_robots.py"
-    "tests/checker/test_http*.py"
-    "tests/test_network.py"
-  ];
+  disabledTestPaths =
+    [
+      "tests/checker/telnetserver.py"
+      "tests/checker/test_telnet.py"
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      "tests/checker/test_content_allows_robots.py"
+      "tests/checker/test_http*.py"
+      "tests/test_network.py"
+    ];
 
   meta = with lib; {
     description = "Check websites for broken links";
@@ -58,6 +59,9 @@ python3.pkgs.buildPythonApplication rec {
     homepage = "https://linkcheck.github.io/linkchecker/";
     changelog = "https://github.com/linkchecker/linkchecker/releases/tag/v${version}";
     license = licenses.gpl2Plus;
-    maintainers = with maintainers; [ peterhoeg tweber ];
+    maintainers = with maintainers; [
+      peterhoeg
+      tweber
+    ];
   };
 }

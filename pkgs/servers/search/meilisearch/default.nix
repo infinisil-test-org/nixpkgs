@@ -1,14 +1,16 @@
-{ stdenv
-, lib
-, rustPlatform
-, fetchFromGitHub
-, Security
-, SystemConfiguration
-, nixosTests
-, nix-update-script
+{
+  stdenv,
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  Security,
+  SystemConfiguration,
+  nixosTests,
+  nix-update-script,
 }:
 
-let version = "1.7.3";
+let
+  version = "1.7.3";
 in
 rustPlatform.buildRustPackage {
   pname = "meilisearch";
@@ -21,9 +23,7 @@ rustPlatform.buildRustPackage {
     hash = "sha256-2kwogur6hS7/xjUhH9aRJevWbtgg5xQkvB/aIj7wyJ8=";
   };
 
-  cargoBuildFlags = [
-    "--package=meilisearch"
-  ];
+  cargoBuildFlags = [ "--package=meilisearch" ];
 
   cargoLock = {
     lockFile = ./Cargo.lock;
@@ -40,7 +40,8 @@ rustPlatform.buildRustPackage {
   buildNoDefaultFeatures = true;
 
   buildInputs = lib.optionals stdenv.isDarwin [
-    Security SystemConfiguration
+    Security
+    SystemConfiguration
   ];
 
   passthru = {
@@ -60,6 +61,11 @@ rustPlatform.buildRustPackage {
     changelog = "https://github.com/meilisearch/meilisearch/releases/tag/v${version}";
     license = licenses.mit;
     maintainers = with maintainers; [ happysalada ];
-    platforms = [ "aarch64-linux" "aarch64-darwin" "x86_64-linux" "x86_64-darwin" ];
+    platforms = [
+      "aarch64-linux"
+      "aarch64-darwin"
+      "x86_64-linux"
+      "x86_64-darwin"
+    ];
   };
 }

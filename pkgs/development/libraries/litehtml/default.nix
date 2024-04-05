@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, gumbo
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  gumbo,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -24,17 +25,11 @@ stdenv.mkDerivation (finalAttrs: {
       --replace "find_dependency(gumbo)" ""
   '';
 
-  nativeBuildInputs = [
-    cmake
-  ];
+  nativeBuildInputs = [ cmake ];
 
-  buildInputs = [
-    gumbo
-  ];
+  buildInputs = [ gumbo ];
 
-  cmakeFlags = [
-    "-DEXTERNAL_GUMBO=ON"
-  ];
+  cmakeFlags = [ "-DEXTERNAL_GUMBO=ON" ];
 
   meta = with lib; {
     description = "Fast and lightweight HTML/CSS rendering engine";

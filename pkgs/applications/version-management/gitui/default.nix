@@ -1,13 +1,14 @@
-{ lib
-, stdenv
-, rustPlatform
-, fetchFromGitHub
-, libiconv
-, openssl
-, pkg-config
-, xclip
-, AppKit
-, Security
+{
+  lib,
+  stdenv,
+  rustPlatform,
+  fetchFromGitHub,
+  libiconv,
+  openssl,
+  pkg-config,
+  xclip,
+  AppKit,
+  Security,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -25,9 +26,14 @@ rustPlatform.buildRustPackage rec {
 
   nativeBuildInputs = [ pkg-config ];
 
-  buildInputs = [ openssl ]
+  buildInputs =
+    [ openssl ]
     ++ lib.optional stdenv.isLinux xclip
-    ++ lib.optionals stdenv.isDarwin [ libiconv Security AppKit ];
+    ++ lib.optionals stdenv.isDarwin [
+      libiconv
+      Security
+      AppKit
+    ];
 
   # Needed to get openssl-sys to use pkg-config.
   OPENSSL_NO_VENDOR = 1;
@@ -37,12 +43,8 @@ rustPlatform.buildRustPackage rec {
   # environment: delete them.
   postPatch = "rm .cargo/config";
 
-
   # Getting app_config_path fails with a permission denied
-  checkFlags = [
-    "--skip=keys::key_config::tests::test_symbolic_links"
-  ];
-
+  checkFlags = [ "--skip=keys::key_config::tests::test_symbolic_links" ];
 
   meta = with lib; {
     description = "Blazing fast terminal-ui for Git written in Rust";
@@ -50,6 +52,10 @@ rustPlatform.buildRustPackage rec {
     changelog = "https://github.com/extrawurst/gitui/blob/v${version}/CHANGELOG.md";
     mainProgram = "gitui";
     license = licenses.mit;
-    maintainers = with maintainers; [ Br1ght0ne yanganto mfrw ];
+    maintainers = with maintainers; [
+      Br1ght0ne
+      yanganto
+      mfrw
+    ];
   };
 }

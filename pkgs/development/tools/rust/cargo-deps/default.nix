@@ -1,4 +1,8 @@
-{ lib, fetchCrate, rustPlatform }:
+{
+  lib,
+  fetchCrate,
+  rustPlatform,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "cargo-deps";
@@ -16,6 +20,9 @@ rustPlatform.buildRustPackage rec {
     mainProgram = "cargo-deps";
     homepage = "https://github.com/m-cat/cargo-deps";
     license = licenses.mit;
-    maintainers = with maintainers; [ arcnmx matthiasbeyer ];
+    maintainers = with maintainers; [
+      arcnmx
+      matthiasbeyer
+    ];
   };
 }

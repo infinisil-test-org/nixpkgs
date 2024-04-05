@@ -1,22 +1,23 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, cmake
-, libGL
-, libSM
-, SDL
-, SDL_image
-, SDL_ttf
-, glew
-, openalSoft
-, ncurses
-, glib
-, gtk2
-, gtk3
-, libsndfile
-, zlib
-, dfVersion
-, pkg-config
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  cmake,
+  libGL,
+  libSM,
+  SDL,
+  SDL_image,
+  SDL_ttf,
+  glew,
+  openalSoft,
+  ncurses,
+  glib,
+  gtk2,
+  gtk3,
+  libsndfile,
+  zlib,
+  dfVersion,
+  pkg-config,
 }:
 
 let
@@ -73,9 +74,10 @@ let
   };
 
   release =
-    if hasAttr dfVersion unfuck-releases
-    then getAttr dfVersion unfuck-releases
-    else throw "[unfuck] Unknown Dwarf Fortress version: ${dfVersion}";
+    if hasAttr dfVersion unfuck-releases then
+      getAttr dfVersion unfuck-releases
+    else
+      throw "[unfuck] Unknown Dwarf Fortress version: ${dfVersion}";
 in
 
 stdenv.mkDerivation {
@@ -99,25 +101,25 @@ stdenv.mkDerivation {
     "-DGTK2_GDKCONFIG_INCLUDE_DIR=${gtk2.out}/lib/gtk-2.0/include"
   ];
 
-  nativeBuildInputs = [ cmake pkg-config ];
-  buildInputs = [
-    libSM
-    SDL
-    SDL_image
-    SDL_ttf
-    glew
-    openalSoft
-    ncurses
-    libsndfile
-    zlib
-    libGL
-  ]
-  # switched to gtk3 in 0.47.05
-  ++ (if versionOlder release.unfuckRelease "0.47.05" then [
-    gtk2
-  ] else [
-    gtk3
-  ]);
+  nativeBuildInputs = [
+    cmake
+    pkg-config
+  ];
+  buildInputs =
+    [
+      libSM
+      SDL
+      SDL_image
+      SDL_ttf
+      glew
+      openalSoft
+      ncurses
+      libsndfile
+      zlib
+      libGL
+    ]
+    # switched to gtk3 in 0.47.05
+    ++ (if versionOlder release.unfuckRelease "0.47.05" then [ gtk2 ] else [ gtk3 ]);
 
   # Don't strip unused symbols; dfhack hooks into some of them.
   dontStrip = true;
@@ -129,13 +131,18 @@ stdenv.mkDerivation {
   # Breaks dfhack because of inlining.
   hardeningDisable = [ "fortify" ];
 
-  passthru = { inherit dfVersion; };
+  passthru = {
+    inherit dfVersion;
+  };
 
   meta = {
     description = "Unfucked multimedia layer for Dwarf Fortress";
     homepage = "https://github.com/svenstaro/dwarf_fortress_unfuck";
     license = licenses.free;
     platforms = platforms.linux;
-    maintainers = with maintainers; [ abbradar numinit ];
+    maintainers = with maintainers; [
+      abbradar
+      numinit
+    ];
   };
 }

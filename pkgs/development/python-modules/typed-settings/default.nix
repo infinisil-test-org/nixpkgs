@@ -1,15 +1,16 @@
-{ lib
-, attrs
-, buildPythonPackage
-, cattrs
-, click
-, click-option-group
-, fetchPypi
-, hatchling
-, pytestCheckHook
-, pythonOlder
-, tomli
-, typing-extensions
+{
+  lib,
+  attrs,
+  buildPythonPackage,
+  cattrs,
+  click,
+  click-option-group,
+  fetchPypi,
+  hatchling,
+  pytestCheckHook,
+  pythonOlder,
+  tomli,
+  typing-extensions,
 }:
 
 buildPythonPackage rec {
@@ -25,22 +26,16 @@ buildPythonPackage rec {
     hash = "sha256-luUfVsN6uNYZkXfcAUc5P6Y+WYpfAdU6D01kgQMNniw=";
   };
 
-  nativeBuildInputs = [
-    hatchling
-  ];
+  nativeBuildInputs = [ hatchling ];
 
   propagatedBuildInputs = [
     attrs
     cattrs
     click-option-group
-  ] ++ lib.optionals (pythonOlder "3.11") [
-    tomli
-  ];
+  ] ++ lib.optionals (pythonOlder "3.11") [ tomli ];
 
   passthru.optional-dependencies = {
-    click = [
-      click
-    ];
+    click = [ click ];
   };
 
   checkInputs = [
@@ -48,18 +43,14 @@ buildPythonPackage rec {
     typing-extensions
   ] ++ passthru.optional-dependencies.click;
 
-  pytestFlagsArray = [
-    "tests"
-  ];
+  pytestFlagsArray = [ "tests" ];
 
   disabledTests = [
     # AssertionError: assert [OptionInfo(p...
     "test_deep_options"
   ];
 
-  pythonImportsCheck = [
-    "typed_settings"
-  ];
+  pythonImportsCheck = [ "typed_settings" ];
 
   meta = {
     description = "Typed settings based on attrs classes";

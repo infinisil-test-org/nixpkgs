@@ -1,19 +1,20 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, pkg-config
-, libGL
-, libxkbcommon
-, hyprlang
-, pam
-, wayland
-, wayland-protocols
-, cairo
-, pango
-, libdrm
-, mesa
-, nix-update-script
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  libGL,
+  libxkbcommon,
+  hyprlang,
+  pam,
+  wayland,
+  wayland-protocols,
+  cairo,
+  pango,
+  libdrm,
+  mesa,
+  nix-update-script,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -55,6 +56,9 @@ stdenv.mkDerivation (finalAttrs: {
     license = lib.licenses.bsd3;
     maintainers = with lib.maintainers; [ eclairevoyant ];
     mainProgram = "hyprlock";
-    platforms = [ "aarch64-linux" "x86_64-linux" ];
+    platforms = [
+      "aarch64-linux"
+      "x86_64-linux"
+    ];
   };
 })

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -24,6 +29,6 @@ with lib;
   config = mkIf config.programs.adb.enable {
     services.udev.packages = [ pkgs.android-udev-rules ];
     environment.systemPackages = [ pkgs.android-tools ];
-    users.groups.adbusers = {};
+    users.groups.adbusers = { };
   };
 }

@@ -1,24 +1,25 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, cons
-, cython
-, etuples
-, fetchFromGitHub
-, filelock
-, hatch-vcs
-, hatchling
-, jax
-, jaxlib
-, logical-unification
-, minikanren
-, numba
-, numba-scipy
-, numpy
-, pytestCheckHook
-, pythonOlder
-, scipy
-, typing-extensions
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  cons,
+  cython,
+  etuples,
+  fetchFromGitHub,
+  filelock,
+  hatch-vcs,
+  hatchling,
+  jax,
+  jaxlib,
+  logical-unification,
+  minikanren,
+  numba,
+  numba-scipy,
+  numpy,
+  pytestCheckHook,
+  pythonOlder,
+  scipy,
+  typing-extensions,
 }:
 
 buildPythonPackage rec {
@@ -69,9 +70,7 @@ buildPythonPackage rec {
     export HOME=$(mktemp -d)
   '';
 
-  pythonImportsCheck = [
-    "aesara"
-  ];
+  pythonImportsCheck = [ "aesara" ];
 
   disabledTestPaths = [
     # Don't run the most compute-intense tests

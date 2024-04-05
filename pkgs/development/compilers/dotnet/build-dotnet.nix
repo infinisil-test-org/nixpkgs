@@ -1,30 +1,36 @@
-{ type
-, version
-, srcs
-, packages ? null
+{
+  type,
+  version,
+  srcs,
+  packages ? null,
 }:
 
-assert builtins.elem type [ "aspnetcore" "runtime" "sdk" ];
+assert builtins.elem type [
+  "aspnetcore"
+  "runtime"
+  "sdk"
+];
 assert if type == "sdk" then packages != null else true;
 
-{ lib
-, stdenv
-, fetchurl
-, writeText
-, autoPatchelfHook
-, makeWrapper
-, libunwind
-, icu
-, libuuid
-, zlib
-, libkrb5
-, curl
-, lttng-ust_2_12
-, testers
-, runCommand
-, writeShellScript
-, mkNugetDeps
-, callPackage
+{
+  lib,
+  stdenv,
+  fetchurl,
+  writeText,
+  autoPatchelfHook,
+  makeWrapper,
+  libunwind,
+  icu,
+  libuuid,
+  zlib,
+  libkrb5,
+  curl,
+  lttng-ust_2_12,
+  testers,
+  runCommand,
+  writeShellScript,
+  mkNugetDeps,
+  callPackage,
 }:
 
 let
@@ -42,16 +48,13 @@ let
     sdk = ".NET SDK ${version}";
   };
 
-  mkCommon = callPackage ./common.nix {};
-
+  mkCommon = callPackage ./common.nix { };
 in
 mkCommon type rec {
   inherit pname version;
 
   # Some of these dependencies are `dlopen()`ed.
-  nativeBuildInputs = [
-    makeWrapper
-  ] ++ lib.optional stdenv.isLinux autoPatchelfHook;
+  nativeBuildInputs = [ makeWrapper ] ++ lib.optional stdenv.isLinux autoPatchelfHook;
 
   buildInputs = [
     stdenv.cc.cc
@@ -62,8 +65,8 @@ mkCommon type rec {
   ] ++ lib.optional stdenv.isLinux lttng-ust_2_12;
 
   src = fetchurl (
-    srcs."${stdenv.hostPlatform.system}" or (throw
-      "Missing source (url and hash) for host system: ${stdenv.hostPlatform.system}")
+    srcs."${stdenv.hostPlatform.system}"
+      or (throw "Missing source (url and hash) for host system: ${stdenv.hostPlatform.system}")
   );
 
   sourceRoot = ".";
@@ -105,31 +108,34 @@ mkCommon type rec {
       $out/packs/Microsoft.NETCore.App.Host.linux-x64/*/runtimes/linux-x64/native/singlefilehost
   '';
 
-  passthru = {
-    inherit icu;
-  } // lib.optionalAttrs (type == "sdk") {
-    packages = mkNugetDeps {
-      name = "${pname}-${version}-deps";
-      nugetDeps = packages;
-    };
+  passthru =
+    {
+      inherit icu;
+    }
+    // lib.optionalAttrs (type == "sdk") {
+      packages = mkNugetDeps {
+        name = "${pname}-${version}-deps";
+        nugetDeps = packages;
+      };
 
-    updateScript =
-      let
-        majorVersion =
-          with lib;
-          concatStringsSep "." (take 2 (splitVersion version));
-      in
-      writeShellScript "update-dotnet-${majorVersion}" ''
-        pushd pkgs/development/compilers/dotnet
-        exec ${./update.sh} "${majorVersion}"
-      '';
-  };
+      updateScript =
+        let
+          majorVersion = with lib; concatStringsSep "." (take 2 (splitVersion version));
+        in
+        writeShellScript "update-dotnet-${majorVersion}" ''
+          pushd pkgs/development/compilers/dotnet
+          exec ${./update.sh} "${majorVersion}"
+        '';
+    };
 
   meta = with lib; {
     description = builtins.getAttr type descriptions;
     homepage = "https://dotnet.github.io/";
     license = licenses.mit;
-    maintainers = with maintainers; [ kuznero mdarocha ];
+    maintainers = with maintainers; [
+      kuznero
+      mdarocha
+    ];
     mainProgram = "dotnet";
     platforms = attrNames srcs;
   };

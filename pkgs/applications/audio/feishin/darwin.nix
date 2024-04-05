@@ -1,15 +1,16 @@
-{ stdenv
-, lib
-, meta
-, fetchurl
-, unzip
-, mpv
-, electron_24
-, makeDesktopItem
-, makeWrapper
-, pname
-, appname
-, version
+{
+  stdenv,
+  lib,
+  meta,
+  fetchurl,
+  unzip,
+  mpv,
+  electron_24,
+  makeDesktopItem,
+  makeWrapper,
+  pname,
+  appname,
+  version,
 }:
 
 stdenv.mkDerivation {
@@ -20,7 +21,10 @@ stdenv.mkDerivation {
     hash = "sha256-sJg3hYOiELm+edw2JTFt6cPFdbDj6mLcLngeqEPaPgs=";
   };
 
-  nativeBuildInputs = [ makeWrapper unzip ];
+  nativeBuildInputs = [
+    makeWrapper
+    unzip
+  ];
 
   # Installs mpv as a requirement
   propagatedBuildInputs = [ mpv ];

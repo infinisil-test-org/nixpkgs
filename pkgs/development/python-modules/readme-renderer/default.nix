@@ -1,14 +1,15 @@
-{ lib
-, bleach
-, buildPythonPackage
-, cmarkgfm
-, docutils
-, fetchPypi
-, nh3
-, pygments
-, pytestCheckHook
-, pythonOlder
-, setuptools
+{
+  lib,
+  bleach,
+  buildPythonPackage,
+  cmarkgfm,
+  docutils,
+  fetchPypi,
+  nh3,
+  pygments,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -24,9 +25,7 @@ buildPythonPackage rec {
     hash = "sha256-GBjdKBQIE1Ce7tjWJof3zU97rZDU21hgAcXcCdT94xE=";
   };
 
-  build-system = [
-    setuptools
-  ];
+  build-system = [ setuptools ];
 
   dependencies = [
     docutils
@@ -34,14 +33,9 @@ buildPythonPackage rec {
     pygments
   ];
 
-  optional-dependencies.md = [
-    cmarkgfm
-  ];
+  optional-dependencies.md = [ cmarkgfm ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ]
-  ++ optional-dependencies.md;
+  nativeCheckInputs = [ pytestCheckHook ] ++ optional-dependencies.md;
 
   disabledTests = [
     # https://github.com/pypa/readme_renderer/issues/221
@@ -57,9 +51,7 @@ buildPythonPackage rec {
     "test_invalid_empty"
   ];
 
-  pythonImportsCheck = [
-    "readme_renderer"
-  ];
+  pythonImportsCheck = [ "readme_renderer" ];
 
   meta = with lib; {
     description = "Python library for rendering readme descriptions";

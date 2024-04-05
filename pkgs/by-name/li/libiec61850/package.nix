@@ -1,8 +1,9 @@
-{ cmake
-, lib
-, stdenv
-, fetchFromGitHub
-, gitUpdater
+{
+  cmake,
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  gitUpdater,
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "libiec61850";
@@ -19,9 +20,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   nativeBuildInputs = [ cmake ];
 
-  passthru.updateScript = gitUpdater {
-    rev-prefix = "v";
-  };
+  passthru.updateScript = gitUpdater { rev-prefix = "v"; };
 
   meta = with lib; {
     description = "Open-source library for the IEC 61850 protocols";

@@ -1,30 +1,31 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
 
-# Build dependencies
-, setuptools
+  # Build dependencies
+  setuptools,
 
-# Runtime dependencies
-, decorator
-, exceptiongroup
-, jedi
-, matplotlib-inline
-, pexpect
-, prompt-toolkit
-, pygments
-, stack-data
-, traitlets
-, typing-extensions
+  # Runtime dependencies
+  decorator,
+  exceptiongroup,
+  jedi,
+  matplotlib-inline,
+  pexpect,
+  prompt-toolkit,
+  pygments,
+  stack-data,
+  traitlets,
+  typing-extensions,
 
-# Test dependencies
-, pickleshare
-, pytest-asyncio
-, pytestCheckHook
-, pytest_7
-, testpath
+  # Test dependencies
+  pickleshare,
+  pytest-asyncio,
+  pytestCheckHook,
+  pytest_7,
+  testpath,
 }:
 
 buildPythonPackage rec {
@@ -38,28 +39,23 @@ buildPythonPackage rec {
     hash = "sha256-LcqtkEn5BW8f72NRTxdsfUH5MNqnjQW4KhdiAoGPLBQ=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [
-    decorator
-    jedi
-    matplotlib-inline
-    pexpect
-    prompt-toolkit
-    pygments
-    stack-data
-    traitlets
-  ] ++ lib.optionals (pythonOlder "3.11") [
-    exceptiongroup
-  ] ++ lib.optionals (pythonOlder "3.10") [
-    typing-extensions
-  ];
+  propagatedBuildInputs =
+    [
+      decorator
+      jedi
+      matplotlib-inline
+      pexpect
+      prompt-toolkit
+      pygments
+      stack-data
+      traitlets
+    ]
+    ++ lib.optionals (pythonOlder "3.11") [ exceptiongroup ]
+    ++ lib.optionals (pythonOlder "3.10") [ typing-extensions ];
 
-  pythonImportsCheck = [
-    "IPython"
-  ];
+  pythonImportsCheck = [ "IPython" ];
 
   preCheck = ''
     export HOME=$TMPDIR
@@ -76,13 +72,15 @@ buildPythonPackage rec {
     testpath
   ];
 
-  disabledTests = [
-    # UnboundLocalError: local variable 'child' referenced before assignment
-    "test_system_interrupt"
-  ] ++ lib.optionals (stdenv.isDarwin) [
-    # FileNotFoundError: [Errno 2] No such file or directory: 'pbpaste'
-    "test_clipboard_get"
-  ];
+  disabledTests =
+    [
+      # UnboundLocalError: local variable 'child' referenced before assignment
+      "test_system_interrupt"
+    ]
+    ++ lib.optionals (stdenv.isDarwin) [
+      # FileNotFoundError: [Errno 2] No such file or directory: 'pbpaste'
+      "test_clipboard_get"
+    ];
 
   meta = with lib; {
     description = "IPython: Productive Interactive Computing";
@@ -90,6 +88,9 @@ buildPythonPackage rec {
     homepage = "https://ipython.org/";
     changelog = "https://github.com/ipython/ipython/blob/${version}/docs/source/whatsnew/version${lib.versions.major version}.rst";
     license = licenses.bsd3;
-    maintainers = with maintainers; [ bjornfor fridh ];
+    maintainers = with maintainers; [
+      bjornfor
+      fridh
+    ];
   };
 }

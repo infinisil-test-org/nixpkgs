@@ -1,23 +1,37 @@
-{ lib, fetchFromGitHub, buildDunePackage, defaultVersion ? "0.11.0" }:
+{
+  lib,
+  fetchFromGitHub,
+  buildDunePackage,
+  defaultVersion ? "0.11.0",
+}:
 
-{ pname, version ? defaultVersion, hash, buildInputs ? [], ...}@args:
+{
+  pname,
+  version ? defaultVersion,
+  hash,
+  buildInputs ? [ ],
+  ...
+}@args:
 
-buildDunePackage (args // {
-  inherit version buildInputs;
+buildDunePackage (
+  args
+  // {
+    inherit version buildInputs;
 
-  duneVersion = "1";
+    duneVersion = "1";
 
-  minimalOCamlVersion = "4.04";
+    minimalOCamlVersion = "4.04";
 
-  src = fetchFromGitHub {
-    owner = "janestreet";
-    repo = pname;
-    rev = "v${version}";
-    sha256 = hash;
-  };
+    src = fetchFromGitHub {
+      owner = "janestreet";
+      repo = pname;
+      rev = "v${version}";
+      sha256 = hash;
+    };
 
-  meta = {
-    license = lib.licenses.asl20;
-    homepage = "https://github.com/janestreet/${pname}";
-  } // args.meta;
-})
+    meta = {
+      license = lib.licenses.asl20;
+      homepage = "https://github.com/janestreet/${pname}";
+    } // args.meta;
+  }
+)

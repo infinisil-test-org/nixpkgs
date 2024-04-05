@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, cryptography
-, fetchFromGitHub
-, pytestCheckHook
-, pythonOlder
-, pyzipper
-, setuptools
-, striprtf
-, wheel
+{
+  lib,
+  buildPythonPackage,
+  cryptography,
+  fetchFromGitHub,
+  pytestCheckHook,
+  pythonOlder,
+  pyzipper,
+  setuptools,
+  striprtf,
+  wheel,
 }:
 
 buildPythonPackage rec {
@@ -35,13 +36,9 @@ buildPythonPackage rec {
     striprtf
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "xknxproject"
-  ];
+  pythonImportsCheck = [ "xknxproject" ];
 
   meta = with lib; {
     description = "ETS project parser";

@@ -1,24 +1,25 @@
-{ buildDunePackage
-, lib
-, fetchurl
-, astring
-, base64
-, cmdliner
-, fmt
-, httpaf
-, httpaf-lwt-unix
-, logs
-, magic-mime
-, mirage-crypto
-, mtime
-, multipart-form-data
-, ptime
-, re
-, rock
-, tyxml
-, uri
-, yojson
-, alcotest-lwt
+{
+  buildDunePackage,
+  lib,
+  fetchurl,
+  astring,
+  base64,
+  cmdliner,
+  fmt,
+  httpaf,
+  httpaf-lwt-unix,
+  logs,
+  magic-mime,
+  mirage-crypto,
+  mtime,
+  multipart-form-data,
+  ptime,
+  re,
+  rock,
+  tyxml,
+  uri,
+  yojson,
+  alcotest-lwt,
 }:
 
 buildDunePackage rec {
@@ -49,9 +50,7 @@ buildDunePackage rec {
   ];
 
   doCheck = true;
-  checkInputs = [
-    alcotest-lwt
-  ];
+  checkInputs = [ alcotest-lwt ];
 
   meta = {
     description = "OCaml web framework";

@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, click
-, pyscard
-, pycountry
-, terminaltables
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  click,
+  pyscard,
+  pycountry,
+  terminaltables,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -30,9 +31,7 @@ buildPythonPackage rec {
     terminaltables
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   postPatch = ''
     substituteInPlace setup.py \
@@ -44,9 +43,7 @@ buildPythonPackage rec {
       --replace "terminaltables==3.1.0" "terminaltables"
   '';
 
-  pythonImportsCheck = [
-    "emv"
-  ];
+  pythonImportsCheck = [ "emv" ];
 
   meta = with lib; {
     description = "Implementation of the EMV chip-and-pin smartcard protocol";

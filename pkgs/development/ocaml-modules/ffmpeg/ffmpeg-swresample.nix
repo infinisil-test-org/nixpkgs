@@ -1,8 +1,16 @@
-{ lib, buildDunePackage, dune-configurator, pkg-config, fetchFromGitHub, callPackage
-, ffmpeg-base ? callPackage ./base.nix { }
-, ffmpeg-avutil, ffmpeg-avcodec, ffmpeg
-, stdenv
-, VideoToolbox
+{
+  lib,
+  buildDunePackage,
+  dune-configurator,
+  pkg-config,
+  fetchFromGitHub,
+  callPackage,
+  ffmpeg-base ? callPackage ./base.nix { },
+  ffmpeg-avutil,
+  ffmpeg-avcodec,
+  ffmpeg,
+  stdenv,
+  VideoToolbox,
 }:
 
 buildDunePackage {
@@ -14,12 +22,15 @@ buildDunePackage {
 
   nativeBuildInputs = [ pkg-config ];
   buildInputs = [ dune-configurator ] ++ lib.optionals stdenv.isDarwin [ VideoToolbox ];
-  propagatedBuildInputs = [ ffmpeg-avutil ffmpeg-avcodec ffmpeg.dev ];
+  propagatedBuildInputs = [
+    ffmpeg-avutil
+    ffmpeg-avcodec
+    ffmpeg.dev
+  ];
 
   doCheck = true;
 
   meta = ffmpeg-base.meta // {
     description = "Bindings for the ffmpeg swresample library";
   };
-
 }

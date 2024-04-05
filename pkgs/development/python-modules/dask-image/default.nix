@@ -1,14 +1,15 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, dask
-, fetchPypi
-, numpy
-, pims
-, pytestCheckHook
-, pythonOlder
-, scikit-image
-, scipy
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  dask,
+  fetchPypi,
+  numpy,
+  pims,
+  pytestCheckHook,
+  pythonOlder,
+  scikit-image,
+  scipy,
 }:
 
 buildPythonPackage rec {
@@ -40,9 +41,7 @@ buildPythonPackage rec {
       --replace "--flake8" ""
   '';
 
-  pythonImportsCheck = [
-    "dask_image"
-  ];
+  pythonImportsCheck = [ "dask_image" ];
 
   meta = with lib; {
     description = "Distributed image processing";

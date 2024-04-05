@@ -1,4 +1,9 @@
-{ lib, python3Packages, fetchFromGitHub, installShellFiles }:
+{
+  lib,
+  python3Packages,
+  fetchFromGitHub,
+  installShellFiles,
+}:
 
 python3Packages.buildPythonApplication rec {
   pname = "audible-cli";
@@ -12,12 +17,13 @@ python3Packages.buildPythonApplication rec {
     hash = "sha256-J81RcehFokOpsQBJLvmeihSrlMyX0geHPl3PPxvGjmY=";
   };
 
-  nativeBuildInputs = with python3Packages; [
-    pythonRelaxDepsHook
-    setuptools
-  ] ++ [
-    installShellFiles
-  ];
+  nativeBuildInputs =
+    with python3Packages;
+    [
+      pythonRelaxDepsHook
+      setuptools
+    ]
+    ++ [ installShellFiles ];
 
   propagatedBuildInputs = with python3Packages; [
     aiofiles
@@ -49,9 +55,7 @@ python3Packages.buildPythonApplication rec {
   # upstream has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "audible_cli"
-  ];
+  pythonImportsCheck = [ "audible_cli" ];
 
   meta = with lib; {
     description = "A command line interface for audible package. With the cli you can download your Audible books, cover, chapter files";

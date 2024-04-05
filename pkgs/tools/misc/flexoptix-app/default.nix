@@ -1,4 +1,10 @@
-{ lib, appimageTools, fetchurl, asar }: let
+{
+  lib,
+  appimageTools,
+  fetchurl,
+  asar,
+}:
+let
   pname = "flexoptix-app";
   version = "5.20.0-latest";
 
@@ -23,15 +29,13 @@
       ${asar}/bin/asar pack app $out/resources/app.asar
     '';
   });
-
-in appimageTools.wrapAppImage {
+in
+appimageTools.wrapAppImage {
   inherit pname version;
   src = appimageContents;
 
   multiArch = false; # no 32bit needed
-  extraPkgs = { pkgs, ... }@args: [
-    pkgs.hidapi
-  ] ++ appimageTools.defaultFhsEnvArgs.multiPkgs args;
+  extraPkgs = { pkgs, ... }@args: [ pkgs.hidapi ] ++ appimageTools.defaultFhsEnvArgs.multiPkgs args;
 
   extraInstallCommands = ''
     # Add desktop convencience stuff

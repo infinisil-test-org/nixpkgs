@@ -1,4 +1,12 @@
-{ lib, stdenv, fetchFromGitHub, pandoc, installShellFiles, withManpage ? false, nixosTests }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  pandoc,
+  installShellFiles,
+  withManpage ? false,
+  nixosTests,
+}:
 
 stdenv.mkDerivation rec {
   pname = "earlyoom";
@@ -11,17 +19,22 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-8YcT1TTlAet7F1U9Ginda4IApNqkudegOXqm8rnRGfc=";
   };
 
-  nativeBuildInputs = lib.optionals withManpage [ pandoc installShellFiles ];
+  nativeBuildInputs = lib.optionals withManpage [
+    pandoc
+    installShellFiles
+  ];
 
   patches = [ ./fix-dbus-path.patch ];
 
   makeFlags = [ "VERSION=${version}" ];
 
-  installPhase = ''
-    install -D earlyoom $out/bin/earlyoom
-  '' + lib.optionalString withManpage ''
-    installManPage earlyoom.1
-  '';
+  installPhase =
+    ''
+      install -D earlyoom $out/bin/earlyoom
+    ''
+    + lib.optionalString withManpage ''
+      installManPage earlyoom.1
+    '';
 
   passthru.tests = {
     inherit (nixosTests) earlyoom;
@@ -33,6 +46,6 @@ stdenv.mkDerivation rec {
     homepage = "https://github.com/rfjakob/earlyoom";
     license = licenses.mit;
     platforms = platforms.linux;
-    maintainers = with maintainers; [];
+    maintainers = with maintainers; [ ];
   };
 }

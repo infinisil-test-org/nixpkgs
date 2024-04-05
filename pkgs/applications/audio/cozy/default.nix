@@ -1,20 +1,22 @@
-{ lib, fetchFromGitHub
-, ninja
-, meson
-, pkg-config
-, wrapGAppsHook
-, appstream-glib
-, desktop-file-utils
-, gtk3
-, gst_all_1
-, gobject-introspection
-, libadwaita
-, libdazzle
-, python3Packages
-, cairo
-, gettext
-, gnome
-, pantheon
+{
+  lib,
+  fetchFromGitHub,
+  ninja,
+  meson,
+  pkg-config,
+  wrapGAppsHook,
+  appstream-glib,
+  desktop-file-utils,
+  gtk3,
+  gst_all_1,
+  gobject-introspection,
+  libadwaita,
+  libdazzle,
+  python3Packages,
+  cairo,
+  gettext,
+  gnome,
+  pantheon,
 }:
 
 python3Packages.buildPythonApplication rec {
@@ -32,28 +34,32 @@ python3Packages.buildPythonApplication rec {
   };
 
   nativeBuildInputs = [
-    meson ninja pkg-config
+    meson
+    ninja
+    pkg-config
     wrapGAppsHook
     appstream-glib
     desktop-file-utils
     gobject-introspection
   ];
 
-  buildInputs = [
-    gtk3
-    cairo
-    gettext
-    gnome.adwaita-icon-theme
-    libadwaita
-    libdazzle
-    pantheon.granite
-  ] ++ (with gst_all_1; [
-    gstreamer
-    gst-plugins-good
-    gst-plugins-ugly
-    gst-plugins-base
-    gst-plugins-bad
-  ]);
+  buildInputs =
+    [
+      gtk3
+      cairo
+      gettext
+      gnome.adwaita-icon-theme
+      libadwaita
+      libdazzle
+      pantheon.granite
+    ]
+    ++ (with gst_all_1; [
+      gstreamer
+      gst-plugins-good
+      gst-plugins-ugly
+      gst-plugins-base
+      gst-plugins-bad
+    ]);
 
   propagatedBuildInputs = with python3Packages; [
     apsw

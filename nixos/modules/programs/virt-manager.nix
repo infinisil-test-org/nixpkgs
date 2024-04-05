@@ -1,12 +1,18 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.programs.virt-manager;
-in {
+in
+{
   options.programs.virt-manager = {
     enable = lib.mkEnableOption "virt-manager, an UI for managing virtual machines in libvirt";
 
-    package = lib.mkPackageOption pkgs "virt-manager" {};
+    package = lib.mkPackageOption pkgs "virt-manager" { };
   };
 
   config = lib.mkIf cfg.enable {

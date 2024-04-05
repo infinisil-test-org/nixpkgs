@@ -1,30 +1,31 @@
-{ stdenv
-, lib
-, backports-zoneinfo
-, billiard
-, boto3
-, buildPythonPackage
-, case
-, click
-, click-didyoumean
-, click-plugins
-, click-repl
-, dnspython
-, fetchPypi
-, kombu
-, moto
-, pymongo
-, pytest-celery
-, pytest-click
-, pytest-subtests
-, pytest-timeout
-, pytest-xdist
-, pytestCheckHook
-, python-dateutil
-, pythonOlder
-, tzdata
-, vine
-, nixosTests
+{
+  stdenv,
+  lib,
+  backports-zoneinfo,
+  billiard,
+  boto3,
+  buildPythonPackage,
+  case,
+  click,
+  click-didyoumean,
+  click-plugins,
+  click-repl,
+  dnspython,
+  fetchPypi,
+  kombu,
+  moto,
+  pymongo,
+  pytest-celery,
+  pytest-click,
+  pytest-subtests,
+  pytest-timeout,
+  pytest-xdist,
+  pytestCheckHook,
+  python-dateutil,
+  pythonOlder,
+  tzdata,
+  vine,
+  nixosTests,
 }:
 
 buildPythonPackage rec {
@@ -49,10 +50,7 @@ buildPythonPackage rec {
     python-dateutil
     tzdata
     vine
-  ]
-  ++ lib.optionals (pythonOlder "3.9") [
-    backports-zoneinfo
-  ];
+  ] ++ lib.optionals (pythonOlder "3.9") [ backports-zoneinfo ];
 
   nativeCheckInputs = [
     boto3
@@ -78,26 +76,26 @@ buildPythonPackage rec {
     "t/unit/backends/test_s3.py"
   ];
 
-  disabledTests = [
-    "msgpack"
-    "test_check_privileges_no_fchown"
-    # seems to only fail on higher core counts
-    # AssertionError: assert 3 == 0
-    "test_setup_security_disabled_serializers"
-    # fails with pytest-xdist
-    "test_itercapture_limit"
-    "test_stamping_headers_in_options"
-    "test_stamping_with_replace"
-  ] ++ lib.optionals stdenv.isDarwin [
-    # too many open files on hydra
-    "test_cleanup"
-    "test_with_autoscaler_file_descriptor_safety"
-    "test_with_file_descriptor_safety"
-  ];
+  disabledTests =
+    [
+      "msgpack"
+      "test_check_privileges_no_fchown"
+      # seems to only fail on higher core counts
+      # AssertionError: assert 3 == 0
+      "test_setup_security_disabled_serializers"
+      # fails with pytest-xdist
+      "test_itercapture_limit"
+      "test_stamping_headers_in_options"
+      "test_stamping_with_replace"
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      # too many open files on hydra
+      "test_cleanup"
+      "test_with_autoscaler_file_descriptor_safety"
+      "test_with_file_descriptor_safety"
+    ];
 
-  pythonImportsCheck = [
-    "celery"
-  ];
+  pythonImportsCheck = [ "celery" ];
 
   passthru.tests = {
     inherit (nixosTests) sourcehut;

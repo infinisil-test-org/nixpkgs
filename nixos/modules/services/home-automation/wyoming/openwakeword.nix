@@ -1,7 +1,8 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 
 let
@@ -20,15 +21,17 @@ let
     types
     ;
 
-  inherit (builtins)
-    toString
-    ;
-
+  inherit (builtins) toString;
 in
 
 {
   imports = [
-    (mkRemovedOptionModule [ "services" "wyoming" "openwakeword" "models" ] "Configuring models has been removed, they are now dynamically discovered and loaded at runtime")
+    (mkRemovedOptionModule [
+      "services"
+      "wyoming"
+      "openwakeword"
+      "models"
+    ] "Configuring models has been removed, they are now dynamically discovered and loaded at runtime")
   ];
 
   meta.buildDocsInSandbox = false;
@@ -49,7 +52,7 @@ in
 
     customModelsDirectories = mkOption {
       type = listOf types.path;
-      default = [];
+      default = [ ];
       description = lib.mdDoc ''
         Paths to directories with custom wake word models (*.tflite model files).
       '';
@@ -57,9 +60,7 @@ in
 
     preloadModels = mkOption {
       type = listOf str;
-      default = [
-        "ok_nabu"
-      ];
+      default = [ "ok_nabu" ];
       example = [
         # wyoming_openwakeword/models/*.tflite
         "alexa"
@@ -109,12 +110,8 @@ in
   config = mkIf cfg.enable {
     systemd.services."wyoming-openwakeword" = {
       description = "Wyoming openWakeWord server";
-      after = [
-        "network-online.target"
-      ];
-      wantedBy = [
-        "multi-user.target"
-      ];
+      after = [ "network-online.target" ];
+      wantedBy = [ "multi-user.target" ];
       serviceConfig = {
         DynamicUser = true;
         User = "wyoming-openwakeword";

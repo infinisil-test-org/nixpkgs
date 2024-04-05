@@ -1,6 +1,7 @@
-{ lib
-, python3
-, fetchFromGitHub
+{
+  lib,
+  python3,
+  fetchFromGitHub,
 }:
 
 let
@@ -48,9 +49,7 @@ python.pkgs.buildPythonApplication rec {
     yara-python
   ];
 
-  pythonImportsCheck = [
-    "yaralyzer"
-  ];
+  pythonImportsCheck = [ "yaralyzer" ];
 
   meta = with lib; {
     description = "Tool to visually inspect and force decode YARA and regex matches";

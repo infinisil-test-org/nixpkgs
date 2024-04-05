@@ -1,15 +1,22 @@
-{ lib, stdenv, fetchFromGitHub, openjdk20, maven, makeDesktopItem, copyDesktopItems, makeWrapper, glib, wrapGAppsHook }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  openjdk20,
+  maven,
+  makeDesktopItem,
+  copyDesktopItems,
+  makeWrapper,
+  glib,
+  wrapGAppsHook,
+}:
 
 let
-  jdk = openjdk20.override (lib.optionalAttrs stdenv.isLinux {
-    enableJavaFX = true;
-  });
-  maven' = maven.override {
-    inherit jdk;
-  };
-  selectSystem = attrs:
-    attrs.${stdenv.hostPlatform.system}
-      or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
+  jdk = openjdk20.override (lib.optionalAttrs stdenv.isLinux { enableJavaFX = true; });
+  maven' = maven.override { inherit jdk; };
+  selectSystem =
+    attrs:
+    attrs.${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
 in
 maven'.buildMavenPackage rec {
   pname = "scenebuilder";
@@ -29,7 +36,12 @@ maven'.buildMavenPackage rec {
     aarch64-linux = "sha256-cO5nHSvv2saBuAjq47A+GW9vFWEM+ysXyZgI0Oe/F70=";
   };
 
-  nativeBuildInputs = [ copyDesktopItems makeWrapper glib wrapGAppsHook ];
+  nativeBuildInputs = [
+    copyDesktopItems
+    makeWrapper
+    glib
+    wrapGAppsHook
+  ];
 
   dontWrapGApps = true; # prevent double wrapping
 
@@ -51,17 +63,23 @@ maven'.buildMavenPackage rec {
       --add-flags "-cp $out/share/java/${pname}.jar" \
       --add-flags "com.oracle.javafx.scenebuilder.app.SceneBuilderApp" \
       "''${gappsWrapperArgs[@]}"
-    '';
+  '';
 
-  desktopItems = [ (makeDesktopItem {
-    name = "scenebuilder";
-    exec = "scenebuilder";
-    icon = "scenebuilder";
-    comment = "A visual, drag'n'drop, layout tool for designing JavaFX application user interfaces.";
-    desktopName = "Scene Builder";
-    mimeTypes = [ "application/java" "application/java-vm" "application/java-archive" ];
-    categories = [ "Development" ];
-  }) ];
+  desktopItems = [
+    (makeDesktopItem {
+      name = "scenebuilder";
+      exec = "scenebuilder";
+      icon = "scenebuilder";
+      comment = "A visual, drag'n'drop, layout tool for designing JavaFX application user interfaces.";
+      desktopName = "Scene Builder";
+      mimeTypes = [
+        "application/java"
+        "application/java-vm"
+        "application/java-archive"
+      ];
+      categories = [ "Development" ];
+    })
+  ];
 
   meta = with lib; {
     broken = stdenv.isDarwin;
@@ -70,11 +88,10 @@ maven'.buildMavenPackage rec {
     homepage = "https://gluonhq.com/products/scene-builder/";
     sourceProvenance = with sourceTypes; [
       fromSource
-      binaryBytecode  # deps
+      binaryBytecode # deps
     ];
     license = licenses.bsd3;
     maintainers = with maintainers; [ wirew0rm ];
     platforms = platforms.all;
   };
 }
-

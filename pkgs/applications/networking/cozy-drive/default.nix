@@ -1,6 +1,7 @@
-{ lib
-, fetchurl
-, appimageTools
+{
+  lib,
+  fetchurl,
+  appimageTools,
 }:
 
 let
@@ -13,7 +14,6 @@ let
     sha256 = "3liOzZVOjtV1cGrKlOKiFRRqnt8KHPr5Ye5HU0e/BYo=";
   };
   appimageContents = appimageTools.extract { inherit name src; };
-
 in
 appimageTools.wrapType2 {
   inherit name src;

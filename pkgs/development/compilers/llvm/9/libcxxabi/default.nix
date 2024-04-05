@@ -1,5 +1,14 @@
-{ lib, stdenv, llvm_meta, cmake, fetch, libcxx, libunwind, llvm, version
-, enableShared ? !stdenv.hostPlatform.isStatic
+{
+  lib,
+  stdenv,
+  llvm_meta,
+  cmake,
+  fetch,
+  libcxx,
+  libunwind,
+  llvm,
+  version,
+  enableShared ? !stdenv.hostPlatform.isStatic,
 }:
 
 stdenv.mkDerivation {
@@ -8,19 +17,26 @@ stdenv.mkDerivation {
 
   src = fetch "libcxxabi" "1b4aiaa8cirx52vk2p5kfk57qmbqf1ipb4nqnjhdgqps9jm7iyg8";
 
-  outputs = [ "out" "dev" ];
+  outputs = [
+    "out"
+    "dev"
+  ];
 
-  postUnpack = ''
-    unpackFile ${libcxx.src}
-    unpackFile ${llvm.src}
-    cmakeFlags+=" -DLLVM_PATH=$PWD/$(ls -d llvm-*) -DLIBCXXABI_LIBCXX_PATH=$PWD/$(ls -d libcxx-*)"
-  '' + lib.optionalString stdenv.isDarwin ''
-    export TRIPLE=x86_64-apple-darwin
-  '' + lib.optionalString stdenv.hostPlatform.isMusl ''
-    patch -p1 -d $(ls -d libcxx-*) -i ${../../common/libcxx/libcxx-0001-musl-hacks.patch}
-  '' + lib.optionalString stdenv.hostPlatform.isWasm ''
-    patch -p1 -d $(ls -d llvm-*) -i ${../../common/libcxxabi/wasm.patch}
-  '';
+  postUnpack =
+    ''
+      unpackFile ${libcxx.src}
+      unpackFile ${llvm.src}
+      cmakeFlags+=" -DLLVM_PATH=$PWD/$(ls -d llvm-*) -DLIBCXXABI_LIBCXX_PATH=$PWD/$(ls -d libcxx-*)"
+    ''
+    + lib.optionalString stdenv.isDarwin ''
+      export TRIPLE=x86_64-apple-darwin
+    ''
+    + lib.optionalString stdenv.hostPlatform.isMusl ''
+      patch -p1 -d $(ls -d libcxx-*) -i ${../../common/libcxx/libcxx-0001-musl-hacks.patch}
+    ''
+    + lib.optionalString stdenv.hostPlatform.isWasm ''
+      patch -p1 -d $(ls -d llvm-*) -i ${../../common/libcxxabi/wasm.patch}
+    '';
 
   patches = [
     ../../common/libcxxabi/no-threads.patch
@@ -30,15 +46,16 @@ stdenv.mkDerivation {
   nativeBuildInputs = [ cmake ];
   buildInputs = lib.optional (!stdenv.isDarwin && !stdenv.hostPlatform.isWasm) libunwind;
 
-  cmakeFlags = lib.optionals (stdenv.hostPlatform.useLLVM or false) [
-    "-DLLVM_ENABLE_LIBCXX=ON"
-    "-DLIBCXXABI_USE_LLVM_UNWINDER=ON"
-  ] ++ lib.optionals stdenv.hostPlatform.isWasm [
-    "-DLIBCXXABI_ENABLE_THREADS=OFF"
-    "-DLIBCXXABI_ENABLE_EXCEPTIONS=OFF"
-  ] ++ lib.optionals (!enableShared) [
-    "-DLIBCXXABI_ENABLE_SHARED=OFF"
-  ];
+  cmakeFlags =
+    lib.optionals (stdenv.hostPlatform.useLLVM or false) [
+      "-DLLVM_ENABLE_LIBCXX=ON"
+      "-DLIBCXXABI_USE_LLVM_UNWINDER=ON"
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isWasm [
+      "-DLIBCXXABI_ENABLE_THREADS=OFF"
+      "-DLIBCXXABI_ENABLE_EXCEPTIONS=OFF"
+    ]
+    ++ lib.optionals (!enableShared) [ "-DLIBCXXABI_ENABLE_SHARED=OFF" ];
 
   preInstall = lib.optionalString stdenv.isDarwin ''
     for file in lib/*.dylib; do
@@ -79,7 +96,10 @@ stdenv.mkDerivation {
     '';
     # "All of the code in libc++abi is dual licensed under the MIT license and
     # the UIUC License (a BSD-like license)":
-    license = with lib.licenses; [ mit ncsa ];
+    license = with lib.licenses; [
+      mit
+      ncsa
+    ];
     maintainers = llvm_meta.maintainers ++ [ lib.maintainers.vlstill ];
   };
 }

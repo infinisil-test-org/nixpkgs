@@ -1,22 +1,23 @@
-{ stdenv
-, lib
-, makeWrapper
-, fetchurl
-, makeDesktopItem
-, copyDesktopItems
-, autoPatchelfHook
-, openjdk
-, gtk3
-, gsettings-desktop-schemas
-, writeScript
-, bash
-, gnugrep
-, tor
-, zlib
-, openimajgrabber
-, hwi
-, imagemagick
-, gzip
+{
+  stdenv,
+  lib,
+  makeWrapper,
+  fetchurl,
+  makeDesktopItem,
+  copyDesktopItems,
+  autoPatchelfHook,
+  openjdk,
+  gtk3,
+  gsettings-desktop-schemas,
+  writeScript,
+  bash,
+  gnugrep,
+  tor,
+  zlib,
+  openimajgrabber,
+  hwi,
+  imagemagick,
+  gzip,
 }:
 
 let
@@ -98,7 +99,15 @@ let
   sparrow-modules = stdenv.mkDerivation {
     pname = "sparrow-modules";
     inherit version src;
-    nativeBuildInputs = [ makeWrapper gzip gnugrep openjdk autoPatchelfHook stdenv.cc.cc.lib zlib ];
+    nativeBuildInputs = [
+      makeWrapper
+      gzip
+      gnugrep
+      openjdk
+      autoPatchelfHook
+      stdenv.cc.cc.lib
+      zlib
+    ];
 
     buildPhase = ''
       # Extract Sparrow's JIMAGE and generate a list of them.
@@ -165,7 +174,10 @@ in
 stdenv.mkDerivation rec {
   inherit version src;
   pname = "sparrow-unwrapped";
-  nativeBuildInputs = [ makeWrapper copyDesktopItems ];
+  nativeBuildInputs = [
+    makeWrapper
+    copyDesktopItems
+  ];
 
   desktopItems = [
     (makeDesktopItem {
@@ -174,8 +186,17 @@ stdenv.mkDerivation rec {
       icon = "sparrow-desktop";
       desktopName = "Sparrow Bitcoin Wallet";
       genericName = "Bitcoin Wallet";
-      categories = [ "Finance" "Network" ];
-      mimeTypes = [ "application/psbt" "application/bitcoin-transaction" "x-scheme-handler/bitcoin" "x-scheme-handler/auth47" "x-scheme-handler/lightning" ];
+      categories = [
+        "Finance"
+        "Network"
+      ];
+      mimeTypes = [
+        "application/psbt"
+        "application/bitcoin-transaction"
+        "x-scheme-handler/bitcoin"
+        "x-scheme-handler/auth47"
+        "x-scheme-handler/lightning"
+      ];
       startupWMClass = "Sparrow";
     })
   ];
@@ -222,7 +243,10 @@ stdenv.mkDerivation rec {
       binaryNativeCode
     ];
     license = licenses.asl20;
-    maintainers = with maintainers; [ emmanuelrosa _1000101 ];
+    maintainers = with maintainers; [
+      emmanuelrosa
+      _1000101
+    ];
     platforms = [ "x86_64-linux" ];
     mainProgram = "sparrow-desktop";
   };
