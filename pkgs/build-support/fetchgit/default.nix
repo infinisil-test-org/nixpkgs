@@ -102,17 +102,7 @@ lib.makeOverridable (
       # > from standard in as a newline-delimited list instead of from the arguments.
       sparseCheckout = builtins.concatStringsSep "\n" sparseCheckout;
 
-      inherit
-        url
-        rev
-        leaveDotGit
-        fetchLFS
-        fetchSubmodules
-        deepClone
-        branchName
-        nonConeMode
-        postFetch
-        ;
+      inherit url rev leaveDotGit fetchLFS fetchSubmodules deepClone branchName nonConeMode postFetch;
 
       postHook =
         if netrcPhase == null then

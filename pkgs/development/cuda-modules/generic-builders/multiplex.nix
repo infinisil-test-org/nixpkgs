@@ -101,14 +101,7 @@ let
   # a function to be consumed via `overrideAttrs`.
   overrideAttrsFixupFn =
     final: package:
-    final.callPackage fixupFn {
-      inherit
-        final
-        cudaVersion
-        mkVersionedPackageName
-        package
-        ;
-    };
+    final.callPackage fixupFn { inherit final cudaVersion mkVersionedPackageName package; };
 
   extension =
     final: _:

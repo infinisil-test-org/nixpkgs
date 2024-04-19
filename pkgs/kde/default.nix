@@ -45,14 +45,7 @@ let
         mkKdeDerivation = self.callPackage (import ./lib/mk-kde-derivation.nix self) { };
 
         # THIRD PARTY
-        inherit
-          cmark
-          gpgme
-          taglib
-          wayland
-          wayland-protocols
-          zxing-cpp
-          ;
+        inherit cmark gpgme taglib wayland wayland-protocols zxing-cpp;
 
         # Alias to match metadata
         kquickimageeditor = self.kquickimageedit;

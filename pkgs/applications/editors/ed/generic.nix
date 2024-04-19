@@ -18,12 +18,7 @@
 }:
 
 stdenv.mkDerivation {
-  inherit
-    pname
-    version
-    src
-    patches
-    ;
+  inherit pname version src patches;
 
   nativeBuildInputs = [ lzip ];
 

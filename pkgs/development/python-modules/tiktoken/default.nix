@@ -27,12 +27,7 @@ let
   '';
 in
 buildPythonPackage {
-  inherit
-    pname
-    version
-    src
-    postPatch
-    ;
+  inherit pname version src postPatch;
   format = "pyproject";
 
   disabled = pythonOlder "3.8";

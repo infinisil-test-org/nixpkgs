@@ -12,15 +12,7 @@ let
   openjfx22 = callPackage ../development/compilers/openjdk/openjfx/22.nix { };
 in
 {
-  inherit
-    openjfx11
-    openjfx15
-    openjfx17
-    openjfx19
-    openjfx20
-    openjfx21
-    openjfx22
-    ;
+  inherit openjfx11 openjfx15 openjfx17 openjfx19 openjfx20 openjfx21 openjfx22;
 
   compiler =
     let

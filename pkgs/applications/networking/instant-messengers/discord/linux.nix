@@ -81,12 +81,7 @@ let
 in
 
 stdenv.mkDerivation rec {
-  inherit
-    pname
-    version
-    src
-    meta
-    ;
+  inherit pname version src meta;
 
   nativeBuildInputs = [
     alsa-lib

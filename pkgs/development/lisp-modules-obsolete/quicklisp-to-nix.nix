@@ -7,14 +7,7 @@
 }:
 let
   quicklisp-to-nix-packages = rec {
-    inherit
-      stdenv
-      lib
-      fetchurl
-      clwrapper
-      pkgs
-      quicklisp-to-nix-packages
-      ;
+    inherit stdenv lib fetchurl clwrapper pkgs quicklisp-to-nix-packages;
 
     callPackage = pkgs.lib.callPackageWith quicklisp-to-nix-packages;
     buildLispPackage = callPackage ./define-package.nix;

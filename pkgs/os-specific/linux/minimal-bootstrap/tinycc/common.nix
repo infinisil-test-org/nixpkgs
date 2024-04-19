@@ -115,12 +115,7 @@ rec {
               ${src}/tcc.c
           '';
       libs = recompileLibc {
-        inherit
-          pname
-          version
-          src
-          libtccOptions
-          ;
+        inherit pname version src libtccOptions;
         tcc = compiler;
       };
     in

@@ -64,14 +64,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   passthru = {
     tests = {
-      inherit
-        cairo
-        qemu
-        scribus
-        tigervnc
-        wlroots
-        xwayland
-        ;
+      inherit cairo qemu scribus tigervnc wlroots xwayland;
       pkg-config = testers.hasPkgConfigModules { package = finalAttrs.finalPackage; };
     };
     updateScript = gitUpdater {

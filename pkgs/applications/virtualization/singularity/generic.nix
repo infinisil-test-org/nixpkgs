@@ -119,14 +119,7 @@ in
   strictDeps = true;
 
   passthru = {
-    inherit
-      enableSeccomp
-      enableSuid
-      externalLocalStateDir
-      projectName
-      removeCompat
-      starterSuidPath
-      ;
+    inherit enableSeccomp enableSuid externalLocalStateDir projectName removeCompat starterSuidPath;
   };
 
   nativeBuildInputs = [

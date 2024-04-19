@@ -64,12 +64,7 @@ let
   # fake build to pre-download deps into fixed-output derivation
   deps = stdenv.mkDerivation {
     pname = "${pname}-deps";
-    inherit
-      version
-      src
-      patches
-      postPatch
-      ;
+    inherit version src patches postPatch;
     nativeBuildInputs = [
       gradle
       perl
@@ -93,13 +88,7 @@ in
 stdenv.mkDerivation (
   cleanAttrs
   // {
-    inherit
-      pname
-      version
-      src
-      patches
-      postPatch
-      ;
+    inherit pname version src patches postPatch;
 
     nativeBuildInputs = [
       gradle

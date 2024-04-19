@@ -266,14 +266,7 @@ let
 
   # function for creating a working environment from a set of TL packages
   # now a legacy wrapper around buildTeXEnv
-  combine = import ./combine-wrapper.nix {
-    inherit
-      buildTeXEnv
-      lib
-      toTLPkgList
-      toTLPkgSets
-      ;
-  };
+  combine = import ./combine-wrapper.nix { inherit buildTeXEnv lib toTLPkgList toTLPkgSets; };
 
   assertions =
     with lib;

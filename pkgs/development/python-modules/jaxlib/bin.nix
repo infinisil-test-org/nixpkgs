@@ -54,12 +54,7 @@ let
           hash,
         }:
         fetchPypi {
-          inherit
-            version
-            platform
-            dist
-            hash
-            ;
+          inherit version platform dist hash;
           pname = "jaxlib";
           format = "wheel";
           # See the `disabled` attr comment below.

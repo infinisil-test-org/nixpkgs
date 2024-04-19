@@ -25,25 +25,12 @@ let
   sdkBuildVersion = "17E189";
   xcodeSelectVersion = "2349";
 
-  xcbuild = callPackage ./default.nix {
-    inherit
-      CoreServices
-      ImageIO
-      CoreGraphics
-      stdenv
-      ;
-  };
+  xcbuild = callPackage ./default.nix { inherit CoreServices ImageIO CoreGraphics stdenv; };
 
   toolchains = callPackage ./toolchains.nix { inherit toolchainName stdenv; };
 
   sdks = callPackage ./sdks.nix {
-    inherit
-      toolchainName
-      sdkName
-      xcodePlatform
-      sdkVer
-      productBuildVer
-      ;
+    inherit toolchainName sdkName xcodePlatform sdkVer productBuildVer;
   };
 
   platforms = callPackage ./platforms.nix { inherit sdks xcodePlatform stdenv; };

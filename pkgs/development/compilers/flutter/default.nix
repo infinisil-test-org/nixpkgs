@@ -28,13 +28,7 @@ let
     }:
     let
       args = {
-        inherit
-          version
-          engineVersion
-          patches
-          pubspecLock
-          artifactHashes
-          ;
+        inherit version engineVersion patches pubspecLock artifactHashes;
 
         dart = dart.override {
           version = dartVersion;

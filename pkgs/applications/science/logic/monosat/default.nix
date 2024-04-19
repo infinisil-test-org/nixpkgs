@@ -92,12 +92,7 @@ let
       pytestCheckHook,
     }:
     buildPythonPackage {
-      inherit
-        pname
-        version
-        src
-        patches
-        ;
+      inherit pname version src patches;
 
       propagatedBuildInputs = [
         core

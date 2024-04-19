@@ -55,13 +55,7 @@ buildPythonPackage rec {
   pythonImportsCheck = [ "bcrypt" ];
 
   passthru.tests = {
-    inherit
-      asyncssh
-      django_4
-      fastapi
-      paramiko
-      twisted
-      ;
+    inherit asyncssh django_4 fastapi paramiko twisted;
   };
 
   meta = with lib; {

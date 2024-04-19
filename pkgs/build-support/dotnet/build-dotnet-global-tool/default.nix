@@ -25,12 +25,7 @@
 buildDotnetModule (
   args
   // {
-    inherit
-      pname
-      version
-      dotnet-runtime
-      executables
-      ;
+    inherit pname version dotnet-runtime executables;
 
     src = emptyDirectory;
 

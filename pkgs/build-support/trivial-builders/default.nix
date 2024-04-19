@@ -119,13 +119,7 @@ rec {
     runCommand name
       (
         {
-          inherit
-            text
-            executable
-            checkPhase
-            allowSubstitutes
-            preferLocalBuild
-            ;
+          inherit text executable checkPhase allowSubstitutes preferLocalBuild;
           passAsFile = [ "text" ] ++ derivationArgs.passAsFile or [ ];
           meta =
             lib.optionalAttrs (executable && matches != null) { mainProgram = lib.head matches; }
@@ -407,27 +401,17 @@ rec {
       checkPhase ? "", # syntax checks, e.g. for scripts
       meta ? { },
     }:
-    runCommandLocal name
-      {
-        inherit
-          files
-          executable
-          checkPhase
-          meta
-          destination
-          ;
-      }
-      ''
-        file=$out$destination
-        mkdir -p "$(dirname "$file")"
-        cat $files > "$file"
+    runCommandLocal name { inherit files executable checkPhase meta destination; } ''
+      file=$out$destination
+      mkdir -p "$(dirname "$file")"
+      cat $files > "$file"
 
-        if [ -n "$executable" ]; then
-          chmod +x "$file"
-        fi
+      if [ -n "$executable" ]; then
+        chmod +x "$file"
+      fi
 
-        eval "$checkPhase"
-      '';
+      eval "$checkPhase"
+    '';
 
   # TODO: deduplicate with documentation in doc/build-helpers/trivial-build-helpers.chapter.md
   #       see also https://github.com/NixOS/nixpkgs/pull/249721
@@ -949,13 +933,7 @@ rec {
     else
       stdenvNoCC.mkDerivation (
         {
-          inherit
-            name
-            src
-            patches
-            prePatch
-            postPatch
-            ;
+          inherit name src patches prePatch postPatch;
           preferLocalBuild = true;
           allowSubstitutes = false;
           phases = "unpackPhase patchPhase installPhase";

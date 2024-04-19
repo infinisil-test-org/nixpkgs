@@ -10,15 +10,7 @@
 }:
 
 let
-  buildMongoDB = callPackage ./mongodb.nix {
-    inherit
-      sasl
-      boost
-      Security
-      CoreFoundation
-      cctools
-      ;
-  };
+  buildMongoDB = callPackage ./mongodb.nix { inherit sasl boost Security CoreFoundation cctools; };
   variants =
     if stdenv.isLinux then
       {

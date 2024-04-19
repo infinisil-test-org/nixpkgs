@@ -53,14 +53,7 @@ stdenv.mkDerivation rec {
   '';
 
   passthru.tests = {
-    inherit
-      ettercap
-      nmap
-      ostinato
-      tcpreplay
-      vde2
-      wireshark
-      ;
+    inherit ettercap nmap ostinato tcpreplay vde2 wireshark;
     inherit (python3.pkgs) pcapy-ng scapy;
     haskell-pcap = haskellPackages.pcap;
   };

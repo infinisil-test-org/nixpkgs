@@ -100,15 +100,7 @@ let
 
   inherit
     (callPackage ./hooks {
-      inherit
-        dotnet-sdk
-        dotnet-test-sdk
-        disabledTests
-        nuget-source
-        dotnet-runtime
-        runtimeDeps
-        buildType
-        ;
+      inherit dotnet-sdk dotnet-test-sdk disabledTests nuget-source dotnet-runtime runtimeDeps buildType;
       runtimeId =
         if runtimeId != null then
           runtimeId

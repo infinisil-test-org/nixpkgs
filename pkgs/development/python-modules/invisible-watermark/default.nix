@@ -75,14 +75,7 @@ buildPythonPackage rec {
           skipTest = stdenv.isLinux && stdenv.isAarch64 && withOnnx && method == "rivaGan";
         in
         lib.optionalAttrs (!skipTest) {
-          "${testName}" = callPackage ./tests/cli.nix {
-            inherit
-              image
-              method
-              testName
-              withOnnx
-              ;
-          };
+          "${testName}" = callPackage ./tests/cli.nix { inherit image method testName withOnnx; };
         };
       allTests = builtins.map createTest testCases;
     in

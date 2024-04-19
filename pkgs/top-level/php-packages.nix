@@ -118,13 +118,7 @@ lib.makeScope pkgs.newScope (
             bison
           ];
 
-          inherit
-            configureFlags
-            internalDeps
-            buildInputs
-            zendExtension
-            doCheck
-            ;
+          inherit configureFlags internalDeps buildInputs zendExtension doCheck;
 
           preConfigurePhases = [
             "genfiles"

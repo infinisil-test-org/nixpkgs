@@ -49,13 +49,7 @@ let
     };
 
   elpaBuild = import ../../../../build-support/emacs/elpa.nix {
-    inherit
-      lib
-      stdenv
-      texinfo
-      writeText
-      gcc
-      ;
+    inherit lib stdenv texinfo writeText gcc;
     inherit (self) emacs;
   };
 

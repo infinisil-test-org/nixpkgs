@@ -38,12 +38,7 @@ stdenv.mkDerivation (finalAttrs: {
   pname = "sway-unwrapped";
   version = "1.9";
 
-  inherit
-    enableXWayland
-    isNixOS
-    systemdSupport
-    trayEnabled
-    ;
+  inherit enableXWayland isNixOS systemdSupport trayEnabled;
   src = fetchFromGitHub {
     owner = "swaywm";
     repo = "sway";

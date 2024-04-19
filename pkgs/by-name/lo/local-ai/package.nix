@@ -574,14 +574,7 @@ let
     };
 
     passthru.features = {
-      inherit
-        with_cublas
-        with_openblas
-        with_tts
-        with_stablediffusion
-        with_tinydream
-        with_clblas
-        ;
+      inherit with_cublas with_openblas with_tts with_stablediffusion with_tinydream with_clblas;
     };
 
     passthru.tests = callPackages ./tests.nix { inherit self; };

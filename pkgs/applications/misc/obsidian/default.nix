@@ -57,13 +57,7 @@ let
   };
 
   linux = stdenv.mkDerivation {
-    inherit
-      pname
-      version
-      src
-      desktopItem
-      icon
-      ;
+    inherit pname version src desktopItem icon;
     meta = meta // {
       platforms = [
         "x86_64-linux"
@@ -101,12 +95,7 @@ let
   };
 
   darwin = stdenv.mkDerivation {
-    inherit
-      pname
-      version
-      src
-      appname
-      ;
+    inherit pname version src appname;
     meta = meta // {
       platforms = [
         "x86_64-darwin"

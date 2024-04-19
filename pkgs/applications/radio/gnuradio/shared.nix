@@ -101,13 +101,7 @@ in
   # via an override.
   passthru =
     {
-      inherit
-        hasFeature
-        versionAttr
-        features
-        featuresInfo
-        python
-        ;
+      inherit hasFeature versionAttr features featuresInfo python;
       gnuradioOlder = lib.versionOlder versionAttr.major;
       gnuradioAtLeast = lib.versionAtLeast versionAttr.major;
     }

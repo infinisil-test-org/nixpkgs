@@ -78,12 +78,7 @@ let
 in
 if stdenv.isDarwin then
   stdenv.mkDerivation {
-    inherit
-      pname
-      version
-      src
-      meta
-      ;
+    inherit pname version src meta;
 
     nativeBuildInputs = [ undmg ];
 
@@ -96,12 +91,7 @@ if stdenv.isDarwin then
   }
 else
   stdenv.mkDerivation {
-    inherit
-      pname
-      version
-      src
-      meta
-      ;
+    inherit pname version src meta;
 
     nativeBuildInputs = [
       autoPatchelfHook

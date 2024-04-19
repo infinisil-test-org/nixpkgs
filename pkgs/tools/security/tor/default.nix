@@ -119,17 +119,7 @@ stdenv.mkDerivation rec {
     tests.tor = nixosTests.tor;
     updateScript = import ./update.nix {
       inherit lib;
-      inherit
-        writeScript
-        common-updater-scripts
-        bash
-        coreutils
-        curl
-        gnupg
-        gnugrep
-        gnused
-        nix
-        ;
+      inherit writeScript common-updater-scripts bash coreutils curl gnupg gnugrep gnused nix;
     };
   };
 

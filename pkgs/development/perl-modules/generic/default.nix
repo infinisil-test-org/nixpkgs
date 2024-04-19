@@ -60,13 +60,7 @@ lib.throwIf (attrs ? name)
             nativeBuildInputs
             ++ (if stdenv.buildPlatform != stdenv.hostPlatform then [ perl.mini ] else [ perl ]);
 
-          inherit
-            outputs
-            src
-            doCheck
-            checkTarget
-            enableParallelBuilding
-            ;
+          inherit outputs src doCheck checkTarget enableParallelBuilding;
           env = {
             inherit PERL_AUTOINSTALL AUTOMATED_TESTING PERL_USE_UNSAFE_INC;
             fullperl = perl.__spliced.buildHost or perl;

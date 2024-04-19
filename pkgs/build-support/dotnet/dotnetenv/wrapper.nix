@@ -18,14 +18,7 @@
 
 let
   application = dotnetenv.buildSolution {
-    inherit
-      name
-      src
-      baseDir
-      slnFile
-      targets
-      verbosity
-      ;
+    inherit name src baseDir slnFile targets verbosity;
     inherit options assemblyInputs preBuild;
     inherit modifyPublicMain mainClassFile;
   };

@@ -64,15 +64,7 @@ let
             -o ''${out}
         '')
       ];
-      inherit
-        version
-        M1
-        M2
-        blood-elf-0
-        hex2
-        m2libc
-        src
-        ;
+      inherit version M1 M2 blood-elf-0 hex2 m2libc src;
     };
   mkdir = buildMesccToolsExtraUtil "mkdir";
   cp = buildMesccToolsExtraUtil "cp";

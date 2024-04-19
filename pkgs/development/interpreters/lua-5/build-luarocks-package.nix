@@ -99,14 +99,7 @@ let
           luarocks
         ];
 
-        inherit
-          doCheck
-          extraConfig
-          rockspecFilename
-          knownRockspec
-          externalDeps
-          nativeCheckInputs
-          ;
+        inherit doCheck extraConfig rockspecFilename knownRockspec externalDeps nativeCheckInputs;
 
         buildInputs =
           let

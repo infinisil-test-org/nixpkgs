@@ -198,13 +198,7 @@ in
     in
     pkgs.gccStdenv.mkDerivation rec {
       # See ../gambit/build.nix regarding why we use gccStdenv
-      inherit
-        meta
-        pname
-        version
-        nativeBuildInputs
-        postInstall
-        ;
+      inherit meta pname version nativeBuildInputs postInstall;
       passthru = {
         inherit pre-pkg;
       };

@@ -46,13 +46,7 @@ import ./generic.nix (
     };
 
     passthru.tests = {
-      inherit
-        imageio
-        matplotlib
-        pilkit
-        pydicom
-        reportlab
-        ;
+      inherit imageio matplotlib pilkit pydicom reportlab;
     };
 
     meta = with lib; {

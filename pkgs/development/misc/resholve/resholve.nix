@@ -48,14 +48,7 @@ python27.pkgs.buildPythonApplication {
       writeScript
       writeScriptBin
       ;
-    tests = callPackage ./test.nix {
-      inherit
-        rSrc
-        binlore
-        python27
-        resholve
-        ;
-    };
+    tests = callPackage ./test.nix { inherit rSrc binlore python27 resholve; };
   };
 
   meta = with lib; {

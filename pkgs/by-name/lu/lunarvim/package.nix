@@ -27,12 +27,7 @@
 }:
 
 stdenv.mkDerivation (finalAttrs: {
-  inherit
-    nvimAlias
-    viAlias
-    vimAlias
-    globalConfig
-    ;
+  inherit nvimAlias viAlias vimAlias globalConfig;
 
   pname = "lunarvim";
   version = "1.3.0";

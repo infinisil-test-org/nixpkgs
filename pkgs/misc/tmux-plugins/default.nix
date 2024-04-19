@@ -42,15 +42,7 @@ let
           // {
             pname = namePrefix + pluginName;
 
-            inherit
-              pluginName
-              unpackPhase
-              configurePhase
-              buildPhase
-              addonInfo
-              preInstall
-              postInstall
-              ;
+            inherit pluginName unpackPhase configurePhase buildPhase addonInfo preInstall postInstall;
 
             installPhase = ''
               runHook preInstall

@@ -66,24 +66,11 @@ let
   inherit (import ./log.nix { inherit lib; }) noisily echo_colored;
 
   configureCrate = import ./configure-crate.nix {
-    inherit
-      lib
-      stdenv
-      echo_colored
-      noisily
-      mkRustcDepArgs
-      mkRustcFeatureArgs
-      ;
+    inherit lib stdenv echo_colored noisily mkRustcDepArgs mkRustcFeatureArgs;
   };
 
   buildCrate = import ./build-crate.nix {
-    inherit
-      lib
-      stdenv
-      mkRustcDepArgs
-      mkRustcFeatureArgs
-      needUnstableCLI
-      ;
+    inherit lib stdenv mkRustcDepArgs mkRustcFeatureArgs needUnstableCLI;
   };
 
   installCrate = import ./install-crate.nix { inherit stdenv; };

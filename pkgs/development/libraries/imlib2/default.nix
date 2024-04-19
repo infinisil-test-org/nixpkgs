@@ -90,15 +90,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   passthru = {
     tests = {
-      inherit
-        libcaca
-        diffoscopeMinimal
-        feh
-        icewm
-        openbox
-        fluxbox
-        enlightenment
-        ;
+      inherit libcaca diffoscopeMinimal feh icewm openbox fluxbox enlightenment;
       pkg-config = testers.testMetaPkgConfig finalAttrs.finalPackage;
     };
     updateScript = gitUpdater {

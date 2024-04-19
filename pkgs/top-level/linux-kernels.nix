@@ -746,13 +746,7 @@ in
     }:
     recurseIntoAttrs (
       packagesFor (manualConfig {
-        inherit
-          version
-          src
-          modDirVersion
-          configfile
-          allowImportFromDerivation
-          ;
+        inherit version src modDirVersion configfile allowImportFromDerivation;
       })
     );
 

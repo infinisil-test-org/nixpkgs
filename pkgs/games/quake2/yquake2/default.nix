@@ -21,15 +21,7 @@ let
   games = import ./games.nix { inherit stdenv lib fetchFromGitHub; };
 
   wrapper = import ./wrapper.nix {
-    inherit
-      stdenv
-      lib
-      buildEnv
-      makeWrapper
-      yquake2
-      copyDesktopItems
-      makeDesktopItem
-      ;
+    inherit stdenv lib buildEnv makeWrapper yquake2 copyDesktopItems makeDesktopItem;
   };
 
   yquake2 = stdenv.mkDerivation rec {

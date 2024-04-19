@@ -42,12 +42,7 @@ let
 
     rel = kodi.kodiReleaseName;
 
-    inherit
-      callPackage
-      kodi
-      hasKodiAddon
-      requiredKodiAddons
-      ;
+    inherit callPackage kodi hasKodiAddon requiredKodiAddons;
 
     # Convert derivation to a kodi module. Stolen from ../../../top-level/python-packages.nix
     toKodiAddon =

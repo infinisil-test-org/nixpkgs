@@ -43,12 +43,7 @@ let
 in
 rec {
   devpod = buildGoModule {
-    inherit
-      version
-      src
-      pname
-      meta
-      ;
+    inherit version src pname meta;
 
     vendorHash = null;
 

@@ -153,13 +153,7 @@ lib.makeOverridable (
     withRust = ((configfile.moduleStructuredConfig.settings.RUST or { }).tristate or null) == "y";
 
     configfile = stdenv.mkDerivation {
-      inherit
-        ignoreConfigErrors
-        autoModules
-        preferBuiltin
-        kernelArch
-        extraMakeFlags
-        ;
+      inherit ignoreConfigErrors autoModules preferBuiltin kernelArch extraMakeFlags;
       pname = "linux-config";
       inherit version;
 
@@ -270,13 +264,7 @@ lib.makeOverridable (
     kernel = (callPackage ./manual-config.nix { inherit lib stdenv buildPackages; }) (
       basicArgs
       // {
-        inherit
-          kernelPatches
-          randstructSeed
-          extraMakeFlags
-          extraMeta
-          configfile
-          ;
+        inherit kernelPatches randstructSeed extraMakeFlags extraMeta configfile;
         pos = builtins.unsafeGetAttrPos "version" args;
 
         config = {
@@ -295,14 +283,7 @@ lib.makeOverridable (
         // basicArgs
         // {
           features = kernelFeatures;
-          inherit
-            commonStructuredConfig
-            structuredExtraConfig
-            extraMakeFlags
-            isZen
-            isHardened
-            isLibre
-            ;
+          inherit commonStructuredConfig structuredExtraConfig extraMakeFlags isZen isHardened isLibre;
           isXen = lib.warn "The isXen attribute is deprecated. All Nixpkgs kernels that support it now have Xen enabled." true;
 
           # Adds dependencies needed to edit the config:

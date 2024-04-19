@@ -447,17 +447,7 @@ rec {
     } ./neovim-require-check-hook.sh
   ) { };
 
-  inherit
-    (import ./build-vim-plugin.nix {
-      inherit
-        lib
-        stdenv
-        rtpPath
-        toVimPlugin
-        ;
-    })
-    buildVimPlugin
-    ;
+  inherit (import ./build-vim-plugin.nix { inherit lib stdenv rtpPath toVimPlugin; }) buildVimPlugin;
 
   buildVimPluginFrom2Nix = lib.warn "buildVimPluginFrom2Nix is deprecated: use buildVimPlugin instead" buildVimPlugin;
 

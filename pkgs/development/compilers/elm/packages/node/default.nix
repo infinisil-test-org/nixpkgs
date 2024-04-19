@@ -159,14 +159,7 @@ with elmLib;
       };
   };
 
-  elm-pages = import ./elm-pages {
-    inherit
-      nodePkgs
-      pkgs
-      lib
-      makeWrapper
-      ;
-  };
+  elm-pages = import ./elm-pages { inherit nodePkgs pkgs lib makeWrapper; };
 
   elm-land =
     let

@@ -505,15 +505,5 @@ in
 
 # Everything in this attrset is the public interface of the file.
 {
-  inherit
-    architectures
-    doubles
-    elaborate
-    equals
-    examples
-    flakeExposed
-    inspect
-    parse
-    platforms
-    ;
+  inherit architectures doubles elaborate equals examples flakeExposed inspect parse platforms;
 }

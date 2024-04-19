@@ -45,16 +45,7 @@ gccStdenv.mkDerivation rec {
   bootstrap = gambit-support.gambit-bootstrap;
 
   passthru = {
-    inherit
-      src
-      version
-      git-version
-      rev
-      stampYmd
-      stampHms
-      optimizationSetting
-      openssl
-      ;
+    inherit src version git-version rev stampYmd stampHms optimizationSetting openssl;
   };
 
   nativeBuildInputs = [

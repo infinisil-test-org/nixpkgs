@@ -37,12 +37,7 @@ buildPythonPackage rec {
   pythonImportsCheck = [ "markupsafe" ];
 
   passthru.tests = {
-    inherit
-      jinja2
-      mkdocs
-      quart
-      werkzeug
-      ;
+    inherit jinja2 mkdocs quart werkzeug;
   };
 
   meta = with lib; {

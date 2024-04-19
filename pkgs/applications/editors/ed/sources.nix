@@ -28,14 +28,7 @@ in
         hash = "sha256-saRjspehQfmHbEsfzQFHf2Rc3tkhaAkOmjXbKvS6u8o=";
       };
     in
-    import ./generic.nix {
-      inherit
-        pname
-        version
-        src
-        meta
-        ;
-    };
+    import ./generic.nix { inherit pname version src meta; };
 
   edUnstable =
     let
@@ -46,12 +39,5 @@ in
         hash = "sha256-bHTDeMhVNNo3qqDNoBNaBA+DHDa4WJpfQNcTvAUPgsY=";
       };
     in
-    import ./generic.nix {
-      inherit
-        pname
-        version
-        src
-        meta
-        ;
-    };
+    import ./generic.nix { inherit pname version src meta; };
 }

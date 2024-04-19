@@ -24,14 +24,7 @@ assert use3DOVideos -> requireFile != null && writeText != null && haskellPackag
 
 let
   videos = import ./3dovideo.nix {
-    inherit
-      stdenv
-      lib
-      requireFile
-      writeText
-      fetchFromGitHub
-      haskellPackages
-      ;
+    inherit stdenv lib requireFile writeText fetchFromGitHub haskellPackages;
   };
 
   remixPacks =

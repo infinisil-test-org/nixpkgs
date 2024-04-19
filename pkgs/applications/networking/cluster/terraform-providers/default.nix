@@ -47,12 +47,7 @@ let
     assert lib.stringLength provider-source-address > 0;
     mkProviderGoModule {
       pname = repo;
-      inherit
-        vendorHash
-        version
-        deleteVendor
-        proxyVendor
-        ;
+      inherit vendorHash version deleteVendor proxyVendor;
       subPackages = [ "." ];
       doCheck = false;
       # https://github.com/hashicorp/terraform-provider-scaffolding/blob/a8ac8375a7082befe55b71c8cbb048493dd220c2/.goreleaser.yml
@@ -66,12 +61,7 @@ let
       ];
       src = mkProviderFetcher {
         name = "source-${rev}";
-        inherit
-          owner
-          repo
-          rev
-          hash
-          ;
+        inherit owner repo rev hash;
       };
       # nixpkgs-update: no auto update
       # easier to update all providers together

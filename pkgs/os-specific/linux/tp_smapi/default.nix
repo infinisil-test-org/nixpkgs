@@ -54,16 +54,7 @@ stdenv.mkDerivation rec {
   enableParallelBuilding = true;
 
   passthru.updateScript = import ./update.nix {
-    inherit
-      lib
-      writeScript
-      coreutils
-      gnugrep
-      jq
-      curl
-      common-updater-scripts
-      runtimeShell
-      ;
+    inherit lib writeScript coreutils gnugrep jq curl common-updater-scripts runtimeShell;
   };
 
   meta = {

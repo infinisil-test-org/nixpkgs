@@ -50,12 +50,7 @@ rec {
   run =
     pname: builder: args:
     derivationWithMeta {
-      inherit
-        pname
-        version
-        builder
-        args
-        ;
+      inherit pname version builder args;
 
       meta = with lib; {
         description = "Collection of tools written for use in bootstrapping";

@@ -644,14 +644,7 @@ rec {
   */
   makeScopeWithSplicing =
     splicePackages: newScope: otherSplices: keep: extra: f:
-    makeScopeWithSplicing' { inherit splicePackages newScope; } {
-      inherit
-        otherSplices
-        keep
-        extra
-        f
-        ;
-    };
+    makeScopeWithSplicing' { inherit splicePackages newScope; } { inherit otherSplices keep extra f; };
 
   /**
     Like makeScope, but aims to support cross compilation. It's still ugly, but

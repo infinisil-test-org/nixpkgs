@@ -42,12 +42,7 @@ let
           inherit vscodeExtPublisher vscodeExtName vscodeExtUniqueId;
         };
 
-        inherit
-          configurePhase
-          buildPhase
-          dontPatchELF
-          dontStrip
-          ;
+        inherit configurePhase buildPhase dontPatchELF dontStrip;
 
         # Some .vsix files contain other directories (e.g., `package`) that we don't use.
         # If other directories are present but `sourceRoot` is unset, the unpacker phase fails.
@@ -130,13 +125,7 @@ let
   };
 
   vscodeEnv = import ./vscodeEnv.nix {
-    inherit
-      lib
-      buildEnv
-      writeShellScriptBin
-      extensionsFromVscodeMarketplace
-      jq
-      ;
+    inherit lib buildEnv writeShellScriptBin extensionsFromVscodeMarketplace jq;
     vscodeDefault = vscode;
   };
 

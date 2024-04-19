@@ -190,12 +190,7 @@ stdenv.mkDerivation (finalAttrs: {
     suitesparse = suitesparse';
     octavePackages = import ../../../top-level/octave-packages.nix {
       pkgs = allPkgs;
-      inherit
-        lib
-        stdenv
-        fetchurl
-        newScope
-        ;
+      inherit lib stdenv fetchurl newScope;
       octave = finalAttrs.finalPackage;
     };
     wrapOctave = callPackage ./wrap-octave.nix {

@@ -140,12 +140,7 @@ let
         # ''
         ;
 
-        inherit
-          initialPath
-          shell
-          defaultNativeBuildInputs
-          defaultBuildInputs
-          ;
+        inherit initialPath shell defaultNativeBuildInputs defaultBuildInputs;
       }
       // lib.optionalAttrs buildPlatform.isDarwin {
         __sandboxProfile = stdenvSandboxProfile;
@@ -162,12 +157,7 @@ let
 
       inherit buildPlatform hostPlatform targetPlatform;
 
-      inherit
-        extraNativeBuildInputs
-        extraBuildInputs
-        __extraImpureHostDeps
-        extraSandboxProfile
-        ;
+      inherit extraNativeBuildInputs extraBuildInputs __extraImpureHostDeps extraSandboxProfile;
 
       # Utility flags to test the type of platform.
       inherit (hostPlatform)

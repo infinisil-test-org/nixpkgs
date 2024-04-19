@@ -127,13 +127,7 @@ stdenv.mkDerivation rec {
   patches = [
     (substituteAll {
       src = ./fix-paths.patch;
-      inherit
-        iputils
-        openconnect
-        ethtool
-        gnused
-        systemd
-        ;
+      inherit iputils openconnect ethtool gnused systemd;
       inherit runtimeShell;
     })
 

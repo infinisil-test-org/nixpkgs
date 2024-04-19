@@ -39,12 +39,7 @@ buildPythonPackage rec {
   '';
 
   passthru.tests = {
-    inherit
-      django
-      django_4
-      django-silk
-      pgadmin4
-      ;
+    inherit django django_4 django-silk pgadmin4;
   };
 
   meta = with lib; {

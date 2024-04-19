@@ -15,12 +15,7 @@ let
       hash,
     }:
     {
-      inherit
-        pname
-        version
-        variant
-        patches
-        ;
+      inherit pname version variant patches;
 
       src =
         {

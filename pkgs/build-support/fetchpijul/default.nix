@@ -58,12 +58,7 @@ lib.makeOverridable (
       outputHashMode = "recursive";
       outputHash = if hash != "" then hash else lib.fakeSha256;
 
-      inherit
-        url
-        change
-        state
-        channel
-        ;
+      inherit url change state channel;
 
       impureEnvVars = lib.fetchers.proxyImpureEnvVars;
     }

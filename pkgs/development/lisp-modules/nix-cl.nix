@@ -192,15 +192,7 @@ let
           # load-system. Strange.
 
           # TODO(kasper) portable quit
-          asdfFasl = buildAsdf {
-            inherit
-              asdf
-              pkg
-              program
-              flags
-              faslExt
-              ;
-          };
+          asdfFasl = buildAsdf { inherit asdf pkg program flags faslExt; };
 
           buildScript = substituteAll {
             src = ./builder.lisp;
@@ -368,38 +360,18 @@ let
     }:
     let
       spec = {
-        inherit
-          pkg
-          faslExt
-          program
-          flags
-          asdf
-          ;
+        inherit pkg faslExt program flags asdf;
       };
       pkgs = (commonLispPackagesFor spec).overrideScope packageOverrides;
       withPackages = lispWithPackages pkgs;
       withOverrides =
         packageOverrides:
         wrapLisp {
-          inherit
-            pkg
-            faslExt
-            program
-            flags
-            asdf
-            ;
+          inherit pkg faslExt program flags asdf;
           inherit packageOverrides;
         };
       buildASDFSystem = args: build-asdf-system (args // spec);
     in
-    pkg
-    // {
-      inherit
-        pkgs
-        withPackages
-        withOverrides
-        buildASDFSystem
-        ;
-    };
+    pkg // { inherit pkgs withPackages withOverrides buildASDFSystem; };
 in
 wrapLisp

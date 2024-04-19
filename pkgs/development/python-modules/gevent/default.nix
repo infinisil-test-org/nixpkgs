@@ -57,12 +57,7 @@ buildPythonPackage rec {
   ];
 
   passthru.tests = {
-    inherit
-      dulwich
-      gunicorn
-      opentracing
-      pika
-      ;
+    inherit dulwich gunicorn opentracing pika;
   } // lib.filterAttrs (k: v: lib.hasInfix "gevent" k) python.pkgs;
 
   meta = with lib; {

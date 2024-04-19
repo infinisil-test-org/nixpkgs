@@ -74,14 +74,7 @@ let
 
   pubspecLockFile = builtins.toJSON pubspecLock;
   pubspecLockData = pub2nix.readPubspecLock {
-    inherit
-      src
-      packageRoot
-      pubspecLock
-      gitHashes
-      sdkSourceBuilders
-      customSourceBuilders
-      ;
+    inherit src packageRoot pubspecLock gitHashes sdkSourceBuilders customSourceBuilders;
   };
   packageConfig = generators.linkPackageConfig {
     packageConfig = pub2nix.generatePackageConfig {

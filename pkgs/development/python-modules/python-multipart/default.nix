@@ -40,13 +40,7 @@ buildPythonPackage rec {
   ];
 
   passthru.tests = {
-    inherit
-      asgi-csrf
-      connexion
-      fastapi
-      gradio
-      starlette
-      ;
+    inherit asgi-csrf connexion fastapi gradio starlette;
   };
 
   meta = with lib; {

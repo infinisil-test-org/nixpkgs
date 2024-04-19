@@ -27,12 +27,5 @@ stdenvNoCC.mkDerivation {
 
   sshSubversion = ./sshsubversion.exp;
 
-  inherit
-    username
-    password
-    url
-    rev
-    sshSupport
-    openssh
-    ;
+  inherit username password url rev sshSupport openssh;
 }

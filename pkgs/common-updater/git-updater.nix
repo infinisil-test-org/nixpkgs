@@ -18,15 +18,7 @@
 }:
 
 genericUpdater {
-  inherit
-    pname
-    version
-    attrPath
-    ignoredVersions
-    rev-prefix
-    odd-unstable
-    patchlevel-unstable
-    ;
+  inherit pname version attrPath ignoredVersions rev-prefix odd-unstable patchlevel-unstable;
   versionLister = "${common-updater-scripts}/bin/list-git-tags ${
     lib.optionalString (url != null) "--url=${url}"
   }";

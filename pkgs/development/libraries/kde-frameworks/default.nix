@@ -117,19 +117,7 @@ let
                 platforms = meta.platforms or lib.platforms.all;
               };
           in
-          mkDerivation (
-            args
-            // {
-              inherit
-                pname
-                meta
-                outputs
-                setupHook
-                src
-                version
-                ;
-            }
-          );
+          mkDerivation (args // { inherit pname meta outputs setupHook src version; });
       };
     in
     {

@@ -30,12 +30,7 @@ buildPythonPackage rec {
   checkInputs = [ unittestCheckHook ];
 
   passthru.tests = {
-    inherit
-      awsebcli
-      black
-      hatchling
-      yamllint
-      ;
+    inherit awsebcli black hatchling yamllint;
   };
 
   meta = {

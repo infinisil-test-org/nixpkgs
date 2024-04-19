@@ -72,14 +72,7 @@ let
     sagelib = python3.pkgs.sagelib;
     sage-docbuild = python3.pkgs.sage-docbuild;
     inherit env-locations;
-    inherit
-      python3
-      singular
-      palp
-      flint3
-      pythonEnv
-      maxima
-      ;
+    inherit python3 singular palp flint3 pythonEnv maxima;
     pkg-config = pkgs.pkg-config; # not to confuse with pythonPackages.pkg-config
   };
 
@@ -193,12 +186,6 @@ let
 in
 # A wrapper around sage that makes sure sage finds its docs (if they were build).
 callPackage ./sage.nix {
-  inherit
-    sage-tests
-    sage-with-env
-    sagedoc
-    jupyter-kernel-definition
-    jupyter-kernel-specs
-    ;
+  inherit sage-tests sage-with-env sagedoc jupyter-kernel-definition jupyter-kernel-specs;
   inherit withDoc requireSageTests;
 }

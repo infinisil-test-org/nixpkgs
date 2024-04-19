@@ -18,15 +18,7 @@
 }:
 
 let
-  common = callPackage ./common.nix {
-    inherit
-      CoreFoundation
-      tiles
-      Cocoa
-      debug
-      useXdgDir
-      ;
-  };
+  common = callPackage ./common.nix { inherit CoreFoundation tiles Cocoa debug useXdgDir; };
 
   self = common.overrideAttrs (common: rec {
     pname = common.pname + "-git";

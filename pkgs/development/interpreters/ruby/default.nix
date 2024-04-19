@@ -384,13 +384,7 @@ let
             inherit rubygems;
             inherit
               (import ../../ruby-modules/with-packages {
-                inherit
-                  lib
-                  stdenv
-                  makeBinaryWrapper
-                  buildRubyGem
-                  buildEnv
-                  ;
+                inherit lib stdenv makeBinaryWrapper buildRubyGem buildEnv;
                 gemConfig = defaultGemConfig;
                 ruby = finalAttrs.finalPackage;
               })

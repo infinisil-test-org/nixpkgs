@@ -67,14 +67,7 @@ let
   inherit (releaseInfo) release_version version;
   inherit
     (import ../common/common-let.nix {
-      inherit
-        lib
-        fetchFromGitHub
-        release_version
-        gitRelease
-        officialRelease
-        monorepoSrc'
-        ;
+      inherit lib fetchFromGitHub release_version gitRelease officialRelease monorepoSrc';
     })
     llvm_meta
     monorepoSrc
@@ -86,20 +79,7 @@ let
     tools:
     let
       callPackage = newScope (
-        tools
-        // {
-          inherit
-            stdenv
-            cmake
-            libxml2
-            python3
-            isl
-            release_version
-            version
-            src
-            buildLlvmTools
-            ;
-        }
+        tools // { inherit stdenv cmake libxml2 python3 isl release_version version src buildLlvmTools; }
       );
       mkExtraBuildCommands0 = cc: ''
         rsrc="$out/resource-root"
@@ -328,16 +308,7 @@ let
         libraries
         // buildLlvmTools
         // {
-          inherit
-            stdenv
-            cmake
-            libxml2
-            python3
-            isl
-            release_version
-            version
-            src
-            ;
+          inherit stdenv cmake libxml2 python3 isl release_version version src;
         }
       );
     in

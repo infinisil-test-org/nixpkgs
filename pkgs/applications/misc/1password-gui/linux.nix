@@ -48,12 +48,7 @@ let
   policyOwners = lib.concatStringsSep " " (map (user: "unix-user:${user}") polkitPolicyOwners);
 in
 stdenv.mkDerivation {
-  inherit
-    pname
-    version
-    src
-    meta
-    ;
+  inherit pname version src meta;
 
   nativeBuildInputs = [
     makeShellWrapper

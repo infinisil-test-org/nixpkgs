@@ -56,14 +56,7 @@ let
       wrapperBins ? [ ],
     }:
     {
-      inherit
-        name
-        enable
-        builtin
-        propagatedBuildInputs
-        testPaths
-        wrapperBins
-        ;
+      inherit name enable builtin propagatedBuildInputs testPaths wrapperBins;
     };
 
   basePlugins = lib.mapAttrs (_: a: { builtin = true; } // a) (import ./builtin-plugins.nix inputs);

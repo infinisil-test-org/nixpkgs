@@ -113,12 +113,7 @@ let
   modulesModule = {
     config = {
       _module.args = {
-        inherit
-          noUserModules
-          baseModules
-          extraModules
-          modules
-          ;
+        inherit noUserModules baseModules extraModules modules;
       };
     };
   };

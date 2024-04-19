@@ -278,12 +278,7 @@ rec {
             inherit SystemConfiguration libobjc;
           };
           GameKit = {
-            inherit
-              GameCenterFoundation
-              GameCenterUI
-              GameCenterUICore
-              ReplayKit
-              ;
+            inherit GameCenterFoundation GameCenterUI GameCenterUICore ReplayKit;
           };
           ICADevices = {
             inherit Carbon libobjc;
@@ -316,25 +311,13 @@ rec {
             inherit PassKitCore;
           };
           QTKit = {
-            inherit
-              CoreMedia
-              CoreMediaIO
-              MediaToolbox
-              VideoToolbox
-              ;
+            inherit CoreMedia CoreMediaIO MediaToolbox VideoToolbox;
           };
           Quartz = {
             inherit QTKit;
           };
           QuartzCore = {
-            inherit
-              ApplicationServices
-              CoreImage
-              CoreVideo
-              Metal
-              OpenCL
-              libobjc
-              ;
+            inherit ApplicationServices CoreImage CoreVideo Metal OpenCL libobjc;
           };
           Security = {
             inherit IOKit libDER;

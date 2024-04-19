@@ -37,12 +37,7 @@
 }:
 
 stdenv.mkDerivation rec {
-  inherit
-    pname
-    version
-    src
-    postInstall
-    ;
+  inherit pname version src postInstall;
 
   nativeBuildInputs = [
     python3

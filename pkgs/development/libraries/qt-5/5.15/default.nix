@@ -261,23 +261,11 @@ let
         mkDerivation = (callPackage ../mkDerivation.nix { wrapQtAppsHook = null; }) stdenv.mkDerivation;
       };
 
-      callPackage = self.newScope {
-        inherit
-          qtCompatVersion
-          qtModule
-          srcs
-          stdenv
-          ;
-      };
+      callPackage = self.newScope { inherit qtCompatVersion qtModule srcs stdenv; };
     in
     {
 
-      inherit
-        callPackage
-        qtCompatVersion
-        qtModule
-        srcs
-        ;
+      inherit callPackage qtCompatVersion qtModule srcs;
 
       mkDerivationWith = callPackage ../mkDerivation.nix { };
 
@@ -286,12 +274,7 @@ let
       qtbase = callPackage ../modules/qtbase.nix {
         inherit (srcs.qtbase) src version;
         patches = patches.qtbase;
-        inherit
-          bison
-          cups
-          harfbuzz
-          libGL
-          ;
+        inherit bison cups harfbuzz libGL;
         withGtk3 = !stdenv.isDarwin;
         inherit dconf gtk3;
         inherit developerBuild decryptSslTraffic;

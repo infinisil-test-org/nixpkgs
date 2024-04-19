@@ -299,21 +299,11 @@ in
       {
         sudo = {
           source = "${cfg.package.out}/bin/sudo";
-          inherit
-            owner
-            group
-            setuid
-            permissions
-            ;
+          inherit owner group setuid permissions;
         };
         sudoedit = {
           source = "${cfg.package.out}/bin/sudoedit";
-          inherit
-            owner
-            group
-            setuid
-            permissions
-            ;
+          inherit owner group setuid permissions;
         };
       };
 

@@ -61,12 +61,7 @@ buildPythonPackage rec {
     ++ lib.flatten (builtins.attrValues passthru.optional-dependencies);
 
   passthru.tests = {
-    inherit
-      flask-limiter
-      flask-restful
-      flask-restx
-      moto
-      ;
+    inherit flask-limiter flask-restful flask-restx moto;
   };
 
   meta = with lib; {

@@ -122,13 +122,7 @@ let
 in
 stdenv.mkDerivation {
   pname = "vscode-extension-${publisher}-${pname}";
-  inherit
-    src
-    version
-    vscodeExtUniqueId
-    vscodeExtPublisher
-    vscodeExtName
-    ;
+  inherit src version vscodeExtUniqueId vscodeExtPublisher vscodeExtName;
 
   installPrefix = "share/vscode/extensions/${vscodeExtUniqueId}";
 

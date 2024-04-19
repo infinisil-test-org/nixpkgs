@@ -29,12 +29,7 @@ let
   };
 in
 stdenv.mkDerivation {
-  inherit
-    pname
-    version
-    src
-    yarnOfflineCache
-    ;
+  inherit pname version src yarnOfflineCache;
 
   strictDeps = true;
 

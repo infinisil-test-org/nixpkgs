@@ -87,12 +87,7 @@ lib.makeOverridable (
       (
         if useFetchGit then
           {
-            inherit
-              rev
-              deepClone
-              fetchSubmodules
-              sparseCheckout
-              ;
+            inherit rev deepClone fetchSubmodules sparseCheckout;
             url = gitRepoUrl;
           }
           // lib.optionalAttrs (leaveDotGit != null) { inherit leaveDotGit; }

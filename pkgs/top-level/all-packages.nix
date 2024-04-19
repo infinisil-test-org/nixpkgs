@@ -1350,12 +1350,7 @@ with pkgs;
       allowMissing ? false,
     }:
     callPackage ../build-support/kernel/modules-closure.nix {
-      inherit
-        kernel
-        firmware
-        rootModules
-        allowMissing
-        ;
+      inherit kernel firmware rootModules allowMissing;
     };
 
   mkBinaryCache = callPackage ../build-support/binary-cache { };
@@ -15877,15 +15872,7 @@ with pkgs;
       langCC = false;
       langC = false;
       profiledCompiler = false;
-      inherit
-        zip
-        unzip
-        zlib
-        boehmgc
-        gettext
-        pkg-config
-        perl
-        ;
+      inherit zip unzip zlib boehmgc gettext pkg-config perl;
       inherit (gnome2) libart_lgpl;
     }
   );
@@ -17290,15 +17277,7 @@ with pkgs;
           isGNU = cc.isGNU or false;
           isClang = cc.isClang or false;
 
-          inherit
-            cc
-            bintools
-            libc
-            libcxx
-            extraPackages
-            nixSupport
-            zlib
-            ;
+          inherit cc bintools libc libcxx extraPackages nixSupport zlib;
         } // extraArgs;
       in
       self
@@ -17662,14 +17641,7 @@ with pkgs;
 
   ### CuboCore
   CuboCore = recurseIntoAttrs (
-    import ./cubocore-packages.nix {
-      inherit
-        newScope
-        lxqt
-        lib
-        libsForQt5
-        ;
-    }
+    import ./cubocore-packages.nix { inherit newScope lxqt lib libsForQt5; }
   );
 
   ### End of CuboCore
@@ -24588,13 +24560,7 @@ with pkgs;
   libsForQt5 =
     (recurseIntoAttrs (
       import ./qt5-packages.nix {
-        inherit
-          lib
-          __splicedPackages
-          makeScopeWithSplicing'
-          generateSplicesForMkScope
-          pkgsHostTarget
-          ;
+        inherit lib __splicedPackages makeScopeWithSplicing' generateSplicesForMkScope pkgsHostTarget;
       }
     ))
     // {
@@ -40845,12 +40811,7 @@ with pkgs;
   rfc-bibtex = callPackage ../tools/typesetting/rfc-bibtex { };
 
   pick-colour-picker = python3Packages.callPackage ../applications/graphics/pick-colour-picker {
-    inherit
-      glib
-      gtk3
-      gobject-introspection
-      wrapGAppsHook
-      ;
+    inherit glib gtk3 gobject-introspection wrapGAppsHook;
   };
 
   rpl = callPackage ../tools/text/rpl { };

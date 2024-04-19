@@ -34,12 +34,7 @@
 }:
 
 stdenv.mkDerivation rec {
-  inherit
-    meta
-    name
-    src
-    version
-    ;
+  inherit meta name src version;
 
   buildInputs =
     [

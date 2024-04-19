@@ -45,12 +45,7 @@ let
       doCheck = true;
 
       passthru.tests = {
-        inherit
-          mpd
-          openimageio
-          fcitx5
-          spdlog
-          ;
+        inherit mpd openimageio fcitx5 spdlog;
       };
 
       meta = with lib; {

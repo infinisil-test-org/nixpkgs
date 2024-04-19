@@ -36,12 +36,7 @@ let
       or (throw "${pname} has no binary-hashes.nix entry for '${stdenv.system}.${cpuOrGpu}.${pyShortVersion}' attribute");
   platform = allHashAndPlatform."${stdenv.system}".platform;
   src = fetchPypi ({
-    inherit
-      version
-      format
-      hash
-      platform
-      ;
+    inherit version format hash platform;
     pname = builtins.replaceStrings [ "-" ] [ "_" ] pname;
     dist = pyShortVersion;
     python = pyShortVersion;
@@ -49,12 +44,7 @@ let
   });
 in
 buildPythonPackage {
-  inherit
-    pname
-    version
-    format
-    src
-    ;
+  inherit pname version format src;
 
   disabled = pythonOlder "3.9" || pythonAtLeast "3.11";
 

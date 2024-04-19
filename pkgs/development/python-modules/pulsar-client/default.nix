@@ -19,12 +19,7 @@ let
           hash,
         }:
         fetchPypi {
-          inherit
-            version
-            platform
-            dist
-            hash
-            ;
+          inherit version platform dist hash;
           pname = "pulsar_client";
           format = "wheel";
           python = dist;

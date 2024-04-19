@@ -59,12 +59,7 @@ let
   };
 
   linux = stdenv.mkDerivation {
-    inherit
-      pname
-      version
-      src
-      desktopItems
-      ;
+    inherit pname version src desktopItems;
 
     nativeBuildInputs = [
       makeWrapper

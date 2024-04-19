@@ -27,12 +27,7 @@ let
     else
       fetchurl {
         url = url;
-        inherit
-          sha1
-          sha256
-          sha512
-          hash
-          ;
+        inherit sha1 sha256 sha512 hash;
       };
 in
 stdenv.mkDerivation {

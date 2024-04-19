@@ -298,14 +298,7 @@ stdenv.mkDerivation (
     pname = "python";
     inherit version;
 
-    inherit
-      src
-      patches
-      buildInputs
-      nativeBuildInputs
-      preConfigure
-      configureFlags
-      ;
+    inherit src patches buildInputs nativeBuildInputs preConfigure configureFlags;
 
     LDFLAGS = lib.optionalString (!stdenv.isDarwin) "-lgcc_s";
     inherit (mkPaths buildInputs) C_INCLUDE_PATH LIBRARY_PATH;

@@ -13,12 +13,7 @@
 }:
 
 (sway-unwrapped.override {
-  inherit
-    isNixOS
-    enableXWayland
-    systemdSupport
-    trayEnabled
-    ;
+  inherit isNixOS enableXWayland systemdSupport trayEnabled;
 
   wlroots = wlroots_0_16;
 }).overrideAttrs

@@ -200,13 +200,7 @@ rustPlatform.buildRustPackage {
     updater = {
       inherit update-all-grammars;
     };
-    inherit
-      grammars
-      buildGrammar
-      builtGrammars
-      withPlugins
-      allGrammars
-      ;
+    inherit grammars buildGrammar builtGrammars withPlugins allGrammars;
 
     tests = {
       # make sure all grammars build

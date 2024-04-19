@@ -39,12 +39,7 @@ let
   stripAnyPrefixes = flip (foldr removePrefix) prefixesToStrip;
 
   optionsDoc = buildPackages.nixosOptionsDoc {
-    inherit
-      options
-      revision
-      baseOptionsJSON
-      warningsAreErrors
-      ;
+    inherit options revision baseOptionsJSON warningsAreErrors;
     transformOptions =
       opt:
       opt

@@ -1080,13 +1080,7 @@ let
           functor = defaultFunctor name // {
             type = types.submoduleWith;
             payload = {
-              inherit
-                modules
-                class
-                specialArgs
-                shorthandOnlyDefinesConfig
-                description
-                ;
+              inherit modules class specialArgs shorthandOnlyDefinesConfig description;
             };
             binOp = lhs: rhs: {
               class =

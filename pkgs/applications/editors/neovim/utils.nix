@@ -184,12 +184,7 @@ let
         inherit withPython3;
         inherit extraPython3Packages;
         inherit extraLuaPackages;
-        inherit
-          withNodeJs
-          withRuby
-          viAlias
-          vimAlias
-          ;
+        inherit withNodeJs withRuby viAlias vimAlias;
         customRC = configure.customRC or "";
         inherit plugins;
         inherit extraName;

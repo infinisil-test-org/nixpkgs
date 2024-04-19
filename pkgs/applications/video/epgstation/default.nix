@@ -49,12 +49,7 @@ buildNpmPackage rec {
 
   clientDir = buildNpmPackage {
     pname = "${pname}-client";
-    inherit
-      version
-      src
-      installPhase
-      meta
-      ;
+    inherit version src installPhase meta;
 
     npmDepsHash = "sha256-a/cDPABWI4lPxvSOI4D90O71A9lm8icPMak/g6DPYQY=";
     npmRootPath = "";

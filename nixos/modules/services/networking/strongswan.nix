@@ -191,14 +191,7 @@ in
         after = [ "network-online.target" ];
         environment = {
           STRONGSWAN_CONF = strongswanConf {
-            inherit
-              setup
-              connections
-              ca
-              secretsFile
-              managePlugins
-              enabledPlugins
-              ;
+            inherit setup connections ca secretsFile managePlugins enabledPlugins;
           };
         };
         serviceConfig = {

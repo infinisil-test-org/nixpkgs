@@ -82,12 +82,7 @@ let
   rdnsName = "net.rptools.maptool";
 in
 stdenvNoCC.mkDerivation {
-  inherit
-    pname
-    version
-    src
-    meta
-    ;
+  inherit pname version src meta;
 
   dontUnpack = true;
   dontConfigure = true;

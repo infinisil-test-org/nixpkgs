@@ -117,13 +117,7 @@ let
 
         __structuredAttrs = true;
         dontUnpack = true;
-        inherit
-          viAlias
-          vimAlias
-          withNodeJs
-          withPython3
-          withPerl
-          ;
+        inherit viAlias vimAlias withNodeJs withPython3 withPerl;
         inherit wrapRc providerLuaRc packpathDirs;
         inherit python3Env rubyEnv;
         withRuby = rubyEnv != null;

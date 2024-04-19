@@ -184,15 +184,7 @@ stdenvNoCC.mkDerivation {
 
   passthru = {
     inherit targetPrefix suffixSalt;
-    inherit
-      bintools
-      libc
-      nativeTools
-      nativeLibc
-      nativePrefix
-      isGNU
-      isLLVM
-      ;
+    inherit bintools libc nativeTools nativeLibc nativePrefix isGNU isLLVM;
 
     emacsBufferSetup = pkgs: ''
       ; We should handle propagation here too
@@ -496,18 +488,8 @@ stdenvNoCC.mkDerivation {
     shell = (getBin runtimeShell + runtimeShell.shellPath or "");
     gnugrep_bin = optionalString (!nativeTools) gnugrep;
     wrapperName = "BINTOOLS_WRAPPER";
-    inherit
-      dynamicLinker
-      targetPrefix
-      suffixSalt
-      coreutils_bin
-      ;
-    inherit
-      bintools_bin
-      libc_bin
-      libc_dev
-      libc_lib
-      ;
+    inherit dynamicLinker targetPrefix suffixSalt coreutils_bin;
+    inherit bintools_bin libc_bin libc_dev libc_lib;
     default_hardening_flags_str = builtins.toString defaultHardeningFlags;
   };
 

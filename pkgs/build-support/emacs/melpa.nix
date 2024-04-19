@@ -12,16 +12,7 @@
 }:
 
 let
-  genericBuild = import ./generic.nix {
-    inherit
-      lib
-      stdenv
-      emacs
-      texinfo
-      writeText
-      gcc
-      ;
-  };
+  genericBuild = import ./generic.nix { inherit lib stdenv emacs texinfo writeText gcc; };
 
   packageBuild = stdenv.mkDerivation {
     name = "package-build";

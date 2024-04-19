@@ -29,22 +29,10 @@ with frameworks;
       ;
   };
   AVKit = {
-    inherit
-      AVFoundation
-      AppKit
-      Cocoa
-      Foundation
-      ;
+    inherit AVFoundation AppKit Cocoa Foundation;
   };
   Accelerate = {
-    inherit
-      CoreFoundation
-      CoreGraphics
-      CoreVideo
-      Foundation
-      IOKit
-      Metal
-      ;
+    inherit CoreFoundation CoreGraphics CoreVideo Foundation IOKit Metal;
   };
   Accessibility = {
     inherit CoreGraphics Foundation;
@@ -59,12 +47,7 @@ with frameworks;
     inherit Foundation;
   };
   AddressBook = {
-    inherit
-      Carbon
-      Cocoa
-      CoreFoundation
-      Foundation
-      ;
+    inherit Carbon Cocoa CoreFoundation Foundation;
   };
   AppKit = {
     inherit
@@ -90,24 +73,10 @@ with frameworks;
     inherit Foundation;
   };
   ApplicationServices = {
-    inherit
-      ColorSync
-      CoreFoundation
-      CoreGraphics
-      CoreServices
-      CoreText
-      ImageIO
-      ;
+    inherit ColorSync CoreFoundation CoreGraphics CoreServices CoreText ImageIO;
   };
   AudioToolbox = {
-    inherit
-      Carbon
-      CoreAudio
-      CoreAudioTypes
-      CoreFoundation
-      CoreMIDI
-      Foundation
-      ;
+    inherit Carbon CoreAudio CoreAudioTypes CoreFoundation CoreMIDI Foundation;
   };
   AudioUnit = {
     inherit AudioToolbox;
@@ -122,12 +91,7 @@ with frameworks;
     inherit Foundation;
   };
   Automator = {
-    inherit
-      AppKit
-      Cocoa
-      Foundation
-      OSAKit
-      ;
+    inherit AppKit Cocoa Foundation OSAKit;
   };
   BackgroundTasks = {
     inherit Foundation;
@@ -140,32 +104,16 @@ with frameworks;
   };
   CalendarStore = { };
   CallKit = {
-    inherit
-      CoreFoundation
-      CoreGraphics
-      Foundation
-      IOKit
-      ;
+    inherit CoreFoundation CoreGraphics Foundation IOKit;
   };
   Carbon = {
-    inherit
-      ApplicationServices
-      CoreServices
-      Foundation
-      Security
-      ;
+    inherit ApplicationServices CoreServices Foundation Security;
   };
   ClassKit = {
     inherit CoreGraphics Foundation;
   };
   CloudKit = {
-    inherit
-      CoreFoundation
-      CoreGraphics
-      CoreLocation
-      Foundation
-      IOKit
-      ;
+    inherit CoreFoundation CoreGraphics CoreLocation Foundation IOKit;
   };
   Cocoa = {
     inherit AppKit CoreData Foundation;
@@ -178,12 +126,7 @@ with frameworks;
   };
   Combine = { };
   Contacts = {
-    inherit
-      CoreFoundation
-      CoreGraphics
-      Foundation
-      IOKit
-      ;
+    inherit CoreFoundation CoreGraphics Foundation IOKit;
   };
   ContactsUI = {
     inherit AppKit;
@@ -192,12 +135,7 @@ with frameworks;
     inherit CoreAudioTypes CoreFoundation;
   };
   CoreAudioKit = {
-    inherit
-      AppKit
-      AudioUnit
-      Cocoa
-      Foundation
-      ;
+    inherit AppKit AudioUnit Cocoa Foundation;
   };
   CoreAudioTypes = {
     inherit CoreFoundation;
@@ -206,15 +144,7 @@ with frameworks;
     inherit Foundation;
   };
   CoreData = {
-    inherit
-      CloudKit
-      Combine
-      CoreFoundation
-      CoreGraphics
-      CoreLocation
-      Foundation
-      IOKit
-      ;
+    inherit CloudKit Combine CoreFoundation CoreGraphics CoreLocation Foundation IOKit;
   };
   CoreDisplay = { };
   CoreFoundation = { };
@@ -239,44 +169,17 @@ with frameworks;
       ;
   };
   CoreLocation = {
-    inherit
-      CoreFoundation
-      CoreGraphics
-      Foundation
-      IOKit
-      ;
+    inherit CoreFoundation CoreGraphics Foundation IOKit;
   };
   CoreMIDI = {
-    inherit
-      CoreFoundation
-      CoreGraphics
-      Foundation
-      IOKit
-      ;
+    inherit CoreFoundation CoreGraphics Foundation IOKit;
   };
   CoreMIDIServer = { };
   CoreML = {
-    inherit
-      CoreFoundation
-      CoreGraphics
-      CoreVideo
-      Foundation
-      IOKit
-      ImageIO
-      Metal
-      ;
+    inherit CoreFoundation CoreGraphics CoreVideo Foundation IOKit ImageIO Metal;
   };
   CoreMedia = {
-    inherit
-      CoreAudio
-      CoreAudioTypes
-      CoreFoundation
-      CoreGraphics
-      CoreVideo
-      Foundation
-      IOKit
-      Metal
-      ;
+    inherit CoreAudio CoreAudioTypes CoreFoundation CoreGraphics CoreVideo Foundation IOKit Metal;
   };
   CoreMediaIO = {
     inherit CoreFoundation CoreMedia;
@@ -285,12 +188,7 @@ with frameworks;
     inherit Foundation;
   };
   CoreServices = {
-    inherit
-      CFNetwork
-      CoreFoundation
-      DiskArbitration
-      Security
-      ;
+    inherit CFNetwork CoreFoundation DiskArbitration Security;
   };
   CoreSpotlight = {
     inherit Foundation UniformTypeIdentifiers;
@@ -300,36 +198,16 @@ with frameworks;
     inherit CoreFoundation CoreGraphics;
   };
   CoreVideo = {
-    inherit
-      ApplicationServices
-      CoreFoundation
-      CoreGraphics
-      IOSurface
-      Metal
-      OpenGL
-      ;
+    inherit ApplicationServices CoreFoundation CoreGraphics IOSurface Metal OpenGL;
   };
   CoreWLAN = {
     inherit Foundation IOKit;
   };
   CryptoKit = {
-    inherit
-      CoreFoundation
-      CoreGraphics
-      Foundation
-      IOKit
-      LocalAuthentication
-      Security
-      ;
+    inherit CoreFoundation CoreGraphics Foundation IOKit LocalAuthentication Security;
   };
   CryptoTokenKit = {
-    inherit
-      CoreFoundation
-      CoreGraphics
-      Foundation
-      IOKit
-      Security
-      ;
+    inherit CoreFoundation CoreGraphics Foundation IOKit Security;
   };
   DVDPlayback = {
     inherit ApplicationServices CoreFoundation Security;
@@ -381,15 +259,7 @@ with frameworks;
     inherit CoreFoundation IOKit;
   };
   Foundation = {
-    inherit
-      ApplicationServices
-      Combine
-      CoreFoundation
-      CoreGraphics
-      CoreServices
-      IOKit
-      Security
-      ;
+    inherit ApplicationServices Combine CoreFoundation CoreGraphics CoreServices IOKit Security;
   };
   GLKit = {
     inherit
@@ -460,24 +330,13 @@ with frameworks;
   };
   Hypervisor = { };
   ICADevices = {
-    inherit
-      CoreFoundation
-      CoreGraphics
-      CoreServices
-      IOBluetooth
-      ;
+    inherit CoreFoundation CoreGraphics CoreServices IOBluetooth;
   };
   IMServicePlugIn = {
     inherit Foundation;
   };
   IOBluetooth = {
-    inherit
-      CoreAudio
-      CoreFoundation
-      CoreServices
-      Foundation
-      IOKit
-      ;
+    inherit CoreAudio CoreFoundation CoreServices Foundation IOKit;
   };
   IOBluetoothUI = {
     inherit Cocoa IOBluetooth;
@@ -506,24 +365,13 @@ with frameworks;
   InstallerPlugins = { };
   InstantMessage = { };
   Intents = {
-    inherit
-      CoreFoundation
-      CoreGraphics
-      CoreLocation
-      Foundation
-      IOKit
-      ;
+    inherit CoreFoundation CoreGraphics CoreLocation Foundation IOKit;
   };
   JavaNativeFoundation = {
     inherit Foundation;
   };
   JavaRuntimeSupport = {
-    inherit
-      ApplicationServices
-      Cocoa
-      Foundation
-      QuartzCore
-      ;
+    inherit ApplicationServices Cocoa Foundation QuartzCore;
   };
   JavaScriptCore = {
     inherit CoreFoundation CoreGraphics Foundation;
@@ -544,13 +392,7 @@ with frameworks;
     inherit Foundation;
   };
   MLCompute = {
-    inherit
-      CoreFoundation
-      CoreGraphics
-      Foundation
-      IOKit
-      Metal
-      ;
+    inherit CoreFoundation CoreGraphics Foundation IOKit Metal;
   };
   MapKit = {
     inherit
@@ -568,12 +410,7 @@ with frameworks;
       ;
   };
   MediaAccessibility = {
-    inherit
-      CoreFoundation
-      CoreGraphics
-      CoreText
-      QuartzCore
-      ;
+    inherit CoreFoundation CoreGraphics CoreText QuartzCore;
   };
   MediaLibrary = {
     inherit Foundation;
@@ -586,13 +423,7 @@ with frameworks;
   };
   Message = { };
   Metal = {
-    inherit
-      CoreFoundation
-      CoreGraphics
-      Foundation
-      IOKit
-      IOSurface
-      ;
+    inherit CoreFoundation CoreGraphics Foundation IOKit IOSurface;
   };
   MetalKit = {
     inherit
@@ -612,52 +443,25 @@ with frameworks;
       ;
   };
   MetalPerformanceShaders = {
-    inherit
-      CoreGraphics
-      Foundation
-      Metal
-      simd
-      ;
+    inherit CoreGraphics Foundation Metal simd;
   };
   MetalPerformanceShadersGraph = {
     inherit Foundation MetalPerformanceShaders;
   };
   MetricKit = {
-    inherit
-      CoreFoundation
-      CoreGraphics
-      Foundation
-      IOKit
-      ;
+    inherit CoreFoundation CoreGraphics Foundation IOKit;
   };
   ModelIO = {
-    inherit
-      CoreFoundation
-      CoreGraphics
-      Foundation
-      IOKit
-      simd
-      ;
+    inherit CoreFoundation CoreGraphics Foundation IOKit simd;
   };
   MultipeerConnectivity = {
     inherit Cocoa Foundation;
   };
   NaturalLanguage = {
-    inherit
-      CoreFoundation
-      CoreGraphics
-      Foundation
-      IOKit
-      ;
+    inherit CoreFoundation CoreGraphics Foundation IOKit;
   };
   NearbyInteraction = {
-    inherit
-      CoreFoundation
-      CoreGraphics
-      Foundation
-      IOKit
-      simd
-      ;
+    inherit CoreFoundation CoreGraphics Foundation IOKit simd;
   };
   NetFS = {
     inherit CoreFoundation;
@@ -676,12 +480,7 @@ with frameworks;
     inherit Carbon Cocoa;
   };
   OSLog = {
-    inherit
-      CoreFoundation
-      CoreGraphics
-      Foundation
-      IOKit
-      ;
+    inherit CoreFoundation CoreGraphics Foundation IOKit;
   };
   OpenAL = { };
   OpenCL = {
@@ -699,21 +498,10 @@ with frameworks;
     inherit AppKit Cocoa;
   };
   ParavirtualizedGraphics = {
-    inherit
-      AppKit
-      CoreVideo
-      Foundation
-      IOSurface
-      Metal
-      ;
+    inherit AppKit CoreVideo Foundation IOSurface Metal;
   };
   PassKit = {
-    inherit
-      AppKit
-      Contacts
-      CoreGraphics
-      Foundation
-      ;
+    inherit AppKit Contacts CoreGraphics Foundation;
   };
   PencilKit = {
     inherit
@@ -751,12 +539,7 @@ with frameworks;
       ;
   };
   PhotosUI = {
-    inherit
-      AppKit
-      Foundation
-      MapKit
-      Photos
-      ;
+    inherit AppKit Foundation MapKit Photos;
   };
   PreferencePanes = {
     inherit Cocoa;
@@ -782,16 +565,7 @@ with frameworks;
       ;
   };
   QuartzCore = {
-    inherit
-      CoreFoundation
-      CoreGraphics
-      CoreImage
-      CoreVideo
-      Foundation
-      IOKit
-      Metal
-      OpenGL
-      ;
+    inherit CoreFoundation CoreGraphics CoreImage CoreVideo Foundation IOKit Metal OpenGL;
   };
   QuickLook = {
     inherit ApplicationServices CoreFoundation;
@@ -875,12 +649,7 @@ with frameworks;
     inherit Foundation Security;
   };
   SecurityInterface = {
-    inherit
-      AppKit
-      Cocoa
-      Security
-      SecurityFoundation
-      ;
+    inherit AppKit Cocoa Security SecurityFoundation;
   };
   SensorKit = {
     inherit CoreFoundation CoreLocation Foundation;
@@ -892,12 +661,7 @@ with frameworks;
     inherit AppKit Foundation;
   };
   SoundAnalysis = {
-    inherit
-      AVFoundation
-      CoreML
-      CoreMedia
-      Foundation
-      ;
+    inherit AVFoundation CoreML CoreMedia Foundation;
   };
   Speech = {
     inherit
@@ -971,12 +735,7 @@ with frameworks;
     inherit IOKit;
   };
   UniformTypeIdentifiers = {
-    inherit
-      CoreFoundation
-      CoreGraphics
-      Foundation
-      IOKit
-      ;
+    inherit CoreFoundation CoreGraphics Foundation IOKit;
   };
   UserNotifications = {
     inherit Foundation;
@@ -989,20 +748,10 @@ with frameworks;
     inherit Foundation;
   };
   VideoToolbox = {
-    inherit
-      CoreFoundation
-      CoreGraphics
-      CoreMedia
-      CoreVideo
-      ;
+    inherit CoreFoundation CoreGraphics CoreMedia CoreVideo;
   };
   Virtualization = {
-    inherit
-      CoreFoundation
-      CoreGraphics
-      Foundation
-      IOKit
-      ;
+    inherit CoreFoundation CoreGraphics Foundation IOKit;
   };
   Vision = {
     inherit
@@ -1037,17 +786,7 @@ with frameworks;
       ;
   };
   WidgetKit = {
-    inherit
-      Combine
-      CoreFoundation
-      CoreGraphics
-      CoreVideo
-      Foundation
-      IOKit
-      Intents
-      Metal
-      SwiftUI
-      ;
+    inherit Combine CoreFoundation CoreGraphics CoreVideo Foundation IOKit Intents Metal SwiftUI;
   };
   iTunesLibrary = {
     inherit Foundation;

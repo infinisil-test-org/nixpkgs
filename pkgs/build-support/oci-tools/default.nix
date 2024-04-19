@@ -123,12 +123,7 @@
               options ? null,
             }:
             {
-              inherit
-                destination
-                type
-                source
-                options
-                ;
+              inherit destination type source options;
             }
           ) sysMounts;
         }

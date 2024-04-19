@@ -56,14 +56,7 @@ symlinkJoin {
   '';
 
   meta = with retroarch.meta; {
-    inherit
-      changelog
-      description
-      homepage
-      license
-      maintainers
-      platforms
-      ;
+    inherit changelog description homepage license maintainers platforms;
     longDescription =
       ''
         RetroArch is the reference frontend for the libretro API.

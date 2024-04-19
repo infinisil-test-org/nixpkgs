@@ -22,14 +22,7 @@ let
       pysparkPython ? python3,
     }:
     stdenv.mkDerivation (finalAttrs: {
-      inherit
-        pname
-        version
-        hash
-        hadoop
-        R
-        pysparkPython
-        ;
+      inherit pname version hash hadoop R pysparkPython;
       inherit (finalAttrs.hadoop) jdk;
       src = fetchzip {
         url =

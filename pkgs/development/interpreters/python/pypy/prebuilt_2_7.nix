@@ -30,12 +30,7 @@
 let
   isPy3k = majorVersion == "3";
   passthru = passthruFun {
-    inherit
-      self
-      sourceVersion
-      pythonVersion
-      packageOverrides
-      ;
+    inherit self sourceVersion pythonVersion packageOverrides;
     implementation = "pypy";
     libPrefix = "pypy${pythonVersion}";
     executable = "pypy${lib.optionalString isPy3k "3"}";

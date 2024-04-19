@@ -85,12 +85,7 @@ let
   # Invoke Julia resolution logic to determine the full dependency closure
   packageOverridesRepoified = lib.mapAttrs util.repoifySimple packageOverrides;
   closureYaml = callPackage ./package-closure.nix {
-    inherit
-      augmentedRegistry
-      julia
-      packageNames
-      packageImplications
-      ;
+    inherit augmentedRegistry julia packageNames packageImplications;
     packageOverrides = packageOverridesRepoified;
   };
 
@@ -212,15 +207,7 @@ let
       '';
 
   # Import the artifacts Nix to build Overrides.toml (IFD)
-  artifacts = import artifactsNix {
-    inherit
-      lib
-      fetchurl
-      pkgs
-      glibc
-      stdenv
-      ;
-  };
+  artifacts = import artifactsNix { inherit lib fetchurl pkgs glibc stdenv; };
   overridesJson = writeTextFile {
     name = "Overrides.json";
     text = lib.generators.toJSON { } artifacts;
@@ -236,13 +223,7 @@ let
   # Build a Julia project and depot. The project contains Project.toml/Manifest.toml, while the
   # depot contains package build products (including the precompiled libraries, if precompile=true)
   projectAndDepot = callPackage ./depot.nix {
-    inherit
-      closureYaml
-      extraLibs
-      overridesToml
-      packageImplications
-      precompile
-      ;
+    inherit closureYaml extraLibs overridesToml packageImplications precompile;
     julia = juliaWrapped;
     registry = minimalRegistry;
     packageNames =

@@ -48,12 +48,7 @@ let
   };
 in
 stdenv.mkDerivation rec {
-  inherit
-    pname
-    version
-    src
-    sourceRoot
-    ;
+  inherit pname version src sourceRoot;
 
   nativeBuildInputs = [
     jdk

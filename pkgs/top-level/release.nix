@@ -90,14 +90,7 @@ let
   ] (arch: elem "${arch}-darwin" supportedSystems);
 
   nonPackageJobs = {
-    tarball = import ./make-tarball.nix {
-      inherit
-        pkgs
-        nixpkgs
-        officialRelease
-        supportedSystems
-        ;
-    };
+    tarball = import ./make-tarball.nix { inherit pkgs nixpkgs officialRelease supportedSystems; };
 
     metrics = import ./metrics.nix { inherit pkgs nixpkgs; };
 

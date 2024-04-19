@@ -104,17 +104,7 @@ let
       ...
     }@args:
     let
-      rubyEnv = bundlerEnv (
-        bundlerEnvArgs
-        // {
-          inherit
-            name
-            pname
-            version
-            ruby
-            ;
-        }
-      );
+      rubyEnv = bundlerEnv (bundlerEnvArgs // { inherit name pname version ruby; });
     in
     stdenv.mkDerivation (
       builtins.removeAttrs args [ "bundlerEnvArgs" ]
@@ -433,14 +423,7 @@ let
     };
 
     passthru = {
-      inherit
-        rubyEnv
-        runtimeEnv
-        runtimeDeps
-        rake
-        mkDiscoursePlugin
-        assets
-        ;
+      inherit rubyEnv runtimeEnv runtimeDeps rake mkDiscoursePlugin assets;
       enabledPlugins = plugins;
       plugins = callPackage ./plugins/all-plugins.nix { inherit mkDiscoursePlugin; };
       ruby = rubyEnv.wrappedRuby;

@@ -200,14 +200,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   # make  derivations declared in the let binding available here, so
   # they can be overridden
-  inherit
-    libdvdcss
-    libdvdnav
-    libdvdread
-    groovy
-    apache_commons_lang
-    apache_commons_text
-    ;
+  inherit libdvdcss libdvdnav libdvdread groovy apache_commons_lang apache_commons_text;
 
   buildInputs =
     [

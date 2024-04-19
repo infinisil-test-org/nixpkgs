@@ -70,12 +70,7 @@ buildPythonPackage rec {
   pythonImportsCheck = map (ext: "pymdownx.${ext}") extensions;
 
   passthru.tests = {
-    inherit
-      mkdocstrings
-      mkdocs-material
-      mkdocs-mermaid2-plugin
-      hydrus
-      ;
+    inherit mkdocstrings mkdocs-material mkdocs-mermaid2-plugin hydrus;
   };
 
   meta = with lib; {

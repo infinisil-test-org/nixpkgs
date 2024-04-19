@@ -72,13 +72,7 @@ buildPythonPackage rec {
   pythonImportsCheck = [ "orjson" ];
 
   passthru.tests = {
-    inherit
-      falcon
-      fastapi
-      gradio
-      mashumaro
-      ufolib2
-      ;
+    inherit falcon fastapi gradio mashumaro ufolib2;
   };
 
   meta = with lib; {

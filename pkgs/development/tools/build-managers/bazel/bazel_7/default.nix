@@ -582,14 +582,7 @@ stdenv.mkDerivation rec {
     #     nix-build . -A bazel_7.tests
     #
     # in the nixpkgs checkout root to exercise them locally.
-    tests = callPackage ./tests.nix {
-      inherit
-        Foundation
-        bazel_self
-        lockfile
-        repoCache
-        ;
-    };
+    tests = callPackage ./tests.nix { inherit Foundation bazel_self lockfile repoCache; };
 
     # For ease of debugging
     inherit distDir repoCache lockfile;

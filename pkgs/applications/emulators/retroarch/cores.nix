@@ -85,20 +85,7 @@ let
       ...
     }@args:
     import ./mkLibretroCore.nix (
-      {
-        inherit
-          lib
-          stdenv
-          core
-          repo
-          src
-          version
-          makeWrapper
-          retroarch
-          zlib
-          ;
-      }
-      // args
+      { inherit lib stdenv core repo src version makeWrapper retroarch zlib; } // args
     );
 in
 {

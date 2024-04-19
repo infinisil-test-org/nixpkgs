@@ -52,27 +52,15 @@ buildPythonPackage rec {
       --replace "networkx>=2.5.0,<3.0.0" "networkx"
   '';
 
-  propagatedBuildInputs =
-    [
-      babel
-      gruut-ipa
-      jsonlines
-      num2words
-      python-crfsuite
-      dateparser
-      networkx
-    ]
-    ++ (map (
-      lang:
-      callPackage ./language-pack.nix {
-        inherit
-          lang
-          version
-          format
-          src
-          ;
-      }
-    ) langPkgs);
+  propagatedBuildInputs = [
+    babel
+    gruut-ipa
+    jsonlines
+    num2words
+    python-crfsuite
+    dateparser
+    networkx
+  ] ++ (map (lang: callPackage ./language-pack.nix { inherit lang version format src; }) langPkgs);
 
   nativeCheckInputs = [
     glibcLocales

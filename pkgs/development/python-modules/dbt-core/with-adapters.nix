@@ -8,12 +8,7 @@
 }:
 let
   adapters = {
-    inherit
-      dbt-bigquery
-      dbt-postgres
-      dbt-redshift
-      dbt-snowflake
-      ;
+    inherit dbt-bigquery dbt-postgres dbt-redshift dbt-snowflake;
   };
 in
 adapterFun:

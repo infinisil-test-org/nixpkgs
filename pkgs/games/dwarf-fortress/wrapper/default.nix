@@ -202,12 +202,7 @@ lib.throwIf (enableTWBT' && !enableDFHack) "dwarf-fortress: TWBT requires DFHack
     runSoundSense = ./soundSense.in;
 
     passthru = {
-      inherit
-        dwarf-fortress
-        dwarf-therapist
-        twbt
-        env
-        ;
+      inherit dwarf-fortress dwarf-therapist twbt env;
       dfhack = dfhack';
     };
 

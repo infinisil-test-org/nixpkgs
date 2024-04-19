@@ -283,15 +283,7 @@ rec {
             value = mkYarnPackage (
               builtins.removeAttrs attrs [ "packageOverrides" ]
               // {
-                inherit
-                  src
-                  packageJSON
-                  yarnLock
-                  nodejs
-                  yarn
-                  packageResolutions
-                  workspaceDependencies
-                  ;
+                inherit src packageJSON yarnLock nodejs yarn packageResolutions workspaceDependencies;
               }
               // lib.attrByPath [ name ] { } packageOverrides
             );

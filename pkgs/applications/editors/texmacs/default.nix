@@ -31,12 +31,7 @@ let
   pname = "texmacs";
   version = "2.1.2";
   common = callPackage ./common.nix {
-    inherit
-      extraFonts
-      chineseFonts
-      japaneseFonts
-      koreanFonts
-      ;
+    inherit extraFonts chineseFonts japaneseFonts koreanFonts;
     tex = texliveSmall;
   };
 in

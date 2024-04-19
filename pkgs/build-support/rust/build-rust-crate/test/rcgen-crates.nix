@@ -4307,68 +4307,51 @@ rec {
         # Any command run immediatelly after a test is executed.
         testPostRun ? "",
       }:
-      lib.makeOverridable
-        (
-          {
-            features,
-            crateOverrides,
-            runTests,
-            testCrateFlags,
-            testInputs,
-            testPreRun,
-            testPostRun,
-          }:
-          let
-            buildRustCrateForPkgsFuncOverriden =
-              if buildRustCrateForPkgsFunc != null then
-                buildRustCrateForPkgsFunc
-              else
-                (
-                  if crateOverrides == pkgs.defaultCrateOverrides then
-                    buildRustCrateForPkgs
-                  else
-                    pkgs: (buildRustCrateForPkgs pkgs).override { defaultCrateOverrides = crateOverrides; }
-                );
-            builtRustCrates = builtRustCratesWithFeatures {
-              inherit packageId features;
-              buildRustCrateForPkgsFunc = buildRustCrateForPkgsFuncOverriden;
-              runTests = false;
-            };
-            builtTestRustCrates = builtRustCratesWithFeatures {
-              inherit packageId features;
-              buildRustCrateForPkgsFunc = buildRustCrateForPkgsFuncOverriden;
-              runTests = true;
-            };
-            drv = builtRustCrates.crates.${packageId};
-            testDrv = builtTestRustCrates.crates.${packageId};
-            derivation =
-              if runTests then
-                crateWithTest {
-                  crate = drv;
-                  testCrate = testDrv;
-                  inherit
-                    testCrateFlags
-                    testInputs
-                    testPreRun
-                    testPostRun
-                    ;
-                }
-              else
-                drv;
-          in
-          derivation
-        )
+      lib.makeOverridable (
         {
-          inherit
-            features
-            crateOverrides
-            runTests
-            testCrateFlags
-            testInputs
-            testPreRun
-            testPostRun
-            ;
-        };
+          features,
+          crateOverrides,
+          runTests,
+          testCrateFlags,
+          testInputs,
+          testPreRun,
+          testPostRun,
+        }:
+        let
+          buildRustCrateForPkgsFuncOverriden =
+            if buildRustCrateForPkgsFunc != null then
+              buildRustCrateForPkgsFunc
+            else
+              (
+                if crateOverrides == pkgs.defaultCrateOverrides then
+                  buildRustCrateForPkgs
+                else
+                  pkgs: (buildRustCrateForPkgs pkgs).override { defaultCrateOverrides = crateOverrides; }
+              );
+          builtRustCrates = builtRustCratesWithFeatures {
+            inherit packageId features;
+            buildRustCrateForPkgsFunc = buildRustCrateForPkgsFuncOverriden;
+            runTests = false;
+          };
+          builtTestRustCrates = builtRustCratesWithFeatures {
+            inherit packageId features;
+            buildRustCrateForPkgsFunc = buildRustCrateForPkgsFuncOverriden;
+            runTests = true;
+          };
+          drv = builtRustCrates.crates.${packageId};
+          testDrv = builtTestRustCrates.crates.${packageId};
+          derivation =
+            if runTests then
+              crateWithTest {
+                crate = drv;
+                testCrate = testDrv;
+                inherit testCrateFlags testInputs testPreRun testPostRun;
+              }
+            else
+              drv;
+        in
+        derivation
+      ) { inherit features crateOverrides runTests testCrateFlags testInputs testPreRun testPostRun; };
 
     /*
       Returns an attr set with packageId mapped to the result of buildRustCrateForPkgsFunc
@@ -4486,13 +4469,7 @@ rec {
               extraRustcOpts =
                 lib.lists.optional (targetFeatures != [ ])
                   "-C target-feature=${lib.concatMapStringsSep "," (x: "+${x}") targetFeatures}";
-              inherit
-                features
-                dependencies
-                buildDependencies
-                crateRenames
-                release
-                ;
+              inherit features dependencies buildDependencies crateRenames release;
             }
           );
       in
@@ -4668,13 +4645,7 @@ rec {
               mergePackageFeatures {
                 features = combinedFeatures;
                 featuresByPackageId = cache;
-                inherit
-                  crateConfigs
-                  packageId
-                  target
-                  runTests
-                  rootPackageId
-                  ;
+                inherit crateConfigs packageId target runTests rootPackageId;
               }
           );
         cacheWithSelf =

@@ -161,13 +161,7 @@ let
     passthru = (
       lib.optionalAttrs (pname != null) { inherit (gems.${pname}) gemType; }
       // rec {
-        inherit
-          ruby
-          bundler
-          gems
-          confFiles
-          envPaths
-          ;
+        inherit ruby bundler gems confFiles envPaths;
 
         wrappedRuby = stdenv.mkDerivation {
           name = "wrapped-ruby-${pname'}";

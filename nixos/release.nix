@@ -170,14 +170,7 @@ let
 in
 rec {
 
-  channel = import lib/make-channel.nix {
-    inherit
-      pkgs
-      nixpkgs
-      version
-      versionSuffix
-      ;
-  };
+  channel = import lib/make-channel.nix { inherit pkgs nixpkgs version versionSuffix; };
 
   manualHTML = buildFromConfig ({ ... }: { }) (config: config.system.build.manual.manualHTML);
   manual = manualHTML; # TODO(@oxij): remove eventually

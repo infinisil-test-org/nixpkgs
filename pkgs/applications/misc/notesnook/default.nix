@@ -54,12 +54,7 @@ let
   };
 
   linux = appimageTools.wrapType2 rec {
-    inherit
-      pname
-      version
-      src
-      meta
-      ;
+    inherit pname version src meta;
 
     profile = ''
       export LC_ALL=C.UTF-8
@@ -77,12 +72,7 @@ let
   };
 
   darwin = stdenv.mkDerivation {
-    inherit
-      pname
-      version
-      src
-      meta
-      ;
+    inherit pname version src meta;
 
     nativeBuildInputs = [ undmg ];
 

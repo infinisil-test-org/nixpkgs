@@ -61,20 +61,10 @@ let
 in
 
 rec {
-  launcher =
-    runCommand "clojupyter"
-      {
-        inherit
-          pname
-          version
-          meta
-          shellScript
-          ;
-      }
-      ''
-        mkdir -p $out/bin
-        ln -s $shellScript $out/bin/clojupyter
-      '';
+  launcher = runCommand "clojupyter" { inherit pname version meta shellScript; } ''
+    mkdir -p $out/bin
+    ln -s $shellScript $out/bin/clojupyter
+  '';
 
   definition = {
     displayName = "Clojure";

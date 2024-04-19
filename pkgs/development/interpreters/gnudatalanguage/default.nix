@@ -190,14 +190,7 @@ stdenv.mkDerivation rec {
     netcdf = netcdf-custom;
     plplot = plplot-with-drivers;
     python = python3;
-    inherit
-      enableMPI
-      mpi
-      useHdf5v110Api
-      enableSzip
-      enableWX
-      enableXWin
-      ;
+    inherit enableMPI mpi useHdf5v110Api enableSzip enableWX enableXWin;
   };
 
   meta = with lib; {

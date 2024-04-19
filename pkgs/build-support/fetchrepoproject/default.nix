@@ -52,14 +52,7 @@ in
 stdenvNoCC.mkDerivation {
   inherit name;
 
-  inherit
-    cacert
-    manifest
-    rev
-    repoRepoURL
-    repoRepoRev
-    referenceDir
-    ; # TODO
+  inherit cacert manifest rev repoRepoURL repoRepoRev referenceDir; # TODO
 
   outputHashAlgo = "sha256";
   outputHashMode = "recursive";

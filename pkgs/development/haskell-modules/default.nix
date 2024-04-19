@@ -24,13 +24,7 @@ let
 
   haskellPackages = pkgs.callPackage makePackageSet {
     package-set = initialPackages;
-    inherit
-      stdenv
-      haskellLib
-      ghc
-      extensible-self
-      all-cabal-hashes
-      ;
+    inherit stdenv haskellLib ghc extensible-self all-cabal-hashes;
     buildHaskellPackages = buildHaskellPackages // {
       __attrsFailEvaluation = true;
     };

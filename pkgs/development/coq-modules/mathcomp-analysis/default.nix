@@ -166,14 +166,7 @@ let
           "${package}";
       pname = if package == "single" then "mathcomp-analysis-single" else "mathcomp-${package}";
       derivation = mkCoqDerivation ({
-        inherit
-          version
-          pname
-          defaultVersion
-          release
-          repo
-          owner
-          ;
+        inherit version pname defaultVersion release repo owner;
 
         namePrefix = [
           "coq"

@@ -128,13 +128,7 @@ in
     pythonOlder
     ;
   inherit buildPythonPackage buildPythonApplication;
-  inherit
-    hasPythonModule
-    requiredPythonModules
-    makePythonPath
-    disabled
-    disabledIf
-    ;
+  inherit hasPythonModule requiredPythonModules makePythonPath disabled disabledIf;
   inherit toPythonModule toPythonApplication;
 
   python = toPythonModule python;

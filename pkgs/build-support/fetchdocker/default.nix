@@ -70,18 +70,8 @@ stdenv.mkDerivation {
   buildInputs = [ coreutils ];
   preferLocalBuild = true;
 
-  inherit
-    name
-    imageName
-    repository
-    tag
-    ;
-  inherit
-    bash
-    gnutar
-    manifest
-    repositories
-    ;
+  inherit name imageName repository tag;
+  inherit bash gnutar manifest repositories;
   inherit imageFileStorePaths;
 
   passthru = {

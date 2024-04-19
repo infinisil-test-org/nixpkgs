@@ -25,15 +25,7 @@
 let
   # seafile-server relies on a specific version of libevhtp.
   # It contains non upstreamed patches and is forked off an outdated version.
-  libevhtp = import ./libevhtp.nix {
-    inherit
-      stdenv
-      lib
-      fetchFromGitHub
-      cmake
-      libevent
-      ;
-  };
+  libevhtp = import ./libevhtp.nix { inherit stdenv lib fetchFromGitHub cmake libevent; };
 in
 stdenv.mkDerivation rec {
   pname = "seafile-server";

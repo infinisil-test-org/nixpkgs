@@ -319,12 +319,7 @@ let
       abort (
         "mkDerivation was called with unsupported hardening flags: "
         + lib.generators.toPretty { } {
-          inherit
-            erroneousHardeningFlags
-            hardeningDisable
-            hardeningEnable
-            knownHardeningFlags
-            ;
+          inherit erroneousHardeningFlags hardeningDisable hardeningEnable knownHardeningFlags;
         }
       )
     else

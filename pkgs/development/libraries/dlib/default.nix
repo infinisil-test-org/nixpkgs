@@ -82,12 +82,7 @@
     );
 
   passthru = {
-    inherit
-      cudaSupport
-      cudaPackages
-      sse4Support
-      avxSupport
-      ;
+    inherit cudaSupport cudaPackages sse4Support avxSupport;
   };
 
   meta = with lib; {

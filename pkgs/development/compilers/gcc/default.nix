@@ -398,13 +398,7 @@ lib.pipe
           )
         '');
 
-      inherit
-        noSysDirs
-        staticCompiler
-        withoutTargetLibc
-        libcCross
-        crossMingw
-        ;
+      inherit noSysDirs staticCompiler withoutTargetLibc libcCross crossMingw;
 
       inherit (callFile ./common/dependencies.nix { })
         depsBuildBuild

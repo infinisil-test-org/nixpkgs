@@ -20,11 +20,6 @@ stdenvNoCC.mkDerivation {
     nukeReferences
     kmod
   ];
-  inherit
-    kernel
-    firmware
-    rootModules
-    allowMissing
-    ;
+  inherit kernel firmware rootModules allowMissing;
   allowedReferences = [ "out" ];
 }

@@ -45,12 +45,7 @@ let
 in
 if stdenv.isDarwin then
   stdenv.mkDerivation {
-    inherit
-      pname
-      version
-      src
-      meta
-      ;
+    inherit pname version src meta;
 
     sourceRoot = ".";
 
@@ -67,12 +62,7 @@ if stdenv.isDarwin then
   }
 else
   appimageTools.wrapType2 {
-    inherit
-      pname
-      version
-      src
-      meta
-      ;
+    inherit pname version src meta;
 
     extraPkgs = pkgs: appimageTools.defaultFhsEnvArgs.multiPkgs pkgs;
 

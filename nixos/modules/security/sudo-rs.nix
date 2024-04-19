@@ -288,12 +288,7 @@ in
       {
         sudo = {
           source = "${cfg.package.out}/bin/sudo";
-          inherit
-            owner
-            group
-            setuid
-            permissions
-            ;
+          inherit owner group setuid permissions;
         };
       };
 

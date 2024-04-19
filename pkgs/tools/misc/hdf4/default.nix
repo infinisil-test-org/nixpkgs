@@ -142,14 +142,7 @@ stdenv.mkDerivation rec {
   '';
 
   passthru = {
-    inherit
-      uselibtirpc
-      libtirpc
-      szipSupport
-      szip
-      javaSupport
-      jdk
-      ;
+    inherit uselibtirpc libtirpc szipSupport szip javaSupport jdk;
   };
 
   meta = with lib; {

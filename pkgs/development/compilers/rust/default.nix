@@ -31,13 +31,7 @@
 let
   # Use `import` to make sure no packages sneak in here.
   lib' = import ../../../build-support/rust/lib {
-    inherit
-      lib
-      stdenv
-      pkgsBuildHost
-      pkgsBuildTarget
-      pkgsTargetTarget
-      ;
+    inherit lib stdenv pkgsBuildHost pkgsBuildTarget pkgsTargetTarget;
   };
   # Allow faster cross compiler generation by reusing Build artifacts
   fastCross =
@@ -101,14 +95,7 @@ in
           version = rustcVersion;
           sha256 = rustcSha256;
           inherit enableRustcDev;
-          inherit
-            llvmShared
-            llvmSharedForBuild
-            llvmSharedForHost
-            llvmSharedForTarget
-            llvmPackages
-            fastCross
-            ;
+          inherit llvmShared llvmSharedForBuild llvmSharedForHost llvmSharedForTarget llvmPackages fastCross;
 
           patches = rustcPatches;
 

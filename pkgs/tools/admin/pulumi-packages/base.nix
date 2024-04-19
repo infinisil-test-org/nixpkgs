@@ -16,12 +16,7 @@ let
     }@args:
     buildGoModule (
       rec {
-        inherit
-          pname
-          src
-          vendorHash
-          version
-          ;
+        inherit pname src vendorHash version;
 
         sourceRoot = "${src.name}/provider";
 
@@ -56,12 +51,7 @@ let
         setuptools,
       }:
       buildPythonPackage rec {
-        inherit
-          pname
-          meta
-          src
-          version
-          ;
+        inherit pname meta src version;
         format = "pyproject";
 
         disabled = pythonOlder "3.7";
@@ -120,22 +110,11 @@ in
 let
   src = fetchFromGitHub {
     name = "source-${repo}-${rev}";
-    inherit
-      owner
-      repo
-      rev
-      hash
-      fetchSubmodules
-      ;
+    inherit owner repo rev hash fetchSubmodules;
   };
 
   pulumi-gen = mkBasePackage rec {
-    inherit
-      src
-      version
-      vendorHash
-      extraLdflags
-      ;
+    inherit src version vendorHash extraLdflags;
 
     cmd = cmdGen;
     pname = cmdGen;
@@ -143,13 +122,7 @@ let
 in
 mkBasePackage (
   {
-    inherit
-      meta
-      src
-      version
-      vendorHash
-      extraLdflags
-      ;
+    inherit meta src version vendorHash extraLdflags;
 
     pname = repo;
 

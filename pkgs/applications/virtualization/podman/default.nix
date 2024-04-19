@@ -80,13 +80,7 @@ buildGoModule rec {
   patches = [
     (substituteAll {
       src = ./hardcode-paths.patch;
-      inherit
-        crun
-        runc
-        gvisor
-        youki
-        conmon
-        ;
+      inherit crun runc gvisor youki conmon;
     })
 
     # we intentionally don't build and install the helper so we shouldn't display messages to users about it

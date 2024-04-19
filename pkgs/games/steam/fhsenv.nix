@@ -340,13 +340,7 @@ buildFHSEnv rec {
     name = "steam-run";
 
     targetPkgs = commonTargetPkgs;
-    inherit
-      multiArch
-      multiPkgs
-      profile
-      extraInstallCommands
-      extraBwrapArgs
-      ;
+    inherit multiArch multiPkgs profile extraInstallCommands extraBwrapArgs;
 
     runScript = writeShellScript "steam-run" ''
       run="$1"

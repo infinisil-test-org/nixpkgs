@@ -162,14 +162,7 @@ stdenv.mkDerivation (finalAttrs: {
   __darwinAllowLocalNetworking = true;
 
   passthru.tests = {
-    inherit
-      bind
-      cmake
-      knot-resolver
-      mosquitto
-      neovim
-      nodejs
-      ;
+    inherit bind cmake knot-resolver mosquitto neovim nodejs;
     inherit (lispPackages) cl-libuv;
     luajit-libluv = luajitPackages.libluv;
     luajit-luv = luajitPackages.luv;

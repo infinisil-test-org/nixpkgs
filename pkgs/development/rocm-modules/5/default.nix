@@ -21,13 +21,7 @@ rec {
   ## ROCm ##
   llvm = recurseIntoAttrs (
     callPackage ./llvm/default.nix {
-      inherit
-        rocmUpdateScript
-        rocm-device-libs
-        rocm-runtime
-        rocm-thunk
-        clr
-        ;
+      inherit rocmUpdateScript rocm-device-libs rocm-runtime rocm-thunk clr;
     }
   );
 
@@ -143,12 +137,7 @@ rec {
 
   # Needs GCC
   roctracer = callPackage ./roctracer {
-    inherit
-      rocmUpdateScript
-      rocm-device-libs
-      rocm-runtime
-      clr
-      ;
+    inherit rocmUpdateScript rocm-device-libs rocm-runtime clr;
     stdenv = gcc12Stdenv;
   };
 
@@ -160,12 +149,7 @@ rec {
   };
 
   rocdbgapi = callPackage ./rocdbgapi {
-    inherit
-      rocmUpdateScript
-      rocm-cmake
-      rocm-comgr
-      rocm-runtime
-      ;
+    inherit rocmUpdateScript rocm-cmake rocm-comgr rocm-runtime;
     stdenv = llvm.rocmClangStdenv;
   };
 
@@ -180,22 +164,12 @@ rec {
   };
 
   rocsparse = callPackage ./rocsparse {
-    inherit
-      rocmUpdateScript
-      rocm-cmake
-      rocprim
-      clr
-      ;
+    inherit rocmUpdateScript rocm-cmake rocprim clr;
     stdenv = llvm.rocmClangStdenv;
   };
 
   rocthrust = callPackage ./rocthrust {
-    inherit
-      rocmUpdateScript
-      rocm-cmake
-      rocprim
-      clr
-      ;
+    inherit rocmUpdateScript rocm-cmake rocprim clr;
     stdenv = llvm.rocmClangStdenv;
   };
 
@@ -207,45 +181,23 @@ rec {
   hiprand = rocrand; # rocrand includes hiprand
 
   rocfft = callPackage ./rocfft {
-    inherit
-      rocmUpdateScript
-      rocm-cmake
-      rocrand
-      rocfft
-      clr
-      ;
+    inherit rocmUpdateScript rocm-cmake rocrand rocfft clr;
     inherit (llvm) openmp;
     stdenv = llvm.rocmClangStdenv;
   };
 
   rccl = callPackage ./rccl {
-    inherit
-      rocmUpdateScript
-      rocm-cmake
-      rocm-smi
-      clr
-      hipify
-      ;
+    inherit rocmUpdateScript rocm-cmake rocm-smi clr hipify;
     stdenv = llvm.rocmClangStdenv;
   };
 
   hipcub = callPackage ./hipcub {
-    inherit
-      rocmUpdateScript
-      rocm-cmake
-      rocprim
-      clr
-      ;
+    inherit rocmUpdateScript rocm-cmake rocprim clr;
     stdenv = llvm.rocmClangStdenv;
   };
 
   hipsparse = callPackage ./hipsparse {
-    inherit
-      rocmUpdateScript
-      rocm-cmake
-      rocsparse
-      clr
-      ;
+    inherit rocmUpdateScript rocm-cmake rocsparse clr;
     inherit (llvm) openmp;
     stdenv = llvm.rocmClangStdenv;
   };
@@ -256,12 +208,7 @@ rec {
   };
 
   hipfft = callPackage ./hipfft {
-    inherit
-      rocmUpdateScript
-      rocm-cmake
-      rocfft
-      clr
-      ;
+    inherit rocmUpdateScript rocm-cmake rocfft clr;
     inherit (llvm) openmp;
     stdenv = llvm.rocmClangStdenv;
   };
@@ -272,50 +219,24 @@ rec {
   };
 
   rocblas = callPackage ./rocblas {
-    inherit
-      rocblas
-      rocmUpdateScript
-      rocm-cmake
-      clr
-      tensile
-      ;
+    inherit rocblas rocmUpdateScript rocm-cmake clr tensile;
     inherit (llvm) openmp;
     stdenv = llvm.rocmClangStdenv;
   };
 
   rocsolver = callPackage ./rocsolver {
-    inherit
-      rocmUpdateScript
-      rocm-cmake
-      rocblas
-      rocsparse
-      clr
-      ;
+    inherit rocmUpdateScript rocm-cmake rocblas rocsparse clr;
     stdenv = llvm.rocmClangStdenv;
   };
 
   rocwmma = callPackage ./rocwmma {
-    inherit
-      rocmUpdateScript
-      rocm-cmake
-      rocm-smi
-      rocblas
-      clr
-      ;
+    inherit rocmUpdateScript rocm-cmake rocm-smi rocblas clr;
     inherit (llvm) openmp;
     stdenv = llvm.rocmClangStdenv;
   };
 
   rocalution = callPackage ./rocalution {
-    inherit
-      rocmUpdateScript
-      rocm-cmake
-      rocprim
-      rocsparse
-      rocrand
-      rocblas
-      clr
-      ;
+    inherit rocmUpdateScript rocm-cmake rocprim rocsparse rocrand rocblas clr;
     inherit (llvm) openmp;
     stdenv = llvm.rocmClangStdenv;
   };
@@ -328,24 +249,12 @@ rec {
   rocmlir-rock = rocmlir.override { buildRockCompiler = true; };
 
   hipsolver = callPackage ./hipsolver {
-    inherit
-      rocmUpdateScript
-      rocm-cmake
-      rocblas
-      rocsolver
-      clr
-      ;
+    inherit rocmUpdateScript rocm-cmake rocblas rocsolver clr;
     stdenv = llvm.rocmClangStdenv;
   };
 
   hipblas = callPackage ./hipblas {
-    inherit
-      rocmUpdateScript
-      rocm-cmake
-      rocblas
-      rocsolver
-      clr
-      ;
+    inherit rocmUpdateScript rocm-cmake rocblas rocsolver clr;
     stdenv = llvm.rocmClangStdenv;
   };
 
@@ -409,13 +318,7 @@ rec {
   };
 
   rpp = callPackage ./rpp {
-    inherit
-      rocmUpdateScript
-      rocm-cmake
-      rocm-docs-core
-      clr
-      half
-      ;
+    inherit rocmUpdateScript rocm-cmake rocm-docs-core clr half;
     inherit (llvm) openmp;
     stdenv = llvm.rocmClangStdenv;
   };

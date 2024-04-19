@@ -23,12 +23,7 @@ let
   };
 in
 buildPythonPackage {
-  inherit
-    pname
-    version
-    src
-    format
-    ;
+  inherit pname version src format;
 
   disabled = pythonOlder "3.8" || isPy311;
 

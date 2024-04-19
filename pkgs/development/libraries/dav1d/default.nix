@@ -65,13 +65,7 @@ stdenv.mkDerivation rec {
   doCheck = true;
 
   passthru.tests = {
-    inherit
-      ffmpeg
-      gdal
-      handbrake
-      libavif
-      libheif
-      ;
+    inherit ffmpeg gdal handbrake libavif libheif;
   };
 
   meta = with lib; {

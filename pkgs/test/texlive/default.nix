@@ -742,12 +742,7 @@ rec {
     in
     runCommand "texlive-test-binaries"
       {
-        inherit
-          binaries
-          contextTestTex
-          latexTestTex
-          texTestTex
-          ;
+        inherit binaries contextTestTex latexTestTex texTestTex;
         texliveScheme = texliveFull;
       }
       ''

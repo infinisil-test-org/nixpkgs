@@ -65,13 +65,7 @@ stdenv.mkDerivation rec {
   '';
 
   passthru.tests = {
-    inherit
-      gimp
-      imagemagick
-      imlib2Full
-      imv
-      vips
-      ;
+    inherit gimp imagemagick imlib2Full imv vips;
   };
 
   meta = {

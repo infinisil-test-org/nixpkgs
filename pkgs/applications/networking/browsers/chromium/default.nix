@@ -79,12 +79,7 @@ let
 
     mkChromiumDerivation = callPackage ./common.nix ({
       inherit channel chromiumVersionAtLeast versionRange;
-      inherit
-        proprietaryCodecs
-        cupsSupport
-        pulseSupport
-        ungoogled
-        ;
+      inherit proprietaryCodecs cupsSupport pulseSupport ungoogled;
       gnChromium = buildPackages.gn.overrideAttrs (oldAttrs: {
         inherit (upstream-info.deps.gn) version;
         src = fetchgit { inherit (upstream-info.deps.gn) url rev hash; };
@@ -93,12 +88,7 @@ let
     });
 
     browser = callPackage ./browser.nix {
-      inherit
-        channel
-        chromiumVersionAtLeast
-        enableWideVine
-        ungoogled
-        ;
+      inherit channel chromiumVersionAtLeast enableWideVine ungoogled;
     };
 
     # ungoogled-chromium is, contrary to its name, not a build of

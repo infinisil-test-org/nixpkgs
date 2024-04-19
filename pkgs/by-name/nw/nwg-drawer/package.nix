@@ -25,12 +25,7 @@ let
   vendorHash = "sha256-L8gdJd5cPfQrcSXLxFx6BAVWOXC8HRuk5fFQ7MsKpIc=";
 in
 buildGoModule {
-  inherit
-    pname
-    version
-    src
-    vendorHash
-    ;
+  inherit pname version src vendorHash;
 
   nativeBuildInputs = [
     gobject-introspection

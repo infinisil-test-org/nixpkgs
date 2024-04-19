@@ -22,12 +22,7 @@ let
     { pname, cargoHash, ... }@args:
     rustPlatform.buildRustPackage (
       rec {
-        inherit
-          pname
-          version
-          src
-          cargoHash
-          ;
+        inherit pname version src cargoHash;
 
         nativeBuildInputs = [ protobuf ];
         buildInputs = lib.optional stdenv.isDarwin darwin.apple_sdk.frameworks.Security;

@@ -232,19 +232,9 @@ let
 
       merged =
         let
-          collected =
-            collectModules class (specialArgs.modulesPath or "") (regularModules ++ [ internalModule ])
-              (
-                {
-                  inherit
-                    lib
-                    options
-                    config
-                    specialArgs
-                    ;
-                }
-                // specialArgs
-              );
+          collected = collectModules class (specialArgs.modulesPath or "") (
+            regularModules ++ [ internalModule ]
+          ) ({ inherit lib options config specialArgs; } // specialArgs);
         in
         mergeModules prefix (reverseList collected);
 

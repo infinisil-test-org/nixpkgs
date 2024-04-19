@@ -14,14 +14,7 @@ let
 
     value = lib.mapAttrs' (variantName: variant: {
       name = variantName;
-      value = callPackage ./generic.nix {
-        inherit
-          prefix
-          type
-          variantName
-          variant
-          ;
-      };
+      value = callPackage ./generic.nix { inherit prefix type variantName variant; };
     }) content;
   }) (lib.importJSON ./variants.json);
 in

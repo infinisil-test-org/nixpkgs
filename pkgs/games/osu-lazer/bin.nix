@@ -56,13 +56,7 @@ let
 in
 if stdenv.isDarwin then
   stdenv.mkDerivation {
-    inherit
-      pname
-      version
-      src
-      meta
-      passthru
-      ;
+    inherit pname version src meta passthru;
 
     installPhase = ''
       runHook preInstall
@@ -74,13 +68,7 @@ if stdenv.isDarwin then
   }
 else
   appimageTools.wrapType2 {
-    inherit
-      pname
-      version
-      src
-      meta
-      passthru
-      ;
+    inherit pname version src meta passthru;
 
     extraPkgs = pkgs: with pkgs; [ icu ];
 

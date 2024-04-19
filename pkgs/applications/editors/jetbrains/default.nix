@@ -59,13 +59,7 @@ let
       extraBuildInputs ? [ ],
     }:
     mkJetBrainsProductCore {
-      inherit
-        pname
-        jdk
-        extraWrapperArgs
-        extraLdPath
-        extraBuildInputs
-        ;
+      inherit pname jdk extraWrapperArgs extraLdPath extraBuildInputs;
       src =
         if fromSource then
           communitySources."${pname}"

@@ -86,14 +86,7 @@ stdenv.mkDerivation rec {
   '';
 
   passthru.tests = {
-    inherit
-      audacity
-      freeswitch
-      libsamplerate
-      moc
-      pipewire
-      pulseaudio
-      ;
+    inherit audacity freeswitch libsamplerate moc pipewire pulseaudio;
     inherit (python3.pkgs) soundfile wavefile;
     inherit (gst_all_1) gst-plugins-bad;
     lame = (lame.override { sndfileFileIOSupport = true; });

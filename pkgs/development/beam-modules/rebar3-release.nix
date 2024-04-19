@@ -33,12 +33,7 @@ let
     };
 
   customPhases = lib.filterAttrs (_: v: v != null) {
-    inherit
-      setupHook
-      configurePhase
-      buildPhase
-      installPhase
-      ;
+    inherit setupHook configurePhase buildPhase installPhase;
   };
 
   # When using the `beamDeps` argument, it is important that we use

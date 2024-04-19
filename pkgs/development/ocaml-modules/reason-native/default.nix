@@ -18,17 +18,7 @@ let
     somePath:
     let
       prepkg = import somePath {
-        inherit
-          callPackage
-          cli
-          buildDunePackage
-          atdgen
-          junit
-          qcheck-core
-          re
-          reason
-          fetchpatch
-          ;
+        inherit callPackage cli buildDunePackage atdgen junit qcheck-core re reason fetchpatch;
         inherit (reason-native)
           console
           file-context-printer

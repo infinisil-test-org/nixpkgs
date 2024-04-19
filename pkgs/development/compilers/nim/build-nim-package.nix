@@ -60,15 +60,7 @@ let
             url,
             ...
           }:
-          buildPackages.fetchgit {
-            inherit
-              fetchSubmodules
-              leaveDotGit
-              rev
-              sha256
-              url
-              ;
-          };
+          buildPackages.fetchgit { inherit fetchSubmodules leaveDotGit rev sha256 url; };
       };
     in
     attrs@{ method, ... }:

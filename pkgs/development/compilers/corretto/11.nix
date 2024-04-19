@@ -12,13 +12,7 @@
 
 let
   corretto = import ./mk-corretto.nix {
-    inherit
-      lib
-      stdenv
-      rsync
-      runCommand
-      testers
-      ;
+    inherit lib stdenv rsync runCommand testers;
     jdk = jdk11;
     gradle = gradle_7;
     version = "11.0.20.9.1";

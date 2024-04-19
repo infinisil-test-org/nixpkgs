@@ -72,12 +72,7 @@
             forceEmptyCache ? false,
           }:
           testers.invalidateFetcherByDrvHash fetchNpmDeps {
-            inherit
-              name
-              hash
-              forceGitDeps
-              forceEmptyCache
-              ;
+            inherit name hash forceGitDeps forceEmptyCache;
 
             src = makeTestSrc { inherit name src; };
           };

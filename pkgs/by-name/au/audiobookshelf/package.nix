@@ -39,16 +39,7 @@ let
     npmDepsHash = source.clientDepsHash;
   };
 
-  wrapper = import ./wrapper.nix {
-    inherit
-      stdenv
-      ffmpeg-full
-      tone
-      pname
-      nodejs
-      getopt
-      ;
-  };
+  wrapper = import ./wrapper.nix { inherit stdenv ffmpeg-full tone pname nodejs getopt; };
 in
 buildNpmPackage {
   inherit pname src;

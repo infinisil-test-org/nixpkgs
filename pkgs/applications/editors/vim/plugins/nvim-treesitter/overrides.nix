@@ -57,13 +57,7 @@ in
   '';
 
   passthru = (super.nvim-treesitter.passthru or { }) // {
-    inherit
-      builtGrammars
-      allGrammars
-      grammarToPlugin
-      withPlugins
-      withAllGrammars
-      ;
+    inherit builtGrammars allGrammars grammarToPlugin withPlugins withAllGrammars;
 
     grammarPlugins = lib.mapAttrs (_: grammarToPlugin) generatedDerivations;
 

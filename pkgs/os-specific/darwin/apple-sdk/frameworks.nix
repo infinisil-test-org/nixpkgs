@@ -15,12 +15,7 @@ with libs;
     inherit Carbon OpenGL;
   };
   AVFoundation = {
-    inherit
-      ApplicationServices
-      CoreGraphics
-      CoreMedia
-      MediaToolbox
-      ;
+    inherit ApplicationServices CoreGraphics CoreMedia MediaToolbox;
   };
   AVKit = { };
   Accounts = { };
@@ -28,14 +23,7 @@ with libs;
     inherit libobjc Carbon ContactsPersistence;
   };
   AppKit = {
-    inherit
-      ApplicationServices
-      AudioToolbox
-      AudioUnit
-      Foundation
-      QuartzCore
-      UIFoundation
-      ;
+    inherit ApplicationServices AudioToolbox AudioUnit Foundation QuartzCore UIFoundation;
   };
   AppKitScripting = { };
   AppleScriptKit = { };
@@ -67,12 +55,7 @@ with libs;
   };
   CoreData = { };
   CoreGraphics = {
-    inherit
-      Accelerate
-      IOKit
-      IOSurface
-      SystemConfiguration
-      ;
+    inherit Accelerate IOKit IOSurface SystemConfiguration;
   };
   CoreImage = { };
   CoreLocation = { };
@@ -81,14 +64,7 @@ with libs;
     inherit CoreMIDI;
   };
   CoreMedia = {
-    inherit
-      ApplicationServices
-      AudioToolbox
-      AudioUnit
-      CoreAudio
-      CoreGraphics
-      CoreVideo
-      ;
+    inherit ApplicationServices AudioToolbox AudioUnit CoreAudio CoreGraphics CoreVideo;
   };
   CoreMediaIO = {
     inherit CoreMedia;
@@ -97,12 +73,7 @@ with libs;
     inherit CoreGraphics;
   };
   CoreVideo = {
-    inherit
-      ApplicationServices
-      CoreGraphics
-      IOSurface
-      OpenGL
-      ;
+    inherit ApplicationServices CoreGraphics IOSurface OpenGL;
   };
   CoreWLAN = {
     inherit SecurityFoundation;
@@ -123,13 +94,7 @@ with libs;
     inherit IOKit;
   };
   Foundation = {
-    inherit
-      libobjc
-      CoreFoundation
-      Security
-      ApplicationServices
-      SystemConfiguration
-      ;
+    inherit libobjc CoreFoundation Security ApplicationServices SystemConfiguration;
   };
   GLKit = { };
   GLUT = {
@@ -217,13 +182,7 @@ with libs;
   PreferencePanes = { };
   PubSub = { };
   QTKit = {
-    inherit
-      CoreMediaIO
-      CoreMedia
-      MediaToolbox
-      QuickTime
-      VideoToolbox
-      ;
+    inherit CoreMediaIO CoreMedia MediaToolbox QuickTime VideoToolbox;
   };
   QuickLook = {
     inherit ApplicationServices;
@@ -261,13 +220,7 @@ with libs;
     inherit CoreMedia CoreVideo;
   };
   WebKit = {
-    inherit
-      libobjc
-      ApplicationServices
-      Carbon
-      JavaScriptCore
-      OpenGL
-      ;
+    inherit libobjc ApplicationServices Carbon JavaScriptCore OpenGL;
   };
 
   # Umbrellas
@@ -275,23 +228,10 @@ with libs;
     inherit CoreWLAN IOBluetooth;
   };
   ApplicationServices = {
-    inherit
-      CoreGraphics
-      CoreServices
-      CoreText
-      ImageIO
-      ;
+    inherit CoreGraphics CoreServices CoreText ImageIO;
   };
   Carbon = {
-    inherit
-      libobjc
-      ApplicationServices
-      CoreServices
-      Foundation
-      IOKit
-      Security
-      QuartzCore
-      ;
+    inherit libobjc ApplicationServices CoreServices Foundation IOKit Security QuartzCore;
   };
   CoreBluetooth = { };
   # TODO: figure out which part of the umbrella depends on CoreFoundation and move it there.
@@ -317,25 +257,10 @@ with libs;
     inherit QuartzCore QuickLook QTKit;
   };
   QuartzCore = {
-    inherit
-      libobjc
-      ApplicationServices
-      CoreVideo
-      OpenCL
-      CoreImage
-      Metal
-      ;
+    inherit libobjc ApplicationServices CoreVideo OpenCL CoreImage Metal;
   };
   QuickTime = {
-    inherit
-      ApplicationServices
-      AudioUnit
-      Carbon
-      CoreAudio
-      CoreServices
-      OpenGL
-      QuartzCore
-      ;
+    inherit ApplicationServices AudioUnit Carbon CoreAudio CoreServices OpenGL QuartzCore;
   };
 
   vmnet = { };

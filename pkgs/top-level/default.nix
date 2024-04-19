@@ -142,16 +142,7 @@ let
 
   boot = import ../stdenv/booter.nix { inherit lib allPackages; };
 
-  stages = stdenvStages {
-    inherit
-      lib
-      localSystem
-      crossSystem
-      config
-      overlays
-      crossOverlays
-      ;
-  };
+  stages = stdenvStages { inherit lib localSystem crossSystem config overlays crossOverlays; };
 
   pkgs = boot stages;
 in

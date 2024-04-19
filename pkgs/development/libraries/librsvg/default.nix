@@ -224,13 +224,7 @@ stdenv.mkDerivation (finalAttrs: {
         updateLockfile
       ];
     tests = {
-      inherit
-        gegl
-        gimp
-        imagemagick
-        imlib2
-        vips
-        ;
+      inherit gegl gimp imagemagick imlib2 vips;
       inherit (enlightenment) efl;
       inherit (xfce) xfwm4;
       ffmpeg = ffmpeg.override { withSvg = true; };

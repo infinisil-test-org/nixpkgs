@@ -71,12 +71,7 @@ let
   };
 in
 stdenv.mkDerivation (finalAttrs: {
-  inherit
-    pname
-    version
-    src
-    patches
-    ;
+  inherit pname version src patches;
 
   __darwinAllowLocalNetworking = true;
 

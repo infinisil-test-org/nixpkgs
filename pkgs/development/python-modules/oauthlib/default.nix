@@ -50,12 +50,7 @@ buildPythonPackage rec {
   pythonImportsCheck = [ "oauthlib" ];
 
   passthru.tests = {
-    inherit
-      django-allauth
-      django-oauth-toolkit
-      google-auth-oauthlib
-      requests-oauthlib
-      ;
+    inherit django-allauth django-oauth-toolkit google-auth-oauthlib requests-oauthlib;
   };
 
   meta = with lib; {

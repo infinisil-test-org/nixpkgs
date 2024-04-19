@@ -556,12 +556,7 @@ let
         inherit nodejs;
 
         inherit dontStrip; # Stripping may fail a build for some package deployments
-        inherit
-          dontNpmInstall
-          preRebuild
-          unpackPhase
-          buildPhase
-          ;
+        inherit dontNpmInstall preRebuild unpackPhase buildPhase;
 
         compositionScript = composePackage args;
         pinpointDependenciesScript = pinpointDependenciesOfPackage args;
@@ -581,15 +576,7 @@ let
           # Compose the package and all its dependencies
           source $compositionScriptPath
 
-          ${prepareAndInvokeNPM {
-            inherit
-              packageName
-              bypassCache
-              reconstructLock
-              npmFlags
-              production
-              ;
-          }}
+          ${prepareAndInvokeNPM { inherit packageName bypassCache reconstructLock npmFlags production; }}
 
           # Create symlink to the deployed executable folder, if applicable
           if [ -d "$out/lib/node_modules/.bin" ]
@@ -707,15 +694,7 @@ let
           cd ..
           ${lib.optionalString (builtins.substring 0 1 packageName == "@") "cd .."}
 
-          ${prepareAndInvokeNPM {
-            inherit
-              packageName
-              bypassCache
-              reconstructLock
-              npmFlags
-              production
-              ;
-          }}
+          ${prepareAndInvokeNPM { inherit packageName bypassCache reconstructLock npmFlags production; }}
 
           # Expose the executables that were installed
           cd ..

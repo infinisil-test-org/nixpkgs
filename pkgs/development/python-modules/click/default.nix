@@ -38,13 +38,7 @@ buildPythonPackage rec {
   ];
 
   passthru.tests = {
-    inherit
-      black
-      flask
-      magic-wormhole
-      mitmproxy
-      typer
-      ;
+    inherit black flask magic-wormhole mitmproxy typer;
   };
 
   meta = with lib; {

@@ -154,16 +154,7 @@ let
       in
       stdenv.mkDerivation (
         rec {
-          inherit
-            pname
-            version
-            nativeLibs
-            javaLibs
-            lispLibs
-            lisp
-            systems
-            asds
-            ;
+          inherit pname version nativeLibs javaLibs lispLibs lisp systems asds;
 
           # When src is null, we are building a lispWithPackages and only
           # want to make use of the dependency environment variables
@@ -455,12 +446,7 @@ let
     qlPackages // packages;
 
   commonLispPackages = rec {
-    inherit
-      build-asdf-system
-      lispWithPackagesInternal
-      lispPackagesFor
-      lispWithPackages
-      ;
+    inherit build-asdf-system lispWithPackagesInternal lispPackagesFor lispWithPackages;
 
     # TODO: uncomment clasp when clasp 1.0.0 is packaged
 

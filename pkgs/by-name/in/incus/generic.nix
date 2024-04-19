@@ -31,12 +31,7 @@ let
 in
 
 buildGoModule rec {
-  inherit
-    patches
-    pname
-    vendorHash
-    version
-    ;
+  inherit patches pname vendorHash version;
 
   src = fetchFromGitHub {
     owner = "lxc";
@@ -104,16 +99,7 @@ buildGoModule rec {
   '';
 
   passthru = {
-    client = callPackage ./client.nix {
-      inherit
-        lts
-        meta
-        patches
-        src
-        vendorHash
-        version
-        ;
-    };
+    client = callPackage ./client.nix { inherit lts meta patches src vendorHash version; };
 
     tests = nixosTests.incus;
 

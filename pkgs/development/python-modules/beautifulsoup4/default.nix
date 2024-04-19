@@ -59,14 +59,7 @@ buildPythonPackage rec {
   pythonImportsCheck = [ "bs4" ];
 
   passthru.tests = {
-    inherit
-      html-sanitizer
-      markdownify
-      mechanicalsoup
-      nbconvert
-      subliminal
-      wagtail
-      ;
+    inherit html-sanitizer markdownify mechanicalsoup nbconvert subliminal wagtail;
   };
 
   meta = with lib; {

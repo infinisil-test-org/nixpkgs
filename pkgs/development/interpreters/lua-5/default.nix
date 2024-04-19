@@ -171,12 +171,7 @@ rec {
 
   luajit_2_0 = import ../luajit/2.0.nix {
     self = luajit_2_0;
-    inherit
-      callPackage
-      fetchFromGitHub
-      lib
-      passthruFun
-      ;
+    inherit callPackage fetchFromGitHub lib passthruFun;
   };
 
   luajit_2_1 = import ../luajit/2.1.nix {

@@ -82,12 +82,7 @@ let
     '';
 
     passthru = {
-      inherit
-        collectiveClosure
-        directReferences
-        closures
-        samples
-        ;
+      inherit collectiveClosure directReferences closures samples;
     };
 
     meta = with lib; {
@@ -114,13 +109,7 @@ testers.nixosTest {
     """)
   '';
   passthru = {
-    inherit
-      collectiveClosure
-      directReferences
-      closures
-      samples
-      testScriptBin
-      ;
+    inherit collectiveClosure directReferences closures samples testScriptBin;
   };
   meta = {
     maintainers = with lib.maintainers; [

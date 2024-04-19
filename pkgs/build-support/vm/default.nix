@@ -498,14 +498,7 @@ rec {
 
     runInLinuxVM (
       stdenv.mkDerivation {
-        inherit
-          name
-          preInstall
-          postInstall
-          rpms
-          QEMU_OPTS
-          memSize
-          ;
+        inherit name preInstall postInstall rpms QEMU_OPTS memSize;
         preVM = createEmptyImage { inherit size fullName; };
 
         buildCommand = ''
@@ -687,12 +680,7 @@ rec {
     runInLinuxVM (
       stdenv.mkDerivation (
         {
-          inherit
-            name
-            postInstall
-            QEMU_OPTS
-            memSize
-            ;
+          inherit name postInstall QEMU_OPTS memSize;
 
           debs = (lib.intersperse "|" debs);
 
@@ -863,12 +851,7 @@ rec {
         memSize
         ;
       rpms = import (rpmClosureGenerator {
-        inherit
-          name
-          packagesLists
-          urlPrefixes
-          archs
-          ;
+        inherit name packagesLists urlPrefixes archs;
         packages = packages ++ extraPackages;
       }) { inherit fetchurl; };
     };
@@ -945,15 +928,7 @@ rec {
     in
     (fillDiskWithDebs (
       {
-        inherit
-          name
-          fullName
-          size
-          postInstall
-          createRootFS
-          QEMU_OPTS
-          memSize
-          ;
+        inherit name fullName size postInstall createRootFS QEMU_OPTS memSize;
         debs = import expr { inherit fetchurl; } ++ extraDebs;
       }
       // args

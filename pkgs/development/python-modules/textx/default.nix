@@ -67,13 +67,7 @@ let
 
     passthru.tests = {
       textxTests = callPackage ./tests.nix {
-        inherit
-          textx-data-dsl
-          textx-example-project
-          textx-flow-codegen
-          textx-flow-dsl
-          textx-types-dsl
-          ;
+        inherit textx-data-dsl textx-example-project textx-flow-codegen textx-flow-dsl textx-types-dsl;
       };
     };
 

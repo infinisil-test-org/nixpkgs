@@ -185,16 +185,7 @@ let
           installer.succeed("cat /mnt/etc/nixos/hardware-configuration.nix >&2")
           installer.copy_from_host(
               "${
-                makeConfig {
-                  inherit
-                    bootLoader
-                    grubDevice
-                    grubIdentifier
-                    grubUseEfi
-                    extraConfig
-                    clevisTest
-                    ;
-                }
+                makeConfig { inherit bootLoader grubDevice grubIdentifier grubUseEfi extraConfig clevisTest; }
               }",
               "/mnt/etc/nixos/configuration.nix",
           )
@@ -279,14 +270,7 @@ let
           target.copy_from_host_via_shell(
               "${
                 makeConfig {
-                  inherit
-                    bootLoader
-                    grubDevice
-                    grubIdentifier
-                    grubUseEfi
-                    extraConfig
-                    clevisTest
-                    ;
+                  inherit bootLoader grubDevice grubIdentifier grubUseEfi extraConfig clevisTest;
                   forceGrubReinstallCount = 1;
                 }
               }",
@@ -313,14 +297,7 @@ let
       target.copy_from_host_via_shell(
           "${
             makeConfig {
-              inherit
-                bootLoader
-                grubDevice
-                grubIdentifier
-                grubUseEfi
-                extraConfig
-                clevisTest
-                ;
+              inherit bootLoader grubDevice grubIdentifier grubUseEfi extraConfig clevisTest;
               forceGrubReinstallCount = 2;
             }
           }",
@@ -384,14 +361,7 @@ let
         target.copy_from_host_via_shell(
           "${
             makeConfig {
-              inherit
-                bootLoader
-                grubDevice
-                grubIdentifier
-                grubUseEfi
-                extraConfig
-                clevisTest
-                ;
+              inherit bootLoader grubDevice grubIdentifier grubUseEfi extraConfig clevisTest;
               forceGrubReinstallCount = 1;
               flake = true;
             }

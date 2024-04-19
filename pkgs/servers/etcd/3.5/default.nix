@@ -38,12 +38,7 @@ let
   etcdserver = buildGoModule rec {
     pname = "etcdserver";
 
-    inherit
-      CGO_ENABLED
-      meta
-      src
-      version
-      ;
+    inherit CGO_ENABLED meta src version;
 
     vendorHash = etcdServerVendorHash;
 
@@ -63,12 +58,7 @@ let
   etcdutl = buildGoModule rec {
     pname = "etcdutl";
 
-    inherit
-      CGO_ENABLED
-      meta
-      src
-      version
-      ;
+    inherit CGO_ENABLED meta src version;
 
     vendorHash = etcdUtlVendorHash;
 
@@ -78,12 +68,7 @@ let
   etcdctl = buildGoModule rec {
     pname = "etcdctl";
 
-    inherit
-      CGO_ENABLED
-      meta
-      src
-      version
-      ;
+    inherit CGO_ENABLED meta src version;
 
     vendorHash = etcdCtlVendorHash;
 

@@ -117,18 +117,7 @@ let
               };
           in
           qtStdenv.mkDerivation (
-            args
-            // {
-              inherit
-                pname
-                version
-                meta
-                outputs
-                setupHook
-                src
-                nativeBuildInputs
-                ;
-            }
+            args // { inherit pname version meta outputs setupHook src nativeBuildInputs; }
           );
       };
     in

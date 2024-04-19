@@ -124,12 +124,7 @@ in
 
 stdenv.mkDerivation (
   rec {
-    inherit
-      pname
-      version
-      cmakeFlags
-      patches
-      ;
+    inherit pname version cmakeFlags patches;
 
     src = src';
 

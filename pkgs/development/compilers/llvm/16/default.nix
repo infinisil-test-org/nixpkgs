@@ -64,14 +64,7 @@ let
   inherit (releaseInfo) release_version version;
   inherit
     (import ../common/common-let.nix {
-      inherit
-        lib
-        fetchFromGitHub
-        release_version
-        gitRelease
-        officialRelease
-        monorepoSrc'
-        ;
+      inherit lib fetchFromGitHub release_version gitRelease officialRelease monorepoSrc';
     })
     llvm_meta
     monorepoSrc
@@ -99,17 +92,7 @@ let
       callPackage = newScope (
         tools
         // {
-          inherit
-            stdenv
-            cmake
-            ninja
-            libxml2
-            python3
-            release_version
-            version
-            monorepoSrc
-            buildLlvmTools
-            ;
+          inherit stdenv cmake ninja libxml2 python3 release_version version monorepoSrc buildLlvmTools;
         }
       );
       major = lib.versions.major release_version;
@@ -349,16 +332,7 @@ let
         libraries
         // buildLlvmTools
         // {
-          inherit
-            stdenv
-            cmake
-            ninja
-            libxml2
-            python3
-            release_version
-            version
-            monorepoSrc
-            ;
+          inherit stdenv cmake ninja libxml2 python3 release_version version monorepoSrc;
         }
       );
     in
@@ -448,13 +422,4 @@ let
   );
   noExtend = extensible: lib.attrsets.removeAttrs extensible [ "extend" ];
 in
-{
-  inherit
-    tools
-    libraries
-    release_version
-    lldbPlugins
-    ;
-}
-// (noExtend libraries)
-// (noExtend tools)
+{ inherit tools libraries release_version lldbPlugins; } // (noExtend libraries) // (noExtend tools)

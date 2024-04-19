@@ -17,12 +17,7 @@ assert hash != "" || sha256 != "";
 assert hash != "" -> sha256 == "";
 
 import <nix/fetchurl.nix> {
-  inherit
-    system
-    hash
-    sha256
-    name
-    ;
+  inherit system hash sha256 name;
 
   url =
     # Handle mirror:// URIs. Since <nix/fetchurl.nix> currently

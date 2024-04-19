@@ -119,21 +119,10 @@ stdenv.mkDerivation (
   in
   {
 
-    inherit
-      pname
-      version
-      src
-      sourceRoot
-      dontFixup
-      ;
+    inherit pname version src sourceRoot dontFixup;
 
     passthru = {
-      inherit
-        executableName
-        longName
-        tests
-        updateScript
-        ;
+      inherit executableName longName tests updateScript;
       fhs = fhs { };
       fhsWithPackages = f: fhs { additionalPkgs = f; };
     } // lib.optionalAttrs (vscodeServer != null) { inherit rev vscodeServer; };

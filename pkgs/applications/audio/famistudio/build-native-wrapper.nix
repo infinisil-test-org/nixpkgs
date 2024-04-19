@@ -21,13 +21,7 @@ let
 in
 stdenv.mkDerivation {
   pname = "famistudio-nativedep-${depname}";
-  inherit
-    version
-    src
-    sourceRoot
-    patches
-    buildInputs
-    ;
+  inherit version src sourceRoot patches buildInputs;
 
   postPatch =
     let

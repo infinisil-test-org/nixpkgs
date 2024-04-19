@@ -91,14 +91,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   passthru = {
     tests = {
-      inherit
-        libgeotiff
-        imagemagick
-        graphicsmagick
-        gdal
-        openimageio
-        freeimage
-        ;
+      inherit libgeotiff imagemagick graphicsmagick gdal openimageio freeimage;
       inherit (python3Packages) pillow imread;
       pkg-config = testers.hasPkgConfigModules { package = finalAttrs.finalPackage; };
     };

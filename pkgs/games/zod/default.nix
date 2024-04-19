@@ -39,15 +39,7 @@ let
   hardeningDisable = [ "format" ];
   NIX_LDFLAGS = "-L${libmysqlclient}/lib/mysql";
   zod_engine = stdenv.mkDerivation {
-    inherit
-      version
-      src
-      postPatch
-      nativeBuildInputs
-      buildInputs
-      hardeningDisable
-      NIX_LDFLAGS
-      ;
+    inherit version src postPatch nativeBuildInputs buildInputs hardeningDisable NIX_LDFLAGS;
     pname = "${name}-engine";
     enableParallelBuilding = true;
     preBuild = "cd zod_src";
@@ -58,15 +50,7 @@ let
     '';
   };
   zod_map_editor = stdenv.mkDerivation {
-    inherit
-      version
-      src
-      postPatch
-      nativeBuildInputs
-      buildInputs
-      hardeningDisable
-      NIX_LDFLAGS
-      ;
+    inherit version src postPatch nativeBuildInputs buildInputs hardeningDisable NIX_LDFLAGS;
     pname = "${name}-map_editor";
     enableParallelBuilding = true;
     preBuild = "cd zod_src";
@@ -78,14 +62,7 @@ let
     '';
   };
   zod_launcher = stdenv.mkDerivation {
-    inherit
-      version
-      src
-      nativeBuildInputs
-      buildInputs
-      zod_engine
-      zod_map_editor
-      ;
+    inherit version src nativeBuildInputs buildInputs zod_engine zod_map_editor;
     pname = "${name}-launcher";
     # This is necessary because the zod_launcher has terrible fixed-width window
     # the Idea is to apply the scalingFactor to all positions and sizes and I tested 1,2,3 and 4

@@ -128,13 +128,7 @@ rec {
   withPackages = import ./with-packages.nix { inherit buildEnv pythonPackages; };
   pkgs = pythonPackages;
   interpreter = "${self}/bin/${executable}";
-  inherit
-    executable
-    implementation
-    libPrefix
-    pythonVersion
-    sitePackages
-    ;
+  inherit executable implementation libPrefix pythonVersion sitePackages;
   inherit sourceVersion;
   pythonAtLeast = lib.versionAtLeast pythonVersion;
   pythonOlder = lib.versionOlder pythonVersion;

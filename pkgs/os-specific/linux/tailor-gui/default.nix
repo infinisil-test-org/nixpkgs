@@ -22,12 +22,7 @@ let
 in
 stdenv.mkDerivation {
 
-  inherit
-    src
-    sourceRoot
-    pname
-    version
-    ;
+  inherit src sourceRoot pname version;
 
   cargoDeps = rustPlatform.fetchCargoTarball {
     inherit src sourceRoot;

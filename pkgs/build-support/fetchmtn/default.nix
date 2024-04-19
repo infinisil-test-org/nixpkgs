@@ -28,12 +28,7 @@ stdenvNoCC.mkDerivation {
   outputHash = sha256;
 
   dbs = defaultDBMirrors ++ dbs;
-  inherit
-    branch
-    cacheDB
-    name
-    selector
-    ;
+  inherit branch cacheDB name selector;
 
   impureEnvVars = lib.fetchers.proxyImpureEnvVars;
 }

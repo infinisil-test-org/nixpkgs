@@ -9,15 +9,7 @@ let
   fetchElmDeps = pkgs.callPackage ./lib/fetchElmDeps.nix { };
 
   # Haskell packages that require ghc 9.6
-  hs96Pkgs = import ./packages/ghc9_6 {
-    inherit
-      pkgs
-      lib
-      makeWrapper
-      nodejs
-      fetchElmDeps
-      ;
-  };
+  hs96Pkgs = import ./packages/ghc9_6 { inherit pkgs lib makeWrapper nodejs fetchElmDeps; };
 
   # Haskell packages that require ghc 8.10
   hs810Pkgs = import ./packages/ghc8_10 { inherit pkgs lib; };
@@ -26,14 +18,7 @@ let
   hs92Pkgs = import ./packages/ghc9_2 { inherit pkgs lib; };
 
   # Patched, originally npm-downloaded, packages
-  patchedNodePkgs = import ./packages/node {
-    inherit
-      pkgs
-      lib
-      nodejs
-      makeWrapper
-      ;
-  };
+  patchedNodePkgs = import ./packages/node { inherit pkgs lib nodejs makeWrapper; };
 
   assembleScope =
     self: basics:

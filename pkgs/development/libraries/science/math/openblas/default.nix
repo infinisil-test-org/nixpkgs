@@ -281,12 +281,7 @@ stdenv.mkDerivation rec {
 
   passthru.tests = {
     inherit (python3.pkgs) numpy scipy;
-    inherit
-      ceres-solver
-      giac
-      octave
-      opencv
-      ;
+    inherit ceres-solver giac octave opencv;
   };
 
   meta = with lib; {

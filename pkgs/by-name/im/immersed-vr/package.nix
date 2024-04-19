@@ -33,20 +33,6 @@ let
   };
 in
 if stdenv.isDarwin then
-  callPackage ./darwin.nix {
-    inherit
-      pname
-      version
-      src
-      meta
-      ;
-  }
+  callPackage ./darwin.nix { inherit pname version src meta; }
 else
-  callPackage ./linux.nix {
-    inherit
-      pname
-      version
-      src
-      meta
-      ;
-  }
+  callPackage ./linux.nix { inherit pname version src meta; }

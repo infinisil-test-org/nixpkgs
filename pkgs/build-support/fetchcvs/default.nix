@@ -31,12 +31,6 @@ lib.makeOverridable (
     outputHashMode = "recursive";
     outputHash = sha256;
 
-    inherit
-      cvsRoot
-      module
-      sha256
-      tag
-      date
-      ;
+    inherit cvsRoot module sha256 tag date;
   }
 )

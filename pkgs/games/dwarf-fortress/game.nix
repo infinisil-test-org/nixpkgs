@@ -173,12 +173,7 @@ stdenv.mkDerivation {
   '';
 
   passthru = {
-    inherit
-      baseVersion
-      patchVersion
-      dfVersion
-      exe
-      ;
+    inherit baseVersion patchVersion dfVersion exe;
     updateScript = ./update.sh;
   };
 

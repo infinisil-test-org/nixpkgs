@@ -38,23 +38,12 @@ let
   bintools-unwrapped = callPackage ./stage-2/bintools-unwrapped.nix { inherit llvm lld; };
   bintools = wrapBintoolsWith { bintools = bintools-unwrapped; };
   rStdenv = callPackage ./stage-2/rstdenv.nix {
-    inherit
-      llvm
-      clang-unwrapped
-      lld
-      runtimes
-      bintools
-      ;
+    inherit llvm clang-unwrapped lld runtimes bintools;
     stdenv = gcc12Stdenv;
   };
 in
 rec {
-  inherit
-    llvm
-    clang-unwrapped
-    lld
-    bintools
-    ;
+  inherit llvm clang-unwrapped lld bintools;
 
   # Runtimes
   libc = callPackage ./stage-2/libc.nix {
@@ -81,17 +70,7 @@ rec {
   ## Stage 3 ##
   # Helpers
   clang = callPackage ./stage-3/clang.nix {
-    inherit
-      llvm
-      lld
-      clang-unwrapped
-      bintools
-      libc
-      libunwind
-      libcxxabi
-      libcxx
-      compiler-rt
-      ;
+    inherit llvm lld clang-unwrapped bintools libc libunwind libcxxabi libcxx compiler-rt;
     stdenv = gcc12Stdenv;
   };
   rocmClangStdenv = overrideCC gcc12Stdenv clang;
@@ -122,15 +101,7 @@ rec {
     stdenv = rocmClangStdenv;
   };
   openmp = callPackage ./stage-3/openmp.nix {
-    inherit
-      rocmUpdateScript
-      llvm
-      clang-unwrapped
-      clang
-      rocm-device-libs
-      rocm-runtime
-      rocm-thunk
-      ;
+    inherit rocmUpdateScript llvm clang-unwrapped clang rocm-device-libs rocm-runtime rocm-thunk;
     stdenv = rocmClangStdenv;
   };
 

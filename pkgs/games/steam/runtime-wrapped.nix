@@ -55,12 +55,7 @@ stdenv.mkDerivation {
   builder = ./build-wrapped.sh;
 
   passthru = {
-    inherit
-      gnuArch
-      libs
-      bins
-      overridePkgs
-      ;
+    inherit gnuArch libs bins overridePkgs;
     arch = steamArch;
   };
 

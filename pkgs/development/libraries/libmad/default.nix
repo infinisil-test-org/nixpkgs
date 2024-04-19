@@ -75,14 +75,7 @@ stdenv.mkDerivation rec {
   preConfigure = "autoconf";
 
   passthru.tests = {
-    inherit
-      audacity
-      mpd
-      mpg321
-      normalize
-      streamripper
-      vlc
-      ;
+    inherit audacity mpd mpg321 normalize streamripper vlc;
     ocaml-mad = ocamlPackages.mad;
   };
 

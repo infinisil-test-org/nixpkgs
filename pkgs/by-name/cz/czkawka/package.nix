@@ -31,12 +31,7 @@ let
   cargoHash = "sha256-GOX7V6NLEMP06nMeRZINwcWCaHwK6T3nkRKl4e25DPg=";
 in
 rustPlatform.buildRustPackage {
-  inherit
-    pname
-    version
-    src
-    cargoHash
-    ;
+  inherit pname version src cargoHash;
 
   nativeBuildInputs = [
     gobject-introspection

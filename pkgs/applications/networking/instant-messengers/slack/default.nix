@@ -102,12 +102,7 @@ let
   };
 
   linux = stdenv.mkDerivation rec {
-    inherit
-      pname
-      version
-      src
-      meta
-      ;
+    inherit pname version src meta;
 
     passthru.updateScript = ./update.sh;
 
@@ -217,12 +212,7 @@ let
   };
 
   darwin = stdenv.mkDerivation {
-    inherit
-      pname
-      version
-      src
-      meta
-      ;
+    inherit pname version src meta;
 
     passthru.updateScript = ./update.sh;
 

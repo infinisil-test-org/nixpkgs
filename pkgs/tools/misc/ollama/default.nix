@@ -137,12 +137,7 @@ goBuild (
     CUDAToolkit_ROOT = cudaToolkit;
   })
   // {
-    inherit
-      pname
-      version
-      src
-      vendorHash
-      ;
+    inherit pname version src vendorHash;
 
     nativeBuildInputs =
       [ cmake ]

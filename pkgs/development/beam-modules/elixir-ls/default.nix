@@ -21,12 +21,7 @@ let
   };
 in
 mixRelease {
-  inherit
-    pname
-    version
-    src
-    elixir
-    ;
+  inherit pname version src elixir;
 
   stripDebug = true;
 

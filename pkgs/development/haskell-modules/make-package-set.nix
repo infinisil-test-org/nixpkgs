@@ -231,13 +231,7 @@ in
 package-set { inherit pkgs lib callPackage; } self
 // {
 
-  inherit
-    mkDerivation
-    callPackage
-    haskellSrc2nix
-    hackage2nix
-    buildHaskellPackages
-    ;
+  inherit mkDerivation callPackage haskellSrc2nix hackage2nix buildHaskellPackages;
 
   inherit (haskellLib) packageSourceOverrides;
 

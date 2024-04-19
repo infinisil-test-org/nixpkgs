@@ -40,12 +40,7 @@ let
 
   netfilterGoModules =
     (buildGoModule {
-      inherit
-        pname
-        version
-        src
-        patches
-        ;
+      inherit pname version src patches;
       modRoot = "linux/netfilter";
       vendorHash = "sha256-Cmo0wnl0z5r1paaEf1MhCPbInWeoMhGjnxCxGh0cyO8=";
     }).goModules;
@@ -70,12 +65,7 @@ let
   };
 in
 stdenv.mkDerivation {
-  inherit
-    pname
-    version
-    src
-    patches
-    ;
+  inherit pname version src patches;
 
   buildInputs = [
     libcap

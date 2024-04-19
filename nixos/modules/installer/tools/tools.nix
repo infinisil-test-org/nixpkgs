@@ -276,13 +276,7 @@ in
     # These may be used in auxiliary scripts (ie not part of toplevel), so they are defined unconditionally.
     ({
       system.build = {
-        inherit
-          nixos-install
-          nixos-generate-config
-          nixos-option
-          nixos-rebuild
-          nixos-enter
-          ;
+        inherit nixos-install nixos-generate-config nixos-option nixos-rebuild nixos-enter;
       };
     })
   ];

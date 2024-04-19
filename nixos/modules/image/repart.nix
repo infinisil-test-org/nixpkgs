@@ -359,12 +359,7 @@ in
           seed
           sectorSize
           ;
-        inherit
-          fileSystems
-          definitionsDirectory
-          partitionsJSON
-          mkfsEnv
-          ;
+        inherit fileSystems definitionsDirectory partitionsJSON mkfsEnv;
       };
 
     meta.maintainers = with lib.maintainers; [

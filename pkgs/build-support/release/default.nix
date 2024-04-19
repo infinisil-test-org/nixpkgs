@@ -23,19 +23,7 @@ in
 rec {
 
   sourceTarball =
-    args:
-    import ./source-tarball.nix (
-      {
-        inherit
-          lib
-          stdenv
-          autoconf
-          automake
-          libtool
-          ;
-      }
-      // args
-    );
+    args: import ./source-tarball.nix ({ inherit lib stdenv autoconf automake libtool; } // args);
 
   makeSourceTarball = sourceTarball; # compatibility
 
@@ -77,19 +65,7 @@ rec {
 
   rpmBuild = args: import ./rpm-build.nix ({ inherit lib vmTools; } // args);
 
-  debBuild =
-    args:
-    import ./debian-build.nix (
-      {
-        inherit
-          lib
-          stdenv
-          vmTools
-          checkinstall
-          ;
-      }
-      // args
-    );
+  debBuild = args: import ./debian-build.nix ({ inherit lib stdenv vmTools checkinstall; } // args);
 
   aggregate =
     {

@@ -264,14 +264,7 @@ in
 runCommandLocal "${name}-fhs"
   {
     passthru = {
-      inherit
-        args
-        baseTargetPaths
-        targetPaths
-        baseMultiPaths
-        ldconfig
-        isMultiBuild
-        ;
+      inherit args baseTargetPaths targetPaths baseMultiPaths ldconfig isMultiBuild;
     };
   }
   ''

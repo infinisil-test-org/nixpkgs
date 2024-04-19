@@ -15,14 +15,7 @@ let
 in
 
 buildGoModule {
-  inherit
-    meta
-    patches
-    pname
-    src
-    vendorHash
-    version
-    ;
+  inherit meta patches pname src vendorHash version;
 
   CGO_ENABLED = 0;
 

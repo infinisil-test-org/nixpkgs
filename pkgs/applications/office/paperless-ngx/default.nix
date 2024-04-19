@@ -248,12 +248,7 @@ python.pkgs.buildPythonApplication rec {
   doCheck = !stdenv.isDarwin;
 
   passthru = {
-    inherit
-      python
-      path
-      frontend
-      tesseract5
-      ;
+    inherit python path frontend tesseract5;
     nltkData = with nltk-data; [
       punkt
       snowball_data

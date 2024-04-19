@@ -104,13 +104,7 @@ stdenv.mkDerivation (finalAttrs: {
     # Change hardcoded paths to nix store paths.
     (substituteAll {
       src = ./fix-paths.patch;
-      inherit
-        coreutils
-        plymouth
-        xorgserver
-        xwayland
-        dbus
-        ;
+      inherit coreutils plymouth xorgserver xwayland dbus;
     })
 
     # The following patches implement certain environment variables in GDM which are set by

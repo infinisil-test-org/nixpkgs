@@ -308,12 +308,7 @@ stdenv.mkDerivation (finalAttrs: {
     ];
   };
   passthru = {
-    inherit
-      enableFlight
-      enableJemalloc
-      enableS3
-      enableGcs
-      ;
+    inherit enableFlight enableJemalloc enableS3 enableGcs;
     tests.pkg-config = testers.testMetaPkgConfig finalAttrs.finalPackage;
   };
 })

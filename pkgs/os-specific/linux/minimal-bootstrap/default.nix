@@ -13,19 +13,7 @@ lib.makeScope
   # declared here.
   (
     extra:
-    lib.callPackageWith (
-      {
-        inherit
-          lib
-          config
-          buildPlatform
-          hostPlatform
-          fetchurl
-          checkMeta
-          ;
-      }
-      // extra
-    )
+    lib.callPackageWith ({ inherit lib config buildPlatform hostPlatform fetchurl checkMeta; } // extra)
   )
   (
     self: with self; {

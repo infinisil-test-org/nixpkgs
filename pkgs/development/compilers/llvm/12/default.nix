@@ -49,20 +49,7 @@ let
     tools:
     let
       callPackage = newScope (
-        tools
-        // {
-          inherit
-            stdenv
-            cmake
-            libxml2
-            python3
-            isl
-            release_version
-            version
-            fetch
-            buildLlvmTools
-            ;
-        }
+        tools // { inherit stdenv cmake libxml2 python3 isl release_version version fetch buildLlvmTools; }
       );
       mkExtraBuildCommands0 = cc: ''
         rsrc="$out/resource-root"
@@ -274,16 +261,7 @@ let
         libraries
         // buildLlvmTools
         // {
-          inherit
-            stdenv
-            cmake
-            libxml2
-            python3
-            isl
-            release_version
-            version
-            fetch
-            ;
+          inherit stdenv cmake libxml2 python3 isl release_version version fetch;
         }
       );
     in

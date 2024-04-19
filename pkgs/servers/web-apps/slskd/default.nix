@@ -43,12 +43,7 @@ let
   };
 in
 buildDotnetModule {
-  inherit
-    pname
-    version
-    src
-    meta
-    ;
+  inherit pname version src meta;
 
   runtimeDeps = [ mono ];
 

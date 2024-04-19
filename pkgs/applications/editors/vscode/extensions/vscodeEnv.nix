@@ -30,20 +30,10 @@ let
   mutableExtensions = lib.optionals (builtins.pathExists mutableExtensionsFile) (
     import mutableExtensionsFilePath
   );
-  vscodeWithConfiguration =
-    import ./vscodeWithConfiguration.nix
-      {
-        inherit lib writeShellScriptBin extensionsFromVscodeMarketplace;
-        vscodeDefault = vscode;
-      }
-      {
-        inherit
-          nixExtensions
-          mutableExtensions
-          vscodeExtsFolderName
-          user-data-dir
-          ;
-      };
+  vscodeWithConfiguration = import ./vscodeWithConfiguration.nix {
+    inherit lib writeShellScriptBin extensionsFromVscodeMarketplace;
+    vscodeDefault = vscode;
+  } { inherit nixExtensions mutableExtensions vscodeExtsFolderName user-data-dir; };
 
   updateSettings = import ./updateSettings.nix { inherit lib writeShellScriptBin jq; };
   userSettingsFolder = "${user-data-dir}/User";

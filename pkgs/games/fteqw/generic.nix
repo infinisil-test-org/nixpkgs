@@ -15,13 +15,7 @@
 }:
 
 stdenv.mkDerivation {
-  inherit
-    pname
-    buildFlags
-    buildInputs
-    nativeBuildInputs
-    postFixup
-    ;
+  inherit pname buildFlags buildInputs nativeBuildInputs postFixup;
   version = "0-unstable-2024-04-13";
 
   src = fetchFromGitHub {
