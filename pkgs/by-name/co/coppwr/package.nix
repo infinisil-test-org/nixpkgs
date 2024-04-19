@@ -1,13 +1,14 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, pkg-config
-, libxkbcommon
-, pipewire
-, stdenv
-, libGL
-, wayland
-, xorg
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  pkg-config,
+  libxkbcommon,
+  pipewire,
+  stdenv,
+  libGL,
+  wayland,
+  xorg,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -63,7 +64,13 @@ rustPlatform.buildRustPackage rec {
 
   postFixup = ''
     patchelf $out/bin/${pname} \
-      --add-rpath ${lib.makeLibraryPath [ libGL libxkbcommon wayland ]}
+      --add-rpath ${
+        lib.makeLibraryPath [
+          libGL
+          libxkbcommon
+          wayland
+        ]
+      }
   '';
 
   meta = with lib; {

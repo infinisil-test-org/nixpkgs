@@ -1,11 +1,12 @@
-{ lib
-, mkDerivation
-, makeDesktopItem
-, fetchFromGitLab
-, qmake
-# qt
-, qtbase
-, qtwebsockets
+{
+  lib,
+  mkDerivation,
+  makeDesktopItem,
+  fetchFromGitLab,
+  qmake,
+  # qt
+  qtbase,
+  qtwebsockets,
 }:
 
 let
@@ -14,8 +15,8 @@ let
     desktopName = "Michabo";
     exec = "Michabo";
   };
-
-in mkDerivation rec {
+in
+mkDerivation rec {
   pname = "michabo";
   version = "0.1";
 
@@ -27,15 +28,16 @@ in mkDerivation rec {
     sha256 = "0pl4ymdb36r0kwlclfjjp6b1qml3fm9ql7ag5inprny5y8vcjpzn";
   };
 
-  nativeBuildInputs = [
-    qmake
-  ];
+  nativeBuildInputs = [ qmake ];
   buildInputs = [
     qtbase
     qtwebsockets
   ];
 
-  qmakeFlags = [ "michabo.pro" "DESTDIR=${placeholder "out"}/bin" ];
+  qmakeFlags = [
+    "michabo.pro"
+    "DESTDIR=${placeholder "out"}/bin"
+  ];
 
   postInstall = ''
     ln -s ${desktopItem}/share $out/share
@@ -50,4 +52,3 @@ in mkDerivation rec {
     platforms = platforms.all;
   };
 }
-

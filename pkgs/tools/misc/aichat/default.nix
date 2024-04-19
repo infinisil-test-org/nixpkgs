@@ -1,9 +1,10 @@
-{ lib
-, stdenv
-, darwin
-, rustPlatform
-, fetchFromGitHub
-, pkg-config
+{
+  lib,
+  stdenv,
+  darwin,
+  rustPlatform,
+  fetchFromGitHub,
+  pkg-config,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -19,9 +20,7 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-JOkcqqmfat+PAn7mRHq+iQCF60weDOBWP2+0DL0s3X0=";
 
-  nativeBuildInputs = [
-    pkg-config
-  ];
+  nativeBuildInputs = [ pkg-config ];
 
   buildInputs = lib.optionals stdenv.isDarwin [
     darwin.apple_sdk.frameworks.AppKit

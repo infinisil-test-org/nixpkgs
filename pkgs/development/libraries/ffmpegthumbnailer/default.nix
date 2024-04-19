@@ -1,4 +1,12 @@
-{ fetchFromGitHub, lib, stdenv, ffmpeg-headless, cmake, libpng, pkg-config, libjpeg
+{
+  fetchFromGitHub,
+  lib,
+  stdenv,
+  ffmpeg-headless,
+  cmake,
+  libpng,
+  pkg-config,
+  libjpeg,
 }:
 
 stdenv.mkDerivation rec {
@@ -12,8 +20,15 @@ stdenv.mkDerivation rec {
     sha256 = "0606pbg391l4s8mpyyalm9zrcnm75fwqdlrxy2gif9n21i2fm3rc";
   };
 
-  nativeBuildInputs = [ cmake pkg-config ];
-  buildInputs = [ ffmpeg-headless libpng libjpeg ];
+  nativeBuildInputs = [
+    cmake
+    pkg-config
+  ];
+  buildInputs = [
+    ffmpeg-headless
+    libpng
+    libjpeg
+  ];
   cmakeFlags = [ "-DENABLE_THUMBNAILER=ON" ];
 
   # https://github.com/dirkvdb/ffmpegthumbnailer/issues/215
@@ -22,7 +37,7 @@ stdenv.mkDerivation rec {
       --replace '$'{exec_prefix}/@CMAKE_INSTALL_LIBDIR@ @CMAKE_INSTALL_FULL_LIBDIR@
   '';
 
-  meta = with lib;  {
+  meta = with lib; {
     homepage = "https://github.com/dirkvdb/ffmpegthumbnailer";
     description = "A lightweight video thumbnailer";
     mainProgram = "ffmpegthumbnailer";
@@ -38,5 +53,4 @@ stdenv.mkDerivation rec {
     license = licenses.gpl2Plus;
     maintainers = [ maintainers.jagajaga ];
   };
-
 }

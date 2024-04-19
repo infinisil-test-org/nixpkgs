@@ -1,10 +1,11 @@
-{ lib
-, buildNpmPackage
-, fetchFromGitHub
-, git
-, nixosTests
-, python3
-, vaultwarden
+{
+  lib,
+  buildNpmPackage,
+  fetchFromGitHub,
+  git,
+  nixosTests,
+  python3,
+  vaultwarden,
 }:
 
 let
@@ -16,8 +17,8 @@ let
     rev = "v${version}";
     hash = "sha256-oi0H8TIQwtpzxKoQGnKaOY0bcWu7avTtrY+NgNRiq8k=";
   };
-
-in buildNpmPackage rec {
+in
+buildNpmPackage rec {
   pname = "vaultwarden-webvault";
   inherit version;
 
@@ -36,9 +37,7 @@ in buildNpmPackage rec {
       bash ${bw_web_builds}/scripts/apply_patches.sh
   '';
 
-  nativeBuildInputs = [
-    python3
-  ];
+  nativeBuildInputs = [ python3 ];
 
   makeCacheWritable = true;
 
@@ -47,7 +46,8 @@ in buildNpmPackage rec {
   npmBuildScript = "dist:oss:selfhost";
 
   npmBuildFlags = [
-    "--workspace" "apps/web"
+    "--workspace"
+    "apps/web"
   ];
 
   npmFlags = [ "--legacy-peer-deps" ];

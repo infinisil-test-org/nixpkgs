@@ -1,18 +1,19 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, attrs
-, docopt
-, pillow
-, scikit-image
-, scipy
-, numpy
-, aggdraw
-, pytestCheckHook
-, pytest-cov
-, ipython
-, cython_3
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  attrs,
+  docopt,
+  pillow,
+  scikit-image,
+  scipy,
+  numpy,
+  aggdraw,
+  pytestCheckHook,
+  pytest-cov,
+  ipython,
+  cython_3,
 }:
 
 buildPythonPackage rec {
@@ -29,9 +30,7 @@ buildPythonPackage rec {
     hash = "sha256-HUFJ2FP9WGcG9pkukS2LHIgPYFRAXAneiVK6VfYQ+zU=";
   };
 
-  nativeBuildInputs = [
-    cython_3
-  ];
+  nativeBuildInputs = [ cython_3 ];
 
   propagatedBuildInputs = [
     aggdraw
@@ -49,9 +48,7 @@ buildPythonPackage rec {
     pytest-cov
   ];
 
-  pythonImportsCheck = [
-    "psd_tools"
-  ];
+  pythonImportsCheck = [ "psd_tools" ];
 
   meta = with lib; {
     description = "Python package for reading Adobe Photoshop PSD files";

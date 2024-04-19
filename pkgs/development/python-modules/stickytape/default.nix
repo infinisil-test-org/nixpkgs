@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, nose
-, pytestCheckHook
-, pythonOlder
-, spur
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  nose,
+  pytestCheckHook,
+  pythonOlder,
+  spur,
 }:
 
 buildPythonPackage rec {
@@ -24,9 +25,7 @@ buildPythonPackage rec {
   # Tests have additional requirements
   doCheck = false;
 
-  pythonImportsCheck = [
-    "stickytape"
-  ];
+  pythonImportsCheck = [ "stickytape" ];
 
   meta = with lib; {
     description = "Python module to convert Python packages into a single script";

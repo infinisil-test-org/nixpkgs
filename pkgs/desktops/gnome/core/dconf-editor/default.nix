@@ -1,23 +1,24 @@
-{ lib
-, stdenv
-, fetchurl
-, fetchpatch
-, desktop-file-utils
-, meson
-, ninja
-, vala
-, libxslt
-, pkg-config
-, glib
-, gtk3
-, libhandy
-, gnome
-, dconf
-, libxml2
-, gettext
-, docbook-xsl-nons
-, wrapGAppsHook
-, gobject-introspection
+{
+  lib,
+  stdenv,
+  fetchurl,
+  fetchpatch,
+  desktop-file-utils,
+  meson,
+  ninja,
+  vala,
+  libxslt,
+  pkg-config,
+  glib,
+  gtk3,
+  libhandy,
+  gnome,
+  dconf,
+  libxml2,
+  gettext,
+  docbook-xsl-nons,
+  wrapGAppsHook,
+  gobject-introspection,
 }:
 
 stdenv.mkDerivation rec {

@@ -1,4 +1,8 @@
-{ lib, stdenv, fetchurl }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+}:
 
 stdenv.mkDerivation rec {
   pname = "dibbler";
@@ -9,15 +13,14 @@ stdenv.mkDerivation rec {
     sha256 = "18bnwkvax02scjdg5z8gvrkvy1lhssfnlpsaqb5kkh30w1vri1i7";
   };
 
-  configureFlags = [
-    "--enable-resolvconf"
-  ];
+  configureFlags = [ "--enable-resolvconf" ];
 
   # -fcommon: Workaround build failure on -fno-common toolchains like upstream
   # gcc-10. Otherwise build fails as:
   #   ld: ./Port-linux/libLowLevel.a(libLowLevel_a-interface.o):(.bss+0x4): multiple definition of `interface_auto_up';
   #     ./Port-linux/libLowLevel.a(libLowLevel_a-lowlevel-linux-link-state.o):(.bss+0x74): first defined here
-  env.NIX_CFLAGS_COMPILE = lib.optionalString stdenv.isDarwin "-D__APPLE_USE_RFC_2292=1" + " -fcommon";
+  env.NIX_CFLAGS_COMPILE =
+    lib.optionalString stdenv.isDarwin "-D__APPLE_USE_RFC_2292=1" + " -fcommon";
 
   meta = with lib; {
     description = "Portable DHCPv6 implementation";

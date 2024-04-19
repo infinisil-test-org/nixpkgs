@@ -1,40 +1,48 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.services.displayManager;
 
-  installedSessions = pkgs.runCommand "desktops"
-    { # trivial derivation
-      preferLocalBuild = true;
-      allowSubstitutes = false;
-    }
-    ''
-      mkdir -p "$out/share/"{xsessions,wayland-sessions}
+  installedSessions =
+    pkgs.runCommand "desktops"
+      {
+        # trivial derivation
+        preferLocalBuild = true;
+        allowSubstitutes = false;
+      }
+      ''
+        mkdir -p "$out/share/"{xsessions,wayland-sessions}
 
-      ${lib.concatMapStrings (pkg: ''
-        for n in ${lib.concatStringsSep " " pkg.providedSessions}; do
-          if ! test -f ${pkg}/share/wayland-sessions/$n.desktop -o \
-                    -f ${pkg}/share/xsessions/$n.desktop; then
-            echo "Couldn't find provided session name, $n.desktop, in session package ${pkg.name}:"
-            echo "  ${pkg}"
-            return 1
+        ${lib.concatMapStrings (pkg: ''
+          for n in ${lib.concatStringsSep " " pkg.providedSessions}; do
+            if ! test -f ${pkg}/share/wayland-sessions/$n.desktop -o \
+                      -f ${pkg}/share/xsessions/$n.desktop; then
+              echo "Couldn't find provided session name, $n.desktop, in session package ${pkg.name}:"
+              echo "  ${pkg}"
+              return 1
+            fi
+          done
+
+          if test -d ${pkg}/share/xsessions; then
+            ${pkgs.buildPackages.xorg.lndir}/bin/lndir ${pkg}/share/xsessions $out/share/xsessions
           fi
-        done
-
-        if test -d ${pkg}/share/xsessions; then
-          ${pkgs.buildPackages.xorg.lndir}/bin/lndir ${pkg}/share/xsessions $out/share/xsessions
-        fi
-        if test -d ${pkg}/share/wayland-sessions; then
-          ${pkgs.buildPackages.xorg.lndir}/bin/lndir ${pkg}/share/wayland-sessions $out/share/wayland-sessions
-        fi
-      '') cfg.sessionPackages}
-    '';
+          if test -d ${pkg}/share/wayland-sessions; then
+            ${pkgs.buildPackages.xorg.lndir}/bin/lndir ${pkg}/share/wayland-sessions $out/share/wayland-sessions
+          fi
+        '') cfg.sessionPackages}
+      '';
 
   dmDefault = config.services.xserver.desktopManager.default;
   # fallback default for cases when only default wm is set
   dmFallbackDefault = if dmDefault != null then dmDefault else "none";
   wmDefault = config.services.xserver.windowManager.default;
-  defaultSessionFromLegacyOptions = dmFallbackDefault + lib.optionalString (wmDefault != null && wmDefault != "none") "+${wmDefault}";
+  defaultSessionFromLegacyOptions =
+    dmFallbackDefault + lib.optionalString (wmDefault != null && wmDefault != "none") "+${wmDefault}";
 in
 {
   options = {
@@ -56,7 +64,7 @@ in
 
       environment = lib.mkOption {
         type = with lib.types; attrsOf unspecified;
-        default = {};
+        default = { };
         description = "Additional environment variables needed by the display manager.";
       };
 
@@ -88,28 +96,31 @@ in
 
       # Configuration for automatic login. Common for all DM.
       autoLogin = lib.mkOption {
-        type = lib.types.submodule ({ config, options, ... }: {
-          options = {
-            enable = lib.mkOption {
-              type = lib.types.bool;
-              default = config.user != null;
-              defaultText = lib.literalExpression "config.${options.user} != null";
-              description = ''
-                Automatically log in as {option}`autoLogin.user`.
-              '';
-            };
+        type = lib.types.submodule (
+          { config, options, ... }:
+          {
+            options = {
+              enable = lib.mkOption {
+                type = lib.types.bool;
+                default = config.user != null;
+                defaultText = lib.literalExpression "config.${options.user} != null";
+                description = ''
+                  Automatically log in as {option}`autoLogin.user`.
+                '';
+              };
 
-            user = lib.mkOption {
-              type = with lib.types; nullOr str;
-              default = null;
-              description = ''
-                User to be used for the automatic login.
-              '';
+              user = lib.mkOption {
+                type = with lib.types; nullOr str;
+                default = null;
+                description = ''
+                  User to be used for the automatic login.
+                '';
+              };
             };
-          };
-        });
+          }
+        );
 
-        default = {};
+        default = { };
         description = ''
           Auto login configuration attrset.
         '';
@@ -118,18 +129,20 @@ in
       defaultSession = lib.mkOption {
         type = lib.types.nullOr lib.types.str // {
           description = "session name";
-          check = d:
-            lib.assertMsg (d != null -> (lib.types.str.check d && lib.elem d config.services.displayManager.sessionData.sessionNames)) ''
+          check =
+            d:
+            lib.assertMsg
+              (
+                d != null
+                -> (lib.types.str.check d && lib.elem d config.services.displayManager.sessionData.sessionNames)
+              )
+              ''
                 Default graphical session, '${d}', not found.
                 Valid names for 'services.displayManager.defaultSession' are:
                   ${lib.concatStringsSep "\n  " cfg.displayManager.sessionData.sessionNames}
               '';
         };
-        default =
-          if dmDefault != null || wmDefault != null then
-            defaultSessionFromLegacyOptions
-          else
-            null;
+        default = if dmDefault != null || wmDefault != null then defaultSessionFromLegacyOptions else null;
         defaultText = lib.literalMD ''
           Taken from display manager settings or window manager settings, if either is set.
         '';
@@ -144,25 +157,34 @@ in
       sessionData = lib.mkOption {
         description = "Data exported for display managers’ convenience";
         internal = true;
-        default = {};
+        default = { };
       };
 
       sessionPackages = lib.mkOption {
-        type = lib.types.listOf (lib.types.package // {
-          description = "package with provided sessions";
-          check = p: lib.assertMsg
-            (lib.types.package.check p && p ? providedSessions
-            && p.providedSessions != [] && lib.all lib.isString p.providedSessions)
-            ''
-              Package, '${p.name}', did not specify any session names, as strings, in
-              'passthru.providedSessions'. This is required when used as a session package.
+        type = lib.types.listOf (
+          lib.types.package
+          // {
+            description = "package with provided sessions";
+            check =
+              p:
+              lib.assertMsg
+                (
+                  lib.types.package.check p
+                  && p ? providedSessions
+                  && p.providedSessions != [ ]
+                  && lib.all lib.isString p.providedSessions
+                )
+                ''
+                  Package, '${p.name}', did not specify any session names, as strings, in
+                  'passthru.providedSessions'. This is required when used as a session package.
 
-              The session names can be looked up in:
-                ${p}/share/xsessions
-                ${p}/share/wayland-sessions
-           '';
-        });
-        default = [];
+                  The session names can be looked up in:
+                    ${p}/share/xsessions
+                    ${p}/share/wayland-sessions
+                '';
+          }
+        );
+        default = [ ];
         description = ''
           A list of packages containing x11 or wayland session files to be passed to the display manager.
         '';
@@ -171,40 +193,177 @@ in
   };
 
   imports = [
-    (lib.mkRenamedOptionModule [ "services" "xserver" "displayManager" "autoLogin" ] [ "services" "displayManager" "autoLogin" ])
-    (lib.mkRenamedOptionModule [ "services" "xserver" "displayManager" "defaultSession" ] [ "services" "displayManager" "defaultSession" ])
-    (lib.mkRenamedOptionModule [ "services" "xserver" "displayManager" "hiddenUsers" ] [ "services" "displayManager" "hiddenUsers" ])
-    (lib.mkRenamedOptionModule [ "services" "xserver" "displayManager" "job" "environment" ] [ "services" "displayManager" "environment" ])
-    (lib.mkRenamedOptionModule [ "services" "xserver" "displayManager" "job" "execCmd" ] [ "services" "displayManager" "execCmd" ])
-    (lib.mkRenamedOptionModule [ "services" "xserver" "displayManager" "job" "logToFile" ] [ "services" "displayManager" "logToFile" ])
-    (lib.mkRenamedOptionModule [ "services" "xserver" "displayManager" "job" "logToJournal" ] [ "services" "displayManager" "logToJournal" ])
-    (lib.mkRenamedOptionModule [ "services" "xserver" "displayManager" "job" "preStart" ] [ "services" "displayManager" "preStart" ])
-    (lib.mkRenamedOptionModule [ "services" "xserver" "displayManager" "sessionData" ] [ "services" "displayManager" "sessionData" ])
-    (lib.mkRenamedOptionModule [ "services" "xserver" "displayManager" "sessionPackages" ] [ "services" "displayManager" "sessionPackages" ])
+    (lib.mkRenamedOptionModule
+      [
+        "services"
+        "xserver"
+        "displayManager"
+        "autoLogin"
+      ]
+      [
+        "services"
+        "displayManager"
+        "autoLogin"
+      ]
+    )
+    (lib.mkRenamedOptionModule
+      [
+        "services"
+        "xserver"
+        "displayManager"
+        "defaultSession"
+      ]
+      [
+        "services"
+        "displayManager"
+        "defaultSession"
+      ]
+    )
+    (lib.mkRenamedOptionModule
+      [
+        "services"
+        "xserver"
+        "displayManager"
+        "hiddenUsers"
+      ]
+      [
+        "services"
+        "displayManager"
+        "hiddenUsers"
+      ]
+    )
+    (lib.mkRenamedOptionModule
+      [
+        "services"
+        "xserver"
+        "displayManager"
+        "job"
+        "environment"
+      ]
+      [
+        "services"
+        "displayManager"
+        "environment"
+      ]
+    )
+    (lib.mkRenamedOptionModule
+      [
+        "services"
+        "xserver"
+        "displayManager"
+        "job"
+        "execCmd"
+      ]
+      [
+        "services"
+        "displayManager"
+        "execCmd"
+      ]
+    )
+    (lib.mkRenamedOptionModule
+      [
+        "services"
+        "xserver"
+        "displayManager"
+        "job"
+        "logToFile"
+      ]
+      [
+        "services"
+        "displayManager"
+        "logToFile"
+      ]
+    )
+    (lib.mkRenamedOptionModule
+      [
+        "services"
+        "xserver"
+        "displayManager"
+        "job"
+        "logToJournal"
+      ]
+      [
+        "services"
+        "displayManager"
+        "logToJournal"
+      ]
+    )
+    (lib.mkRenamedOptionModule
+      [
+        "services"
+        "xserver"
+        "displayManager"
+        "job"
+        "preStart"
+      ]
+      [
+        "services"
+        "displayManager"
+        "preStart"
+      ]
+    )
+    (lib.mkRenamedOptionModule
+      [
+        "services"
+        "xserver"
+        "displayManager"
+        "sessionData"
+      ]
+      [
+        "services"
+        "displayManager"
+        "sessionData"
+      ]
+    )
+    (lib.mkRenamedOptionModule
+      [
+        "services"
+        "xserver"
+        "displayManager"
+        "sessionPackages"
+      ]
+      [
+        "services"
+        "displayManager"
+        "sessionPackages"
+      ]
+    )
   ];
 
   config = lib.mkIf cfg.enable {
     assertions = [
-      { assertion = cfg.autoLogin.enable -> cfg.autoLogin.user != null;
+      {
+        assertion = cfg.autoLogin.enable -> cfg.autoLogin.user != null;
         message = ''
           services.displayManager.autoLogin.enable requires services.displayManager.autoLogin.user to be set
         '';
       }
     ];
 
-    warnings =
-      lib.mkIf (dmDefault != null || wmDefault != null) [
-        ''
-          The following options are deprecated:
-            ${lib.concatStringsSep "\n  " (map ({c, t}: t) (lib.filter ({c, t}: c != null) [
-            { c = dmDefault; t = "- services.xserver.desktopManager.default"; }
-            { c = wmDefault; t = "- services.xserver.windowManager.default"; }
-            ]))}
-          Please use
-            services.displayManager.defaultSession = "${defaultSessionFromLegacyOptions}";
-          instead.
-        ''
-      ];
+    warnings = lib.mkIf (dmDefault != null || wmDefault != null) [
+      ''
+        The following options are deprecated:
+          ${
+            lib.concatStringsSep "\n  " (
+              map ({ c, t }: t) (
+                lib.filter ({ c, t }: c != null) [
+                  {
+                    c = dmDefault;
+                    t = "- services.xserver.desktopManager.default";
+                  }
+                  {
+                    c = wmDefault;
+                    t = "- services.xserver.windowManager.default";
+                  }
+                ]
+              )
+            )
+          }
+        Please use
+          services.displayManager.defaultSession = "${defaultSessionFromLegacyOptions}";
+        instead.
+      ''
+    ];
 
     # Make xsessions and wayland sessions available in XDG_DATA_DIRS
     # as some programs have behavior that depends on them being present
@@ -219,7 +378,7 @@ in
       autologinSession =
         if cfg.defaultSession != null then
           cfg.defaultSession
-        else if cfg.sessionData.sessionNames != [] then
+        else if cfg.sessionData.sessionNames != [ ] then
           lib.head cfg.sessionData.sessionNames
         else
           null;
@@ -227,21 +386,26 @@ in
 
     # so that the service won't be enabled when only startx is used
     systemd.services.display-manager.enable =
-      let dmConf = config.services.xserver.displayManager;
-          noDmUsed = !(dmConf.gdm.enable
-                    || cfg.sddm.enable
-                    || dmConf.xpra.enable
-                    || dmConf.lightdm.enable);
-      in lib.mkIf noDmUsed (lib.mkDefault false);
+      let
+        dmConf = config.services.xserver.displayManager;
+        noDmUsed = !(dmConf.gdm.enable || cfg.sddm.enable || dmConf.xpra.enable || dmConf.lightdm.enable);
+      in
+      lib.mkIf noDmUsed (lib.mkDefault false);
 
     systemd.services.display-manager = {
       description = "Display Manager";
-      after = [ "acpid.service" "systemd-logind.service" "systemd-user-sessions.service" ];
+      after = [
+        "acpid.service"
+        "systemd-logind.service"
+        "systemd-user-sessions.service"
+      ];
       restartIfChanged = false;
 
-      environment = lib.optionalAttrs config.hardware.opengl.setLdLibraryPath {
-        LD_LIBRARY_PATH = lib.makeLibraryPath [ pkgs.addOpenGLRunpath.driverLink ];
-      } // cfg.environment;
+      environment =
+        lib.optionalAttrs config.hardware.opengl.setLdLibraryPath {
+          LD_LIBRARY_PATH = lib.makeLibraryPath [ pkgs.addOpenGLRunpath.driverLink ];
+        }
+        // cfg.environment;
 
       preStart = cfg.preStart;
       script = lib.mkIf (config.systemd.services.display-manager.enable == true) cfg.execCmd;

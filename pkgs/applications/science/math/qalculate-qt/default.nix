@@ -1,4 +1,17 @@
-{ lib, stdenv, fetchFromGitHub, intltool, pkg-config, qmake, wrapQtAppsHook, libqalculate, qtbase, qttools, qtsvg, qtwayland }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  intltool,
+  pkg-config,
+  qmake,
+  wrapQtAppsHook,
+  libqalculate,
+  qtbase,
+  qttools,
+  qtsvg,
+  qtwayland,
+}:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "qalculate-qt";
@@ -11,9 +24,18 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-X7IY2yXpZiyE+T2dl0G4tWpJ5O6MVCy/sOY3v9inma0=";
   };
 
-  nativeBuildInputs = [ qmake intltool pkg-config qttools wrapQtAppsHook ];
-  buildInputs = [ libqalculate qtbase qtsvg ]
-    ++ lib.optionals stdenv.isLinux [ qtwayland ];
+  nativeBuildInputs = [
+    qmake
+    intltool
+    pkg-config
+    qttools
+    wrapQtAppsHook
+  ];
+  buildInputs = [
+    libqalculate
+    qtbase
+    qtsvg
+  ] ++ lib.optionals stdenv.isLinux [ qtwayland ];
 
   postPatch = ''
     substituteInPlace qalculate-qt.pro\

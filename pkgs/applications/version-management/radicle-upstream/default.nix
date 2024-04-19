@@ -1,4 +1,12 @@
-{ lib, stdenv, appimageTools, autoPatchelfHook, zlib, fetchurl, undmg }:
+{
+  lib,
+  stdenv,
+  appimageTools,
+  autoPatchelfHook,
+  zlib,
+  fetchurl,
+  undmg,
+}:
 
 let
   pname = "radicle-upstream";
@@ -15,7 +23,8 @@ let
       sha256 = "sha256-EuWGbn6qggi8/9Rci8iaXfuVKE+QXb1BHEYDvotR/q4=";
     };
   };
-  src = srcs.${stdenv.hostPlatform.system} or (throw "unsupported system ${stdenv.hostPlatform.system}");
+  src =
+    srcs.${stdenv.hostPlatform.system} or (throw "unsupported system ${stdenv.hostPlatform.system}");
 
   contents = appimageTools.extract { inherit name src; };
 
@@ -58,7 +67,12 @@ let
   };
 
   darwin = stdenv.mkDerivation {
-    inherit pname version src meta;
+    inherit
+      pname
+      version
+      src
+      meta
+      ;
 
     nativeBuildInputs = [ undmg ];
 
@@ -75,11 +89,12 @@ let
     homepage = "https://radicle.xyz/";
     license = licenses.gpl3Plus;
     maintainers = with maintainers; [ d-xo ];
-    platforms = [ "x86_64-linux" "x86_64-darwin" ];
+    platforms = [
+      "x86_64-linux"
+      "x86_64-darwin"
+    ];
     sourceProvenance = with sourceTypes; [ binaryNativeCode ];
     broken = stdenv.isLinux; # last successful build 2023-04-11
   };
 in
-if stdenv.isDarwin
-then darwin
-else linux
+if stdenv.isDarwin then darwin else linux

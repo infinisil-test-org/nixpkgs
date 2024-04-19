@@ -1,23 +1,24 @@
-{ mkDerivation
-, lib
-, fetchFromGitHub
-, libGLU
-, qtbase
-, qtscript
-, qtxmlpatterns
-, lib3ds
-, bzip2
-, muparser
-, eigen
-, glew
-, gmp
-, levmar
-, qhull
-, cmake
-, cgal
-, boost179
-, mpfr
-, xercesc
+{
+  mkDerivation,
+  lib,
+  fetchFromGitHub,
+  libGLU,
+  qtbase,
+  qtscript,
+  qtxmlpatterns,
+  lib3ds,
+  bzip2,
+  muparser,
+  eigen,
+  glew,
+  gmp,
+  levmar,
+  qhull,
+  cmake,
+  cgal,
+  boost179,
+  mpfr,
+  xercesc,
 }:
 
 mkDerivation rec {

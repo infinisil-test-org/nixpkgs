@@ -1,4 +1,4 @@
-{ lib } :
+{ lib }:
 
 with lib;
 with lib.types;
@@ -58,7 +58,5 @@ with lib.types;
       default = "";
       description = "Extra lines to be added verbatim to the vrrp_script section.";
     };
-
   };
-
 }

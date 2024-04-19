@@ -1,4 +1,8 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+}:
 
 buildGoModule rec {
   pname = "kubecolor";
@@ -13,7 +17,11 @@ buildGoModule rec {
 
   vendorHash = "sha256-uf7nBnS1wmbz4xcVA5qF82QMPsLdSucje1NNaPyheCw=";
 
-  ldflags = [ "-s" "-w" "-X main.Version=${version}" ];
+  ldflags = [
+    "-s"
+    "-w"
+    "-X main.Version=${version}"
+  ];
 
   meta = with lib; {
     description = "Colorizes kubectl output";
@@ -21,6 +29,10 @@ buildGoModule rec {
     homepage = "https://github.com/kubecolor/kubecolor";
     changelog = "https://github.com/kubecolor/kubecolor/releases/tag/v${version}";
     license = licenses.mit;
-    maintainers = with maintainers; [ ivankovnatsky SuperSandro2000 applejag ];
+    maintainers = with maintainers; [
+      ivankovnatsky
+      SuperSandro2000
+      applejag
+    ];
   };
 }

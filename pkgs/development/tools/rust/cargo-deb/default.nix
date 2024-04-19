@@ -1,8 +1,9 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, makeWrapper
-, dpkg
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  makeWrapper,
+  dpkg,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -18,9 +19,7 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-apT60W4lUCMsRvuzGkY8AkA8m8e7ESGGnmOpyv5Ca1I=";
 
-  nativeBuildInputs = [
-    makeWrapper
-  ];
+  nativeBuildInputs = [ makeWrapper ];
 
   # This is an FHS specific assert depending on glibc location
   checkFlags = [
@@ -38,6 +37,9 @@ rustPlatform.buildRustPackage rec {
     mainProgram = "cargo-deb";
     homepage = "https://github.com/kornelski/cargo-deb";
     license = licenses.mit;
-    maintainers = with maintainers; [ Br1ght0ne matthiasbeyer ];
+    maintainers = with maintainers; [
+      Br1ght0ne
+      matthiasbeyer
+    ];
   };
 }

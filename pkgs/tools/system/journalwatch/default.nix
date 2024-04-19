@@ -1,4 +1,11 @@
-{ lib, buildPythonPackage, fetchFromGitHub, pythonOlder, systemd, pytest }:
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  systemd,
+  pytest,
+}:
 
 buildPythonPackage rec {
   pname = "journalwatch";
@@ -18,17 +25,13 @@ buildPythonPackage rec {
       --replace "U Thu Jan  1 00:00:00 1970 prio foo [1337]" "U Thu Jan  1 00:00:00 1970 pprio foo [1337]"
   '';
 
-
   doCheck = true;
   nativeCheckInputs = [ pytest ];
   checkPhase = ''
     pytest
   '';
 
-  propagatedBuildInputs = [
-    systemd
-  ];
-
+  propagatedBuildInputs = [ systemd ];
 
   meta = with lib; {
     description = "A tool to find error messages in the systemd journal";

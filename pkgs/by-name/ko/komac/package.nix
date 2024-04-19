@@ -1,10 +1,11 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, rustPlatform
-, darwin
-, testers
-, komac
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  rustPlatform,
+  darwin,
+  testers,
+  komac,
 }:
 
 let
@@ -23,9 +24,7 @@ rustPlatform.buildRustPackage {
 
   cargoHash = "sha256-J4QZzbyDr4SDt6LlAy9ZdpqgIufZCZHmOC9eu70wMsM=";
 
-  buildInputs = lib.optionals stdenv.isDarwin [
-    darwin.apple_sdk.frameworks.SystemConfiguration
-  ];
+  buildInputs = lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.SystemConfiguration ];
 
   passthru.tests.version = testers.testVersion {
     inherit version;

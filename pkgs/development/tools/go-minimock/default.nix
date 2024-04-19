@@ -1,4 +1,8 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+}:
 
 buildGoModule rec {
   pname = "go-minimock";
@@ -12,14 +16,19 @@ buildGoModule rec {
   };
 
   ldflags = [
-    "-s" "-w" "-X main.version=${version}"
+    "-s"
+    "-w"
+    "-X main.version=${version}"
   ];
 
   vendorHash = "sha256-eCM/EDdXZSa+pg35V6YiZ5gaC4rj8Wt8HhCgaMPoP+Y=";
 
   doCheck = true;
 
-  subPackages = [ "cmd/minimock" "." ];
+  subPackages = [
+    "cmd/minimock"
+    "."
+  ];
 
   meta = with lib; {
     homepage = "https://github.com/gojuno/minimock";

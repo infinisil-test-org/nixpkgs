@@ -1,14 +1,15 @@
-{ lib
-, callPackage
-, fetchPypi
-, buildPythonPackage
-, pythonRelaxDepsHook
-, torch
-, pythonOlder
-, spacy
-, spacy-alignments
-, srsly
-, transformers
+{
+  lib,
+  callPackage,
+  fetchPypi,
+  buildPythonPackage,
+  pythonRelaxDepsHook,
+  torch,
+  pythonOlder,
+  spacy,
+  spacy-alignments,
+  srsly,
+  transformers,
 }:
 
 buildPythonPackage rec {
@@ -23,9 +24,7 @@ buildPythonPackage rec {
     hash = "sha256-N2StqGUqOYS9mW/DAeSntNg3kii+UPdTUHDV7g1Hvus=";
   };
 
-  nativeBuildInputs = [
-    pythonRelaxDepsHook
-  ];
+  nativeBuildInputs = [ pythonRelaxDepsHook ];
 
   propagatedBuildInputs = [
     torch
@@ -43,9 +42,7 @@ buildPythonPackage rec {
   # Test fails due to missing arguments for trfs2arrays().
   doCheck = false;
 
-  pythonImportsCheck = [
-    "spacy_transformers"
-  ];
+  pythonImportsCheck = [ "spacy_transformers" ];
 
   passthru.tests.annotation = callPackage ./annotation-test { };
 

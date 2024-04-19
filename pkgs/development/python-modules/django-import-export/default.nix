@@ -1,14 +1,15 @@
-{ lib
-, buildPythonPackage
-, chardet
-, diff-match-patch
-, django
-, fetchFromGitHub
-, psycopg2
-, python
-, pythonOlder
-, pytz
-, tablib
+{
+  lib,
+  buildPythonPackage,
+  chardet,
+  diff-match-patch,
+  django,
+  fetchFromGitHub,
+  psycopg2,
+  python,
+  pythonOlder,
+  pytz,
+  tablib,
 }:
 
 buildPythonPackage rec {
@@ -43,9 +44,7 @@ buildPythonPackage rec {
     runHook postCheck
   '';
 
-  pythonImportsCheck = [
-    "import_export"
-  ];
+  pythonImportsCheck = [ "import_export" ];
 
   meta = with lib; {
     description = "Django application and library for importing and exporting data with admin integration";

@@ -1,12 +1,13 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, installShellFiles
-, pkg-config
-, openssl
-, xz
-, stdenv
-, darwin
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  installShellFiles,
+  pkg-config,
+  openssl,
+  xz,
+  stdenv,
+  darwin,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -32,14 +33,16 @@ rustPlatform.buildRustPackage rec {
     pkg-config
   ];
 
-  buildInputs = [
-    openssl
-    xz
-  ] ++ lib.optionals stdenv.isDarwin [
-    darwin.apple_sdk.frameworks.CoreFoundation
-    darwin.apple_sdk.frameworks.CoreServices
-    darwin.apple_sdk.frameworks.Security
-  ];
+  buildInputs =
+    [
+      openssl
+      xz
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      darwin.apple_sdk.frameworks.CoreFoundation
+      darwin.apple_sdk.frameworks.CoreServices
+      darwin.apple_sdk.frameworks.Security
+    ];
 
   env = {
     GEN_ARTIFACTS = "artifacts";
@@ -59,6 +62,10 @@ rustPlatform.buildRustPackage rec {
     homepage = "https://github.com/typst/typst";
     license = lib.licenses.asl20;
     mainProgram = "typst";
-    maintainers = with lib.maintainers; [ drupol figsoda kanashimia ];
+    maintainers = with lib.maintainers; [
+      drupol
+      figsoda
+      kanashimia
+    ];
   };
 }

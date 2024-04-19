@@ -1,19 +1,24 @@
-{ lib, stdenv, octave, buildEnv
-, makeWrapper, texinfo
-, octavePackages
-, wrapOctave
-, computeRequiredOctavePackages
-, extraLibs ? []
-, extraOutputsToInstall ? []
-, postBuild ? ""
-, ignoreCollisions ? false
+{
+  lib,
+  stdenv,
+  octave,
+  buildEnv,
+  makeWrapper,
+  texinfo,
+  octavePackages,
+  wrapOctave,
+  computeRequiredOctavePackages,
+  extraLibs ? [ ],
+  extraOutputsToInstall ? [ ],
+  postBuild ? "",
+  ignoreCollisions ? false,
 }:
 
 # Create an octave executable that knows about additional packages
 let
   packages = computeRequiredOctavePackages extraLibs;
-
-in buildEnv {
+in
+buildEnv {
   name = "${octave.name}-env";
   paths = extraLibs ++ [ octave ];
 
@@ -21,13 +26,17 @@ in buildEnv {
   extraOutputsToInstall = [ "out" ] ++ extraOutputsToInstall;
 
   nativeBuildInputs = [ makeWrapper ];
-  buildInputs = [ texinfo wrapOctave ];
+  buildInputs = [
+    texinfo
+    wrapOctave
+  ];
 
   # During "build" we must first unlink the /share symlink to octave's /share
   # Then, we can re-symlink the all of octave/share, except for /share/octave
   # in env/share/octave, re-symlink everything from octave/share/octave and then
   # perform the pkg install.
-  postBuild = ''
+  postBuild =
+    ''
       if [ -L "$out/bin" ]; then
          unlink $out/bin
          mkdir -p "$out/bin"
@@ -63,7 +72,8 @@ in buildEnv {
       addPkgLocalList $out ${octave}
 
       wrapOctavePrograms "${lib.concatStringsSep " " packages}"
-     '' + postBuild;
+    ''
+    + postBuild;
 
   inherit (octave) meta;
 

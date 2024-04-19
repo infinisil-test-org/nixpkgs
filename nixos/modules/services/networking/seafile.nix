@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   cfg = config.services.seafile;
@@ -31,7 +36,6 @@ let
   ccnetDir = "${seafRoot}/ccnet";
   dataDir = "${seafRoot}/data";
   seahubDir = "${seafRoot}/seahub";
-
 in
 {
 
@@ -167,7 +171,10 @@ in
           RestrictSUIDSGID = true;
           MemoryDenyWriteExecute = true;
           SystemCallArchitectures = "native";
-          RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" ];
+          RestrictAddressFamilies = [
+            "AF_UNIX"
+            "AF_INET"
+          ];
         };
       in
       {
@@ -176,7 +183,10 @@ in
           partOf = [ "seafile.target" ];
           after = [ "network.target" ];
           wantedBy = [ "seafile.target" ];
-          restartTriggers = [ ccnetConf seafileConf ];
+          restartTriggers = [
+            ccnetConf
+            seafileConf
+          ];
           path = [ pkgs.sqlite ];
           serviceConfig = securityOptions // {
             User = "seafile";
@@ -235,7 +245,10 @@ in
           description = "Seafile Server Web Frontend";
           wantedBy = [ "seafile.target" ];
           partOf = [ "seafile.target" ];
-          after = [ "network.target" "seaf-server.service" ];
+          after = [
+            "network.target"
+            "seaf-server.service"
+          ];
           requires = [ "seaf-server.service" ];
           restartTriggers = [ seahubSettings ];
           environment = {

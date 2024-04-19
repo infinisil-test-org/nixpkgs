@@ -1,7 +1,8 @@
-{ lib
-, python3
-, fetchPypi
-, nix-update-script
+{
+  lib,
+  python3,
+  fetchPypi,
+  nix-update-script,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -31,7 +32,12 @@ python3.pkgs.buildPythonApplication rec {
     instructor
   ];
 
-  pythonRelaxDeps = [ "requests" "rich" "distro" "typer" ];
+  pythonRelaxDeps = [
+    "requests"
+    "rich"
+    "distro"
+    "typer"
+  ];
 
   passthru.updateScript = nix-update-script { };
 

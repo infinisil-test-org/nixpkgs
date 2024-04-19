@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
@@ -8,13 +13,16 @@ let
   wrapperOptions = types.submodule {
     options =
       let
-        mkWrapperFeature  = default: description: mkOption {
-          type = types.bool;
-          inherit default;
-          example = !default;
-          description = "Whether to make use of the ${description}";
-        };
-      in {
+        mkWrapperFeature =
+          default: description:
+          mkOption {
+            type = types.bool;
+            inherit default;
+            example = !default;
+            description = "Whether to make use of the ${description}";
+          };
+      in
+      {
         base = mkWrapperFeature true ''
           base wrapper to execute extra session commands and prepend a
           dbus-run-session to the sway command.
@@ -23,10 +31,11 @@ let
           wrapGAppsHook wrapper to execute sway with required environment
           variables for GTK applications.
         '';
-    };
+      };
   };
 
-  genFinalPackage = pkg:
+  genFinalPackage =
+    pkg:
     let
       expectedArgs = lib.naturalSort [
         "extraSessionCommands"
@@ -35,10 +44,11 @@ let
         "withGtkWrapper"
         "isNixOS"
       ];
-      existedArgs = with lib;
-        naturalSort
-        (intersectLists expectedArgs (attrNames (functionArgs pkg.override)));
-    in if existedArgs != expectedArgs then
+      existedArgs =
+        with lib;
+        naturalSort (intersectLists expectedArgs (attrNames (functionArgs pkg.override)));
+    in
+    if existedArgs != expectedArgs then
       pkg
     else
       pkg.override {
@@ -48,7 +58,8 @@ let
         withGtkWrapper = cfg.wrapperFeatures.gtk;
         isNixOS = true;
       };
-in {
+in
+{
   options.programs.sway = {
     enable = mkEnableOption ''
       Sway, the i3-compatible tiling Wayland compositor. You can manually launch
@@ -75,7 +86,9 @@ in {
     wrapperFeatures = mkOption {
       type = wrapperOptions;
       default = { };
-      example = { gtk = true; };
+      example = {
+        gtk = true;
+      };
       description = ''
         Attribute set of features to enable in the wrapper.
       '';
@@ -104,7 +117,7 @@ in {
 
     extraOptions = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
       example = [
         "--verbose"
         "--debug"
@@ -119,7 +132,11 @@ in {
     extraPackages = mkOption {
       type = with types; listOf package;
       default = with pkgs; [
-        swaylock swayidle foot dmenu wmenu
+        swaylock
+        swayidle
+        foot
+        dmenu
+        wmenu
       ];
       defaultText = literalExpression ''
         with pkgs; [ swaylock swayidle foot dmenu wmenu ];
@@ -137,46 +154,53 @@ in {
         for a list of useful software.
       '';
     };
-
   };
 
-  config = mkIf cfg.enable
-    (mkMerge [
-      {
-        assertions = [
-          {
-            assertion = cfg.extraSessionCommands != "" -> cfg.wrapperFeatures.base;
-            message = ''
-              The extraSessionCommands for Sway will not be run if
-              wrapperFeatures.base is disabled.
-            '';
-          }
-        ];
+  config = mkIf cfg.enable (mkMerge [
+    {
+      assertions = [
+        {
+          assertion = cfg.extraSessionCommands != "" -> cfg.wrapperFeatures.base;
+          message = ''
+            The extraSessionCommands for Sway will not be run if
+            wrapperFeatures.base is disabled.
+          '';
+        }
+      ];
 
-        environment = {
-          systemPackages = optional (cfg.package != null) cfg.package ++ cfg.extraPackages;
-          # Needed for the default wallpaper:
-          pathsToLink = optionals (cfg.package != null) [ "/share/backgrounds/sway" ];
-          etc = {
+      environment = {
+        systemPackages = optional (cfg.package != null) cfg.package ++ cfg.extraPackages;
+        # Needed for the default wallpaper:
+        pathsToLink = optionals (cfg.package != null) [ "/share/backgrounds/sway" ];
+        etc =
+          {
             "sway/config.d/nixos.conf".source = pkgs.writeText "nixos.conf" ''
               # Import the most important environment variables into the D-Bus and systemd
               # user environments (e.g. required for screen sharing and Pinentry prompts):
               exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
             '';
-          } // optionalAttrs (cfg.package != null) {
+          }
+          // optionalAttrs (cfg.package != null) {
             "sway/config".source = mkOptionDefault "${cfg.package}/etc/sway/config";
           };
-        };
+      };
 
-        programs.gnupg.agent.pinentryPackage = lib.mkDefault pkgs.pinentry-gnome3;
+      programs.gnupg.agent.pinentryPackage = lib.mkDefault pkgs.pinentry-gnome3;
 
-        # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1050913
-        xdg.portal.config.sway.default = mkDefault [ "wlr" "gtk" ];
+      # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1050913
+      xdg.portal.config.sway.default = mkDefault [
+        "wlr"
+        "gtk"
+      ];
 
-        # To make a Sway session available if a display manager like SDDM is enabled:
-        services.displayManager.sessionPackages = optionals (cfg.package != null) [ cfg.package ]; }
-      (import ./wayland-session.nix { inherit lib pkgs; })
-    ]);
+      # To make a Sway session available if a display manager like SDDM is enabled:
+      services.displayManager.sessionPackages = optionals (cfg.package != null) [ cfg.package ];
+    }
+    (import ./wayland-session.nix { inherit lib pkgs; })
+  ]);
 
-  meta.maintainers = with lib.maintainers; [ primeos colemickens ];
+  meta.maintainers = with lib.maintainers; [
+    primeos
+    colemickens
+  ];
 }

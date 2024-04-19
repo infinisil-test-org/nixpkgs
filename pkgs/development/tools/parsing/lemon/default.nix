@@ -1,4 +1,8 @@
-{ lib, stdenv, fetchurl }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+}:
 
 let
 
@@ -14,8 +18,8 @@ let
       name = "lempar.c";
     };
   };
-
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "lemon";
   version = "1.69";
 

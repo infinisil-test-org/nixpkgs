@@ -1,19 +1,20 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, setuptools
-, numpy
-, opencv4
-, pyyaml
-, qudida
-, scikit-image
-, scipy
-, deepdiff
-, pytestCheckHook
-, pythonOlder
-, pythonRelaxDepsHook
-, torch
-, torchvision
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  setuptools,
+  numpy,
+  opencv4,
+  pyyaml,
+  qudida,
+  scikit-image,
+  scipy,
+  deepdiff,
+  pytestCheckHook,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  torch,
+  torchvision,
 }:
 
 buildPythonPackage rec {
@@ -28,17 +29,11 @@ buildPythonPackage rec {
     hash = "sha256-lznWLJocXdfwnhAZ33V5ZdlFCAsNa0u/rjfkjmHBQOg=";
   };
 
-  nativeBuildInputs = [
-    pythonRelaxDepsHook
-  ];
+  nativeBuildInputs = [ pythonRelaxDepsHook ];
 
-  pythonRemoveDeps = [
-    "opencv-python"
-  ];
+  pythonRemoveDeps = [ "opencv-python" ];
 
-  build-system = [
-    setuptools
-  ];
+  build-system = [ setuptools ];
 
   dependencies = [
     numpy

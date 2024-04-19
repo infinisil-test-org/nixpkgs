@@ -1,16 +1,17 @@
-{ lib
-, boto3
-, buildPythonPackage
-, envs
-, fetchFromGitHub
-, isPy27
-, freezegun
-, mock
-, moto
-, pyjwt
-, pytestCheckHook
-, requests
-, requests-mock
+{
+  lib,
+  boto3,
+  buildPythonPackage,
+  envs,
+  fetchFromGitHub,
+  isPy27,
+  freezegun,
+  mock,
+  moto,
+  pyjwt,
+  pytestCheckHook,
+  requests,
+  requests-mock,
 }:
 
 buildPythonPackage rec {
@@ -31,8 +32,7 @@ buildPythonPackage rec {
     envs
     pyjwt
     requests
-  ]
-  ++ pyjwt.optional-dependencies.crypto;
+  ] ++ pyjwt.optional-dependencies.crypto;
 
   nativeCheckInputs = [
     freezegun
@@ -40,8 +40,7 @@ buildPythonPackage rec {
     moto
     pytestCheckHook
     requests-mock
-  ]
-  ++ moto.optional-dependencies.cognitoidp;
+  ] ++ moto.optional-dependencies.cognitoidp;
 
   postPatch = ''
     substituteInPlace setup.py \

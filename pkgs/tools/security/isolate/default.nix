@@ -1,9 +1,10 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, asciidoc
-, libcap
-, installShellFiles
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  asciidoc,
+  libcap,
+  installShellFiles,
 }:
 
 stdenv.mkDerivation rec {
@@ -22,9 +23,7 @@ stdenv.mkDerivation rec {
     installShellFiles
   ];
 
-  buildInputs = [
-    libcap.dev
-  ];
+  buildInputs = [ libcap.dev ];
 
   buildFlags = [
     "isolate"

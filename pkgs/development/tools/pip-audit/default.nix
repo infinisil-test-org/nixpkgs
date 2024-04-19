@@ -1,6 +1,7 @@
-{ lib
-, fetchFromGitHub
-, python3
+{
+  lib,
+  fetchFromGitHub,
+  python3,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -15,29 +16,28 @@ python3.pkgs.buildPythonApplication rec {
     hash = "sha256-IlIPLuHGmnmt6FgX+Psw+f6XpkuhP+BZ+e4k4DV8e/U=";
   };
 
-  nativeBuildInputs = with python3.pkgs; [
-    flit-core
-  ];
+  nativeBuildInputs = with python3.pkgs; [ flit-core ];
 
-  propagatedBuildInputs = with python3.pkgs; [
-    cachecontrol
-    cyclonedx-python-lib
-    html5lib
-    packaging
-    pip-api
-    pip-requirements-parser
-    rich
-    toml
-  ] ++ cachecontrol.optional-dependencies.filecache;
+  propagatedBuildInputs =
+    with python3.pkgs;
+    [
+      cachecontrol
+      cyclonedx-python-lib
+      html5lib
+      packaging
+      pip-api
+      pip-requirements-parser
+      rich
+      toml
+    ]
+    ++ cachecontrol.optional-dependencies.filecache;
 
   nativeCheckInputs = with python3.pkgs; [
     pretend
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "pip_audit"
-  ];
+  pythonImportsCheck = [ "pip_audit" ];
 
   preCheck = ''
     export HOME=$(mktemp -d);

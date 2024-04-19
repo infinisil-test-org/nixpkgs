@@ -1,6 +1,11 @@
 # Global configuration for the SSH client.
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -31,9 +36,7 @@ in
           in TurboVNC.
         '';
       };
-
     };
-
   };
 
   config = mkIf cfg.ensureHeadlessSoftwareOpenGL {
@@ -49,6 +52,5 @@ in
     # This comment exists to explain why `hardware.` is involved,
     # even though 100% software rendering is used.
     hardware.opengl.enable = true;
-
   };
 }

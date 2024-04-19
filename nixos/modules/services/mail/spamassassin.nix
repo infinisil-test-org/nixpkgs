@@ -1,11 +1,15 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.services.spamassassin;
   spamassassin-local-cf = pkgs.writeText "local.cf" cfg.config;
-
 in
 
 {
@@ -59,8 +63,7 @@ in
         type = with types; either str path;
         description = "The SpamAssassin init.pre config.";
         apply = val: if builtins.isPath val then val else pkgs.writeText "init.pre" val;
-        default =
-        ''
+        default = ''
           #
           # to update this list, run this command in the rules directory:
           # grep 'loadplugin.*Mail::SpamAssassin::Plugin::.*' -o -h * | sort | uniq
@@ -164,8 +167,8 @@ in
 
     systemd.timers.sa-update = {
       description = "sa-update-service";
-      partOf      = [ "sa-update.service" ];
-      wantedBy    = [ "timers.target" ];
+      partOf = [ "sa-update.service" ];
+      wantedBy = [ "timers.target" ];
       timerConfig = {
         OnCalendar = "1:*";
         Persistent = true;

@@ -1,4 +1,10 @@
-{ lib, appimageTools, fetchurl, asar }: let
+{
+  lib,
+  appimageTools,
+  fetchurl,
+  asar,
+}:
+let
   pname = "todoist-electron";
   version = "8.10.1";
 
@@ -17,14 +23,12 @@
       ${asar}/bin/asar pack app $out/resources/app.asar
     '';
   });
-
-in appimageTools.wrapAppImage {
+in
+appimageTools.wrapAppImage {
   inherit pname version;
   src = appimageContents;
 
-  extraPkgs = { pkgs, ... }@args: [
-    pkgs.hidapi
-  ] ++ appimageTools.defaultFhsEnvArgs.multiPkgs args;
+  extraPkgs = { pkgs, ... }@args: [ pkgs.hidapi ] ++ appimageTools.defaultFhsEnvArgs.multiPkgs args;
 
   extraInstallCommands = ''
     # Add desktop convencience stuff
@@ -40,7 +44,10 @@ in appimageTools.wrapAppImage {
     description = "The official Todoist electron app";
     platforms = [ "x86_64-linux" ];
     license = licenses.unfree;
-    maintainers = with maintainers; [ kylesferrazza pokon548 ];
+    maintainers = with maintainers; [
+      kylesferrazza
+      pokon548
+    ];
     mainProgram = "todoist-electron";
   };
 }

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
 
@@ -6,8 +11,7 @@ let
 
   configFile = ''
     ${cfg.chain.type}_chain
-    ${optionalString (cfg.chain.type == "random")
-    "chain_len = ${builtins.toString cfg.chain.length}"}
+    ${optionalString (cfg.chain.type == "random") "chain_len = ${builtins.toString cfg.chain.length}"}
     ${optionalString cfg.proxyDNS "proxy_dns"}
     ${optionalString cfg.quietMode "quiet_mode"}
     remote_dns_subnet ${builtins.toString cfg.remoteDNSSubnet}
@@ -15,9 +19,11 @@ let
     tcp_connect_time_out ${builtins.toString cfg.tcpConnectTimeOut}
     localnet ${cfg.localnet}
     [ProxyList]
-    ${builtins.concatStringsSep "\n"
-      (lib.mapAttrsToList (k: v: "${v.type} ${v.host} ${builtins.toString v.port}")
-        (lib.filterAttrs (k: v: v.enable) cfg.proxies))}
+    ${builtins.concatStringsSep "\n" (
+      lib.mapAttrsToList (k: v: "${v.type} ${v.host} ${builtins.toString v.port}") (
+        lib.filterAttrs (k: v: v.enable) cfg.proxies
+      )
+    )}
   '';
 
   proxyOptions = {
@@ -25,7 +31,11 @@ let
       enable = mkEnableOption "this proxy";
 
       type = mkOption {
-        type = types.enum [ "http" "socks4" "socks5" ];
+        type = types.enum [
+          "http"
+          "socks4"
+          "socks5"
+        ];
         description = "Proxy type.";
       };
 
@@ -40,8 +50,8 @@ let
       };
     };
   };
-
-in {
+in
+{
 
   ###### interface
 
@@ -51,13 +61,15 @@ in {
 
       enable = mkEnableOption "proxychains configuration";
 
-      package = mkPackageOption pkgs "proxychains" {
-        example = "proxychains-ng";
-      };
+      package = mkPackageOption pkgs "proxychains" { example = "proxychains-ng"; };
 
       chain = {
         type = mkOption {
-          type = types.enum [ "dynamic" "strict" "random" ];
+          type = types.enum [
+            "dynamic"
+            "strict"
+            "random"
+          ];
           default = "strict";
           description = ''
             `dynamic` - Each connection will be done via chained proxies
@@ -93,7 +105,11 @@ in {
       quietMode = mkEnableOption "Quiet mode (no output from the library)";
 
       remoteDNSSubnet = mkOption {
-        type = types.enum [ 10 127 224 ];
+        type = types.enum [
+          10
+          127
+          224
+        ];
         default = 224;
         description = ''
           Set the class A subnet number to use for the internal remote DNS mapping, uses the reserved 224.x.x.x range by default.
@@ -133,9 +149,7 @@ in {
           }
         '';
       };
-
     };
-
   };
 
   ###### implementation
@@ -152,18 +166,16 @@ in {
       '';
     };
 
-    programs.proxychains.proxies = mkIf config.services.tor.client.enable
-      {
-        torproxy = mkDefault {
-          enable = true;
-          type = "socks4";
-          host = "127.0.0.1";
-          port = 9050;
-        };
+    programs.proxychains.proxies = mkIf config.services.tor.client.enable {
+      torproxy = mkDefault {
+        enable = true;
+        type = "socks4";
+        host = "127.0.0.1";
+        port = 9050;
       };
+    };
 
     environment.etc."proxychains.conf".text = configFile;
     environment.systemPackages = [ cfg.package ];
   };
-
 }

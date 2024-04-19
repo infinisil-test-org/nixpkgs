@@ -1,27 +1,28 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchpatch
-, boost
-, cmake
-, discord-rpc
-, freetype
-, hidapi
-, libpng
-, libsamplerate
-, minizip
-, nasm
-, pkg-config
-, qt6Packages
-, SDL2
-, speexdsp
-, vulkan-headers
-, vulkan-loader
-, which
-, xdg-user-dirs
-, zlib
-# Affects final license
-, withAngrylionRdpPlus ? false
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  boost,
+  cmake,
+  discord-rpc,
+  freetype,
+  hidapi,
+  libpng,
+  libsamplerate,
+  minizip,
+  nasm,
+  pkg-config,
+  qt6Packages,
+  SDL2,
+  speexdsp,
+  vulkan-headers,
+  vulkan-loader,
+  which,
+  xdg-user-dirs,
+  zlib,
+  # Affects final license
+  withAngrylionRdpPlus ? false,
 }:
 
 let

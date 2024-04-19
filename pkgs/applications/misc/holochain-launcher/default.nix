@@ -1,15 +1,16 @@
-{ stdenv
-, lib
-, fetchurl
-, autoPatchelfHook
-, pkg-config
-, dpkg
-, openssl
-, webkitgtk
-, libappindicator
-, wrapGAppsHook
-, shared-mime-info
-, glib-networking
+{
+  stdenv,
+  lib,
+  fetchurl,
+  autoPatchelfHook,
+  pkg-config,
+  dpkg,
+  openssl,
+  webkitgtk,
+  libappindicator,
+  wrapGAppsHook,
+  shared-mime-info,
+  glib-networking,
 }:
 
 stdenv.mkDerivation rec {

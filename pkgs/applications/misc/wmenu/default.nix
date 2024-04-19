@@ -1,16 +1,17 @@
-{ lib
-, stdenv
-, fetchFromSourcehut
-, fetchpatch
-, pkg-config
-, meson
-, ninja
-, cairo
-, pango
-, wayland
-, wayland-protocols
-, libxkbcommon
-, scdoc
+{
+  lib,
+  stdenv,
+  fetchFromSourcehut,
+  fetchpatch,
+  pkg-config,
+  meson,
+  ninja,
+  cairo,
+  pango,
+  wayland,
+  wayland-protocols,
+  libxkbcommon,
+  scdoc,
 }:
 
 stdenv.mkDerivation rec {
@@ -34,8 +35,19 @@ stdenv.mkDerivation rec {
     })
   ];
 
-  nativeBuildInputs = [ pkg-config meson ninja ];
-  buildInputs = [ cairo pango wayland libxkbcommon wayland-protocols scdoc ];
+  nativeBuildInputs = [
+    pkg-config
+    meson
+    ninja
+  ];
+  buildInputs = [
+    cairo
+    pango
+    wayland
+    libxkbcommon
+    wayland-protocols
+    scdoc
+  ];
 
   meta = with lib; {
     description = "An efficient dynamic menu for Sway and wlroots based Wayland compositors";
@@ -46,4 +58,3 @@ stdenv.mkDerivation rec {
     mainProgram = "wmenu";
   };
 }
-

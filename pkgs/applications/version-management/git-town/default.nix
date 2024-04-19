@@ -1,4 +1,13 @@
-{ lib, buildGoModule, fetchFromGitHub, installShellFiles, git, testers, git-town, makeWrapper }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  installShellFiles,
+  git,
+  testers,
+  git-town,
+  makeWrapper,
+}:
 
 buildGoModule rec {
   pname = "git-town";
@@ -13,13 +22,17 @@ buildGoModule rec {
 
   vendorHash = null;
 
-  nativeBuildInputs = [ installShellFiles makeWrapper ];
+  nativeBuildInputs = [
+    installShellFiles
+    makeWrapper
+  ];
 
   buildInputs = [ git ];
 
   ldflags =
     let
-      modulePath = "github.com/git-town/git-town/v${lib.versions.major version}"; in
+      modulePath = "github.com/git-town/git-town/v${lib.versions.major version}";
+    in
     [
       "-s"
       "-w"
@@ -61,7 +74,11 @@ buildGoModule rec {
     description = "Generic, high-level git support for git-flow workflows";
     homepage = "https://www.git-town.com/";
     license = licenses.mit;
-    maintainers = with maintainers; [ allonsy blaggacao gabyx ];
+    maintainers = with maintainers; [
+      allonsy
+      blaggacao
+      gabyx
+    ];
     mainProgram = "git-town";
   };
 }

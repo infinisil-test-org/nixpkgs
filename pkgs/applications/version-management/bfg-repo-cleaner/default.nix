@@ -1,4 +1,10 @@
-{ lib, stdenv, fetchurl, jre, makeWrapper }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  jre,
+  makeWrapper,
+}:
 
 stdenv.mkDerivation rec {
   pname = "bfg-repo-cleaner";
@@ -44,5 +50,4 @@ stdenv.mkDerivation rec {
     platforms = platforms.unix;
     downloadPage = "https://mvnrepository.com/artifact/com.madgag/bfg/${version}";
   };
-
 }

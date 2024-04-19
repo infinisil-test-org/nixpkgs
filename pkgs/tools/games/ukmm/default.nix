@@ -1,13 +1,14 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, cmake
-, pkg-config
-, wrapGAppsHook
-, atk
-, glib
-, gtk3-x11
-, nix-update-script
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  wrapGAppsHook,
+  atk,
+  glib,
+  gtk3-x11,
+  nix-update-script,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -49,9 +50,7 @@ rustPlatform.buildRustPackage rec {
     gtk3-x11
   ];
 
-  cargoTestFlags = [
-    "--all"
-  ];
+  cargoTestFlags = [ "--all" ];
 
   checkFlags = [
     # Requires a game dump of Breath of the Wild

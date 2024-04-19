@@ -1,32 +1,33 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, ninja
-, setuptools
-, wheel
-, which
-, cloudpickle
-, numpy
-, torch
-, ale-py
-, gym
-, pygame
-, gymnasium
-, mujoco
-, moviepy
-, git
-, hydra-core
-, tensorboard
-, tqdm
-, wandb
-, packaging
-, tensordict
-, imageio
-, pytest-rerunfailures
-, pytestCheckHook
-, pyyaml
-, scipy
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  ninja,
+  setuptools,
+  wheel,
+  which,
+  cloudpickle,
+  numpy,
+  torch,
+  ale-py,
+  gym,
+  pygame,
+  gymnasium,
+  mujoco,
+  moviepy,
+  git,
+  hydra-core,
+  tensorboard,
+  tqdm,
+  wandb,
+  packaging,
+  tensordict,
+  imageio,
+  pytest-rerunfailures,
+  pytestCheckHook,
+  pyyaml,
+  scipy,
 }:
 
 buildPythonPackage rec {
@@ -68,9 +69,7 @@ buildPythonPackage rec {
       gymnasium
       mujoco
     ];
-    rendering = [
-      moviepy
-    ];
+    rendering = [ moviepy ];
     utils = [
       git
       hydra-core
@@ -85,9 +84,7 @@ buildPythonPackage rec {
     export D4RL_DATASET_DIR=$(mktemp -d)
   '';
 
-  pythonImportsCheck = [
-    "torchrl"
-  ];
+  pythonImportsCheck = [ "torchrl" ];
 
   # We have to delete the source because otherwise it is used instead of the installed package.
   preCheck = ''
@@ -96,17 +93,18 @@ buildPythonPackage rec {
     export XDG_RUNTIME_DIR=$(mktemp -d)
   '';
 
-  nativeCheckInputs = [
-    gymnasium
-    imageio
-    pytest-rerunfailures
-    pytestCheckHook
-    pyyaml
-    scipy
-  ]
-  ++ passthru.optional-dependencies.atari
-  ++ passthru.optional-dependencies.gym-continuous
-  ++ passthru.optional-dependencies.rendering;
+  nativeCheckInputs =
+    [
+      gymnasium
+      imageio
+      pytest-rerunfailures
+      pytestCheckHook
+      pyyaml
+      scipy
+    ]
+    ++ passthru.optional-dependencies.atari
+    ++ passthru.optional-dependencies.gym-continuous
+    ++ passthru.optional-dependencies.rendering;
 
   disabledTests = [
     # mujoco.FatalError: an OpenGL platform library has not been loaded into this process, this most likely means that a valid OpenGL context has not been created before mjr_makeContext was called

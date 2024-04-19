@@ -1,22 +1,23 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
 
-# build-system
-, setuptools
-, setuptools-scm
+  # build-system
+  setuptools,
+  setuptools-scm,
 
-# propagates
-, typing-extensions
+  # propagates
+  typing-extensions,
 
-# tests
-, pytestCheckHook
-, pytest-subtests
-, pytest-benchmark
-, numpy
-, matplotlib
-, uncertainties
+  # tests
+  pytestCheckHook,
+  pytest-subtests,
+  pytest-benchmark,
+  numpy,
+  matplotlib,
+  uncertainties,
 }:
 
 buildPythonPackage rec {
@@ -37,9 +38,7 @@ buildPythonPackage rec {
     setuptools-scm
   ];
 
-  propagatedBuildInputs = [
-    typing-extensions
-  ];
+  propagatedBuildInputs = [ typing-extensions ];
 
   nativeCheckInputs = [
     pytestCheckHook

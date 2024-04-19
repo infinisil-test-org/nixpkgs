@@ -15,7 +15,11 @@ mkKdeDerivation rec {
     hash = "sha256-ilLbir+oqdaNLSkfsPi+IGWf14mZh7Tcr98kaNsJF9w=";
   };
 
-  extraBuildInputs = [qtspeech qttools kxmlgui];
+  extraBuildInputs = [
+    qtspeech
+    qttools
+    kxmlgui
+  ];
 
   meta.license = with lib.licenses; [
     bsd3

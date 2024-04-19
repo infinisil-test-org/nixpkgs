@@ -1,6 +1,7 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
 }:
 
 buildGoModule rec {
@@ -16,9 +17,7 @@ buildGoModule rec {
 
   vendorHash = "sha256-Zu3TxBFTrXkAOmtUELjSdyzlE6CIr4SUBSdvaRnKy+k=";
 
-  subPackages = [
-    "cmd/chaos/"
-  ];
+  subPackages = [ "cmd/chaos/" ];
 
   meta = with lib; {
     description = "Tool to communicate with Chaos DNS API";

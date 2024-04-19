@@ -1,4 +1,12 @@
-{ stdenv, lib, fetchurl, kernel, flex, coccinelle, python3 }:
+{
+  stdenv,
+  lib,
+  fetchurl,
+  kernel,
+  flex,
+  coccinelle,
+  python3,
+}:
 
 stdenv.mkDerivation rec {
   name = "drbd-${version}-${kernel.version}";
@@ -50,8 +58,8 @@ stdenv.mkDerivation rec {
     platforms = platforms.linux;
     maintainers = with maintainers; [ birkb ];
     longDescription = ''
-       DRBD is a software-based, shared-nothing, replicated storage solution
-       mirroring the content of block devices (hard disks, partitions, logical volumes, and so on) between hosts.
+      DRBD is a software-based, shared-nothing, replicated storage solution
+      mirroring the content of block devices (hard disks, partitions, logical volumes, and so on) between hosts.
     '';
   };
 }

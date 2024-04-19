@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, bson
-, pytestCheckHook
-, pyyaml
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  bson,
+  pytestCheckHook,
+  pyyaml,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -28,13 +29,9 @@ buildPythonPackage rec {
       --replace "--cov=pymarshal --cov-report=html --cov-report=term" ""
   '';
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [
-    bson
-  ];
+  propagatedBuildInputs = [ bson ];
 
   nativeCheckInputs = [
     pytestCheckHook

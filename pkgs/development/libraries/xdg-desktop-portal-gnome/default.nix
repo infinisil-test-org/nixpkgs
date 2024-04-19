@@ -1,21 +1,22 @@
-{ stdenv
-, lib
-, fetchurl
-, meson
-, ninja
-, pkg-config
-, wrapGAppsHook4
-, fontconfig
-, glib
-, gsettings-desktop-schemas
-, gtk4
-, libadwaita
-, gnome-desktop
-, xdg-desktop-portal
-, wayland
-, gnome
-, librsvg
-, webp-pixbuf-loader
+{
+  stdenv,
+  lib,
+  fetchurl,
+  meson,
+  ninja,
+  pkg-config,
+  wrapGAppsHook4,
+  fontconfig,
+  glib,
+  gsettings-desktop-schemas,
+  gtk4,
+  libadwaita,
+  gnome-desktop,
+  xdg-desktop-portal,
+  wayland,
+  gnome,
+  librsvg,
+  webp-pixbuf-loader,
 }:
 
 stdenv.mkDerivation rec {
@@ -45,25 +46,23 @@ stdenv.mkDerivation rec {
     wayland # required by GTK 4
   ];
 
-  mesonFlags = [
-    "-Dsystemduserunitdir=${placeholder "out"}/lib/systemd/user"
-  ];
+  mesonFlags = [ "-Dsystemduserunitdir=${placeholder "out"}/lib/systemd/user" ];
 
   postInstall = ''
     # Pull in WebP support for gnome-backgrounds.
     # In postInstall to run before gappsWrapperArgsHook.
-    export GDK_PIXBUF_MODULE_FILE="${gnome._gdkPixbufCacheBuilder_DO_NOT_USE {
-      extraLoaders = [
-        librsvg
-        webp-pixbuf-loader
-      ];
-    }}"
+    export GDK_PIXBUF_MODULE_FILE="${
+      gnome._gdkPixbufCacheBuilder_DO_NOT_USE {
+        extraLoaders = [
+          librsvg
+          webp-pixbuf-loader
+        ];
+      }
+    }"
   '';
 
   passthru = {
-    updateScript = gnome.updateScript {
-      packageName = pname;
-    };
+    updateScript = gnome.updateScript { packageName = pname; };
   };
 
   meta = with lib; {

@@ -13,7 +13,8 @@ let
   djgppFtpMirror = "https://www.mirrorservice.org/sites/ftp.delorie.com/pub";
   gnuFtpMirror = "https://www.mirrorservice.org/sites/ftp.gnu.org/gnu";
 in
-{ fetchFromGitHub, fetchurl }: {
+{ fetchFromGitHub, fetchurl }:
+{
   inherit gccVersion;
 
   src = fetchFromGitHub {
@@ -77,5 +78,4 @@ in
     url = "${gnuFtpMirror}/mpfr/mpfr-${mpfrVersion}.tar.xz";
     hash = "sha256-DJij8XMv9spOppBVIHnanFl4ctMOluwoQU7iPJVVin8=";
   };
-
 }

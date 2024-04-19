@@ -1,4 +1,5 @@
-{ lib,
+{
+  lib,
   buildPythonApplication,
   fetchFromGitHub,
   poetry-core,
@@ -15,7 +16,7 @@
   regex,
   rich,
   tqdm,
-  yarl
+  yarl,
 }:
 buildPythonApplication {
   pname = "animdl";
@@ -30,9 +31,7 @@ buildPythonApplication {
     hash = "sha256-kn6vCCFhJNlruxoO+PTHVIwTf1E5j1aSdBhrFuGzUq4=";
   };
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
   propagatedBuildInputs = [
     anchor-kr
     anitopy

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -6,8 +11,8 @@ let
   cfg = config.services.unit;
 
   configFile = pkgs.writeText "unit.json" cfg.config;
-
-in {
+in
+{
   options = {
     services.unit = {
       enable = mkEnableOption "Unit App Server";
@@ -109,7 +114,10 @@ in {
         RuntimeDirectory = "unit";
         RuntimeDirectoryMode = "0750";
         # Access write directories
-        ReadWritePaths = [ cfg.stateDir cfg.logDir ];
+        ReadWritePaths = [
+          cfg.stateDir
+          cfg.logDir
+        ];
         # Security
         NoNewPrivileges = true;
         # Sandboxing
@@ -124,7 +132,11 @@ in {
         ProtectKernelModules = true;
         ProtectKernelLogs = true;
         ProtectControlGroups = true;
-        RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" ];
+        RestrictAddressFamilies = [
+          "AF_UNIX"
+          "AF_INET"
+          "AF_INET6"
+        ];
         LockPersonality = true;
         MemoryDenyWriteExecute = true;
         RestrictRealtime = true;
@@ -142,9 +154,6 @@ in {
       };
     };
 
-    users.groups = optionalAttrs (cfg.group == "unit") {
-      unit = { };
-    };
-
+    users.groups = optionalAttrs (cfg.group == "unit") { unit = { }; };
   };
 }

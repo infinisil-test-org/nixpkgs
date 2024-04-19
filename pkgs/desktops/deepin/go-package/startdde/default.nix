@@ -1,20 +1,21 @@
-{ stdenv
-, lib
-, buildGoModule
-, fetchFromGitHub
-, gettext
-, pkg-config
-, jq
-, wrapGAppsHook
-, glib
-, libgnome-keyring
-, gtk3
-, alsa-lib
-, pulseaudio
-, libgudev
-, libsecret
-, runtimeShell
-, dbus
+{
+  stdenv,
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  gettext,
+  pkg-config,
+  jq,
+  wrapGAppsHook,
+  glib,
+  libgnome-keyring,
+  gtk3,
+  alsa-lib,
+  pulseaudio,
+  libgudev,
+  libsecret,
+  runtimeShell,
+  dbus,
 }:
 
 buildGoModule rec {

@@ -1,15 +1,16 @@
-{ lib
-, anyconfig
-, buildPythonPackage
-, fetchFromGitHub
-, isodate
-, pytestCheckHook
-, pythonOlder
-, pyyaml
-, requests
-, responses
-, poetry-core
-, pythonRelaxDepsHook
+{
+  lib,
+  anyconfig,
+  buildPythonPackage,
+  fetchFromGitHub,
+  isodate,
+  pytestCheckHook,
+  pythonOlder,
+  pyyaml,
+  requests,
+  responses,
+  poetry-core,
+  pythonRelaxDepsHook,
 }:
 
 buildPythonPackage rec {
@@ -26,9 +27,7 @@ buildPythonPackage rec {
     hash = "sha256-JzGrE6zKj16Uzm3EC8ysMbgP5ouA00Gact7NYXbEkXI=";
   };
 
-  pythonRelaxDeps = [
-    "responses"
-  ];
+  pythonRelaxDeps = [ "responses" ];
 
   nativeBuildInputs = [
     poetry-core
@@ -47,9 +46,7 @@ buildPythonPackage rec {
     responses
   ];
 
-  pythonImportsCheck = [
-    "pysolcast"
-  ];
+  pythonImportsCheck = [ "pysolcast" ];
 
   meta = with lib; {
     description = "Python library for interacting with the Solcast API";

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   inherit (lib) mkIf mkOption types;
 
@@ -20,7 +25,6 @@ let
       --file=$file \
       ''${drives[@]}
   '';
-
 in
 {
   meta.maintainers = with lib.maintainers; [ peterhoeg ];
@@ -44,7 +48,10 @@ in
 
       unit = mkOption {
         description = "Celsius or Fahrenheit";
-        type = types.enum [ "C" "F" ];
+        type = types.enum [
+          "C"
+          "F"
+        ];
         default = "C";
       };
 

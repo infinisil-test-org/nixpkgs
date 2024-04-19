@@ -1,22 +1,35 @@
-{ faad2
-, fetchFromGitHub
-, flac
-, lame
-, lib
-, makeWrapper
-, monkeysAudio
-, nixosTests
-, perlPackages
-, sox
-, stdenv
-, wavpack
-, zlib
-, enableUnfreeFirmware ? false
+{
+  faad2,
+  fetchFromGitHub,
+  flac,
+  lame,
+  lib,
+  makeWrapper,
+  monkeysAudio,
+  nixosTests,
+  perlPackages,
+  sox,
+  stdenv,
+  wavpack,
+  zlib,
+  enableUnfreeFirmware ? false,
 }:
 
 let
-  binPath = lib.makeBinPath ([ lame flac faad2 sox wavpack ] ++ (lib.optional stdenv.isLinux monkeysAudio));
-  libPath = lib.makeLibraryPath [ zlib stdenv.cc.cc.lib ];
+  binPath = lib.makeBinPath (
+    [
+      lame
+      flac
+      faad2
+      sox
+      wavpack
+    ]
+    ++ (lib.optional stdenv.isLinux monkeysAudio)
+  );
+  libPath = lib.makeLibraryPath [
+    zlib
+    stdenv.cc.cc.lib
+  ];
 in
 perlPackages.buildPerlPackage rec {
   pname = "slimserver";
@@ -31,79 +44,81 @@ perlPackages.buildPerlPackage rec {
 
   nativeBuildInputs = [ makeWrapper ];
 
-  buildInputs = with perlPackages; [
-    AnyEvent
-    ArchiveZip
-    AsyncUtil
-    AudioScan
-    CarpClan
-    CGI
-    ClassAccessor
-    ClassAccessorChained
-    ClassC3
-    # ClassC3Componentised # Error: DBIx::Class::Row::throw_exception(): DBIx::Class::Relationship::BelongsTo::belongs_to(): Can't infer join condition for track
-    ClassDataInheritable
-    ClassInspector
-    ClassISA
-    ClassMember
-    ClassSingleton
-    ClassVirtual
-    ClassXSAccessor
-    CompressRawZlib
-    CryptOpenSSLRSA
-    DataDump
-    DataPage
-    DataURIEncode
-    DBDSQLite
-    DBI
-    # DBIxClass # https://github.com/LMS-Community/slimserver/issues/138
-    DigestSHA1
-    EncodeDetect
-    EV
-    ExporterLite
-    FileBOM
-    FileCopyRecursive
-    FileNext
-    FileReadBackwards
-    FileSlurp
-    FileWhich
-    HTMLParser
-    HTTPCookies
-    HTTPDaemon
-    HTTPMessage
-    ImageScale
-    IOAIO
-    IOInterface
-    IOSocketSSL
-    IOString
-    JSONXS
-    JSONXSVersionOneAndTwo
-    # LogLog4perl # Internal error: Root Logger not initialized.
-    LWP
-    LWPProtocolHttps
-    MP3CutGapless
-    NetHTTP
-    NetHTTPSNB
-    PathClass
-    ProcBackground
-    # SQLAbstract # DBI Exception: DBD::SQLite::db prepare_cached failed: no such function: ARRAY
-    SQLAbstractLimit
-    SubName
-    TemplateToolkit
-    TextUnidecode
-    TieCacheLRU
-    TieCacheLRUExpires
-    TieRegexpHash
-    TimeDate
-    URI
-    URIFind
-    UUIDTiny
-    XMLParser
-    XMLSimple
-    YAMLLibYAML
-  ]
-  # ++ (lib.optional stdenv.isDarwin perlPackages.MacFSEvents)
-  ++ (lib.optional stdenv.isLinux perlPackages.LinuxInotify2);
+  buildInputs =
+    with perlPackages;
+    [
+      AnyEvent
+      ArchiveZip
+      AsyncUtil
+      AudioScan
+      CarpClan
+      CGI
+      ClassAccessor
+      ClassAccessorChained
+      ClassC3
+      # ClassC3Componentised # Error: DBIx::Class::Row::throw_exception(): DBIx::Class::Relationship::BelongsTo::belongs_to(): Can't infer join condition for track
+      ClassDataInheritable
+      ClassInspector
+      ClassISA
+      ClassMember
+      ClassSingleton
+      ClassVirtual
+      ClassXSAccessor
+      CompressRawZlib
+      CryptOpenSSLRSA
+      DataDump
+      DataPage
+      DataURIEncode
+      DBDSQLite
+      DBI
+      # DBIxClass # https://github.com/LMS-Community/slimserver/issues/138
+      DigestSHA1
+      EncodeDetect
+      EV
+      ExporterLite
+      FileBOM
+      FileCopyRecursive
+      FileNext
+      FileReadBackwards
+      FileSlurp
+      FileWhich
+      HTMLParser
+      HTTPCookies
+      HTTPDaemon
+      HTTPMessage
+      ImageScale
+      IOAIO
+      IOInterface
+      IOSocketSSL
+      IOString
+      JSONXS
+      JSONXSVersionOneAndTwo
+      # LogLog4perl # Internal error: Root Logger not initialized.
+      LWP
+      LWPProtocolHttps
+      MP3CutGapless
+      NetHTTP
+      NetHTTPSNB
+      PathClass
+      ProcBackground
+      # SQLAbstract # DBI Exception: DBD::SQLite::db prepare_cached failed: no such function: ARRAY
+      SQLAbstractLimit
+      SubName
+      TemplateToolkit
+      TextUnidecode
+      TieCacheLRU
+      TieCacheLRUExpires
+      TieRegexpHash
+      TimeDate
+      URI
+      URIFind
+      UUIDTiny
+      XMLParser
+      XMLSimple
+      YAMLLibYAML
+    ]
+    # ++ (lib.optional stdenv.isDarwin perlPackages.MacFSEvents)
+    ++ (lib.optional stdenv.isLinux perlPackages.LinuxInotify2);
 
   prePatch = ''
     # remove vendored binaries
@@ -158,7 +173,10 @@ perlPackages.buildPerlPackage rec {
     # https://github.com/LMS-Community/slimserver/blob/public/8.3/License.txt
     license = if enableUnfreeFirmware then licenses.unfree else licenses.gpl2Only;
     mainProgram = "slimserver";
-    maintainers = with maintainers; [ adamcstephens jecaro ];
+    maintainers = with maintainers; [
+      adamcstephens
+      jecaro
+    ];
     platforms = platforms.unix;
     broken = stdenv.isDarwin;
   };

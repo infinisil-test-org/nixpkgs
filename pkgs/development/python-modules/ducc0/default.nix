@@ -1,4 +1,13 @@
-{ stdenv, lib, buildPythonPackage, fetchFromGitLab, pythonOlder, pytestCheckHook, pybind11, numpy }:
+{
+  stdenv,
+  lib,
+  buildPythonPackage,
+  fetchFromGitLab,
+  pythonOlder,
+  pytestCheckHook,
+  pybind11,
+  numpy,
+}:
 
 buildPythonPackage rec {
   pname = "ducc0";
@@ -11,7 +20,7 @@ buildPythonPackage rec {
     domain = "gitlab.mpcdf.mpg.de";
     owner = "mtr";
     repo = "ducc";
-    rev = "ducc0_${lib.replaceStrings ["."] ["_"] version}";
+    rev = "ducc0_${lib.replaceStrings [ "." ] [ "_" ] version}";
     hash = "sha256-MezcqQRitBkK4/1rRQM2c9w+iZb2kIsDdcNd6I8CPoI=";
   };
 

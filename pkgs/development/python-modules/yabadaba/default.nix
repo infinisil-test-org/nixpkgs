@@ -1,16 +1,17 @@
-{ lib
-, buildPythonPackage
-, cdcs
-, datamodeldict
-, fetchFromGitHub
-, ipython
-, lxml
-, numpy
-, pandas
-, pymongo
-, pytestCheckHook
-, pythonOlder
-, tqdm
+{
+  lib,
+  buildPythonPackage,
+  cdcs,
+  datamodeldict,
+  fetchFromGitHub,
+  ipython,
+  lxml,
+  numpy,
+  pandas,
+  pymongo,
+  pytestCheckHook,
+  pythonOlder,
+  tqdm,
 }:
 
 buildPythonPackage rec {
@@ -38,13 +39,9 @@ buildPythonPackage rec {
     tqdm
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "yabadaba"
-  ];
+  pythonImportsCheck = [ "yabadaba" ];
 
   preCheck = ''
     export HOME=$(mktemp -d);

@@ -1,11 +1,15 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
 
   dmcfg = config.services.displayManager;
   ldmcfg = config.services.xserver.displayManager.lightdm;
   cfg = ldmcfg.greeters.lomiri;
-
 in
 {
   meta.maintainers = lib.teams.lomiri.members;

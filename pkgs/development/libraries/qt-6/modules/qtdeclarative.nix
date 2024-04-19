@@ -1,14 +1,21 @@
-{ qtModule
-, qtbase
-, qtlanguageserver
-, qtshadertools
-, openssl
-, python3
+{
+  qtModule,
+  qtbase,
+  qtlanguageserver,
+  qtshadertools,
+  openssl,
+  python3,
 }:
 
 qtModule {
   pname = "qtdeclarative";
-  propagatedBuildInputs = [ qtbase qtlanguageserver qtshadertools openssl python3 ];
+  propagatedBuildInputs = [
+    qtbase
+    qtlanguageserver
+    qtshadertools
+    openssl
+    python3
+  ];
   patches = [
     # prevent headaches from stale qmlcache data
     ../patches/0001-qtdeclarative-disable-qml-disk-cache.patch

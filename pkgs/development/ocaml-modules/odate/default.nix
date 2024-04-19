@@ -1,5 +1,8 @@
-{ lib, buildDunePackage, fetchFromGitHub
-, menhir
+{
+  lib,
+  buildDunePackage,
+  fetchFromGitHub,
+  menhir,
 }:
 
 buildDunePackage rec {
@@ -23,5 +26,4 @@ buildDunePackage rec {
     license = lib.licenses.mit;
     maintainers = [ lib.maintainers.vbgl ];
   };
-
 }

@@ -1,7 +1,8 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 
 let
@@ -25,35 +26,38 @@ in
   };
 
   ##### implementation
-  config = lib.mkIf cfg.enable (lib.mkMerge [
-    # Common
-    ({
-      environment.systemPackages = with pkgs.coolercontrol; [
-        coolercontrol-gui
-      ];
+  config = lib.mkIf cfg.enable (
+    lib.mkMerge [
+      # Common
+      ({
+        environment.systemPackages = with pkgs.coolercontrol; [ coolercontrol-gui ];
 
-      systemd = {
-        packages = with pkgs.coolercontrol; [
-          coolercontrol-liqctld
-          coolercontrold
-        ];
+        systemd = {
+          packages = with pkgs.coolercontrol; [
+            coolercontrol-liqctld
+            coolercontrold
+          ];
 
-        # https://github.com/NixOS/nixpkgs/issues/81138
-        services = {
-          coolercontrol-liqctld.wantedBy = [ "multi-user.target" ];
-          coolercontrold.wantedBy = [ "multi-user.target" ];
+          # https://github.com/NixOS/nixpkgs/issues/81138
+          services = {
+            coolercontrol-liqctld.wantedBy = [ "multi-user.target" ];
+            coolercontrold.wantedBy = [ "multi-user.target" ];
+          };
         };
-      };
-    })
+      })
 
-    # Nvidia support
-    (lib.mkIf cfg.nvidiaSupport {
-      systemd.services.coolercontrold.path = with config.boot.kernelPackages; [
-        nvidia_x11 # nvidia-smi
-        nvidia_x11.settings # nvidia-settings
-      ];
-    })
-  ]);
+      # Nvidia support
+      (lib.mkIf cfg.nvidiaSupport {
+        systemd.services.coolercontrold.path = with config.boot.kernelPackages; [
+          nvidia_x11 # nvidia-smi
+          nvidia_x11.settings # nvidia-settings
+        ];
+      })
+    ]
+  );
 
-  meta.maintainers = with lib.maintainers; [ OPNA2608 codifryed ];
+  meta.maintainers = with lib.maintainers; [
+    OPNA2608
+    codifryed
+  ];
 }

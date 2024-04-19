@@ -1,26 +1,27 @@
-{ lib
-, stdenv
-, stdenvNoCC
-, fetchFromGitHub
-, substituteAll
-, makeWrapper
-, makeDesktopItem
-, copyDesktopItems
-, vencord
-, electron
-, pipewire
-, libpulseaudio
-, libicns
-, libnotify
-, jq
-, moreutils
-, cacert
-, nodePackages
-, speechd
-, withTTS ? true
+{
+  lib,
+  stdenv,
+  stdenvNoCC,
+  fetchFromGitHub,
+  substituteAll,
+  makeWrapper,
+  makeDesktopItem,
+  copyDesktopItems,
+  vencord,
+  electron,
+  pipewire,
+  libpulseaudio,
+  libicns,
+  libnotify,
+  jq,
+  moreutils,
+  cacert,
+  nodePackages,
+  speechd,
+  withTTS ? true,
   # Enables the use of vencord from nixpkgs instead of
   # letting vesktop manage it's own version
-, withSystemVencord ? true
+  withSystemVencord ? true,
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "vesktop";
@@ -39,7 +40,12 @@ stdenv.mkDerivation (finalAttrs: {
     assert lib.versionAtLeast nodePackages.pnpm.version "8.10.0";
     stdenvNoCC.mkDerivation {
       pname = "${finalAttrs.pname}-pnpm-deps";
-      inherit (finalAttrs) src version patches ELECTRON_SKIP_BINARY_DOWNLOAD;
+      inherit (finalAttrs)
+        src
+        version
+        patches
+        ELECTRON_SKIP_BINARY_DOWNLOAD
+        ;
 
       nativeBuildInputs = [
         jq
@@ -51,7 +57,10 @@ stdenv.mkDerivation (finalAttrs: {
       pnpmPatch = builtins.toJSON {
         pnpm.supportedArchitectures = {
           os = [ "linux" ];
-          cpu = [ "x64" "arm64" ];
+          cpu = [
+            "x64"
+            "arm64"
+          ];
         };
       };
 
@@ -87,9 +96,12 @@ stdenv.mkDerivation (finalAttrs: {
     makeWrapper
   ];
 
-  patches = [
-    ./disable_update_checking.patch
-  ] ++ lib.optional withSystemVencord (substituteAll { inherit vencord; src = ./use_system_vencord.patch; });
+  patches =
+    [ ./disable_update_checking.patch ]
+    ++ lib.optional withSystemVencord (substituteAll {
+      inherit vencord;
+      src = ./use_system_vencord.patch;
+    });
 
   ELECTRON_SKIP_BINARY_DOWNLOAD = 1;
 
@@ -118,12 +130,15 @@ stdenv.mkDerivation (finalAttrs: {
   installPhase =
     let
       # this is mainly required for venmic
-      libPath = lib.makeLibraryPath ([
-        libpulseaudio
-        libnotify
-        pipewire
-        stdenv.cc.cc.lib
-      ] ++ lib.optional withTTS speechd);
+      libPath = lib.makeLibraryPath (
+        [
+          libpulseaudio
+          libnotify
+          pipewire
+          stdenv.cc.cc.lib
+        ]
+        ++ lib.optional withTTS speechd
+      );
     in
     ''
       runHook preInstall
@@ -155,8 +170,17 @@ stdenv.mkDerivation (finalAttrs: {
       icon = "vesktop";
       startupWMClass = "Vesktop";
       genericName = "Internet Messenger";
-      keywords = [ "discord" "vencord" "electron" "chat" ];
-      categories = [ "Network" "InstantMessaging" "Chat" ];
+      keywords = [
+        "discord"
+        "vencord"
+        "electron"
+        "chat"
+      ];
+      categories = [
+        "Network"
+        "InstantMessaging"
+        "Chat"
+      ];
     })
   ];
 
@@ -168,8 +192,16 @@ stdenv.mkDerivation (finalAttrs: {
     description = "An alternate client for Discord with Vencord built-in";
     homepage = "https://github.com/Vencord/Vesktop";
     license = licenses.gpl3Only;
-    maintainers = with maintainers; [ getchoo Scrumplex vgskye pluiedev ];
-    platforms = [ "x86_64-linux" "aarch64-linux" ];
+    maintainers = with maintainers; [
+      getchoo
+      Scrumplex
+      vgskye
+      pluiedev
+    ];
+    platforms = [
+      "x86_64-linux"
+      "aarch64-linux"
+    ];
     mainProgram = "vesktop";
   };
 })

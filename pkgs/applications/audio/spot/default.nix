@@ -1,24 +1,25 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, nix-update-script
-, meson
-, ninja
-, gettext
-, python3
-, desktop-file-utils
-, cargo
-, rustPlatform
-, rustc
-, pkg-config
-, glib
-, libadwaita
-, libhandy
-, gtk4
-, openssl
-, alsa-lib
-, libpulseaudio
-, wrapGAppsHook4
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  nix-update-script,
+  meson,
+  ninja,
+  gettext,
+  python3,
+  desktop-file-utils,
+  cargo,
+  rustPlatform,
+  rustc,
+  pkg-config,
+  glib,
+  libadwaita,
+  libhandy,
+  gtk4,
+  openssl,
+  alsa-lib,
+  libpulseaudio,
+  wrapGAppsHook4,
 }:
 
 stdenv.mkDerivation rec {

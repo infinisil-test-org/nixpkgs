@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, setuptools
-, wheel
-, sortedcontainers
-, numpy
-, scipy
-, typing-extensions
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  setuptools,
+  wheel,
+  sortedcontainers,
+  numpy,
+  scipy,
+  typing-extensions,
 }:
 
 buildPythonPackage rec {

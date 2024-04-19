@@ -1,12 +1,13 @@
-{ lib
-, fetchFromGitHub
-, makeWrapper
-, rustPlatform
-, vulkan-loader
-, wayland
-, pkg-config
-, udev
-, v4l-utils
+{
+  lib,
+  fetchFromGitHub,
+  makeWrapper,
+  rustPlatform,
+  vulkan-loader,
+  wayland,
+  pkg-config,
+  udev,
+  v4l-utils,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -49,7 +50,10 @@ rustPlatform.buildRustPackage rec {
     homepage = "https://github.com/maximbaz/wluma";
     changelog = "https://github.com/maximbaz/wluma/releases/tag/${version}";
     license = licenses.isc;
-    maintainers = with maintainers; [ yshym jmc-figueira ];
+    maintainers = with maintainers; [
+      yshym
+      jmc-figueira
+    ];
     platforms = platforms.linux;
     mainProgram = "wluma";
   };

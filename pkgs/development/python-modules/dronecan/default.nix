@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -16,13 +17,9 @@ buildPythonPackage rec {
     hash = "sha256-D2odxa9ADswrg6rgKLTyQulHpGec1r0lWRUZDV5YvyE=";
   };
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "dronecan"
-  ];
+  pythonImportsCheck = [ "dronecan" ];
 
   meta = with lib; {
     description = "Python implementation of the DroneCAN v1 protocol stack";

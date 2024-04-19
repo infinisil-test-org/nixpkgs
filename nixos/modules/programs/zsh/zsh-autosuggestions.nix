@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
@@ -7,7 +12,19 @@ let
 in
 {
   imports = [
-    (mkRenamedOptionModule [ "programs" "zsh" "enableAutosuggestions" ] [ "programs" "zsh" "autosuggestions" "enable" ])
+    (mkRenamedOptionModule
+      [
+        "programs"
+        "zsh"
+        "enableAutosuggestions"
+      ]
+      [
+        "programs"
+        "zsh"
+        "autosuggestions"
+        "enable"
+      ]
+    )
   ];
 
   options.programs.zsh.autosuggestions = {
@@ -22,7 +39,13 @@ in
     };
 
     strategy = mkOption {
-      type = types.listOf (types.enum [ "history" "completion" "match_prev_cmd" ]);
+      type = types.listOf (
+        types.enum [
+          "history"
+          "completion"
+          "match_prev_cmd"
+        ]
+      );
       default = [ "history" ];
       description = ''
         `ZSH_AUTOSUGGEST_STRATEGY` is an array that specifies how suggestions should be generated.
@@ -46,7 +69,7 @@ in
 
     extraConfig = mkOption {
       type = with types; attrsOf str;
-      default = {};
+      default = { };
       description = "Attribute set with additional configuration values";
       example = literalExpression ''
         {
@@ -54,7 +77,6 @@ in
         }
       '';
     };
-
   };
 
   config = mkIf cfg.enable {
@@ -68,6 +90,5 @@ in
 
       ${concatStringsSep "\n" (mapAttrsToList (key: value: ''export ${key}="${value}"'') cfg.extraConfig)}
     '';
-
   };
 }

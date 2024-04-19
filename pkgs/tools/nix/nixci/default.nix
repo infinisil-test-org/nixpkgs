@@ -1,11 +1,13 @@
-{ lib, stdenv
-, rustPlatform
-, fetchCrate
-, fetchFromGitHub
-, libiconv
-, openssl
-, pkg-config
-, Security
+{
+  lib,
+  stdenv,
+  rustPlatform,
+  fetchCrate,
+  fetchFromGitHub,
+  libiconv,
+  openssl,
+  pkg-config,
+  Security,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -21,8 +23,10 @@ rustPlatform.buildRustPackage rec {
   cargoHash = "sha256-tjk91AaPsMLfXYB2o1HTTxb6Qr3l8BABPStrKEGvbtM=";
 
   nativeBuildInputs = [ pkg-config ];
-  buildInputs = [ libiconv openssl ]
-    ++ lib.optionals stdenv.isDarwin [ Security ];
+  buildInputs = [
+    libiconv
+    openssl
+  ] ++ lib.optionals stdenv.isDarwin [ Security ];
 
   # The rust program expects an environment (at build time) that points to the
   # devour-flake flake.

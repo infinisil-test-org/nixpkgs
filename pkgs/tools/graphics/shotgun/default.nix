@@ -1,4 +1,8 @@
-{ lib, rustPlatform, fetchFromGitHub }:
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "shotgun";
@@ -17,7 +21,11 @@ rustPlatform.buildRustPackage rec {
     description = "Minimal X screenshot utility";
     homepage = "https://github.com/neXromancers/shotgun";
     license = with licenses; [ mpl20 ];
-    maintainers = with maintainers; [ figsoda lumi novenary ];
+    maintainers = with maintainers; [
+      figsoda
+      lumi
+      novenary
+    ];
     platforms = platforms.linux;
     mainProgram = "shotgun";
   };

@@ -1,10 +1,11 @@
-{ lib
-, fetchFromGitHub
-, fetchpatch
-, buildPythonPackage
-, setuptools
-, pytestCheckHook
-, sortedcontainers
+{
+  lib,
+  fetchFromGitHub,
+  fetchpatch,
+  buildPythonPackage,
+  setuptools,
+  pytestCheckHook,
+  sortedcontainers,
 }:
 
 buildPythonPackage rec {
@@ -39,9 +40,7 @@ buildPythonPackage rec {
       --replace '"0+unknown"' '"${version}"'
   '';
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   nativeCheckInputs = [
     pytestCheckHook

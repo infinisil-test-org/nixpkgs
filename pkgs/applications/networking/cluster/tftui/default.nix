@@ -1,8 +1,9 @@
-{ lib
-, fetchFromGitHub
-, makeWrapper
-, python3
-, enableUsageTracking ? false
+{
+  lib,
+  fetchFromGitHub,
+  makeWrapper,
+  python3,
+  enableUsageTracking ? false,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -17,9 +18,7 @@ python3.pkgs.buildPythonApplication rec {
     hash = "sha256-2Kya0MRa1kc3B5nqs2MNprtnjOGyMLQh2OSErdT5W8M=";
   };
 
-  pythonRelaxDeps = [
-    "textual"
-  ];
+  pythonRelaxDeps = [ "textual" ];
 
   nativeBuildInputs = with python3.pkgs; [
     makeWrapper
@@ -35,9 +34,7 @@ python3.pkgs.buildPythonApplication rec {
     textual
   ];
 
-  pythonImportsCheck = [
-    "tftui"
-  ];
+  pythonImportsCheck = [ "tftui" ];
 
   postInstall = lib.optionalString (!enableUsageTracking) ''
     wrapProgram $out/bin/tftui \

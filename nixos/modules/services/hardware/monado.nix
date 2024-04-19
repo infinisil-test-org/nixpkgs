@@ -1,13 +1,20 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 let
-  inherit (lib) mkDefault mkEnableOption mkIf mkOption mkPackageOption types;
+  inherit (lib)
+    mkDefault
+    mkEnableOption
+    mkIf
+    mkOption
+    mkPackageOption
+    types
+    ;
 
   cfg = config.services.monado;
-
 in
 {
   options.services.monado = {
@@ -27,7 +34,8 @@ in
       example = true;
     };
 
-    highPriority = mkEnableOption "high priority capability for monado-service"
+    highPriority =
+      mkEnableOption "high priority capability for monado-service"
       // mkOption { default = true; };
   };
 
@@ -61,9 +69,10 @@ in
 
         serviceConfig = {
           ExecStart =
-            if cfg.highPriority
-            then "${config.security.wrapperDir}/monado-service"
-            else lib.getExe' cfg.package "monado-service";
+            if cfg.highPriority then
+              "${config.security.wrapperDir}/monado-service"
+            else
+              lib.getExe' cfg.package "monado-service";
           Restart = "no";
         };
 

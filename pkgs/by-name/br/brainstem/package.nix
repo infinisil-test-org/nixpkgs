@@ -1,13 +1,14 @@
-{ stdenv
-, lib
-, autoPatchelfHook
-, fetchzip
-, curl
-, systemd
-, zlib
-, writeText
-, withUpdater ? true
-, ...
+{
+  stdenv,
+  lib,
+  autoPatchelfHook,
+  fetchzip,
+  curl,
+  systemd,
+  zlib,
+  writeText,
+  withUpdater ? true,
+  ...
 }:
 
 let
@@ -39,17 +40,19 @@ stdenv.mkDerivation {
   inherit version src;
 
   nativeBuildInputs = [ autoPatchelfHook ];
-  buildInputs = [
-    # libudev
-    (lib.getLib systemd)
-    # libstdc++.so libgcc_s.so
-    stdenv.cc.cc.lib
-  ] ++ lib.optionals withUpdater [
-    # libcurl.so.4
-    curl
-    # libz.so.1
-    zlib
-  ];
+  buildInputs =
+    [
+      # libudev
+      (lib.getLib systemd)
+      # libstdc++.so libgcc_s.so
+      stdenv.cc.cc.lib
+    ]
+    ++ lib.optionals withUpdater [
+      # libcurl.so.4
+      curl
+      # libz.so.1
+      zlib
+    ];
 
   # Unpack the CLI tools, documentation, library and C headers.
   # There's also a python .whl, containing more libraries, which might be used
@@ -73,7 +76,12 @@ stdenv.mkDerivation {
     cp -R api/lib/BrainStem2 $dev/include/
   '';
 
-  outputs = [ "out" "lib" "dev" "doc" ];
+  outputs = [
+    "out"
+    "lib"
+    "dev"
+    "doc"
+  ];
 
   meta = with lib; {
     description = "BrainStem Software Development Kit";

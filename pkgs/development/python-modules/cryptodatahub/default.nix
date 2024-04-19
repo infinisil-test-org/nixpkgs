@@ -1,17 +1,18 @@
-{ lib
-, asn1crypto
-, attrs
-, beautifulsoup4
-, buildPythonPackage
-, fetchFromGitLab
-, pathlib2
-, pyfakefs
-, python-dateutil
-, pythonOlder
-, setuptools
-, six
-, unittestCheckHook
-, urllib3
+{
+  lib,
+  asn1crypto,
+  attrs,
+  beautifulsoup4,
+  buildPythonPackage,
+  fetchFromGitLab,
+  pathlib2,
+  pyfakefs,
+  python-dateutil,
+  pythonOlder,
+  setuptools,
+  six,
+  unittestCheckHook,
+  urllib3,
 }:
 
 buildPythonPackage rec {
@@ -33,9 +34,7 @@ buildPythonPackage rec {
       --replace-warn "attrs>=20.3.0,<22.0.1" "attrs>=20.3.0"
   '';
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     asn1crypto
@@ -52,10 +51,7 @@ buildPythonPackage rec {
     unittestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "cryptodatahub"
-  ];
-
+  pythonImportsCheck = [ "cryptodatahub" ];
 
   preCheck = ''
     # failing tests

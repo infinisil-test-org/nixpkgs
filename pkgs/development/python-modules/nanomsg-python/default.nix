@@ -1,4 +1,9 @@
-{ lib, buildPythonPackage, fetchFromGitHub, nanomsg }:
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  nanomsg,
+}:
 
 buildPythonPackage {
   pname = "nanomsg-python";

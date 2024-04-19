@@ -1,33 +1,34 @@
-{ aiohttp
-, bottle
-, buildPythonPackage
-, chalice
-, cherrypy
-, django
-, docker
-, falcon
-, fastapi
-, fetchFromGitHub
-, flask
-, flask-sockets
-, gunicorn
-, lib
-, moto
-, numpy
-, pyramid
-, pytest-asyncio
-, pytestCheckHook
-, pythonOlder
-, sanic
-, setuptools
-, sanic-testing
-, slack-sdk
-, starlette
-, tornado
-, uvicorn
-, websocket-client
-, websockets
-, werkzeug
+{
+  aiohttp,
+  bottle,
+  buildPythonPackage,
+  chalice,
+  cherrypy,
+  django,
+  docker,
+  falcon,
+  fastapi,
+  fetchFromGitHub,
+  flask,
+  flask-sockets,
+  gunicorn,
+  lib,
+  moto,
+  numpy,
+  pyramid,
+  pytest-asyncio,
+  pytestCheckHook,
+  pythonOlder,
+  sanic,
+  setuptools,
+  sanic-testing,
+  slack-sdk,
+  starlette,
+  tornado,
+  uvicorn,
+  websocket-client,
+  websockets,
+  werkzeug,
 }:
 
 buildPythonPackage rec {
@@ -50,13 +51,9 @@ buildPythonPackage rec {
     substituteInPlace setup.py --replace "pytest-runner==5.2" ""
   '';
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [
-    slack-sdk
-  ];
+  propagatedBuildInputs = [ slack-sdk ];
 
   passthru.optional-dependencies = {
     async = [

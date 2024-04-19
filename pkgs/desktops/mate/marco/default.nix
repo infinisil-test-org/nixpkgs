@@ -1,23 +1,24 @@
-{ lib
-, stdenv
-, fetchurl
-, pkg-config
-, gettext
-, itstool
-, libxml2
-, libcanberra-gtk3
-, libgtop
-, libXdamage
-, libXpresent
-, libXres
-, libstartup_notification
-, gnome
-, glib
-, gtk3
-, mate-desktop
-, mate-settings-daemon
-, wrapGAppsHook
-, mateUpdateScript
+{
+  lib,
+  stdenv,
+  fetchurl,
+  pkg-config,
+  gettext,
+  itstool,
+  libxml2,
+  libcanberra-gtk3,
+  libgtop,
+  libXdamage,
+  libXpresent,
+  libXres,
+  libstartup_notification,
+  gnome,
+  glib,
+  gtk3,
+  mate-desktop,
+  mate-settings-daemon,
+  wrapGAppsHook,
+  mateUpdateScript,
 }:
 
 stdenv.mkDerivation rec {

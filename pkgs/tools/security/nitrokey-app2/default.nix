@@ -1,8 +1,9 @@
-{ lib
-, python3
-, fetchPypi
-, rustPlatform
-, fetchFromGitHub
+{
+  lib,
+  python3,
+  fetchPypi,
+  rustPlatform,
+  fetchFromGitHub,
 }:
 
 let
@@ -27,7 +28,8 @@ let
       });
     };
   };
-in python.pkgs.buildPythonApplication rec {
+in
+python.pkgs.buildPythonApplication rec {
   pname = "nitrokey-app2";
   version = "2.1.5";
   pyproject = true;
@@ -49,9 +51,7 @@ in python.pkgs.buildPythonApplication rec {
     substituteInPlace pyproject.toml --replace 'pynitrokey = "' 'pynitrokey = ">='
   '';
 
-  nativeBuildInputs = with python.pkgs; [
-    poetry-core
-  ];
+  nativeBuildInputs = with python.pkgs; [ poetry-core ];
 
   propagatedBuildInputs = with python.pkgs; [
     pynitrokey
@@ -60,16 +60,17 @@ in python.pkgs.buildPythonApplication rec {
     qt-material
   ];
 
-  pythonImportsCheck = [
-    "nitrokeyapp"
-  ];
+  pythonImportsCheck = [ "nitrokeyapp" ];
 
   meta = with lib; {
     description = "This application allows to manage Nitrokey 3 devices";
     homepage = "https://github.com/Nitrokey/nitrokey-app2";
     changelog = "https://github.com/Nitrokey/nitrokey-app2/releases/tag/v${version}";
     license = licenses.asl20;
-    maintainers = with maintainers; [ _999eagle panicgh ];
+    maintainers = with maintainers; [
+      _999eagle
+      panicgh
+    ];
     mainProgram = "nitrokeyapp";
   };
 }

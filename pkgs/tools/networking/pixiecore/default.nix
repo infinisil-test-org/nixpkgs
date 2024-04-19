@@ -1,4 +1,8 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+}:
 
 buildGoModule rec {
   pname = "pixiecore";
@@ -21,8 +25,11 @@ buildGoModule rec {
   meta = {
     description = "A tool to manage network booting of machines";
     homepage = "https://github.com/danderson/netboot/tree/master/pixiecore";
-    license =  lib.licenses.asl20;
-    maintainers = with lib.maintainers; [ bbigras danderson ];
+    license = lib.licenses.asl20;
+    maintainers = with lib.maintainers; [
+      bbigras
+      danderson
+    ];
     mainProgram = "pixiecore";
   };
 }

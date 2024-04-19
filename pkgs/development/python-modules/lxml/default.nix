@@ -1,17 +1,18 @@
-{ stdenv
-, lib
-, buildPythonPackage
-, fetchFromGitHub
+{
+  stdenv,
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
 
-# build-system
-, cython_3
-, setuptools
+  # build-system
+  cython_3,
+  setuptools,
 
-# native dependencies
-, libxml2
-, libxslt
-, zlib
-, xcodebuild
+  # native dependencies
+  libxml2,
+  libxslt,
+  zlib,
+  xcodebuild,
 }:
 
 buildPythonPackage rec {
@@ -32,9 +33,7 @@ buildPythonPackage rec {
     libxslt.dev
     cython_3
     setuptools
-   ] ++ lib.optionals stdenv.isDarwin [
-    xcodebuild
-  ];
+  ] ++ lib.optionals stdenv.isDarwin [ xcodebuild ];
   buildInputs = [
     libxml2
     libxslt

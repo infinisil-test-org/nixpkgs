@@ -1,4 +1,9 @@
-{ lib, buildDunePackage, fetchurl, cstruct }:
+{
+  lib,
+  buildDunePackage,
+  fetchurl,
+  cstruct,
+}:
 
 buildDunePackage rec {
   pname = "randomconv";
@@ -19,5 +24,4 @@ buildDunePackage rec {
     license = lib.licenses.isc;
     maintainers = [ lib.maintainers.vbgl ];
   };
-
 }

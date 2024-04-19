@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pdm-backend
-, future
-, httplib2
-, pythonOlder
-, pytz
-, pytestCheckHook
-, six
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pdm-backend,
+  future,
+  httplib2,
+  pythonOlder,
+  pytz,
+  pytestCheckHook,
+  six,
 }:
 
 buildPythonPackage rec {
@@ -24,9 +25,7 @@ buildPythonPackage rec {
     hash = "sha256-T9lZVYov6tQ8QRM2QtOGyolHk3O5FSb3xq70nS2Rr6c=";
   };
 
-  build-system = [
-    pdm-backend
-  ];
+  build-system = [ pdm-backend ];
 
   dependencies = [
     future
@@ -35,13 +34,9 @@ buildPythonPackage rec {
     six
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "nebula3"
-  ];
+  pythonImportsCheck = [ "nebula3" ];
 
   disabledTestPaths = [
     # Tests require a running thrift instance

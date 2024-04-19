@@ -1,15 +1,16 @@
-{ lib
-, fetchFromGitHub
-, gtk4
-, libadwaita
-, meson
-, ninja
-, pkg-config
-, stdenv
-, vala
-, wrapGAppsHook4
-# Clairvoyant shows a non-dismissable banner recommending the use of the Flatpak version
-, hideUnsupportedVersionBanner ? false
+{
+  lib,
+  fetchFromGitHub,
+  gtk4,
+  libadwaita,
+  meson,
+  ninja,
+  pkg-config,
+  stdenv,
+  vala,
+  wrapGAppsHook4,
+  # Clairvoyant shows a non-dismissable banner recommending the use of the Flatpak version
+  hideUnsupportedVersionBanner ? false,
 }:
 
 stdenv.mkDerivation (finalAttrs: {

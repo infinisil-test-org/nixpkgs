@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, qt6
-, fmt
-, shaderc
-, vulkan-headers
-, wayland
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  qt6,
+  fmt,
+  shaderc,
+  vulkan-headers,
+  wayland,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -68,6 +69,9 @@ stdenv.mkDerivation (finalAttrs: {
     homepage = "https://github.com/nomic-ai/gpt4all";
     license = lib.licenses.mit;
     mainProgram = "gpt4all";
-    maintainers = with lib.maintainers; [ drupol polygon ];
+    maintainers = with lib.maintainers; [
+      drupol
+      polygon
+    ];
   };
 })

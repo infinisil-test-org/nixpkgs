@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -36,7 +41,8 @@ let
       ${cfg.extraConf}
     </icecast>
   '';
-in {
+in
+{
 
   ###### interface
 
@@ -103,11 +109,8 @@ in {
         description = "icecast.xml content.";
         default = "";
       };
-
     };
-
   };
-
 
   ###### implementation
 
@@ -125,7 +128,5 @@ in {
         ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
       };
     };
-
   };
-
 }

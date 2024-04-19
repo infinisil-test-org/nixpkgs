@@ -1,17 +1,18 @@
-{ buildPythonPackage
-, fetchPypi
-, setuptools
-, wheel
-, comm
-, ipykernel
-, ipython
-, jsonschema
-, jupyterlab-widgets
-, lib
-, pytestCheckHook
-, pytz
-, traitlets
-, widgetsnbextension
+{
+  buildPythonPackage,
+  fetchPypi,
+  setuptools,
+  wheel,
+  comm,
+  ipykernel,
+  ipython,
+  jsonschema,
+  jupyterlab-widgets,
+  lib,
+  pytestCheckHook,
+  pytz,
+  traitlets,
+  widgetsnbextension,
 }:
 
 buildPythonPackage rec {
@@ -46,7 +47,8 @@ buildPythonPackage rec {
 
   pytestFlagsArray = [
     # pytest.PytestRemovedIn8Warning: Support for nose tests is deprecated and will be removed in a future release.
-    "-W" "ignore::pytest.PytestRemovedIn8Warning"
+    "-W"
+    "ignore::pytest.PytestRemovedIn8Warning"
   ];
 
   meta = {

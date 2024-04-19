@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, hidapi
-, nose
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  hidapi,
+  nose,
 }:
 
 buildPythonPackage rec {
@@ -19,7 +20,7 @@ buildPythonPackage rec {
 
   nativeCheckInputs = [ nose ];
 
- postPatch = ''
+  postPatch = ''
     hidapi=${hidapi}/lib/
     test -d $hidapi || { echo "ERROR: $hidapi doesn't exist, please update/fix this build expression."; exit 1; }
     sed -i -e "s|libhidapi|$hidapi/libhidapi|" hid/__init__.py

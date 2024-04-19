@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, importlib-metadata
-, pyyaml
-, setuptools
-, unittestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  importlib-metadata,
+  pyyaml,
+  setuptools,
+  unittestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -23,15 +24,14 @@ buildPythonPackage rec {
     hash = "sha256-YLOLDiS93zpjJWzkWXcutjZw9iB/FfbjxQXjau2B+JQ=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = lib.optionals (pythonOlder "3.10") [
-    importlib-metadata
-  ];
+  propagatedBuildInputs = lib.optionals (pythonOlder "3.10") [ importlib-metadata ];
 
-  nativeCheckInputs = [ unittestCheckHook pyyaml ];
+  nativeCheckInputs = [
+    unittestCheckHook
+    pyyaml
+  ];
 
   pythonImportsCheck = [ "markdown" ];
 

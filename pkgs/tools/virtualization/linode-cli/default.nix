@@ -1,16 +1,17 @@
-{ lib
-, fetchFromGitHub
-, fetchurl
-, buildPythonApplication
-, colorclass
-, installShellFiles
-, pyyaml
-, requests
-, setuptools
-, terminaltables
-, rich
-, openapi3
-, packaging
+{
+  lib,
+  fetchFromGitHub,
+  fetchurl,
+  buildPythonApplication,
+  colorclass,
+  installShellFiles,
+  pyyaml,
+  requests,
+  setuptools,
+  terminaltables,
+  rich,
+  openapi3,
+  packaging,
 }:
 
 let
@@ -22,7 +23,6 @@ let
     url = "https://raw.githubusercontent.com/linode/linode-api-docs/v${specVersion}/openapi.yaml";
     hash = specHash;
   };
-
 in
 
 buildPythonApplication rec {
@@ -37,9 +37,7 @@ buildPythonApplication rec {
     inherit hash;
   };
 
-  patches = [
-    ./remove-update-check.patch
-  ];
+  patches = [ ./remove-update-check.patch ];
 
   # remove need for git history
   prePatch = ''
@@ -81,6 +79,9 @@ buildPythonApplication rec {
     description = "The Linode Command Line Interface";
     homepage = "https://github.com/linode/linode-cli";
     license = licenses.bsd3;
-    maintainers = with maintainers; [ ryantm techknowlogick ];
+    maintainers = with maintainers; [
+      ryantm
+      techknowlogick
+    ];
   };
 }

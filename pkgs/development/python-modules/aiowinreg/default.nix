@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, prompt-toolkit
-, pythonOlder
-, winacl
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  prompt-toolkit,
+  pythonOlder,
+  winacl,
 }:
 
 buildPythonPackage rec {
@@ -28,9 +29,7 @@ buildPythonPackage rec {
   # Project doesn't have tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "aiowinreg"
-  ];
+  pythonImportsCheck = [ "aiowinreg" ];
 
   meta = with lib; {
     description = "Python module to parse the registry hive";

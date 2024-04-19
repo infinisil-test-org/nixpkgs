@@ -1,8 +1,9 @@
-{ config
-, lib
-, pkgs
-, utils
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  utils,
+  ...
 }:
 
 let
@@ -11,14 +12,17 @@ let
 
   configFile = format.generate "pretalx.cfg" cfg.settings;
 
-  extras = cfg.package.optional-dependencies.redis
+  extras =
+    cfg.package.optional-dependencies.redis
     ++ lib.optionals (cfg.settings.database.backend == "mysql") cfg.package.optional-dependencies.mysql
-    ++ lib.optionals (cfg.settings.database.backend == "postgresql") cfg.package.optional-dependencies.postgres;
+    ++ lib.optionals (
+      cfg.settings.database.backend == "postgresql"
+    ) cfg.package.optional-dependencies.postgres;
 
   pythonEnv = cfg.package.python.buildEnv.override {
-    extraLibs = [ (cfg.package.python.pkgs.toPythonModule cfg.package) ]
-      ++ (with cfg.package.python.pkgs; [ gunicorn ]
-      ++ lib.optional cfg.celery.enable celery) ++ extras;
+    extraLibs =
+      [ (cfg.package.python.pkgs.toPythonModule cfg.package) ]
+      ++ (with cfg.package.python.pkgs; [ gunicorn ] ++ lib.optional cfg.celery.enable celery) ++ extras;
   };
 in
 
@@ -30,7 +34,7 @@ in
   options.services.pretalx = {
     enable = lib.mkEnableOption "pretalx";
 
-    package = lib.mkPackageOptionMD pkgs "pretalx" {};
+    package = lib.mkPackageOptionMD pkgs "pretalx" { };
 
     group = lib.mkOption {
       type = lib.types.str;
@@ -46,9 +50,7 @@ in
 
     gunicorn.extraArgs = lib.mkOption {
       type = with lib.types; listOf str;
-      default = [
-        "--name=pretalx"
-      ];
+      default = [ "--name=pretalx" ];
       example = [
         "--name=pretalx"
         "--workers=4"
@@ -121,9 +123,7 @@ in
         options = {
           database = {
             backend = lib.mkOption {
-              type = lib.types.enum [
-                "postgresql"
-              ];
+              type = lib.types.enum [ "postgresql" ];
               default = "postgresql";
               description = ''
                 Database backend to use.
@@ -135,9 +135,13 @@ in
 
             host = lib.mkOption {
               type = with lib.types; nullOr types.path;
-              default = if cfg.settings.database.backend == "postgresql" then "/run/postgresql"
-                else if cfg.settings.database.backend == "mysql" then "/run/mysqld/mysqld.sock"
-                else null;
+              default =
+                if cfg.settings.database.backend == "postgresql" then
+                  "/run/postgresql"
+                else if cfg.settings.database.backend == "mysql" then
+                  "/run/mysqld/mysqld.sock"
+                else
+                  null;
               defaultText = lib.literalExpression ''
                 if config.services.pretalx.settings..database.backend == "postgresql" then "/run/postgresql"
                 else if config.services.pretalx.settings.database.backend == "mysql" then "/run/mysqld/mysqld.sock"
@@ -311,91 +315,100 @@ in
         };
       };
 
-      postgresql = lib.mkIf (cfg.database.createLocally && cfg.settings.database.backend == "postgresql") {
-        enable = true;
-        ensureUsers = [ {
-          name = cfg.settings.database.user;
-          ensureDBOwnership = true;
-        } ];
-        ensureDatabases = [ cfg.settings.database.name ];
-      };
+      postgresql =
+        lib.mkIf (cfg.database.createLocally && cfg.settings.database.backend == "postgresql")
+          {
+            enable = true;
+            ensureUsers = [
+              {
+                name = cfg.settings.database.user;
+                ensureDBOwnership = true;
+              }
+            ];
+            ensureDatabases = [ cfg.settings.database.name ];
+          };
 
       redis.servers.pretalx.enable = true;
     };
 
-    systemd.services = let
-      commonUnitConfig = {
-        environment.PRETALX_CONFIG_FILE = configFile;
-        serviceConfig = {
-          User = "pretalx";
-          Group = "pretalx";
-          StateDirectory = [ "pretalx" "pretalx/media" ];
-          LogsDirectory = "pretalx";
-          WorkingDirectory = cfg.settings.filesystem.data;
-          SupplementaryGroups = [ "redis-pretalx" ];
+    systemd.services =
+      let
+        commonUnitConfig = {
+          environment.PRETALX_CONFIG_FILE = configFile;
+          serviceConfig = {
+            User = "pretalx";
+            Group = "pretalx";
+            StateDirectory = [
+              "pretalx"
+              "pretalx/media"
+            ];
+            LogsDirectory = "pretalx";
+            WorkingDirectory = cfg.settings.filesystem.data;
+            SupplementaryGroups = [ "redis-pretalx" ];
+          };
         };
-      };
-    in {
-      pretalx-web = lib.recursiveUpdate commonUnitConfig {
-        description = "pretalx web service";
-        after = [
-          "network.target"
-          "redis-pretalx.service"
-        ] ++ lib.optionals (cfg.settings.database.backend == "postgresql") [
-          "postgresql.service"
-        ] ++ lib.optionals (cfg.settings.database.backend == "mysql") [
-          "mysql.service"
-        ];
-        wantedBy = [ "multi-user.target" ];
-        preStart = ''
-          versionFile="${cfg.settings.filesystem.data}/.version"
-          version=$(cat "$versionFile" 2>/dev/null || echo 0)
+      in
+      {
+        pretalx-web = lib.recursiveUpdate commonUnitConfig {
+          description = "pretalx web service";
+          after =
+            [
+              "network.target"
+              "redis-pretalx.service"
+            ]
+            ++ lib.optionals (cfg.settings.database.backend == "postgresql") [ "postgresql.service" ]
+            ++ lib.optionals (cfg.settings.database.backend == "mysql") [ "mysql.service" ];
+          wantedBy = [ "multi-user.target" ];
+          preStart = ''
+            versionFile="${cfg.settings.filesystem.data}/.version"
+            version=$(cat "$versionFile" 2>/dev/null || echo 0)
 
-          if [[ $version != ${cfg.package.version} ]]; then
-            ${lib.getExe' pythonEnv "pretalx-manage"} migrate
+            if [[ $version != ${cfg.package.version} ]]; then
+              ${lib.getExe' pythonEnv "pretalx-manage"} migrate
 
-            echo "${cfg.package.version}" > "$versionFile"
-          fi
-        '';
-        serviceConfig = {
-          ExecStart = "${lib.getExe' pythonEnv "gunicorn"} --bind unix:/run/pretalx/pretalx.sock ${cfg.gunicorn.extraArgs} pretalx.wsgi";
-          RuntimeDirectory = "pretalx";
+              echo "${cfg.package.version}" > "$versionFile"
+            fi
+          '';
+          serviceConfig = {
+            ExecStart = "${lib.getExe' pythonEnv "gunicorn"} --bind unix:/run/pretalx/pretalx.sock ${cfg.gunicorn.extraArgs} pretalx.wsgi";
+            RuntimeDirectory = "pretalx";
+          };
         };
-      };
 
-      pretalx-periodic = lib.recursiveUpdate commonUnitConfig {
-        description = "pretalx periodic task runner";
-        # every 15 minutes
-        startAt = [ "*:3,18,33,48" ];
-        serviceConfig = {
-          Type = "oneshot";
-          ExecStart = "${lib.getExe' pythonEnv "pretalx-manage"} runperiodic";
+        pretalx-periodic = lib.recursiveUpdate commonUnitConfig {
+          description = "pretalx periodic task runner";
+          # every 15 minutes
+          startAt = [ "*:3,18,33,48" ];
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${lib.getExe' pythonEnv "pretalx-manage"} runperiodic";
+          };
         };
-      };
 
-      pretalx-clear-sessions = lib.recursiveUpdate commonUnitConfig {
-        description = "pretalx session pruning";
-        startAt = [ "monthly" ];
-        serviceConfig = {
-          Type = "oneshot";
-          ExecStart = "${lib.getExe' pythonEnv "pretalx-manage"} clearsessions";
+        pretalx-clear-sessions = lib.recursiveUpdate commonUnitConfig {
+          description = "pretalx session pruning";
+          startAt = [ "monthly" ];
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${lib.getExe' pythonEnv "pretalx-manage"} clearsessions";
+          };
         };
-      };
 
-      pretalx-worker = lib.mkIf cfg.celery.enable (lib.recursiveUpdate commonUnitConfig {
-        description = "pretalx asynchronous job runner";
-        after = [
-          "network.target"
-          "redis-pretalx.service"
-        ] ++ lib.optionals (cfg.settings.database.backend == "postgresql") [
-          "postgresql.service"
-        ] ++ lib.optionals (cfg.settings.database.backend == "mysql") [
-          "mysql.service"
-        ];
-        wantedBy = [ "multi-user.target" ];
-        serviceConfig.ExecStart = "${lib.getExe' pythonEnv "celery"} -A pretalx.celery_app worker ${cfg.celery.extraArgs}";
-      });
-    };
+        pretalx-worker = lib.mkIf cfg.celery.enable (
+          lib.recursiveUpdate commonUnitConfig {
+            description = "pretalx asynchronous job runner";
+            after =
+              [
+                "network.target"
+                "redis-pretalx.service"
+              ]
+              ++ lib.optionals (cfg.settings.database.backend == "postgresql") [ "postgresql.service" ]
+              ++ lib.optionals (cfg.settings.database.backend == "mysql") [ "mysql.service" ];
+            wantedBy = [ "multi-user.target" ];
+            serviceConfig.ExecStart = "${lib.getExe' pythonEnv "celery"} -A pretalx.celery_app worker ${cfg.celery.extraArgs}";
+          }
+        );
+      };
 
     systemd.sockets.pretalx-web.socketConfig = {
       ListenStream = "/run/pretalx/pretalx.sock";
@@ -403,7 +416,7 @@ in
     };
 
     users = {
-      groups."${cfg.group}" = {};
+      groups."${cfg.group}" = { };
       users."${cfg.user}" = {
         isSystemUser = true;
         createHome = true;

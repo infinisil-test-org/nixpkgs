@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -53,9 +58,7 @@ in
       #  default = {};
       #  description = "List of named RethinkDB instances in our cluster.";
       #};
-
     };
-
   };
 
   ###### implementation
@@ -93,16 +96,14 @@ in
       '';
     };
 
-    users.users.rethinkdb = mkIf (cfg.user == "rethinkdb")
-      { name = "rethinkdb";
-        description = "RethinkDB server user";
-        isSystemUser = true;
-      };
+    users.users.rethinkdb = mkIf (cfg.user == "rethinkdb") {
+      name = "rethinkdb";
+      description = "RethinkDB server user";
+      isSystemUser = true;
+    };
 
-    users.groups = optionalAttrs (cfg.group == "rethinkdb") (singleton
-      { name = "rethinkdb";
-      });
-
+    users.groups = optionalAttrs (cfg.group == "rethinkdb") (singleton {
+      name = "rethinkdb";
+    });
   };
-
 }

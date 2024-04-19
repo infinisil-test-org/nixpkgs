@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.services.gotosocial;
   settingsFormat = pkgs.formats.yaml { };
@@ -27,7 +32,10 @@ let
 in
 {
   meta.doc = ./gotosocial.md;
-  meta.maintainers = with lib.maintainers; [ misuzu blakesmith ];
+  meta.maintainers = with lib.maintainers; [
+    misuzu
+    blakesmith
+  ];
 
   options.services.gotosocial = {
     enable = lib.mkEnableOption "ActivityPub social network server";
@@ -85,7 +93,6 @@ in
       default = null;
       example = "/root/nixos/secrets/gotosocial.env";
     };
-
   };
 
   config = lib.mkIf cfg.enable {
@@ -98,17 +105,20 @@ in
       }
     ];
 
-    services.gotosocial.settings = (lib.mapAttrs (name: lib.mkDefault) (
-      defaultSettings // {
-        web-asset-base-dir = "${cfg.package}/share/gotosocial/web/assets/";
-        web-template-base-dir = "${cfg.package}/share/gotosocial/web/template/";
-      }
-    )) // (lib.optionalAttrs cfg.setupPostgresqlDB {
-      db-type = "postgres";
-      db-address = "/run/postgresql";
-      db-database = "gotosocial";
-      db-user = "gotosocial";
-    });
+    services.gotosocial.settings =
+      (lib.mapAttrs (name: lib.mkDefault) (
+        defaultSettings
+        // {
+          web-asset-base-dir = "${cfg.package}/share/gotosocial/web/assets/";
+          web-template-base-dir = "${cfg.package}/share/gotosocial/web/template/";
+        }
+      ))
+      // (lib.optionalAttrs cfg.setupPostgresqlDB {
+        db-type = "postgres";
+        db-address = "/run/postgresql";
+        db-database = "gotosocial";
+        db-user = "gotosocial";
+      });
 
     environment.systemPackages = [ gotosocial-admin ];
 
@@ -118,9 +128,7 @@ in
       isSystemUser = true;
     };
 
-    networking.firewall = lib.mkIf cfg.openFirewall {
-      allowedTCPPorts = [ cfg.settings.port ];
-    };
+    networking.firewall = lib.mkIf cfg.openFirewall { allowedTCPPorts = [ cfg.settings.port ]; };
 
     services.postgresql = lib.mkIf cfg.setupPostgresqlDB {
       enable = true;
@@ -136,8 +144,7 @@ in
     systemd.services.gotosocial = {
       description = "ActivityPub social network server";
       wantedBy = [ "multi-user.target" ];
-      after = [ "network.target" ]
-        ++ lib.optional cfg.setupPostgresqlDB "postgresql.service";
+      after = [ "network.target" ] ++ lib.optional cfg.setupPostgresqlDB "postgresql.service";
       requires = lib.optional cfg.setupPostgresqlDB "postgresql.service";
       restartTriggers = [ configFile ];
 

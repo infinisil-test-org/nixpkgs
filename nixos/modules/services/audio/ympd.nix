@@ -1,10 +1,16 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.services.ympd;
-in {
+in
+{
 
   ###### interface
 
@@ -36,11 +42,8 @@ in {
           example = 6600;
         };
       };
-
     };
-
   };
-
 
   ###### implementation
 
@@ -79,7 +82,10 @@ in {
         ProtectKernelLogs = true;
         ProtectControlGroups = true;
 
-        RestrictAddressFamilies = [ "AF_INET" "AF_INET6" ];
+        RestrictAddressFamilies = [
+          "AF_INET"
+          "AF_INET6"
+        ];
         RestrictRealtime = true;
         RestrictSUIDSGID = true;
 
@@ -90,7 +96,5 @@ in {
         ];
       };
     };
-
   };
-
 }

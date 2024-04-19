@@ -1,7 +1,8 @@
-{ lib
-, fetchurl
-, appimageTools
-, makeWrapper
+{
+  lib,
+  fetchurl,
+  appimageTools,
+  makeWrapper,
 }:
 
 let
@@ -12,8 +13,8 @@ let
     hash = "sha256-MUQ1tVcIpLrC2RKsWDqv8MBGaHfh56OxIC/ARArQjiU=";
   };
   appimageContents = appimageTools.extractType2 { inherit pname src version; };
-
-in appimageTools.wrapType2 {
+in
+appimageTools.wrapType2 {
   inherit pname src version;
 
   extraPkgs = pkgs: (appimageTools.defaultFhsEnvArgs.multiPkgs pkgs) ++ [ pkgs.libthai ];

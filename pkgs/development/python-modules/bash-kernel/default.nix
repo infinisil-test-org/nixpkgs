@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, fetchpatch
-, flit-core
-, ipykernel
-, python
-, pexpect
-, bash
-, substituteAll
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  fetchpatch,
+  flit-core,
+  ipykernel,
+  python,
+  pexpect,
+  bash,
+  substituteAll,
 }:
 
 buildPythonPackage rec {
@@ -28,9 +29,7 @@ buildPythonPackage rec {
     })
   ];
 
-  nativeBuildInputs = [
-    flit-core
-  ];
+  nativeBuildInputs = [ flit-core ];
 
   propagatedBuildInputs = [
     ipykernel

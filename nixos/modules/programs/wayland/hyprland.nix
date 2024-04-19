@@ -1,14 +1,14 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.programs.hyprland;
 
-  finalPortalPackage = cfg.portalPackage.override {
-    hyprland = cfg.finalPackage;
-  };
+  finalPortalPackage = cfg.portalPackage.override { hyprland = cfg.finalPackage; };
 in
 {
   options.programs.hyprland = {
@@ -28,11 +28,8 @@ in
     finalPackage = mkOption {
       type = types.package;
       readOnly = true;
-      default = cfg.package.override {
-        enableXWayland = cfg.xwayland.enable;
-      };
-      defaultText = literalExpression
-        "`programs.hyprland.package` with applied configuration";
+      default = cfg.package.override { enableXWayland = cfg.xwayland.enable; };
+      defaultText = literalExpression "`programs.hyprland.package` with applied configuration";
       description = ''
         The Hyprland package after applying configuration.
       '';
@@ -40,7 +37,9 @@ in
 
     portalPackage = mkPackageOption pkgs "xdg-desktop-portal-hyprland" { };
 
-    xwayland.enable = mkEnableOption ("XWayland") // { default = true; };
+    xwayland.enable = mkEnableOption ("XWayland") // {
+      default = true;
+    };
 
     systemd.setPath.enable = mkEnableOption null // {
       default = true;
@@ -82,17 +81,21 @@ in
   };
 
   imports = with lib; [
-    (mkRemovedOptionModule
-      [ "programs" "hyprland" "xwayland" "hidpi" ]
-      "XWayland patches are deprecated. Refer to https://wiki.hyprland.org/Configuring/XWayland"
-    )
-    (mkRemovedOptionModule
-      [ "programs" "hyprland" "enableNvidiaPatches" ]
-      "Nvidia patches are no longer needed"
-    )
-    (mkRemovedOptionModule
-      [ "programs" "hyprland" "nvidiaPatches" ]
-      "Nvidia patches are no longer needed"
-    )
+    (mkRemovedOptionModule [
+      "programs"
+      "hyprland"
+      "xwayland"
+      "hidpi"
+    ] "XWayland patches are deprecated. Refer to https://wiki.hyprland.org/Configuring/XWayland")
+    (mkRemovedOptionModule [
+      "programs"
+      "hyprland"
+      "enableNvidiaPatches"
+    ] "Nvidia patches are no longer needed")
+    (mkRemovedOptionModule [
+      "programs"
+      "hyprland"
+      "nvidiaPatches"
+    ] "Nvidia patches are no longer needed")
   ];
 }

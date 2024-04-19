@@ -1,17 +1,18 @@
-{ lib
-, fetchFromGitHub
-, python3Packages
-, gobject-introspection
-, libadwaita
-, wrapGAppsHook4
-, meson
-, ninja
-, desktop-file-utils
-, pkg-config
-, appstream
-, libsecret
-, gtk4
-, gtksourceview5
+{
+  lib,
+  fetchFromGitHub,
+  python3Packages,
+  gobject-introspection,
+  libadwaita,
+  wrapGAppsHook4,
+  meson,
+  ninja,
+  desktop-file-utils,
+  pkg-config,
+  appstream,
+  libsecret,
+  gtk4,
+  gtksourceview5,
 }:
 
 python3Packages.buildPythonApplication rec {

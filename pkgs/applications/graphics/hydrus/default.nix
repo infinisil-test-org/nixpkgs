@@ -1,13 +1,14 @@
-{ lib
-, fetchFromGitHub
-, wrapQtAppsHook
-, miniupnpc
-, ffmpeg
-, enableSwftools ? false
-, swftools
-, python3Packages
-, qtbase
-, qtcharts
+{
+  lib,
+  fetchFromGitHub,
+  wrapQtAppsHook,
+  miniupnpc,
+  ffmpeg,
+  enableSwftools ? false,
+  swftools,
+  python3Packages,
+  qtbase,
+  qtcharts,
 }:
 
 python3Packages.buildPythonPackage rec {
@@ -101,41 +102,54 @@ python3Packages.buildPythonPackage rec {
     runHook postCheck
   '';
 
-  outputs = [ "out" "doc" ];
+  outputs = [
+    "out"
+    "doc"
+  ];
 
-  installPhase = ''
-    # Move the hydrus module and related directories
-    mkdir -p $out/${python3Packages.python.sitePackages}
-    mv {hydrus,static,db} $out/${python3Packages.python.sitePackages}
-    # Fix random files being marked with execute permissions
-    chmod -x $out/${python3Packages.python.sitePackages}/static/*.{png,svg,ico}
-    # Build docs
-    mkdocs build -d help
-    mkdir -p $doc/share/doc
-    mv help $doc/share/doc/hydrus
+  installPhase =
+    ''
+      # Move the hydrus module and related directories
+      mkdir -p $out/${python3Packages.python.sitePackages}
+      mv {hydrus,static,db} $out/${python3Packages.python.sitePackages}
+      # Fix random files being marked with execute permissions
+      chmod -x $out/${python3Packages.python.sitePackages}/static/*.{png,svg,ico}
+      # Build docs
+      mkdocs build -d help
+      mkdir -p $doc/share/doc
+      mv help $doc/share/doc/hydrus
 
-    # install the hydrus binaries
-    mkdir -p $out/bin
-    install -m0755 hydrus_server.py $out/bin/hydrus-server
-    install -m0755 hydrus_client.py $out/bin/hydrus-client
-  '' + lib.optionalString enableSwftools ''
-    mkdir -p $out/${python3Packages.python.sitePackages}/bin
-    # swfrender seems to have to be called sfwrender_linux
-    # not sure if it can be loaded through PATH, but this is simpler
-    # $out/python3Packages.python.sitePackages/bin is correct NOT .../hydrus/bin
-    ln -s ${swftools}/bin/swfrender $out/${python3Packages.python.sitePackages}/bin/swfrender_linux
-  '';
+      # install the hydrus binaries
+      mkdir -p $out/bin
+      install -m0755 hydrus_server.py $out/bin/hydrus-server
+      install -m0755 hydrus_client.py $out/bin/hydrus-client
+    ''
+    + lib.optionalString enableSwftools ''
+      mkdir -p $out/${python3Packages.python.sitePackages}/bin
+      # swfrender seems to have to be called sfwrender_linux
+      # not sure if it can be loaded through PATH, but this is simpler
+      # $out/python3Packages.python.sitePackages/bin is correct NOT .../hydrus/bin
+      ln -s ${swftools}/bin/swfrender $out/${python3Packages.python.sitePackages}/bin/swfrender_linux
+    '';
 
   dontWrapQtApps = true;
   preFixup = ''
     makeWrapperArgs+=("''${qtWrapperArgs[@]}")
-    makeWrapperArgs+=(--prefix PATH : ${lib.makeBinPath [ ffmpeg miniupnpc ]})
+    makeWrapperArgs+=(--prefix PATH : ${
+      lib.makeBinPath [
+        ffmpeg
+        miniupnpc
+      ]
+    })
   '';
 
   meta = with lib; {
     description = "Danbooru-like image tagging and searching system for the desktop";
     license = licenses.wtfpl;
     homepage = "https://hydrusnetwork.github.io/hydrus/";
-    maintainers = with maintainers; [ dandellion evanjs ];
+    maintainers = with maintainers; [
+      dandellion
+      evanjs
+    ];
   };
 }

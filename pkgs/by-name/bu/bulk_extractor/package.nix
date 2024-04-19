@@ -1,14 +1,15 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, autoreconfHook
-, exiv2
-, flex
-, libewf
-, libxml2
-, openssl
-, tre
-, zlib
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  autoreconfHook,
+  exiv2,
+  flex,
+  libewf,
+  libxml2,
+  openssl,
+  tre,
+  zlib,
 }:
 
 stdenv.mkDerivation (finalAttrs: {

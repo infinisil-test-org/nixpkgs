@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -17,15 +22,20 @@ let
     rtp_port_high   = ${toString cfg.rtpPortHigh}
     rtp_dscp        = ${toString cfg.rtpDscp}
     sip_dscp        = ${toString cfg.sipDscp}
-    ${optionalString (cfg.hostsAllowReg != []) "hosts_allow_reg = ${concatStringsSep "," cfg.hostsAllowReg}"}
-    ${optionalString (cfg.hostsAllowSip != []) "hosts_allow_sip = ${concatStringsSep "," cfg.hostsAllowSip}"}
-    ${optionalString (cfg.hostsDenySip != []) "hosts_deny_sip  = ${concatStringsSep "," cfg.hostsDenySip}"}
+    ${optionalString (
+      cfg.hostsAllowReg != [ ]
+    ) "hosts_allow_reg = ${concatStringsSep "," cfg.hostsAllowReg}"}
+    ${optionalString (
+      cfg.hostsAllowSip != [ ]
+    ) "hosts_allow_sip = ${concatStringsSep "," cfg.hostsAllowSip}"}
+    ${optionalString (
+      cfg.hostsDenySip != [ ]
+    ) "hosts_deny_sip  = ${concatStringsSep "," cfg.hostsDenySip}"}
     ${optionalString (cfg.passwordFile != "") "proxy_auth_pwfile = ${cfg.passwordFile}"}
     ${cfg.extraConfig}
   '';
 
   confFile = builtins.toFile "siproxd.conf" conf;
-
 in
 {
   ##### interface
@@ -58,7 +68,10 @@ in
       hostsAllowReg = mkOption {
         type = types.listOf types.str;
         default = [ ];
-        example = [ "192.168.1.0/24" "192.168.2.0/24" ];
+        example = [
+          "192.168.1.0/24"
+          "192.168.2.0/24"
+        ];
         description = ''
           Access control list for incoming SIP registrations.
         '';
@@ -67,7 +80,10 @@ in
       hostsAllowSip = mkOption {
         type = types.listOf types.str;
         default = [ ];
-        example = [ "123.45.0.0/16" "123.46.0.0/16" ];
+        example = [
+          "123.45.0.0/16"
+          "123.46.0.0/16"
+        ];
         description = ''
           Access control list for incoming SIP traffic.
         '';
@@ -76,7 +92,10 @@ in
       hostsDenySip = mkOption {
         type = types.listOf types.str;
         default = [ ];
-        example = [ "10.0.0.0/8" "11.0.0.0/8" ];
+        example = [
+          "10.0.0.0/8"
+          "11.0.0.0/8"
+        ];
         description = ''
           Access control list for denying incoming
           SIP registrations and traffic.
@@ -95,7 +114,7 @@ in
         type = types.int;
         default = 7070;
         description = ''
-         Bottom of UDP port range for incoming and outgoing RTP traffic
+          Bottom of UDP port range for incoming and outgoing RTP traffic
         '';
       };
 
@@ -103,7 +122,7 @@ in
         type = types.int;
         default = 7089;
         description = ''
-         Top of UDP port range for incoming and outgoing RTP traffic
+          Top of UDP port range for incoming and outgoing RTP traffic
         '';
       };
 
@@ -152,9 +171,7 @@ in
           Extra configuration to add to siproxd configuration.
         '';
       };
-
     };
-
   };
 
   ##### implementation
@@ -173,7 +190,5 @@ in
         ExecStart = "${pkgs.siproxd}/sbin/siproxd -c ${confFile}";
       };
     };
-
   };
-
 }

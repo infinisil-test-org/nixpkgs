@@ -1,14 +1,15 @@
-{ buildPackages
-, buildPythonPackage
-, fetchpatch
-, isPyPy
-, lib
-, numpy
-, protobuf
-, pytestCheckHook
-, pythonAtLeast
-, substituteAll
-, tzdata
+{
+  buildPackages,
+  buildPythonPackage,
+  fetchpatch,
+  isPyPy,
+  lib,
+  numpy,
+  protobuf,
+  pytestCheckHook,
+  pythonAtLeast,
+  substituteAll,
+  tzdata,
 }:
 
 assert lib.versionOlder protobuf.version "21" -> throw "Protobuf 21 or newer required";
@@ -26,21 +27,22 @@ buildPythonPackage {
 
   sourceRoot = "${protobuf.src.name}/python";
 
-  patches = lib.optionals (lib.versionAtLeast protobuf.version "22") [
-    # Replace the vendored abseil-cpp with nixpkgs'
-    (substituteAll {
-      src = ./use-nixpkgs-abseil-cpp.patch;
-      abseil_cpp_include_path = "${lib.getDev protobuf.abseil-cpp}/include";
-    })
-  ]
-  ++ lib.optionals (pythonAtLeast "3.11" && lib.versionOlder protobuf.version "22") [
-    (fetchpatch {
-      name = "support-python311.patch";
-      url = "https://github.com/protocolbuffers/protobuf/commit/2206b63c4649cf2e8a06b66c9191c8ef862ca519.diff";
-      stripLen = 1; # because sourceRoot above
-      hash = "sha256-3GaoEyZIhS3QONq8LEvJCH5TdO9PKnOgcQF0GlEiwFo=";
-    })
-  ];
+  patches =
+    lib.optionals (lib.versionAtLeast protobuf.version "22") [
+      # Replace the vendored abseil-cpp with nixpkgs'
+      (substituteAll {
+        src = ./use-nixpkgs-abseil-cpp.patch;
+        abseil_cpp_include_path = "${lib.getDev protobuf.abseil-cpp}/include";
+      })
+    ]
+    ++ lib.optionals (pythonAtLeast "3.11" && lib.versionOlder protobuf.version "22") [
+      (fetchpatch {
+        name = "support-python311.patch";
+        url = "https://github.com/protocolbuffers/protobuf/commit/2206b63c4649cf2e8a06b66c9191c8ef862ca519.diff";
+        stripLen = 1; # because sourceRoot above
+        hash = "sha256-3GaoEyZIhS3QONq8LEvJCH5TdO9PKnOgcQF0GlEiwFo=";
+      })
+    ];
 
   prePatch = ''
     if [[ "$(<../version.json)" != *'"python": "'"$version"'"'* ]]; then
@@ -75,9 +77,7 @@ buildPythonPackage {
 
   nativeCheckInputs = [
     pytestCheckHook
-  ] ++ lib.optionals (lib.versionAtLeast protobuf.version "22") [
-    numpy
-  ];
+  ] ++ lib.optionals (lib.versionAtLeast protobuf.version "22") [ numpy ];
 
   disabledTests = lib.optionals isPyPy [
     # error message differs

@@ -1,8 +1,9 @@
-{ lib
-, pythonOlder
-, buildPythonPackage
-, fetchPypi
-, monotonic
+{
+  lib,
+  pythonOlder,
+  buildPythonPackage,
+  fetchPypi,
+  monotonic,
 }:
 
 buildPythonPackage rec {

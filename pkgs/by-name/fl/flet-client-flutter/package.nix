@@ -1,15 +1,16 @@
-{ lib
-, fetchFromGitHub
-, pkg-config
-, flutter
-, gst_all_1
-, libunwind
-, makeWrapper
-, mimalloc
-, orc
-, nix-update-script
-, mpv-unwrapped
-, libplacebo
+{
+  lib,
+  fetchFromGitHub,
+  pkg-config,
+  flutter,
+  gst_all_1,
+  libunwind,
+  makeWrapper,
+  mimalloc,
+  orc,
+  nix-update-script,
+  mpv-unwrapped,
+  libplacebo,
 }:
 
 flutter.buildFlutterApplication rec {
@@ -25,9 +26,7 @@ flutter.buildFlutterApplication rec {
 
   sourceRoot = "${src.name}/client";
 
-  cmakeFlags = [
-    "-DMIMALLOC_LIB=${mimalloc}/lib/mimalloc.o"
-  ];
+  cmakeFlags = [ "-DMIMALLOC_LIB=${mimalloc}/lib/mimalloc.o" ];
 
   pubspecLock = lib.importJSON ./pubspec.lock.json;
 
@@ -46,10 +45,7 @@ flutter.buildFlutterApplication rec {
     libunwind
     orc
     mimalloc
-  ]
-    ++ mpv-unwrapped.buildInputs
-    ++ libplacebo.buildInputs
-  ;
+  ] ++ mpv-unwrapped.buildInputs ++ libplacebo.buildInputs;
 
   passthru.updateScript = nix-update-script { };
 
@@ -58,7 +54,10 @@ flutter.buildFlutterApplication rec {
     homepage = "https://flet.dev/";
     changelog = "https://github.com/flet-dev/flet/releases/tag/v${version}";
     license = lib.licenses.asl20;
-    maintainers = with lib.maintainers; [ heyimnova lucasew ];
+    maintainers = with lib.maintainers; [
+      heyimnova
+      lucasew
+    ];
     mainProgram = "flet";
   };
 }

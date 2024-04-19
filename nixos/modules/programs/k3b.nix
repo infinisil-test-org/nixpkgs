@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
@@ -47,6 +52,5 @@ with lib;
         source = "${pkgs.cdrtools}/bin/cdrecord";
       };
     };
-
   };
 }

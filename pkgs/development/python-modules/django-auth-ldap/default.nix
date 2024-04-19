@@ -1,18 +1,19 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, isPy27
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  isPy27,
 
-# buildtime
-, setuptools-scm
+  # buildtime
+  setuptools-scm,
 
-# runtime
-, django
-, python-ldap
+  # runtime
+  django,
+  python-ldap,
 
-# tests
-, python
-, pkgs
+  # tests
+  python,
+  pkgs,
 }:
 
 buildPythonPackage rec {
@@ -27,9 +28,7 @@ buildPythonPackage rec {
     hash = "sha256-jeplN2uLL6G+7lI0h2DjCC5kKTmlA4y+iBpeY4G2W4o=";
   };
 
-  nativeBuildInputs = [
-    setuptools-scm
-  ];
+  nativeBuildInputs = [ setuptools-scm ];
 
   propagatedBuildInputs = [
     django

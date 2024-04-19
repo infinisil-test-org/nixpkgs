@@ -1,25 +1,26 @@
 nvidia_x11: sha256:
 
-{ stdenv
-, lib
-, fetchFromGitHub
-, fetchpatch
-, pkg-config
-, m4
-, jansson
-, gtk2
-, dbus
-, gtk3
-, libXv
-, libXrandr
-, libXext
-, libXxf86vm
-, libvdpau
-, librsvg
-, wrapGAppsHook
-, addOpenGLRunpath
-, withGtk2 ? false
-, withGtk3 ? true
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  fetchpatch,
+  pkg-config,
+  m4,
+  jansson,
+  gtk2,
+  dbus,
+  gtk3,
+  libXv,
+  libXrandr,
+  libXext,
+  libXxf86vm,
+  libvdpau,
+  librsvg,
+  wrapGAppsHook,
+  addOpenGLRunpath,
+  withGtk2 ? false,
+  withGtk3 ? true,
 }:
 
 let
@@ -35,7 +36,10 @@ let
     version = nvidia_x11.settingsVersion;
     inherit src;
 
-    buildInputs = [ libXrandr libXext ];
+    buildInputs = [
+      libXrandr
+      libXext
+    ];
 
     preBuild = ''
       cd src/libXNVCtrl
@@ -54,7 +58,6 @@ let
       cp NVCtrlLib.h  $out/include/NVCtrl
     '';
   };
-
 in
 
 stdenv.mkDerivation {
@@ -63,20 +66,22 @@ stdenv.mkDerivation {
 
   inherit src;
 
-  patches = lib.optional (lib.versionOlder nvidia_x11.settingsVersion "440")
-    (fetchpatch {
+  patches =
+    lib.optional (lib.versionOlder nvidia_x11.settingsVersion "440") (fetchpatch {
       # fixes "multiple definition of `VDPAUDeviceFunctions'" linking errors
       url = "https://github.com/NVIDIA/nvidia-settings/commit/a7c1f5fce6303a643fadff7d85d59934bd0cf6b6.patch";
       hash = "sha256-ZwF3dRTYt/hO8ELg9weoz1U/XcU93qiJL2d1aq1Jlak=";
     })
-  ++ lib.optional
-    ((lib.versionAtLeast nvidia_x11.settingsVersion "515.43.04")
-      && (lib.versionOlder nvidia_x11.settingsVersion "545.29"))
-    (fetchpatch {
-      # fix wayland support for compositors that use wl_output version 4
-      url = "https://github.com/NVIDIA/nvidia-settings/pull/99/commits/2e0575197e2b3247deafd2a48f45afc038939a06.patch";
-      hash = "sha256-wKuO5CUTUuwYvsP46Pz+6fI0yxLNpZv8qlbL0TFkEFE=";
-    });
+    ++ lib.optional
+      (
+        (lib.versionAtLeast nvidia_x11.settingsVersion "515.43.04")
+        && (lib.versionOlder nvidia_x11.settingsVersion "545.29")
+      )
+      (fetchpatch {
+        # fix wayland support for compositors that use wl_output version 4
+        url = "https://github.com/NVIDIA/nvidia-settings/pull/99/commits/2e0575197e2b3247deafd2a48f45afc038939a06.patch";
+        hash = "sha256-wKuO5CUTUuwYvsP46Pz+6fI0yxLNpZv8qlbL0TFkEFE=";
+      });
 
   postPatch = lib.optionalString nvidia_x11.useProfiles ''
     sed -i 's,/usr/share/nvidia/,${nvidia_x11.bin}/share/nvidia/,g' src/gtk+-2.x/ctkappprofile.c
@@ -93,10 +98,29 @@ stdenv.mkDerivation {
     fi
   '';
 
-  nativeBuildInputs = [ pkg-config m4 addOpenGLRunpath ];
+  nativeBuildInputs = [
+    pkg-config
+    m4
+    addOpenGLRunpath
+  ];
 
-  buildInputs = [ jansson libXv libXrandr libXext libXxf86vm libvdpau nvidia_x11 gtk2 dbus ]
-    ++ lib.optionals withGtk3 [ gtk3 librsvg wrapGAppsHook ];
+  buildInputs =
+    [
+      jansson
+      libXv
+      libXrandr
+      libXext
+      libXxf86vm
+      libvdpau
+      nvidia_x11
+      gtk2
+      dbus
+    ]
+    ++ lib.optionals withGtk3 [
+      gtk3
+      librsvg
+      wrapGAppsHook
+    ];
 
   installFlags = [ "PREFIX=$(out)" ];
 

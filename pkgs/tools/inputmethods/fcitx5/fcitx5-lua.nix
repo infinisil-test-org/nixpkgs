@@ -1,11 +1,12 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, extra-cmake-modules
-, fcitx5
-, lua
-, gettext
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  extra-cmake-modules,
+  fcitx5,
+  lua,
+  gettext,
 }:
 stdenv.mkDerivation rec {
   pname = "fcitx5-lua";
@@ -18,9 +19,16 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-tnGPjMc8oL/P6Vyt7eNYWcPMhYhdpFWtCF4E3dJYGPw=";
   };
 
-  nativeBuildInputs = [ cmake extra-cmake-modules ];
+  nativeBuildInputs = [
+    cmake
+    extra-cmake-modules
+  ];
 
-  buildInputs = [ fcitx5 lua gettext ];
+  buildInputs = [
+    fcitx5
+    lua
+    gettext
+  ];
 
   passthru = {
     extraLdLibraries = [ lua ];

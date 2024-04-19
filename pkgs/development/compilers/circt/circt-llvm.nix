@@ -1,16 +1,22 @@
-{ stdenv
-, cmake
-, ninja
-, circt
-, llvm
-, python3
-}: stdenv.mkDerivation {
+{
+  stdenv,
+  cmake,
+  ninja,
+  circt,
+  llvm,
+  python3,
+}:
+stdenv.mkDerivation {
   pname = circt.pname + "-llvm";
   inherit (circt) version src;
 
   requiredSystemFeatures = [ "big-parallel" ];
 
-  nativeBuildInputs = [ cmake ninja python3 ];
+  nativeBuildInputs = [
+    cmake
+    ninja
+    python3
+  ];
 
   preConfigure = ''
     cd llvm/llvm
@@ -29,7 +35,11 @@
     "-DLLVM_INSTALL_UTILS=ON"
   ];
 
-  outputs = [ "out" "lib" "dev" ];
+  outputs = [
+    "out"
+    "lib"
+    "dev"
+  ];
 
   postInstall = ''
     # move llvm-config to $dev to resolve a circular dependency

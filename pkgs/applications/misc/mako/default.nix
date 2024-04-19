@@ -1,7 +1,21 @@
-{ lib, stdenv, fetchFromGitHub, meson, ninja, pkg-config, scdoc
-, systemd, pango, cairo, gdk-pixbuf, jq, bash
-, wayland, wayland-protocols
-, wrapGAppsHook }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  meson,
+  ninja,
+  pkg-config,
+  scdoc,
+  systemd,
+  pango,
+  cairo,
+  gdk-pixbuf,
+  jq,
+  bash,
+  wayland,
+  wayland-protocols,
+  wrapGAppsHook,
+}:
 
 stdenv.mkDerivation rec {
   pname = "mako";
@@ -15,8 +29,21 @@ stdenv.mkDerivation rec {
   };
 
   depsBuildBuild = [ pkg-config ];
-  nativeBuildInputs = [ meson ninja pkg-config scdoc wayland-protocols wrapGAppsHook ];
-  buildInputs = [ systemd pango cairo gdk-pixbuf wayland ];
+  nativeBuildInputs = [
+    meson
+    ninja
+    pkg-config
+    scdoc
+    wayland-protocols
+    wrapGAppsHook
+  ];
+  buildInputs = [
+    systemd
+    pango
+    cairo
+    gdk-pixbuf
+    wayland
+  ];
 
   mesonFlags = [
     "-Dzsh-completions=true"
@@ -25,7 +52,13 @@ stdenv.mkDerivation rec {
 
   preFixup = ''
     gappsWrapperArgs+=(
-      --prefix PATH : "${lib.makeBinPath [ systemd /* for busctl */ jq bash ]}"
+      --prefix PATH : "${
+        lib.makeBinPath [
+          systemd # for busctl
+          jq
+          bash
+        ]
+      }"
     )
   '';
 
@@ -33,7 +66,10 @@ stdenv.mkDerivation rec {
     description = "A lightweight Wayland notification daemon";
     homepage = "https://wayland.emersion.fr/mako/";
     license = licenses.mit;
-    maintainers = with maintainers; [ dywedir synthetica ];
+    maintainers = with maintainers; [
+      dywedir
+      synthetica
+    ];
     platforms = platforms.linux;
     mainProgram = "mako";
   };

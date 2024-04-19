@@ -1,16 +1,20 @@
-{ lib
-, stdenv
-, rustPlatform
-, fetchFromGitea
-, pkg-config
-, openssl
-, nixVersions
-, nixPackage ? nixVersions.nix_2_17
-, darwin
+{
+  lib,
+  stdenv,
+  rustPlatform,
+  fetchFromGitea,
+  pkg-config,
+  openssl,
+  nixVersions,
+  nixPackage ? nixVersions.nix_2_17,
+  darwin,
 }:
 
 let
-  cargoFlags = [ "-p" "nix-web" ];
+  cargoFlags = [
+    "-p"
+    "nix-web"
+  ];
 in
 rustPlatform.buildRustPackage rec {
   pname = "nix-web";
@@ -26,7 +30,8 @@ rustPlatform.buildRustPackage rec {
   cargoHash = "sha256-6kcpP/CFiy571B98Y96/cdcClH50gdyPLZ28Npva7B4=";
 
   nativeBuildInputs = [ pkg-config ];
-  buildInputs = lib.optional (!stdenv.isDarwin) openssl
+  buildInputs =
+    lib.optional (!stdenv.isDarwin) openssl
     ++ lib.optional stdenv.isDarwin darwin.apple_sdk.frameworks.Security;
 
   postPatch = ''

@@ -1,12 +1,13 @@
-{ lib
-, python3
-, fetchFromGitHub
-, fetchPypi
-, nix-update-script
-, runtimeShell
-, installShellFiles
-, testers
-, pdm
+{
+  lib,
+  python3,
+  fetchFromGitHub,
+  fetchPypi,
+  nix-update-script,
+  runtimeShell,
+  installShellFiles,
+  testers,
+  pdm,
 }:
 let
   python = python3.override {
@@ -43,49 +44,39 @@ buildPythonApplication rec {
     hash = "sha256-4oK/HK8KCD/A+16JrW9518V5/1LHu1juhYfqPVu54Uo=";
   };
 
-  nativeBuildInputs = [
-    installShellFiles
-  ];
+  nativeBuildInputs = [ installShellFiles ];
 
-  build-system = [
-    pdm-backend
-  ];
+  build-system = [ pdm-backend ];
 
-  dependencies = [
-    blinker
-    dep-logic
-    filelock
-    findpython
-    hishel
-    httpx
-    installer
-    msgpack
-    packaging
-    pbs-installer
-    platformdirs
-    pyproject-hooks
-    python-dotenv
-    resolvelib
-    rich
-    shellingham
-    tomlkit
-    unearth
-    virtualenv
-  ] ++ httpx.optional-dependencies.socks
-  ++ pbs-installer.optional-dependencies.install
-  ++ lib.optionals (pythonOlder "3.11") [
-    tomli
-  ]
-  ++ lib.optionals (pythonOlder "3.10") [
-    importlib-metadata
-  ]
-  ++ lib.optionals (pythonAtLeast "3.10") [
-    truststore
-  ];
+  dependencies =
+    [
+      blinker
+      dep-logic
+      filelock
+      findpython
+      hishel
+      httpx
+      installer
+      msgpack
+      packaging
+      pbs-installer
+      platformdirs
+      pyproject-hooks
+      python-dotenv
+      resolvelib
+      rich
+      shellingham
+      tomlkit
+      unearth
+      virtualenv
+    ]
+    ++ httpx.optional-dependencies.socks
+    ++ pbs-installer.optional-dependencies.install
+    ++ lib.optionals (pythonOlder "3.11") [ tomli ]
+    ++ lib.optionals (pythonOlder "3.10") [ importlib-metadata ]
+    ++ lib.optionals (pythonAtLeast "3.10") [ truststore ];
 
-  makeWrapperArgs = [
-    "--set PDM_CHECK_UPDATE 0"
-  ];
+  makeWrapperArgs = [ "--set PDM_CHECK_UPDATE 0" ];
 
   preInstall = ''
     # Silence network warning during pypaInstallPhase
@@ -107,9 +98,7 @@ buildPythonApplication rec {
     pytest-httpserver
   ] ++ lib.optional stdenv.isLinux first;
 
-  pytestFlagsArray = [
-    "-m 'not network'"
-  ];
+  pytestFlagsArray = [ "-m 'not network'" ];
 
   preCheck = ''
     export HOME=$TMPDIR
@@ -129,9 +118,7 @@ buildPythonApplication rec {
 
   __darwinAllowLocalNetworking = true;
 
-  passthru.tests.version = testers.testVersion {
-    package = pdm;
-  };
+  passthru.tests.version = testers.testVersion { package = pdm; };
 
   passthru.updateScript = nix-update-script { };
 

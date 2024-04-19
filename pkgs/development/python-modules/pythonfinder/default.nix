@@ -1,15 +1,16 @@
-{ lib
-, buildPythonPackage
-, cached-property
-, click
-, fetchFromGitHub
-, fetchpatch
-, packaging
-, pydantic
-, pytest-timeout
-, pytestCheckHook
-, pythonOlder
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  cached-property,
+  click,
+  fetchFromGitHub,
+  fetchpatch,
+  packaging,
+  pydantic,
+  pytest-timeout,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -40,21 +41,15 @@ buildPythonPackage rec {
       --replace " --cov" ""
   '';
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     packaging
     pydantic
-  ] ++ lib.optionals (pythonOlder "3.8") [
-    cached-property
-  ];
+  ] ++ lib.optionals (pythonOlder "3.8") [ cached-property ];
 
   passthru.optional-dependencies = {
-    cli = [
-      click
-    ];
+    cli = [ click ];
   };
 
   nativeCheckInputs = [
@@ -62,9 +57,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ] ++ lib.flatten (builtins.attrValues passthru.optional-dependencies);
 
-  pythonImportsCheck = [
-    "pythonfinder"
-  ];
+  pythonImportsCheck = [ "pythonfinder" ];
 
   # these tests invoke git in a subprocess and
   # for some reason git can't be found even if included in nativeCheckInputs

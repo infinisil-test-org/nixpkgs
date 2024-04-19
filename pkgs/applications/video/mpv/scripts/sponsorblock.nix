@@ -1,4 +1,11 @@
-{ lib, buildLua, fetchFromGitHub, fetchpatch, python3, nix-update-script }:
+{
+  lib,
+  buildLua,
+  fetchFromGitHub,
+  fetchpatch,
+  python3,
+  nix-update-script,
+}:
 
 # Usage: `pkgs.mpv.override { scripts = [ pkgs.mpvScripts.sponsorblock ]; }`
 buildLua {
@@ -34,9 +41,7 @@ buildLua {
 
   postInstall = "cp -a sponsorblock_shared $out/share/mpv/scripts/";
 
-  passthru.updateScript = nix-update-script {
-    extraArgs = [ "--version=branch" ];
-  };
+  passthru.updateScript = nix-update-script { extraArgs = [ "--version=branch" ]; };
 
   meta = with lib; {
     description = "Script for mpv to skip sponsored segments of YouTube videos";

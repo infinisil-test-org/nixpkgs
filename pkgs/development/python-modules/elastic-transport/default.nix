@@ -1,16 +1,17 @@
-{ lib
-, aiohttp
-, buildPythonPackage
-, certifi
-, fetchFromGitHub
-, mock
-, pytest-asyncio
-, pytest-httpserver
-, pytestCheckHook
-, pythonOlder
-, requests
-, trustme
-, urllib3
+{
+  lib,
+  aiohttp,
+  buildPythonPackage,
+  certifi,
+  fetchFromGitHub,
+  mock,
+  pytest-asyncio,
+  pytest-httpserver,
+  pytestCheckHook,
+  pythonOlder,
+  requests,
+  trustme,
+  urllib3,
 }:
 
 buildPythonPackage rec {
@@ -47,9 +48,7 @@ buildPythonPackage rec {
     trustme
   ];
 
-  pythonImportsCheck = [
-    "elastic_transport"
-  ];
+  pythonImportsCheck = [ "elastic_transport" ];
 
   disabledTests = [
     # Tests require network access

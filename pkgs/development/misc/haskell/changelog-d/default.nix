@@ -1,7 +1,20 @@
-{ mkDerivation, base, bytestring, cabal-install-parsers
-, Cabal-syntax, containers, directory, fetchgit, filepath
-, generic-lens-lite, lib, mtl, optparse-applicative, parsec, pretty
-, regex-applicative
+{
+  mkDerivation,
+  base,
+  bytestring,
+  cabal-install-parsers,
+  Cabal-syntax,
+  containers,
+  directory,
+  fetchgit,
+  filepath,
+  generic-lens-lite,
+  lib,
+  mtl,
+  optparse-applicative,
+  parsec,
+  pretty,
+  regex-applicative,
 }:
 mkDerivation {
   pname = "changelog-d";
@@ -15,12 +28,25 @@ mkDerivation {
   isLibrary = false;
   isExecutable = true;
   libraryHaskellDepends = [
-    base bytestring cabal-install-parsers Cabal-syntax containers
-    directory filepath generic-lens-lite mtl parsec pretty
+    base
+    bytestring
+    cabal-install-parsers
+    Cabal-syntax
+    containers
+    directory
+    filepath
+    generic-lens-lite
+    mtl
+    parsec
+    pretty
     regex-applicative
   ];
   executableHaskellDepends = [
-    base bytestring Cabal-syntax directory filepath
+    base
+    bytestring
+    Cabal-syntax
+    directory
+    filepath
     optparse-applicative
   ];
   doHaddock = false;

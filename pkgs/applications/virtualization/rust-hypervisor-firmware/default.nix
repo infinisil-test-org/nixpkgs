@@ -1,14 +1,14 @@
-{ lib
-, fetchFromGitHub
-, hostPlatform
-, lld
+{
+  lib,
+  fetchFromGitHub,
+  hostPlatform,
+  lld,
 }:
 
 let
   arch = hostPlatform.qemuArch;
 
   target = ./. + "/${arch}-unknown-none.json";
-
 in
 
 assert lib.assertMsg (builtins.pathExists target) "Target spec not found";
@@ -23,7 +23,6 @@ let
   };
 
   inherit (cross) rustPlatform;
-
 in
 
 rustPlatform.buildRustPackage rec {
@@ -45,9 +44,7 @@ rustPlatform.buildRustPackage rec {
 
   RUSTC_BOOTSTRAP = 1;
 
-  nativeBuildInputs = [
-    lld
-  ];
+  nativeBuildInputs = [ lld ];
 
   RUSTFLAGS = "-C linker=lld -C linker-flavor=ld.lld";
 

@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, python-dateutil
-, python-mimeparse
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  python-dateutil,
+  python-mimeparse,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -28,9 +29,7 @@ buildPythonPackage rec {
   # Tests requires a Django instance
   doCheck = false;
 
-  pythonImportsCheck = [
-    "tastypie"
-  ];
+  pythonImportsCheck = [ "tastypie" ];
 
   meta = with lib; {
     description = "Utilities and helpers for writing Pylint plugins";

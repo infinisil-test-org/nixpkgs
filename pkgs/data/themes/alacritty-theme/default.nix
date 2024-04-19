@@ -1,8 +1,10 @@
-{ lib
-, fetchFromGitHub
-, nix-update-script
-, stdenvNoCC
-, ... }:
+{
+  lib,
+  fetchFromGitHub,
+  nix-update-script,
+  stdenvNoCC,
+  ...
+}:
 
 stdenvNoCC.mkDerivation (self: {
   name = "alacritty-theme";
@@ -26,9 +28,7 @@ stdenvNoCC.mkDerivation (self: {
     runHook postInstall
   '';
 
-  passthru.updateScript = nix-update-script {
-    extraArgs = [ "--version=branch" ];
-  };
+  passthru.updateScript = nix-update-script { extraArgs = [ "--version=branch" ]; };
 
   meta = with lib; {
     description = "Collection of Alacritty color schemes";

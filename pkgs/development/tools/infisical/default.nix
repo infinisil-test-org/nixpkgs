@@ -1,4 +1,11 @@
-{ stdenv, lib, fetchurl, testers, infisical, installShellFiles }:
+{
+  stdenv,
+  lib,
+  fetchurl,
+  testers,
+  infisical,
+  installShellFiles,
+}:
 
 # this expression is mostly automated, and you are STRONGLY
 # RECOMMENDED to use to nix-update for updating this expression when new
@@ -20,21 +27,22 @@ let
   # the platform-specific, statically linked binary
   src =
     let
-      suffix = {
-        # map the platform name to the golang toolchain suffix
-        # NOTE: must be synchronized with update.sh!
-        x86_64-linux = "linux_amd64";
-        x86_64-darwin = "darwin_amd64";
-        aarch64-linux = "linux_arm64";
-        aarch64-darwin = "darwin_arm64";
-      }."${stdenv.hostPlatform.system}" or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
+      suffix =
+        {
+          # map the platform name to the golang toolchain suffix
+          # NOTE: must be synchronized with update.sh!
+          x86_64-linux = "linux_amd64";
+          x86_64-darwin = "darwin_amd64";
+          aarch64-linux = "linux_arm64";
+          aarch64-darwin = "darwin_arm64";
+        }
+        ."${stdenv.hostPlatform.system}" or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
 
       name = "infisical_${version}_${suffix}.tar.gz";
       hash = buildHashes."${stdenv.hostPlatform.system}";
       url = "https://github.com/Infisical/infisical/releases/download/infisical-cli%2Fv${version}/${name}";
     in
     fetchurl { inherit name url hash; };
-
 in
 stdenv.mkDerivation {
   pname = "infisical";
@@ -76,7 +84,10 @@ stdenv.mkDerivation {
     changelog = "https://github.com/infisical/infisical/releases/tag/infisical-cli%2Fv${version}";
     license = licenses.mit;
     mainProgram = "infisical";
-    maintainers = [ maintainers.ivanmoreau maintainers.jgoux ];
+    maintainers = [
+      maintainers.ivanmoreau
+      maintainers.jgoux
+    ];
     platforms = [
       "x86_64-linux"
       "aarch64-linux"

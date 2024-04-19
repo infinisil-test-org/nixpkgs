@@ -1,12 +1,13 @@
-{ fetchFromGitHub
-, lib
-, gobject-introspection
-, gtk3
-, python3Packages
-, wrapGAppsHook
-, gdk-pixbuf
-, libappindicator
-, librsvg
+{
+  fetchFromGitHub,
+  lib,
+  gobject-introspection,
+  gtk3,
+  python3Packages,
+  wrapGAppsHook,
+  gdk-pixbuf,
+  libappindicator,
+  librsvg,
 }:
 
 # Although we copy in the udev rules here, you probably just want to use
@@ -23,7 +24,10 @@ python3Packages.buildPythonApplication rec {
     hash = "sha256-fVWfV7rEu/knysWUrPeokBBlSGnvNlpiptAd1M7ZVd8=";
   };
 
-  outputs = [ "out" "udev" ];
+  outputs = [
+    "out"
+    "udev"
+  ];
 
   nativeBuildInputs = [
     gdk-pixbuf
@@ -81,7 +85,11 @@ python3Packages.buildPythonApplication rec {
     '';
     homepage = "https://pwr-solaar.github.io/Solaar/";
     license = licenses.gpl2Only;
-    maintainers = with maintainers; [ spinus ysndr oxalica ];
+    maintainers = with maintainers; [
+      spinus
+      ysndr
+      oxalica
+    ];
     platforms = platforms.linux;
   };
 }

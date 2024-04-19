@@ -1,4 +1,12 @@
-{ lib, libnotify, gpgme, buildGoModule, fetchFromGitHub, fetchurl, pkg-config }:
+{
+  lib,
+  libnotify,
+  gpgme,
+  buildGoModule,
+  fetchFromGitHub,
+  fetchurl,
+  pkg-config,
+}:
 
 buildGoModule rec {
   pname = "yubikey-touch-detector";
@@ -14,7 +22,10 @@ buildGoModule rec {
 
   nativeBuildInputs = [ pkg-config ];
 
-  buildInputs = [ libnotify gpgme ];
+  buildInputs = [
+    libnotify
+    gpgme
+  ];
 
   postInstall = ''
     install -Dm444 -t $out/share/doc/${pname} *.{md,example}
@@ -33,7 +44,10 @@ buildGoModule rec {
     description = "A tool to detect when your YubiKey is waiting for a touch";
     homepage = "https://github.com/maximbaz/yubikey-touch-detector";
     maintainers = with maintainers; [ sumnerevans ];
-    license = with licenses; [ bsd2 isc ];
+    license = with licenses; [
+      bsd2
+      isc
+    ];
     platforms = platforms.linux;
     mainProgram = "yubikey-touch-detector";
   };

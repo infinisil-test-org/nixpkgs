@@ -1,14 +1,15 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchPypi
-, colorama
-, meson
-, ninja
-, pyproject-metadata
-, tomli
-, typing-extensions
-, pythonOlder
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchPypi,
+  colorama,
+  meson,
+  ninja,
+  pyproject-metadata,
+  tomli,
+  typing-extensions,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -27,27 +28,24 @@ buildPythonPackage rec {
     ninja
     pyproject-metadata
     tomli
-  ] ++ lib.optionals (pythonOlder "3.10") [
-    typing-extensions
-  ];
+  ] ++ lib.optionals (pythonOlder "3.10") [ typing-extensions ];
 
   propagatedBuildInputs = [
     meson
     ninja
     pyproject-metadata
     tomli
-  ] ++ lib.optionals (pythonOlder "3.10") [
-    typing-extensions
-  ];
-  setupHooks = [
-    ./add-build-flags.sh
-  ];
+  ] ++ lib.optionals (pythonOlder "3.10") [ typing-extensions ];
+  setupHooks = [ ./add-build-flags.sh ];
 
   meta = {
     changelog = "https://github.com/mesonbuild/meson-python/blob/${version}/CHANGELOG.rst";
     description = "Meson Python build backend (PEP 517)";
     homepage = "https://github.com/mesonbuild/meson-python";
     license = [ lib.licenses.mit ];
-    maintainers = with lib.maintainers; [ fridh doronbehar ];
+    maintainers = with lib.maintainers; [
+      fridh
+      doronbehar
+    ];
   };
 }

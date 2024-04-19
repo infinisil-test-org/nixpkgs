@@ -5,10 +5,11 @@
 # dependency by another derivation, the passed dictionaries will be
 # missing. However, invoking aspell directly should be fine.
 
-{ aspell
-, aspellDicts
-, makeWrapper
-, buildEnv
+{
+  aspell,
+  aspellDicts,
+  makeWrapper,
+  buildEnv,
 }:
 
 f:
@@ -16,8 +17,8 @@ f:
 let
   # Dictionaries we want
   dicts = f aspellDicts;
-
-in buildEnv {
+in
+buildEnv {
   name = "aspell-env";
   nativeBuildInputs = [ makeWrapper ];
   paths = [ aspell ] ++ dicts;

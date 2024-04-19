@@ -1,25 +1,26 @@
-{ lib
-, stdenv
-, fetchurl
-, fetchpatch
-, autoreconfHook
-, curl
-, libXext
-, libXft
-, libXi
-, libXinerama
-, libXtst
-, libXv
-, libXxf86vm
-, libjpeg
-, libpng
-, lirc
-, ncurses
-, pkg-config
-, readline
-, shared-mime-info
-, xine-lib
-, xorgproto
+{
+  lib,
+  stdenv,
+  fetchurl,
+  fetchpatch,
+  autoreconfHook,
+  curl,
+  libXext,
+  libXft,
+  libXi,
+  libXinerama,
+  libXtst,
+  libXv,
+  libXxf86vm,
+  libjpeg,
+  libpng,
+  lirc,
+  ncurses,
+  pkg-config,
+  readline,
+  shared-mime-info,
+  xine-lib,
+  xorgproto,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -31,7 +32,12 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-1NSQ1c7OcOK7mEnJ5ILyz4evAwLUUbYUR2/cw2Qs2cM=";
   };
 
-  outputs = [ "out" "dev" "lib" "man" ];
+  outputs = [
+    "out"
+    "dev"
+    "lib"
+    "man"
+  ];
 
   nativeBuildInputs = [
     autoreconfHook
@@ -60,8 +66,8 @@ stdenv.mkDerivation (finalAttrs: {
   configureFlags = [ "--with-readline=${readline.dev}" ];
 
   env = {
-    LIRC_CFLAGS="-I${lirc}/include";
-    LIRC_LIBS="-L ${lirc}/lib -llirc_client";
+    LIRC_CFLAGS = "-I${lirc}/include";
+    LIRC_LIBS = "-L ${lirc}/lib -llirc_client";
   };
 
   postInstall = ''

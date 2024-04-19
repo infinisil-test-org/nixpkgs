@@ -1,15 +1,17 @@
-{ lib, stdenv
-, buildPythonPackage
-, fetchFromGitHub
-, gcc10
-, cmake
-, boost179
-, icu
-, swig
-, pcre
-, opencascade-occt
-, opencollada
-, libxml2
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchFromGitHub,
+  gcc10,
+  cmake,
+  boost179,
+  icu,
+  swig,
+  pcre,
+  opencascade-occt,
+  opencollada,
+  libxml2,
 }:
 
 buildPythonPackage rec {
@@ -18,14 +20,17 @@ buildPythonPackage rec {
   format = "other";
 
   src = fetchFromGitHub {
-    owner  = "IfcOpenShell";
-    repo   = "IfcOpenShell";
+    owner = "IfcOpenShell";
+    repo = "IfcOpenShell";
     rev = "refs/tags/blenderbim-${version}";
     fetchSubmodules = true;
     sha256 = "sha256-DtA8KeWipPfOnztKG/lrgLZeOCUG3nWR9oW7OST7koc=";
   };
 
-  nativeBuildInputs = [ gcc10 cmake ];
+  nativeBuildInputs = [
+    gcc10
+    cmake
+  ];
 
   buildInputs = [
     boost179
@@ -38,7 +43,7 @@ buildPythonPackage rec {
     cd cmake
   '';
 
-  PYTHONUSERBASE=".";
+  PYTHONUSERBASE = ".";
   cmakeFlags = [
     "-DUSERSPACE_PYTHON_PREFIX=ON"
     "-DOCC_INCLUDE_DIR=${opencascade-occt}/include/opencascade"
@@ -53,8 +58,8 @@ buildPythonPackage rec {
   meta = with lib; {
     broken = stdenv.isDarwin;
     description = "Open source IFC library and geometry engine";
-    homepage    = "http://ifcopenshell.org/";
-    license     = licenses.lgpl3;
+    homepage = "http://ifcopenshell.org/";
+    license = licenses.lgpl3;
     maintainers = with maintainers; [ fehnomenal ];
   };
 }

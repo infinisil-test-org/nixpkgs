@@ -1,6 +1,7 @@
-{ lib
-, python3
-, fetchPypi
+{
+  lib,
+  python3,
+  fetchPypi,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -29,14 +30,15 @@ python3.pkgs.buildPythonApplication rec {
     watchdog
   ];
 
-  nativeCheckInputs = with python3.pkgs; [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = with python3.pkgs; [ pytestCheckHook ];
 
   pytestFlagsArray = [
-    "-W" "ignore::sphinx.deprecation.RemovedInSphinx90Warning"
-    "--rootdir" "src/ablog"
-    "-W" "ignore::sphinx.deprecation.RemovedInSphinx90Warning" # Ignore ImportError
+    "-W"
+    "ignore::sphinx.deprecation.RemovedInSphinx90Warning"
+    "--rootdir"
+    "src/ablog"
+    "-W"
+    "ignore::sphinx.deprecation.RemovedInSphinx90Warning" # Ignore ImportError
   ];
 
   meta = with lib; {

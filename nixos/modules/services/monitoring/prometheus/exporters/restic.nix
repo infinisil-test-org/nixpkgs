@@ -1,4 +1,10 @@
-{ config, lib, pkgs, options, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  options,
+  ...
+}:
 
 with lib;
 
@@ -43,7 +49,12 @@ in
     };
 
     rcloneOptions = mkOption {
-      type = with types; attrsOf (oneOf [ str bool ]);
+      type =
+        with types;
+        attrsOf (oneOf [
+          str
+          bool
+        ]);
       default = { };
       description = ''
         Options to pass to rclone to control its behavior.
@@ -56,7 +67,12 @@ in
     };
 
     rcloneConfig = mkOption {
-      type = with types; attrsOf (oneOf [ str bool ]);
+      type =
+        with types;
+        attrsOf (oneOf [
+          str
+          bool
+        ]);
       default = { };
       description = ''
         Configuration for the rclone remote being used for backup.
@@ -115,18 +131,12 @@ in
         LISTEN_PORT = toString cfg.port;
         REFRESH_INTERVAL = toString cfg.refreshInterval;
       }
-      // (mapAttrs'
-        (name: value:
-          nameValuePair (rcloneAttrToOpt name) (toRcloneVal value)
-        )
-        cfg.rcloneOptions)
-      // optionalAttrs (cfg.rcloneConfigFile != null) {
-        RCLONE_CONFIG = cfg.rcloneConfigFile;
-      }
-      // (mapAttrs'
-        (name: value:
-          nameValuePair (rcloneAttrToConf name) (toRcloneVal value)
-        )
-        cfg.rcloneConfig);
+      // (mapAttrs' (
+        name: value: nameValuePair (rcloneAttrToOpt name) (toRcloneVal value)
+      ) cfg.rcloneOptions)
+      // optionalAttrs (cfg.rcloneConfigFile != null) { RCLONE_CONFIG = cfg.rcloneConfigFile; }
+      // (mapAttrs' (
+        name: value: nameValuePair (rcloneAttrToConf name) (toRcloneVal value)
+      ) cfg.rcloneConfig);
   };
 }

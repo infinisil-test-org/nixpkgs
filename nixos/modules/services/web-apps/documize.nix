@@ -1,16 +1,27 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.services.documize;
 
-  mkParams = optional: concatMapStrings (name: let
-    predicate = optional -> cfg.${name} != null;
-    template = " -${name} '${toString cfg.${name}}'";
-  in optionalString predicate template);
-
-in {
+  mkParams =
+    optional:
+    concatMapStrings (
+      name:
+      let
+        predicate = optional -> cfg.${name} != null;
+        template = " -${name} '${toString cfg.${name}}'";
+      in
+      optionalString predicate template
+    );
+in
+{
   options.services.documize = {
     enable = mkEnableOption "Documize Wiki";
 
@@ -76,7 +87,13 @@ in {
     };
 
     dbtype = mkOption {
-      type = types.enum [ "mysql" "percona" "mariadb" "postgresql" "sqlserver" ];
+      type = types.enum [
+        "mysql"
+        "percona"
+        "mariadb"
+        "postgresql"
+        "sqlserver"
+      ];
       default = "postgresql";
       description = ''
         Specify the database provider: `mysql`, `percona`, `mariadb`, `postgresql`, `sqlserver`
@@ -117,8 +134,19 @@ in {
       serviceConfig = {
         ExecStart = concatStringsSep " " [
           "${cfg.package}/bin/documize"
-          (mkParams false [ "db" "dbtype" "port" ])
-          (mkParams true [ "offline" "location" "forcesslport" "key" "cert" "salt" ])
+          (mkParams false [
+            "db"
+            "dbtype"
+            "port"
+          ])
+          (mkParams true [
+            "offline"
+            "location"
+            "forcesslport"
+            "key"
+            "cert"
+            "salt"
+          ])
         ];
         Restart = "always";
         DynamicUser = "yes";

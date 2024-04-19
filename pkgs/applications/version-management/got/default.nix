@@ -1,17 +1,18 @@
-{ lib
-, stdenv
-, fetchurl
-, pkg-config
-, openssl
-, libbsd
-, libevent
-, libuuid
-, libossp_uuid
-, libmd
-, zlib
-, ncurses
-, bison
-, autoPatchelfHook
+{
+  lib,
+  stdenv,
+  fetchurl,
+  pkg-config,
+  openssl,
+  libbsd,
+  libevent,
+  libuuid,
+  libossp_uuid,
+  libmd,
+  zlib,
+  ncurses,
+  bison,
+  autoPatchelfHook,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -23,11 +24,20 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-4HpIlKRYUDoymCBH8GS8DDXaY0nYiVvotpBkwglOO3I=";
   };
 
-  nativeBuildInputs = [ pkg-config bison ]
-    ++ lib.optionals stdenv.isLinux [ autoPatchelfHook ];
+  nativeBuildInputs = [
+    pkg-config
+    bison
+  ] ++ lib.optionals stdenv.isLinux [ autoPatchelfHook ];
 
-  buildInputs = [ openssl libbsd libevent libuuid libmd zlib ncurses ]
-    ++ lib.optionals stdenv.isDarwin [ libossp_uuid ];
+  buildInputs = [
+    openssl
+    libbsd
+    libevent
+    libuuid
+    libmd
+    zlib
+    ncurses
+  ] ++ lib.optionals stdenv.isDarwin [ libossp_uuid ];
 
   configureFlags = [ "--enable-gotd" ];
 
@@ -38,12 +48,14 @@ stdenv.mkDerivation (finalAttrs: {
     substituteInPlace configure --replace-fail 'xdarwin' 'xhomebrew'
   '';
 
-  env.NIX_CFLAGS_COMPILE = toString (lib.optionals stdenv.isDarwin [
-    # error: conflicting types for 'strmode'
-    "-DHAVE_STRMODE=1"
-    # Undefined symbols for architecture arm64: "_bsd_getopt"
-    "-include getopt.h"
-  ]);
+  env.NIX_CFLAGS_COMPILE = toString (
+    lib.optionals stdenv.isDarwin [
+      # error: conflicting types for 'strmode'
+      "-DHAVE_STRMODE=1"
+      # Undefined symbols for architecture arm64: "_bsd_getopt"
+      "-include getopt.h"
+    ]
+  );
 
   doInstallCheck = true;
 
@@ -67,7 +79,10 @@ stdenv.mkDerivation (finalAttrs: {
     '';
     homepage = "https://gameoftrees.org";
     license = lib.licenses.isc;
-    maintainers = with lib.maintainers; [ abbe afh ];
+    maintainers = with lib.maintainers; [
+      abbe
+      afh
+    ];
     mainProgram = "got";
     platforms = with lib.platforms; darwin ++ linux;
   };

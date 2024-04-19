@@ -1,25 +1,26 @@
-{ lib
-, stdenv
-, cmake
-, llvm
-, fetchFromGitHub
-, fetchpatch
-, mbedtls
-, gtk3
-, pkg-config
-, capstone
-, dbus
-, libGLU
-, glfw3
-, file
-, perl
-, python3
-, jansson
-, curl
-, fmt_8
-, nlohmann_json
-, yara
-, rsync
+{
+  lib,
+  stdenv,
+  cmake,
+  llvm,
+  fetchFromGitHub,
+  fetchpatch,
+  mbedtls,
+  gtk3,
+  pkg-config,
+  capstone,
+  dbus,
+  libGLU,
+  glfw3,
+  file,
+  perl,
+  python3,
+  jansson,
+  curl,
+  fmt_8,
+  nlohmann_json,
+  yara,
+  rsync,
 }:
 
 let
@@ -32,7 +33,6 @@ let
     rev = "ImHex-v${patterns_version}";
     hash = "sha256-5a6aFT8R8vMzPS+Y+fcDV5+olhioEpLjdMqa7qOyGsw=";
   };
-
 in
 stdenv.mkDerivation rec {
   pname = "imhex";
@@ -46,7 +46,14 @@ stdenv.mkDerivation rec {
     hash = "sha256-8Ehpk0TjE4itQ7D9Nx74plYwABVufuYmxfxyuSqak1c=";
   };
 
-  nativeBuildInputs = [ cmake llvm python3 perl pkg-config rsync ];
+  nativeBuildInputs = [
+    cmake
+    llvm
+    python3
+    perl
+    pkg-config
+    rsync
+  ];
 
   buildInputs = [
     capstone
@@ -83,7 +90,10 @@ stdenv.mkDerivation rec {
     description = "Hex Editor for Reverse Engineers, Programmers and people who value their retinas when working at 3 AM";
     homepage = "https://github.com/WerWolv/ImHex";
     license = with licenses; [ gpl2Only ];
-    maintainers = with maintainers; [ kashw2 cafkafk ];
+    maintainers = with maintainers; [
+      kashw2
+      cafkafk
+    ];
     platforms = platforms.linux;
   };
 }

@@ -1,7 +1,8 @@
-{ lib
-, fetchPypi
-, buildPythonPackage
-, pytestCheckHook
+{
+  lib,
+  fetchPypi,
+  buildPythonPackage,
+  pytestCheckHook,
 }:
 buildPythonPackage rec {
   pname = "gemfileparser";
@@ -13,19 +14,18 @@ buildPythonPackage rec {
     sha256 = "839592e49ea3fd985cec003ef58f8e77009a69ed7644a0c0acc94cf6dd9b8d6e";
   };
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "gemfileparser"
-  ];
+  pythonImportsCheck = [ "gemfileparser" ];
 
   meta = with lib; {
     description = "A library to parse Ruby Gemfile, .gemspec and Cocoapod .podspec file using Python";
     mainProgram = "parsegemfile";
     homepage = "https://github.com/gemfileparser/gemfileparser";
-    license = with licenses; [ gpl3Plus /* or */ mit ];
+    license = with licenses; [
+      gpl3Plus # or
+      mit
+    ];
     maintainers = [ ];
   };
 }

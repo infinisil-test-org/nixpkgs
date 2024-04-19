@@ -1,12 +1,13 @@
-{ lib
-, fetchFromGitHub
-, rustPlatform
-, cmake
-, openssl
-, pkg-config
-, stdenv
-, systemd
-, darwin
+{
+  lib,
+  fetchFromGitHub,
+  rustPlatform,
+  cmake,
+  openssl,
+  pkg-config,
+  stdenv,
+  systemd,
+  darwin,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -33,11 +34,14 @@ rustPlatform.buildRustPackage rec {
     };
   };
 
-  nativeBuildInputs = [ cmake pkg-config ];
+  nativeBuildInputs = [
+    cmake
+    pkg-config
+  ];
 
-  buildInputs = [ openssl ]
-    ++ lib.optionals stdenv.isLinux [ systemd ]
-    ++ lib.optionals stdenv.isDarwin [ darwin.Security ];
+  buildInputs = [
+    openssl
+  ] ++ lib.optionals stdenv.isLinux [ systemd ] ++ lib.optionals stdenv.isDarwin [ darwin.Security ];
 
   buildFeatures = [ "final" ];
 
@@ -48,7 +52,10 @@ rustPlatform.buildRustPackage rec {
 
   # Exclude some tests that don't work in the sandbox
   # - Nat test requires network access
-  checkFlags = [ "--skip" "configuration::tests::should_resolve_external_nat_hosts" ];
+  checkFlags = [
+    "--skip"
+    "configuration::tests::should_resolve_external_nat_hosts"
+  ];
 
   meta = with lib; {
     broken = stdenv.isDarwin;

@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, paho-mqtt
-, pandas
-, pycryptodome
-, pythonOlder
-, requests
-, xmltodict
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  paho-mqtt,
+  pandas,
+  pycryptodome,
+  pythonOlder,
+  requests,
+  xmltodict,
 }:
 
 buildPythonPackage rec {
@@ -34,9 +35,7 @@ buildPythonPackage rec {
   # Project has no tests. test_cam_rtsp.py is more a sample for using the module
   doCheck = false;
 
-  pythonImportsCheck = [
-    "pyezviz"
-  ];
+  pythonImportsCheck = [ "pyezviz" ];
 
   meta = with lib; {
     description = "Python interface for for Ezviz cameras";

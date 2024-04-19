@@ -1,25 +1,26 @@
-{ lib
-, aiohttp
-, aioresponses
-, aiosqlite
-, async-timeout
-, attrs
-, buildPythonPackage
-, crccheck
-, cryptography
-, fetchFromGitHub
-, freezegun
-, importlib-resources
-, jsonschema
-, pycryptodome
-, pyserial-asyncio
-, pytest-asyncio
-, pytest-timeout
-, pytestCheckHook
-, pythonOlder
-, setuptools
-, typing-extensions
-, voluptuous
+{
+  lib,
+  aiohttp,
+  aioresponses,
+  aiosqlite,
+  async-timeout,
+  attrs,
+  buildPythonPackage,
+  crccheck,
+  cryptography,
+  fetchFromGitHub,
+  freezegun,
+  importlib-resources,
+  jsonschema,
+  pycryptodome,
+  pyserial-asyncio,
+  pytest-asyncio,
+  pytest-timeout,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
+  typing-extensions,
+  voluptuous,
 }:
 
 buildPythonPackage rec {
@@ -42,26 +43,23 @@ buildPythonPackage rec {
       --replace-fail 'dynamic = ["version"]' 'version = "${version}"'
   '';
 
-  build-system = [
-    setuptools
-  ];
+  build-system = [ setuptools ];
 
-  dependencies = [
-    attrs
-    aiohttp
-    aiosqlite
-    crccheck
-    cryptography
-    jsonschema
-    pyserial-asyncio
-    typing-extensions
-    pycryptodome
-    voluptuous
-  ] ++ lib.optionals (pythonOlder "3.9") [
-    importlib-resources
-  ] ++ lib.optionals (pythonOlder "3.11") [
-    async-timeout
-  ];
+  dependencies =
+    [
+      attrs
+      aiohttp
+      aiosqlite
+      crccheck
+      cryptography
+      jsonschema
+      pyserial-asyncio
+      typing-extensions
+      pycryptodome
+      voluptuous
+    ]
+    ++ lib.optionals (pythonOlder "3.9") [ importlib-resources ]
+    ++ lib.optionals (pythonOlder "3.11") [ async-timeout ];
 
   nativeCheckInputs = [
     aioresponses

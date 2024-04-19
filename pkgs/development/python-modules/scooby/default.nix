@@ -1,14 +1,15 @@
-{ lib
-, beautifulsoup4
-, buildPythonPackage
-, fetchFromGitHub
-, numpy
-, pytest-console-scripts
-, pytestCheckHook
-, pythonOlder
-, pyvips
-, scipy
-, setuptools-scm
+{
+  lib,
+  beautifulsoup4,
+  buildPythonPackage,
+  fetchFromGitHub,
+  numpy,
+  pytest-console-scripts,
+  pytestCheckHook,
+  pythonOlder,
+  pyvips,
+  scipy,
+  setuptools-scm,
 }:
 
 buildPythonPackage rec {
@@ -25,9 +26,7 @@ buildPythonPackage rec {
     hash = "sha256-x6GPRo0OuXJtN41urviY0joZKzq0SQjUdRBpIylgcXY=";
   };
 
-  nativeBuildInputs = [
-    setuptools-scm
-  ];
+  nativeBuildInputs = [ setuptools-scm ];
 
   nativeCheckInputs = [
     beautifulsoup4
@@ -42,9 +41,7 @@ buildPythonPackage rec {
     export PATH="$PATH:$out/bin";
   '';
 
-  pythonImportsCheck = [
-    "scooby"
-  ];
+  pythonImportsCheck = [ "scooby" ];
 
   disabledTests = [
     # Tests have additions requirements (e.g., time and module)

@@ -1,18 +1,19 @@
-{ lib
-, buildPythonPackage
-, fastjsonschema
-, fetchFromGitHub
-, future-typing
-, inflection
-, orjson
-, pandas
-, pendulum
-, poetry-core
-, pydantic
-, pytestCheckHook
-, pythonOlder
-, sqlalchemy
-, ujson
+{
+  lib,
+  buildPythonPackage,
+  fastjsonschema,
+  fetchFromGitHub,
+  future-typing,
+  inflection,
+  orjson,
+  pandas,
+  pendulum,
+  poetry-core,
+  pydantic,
+  pytestCheckHook,
+  pythonOlder,
+  sqlalchemy,
+  ujson,
 }:
 
 buildPythonPackage rec {
@@ -29,9 +30,7 @@ buildPythonPackage rec {
     hash = "sha256-2t9Jhdy9NmYBNzdtjjgUnoK2RDEUsAvDkYMcBRzEcmI=";
   };
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
   propagatedBuildInputs = [
     fastjsonschema
@@ -63,9 +62,7 @@ buildPythonPackage rec {
     "tests/mypy/test_mypy.py"
   ];
 
-  pythonImportsCheck = [
-    "typic"
-  ];
+  pythonImportsCheck = [ "typic" ];
 
   meta = with lib; {
     description = "Python library for runtime analysis, inference and validation of Python types";

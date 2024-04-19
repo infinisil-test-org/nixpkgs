@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, dask
-, distributed
-, mpi4py
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  dask,
+  distributed,
+  mpi4py,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -28,9 +29,7 @@ buildPythonPackage rec {
   # Hardcoded mpirun path in tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "dask_mpi"
-  ];
+  pythonImportsCheck = [ "dask_mpi" ];
 
   meta = with lib; {
     description = "Deploy Dask using mpi4py";

@@ -1,16 +1,17 @@
-{ lib
-, fetchFromGitHub
-, fetchpatch
-, git
-, libiconv
-, ncurses
-, openssl
-, pkg-config
-, rustPlatform
-, sqlite
-, stdenv
-, Security
-, SystemConfiguration
+{
+  lib,
+  fetchFromGitHub,
+  fetchpatch,
+  git,
+  libiconv,
+  ncurses,
+  openssl,
+  pkg-config,
+  rustPlatform,
+  sqlite,
+  stdenv,
+  Security,
+  SystemConfiguration,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -41,15 +42,17 @@ rustPlatform.buildRustPackage rec {
 
   nativeBuildInputs = [ pkg-config ];
 
-  buildInputs = [
-    ncurses
-    openssl
-    sqlite
-  ] ++ lib.optionals stdenv.isDarwin [
-    Security
-    SystemConfiguration
-    libiconv
-  ];
+  buildInputs =
+    [
+      ncurses
+      openssl
+      sqlite
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      Security
+      SystemConfiguration
+      libiconv
+    ];
 
   postInstall = ''
     $out/bin/git-branchless install-man-pages $out/share/man
@@ -71,6 +74,10 @@ rustPlatform.buildRustPackage rec {
     homepage = "https://github.com/arxanas/git-branchless";
     license = licenses.gpl2Only;
     mainProgram = "git-branchless";
-    maintainers = with maintainers; [ msfjarvis nh2 hmenke ];
+    maintainers = with maintainers; [
+      msfjarvis
+      nh2
+      hmenke
+    ];
   };
 }

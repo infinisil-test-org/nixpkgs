@@ -1,10 +1,16 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
-let cfg = config.programs.xfconf;
-
-in {
+let
+  cfg = config.programs.xfconf;
+in
+{
   meta = {
     maintainers = teams.xfce.members;
   };
@@ -16,12 +22,8 @@ in {
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = [
-      pkgs.xfce.xfconf
-    ];
+    environment.systemPackages = [ pkgs.xfce.xfconf ];
 
-    services.dbus.packages = [
-      pkgs.xfce.xfconf
-    ];
+    services.dbus.packages = [ pkgs.xfce.xfconf ];
   };
 }

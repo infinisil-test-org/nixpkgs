@@ -1,11 +1,16 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.hyperv;
-
-in {
+in
+{
   options = {
     hyperv = {
       baseImageSize = mkOption {

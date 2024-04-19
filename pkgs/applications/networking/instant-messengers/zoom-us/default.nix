@@ -1,43 +1,44 @@
-{ stdenv
-, lib
-, fetchurl
-, pipewire
-, makeWrapper
-, xar
-, cpio
+{
+  stdenv,
+  lib,
+  fetchurl,
+  pipewire,
+  makeWrapper,
+  xar,
+  cpio,
   # Dynamic libraries
-, alsa-lib
-, atk
-, at-spi2-atk
-, at-spi2-core
-, cairo
-, cups
-, dbus
-, expat
-, libdrm
-, libGL
-, fontconfig
-, freetype
-, gtk3
-, gdk-pixbuf
-, glib
-, mesa
-, nspr
-, nss
-, pango
-, wayland
-, xorg
-, libxkbcommon
-, udev
-, zlib
-, libkrb5
+  alsa-lib,
+  atk,
+  at-spi2-atk,
+  at-spi2-core,
+  cairo,
+  cups,
+  dbus,
+  expat,
+  libdrm,
+  libGL,
+  fontconfig,
+  freetype,
+  gtk3,
+  gdk-pixbuf,
+  glib,
+  mesa,
+  nspr,
+  nss,
+  pango,
+  wayland,
+  xorg,
+  libxkbcommon,
+  udev,
+  zlib,
+  libkrb5,
   # Runtime
-, coreutils
-, pciutils
-, procps
-, util-linux
-, pulseaudioSupport ? true
-, libpulseaudio
+  coreutils,
+  pciutils,
+  procps,
+  util-linux,
+  pulseaudioSupport ? true,
+  libpulseaudio,
 }:
 
 let
@@ -68,50 +69,52 @@ let
     };
   };
 
-  libs = lib.makeLibraryPath ([
-    # $ LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH:$PWD ldd zoom | grep 'not found'
-    alsa-lib
-    atk
-    at-spi2-atk
-    at-spi2-core
-    cairo
-    cups
-    dbus
-    expat
-    libdrm
-    libGL
-    pipewire
-    fontconfig
-    freetype
-    gtk3
-    gdk-pixbuf
-    glib
-    mesa
-    nspr
-    nss
-    pango
-    stdenv.cc.cc
-    wayland
-    xorg.libX11
-    xorg.libxcb
-    xorg.libXcomposite
-    xorg.libXdamage
-    xorg.libXext
-    libxkbcommon
-    xorg.libXrandr
-    xorg.libXrender
-    xorg.libxshmfence
-    xorg.xcbutilimage
-    xorg.xcbutilkeysyms
-    xorg.xcbutilrenderutil
-    xorg.xcbutilwm
-    xorg.libXfixes
-    xorg.libXtst
-    udev
-    zlib
-    libkrb5
-  ] ++ lib.optional (pulseaudioSupport) libpulseaudio);
-
+  libs = lib.makeLibraryPath (
+    [
+      # $ LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH:$PWD ldd zoom | grep 'not found'
+      alsa-lib
+      atk
+      at-spi2-atk
+      at-spi2-core
+      cairo
+      cups
+      dbus
+      expat
+      libdrm
+      libGL
+      pipewire
+      fontconfig
+      freetype
+      gtk3
+      gdk-pixbuf
+      glib
+      mesa
+      nspr
+      nss
+      pango
+      stdenv.cc.cc
+      wayland
+      xorg.libX11
+      xorg.libxcb
+      xorg.libXcomposite
+      xorg.libXdamage
+      xorg.libXext
+      libxkbcommon
+      xorg.libXrandr
+      xorg.libXrender
+      xorg.libxshmfence
+      xorg.xcbutilimage
+      xorg.xcbutilkeysyms
+      xorg.xcbutilrenderutil
+      xorg.xcbutilwm
+      xorg.libXfixes
+      xorg.libXtst
+      udev
+      zlib
+      libkrb5
+    ]
+    ++ lib.optional (pulseaudioSupport) libpulseaudio
+  );
 in
 stdenv.mkDerivation rec {
   pname = "zoom";
@@ -125,29 +128,31 @@ stdenv.mkDerivation rec {
     zcat < zoomus.pkg/Payload | cpio -i
   '';
 
-  nativeBuildInputs = [
-    makeWrapper
-  ]
-  ++ lib.optionals stdenv.isDarwin [
-    xar
-    cpio
-  ];
+  nativeBuildInputs =
+    [ makeWrapper ]
+    ++ lib.optionals stdenv.isDarwin [
+      xar
+      cpio
+    ];
 
   installPhase = ''
     runHook preInstall
-    ${rec {
-      aarch64-darwin = ''
-        mkdir -p $out/Applications
-        cp -R zoom.us.app $out/Applications/
-      '';
-      # darwin steps same on both architectures
-      x86_64-darwin = aarch64-darwin;
-      x86_64-linux = ''
-        mkdir $out
-        tar -C $out -xf $src
-        mv $out/usr/* $out/
-      '';
-    }.${system} or throwSystem}
+    ${
+      rec {
+        aarch64-darwin = ''
+          mkdir -p $out/Applications
+          cp -R zoom.us.app $out/Applications/
+        '';
+        # darwin steps same on both architectures
+        x86_64-darwin = aarch64-darwin;
+        x86_64-linux = ''
+          mkdir $out
+          tar -C $out -xf $src
+          mv $out/usr/* $out/
+        '';
+      }
+      .${system} or throwSystem
+    }
     runHook postInstall
   '';
 
@@ -176,7 +181,15 @@ stdenv.mkDerivation rec {
       --unset QML2_IMPORT_PATH \
       --unset QT_PLUGIN_PATH \
       --unset QT_SCREEN_SCALE_FACTORS \
-      --prefix PATH : ${lib.makeBinPath [ coreutils glib.dev pciutils procps util-linux ]} \
+      --prefix PATH : ${
+        lib.makeBinPath [
+          coreutils
+          glib.dev
+          pciutils
+          procps
+          util-linux
+        ]
+      } \
       --prefix LD_LIBRARY_PATH ":" ${libs}
 
     # Backwards compatiblity: we used to call it zoom-us
@@ -194,7 +207,10 @@ stdenv.mkDerivation rec {
     sourceProvenance = with sourceTypes; [ binaryNativeCode ];
     license = licenses.unfree;
     platforms = builtins.attrNames srcs;
-    maintainers = with maintainers; [ danbst tadfisher ];
+    maintainers = with maintainers; [
+      danbst
+      tadfisher
+    ];
     mainProgram = "zoom";
   };
 }

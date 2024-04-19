@@ -1,11 +1,12 @@
-{ lib
-, python3
-, fetchPypi
-, groff
-, less
-, nix-update-script
-, testers
-, awscli
+{
+  lib,
+  python3,
+  fetchPypi,
+  groff,
+  less,
+  nix-update-script,
+  testers,
+  awscli,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -18,9 +19,7 @@ python3.pkgs.buildPythonApplication rec {
     hash = "sha256-dffY/BKsQ7vztW2sGn+WaZB0fXnqwwVjA4nkVwRZ1js=";
   };
 
-  nativeBuildInputs = [
-    python3.pkgs.pythonRelaxDepsHook
-  ];
+  nativeBuildInputs = [ python3.pkgs.pythonRelaxDepsHook ];
 
   pythonRelaxDeps = [
     "colorama"
@@ -28,9 +27,7 @@ python3.pkgs.buildPythonApplication rec {
     "rsa"
   ];
 
-  build-system = [
-    python3.pkgs.setuptools
-  ];
+  build-system = [ python3.pkgs.setuptools ];
 
   propagatedBuildInputs = with python3.pkgs; [
     botocore
@@ -68,7 +65,10 @@ python3.pkgs.buildPythonApplication rec {
     python = python3; # for aws_shell
     updateScript = nix-update-script {
       # Excludes 1.x versions from the Github tags list
-      extraArgs = [ "--version-regex" "^(1\.(.*))" ];
+      extraArgs = [
+        "--version-regex"
+        "^(1\.(.*))"
+      ];
     };
     tests.version = testers.testVersion {
       package = awscli;

@@ -1,11 +1,12 @@
-{ buildPythonPackage
-, cffi
-, fetchFromGitHub
-, lib
-, postgresql
-, postgresqlTestHook
-, pytestCheckHook
-, six
+{
+  buildPythonPackage,
+  cffi,
+  fetchFromGitHub,
+  lib,
+  postgresql,
+  postgresqlTestHook,
+  pytestCheckHook,
+  six,
 }:
 
 buildPythonPackage rec {
@@ -31,9 +32,15 @@ buildPythonPackage rec {
 
   nativeBuildInputs = [ postgresql ];
 
-  propagatedBuildInputs = [ six cffi ];
+  propagatedBuildInputs = [
+    six
+    cffi
+  ];
 
-  nativeCheckInputs = [ postgresqlTestHook pytestCheckHook ];
+  nativeCheckInputs = [
+    postgresqlTestHook
+    pytestCheckHook
+  ];
 
   disabledTests = [
     # AssertionError: '{}' != []

@@ -1,4 +1,8 @@
-{ stdenv, lib, fetchFromGitHub }:
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+}:
 
 stdenv.mkDerivation rec {
   pname = "analog";
@@ -35,5 +39,4 @@ stdenv.mkDerivation rec {
     platforms = lib.platforms.all;
     mainProgram = "analog";
   };
-
 }

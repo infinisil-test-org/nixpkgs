@@ -1,9 +1,18 @@
-{ lib, stdenv, fetchurl, pkg-config, libsndfile, ApplicationServices, Carbon, CoreServices }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  pkg-config,
+  libsndfile,
+  ApplicationServices,
+  Carbon,
+  CoreServices,
+}:
 
 let
   inherit (lib) optionals optionalString;
-
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "libsamplerate";
   version = "0.1.9";
 
@@ -13,12 +22,20 @@ in stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ pkg-config ];
-  buildInputs = [ libsndfile ]
-    ++ optionals stdenv.isDarwin [ ApplicationServices CoreServices ];
+  buildInputs =
+    [ libsndfile ]
+    ++ optionals stdenv.isDarwin [
+      ApplicationServices
+      CoreServices
+    ];
 
   configureFlags = [ "--disable-fftw" ];
 
-  outputs = [ "bin" "dev" "out" ];
+  outputs = [
+    "bin"
+    "dev"
+    "out"
+  ];
 
   postConfigure = optionalString stdenv.isDarwin ''
     # need headers from the Carbon.framework in /System/Library/Frameworks to
@@ -31,9 +48,9 @@ in stdenv.mkDerivation rec {
   meta = with lib; {
     description = "Sample Rate Converter for audio";
     mainProgram = "sndfile-resample";
-    homepage    = "http://www.mega-nerd.com/SRC/index.html";
-    license     = licenses.bsd2;
+    homepage = "http://www.mega-nerd.com/SRC/index.html";
+    license = licenses.bsd2;
     maintainers = with maintainers; [ lovek323 ];
-    platforms   = platforms.all;
+    platforms = platforms.all;
   };
 }

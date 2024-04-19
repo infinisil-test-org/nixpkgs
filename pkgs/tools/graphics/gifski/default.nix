@@ -1,8 +1,9 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, pkg-config
-, ffmpeg
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  pkg-config,
+  ffmpeg,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -28,9 +29,7 @@ rustPlatform.buildRustPackage rec {
     rustPlatform.bindgenHook
   ];
 
-  buildInputs = [
-    ffmpeg
-  ];
+  buildInputs = [ ffmpeg ];
 
   buildFeatures = [ "video" ];
 
@@ -54,7 +53,10 @@ rustPlatform.buildRustPackage rec {
     homepage = "https://gif.ski/";
     changelog = "https://github.com/ImageOptim/gifski/releases/tag/${src.rev}";
     license = licenses.agpl3Plus;
-    maintainers = with maintainers; [ figsoda marsam ];
+    maintainers = with maintainers; [
+      figsoda
+      marsam
+    ];
     mainProgram = "gifski";
   };
 }

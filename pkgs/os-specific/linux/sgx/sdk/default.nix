@@ -1,28 +1,29 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchpatch
-, autoconf
-, automake
-, binutils
-, callPackage
-, cmake
-, file
-, gdb
-, git
-, libtool
-, linkFarmFromDrvs
-, ocaml
-, ocamlPackages
-, openssl
-, perl
-, python3
-, texinfo
-, validatePkgConfig
-, writeShellApplication
-, writeShellScript
-, writeText
-, debug ? false
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  autoconf,
+  automake,
+  binutils,
+  callPackage,
+  cmake,
+  file,
+  gdb,
+  git,
+  libtool,
+  linkFarmFromDrvs,
+  ocaml,
+  ocamlPackages,
+  openssl,
+  perl,
+  python3,
+  texinfo,
+  validatePkgConfig,
+  writeShellApplication,
+  writeShellScript,
+  writeText,
+  debug ? false,
 }:
 stdenv.mkDerivation rec {
   pname = "sgx-sdk";
@@ -150,11 +151,7 @@ stdenv.mkDerivation rec {
       popd
     '';
 
-  buildFlags = [
-    "sdk_install_pkg"
-  ] ++ lib.optionals debug [
-    "DEBUG=1"
-  ];
+  buildFlags = [ "sdk_install_pkg" ] ++ lib.optionals debug [ "DEBUG=1" ];
 
   postBuild = ''
     patchShebangs linux/installer/bin/sgx_linux_x64_sdk_${version}.bin
@@ -300,7 +297,11 @@ stdenv.mkDerivation rec {
   meta = with lib; {
     description = "Intel SGX SDK for Linux built with IPP Crypto Library";
     homepage = "https://github.com/intel/linux-sgx";
-    maintainers = with maintainers; [ sbellem arturcygan veehaitch ];
+    maintainers = with maintainers; [
+      sbellem
+      arturcygan
+      veehaitch
+    ];
     platforms = [ "x86_64-linux" ];
     license = with licenses; [ bsd3 ];
   };

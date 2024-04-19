@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pytestCheckHook
-, six
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pytestCheckHook,
+  six,
 }:
 
 buildPythonPackage rec {
@@ -15,21 +16,16 @@ buildPythonPackage rec {
     hash = "sha256-lgy2mfEgnagKw546tQqnNC/oyp9wYGwjRHpRBVBDXlA=";
   };
 
-  propagatedBuildInputs = [
-    six
-  ];
+  propagatedBuildInputs = [ six ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   pytestFlagsArray = [
-    "-W" "ignore::pytest.PytestRemovedIn8Warning"
+    "-W"
+    "ignore::pytest.PytestRemovedIn8Warning"
   ];
 
-  pythonImportsCheck = [
-    "nocasedict"
-  ];
+  pythonImportsCheck = [ "nocasedict" ];
 
   meta = with lib; {
     description = "A case-insensitive ordered dictionary for Python";

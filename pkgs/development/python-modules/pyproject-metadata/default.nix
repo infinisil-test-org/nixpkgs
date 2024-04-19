@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, packaging
-, pytestCheckHook
-, pythonOlder
-, setuptools
-, tomli
-, wheel
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  packaging,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
+  tomli,
+  wheel,
 }:
 
 buildPythonPackage rec {
@@ -26,22 +27,14 @@ buildPythonPackage rec {
     wheel
   ];
 
-  propagatedBuildInputs = [
-    packaging
-  ];
+  propagatedBuildInputs = [ packaging ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ] ++ lib.optionals (pythonOlder "3.11") [
-    tomli
-  ];
+  nativeCheckInputs = [ pytestCheckHook ] ++ lib.optionals (pythonOlder "3.11") [ tomli ];
 
   # Many broken tests, and missing test files
   doCheck = false;
 
-  pythonImportsCheck = [
-    "pyproject_metadata"
-  ];
+  pythonImportsCheck = [ "pyproject_metadata" ];
 
   meta = with lib; {
     description = "PEP 621 metadata parsing";

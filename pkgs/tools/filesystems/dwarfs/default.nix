@@ -1,27 +1,28 @@
-{ lib
-, fetchFromGitHub
-, stdenv
-, substituteAll
+{
+  lib,
+  fetchFromGitHub,
+  stdenv,
+  substituteAll,
 
-, bison
-, boost
-, cmake
-, double-conversion
-, fmt
-, fuse3
-, glog
-, gtest
-, jemalloc
-, libarchive
-, libevent
-, libunwind
-, lz4
-, openssl
-, pkg-config
-, ronn
-, xxHash
-, utf8cpp
-, zstd
+  bison,
+  boost,
+  cmake,
+  double-conversion,
+  fmt,
+  fuse3,
+  glog,
+  gtest,
+  jemalloc,
+  libarchive,
+  libevent,
+  libunwind,
+  lz4,
+  openssl,
+  pkg-config,
+  ronn,
+  xxHash,
+  utf8cpp,
+  zstd,
 }:
 
 stdenv.mkDerivation rec {
@@ -37,14 +38,17 @@ stdenv.mkDerivation rec {
   };
 
   patches = [
-    (with lib.versions; substituteAll {
-      src = ./version_info.patch;
+    (
+      with lib.versions;
+      substituteAll {
+        src = ./version_info.patch;
 
-      versionFull = version; # displayed as version number (with v prepended)
-      versionMajor = major version;
-      versionMinor = minor version;
-      versionPatch = patch version;
-    })
+        versionFull = version; # displayed as version number (with v prepended)
+        versionMajor = major version;
+        versionMinor = minor version;
+        versionPatch = patch version;
+      }
+    )
   ];
 
   cmakeFlags = [

@@ -1,26 +1,35 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
 let
 
   cfg = config.programs._1password;
-
 in
 {
   imports = [
-    (mkRemovedOptionModule [ "programs" "_1password" "gid" ] ''
-      A preallocated GID will be used instead.
-    '')
+    (mkRemovedOptionModule
+      [
+        "programs"
+        "_1password"
+        "gid"
+      ]
+      ''
+        A preallocated GID will be used instead.
+      ''
+    )
   ];
 
   options = {
     programs._1password = {
       enable = mkEnableOption "the 1Password CLI tool";
 
-      package = mkPackageOption pkgs "1Password CLI" {
-        default = [ "_1password" ];
-      };
+      package = mkPackageOption pkgs "1Password CLI" { default = [ "_1password" ]; };
     };
   };
 

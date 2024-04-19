@@ -65,5 +65,4 @@ with lib;
 
     glxinfo
   ];
-
 }

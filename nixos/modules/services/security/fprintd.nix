@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -6,9 +11,7 @@ let
 
   cfg = config.services.fprintd;
   fprintdPkg = if cfg.tod.enable then pkgs.fprintd-tod else pkgs.fprintd;
-
 in
-
 
 {
 
@@ -44,7 +47,6 @@ in
     };
   };
 
-
   ###### implementation
 
   config = mkIf cfg.enable {
@@ -58,7 +60,5 @@ in
     systemd.services.fprintd.environment = mkIf cfg.tod.enable {
       FP_TOD_DRIVERS_DIR = "${cfg.tod.driver}${cfg.tod.driver.driverPath}";
     };
-
   };
-
 }

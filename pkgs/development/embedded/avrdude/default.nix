@@ -1,7 +1,22 @@
-{ lib, stdenv, fetchFromGitHub, cmake, bison, flex, libusb-compat-0_1, libelf
-, libftdi1, readline, libserialport
-# documentation building is broken on darwin
-, docSupport ? (!stdenv.isDarwin), texliveMedium, texinfo, texi2html, unixtools }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  bison,
+  flex,
+  libusb-compat-0_1,
+  libelf,
+  libftdi1,
+  readline,
+  libserialport,
+  # documentation building is broken on darwin
+  docSupport ? (!stdenv.isDarwin),
+  texliveMedium,
+  texinfo,
+  texi2html,
+  unixtools,
+}:
 
 stdenv.mkDerivation rec {
   pname = "avrdude";
@@ -14,18 +29,28 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-JqW3AOMmAfcy+PQRcqviWlxA6GoMSEfzIFt1pRYY7Dw=";
   };
 
-  nativeBuildInputs = [ cmake bison flex ] ++ lib.optionals docSupport [
-    unixtools.more
-    texliveMedium
-    texinfo
-    texi2html
+  nativeBuildInputs =
+    [
+      cmake
+      bison
+      flex
+    ]
+    ++ lib.optionals docSupport [
+      unixtools.more
+      texliveMedium
+      texinfo
+      texi2html
+    ];
+
+  buildInputs = [
+    libusb-compat-0_1
+    libelf
+    libftdi1
+    libserialport
+    readline
   ];
 
-  buildInputs = [ libusb-compat-0_1 libelf libftdi1 libserialport readline ];
-
-  cmakeFlags = lib.optionals docSupport [
-    "-DBUILD_DOC=ON"
-  ];
+  cmakeFlags = lib.optionals docSupport [ "-DBUILD_DOC=ON" ];
 
   # dvips output references texlive in comments, resulting in a huge closure
   postInstall = lib.optionalString docSupport ''

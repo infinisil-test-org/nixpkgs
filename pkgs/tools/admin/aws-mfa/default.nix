@@ -1,8 +1,9 @@
-{ lib
-, buildPythonApplication
-, fetchFromGitHub
-, fetchpatch
-, boto3
+{
+  lib,
+  buildPythonApplication,
+  fetchFromGitHub,
+  fetchpatch,
+  boto3,
 }:
 
 buildPythonApplication rec {
@@ -26,16 +27,12 @@ buildPythonApplication rec {
     })
   ];
 
-  propagatedBuildInputs = [
-    boto3
-  ];
+  propagatedBuildInputs = [ boto3 ];
 
   # package has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "awsmfa"
-  ];
+  pythonImportsCheck = [ "awsmfa" ];
 
   meta = with lib; {
     description = "Manage AWS MFA Security Credentials";

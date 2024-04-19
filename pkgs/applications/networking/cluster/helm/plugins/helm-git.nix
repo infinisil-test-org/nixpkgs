@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, coreutils
-, findutils
-, git
-, gnugrep
-, gnused
-, makeWrapper
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  coreutils,
+  findutils,
+  git,
+  gnugrep,
+  gnused,
+  makeWrapper,
 }:
 
 stdenv.mkDerivation rec {
@@ -32,7 +33,15 @@ stdenv.mkDerivation rec {
 
     patchShebangs $out/helm-git/helm-git{,-plugin.sh}
     wrapProgram $out/helm-git/helm-git \
-        --prefix PATH : ${lib.makeBinPath [ coreutils findutils git gnugrep gnused ]}
+        --prefix PATH : ${
+          lib.makeBinPath [
+            coreutils
+            findutils
+            git
+            gnugrep
+            gnused
+          ]
+        }
 
     runHook postInstall
   '';

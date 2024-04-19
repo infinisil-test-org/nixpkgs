@@ -1,21 +1,22 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, makeWrapper
-, makeDesktopItem
-, fixup_yarn_lock
-, yarn
-, nodejs_18
-, python3
-, fetchYarnDeps
-, electron
-, desktopToDarwinBundle
-, nest-cli
-, libsass
-, buildPackages
-, pkg-config
-, sqlite
-, xdg-utils
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  makeWrapper,
+  makeDesktopItem,
+  fixup_yarn_lock,
+  yarn,
+  nodejs_18,
+  python3,
+  fetchYarnDeps,
+  electron,
+  desktopToDarwinBundle,
+  nest-cli,
+  libsass,
+  buildPackages,
+  pkg-config,
+  sqlite,
+  xdg-utils,
 }:
 let
   nodejs = nodejs_18;
@@ -46,10 +47,21 @@ stdenv.mkDerivation (finalAttrs: {
     sha256 = "P99+1Dhdg/vznC2KepPrVGNlrofJFydXkZVxgwprIx4=";
   };
 
-  nativeBuildInputs = [ yarn fixup_yarn_lock nodejs makeWrapper python3 nest-cli libsass pkg-config ]
-    ++ lib.optionals stdenv.isDarwin [ desktopToDarwinBundle ];
+  nativeBuildInputs = [
+    yarn
+    fixup_yarn_lock
+    nodejs
+    makeWrapper
+    python3
+    nest-cli
+    libsass
+    pkg-config
+  ] ++ lib.optionals stdenv.isDarwin [ desktopToDarwinBundle ];
 
-  buildInputs = [ sqlite xdg-utils ];
+  buildInputs = [
+    sqlite
+    xdg-utils
+  ];
 
   configurePhase = ''
     runHook preConfigure
@@ -98,7 +110,9 @@ stdenv.mkDerivation (finalAttrs: {
     yarn --offline build:prod
 
     yarn --offline electron-builder \
-      --dir ${if stdenv.isDarwin then "--macos" else "--linux"} ${if stdenv.hostPlatform.isAarch64 then "--arm64" else "--x64"} \
+      --dir ${if stdenv.isDarwin then "--macos" else "--linux"} ${
+        if stdenv.hostPlatform.isAarch64 then "--arm64" else "--x64"
+      } \
       -c.electronDist=${electron}/libexec/electron \
       -c.electronVersion=${electron.version}
 
@@ -113,7 +127,9 @@ stdenv.mkDerivation (finalAttrs: {
     mkdir -p "$out/share/redisinsight/static/resources/plugins"
     mkdir -p "$out/share/redisinsight/default"
 
-    cp -r release/${if stdenv.isDarwin then "darwin-" else "linux-"}${lib.optionalString stdenv.hostPlatform.isAarch64 "arm64-"}unpacked/resources/{app.asar,app.asar.unpacked} $out/share/redisinsight/
+    cp -r release/${
+      if stdenv.isDarwin then "darwin-" else "linux-"
+    }${lib.optionalString stdenv.hostPlatform.isAarch64 "arm64-"}unpacked/resources/{app.asar,app.asar.unpacked} $out/share/redisinsight/
     cp -r resources/ $out/share/redisinsight
 
     # icons

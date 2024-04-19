@@ -1,22 +1,22 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, stripJavaArchivesHook
-, cmake
-, cmark
-, Cocoa
-, ninja
-, jdk17
-, zlib
-, qtbase
-, quazip
-, extra-cmake-modules
-, tomlplusplus
-, ghc_filesystem
-, gamemode
-, msaClientID ? null
-, gamemodeSupport ? stdenv.isLinux
-,
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  stripJavaArchivesHook,
+  cmake,
+  cmark,
+  Cocoa,
+  ninja,
+  jdk17,
+  zlib,
+  qtbase,
+  quazip,
+  extra-cmake-modules,
+  tomlplusplus,
+  ghc_filesystem,
+  gamemode,
+  msaClientID ? null,
+  gamemodeSupport ? stdenv.isLinux,
 }:
 let
   libnbtplusplus = fetchFromGitHub {
@@ -27,7 +27,9 @@ let
   };
 in
 
-assert lib.assertMsg (stdenv.isLinux || !gamemodeSupport) "gamemodeSupport is only available on Linux";
+assert lib.assertMsg (
+  stdenv.isLinux || !gamemodeSupport
+) "gamemodeSupport is only available on Linux";
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "prismlauncher-unwrapped";
@@ -40,27 +42,35 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-4VsoxZzi/EfEsnDvvwzg2xhj7j5B+k3gvaSqwJFDweE=";
   };
 
-  nativeBuildInputs = [ extra-cmake-modules cmake jdk17 ninja stripJavaArchivesHook ];
-  buildInputs =
-    [
-      qtbase
-      zlib
-      quazip
-      ghc_filesystem
-      tomlplusplus
-      cmark
-    ]
-    ++ lib.optional gamemodeSupport gamemode
-    ++ lib.optionals stdenv.isDarwin [ Cocoa ];
+  nativeBuildInputs = [
+    extra-cmake-modules
+    cmake
+    jdk17
+    ninja
+    stripJavaArchivesHook
+  ];
+  buildInputs = [
+    qtbase
+    zlib
+    quazip
+    ghc_filesystem
+    tomlplusplus
+    cmark
+  ] ++ lib.optional gamemodeSupport gamemode ++ lib.optionals stdenv.isDarwin [ Cocoa ];
 
   hardeningEnable = lib.optionals stdenv.isLinux [ "pie" ];
 
-  cmakeFlags = [
-    # downstream branding
-    "-DLauncher_BUILD_PLATFORM=nixpkgs"
-  ] ++ lib.optionals (msaClientID != null) [ "-DLauncher_MSA_CLIENT_ID=${msaClientID}" ]
-  ++ lib.optionals (lib.versionOlder qtbase.version "6") [ "-DLauncher_QT_VERSION_MAJOR=5" ]
-  ++ lib.optionals stdenv.isDarwin [ "-DINSTALL_BUNDLE=nodeps" "-DMACOSX_SPARKLE_UPDATE_FEED_URL=''" ];
+  cmakeFlags =
+    [
+      # downstream branding
+      "-DLauncher_BUILD_PLATFORM=nixpkgs"
+    ]
+    ++ lib.optionals (msaClientID != null) [ "-DLauncher_MSA_CLIENT_ID=${msaClientID}" ]
+    ++ lib.optionals (lib.versionOlder qtbase.version "6") [ "-DLauncher_QT_VERSION_MAJOR=5" ]
+    ++ lib.optionals stdenv.isDarwin [
+      "-DINSTALL_BUNDLE=nodeps"
+      "-DMACOSX_SPARKLE_UPDATE_FEED_URL=''"
+    ];
 
   postUnpack = ''
     rm -rf source/libraries/libnbtplusplus
@@ -81,6 +91,10 @@ stdenv.mkDerivation (finalAttrs: {
     platforms = with lib.platforms; linux ++ darwin;
     changelog = "https://github.com/PrismLauncher/PrismLauncher/releases/tag/${finalAttrs.version}";
     license = lib.licenses.gpl3Only;
-    maintainers = with lib.maintainers; [ minion3665 Scrumplex getchoo ];
+    maintainers = with lib.maintainers; [
+      minion3665
+      Scrumplex
+      getchoo
+    ];
   };
 })

@@ -1,5 +1,10 @@
-{ lib, fetchFromGitHub, buildGoPackage
-, makeWrapper, nix-prefetch-scripts }:
+{
+  lib,
+  fetchFromGitHub,
+  buildGoPackage,
+  makeWrapper,
+  nix-prefetch-scripts,
+}:
 
 buildGoPackage rec {
   pname = "dep2nix";
@@ -14,9 +19,7 @@ buildGoPackage rec {
     sha256 = "17sjxhzhmz4893x3x054anp4xvqd1px15nv3fj2m7i6r0vbgpm0j";
   };
 
-  nativeBuildInputs = [
-    makeWrapper
-  ];
+  nativeBuildInputs = [ makeWrapper ];
 
   postFixup = ''
     wrapProgram $out/bin/dep2nix \

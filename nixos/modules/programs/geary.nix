@@ -1,11 +1,16 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.programs.geary;
-
-in {
+in
+{
   meta = {
     maintainers = teams.gnome.members;
   };
@@ -21,4 +26,3 @@ in {
     services.gnome.gnome-online-accounts.enable = true;
   };
 }
-

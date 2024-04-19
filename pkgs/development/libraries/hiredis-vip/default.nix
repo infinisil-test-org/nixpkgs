@@ -1,6 +1,7 @@
-{ stdenv
-, lib
-, fetchFromGitHub
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
 }:
 
 stdenv.mkDerivation rec {
@@ -21,5 +22,4 @@ stdenv.mkDerivation rec {
     homepage = "https://github.com/vipshop/hiredis-vip";
     license = lib.licenses.bsd3;
   };
-
 }

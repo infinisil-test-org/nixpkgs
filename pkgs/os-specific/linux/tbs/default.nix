@@ -1,4 +1,12 @@
-{ stdenv, lib, fetchFromGitHub, kernel, kmod, patchutils, perlPackages }:
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  kernel,
+  kmod,
+  patchutils,
+  perlPackages,
+}:
 let
 
   media = fetchFromGitHub rec {
@@ -16,13 +24,15 @@ let
     rev = "88764363a3e3d36b3c59a0a2bf2244e262035d47";
     hash = "sha256-LFTxYVPudflxqYTSBIDNkTrGs09MOuYBXwpGYqWfEFQ=";
   };
-
 in
 stdenv.mkDerivation {
   pname = "tbs";
   version = "20231210-${kernel.version}";
 
-  srcs = [ media build ];
+  srcs = [
+    media
+    build
+  ];
   sourceRoot = build.name;
 
   # https://github.com/tbsdtv/linux_media/wiki
@@ -53,8 +63,11 @@ stdenv.mkDerivation {
 
   hardeningDisable = [ "pic" ];
 
-  nativeBuildInputs = [ patchutils kmod perlPackages.ProcProcessTable ]
-    ++ kernel.moduleBuildDependencies;
+  nativeBuildInputs = [
+    patchutils
+    kmod
+    perlPackages.ProcProcessTable
+  ] ++ kernel.moduleBuildDependencies;
 
   postInstall = ''
     find $out/lib/modules/${kernel.modDirVersion} -name "*.ko" -exec xz {} \;

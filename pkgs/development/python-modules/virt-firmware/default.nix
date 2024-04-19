@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, setuptools
-, cryptography
-, pytestCheckHook
-, pefile
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  setuptools,
+  cryptography,
+  pytestCheckHook,
+  pefile,
 }:
 
 buildPythonPackage rec {
@@ -20,14 +21,10 @@ buildPythonPackage rec {
 
   pythonImportsCheck = [ "virt.firmware.efi" ];
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
-  pytestFlagsArray = ["tests/tests.py"];
+  nativeCheckInputs = [ pytestCheckHook ];
+  pytestFlagsArray = [ "tests/tests.py" ];
 
   propagatedBuildInputs = [
     setuptools
@@ -39,6 +36,9 @@ buildPythonPackage rec {
     description = "Tools for virtual machine firmware volumes";
     homepage = "https://gitlab.com/kraxel/virt-firmware";
     license = licenses.gpl2;
-    maintainers = with maintainers; [ lheckemann raitobezarius ];
+    maintainers = with maintainers; [
+      lheckemann
+      raitobezarius
+    ];
   };
 }

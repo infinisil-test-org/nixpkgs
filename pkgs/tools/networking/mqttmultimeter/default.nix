@@ -1,15 +1,16 @@
-{ lib
-, stdenv
-, dotnetCorePackages
-, dotnet-runtime_8
-, buildDotnetModule
-, fetchFromGitHub
-, autoPatchelfHook
-, fontconfig
-, xorg
-, libglvnd
-, makeDesktopItem
-, copyDesktopItems
+{
+  lib,
+  stdenv,
+  dotnetCorePackages,
+  dotnet-runtime_8,
+  buildDotnetModule,
+  fetchFromGitHub,
+  autoPatchelfHook,
+  fontconfig,
+  xorg,
+  libglvnd,
+  makeDesktopItem,
+  copyDesktopItems,
 }:
 
 # NOTES:
@@ -39,7 +40,10 @@ buildDotnetModule rec {
     copyDesktopItems
   ];
 
-  buildInputs = [ stdenv.cc.cc.lib fontconfig ];
+  buildInputs = [
+    stdenv.cc.cc.lib
+    fontconfig
+  ];
 
   # don't care about musl and windows versions, as they fail autoPatchelfHook
   postInstall = ''

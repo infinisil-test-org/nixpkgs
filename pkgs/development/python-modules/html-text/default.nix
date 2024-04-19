@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, lxml
-, six
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  lxml,
+  six,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -18,9 +19,7 @@ buildPythonPackage rec {
     hash = "sha256-jw/hpz0QfcgP5OEJcmre0h1OzOfpPtaROxHm+YUqces=";
   };
 
-  propagatedBuildInputs = [
-    lxml
-  ];
+  propagatedBuildInputs = [ lxml ];
 
   nativeCheckInputs = [
     pytestCheckHook

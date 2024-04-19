@@ -1,77 +1,84 @@
-{ stdenv
-, lib
-, fetchurl
-, autoPatchelfHook
-, wrapGAppsHook
-, flac
-, gnome2
-, harfbuzzFull
-, nss
-, snappy
-, xdg-utils
-, xorg
-, alsa-lib
-, atk
-, cairo
-, cups
-, curl
-, dbus
-, expat
-, fontconfig
-, freetype
-, gdk-pixbuf
-, glib
-, gtk3
-, libX11
-, libxcb
-, libXScrnSaver
-, libXcomposite
-, libXcursor
-, libXdamage
-, libXext
-, libXfixes
-, libXi
-, libXrandr
-, libXrender
-, libXtst
-, libdrm
-, libnotify
-, libopus
-, libpulseaudio
-, libuuid
-, libxshmfence
-, mesa
-, nspr
-, pango
-, systemd
-, at-spi2-atk
-, at-spi2-core
-, libqt5pas
-, qt6
-, vivaldi-ffmpeg-codecs
-, edition ? "stable"
+{
+  stdenv,
+  lib,
+  fetchurl,
+  autoPatchelfHook,
+  wrapGAppsHook,
+  flac,
+  gnome2,
+  harfbuzzFull,
+  nss,
+  snappy,
+  xdg-utils,
+  xorg,
+  alsa-lib,
+  atk,
+  cairo,
+  cups,
+  curl,
+  dbus,
+  expat,
+  fontconfig,
+  freetype,
+  gdk-pixbuf,
+  glib,
+  gtk3,
+  libX11,
+  libxcb,
+  libXScrnSaver,
+  libXcomposite,
+  libXcursor,
+  libXdamage,
+  libXext,
+  libXfixes,
+  libXi,
+  libXrandr,
+  libXrender,
+  libXtst,
+  libdrm,
+  libnotify,
+  libopus,
+  libpulseaudio,
+  libuuid,
+  libxshmfence,
+  mesa,
+  nspr,
+  pango,
+  systemd,
+  at-spi2-atk,
+  at-spi2-core,
+  libqt5pas,
+  qt6,
+  vivaldi-ffmpeg-codecs,
+  edition ? "stable",
 }:
 
 let
-  version = {
-    corporate = "23.11.1.822-1";
-    beta = "24.1.1.939-1";
-    stable = "24.1.1.940-1";
-  }.${edition};
+  version =
+    {
+      corporate = "23.11.1.822-1";
+      beta = "24.1.1.939-1";
+      stable = "24.1.1.940-1";
+    }
+    .${edition};
 
-  hash = {
-    corporate = "sha256-OOcz2dQeVea0vBjF1FyrCsnRR+WrCzfLTd+YXpLJCsI=";
-    beta = "sha256-Meswp1aeNTBr79l7XGWqJT9qqUdOfSzIpdL1L29UfJw=";
-    stable = "sha256-FZHoCRedpHHVwibSXts2DncUN83PZ9UlVOSXPjgAaNs=";
-  }.${edition};
+  hash =
+    {
+      corporate = "sha256-OOcz2dQeVea0vBjF1FyrCsnRR+WrCzfLTd+YXpLJCsI=";
+      beta = "sha256-Meswp1aeNTBr79l7XGWqJT9qqUdOfSzIpdL1L29UfJw=";
+      stable = "sha256-FZHoCRedpHHVwibSXts2DncUN83PZ9UlVOSXPjgAaNs=";
+    }
+    .${edition};
 
-  app = {
-    corporate = "";
-    beta = "-beta";
-    stable = "";
-  }.${edition};
-
-in stdenv.mkDerivation rec {
+  app =
+    {
+      corporate = "";
+      beta = "-beta";
+      stable = "";
+    }
+    .${edition};
+in
+stdenv.mkDerivation rec {
   pname = "yandex-browser-${edition}";
   inherit version;
 
@@ -151,19 +158,24 @@ in stdenv.mkDerivation rec {
     ln -sf $out/opt/yandex/browser${app}/yandex-browser${app} $out/bin/${pname}
   '';
 
-  runtimeDependencies = map lib.getLib [
-    libpulseaudio
-    curl
-    systemd
-    vivaldi-ffmpeg-codecs
-  ] ++ buildInputs;
+  runtimeDependencies =
+    map lib.getLib [
+      libpulseaudio
+      curl
+      systemd
+      vivaldi-ffmpeg-codecs
+    ]
+    ++ buildInputs;
 
   meta = with lib; {
     description = "Yandex Web Browser";
     homepage = "https://browser.yandex.ru/";
     license = licenses.unfree;
     sourceProvenance = with sourceTypes; [ binaryNativeCode ];
-    maintainers = with maintainers; [ dan4ik605743 ionutnechita ];
+    maintainers = with maintainers; [
+      dan4ik605743
+      ionutnechita
+    ];
     platforms = [ "x86_64-linux" ];
   };
 }

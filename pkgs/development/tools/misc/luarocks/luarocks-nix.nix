@@ -1,4 +1,8 @@
-{ luarocks, fetchFromGitHub, unstableGitUpdater }:
+{
+  luarocks,
+  fetchFromGitHub,
+  unstableGitUpdater,
+}:
 
 luarocks.overrideAttrs (old: {
   pname = "luarocks-nix";

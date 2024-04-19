@@ -1,17 +1,18 @@
-{ lib
-, buildPythonPackage
-, capstone
-, click
-, cryptography
-, dnfile
-, fetchFromGitHub
-, pefile
-, pycryptodomex
-, pyelftools
-, pythonOlder
-, pytestCheckHook
-, typing-extensions
-, yara-python
+{
+  lib,
+  buildPythonPackage,
+  capstone,
+  click,
+  cryptography,
+  dnfile,
+  fetchFromGitHub,
+  pefile,
+  pycryptodomex,
+  pyelftools,
+  pythonOlder,
+  pytestCheckHook,
+  typing-extensions,
+  yara-python,
 }:
 
 buildPythonPackage rec {
@@ -46,13 +47,9 @@ buildPythonPackage rec {
       --replace "dnfile==0.11.0" "dnfile"
   '';
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "malduck"
-  ];
+  pythonImportsCheck = [ "malduck" ];
 
   meta = with lib; {
     description = "Helper for malware analysis";

@@ -1,4 +1,10 @@
-{ lib, stdenv, makeWrapper, fetchFromGitHub, cctools }:
+{
+  lib,
+  stdenv,
+  makeWrapper,
+  fetchFromGitHub,
+  cctools,
+}:
 
 stdenv.mkDerivation rec {
   pname = "macdylibbundler";
@@ -34,6 +40,5 @@ stdenv.mkDerivation rec {
     license = licenses.mit;
     platforms = platforms.all;
     maintainers = [ maintainers.nomeata ];
-
   };
 }

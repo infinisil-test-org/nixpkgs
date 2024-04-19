@@ -1,10 +1,11 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, pkg-config
-, glib
-, gst_all_1
-, wrapGAppsHook
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  pkg-config,
+  glib,
+  gst_all_1,
+  wrapGAppsHook,
 }:
 
 rustPlatform.buildRustPackage rec {

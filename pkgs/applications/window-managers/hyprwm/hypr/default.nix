@@ -1,23 +1,24 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchpatch
-, cairo
-, cmake
-, glib
-, gtkmm3
-, harfbuzz
-, libX11
-, libXdmcp
-, libxcb
-, makeWrapper
-, pcre2
-, pkg-config
-, xcbutilcursor
-, xcbutilkeysyms
-, xcbutilwm
-, xcbutil
-, xmodmap
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  cairo,
+  cmake,
+  glib,
+  gtkmm3,
+  harfbuzz,
+  libX11,
+  libXdmcp,
+  libxcb,
+  makeWrapper,
+  pcre2,
+  pkg-config,
+  xcbutilcursor,
+  xcbutilkeysyms,
+  xcbutilwm,
+  xcbutil,
+  xmodmap,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -31,9 +32,7 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-FUKR5nceEhm9GWa61hHO8+y4GBz7LYKXPB0OpQcQ674=";
   };
 
-  patches = [
-    ./000-dont-set-compiler.diff
-  ];
+  patches = [ ./000-dont-set-compiler.diff ];
 
   nativeBuildInputs = [
     cmake

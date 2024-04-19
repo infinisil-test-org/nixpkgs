@@ -1,10 +1,11 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchPypi
-, unittestCheckHook
-, pythonOlder
-, isPy3k
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchPypi,
+  unittestCheckHook,
+  pythonOlder,
+  isPy3k,
 }:
 
 buildPythonPackage rec {
@@ -29,11 +30,12 @@ buildPythonPackage rec {
 
   nativeCheckInputs = [ unittestCheckHook ];
 
-  unittestFlagsArray = [ "-s" "test" ];
-
-  pythonImportsCheck = [
-    "serial"
+  unittestFlagsArray = [
+    "-s"
+    "test"
   ];
+
+  pythonImportsCheck = [ "serial" ];
 
   meta = with lib; {
     description = "Python serial port extension";

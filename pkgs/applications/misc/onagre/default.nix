@@ -1,10 +1,11 @@
-{ lib
-, fetchFromGitHub
-, rustPlatform
-, cmake
-, pkgconf
-, freetype
-, expat
+{
+  lib,
+  fetchFromGitHub,
+  rustPlatform,
+  cmake,
+  pkgconf,
+  freetype,
+  expat,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -27,8 +28,14 @@ rustPlatform.buildRustPackage rec {
 
   cargoSha256 = "sha256-IOhAGrAiT2mnScNP7k7XK9CETUr6BjGdQVdEUvTYQT4=";
 
-  nativeBuildInputs = [ cmake pkgconf ];
-  buildInputs = [ freetype expat ];
+  nativeBuildInputs = [
+    cmake
+    pkgconf
+  ];
+  buildInputs = [
+    freetype
+    expat
+  ];
 
   meta = with lib; {
     description = "A general purpose application launcher for X and wayland inspired by rofi/wofi and alfred";

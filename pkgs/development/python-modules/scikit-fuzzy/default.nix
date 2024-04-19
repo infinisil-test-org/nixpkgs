@@ -1,14 +1,15 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, fetchpatch
-, matplotlib
-, networkx
-, nose
-, numpy
-, scipy
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  fetchpatch,
+  matplotlib,
+  networkx,
+  nose,
+  numpy,
+  scipy,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -44,11 +45,20 @@ buildPythonPackage rec {
     })
   ];
 
-  propagatedBuildInputs = [ networkx numpy scipy ];
-  nativeCheckInputs = [ matplotlib nose pytestCheckHook ];
+  propagatedBuildInputs = [
+    networkx
+    numpy
+    scipy
+  ];
+  nativeCheckInputs = [
+    matplotlib
+    nose
+    pytestCheckHook
+  ];
 
   pytestFlagsArray = [
-    "-W" "ignore::pytest.PytestRemovedIn8Warning"
+    "-W"
+    "ignore::pytest.PytestRemovedIn8Warning"
   ];
 
   pythonImportsCheck = [ "skfuzzy" ];

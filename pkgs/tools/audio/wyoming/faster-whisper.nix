@@ -1,6 +1,7 @@
-{ lib
-, python3Packages
-, fetchFromGitHub
+{
+  lib,
+  python3Packages,
+  fetchFromGitHub,
 }:
 
 python3Packages.buildPythonApplication rec {
@@ -20,18 +21,14 @@ python3Packages.buildPythonApplication rec {
     pythonRelaxDepsHook
   ];
 
-  pythonRelaxDeps = [
-    "wyoming"
-  ];
+  pythonRelaxDeps = [ "wyoming" ];
 
   propagatedBuildInputs = with python3Packages; [
     faster-whisper
     wyoming
   ];
 
-  pythonImportsCheck = [
-    "wyoming_faster_whisper"
-  ];
+  pythonImportsCheck = [ "wyoming_faster_whisper" ];
 
   # no tests
   doCheck = false;

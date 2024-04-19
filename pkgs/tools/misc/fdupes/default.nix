@@ -1,4 +1,12 @@
-{ lib, stdenv, fetchFromGitHub, autoreconfHook, pkg-config, ncurses, pcre2 }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  autoreconfHook,
+  pkg-config,
+  ncurses,
+  pcre2,
+}:
 
 stdenv.mkDerivation rec {
   pname = "fdupes";
@@ -6,13 +14,19 @@ stdenv.mkDerivation rec {
 
   src = fetchFromGitHub {
     owner = "adrianlopezroche";
-    repo  = "fdupes";
-    rev   = "v${version}";
-    hash  = "sha256-8GYQfnUxS790pDXw2sjnDZNB55PMDaCcO6daIa/MPMw=";
+    repo = "fdupes";
+    rev = "v${version}";
+    hash = "sha256-8GYQfnUxS790pDXw2sjnDZNB55PMDaCcO6daIa/MPMw=";
   };
 
-  nativeBuildInputs = [ autoreconfHook pkg-config ];
-  buildInputs = [ ncurses pcre2 ];
+  nativeBuildInputs = [
+    autoreconfHook
+    pkg-config
+  ];
+  buildInputs = [
+    ncurses
+    pcre2
+  ];
 
   meta = with lib; {
     description = "Identifies duplicate files residing within specified directories";

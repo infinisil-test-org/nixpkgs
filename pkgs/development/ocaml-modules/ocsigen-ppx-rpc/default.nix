@@ -1,4 +1,9 @@
-{ lib, buildDunePackage, fetchFromGitHub, ppxlib }:
+{
+  lib,
+  buildDunePackage,
+  fetchFromGitHub,
+  ppxlib,
+}:
 
 buildDunePackage rec {
   pname = "ocsigen-ppx-rpc";
@@ -21,5 +26,4 @@ buildDunePackage rec {
     license = lib.licenses.lgpl21Only;
     maintainers = [ lib.maintainers.vbgl ];
   };
-
 }

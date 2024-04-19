@@ -1,9 +1,11 @@
-{ lib, stdenv
-, fetchFromGitHub
-, autoreconfHook
-, pkg-config
-, openssl
-, unstableGitUpdater
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  autoreconfHook,
+  pkg-config,
+  openssl,
+  unstableGitUpdater,
 }:
 
 stdenv.mkDerivation {
@@ -17,12 +19,15 @@ stdenv.mkDerivation {
     hash = "sha256-J9E0edRbFONMut1/ZFaUqgWAtEUifc+pmGypeUQ0m4c=";
   };
 
-  nativeBuildInputs = [ pkg-config autoreconfHook ];
+  nativeBuildInputs = [
+    pkg-config
+    autoreconfHook
+  ];
   buildInputs = [ openssl ];
 
   enableParallelBuilding = true;
 
-  passthru.updateScript = unstableGitUpdater {};
+  passthru.updateScript = unstableGitUpdater { };
 
   meta = with lib; {
     description = "Bitcoin Script Debugger";

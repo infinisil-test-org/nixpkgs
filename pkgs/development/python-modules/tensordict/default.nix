@@ -1,16 +1,17 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, setuptools
-, torch
-, wheel
-, which
-, cloudpickle
-, numpy
-, h5py
-, pytestCheckHook
-, stdenv
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  setuptools,
+  torch,
+  wheel,
+  which,
+  cloudpickle,
+  numpy,
+  h5py,
+  pytestCheckHook,
+  stdenv,
 }:
 
 buildPythonPackage rec {
@@ -40,9 +41,7 @@ buildPythonPackage rec {
     torch
   ];
 
-  pythonImportsCheck = [
-    "tensordict"
-  ];
+  pythonImportsCheck = [ "tensordict" ];
 
   # We have to delete the source because otherwise it is used instead of the installed package.
   preCheck = ''
@@ -62,9 +61,7 @@ buildPythonPackage rec {
   ];
 
   # ModuleNotFoundError: No module named 'torch._C._distributed_c10d'; 'torch._C' is not a package
-  disabledTestPaths = lib.optionals stdenv.isDarwin [
-    "test/test_distributed.py"
-  ];
+  disabledTestPaths = lib.optionals stdenv.isDarwin [ "test/test_distributed.py" ];
 
   meta = with lib; {
     description = "A pytorch dedicated tensor container";

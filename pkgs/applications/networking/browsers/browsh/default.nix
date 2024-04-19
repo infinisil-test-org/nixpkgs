@@ -1,4 +1,9 @@
-{ lib, buildGoModule, fetchurl, fetchFromGitHub }:
+{
+  lib,
+  buildGoModule,
+  fetchurl,
+  fetchFromGitHub,
+}:
 
 let
   version = "1.8.2";
@@ -10,7 +15,6 @@ let
     url = "https://github.com/browsh-org/browsh/releases/download/v${version}/browsh-${version}.xpi";
     hash = "sha256-04rLyQt8co3Z7UJnDJmj++E4n7of0Zh1jQ90Bfwnx5A=";
   };
-
 in
 
 buildGoModule rec {
@@ -40,7 +44,10 @@ buildGoModule rec {
     description = "A fully-modern text-based browser, rendering to TTY and browsers";
     mainProgram = "browsh";
     homepage = "https://www.brow.sh/";
-    maintainers = with maintainers; [ kalbasit siraben ];
+    maintainers = with maintainers; [
+      kalbasit
+      siraben
+    ];
     license = lib.licenses.lgpl21;
     platforms = lib.platforms.linux ++ lib.platforms.darwin;
   };

@@ -1,47 +1,60 @@
-{ lib, stdenvNoCC, fetchurl, nixosTests
-, nextcloud27Packages
-, nextcloud28Packages
-, nextcloud26Packages
+{
+  lib,
+  stdenvNoCC,
+  fetchurl,
+  nixosTests,
+  nextcloud27Packages,
+  nextcloud28Packages,
+  nextcloud26Packages,
 }:
 
 let
-  generic = {
-    version, hash
-  , eol ? false, extraVulnerabilities ? []
-  , packages
-  }: stdenvNoCC.mkDerivation rec {
-    pname = "nextcloud";
-    inherit version;
+  generic =
+    {
+      version,
+      hash,
+      eol ? false,
+      extraVulnerabilities ? [ ],
+      packages,
+    }:
+    stdenvNoCC.mkDerivation rec {
+      pname = "nextcloud";
+      inherit version;
 
-    src = fetchurl {
-      url = "https://download.nextcloud.com/server/releases/${pname}-${version}.tar.bz2";
-      inherit hash;
+      src = fetchurl {
+        url = "https://download.nextcloud.com/server/releases/${pname}-${version}.tar.bz2";
+        inherit hash;
+      };
+
+      passthru = {
+        tests = nixosTests.nextcloud;
+        inherit packages;
+      };
+
+      installPhase = ''
+        runHook preInstall
+        mkdir -p $out/
+        cp -R . $out/
+        runHook postInstall
+      '';
+
+      meta = with lib; {
+        changelog = "https://nextcloud.com/changelog/#${lib.replaceStrings [ "." ] [ "-" ] version}";
+        description = "Sharing solution for files, calendars, contacts and more";
+        homepage = "https://nextcloud.com";
+        maintainers = with maintainers; [
+          schneefux
+          bachp
+          globin
+          ma27
+        ];
+        license = licenses.agpl3Plus;
+        platforms = platforms.linux;
+        knownVulnerabilities = extraVulnerabilities ++ (optional eol "Nextcloud version ${version} is EOL");
+      };
     };
-
-    passthru = {
-      tests = nixosTests.nextcloud;
-      inherit packages;
-    };
-
-    installPhase = ''
-      runHook preInstall
-      mkdir -p $out/
-      cp -R . $out/
-      runHook postInstall
-    '';
-
-    meta = with lib; {
-      changelog = "https://nextcloud.com/changelog/#${lib.replaceStrings [ "." ] [ "-" ] version}";
-      description = "Sharing solution for files, calendars, contacts and more";
-      homepage = "https://nextcloud.com";
-      maintainers = with maintainers; [ schneefux bachp globin ma27 ];
-      license = licenses.agpl3Plus;
-      platforms = platforms.linux;
-      knownVulnerabilities = extraVulnerabilities
-        ++ (optional eol "Nextcloud version ${version} is EOL");
-    };
-  };
-in {
+in
+{
   nextcloud26 = generic {
     version = "26.0.13";
     hash = "sha256-CjYt96EjM0j5nRhT/X558GZ7VSwUXcRQEvq1SsMcea4=";

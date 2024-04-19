@@ -1,24 +1,25 @@
-{ lib
-, stdenv
-, autoPatchelfHook
-, boost
-, cmake
-, copyDesktopItems
-, imagemagick
-, fetchpatch
-, fetchzip
-, killall
-, libjpeg
-, libpng
-, libtiff
-, libtool
-, libusb1
-, makeDesktopItem
-, qtbase
-, wrapQtAppsHook
+{
+  lib,
+  stdenv,
+  autoPatchelfHook,
+  boost,
+  cmake,
+  copyDesktopItems,
+  imagemagick,
+  fetchpatch,
+  fetchzip,
+  killall,
+  libjpeg,
+  libpng,
+  libtiff,
+  libtool,
+  libusb1,
+  makeDesktopItem,
+  qtbase,
+  wrapQtAppsHook,
 
-, withGui ? true
-, withNonFreePlugins ? false
+  withGui ? true,
+  withNonFreePlugins ? false,
 }:
 
 let
@@ -32,20 +33,21 @@ let
     url = "https://download3.ebz.epson.net/dsc/f/03/00/14/53/67/1a6447b4acc5568dfd970feba0518fabea35bca2/epsonscan2-${version}-1.src.tar.gz";
     hash = "sha256-xwvdgmV6Mrs1RC18U2mA+HlTYybeYb0V5lz5hCvC7+8=";
   };
-  bundle = {
-    "i686-linux" = fetchzip {
-      name = "${pname}-bundle";
-      url = "https://download3.ebz.epson.net/dsc/f/03/00/14/53/69/3151031c0fb4deea3f48781fd051411b983ccee4/epsonscan2-bundle-${version}.i686.deb.tar.gz";
-      hash = "sha256-nq3Nqunt8aMcCf7U7JBYrVscvrhhcwcn8RlhYXLmC2c=";
-    };
+  bundle =
+    {
+      "i686-linux" = fetchzip {
+        name = "${pname}-bundle";
+        url = "https://download3.ebz.epson.net/dsc/f/03/00/14/53/69/3151031c0fb4deea3f48781fd051411b983ccee4/epsonscan2-bundle-${version}.i686.deb.tar.gz";
+        hash = "sha256-nq3Nqunt8aMcCf7U7JBYrVscvrhhcwcn8RlhYXLmC2c=";
+      };
 
-    "x86_64-linux" = fetchzip {
-      name = "${pname}-bundle";
-      url = "https://download3.ebz.epson.net/dsc/f/03/00/14/53/68/a5e06101ba3f328dd747888e3dddebbb677bb8c8/epsonscan2-bundle-${version}.x86_64.deb.tar.gz";
-      hash = "sha256-cFx54CKkZtvhZ5ABuBwB8+IzhT2lu8D3+GZFaMuWf3Y=";
-    };
-  }."${system}" or (throw "Unsupported system: ${system}");
-
+      "x86_64-linux" = fetchzip {
+        name = "${pname}-bundle";
+        url = "https://download3.ebz.epson.net/dsc/f/03/00/14/53/68/a5e06101ba3f328dd747888e3dddebbb677bb8c8/epsonscan2-bundle-${version}.x86_64.deb.tar.gz";
+        hash = "sha256-cFx54CKkZtvhZ5ABuBwB8+IzhT2lu8D3+GZFaMuWf3Y=";
+      };
+    }
+    ."${system}" or (throw "Unsupported system: ${system}");
 in
 stdenv.mkDerivation {
   inherit pname src version;
@@ -74,53 +76,54 @@ stdenv.mkDerivation {
       --replace '@OCR_ENGINE_GETROTATE@' $out/libexec/epsonscan2-ocr/ocr-engine-getrotate
   '';
 
-  nativeBuildInputs = [
-    cmake
-  ] ++ lib.optionals withGui [
-    imagemagick # to make icons
-    wrapQtAppsHook
-  ] ++ lib.optionals withNonFreePlugins [
-    autoPatchelfHook
-  ];
+  nativeBuildInputs =
+    [ cmake ]
+    ++ lib.optionals withGui [
+      imagemagick # to make icons
+      wrapQtAppsHook
+    ]
+    ++ lib.optionals withNonFreePlugins [ autoPatchelfHook ];
 
-  buildInputs = [
-    boost
-    libjpeg
-    libpng
-    libtiff
-    libusb1
-  ] ++ lib.optionals withGui [
-    copyDesktopItems
-    qtbase
-  ] ++ lib.optionals withNonFreePlugins [
-    libtool.lib
-  ];
+  buildInputs =
+    [
+      boost
+      libjpeg
+      libpng
+      libtiff
+      libusb1
+    ]
+    ++ lib.optionals withGui [
+      copyDesktopItems
+      qtbase
+    ]
+    ++ lib.optionals withNonFreePlugins [ libtool.lib ];
 
   cmakeFlags = [
     # The non-free (Debian) packages uses this directory structure so do the same when compiling
     # from source so we can easily merge them.
     "-DCMAKE_INSTALL_LIBDIR=lib/${system}-gnu"
-  ] ++ lib.optionals (!withGui) [
-    "-DNO_GUI=ON"
-  ];
+  ] ++ lib.optionals (!withGui) [ "-DNO_GUI=ON" ];
 
-  postInstall = ''
-    # But when we put all the libraries in lib/${system}-gnu, then SANE can't find the
-    # required libraries so create a symlink to where it expects them to be.
-    mkdir -p $out/lib/sane
-    for file in $out/lib/${system}-gnu/sane/*.so.*; do
-      ln -s $file $out/lib/sane/
-    done
-  '' + lib.optionalString withGui ''
-    # The icon file extension is .ico but it's actually a png!
-    mkdir -p $out/share/icons/hicolor/{48x48,128x128}/apps
-    convert $src/Resources/Icons/escan2_app.ico -resize 48x48 $out/share/icons/hicolor/48x48/apps/epsonscan2.png
-    convert $src/Resources/Icons/escan2_app.ico -resize 128x128 $out/share/icons/hicolor/128x128/apps/epsonscan2.png
-  '' + lib.optionalString withNonFreePlugins ''
-    ar xf ${bundle}/plugins/epsonscan2-non-free-plugin_*.deb
-    tar Jxf data.tar.xz
-    cp -r usr/* $out
-  '';
+  postInstall =
+    ''
+      # But when we put all the libraries in lib/${system}-gnu, then SANE can't find the
+      # required libraries so create a symlink to where it expects them to be.
+      mkdir -p $out/lib/sane
+      for file in $out/lib/${system}-gnu/sane/*.so.*; do
+        ln -s $file $out/lib/sane/
+      done
+    ''
+    + lib.optionalString withGui ''
+      # The icon file extension is .ico but it's actually a png!
+      mkdir -p $out/share/icons/hicolor/{48x48,128x128}/apps
+      convert $src/Resources/Icons/escan2_app.ico -resize 48x48 $out/share/icons/hicolor/48x48/apps/epsonscan2.png
+      convert $src/Resources/Icons/escan2_app.ico -resize 128x128 $out/share/icons/hicolor/128x128/apps/epsonscan2.png
+    ''
+    + lib.optionalString withNonFreePlugins ''
+      ar xf ${bundle}/plugins/epsonscan2-non-free-plugin_*.deb
+      tar Jxf data.tar.xz
+      cp -r usr/* $out
+    '';
 
   desktopItems = lib.optionals withGui [
     (makeDesktopItem {
@@ -130,7 +133,10 @@ stdenv.mkDerivation {
       desktopName = "Epson Scan 2";
       genericName = "Epson Scan 2";
       comment = description;
-      categories = [ "Graphics" "Scanning" ];
+      categories = [
+        "Graphics"
+        "Scanning"
+      ];
     })
   ];
 
@@ -153,10 +159,14 @@ stdenv.mkDerivation {
       </literal>
     '';
     homepage = "https://support.epson.net/linux/en/epsonscan2.php";
-    platforms = [ "i686-linux" "x86_64-linux" ];
-    sourceProvenance = with lib.sourceTypes; [ fromSource ] ++ lib.optionals withNonFreePlugins [ binaryNativeCode ];
+    platforms = [
+      "i686-linux"
+      "x86_64-linux"
+    ];
+    sourceProvenance =
+      with lib.sourceTypes;
+      [ fromSource ] ++ lib.optionals withNonFreePlugins [ binaryNativeCode ];
     license = with lib.licenses; if withNonFreePlugins then unfree else lgpl21Plus;
     maintainers = with lib.maintainers; [ james-atkins ];
   };
 }
-

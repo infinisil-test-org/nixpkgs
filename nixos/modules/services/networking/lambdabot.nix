@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -7,7 +12,6 @@ let
   cfg = config.services.lambdabot;
 
   rc = builtins.toFile "script.rc" cfg.script;
-
 in
 
 {
@@ -31,9 +35,7 @@ in
         default = "";
         description = "Lambdabot script";
       };
-
     };
-
   };
 
   ### implementation
@@ -71,7 +73,5 @@ in
     };
 
     users.groups.lambdabot.gid = config.ids.gids.lambdabot;
-
   };
-
 }

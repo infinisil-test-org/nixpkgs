@@ -1,8 +1,14 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
-let cfg = config.programs.noisetorch;
+let
+  cfg = config.programs.noisetorch;
 in
 {
   options.programs.noisetorch = {

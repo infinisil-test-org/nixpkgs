@@ -1,28 +1,29 @@
-{ stdenv
-, lib
-, fetchurl
-, unzip
-, glib
-, systemd
-, nss
-, nspr
-, gtk3-x11
-, pango
-, atk
-, cairo
-, gdk-pixbuf
-, xorg
-, xorg_sys_opengl
-, util-linux
-, alsa-lib
-, dbus
-, at-spi2-atk
-, cups
-, vivaldi-ffmpeg-codecs
-, libpulseaudio
-, at-spi2-core
-, libxkbcommon
-, mesa
+{
+  stdenv,
+  lib,
+  fetchurl,
+  unzip,
+  glib,
+  systemd,
+  nss,
+  nspr,
+  gtk3-x11,
+  pango,
+  atk,
+  cairo,
+  gdk-pixbuf,
+  xorg,
+  xorg_sys_opengl,
+  util-linux,
+  alsa-lib,
+  dbus,
+  at-spi2-atk,
+  cups,
+  vivaldi-ffmpeg-codecs,
+  libpulseaudio,
+  at-spi2-core,
+  libxkbcommon,
+  mesa,
 }:
 
 stdenv.mkDerivation rec {
@@ -32,7 +33,10 @@ stdenv.mkDerivation rec {
   src = fetchurl {
     name = "exodus-linux-x64-${version}.zip";
     url = "https://downloads.exodus.com/releases/${pname}-linux-x64-${version}.zip";
-    curlOptsList = [ "--user-agent" "Mozilla/5.0" ];
+    curlOptsList = [
+      "--user-agent"
+      "Mozilla/5.0"
+    ];
     sha256 = "sha256-hhPHWo+nQXgluB6qn57wndX1eslLv3lLpdxm+COGMO8=";
   };
 
@@ -102,6 +106,10 @@ stdenv.mkDerivation rec {
     sourceProvenance = with sourceTypes; [ binaryNativeCode ];
     license = licenses.unfree;
     platforms = platforms.linux;
-    maintainers = with maintainers; [ mmahut rople380 Crafter ];
+    maintainers = with maintainers; [
+      mmahut
+      rople380
+      Crafter
+    ];
   };
 }

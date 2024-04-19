@@ -1,6 +1,11 @@
 # Evolution Data Server daemon.
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -13,12 +18,32 @@ with lib;
   # Added 2021-05-07
   imports = [
     (mkRenamedOptionModule
-      [ "services" "gnome3" "evolution-data-server" "enable" ]
-      [ "services" "gnome" "evolution-data-server" "enable" ]
+      [
+        "services"
+        "gnome3"
+        "evolution-data-server"
+        "enable"
+      ]
+      [
+        "services"
+        "gnome"
+        "evolution-data-server"
+        "enable"
+      ]
     )
     (mkRenamedOptionModule
-      [ "services" "gnome3" "evolution-data-server" "plugins" ]
-      [ "services" "gnome" "evolution-data-server" "plugins" ]
+      [
+        "services"
+        "gnome3"
+        "evolution-data-server"
+        "plugins"
+      ]
+      [
+        "services"
+        "gnome"
+        "evolution-data-server"
+        "plugins"
+      ]
     )
   ];
 
@@ -42,7 +67,6 @@ with lib;
         example = literalExpression "[ pkgs.evolution-ews ]";
         description = "Plugins for Evolution.";
       };
-
     };
   };
 
@@ -50,7 +74,9 @@ with lib;
 
   config =
     let
-      bundle = pkgs.evolutionWithPlugins.override { inherit (config.services.gnome.evolution-data-server) plugins; };
+      bundle = pkgs.evolutionWithPlugins.override {
+        inherit (config.services.gnome.evolution-data-server) plugins;
+      };
     in
     mkMerge [
       (mkIf config.services.gnome.evolution-data-server.enable {

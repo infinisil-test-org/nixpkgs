@@ -1,4 +1,9 @@
-{ lib, melpaBuild, fetchurl, writeText }:
+{
+  lib,
+  melpaBuild,
+  fetchurl,
+  writeText,
+}:
 
 melpaBuild rec {
   pname = "ebuild-mode";

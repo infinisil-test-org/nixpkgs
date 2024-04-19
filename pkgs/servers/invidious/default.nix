@@ -1,4 +1,17 @@
-{ lib, stdenv, crystal, fetchFromGitea, librsvg, pkg-config, libxml2, openssl, shards, sqlite, videojs, nixosTests }:
+{
+  lib,
+  stdenv,
+  crystal,
+  fetchFromGitea,
+  librsvg,
+  pkg-config,
+  libxml2,
+  openssl,
+  shards,
+  sqlite,
+  videojs,
+  nixosTests,
+}:
 let
   # All versions, revisions, and checksums are stored in ./versions.json.
   # The update process is the following:
@@ -45,8 +58,12 @@ crystal.buildCrystalPackage rec {
       substituteInPlace src/invidious.cr \
           --replace ${lib.escapeShellArg branchTemplate} '"master"' \
           --replace ${lib.escapeShellArg commitTemplate} '"${lib.substring 0 7 versions.invidious.rev}"' \
-          --replace ${lib.escapeShellArg versionTemplate} '"${lib.concatStringsSep "." (lib.drop 2 (lib.splitString "-" version))}"' \
-          --replace ${lib.escapeShellArg assetCommitTemplate} '"${lib.substring 0 7 versions.invidious.rev}"'
+          --replace ${lib.escapeShellArg versionTemplate} '"${
+            lib.concatStringsSep "." (lib.drop 2 (lib.splitString "-" version))
+          }"' \
+          --replace ${lib.escapeShellArg assetCommitTemplate} '"${
+            lib.substring 0 7 versions.invidious.rev
+          }"'
 
       # Patch the assets and locales paths to be absolute
       substituteInPlace src/invidious.cr \
@@ -62,8 +79,15 @@ crystal.buildCrystalPackage rec {
           --replace 'Process.run(%(rsvg-convert' 'Process.run(%(${lib.getBin librsvg}/bin/rsvg-convert'
     '';
 
-  nativeBuildInputs = [ pkg-config shards ];
-  buildInputs = [ libxml2 openssl sqlite ];
+  nativeBuildInputs = [
+    pkg-config
+    shards
+  ];
+  buildInputs = [
+    libxml2
+    openssl
+    sqlite
+  ];
 
   format = "crystal";
   shardsFile = ./shards.nix;
@@ -101,7 +125,9 @@ crystal.buildCrystalPackage rec {
   '';
 
   passthru = {
-    tests = { inherit (nixosTests) invidious; };
+    tests = {
+      inherit (nixosTests) invidious;
+    };
     updateScript = ./update.sh;
   };
 

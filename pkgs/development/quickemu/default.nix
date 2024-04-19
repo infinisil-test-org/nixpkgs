@@ -1,30 +1,31 @@
-{ lib
-, fetchFromGitHub
-, stdenv
-, makeWrapper
-, qemu
-, gnugrep
-, gnused
-, lsb-release
-, jq
-, procps
-, python3
-, cdrtools
-, usbutils
-, util-linux
-, socat
-, spice-gtk
-, swtpm
-, unzip
-, wget
-, xdg-user-dirs
-, xrandr
-, zsync
-, OVMF
-, OVMFFull
-, quickemu
-, testers
-, installShellFiles
+{
+  lib,
+  fetchFromGitHub,
+  stdenv,
+  makeWrapper,
+  qemu,
+  gnugrep,
+  gnused,
+  lsb-release,
+  jq,
+  procps,
+  python3,
+  cdrtools,
+  usbutils,
+  util-linux,
+  socat,
+  spice-gtk,
+  swtpm,
+  unzip,
+  wget,
+  xdg-user-dirs,
+  xrandr,
+  zsync,
+  OVMF,
+  OVMFFull,
+  quickemu,
+  testers,
+  installShellFiles,
 }:
 let
   runtimePaths = [
@@ -68,7 +69,10 @@ stdenv.mkDerivation rec {
       quickemu
   '';
 
-  nativeBuildInputs = [ makeWrapper installShellFiles ];
+  nativeBuildInputs = [
+    makeWrapper
+    installShellFiles
+  ];
 
   installPhase = ''
     runHook preInstall

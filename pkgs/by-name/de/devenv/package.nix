@@ -1,18 +1,20 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, makeWrapper
-, rustPlatform
-, testers
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  makeWrapper,
+  rustPlatform,
+  testers,
 
-, cachix
-, darwin
-, libgit2
-, nix
-, openssl
-, pkg-config
+  cachix,
+  darwin,
+  libgit2,
+  nix,
+  openssl,
+  pkg-config
 
-, devenv  # required to run version test
+  ,
+  devenv, # required to run version test
 }:
 
 let
@@ -30,7 +32,8 @@ let
   });
 
   version = "1.0.4";
-in rustPlatform.buildRustPackage {
+in
+rustPlatform.buildRustPackage {
   pname = "devenv";
   inherit version;
 
@@ -43,11 +46,14 @@ in rustPlatform.buildRustPackage {
 
   cargoHash = "sha256-//THEzW0OYEDSLrOELBaWnwjDbUc4jpwRDQfWJO/saA=";
 
-  nativeBuildInputs = [ makeWrapper pkg-config ];
-
-  buildInputs = [ openssl ] ++ lib.optionals stdenv.isDarwin [
-    darwin.apple_sdk.frameworks.SystemConfiguration
+  nativeBuildInputs = [
+    makeWrapper
+    pkg-config
   ];
+
+  buildInputs = [
+    openssl
+  ] ++ lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.SystemConfiguration ];
 
   postInstall = ''
     wrapProgram $out/bin/devenv --set DEVENV_NIX ${devenv_nix} --prefix PATH ":" "$out/bin:${cachix}/bin"
@@ -66,6 +72,9 @@ in rustPlatform.buildRustPackage {
     homepage = "https://github.com/cachix/devenv";
     license = lib.licenses.asl20;
     mainProgram = "devenv";
-    maintainers = with lib.maintainers; [ domenkozar drupol ];
+    maintainers = with lib.maintainers; [
+      domenkozar
+      drupol
+    ];
   };
 }

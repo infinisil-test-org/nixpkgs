@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, gevent
-, pytestCheckHook
-, watchdog
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  gevent,
+  pytestCheckHook,
+  watchdog,
 }:
 
 buildPythonPackage rec {
@@ -19,7 +20,10 @@ buildPythonPackage rec {
     hash = "sha256-FESm3fNuLmOg2ilI/x8U9LuAimHLnahcTHYzW/nzOVY=";
   };
 
-  propagatedBuildInputs = [ watchdog gevent ];
+  propagatedBuildInputs = [
+    watchdog
+    gevent
+  ];
 
   postPatch = ''
     sed -i setup.cfg \

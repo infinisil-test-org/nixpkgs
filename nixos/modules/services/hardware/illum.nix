@@ -1,10 +1,16 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.services.illum;
-in {
+in
+{
 
   options = {
 
@@ -17,9 +23,7 @@ in {
           Enable illum, a daemon for controlling screen brightness with brightness buttons.
         '';
       };
-
     };
-
   };
 
   config = mkIf cfg.enable {
@@ -30,7 +34,5 @@ in {
       serviceConfig.ExecStart = "${pkgs.illum}/bin/illum-d";
       serviceConfig.Restart = "on-failure";
     };
-
   };
-
 }

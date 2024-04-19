@@ -12,5 +12,4 @@ buildDunePackage {
   meta = qcheck-ounit.meta // {
     description = "Compatibility package for qcheck";
   };
-
 }

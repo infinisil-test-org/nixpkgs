@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, poetry-core
-, pysigma
-, pysigma-backend-elasticsearch
-, pytestCheckHook
-, pythonOlder
-, pythonRelaxDepsHook
-, requests
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  poetry-core,
+  pysigma,
+  pysigma-backend-elasticsearch,
+  pytestCheckHook,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  requests,
 }:
 
 buildPythonPackage rec {
@@ -29,9 +30,7 @@ buildPythonPackage rec {
       --replace-fail " --cov=sigma --cov-report term --cov-report xml:cov.xml" ""
   '';
 
-  pythonRelaxDeps = [
-    "pysigma"
-  ];
+  pythonRelaxDeps = [ "pysigma" ];
 
   nativeBuildInputs = [
     poetry-core
@@ -48,9 +47,7 @@ buildPythonPackage rec {
     requests
   ];
 
-  pythonImportsCheck = [
-    "sigma.backends.opensearch"
-  ];
+  pythonImportsCheck = [ "sigma.backends.opensearch" ];
 
   disabledTests = [
     # Tests requires network access

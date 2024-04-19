@@ -1,8 +1,9 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
-, testers
-, risor
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  testers,
+  risor,
 }:
 
 buildGoModule rec {
@@ -19,9 +20,7 @@ buildGoModule rec {
   proxyVendor = true;
   vendorHash = "sha256-eW6eSZp5Msg/u50i1+S2KSzDws0Rq8JBY1Yxzq7/hVo=";
 
-  subPackages = [
-    "cmd/risor"
-  ];
+  subPackages = [ "cmd/risor" ];
 
   ldflags = [
     "-s"
@@ -45,4 +44,3 @@ buildGoModule rec {
     maintainers = with maintainers; [ figsoda ];
   };
 }
-

@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchurl, unzip }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  unzip,
+}:
 
 stdenv.mkDerivation rec {
   pname = "rasm";
@@ -14,8 +19,8 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ unzip ];
 
   buildPhase = ''
-      # according to official documentation
-      ${stdenv.cc.targetPrefix}cc rasm_v*.c -O2 -lm -o rasm
+    # according to official documentation
+    ${stdenv.cc.targetPrefix}cc rasm_v*.c -O2 -lm -o rasm
   '';
 
   installPhase = ''

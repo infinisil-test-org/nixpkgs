@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, setuptools
-, keyring
-, proton-core
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  setuptools,
+  keyring,
+  proton-core,
+  pytestCheckHook,
 }:
 
 buildPythonPackage {
@@ -19,9 +20,7 @@ buildPythonPackage {
     hash = "sha256-4d8ZePG8imURhdNtLbraMRisrTLoRvJ+L2UuuOo3MPM=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     keyring
@@ -35,9 +34,7 @@ buildPythonPackage {
 
   pythonImportsCheck = [ "proton.keyring_linux.core" ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   meta = with lib; {
     description = "ProtonVPN core component to access Linux's keyring";

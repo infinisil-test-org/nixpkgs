@@ -1,18 +1,19 @@
-{ lib
-, aiohttp
-, aresponses
-, awesomeversion
-, backoff
-, buildPythonPackage
-, cachetools
-, fetchFromGitHub
-, poetry-core
-, pytest-asyncio
-, pytest-freezegun
-, pytestCheckHook
-, pythonOlder
-, xmltodict
-, yarl
+{
+  lib,
+  aiohttp,
+  aresponses,
+  awesomeversion,
+  backoff,
+  buildPythonPackage,
+  cachetools,
+  fetchFromGitHub,
+  poetry-core,
+  pytest-asyncio,
+  pytest-freezegun,
+  pytestCheckHook,
+  pythonOlder,
+  xmltodict,
+  yarl,
 }:
 
 buildPythonPackage rec {
@@ -29,9 +30,7 @@ buildPythonPackage rec {
     hash = "sha256-L6uedckc2lEQ6CUlQGEyDhnuVsxRRgDQJUEsZTfm2sU=";
   };
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
   propagatedBuildInputs = [
     aiohttp
@@ -66,9 +65,7 @@ buildPythonPackage rec {
     "test_get_tv_channels_single_channel"
   ];
 
-  pythonImportsCheck = [
-    "rokuecp"
-  ];
+  pythonImportsCheck = [ "rokuecp" ];
 
   meta = with lib; {
     description = "Asynchronous Python client for Roku (ECP)";

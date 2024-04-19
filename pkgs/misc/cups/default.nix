@@ -1,24 +1,26 @@
-{ lib, stdenv
-, fetchurl
-, pkg-config
-, removeReferencesTo
-, zlib
-, libjpeg
-, libpng
-, libtiff
-, pam
-, dbus
-, enableSystemd ? lib.meta.availableOn stdenv.hostPlatform systemd
-, systemd
-, acl
-, gmp
-, darwin
-, libusb1 ? null
-, gnutls ? null
-, avahi ? null
-, libpaper ? null
-, coreutils
-, nixosTests
+{
+  lib,
+  stdenv,
+  fetchurl,
+  pkg-config,
+  removeReferencesTo,
+  zlib,
+  libjpeg,
+  libpng,
+  libtiff,
+  pam,
+  dbus,
+  enableSystemd ? lib.meta.availableOn stdenv.hostPlatform systemd,
+  systemd,
+  acl,
+  gmp,
+  darwin,
+  libusb1 ? null,
+  gnutls ? null,
+  avahi ? null,
+  libpaper ? null,
+  coreutils,
+  nixosTests,
 }:
 
 stdenv.mkDerivation rec {
@@ -30,43 +32,80 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-3VQijdkDUmQozn43lhr67SMK0xB4gUHadc66oINiz2w=";
   };
 
-  outputs = [ "out" "lib" "dev" "man" ];
+  outputs = [
+    "out"
+    "lib"
+    "dev"
+    "man"
+  ];
 
-  postPatch = ''
-    substituteInPlace cups/testfile.c \
-      --replace 'cupsFileFind("cat", "/bin' 'cupsFileFind("cat", "${coreutils}/bin'
+  postPatch =
+    ''
+      substituteInPlace cups/testfile.c \
+        --replace 'cupsFileFind("cat", "/bin' 'cupsFileFind("cat", "${coreutils}/bin'
 
-      # The cups.socket unit shouldn't be part of cups.service: stopping the
-      # service would stop the socket and break subsequent socket activations.
-      # See https://github.com/apple/cups/issues/6005
-      sed -i '/PartOf=cups.service/d' scheduler/cups.socket.in
-  '' + lib.optionalString (stdenv.hostPlatform.isDarwin && lib.versionOlder stdenv.hostPlatform.darwinSdkVersion "12") ''
-    substituteInPlace backend/usb-darwin.c \
-      --replace "kIOMainPortDefault" "kIOMasterPortDefault"
-  '';
+        # The cups.socket unit shouldn't be part of cups.service: stopping the
+        # service would stop the socket and break subsequent socket activations.
+        # See https://github.com/apple/cups/issues/6005
+        sed -i '/PartOf=cups.service/d' scheduler/cups.socket.in
+    ''
+    +
+      lib.optionalString
+        (stdenv.hostPlatform.isDarwin && lib.versionOlder stdenv.hostPlatform.darwinSdkVersion "12")
+        ''
+          substituteInPlace backend/usb-darwin.c \
+            --replace "kIOMainPortDefault" "kIOMasterPortDefault"
+        '';
 
-  nativeBuildInputs = [ pkg-config removeReferencesTo ];
+  nativeBuildInputs = [
+    pkg-config
+    removeReferencesTo
+  ];
 
-  buildInputs = [ zlib libjpeg libpng libtiff libusb1 gnutls libpaper ]
-    ++ lib.optionals stdenv.isLinux [ avahi pam dbus acl ]
+  buildInputs =
+    [
+      zlib
+      libjpeg
+      libpng
+      libtiff
+      libusb1
+      gnutls
+      libpaper
+    ]
+    ++ lib.optionals stdenv.isLinux [
+      avahi
+      pam
+      dbus
+      acl
+    ]
     ++ lib.optional enableSystemd systemd
-    ++ lib.optionals stdenv.isDarwin (with darwin; [
-      configd apple_sdk.frameworks.ApplicationServices
-    ]);
+    ++ lib.optionals stdenv.isDarwin (
+      with darwin;
+      [
+        configd
+        apple_sdk.frameworks.ApplicationServices
+      ]
+    );
 
   propagatedBuildInputs = [ gmp ];
 
-  configurePlatforms = lib.optionals stdenv.isLinux [ "build" "host" ];
-  configureFlags = [
-    "--localstatedir=/var"
-    "--sysconfdir=/etc"
-    "--enable-raw-printing"
-    "--enable-threads"
-  ] ++ lib.optionals stdenv.isLinux [
-    "--enable-dbus"
-    "--enable-pam"
-    "--with-dbusdir=${placeholder "out"}/share/dbus-1"
-  ] ++ lib.optional (libusb1 != null) "--enable-libusb"
+  configurePlatforms = lib.optionals stdenv.isLinux [
+    "build"
+    "host"
+  ];
+  configureFlags =
+    [
+      "--localstatedir=/var"
+      "--sysconfdir=/etc"
+      "--enable-raw-printing"
+      "--enable-threads"
+    ]
+    ++ lib.optionals stdenv.isLinux [
+      "--enable-dbus"
+      "--enable-pam"
+      "--with-dbusdir=${placeholder "out"}/share/dbus-1"
+    ]
+    ++ lib.optional (libusb1 != null) "--enable-libusb"
     ++ lib.optional (gnutls != null) "--enable-ssl"
     ++ lib.optional (avahi != null) "--enable-avahi"
     ++ lib.optional (libpaper != null) "--enable-libpaper";
@@ -90,27 +129,28 @@ stdenv.mkDerivation rec {
     )
   '';
 
-  installFlags =
-    [ # Don't try to write in /var at build time.
-      "CACHEDIR=$(TMPDIR)/dummy"
-      "LAUNCHD_DIR=$(TMPDIR)/dummy"
-      "LOGDIR=$(TMPDIR)/dummy"
-      "REQUESTS=$(TMPDIR)/dummy"
-      "STATEDIR=$(TMPDIR)/dummy"
-      # Idem for /etc.
-      "PAMDIR=$(out)/etc/pam.d"
-      "XINETD=$(out)/etc/xinetd.d"
-      "SERVERROOT=$(out)/etc/cups"
-      # Idem for /usr.
-      "MENUDIR=$(out)/share/applications"
-      "ICONDIR=$(out)/share/icons"
-      # Work around a Makefile bug.
-      "CUPS_PRIMARY_SYSTEM_GROUP=root"
-    ];
+  installFlags = [
+    # Don't try to write in /var at build time.
+    "CACHEDIR=$(TMPDIR)/dummy"
+    "LAUNCHD_DIR=$(TMPDIR)/dummy"
+    "LOGDIR=$(TMPDIR)/dummy"
+    "REQUESTS=$(TMPDIR)/dummy"
+    "STATEDIR=$(TMPDIR)/dummy"
+    # Idem for /etc.
+    "PAMDIR=$(out)/etc/pam.d"
+    "XINETD=$(out)/etc/xinetd.d"
+    "SERVERROOT=$(out)/etc/cups"
+    # Idem for /usr.
+    "MENUDIR=$(out)/share/applications"
+    "ICONDIR=$(out)/share/icons"
+    # Work around a Makefile bug.
+    "CUPS_PRIMARY_SYSTEM_GROUP=root"
+  ];
 
   enableParallelBuilding = true;
 
-  postInstall = ''
+  postInstall =
+    ''
       libexec=${if stdenv.isDarwin then "libexec/cups" else "lib/cups"}
       moveToOutput $libexec "$out"
 
@@ -130,17 +170,15 @@ stdenv.mkDerivation rec {
       for f in "$out"/lib/systemd/system/*; do
         substituteInPlace "$f" --replace "$lib/$libexec" "$out/$libexec"
       done
-    '' + lib.optionalString stdenv.isLinux ''
+    ''
+    + lib.optionalString stdenv.isLinux ''
       # Use xdg-open when on Linux
       substituteInPlace "$out"/share/applications/cups.desktop \
         --replace "Exec=htmlview" "Exec=xdg-open"
     '';
 
   passthru.tests = {
-    inherit (nixosTests)
-      printing-service
-      printing-socket
-    ;
+    inherit (nixosTests) printing-service printing-socket;
   };
 
   meta = with lib; {

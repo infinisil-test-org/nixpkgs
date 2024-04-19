@@ -44,7 +44,7 @@ stdenv.mkDerivation rec {
   ];
 
   patches = [
-     # make build more nix compatible
+    # make build more nix compatible
     ./add-meson-options.patch
 
     # fix docbook2man version detection

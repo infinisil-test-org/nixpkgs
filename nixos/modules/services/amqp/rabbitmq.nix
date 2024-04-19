@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -11,16 +16,22 @@ let
   config_file = pkgs.writeText "rabbitmq.conf" config_file_content;
 
   advanced_config_file = pkgs.writeText "advanced.config" cfg.config;
-
 in
 {
 
   imports = [
-    (mkRemovedOptionModule [ "services" "rabbitmq" "cookie" ] ''
-      This option wrote the Erlang cookie to the store, while it should be kept secret.
-      Please remove it from your NixOS configuration and deploy a cookie securely instead.
-      The renamed `unsafeCookie` must ONLY be used in isolated non-production environments such as NixOS VM tests.
-    '')
+    (mkRemovedOptionModule
+      [
+        "services"
+        "rabbitmq"
+        "cookie"
+      ]
+      ''
+        This option wrote the Erlang cookie to the store, while it should be kept secret.
+        Please remove it from your NixOS configuration and deploy a cookie securely instead.
+        The renamed `unsafeCookie` must ONLY be used in isolated non-production environments such as NixOS VM tests.
+      ''
+    )
   ];
 
   ###### interface
@@ -155,7 +166,6 @@ in
     };
   };
 
-
   ###### implementation
   config = mkIf cfg.enable {
 
@@ -174,12 +184,14 @@ in
 
     users.groups.rabbitmq.gid = config.ids.gids.rabbitmq;
 
-    services.rabbitmq.configItems = {
-      "listeners.tcp.1" = mkDefault "${cfg.listenAddress}:${toString cfg.port}";
-    } // optionalAttrs cfg.managementPlugin.enable {
-      "management.tcp.port" = toString cfg.managementPlugin.port;
-      "management.tcp.ip" = cfg.listenAddress;
-    };
+    services.rabbitmq.configItems =
+      {
+        "listeners.tcp.1" = mkDefault "${cfg.listenAddress}:${toString cfg.port}";
+      }
+      // optionalAttrs cfg.managementPlugin.enable {
+        "management.tcp.port" = toString cfg.managementPlugin.port;
+        "management.tcp.ip" = cfg.listenAddress;
+      };
 
     services.rabbitmq.plugins = optional cfg.managementPlugin.enable "rabbitmq_management";
 
@@ -187,8 +199,14 @@ in
       description = "RabbitMQ Server";
 
       wantedBy = [ "multi-user.target" ];
-      after = [ "network.target" "epmd.socket" ];
-      wants = [ "network.target" "epmd.socket" ];
+      after = [
+        "network.target"
+        "epmd.socket"
+      ];
+      wants = [
+        "network.target"
+        "epmd.socket"
+      ];
 
       path = [
         cfg.package
@@ -228,7 +246,5 @@ in
         ''}
       '';
     };
-
   };
-
 }

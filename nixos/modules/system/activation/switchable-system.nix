@@ -1,9 +1,18 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
 
-  perlWrapped = pkgs.perl.withPackages (p: with p; [ ConfigIniFiles FileSlurp ]);
-
+  perlWrapped = pkgs.perl.withPackages (
+    p: with p; [
+      ConfigIniFiles
+      FileSlurp
+    ]
+  );
 in
 
 {
@@ -51,5 +60,4 @@ in
       ''}
     '';
   };
-
 }

@@ -1,10 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.hardware.bladeRF;
-
 in
 
 {
@@ -18,11 +22,10 @@ in
         libbladeRF package.
       '';
     };
-
   };
 
   config = mkIf cfg.enable {
     services.udev.packages = [ pkgs.libbladeRF ];
-    users.groups.bladerf = {};
+    users.groups.bladerf = { };
   };
 }

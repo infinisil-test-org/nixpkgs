@@ -1,14 +1,15 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchPypi
-, base58
-, ecdsa
-, hidapi
-, noiseprotocol
-, protobuf
-, semver
-, typing-extensions
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchPypi,
+  base58,
+  ecdsa,
+  hidapi,
+  noiseprotocol,
+  protobuf,
+  semver,
+  typing-extensions,
 }:
 
 buildPythonPackage rec {
@@ -36,9 +37,7 @@ buildPythonPackage rec {
   # does not contain tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "bitbox02"
-  ];
+  pythonImportsCheck = [ "bitbox02" ];
 
   meta = with lib; {
     description = "Firmware code of the BitBox02 hardware wallet";

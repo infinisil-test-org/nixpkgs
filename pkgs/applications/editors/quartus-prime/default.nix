@@ -1,8 +1,23 @@
-{ lib, buildFHSEnv, callPackage, makeDesktopItem, writeScript, runtimeShell
-, runCommand, unstick, quartus-prime-lite
-, withQuesta ? true
-, supportedDevices ? [ "Arria II" "Cyclone V" "Cyclone IV" "Cyclone 10 LP" "MAX II/V" "MAX 10 FPGA" ]
-, unwrapped ? callPackage ./quartus.nix { inherit unstick supportedDevices withQuesta; }
+{
+  lib,
+  buildFHSEnv,
+  callPackage,
+  makeDesktopItem,
+  writeScript,
+  runtimeShell,
+  runCommand,
+  unstick,
+  quartus-prime-lite,
+  withQuesta ? true,
+  supportedDevices ? [
+    "Arria II"
+    "Cyclone V"
+    "Cyclone IV"
+    "Cyclone 10 LP"
+    "MAX II/V"
+    "MAX 10 FPGA"
+  ],
+  unwrapped ? callPackage ./quartus.nix { inherit unstick supportedDevices withQuesta; },
 }:
 
 let
@@ -14,58 +29,67 @@ let
     genericName = "Quartus Prime";
     categories = [ "Development" ];
   };
+in
 # I think questa_fse/linux/vlm checksums itself, so use FHSUserEnv instead of `patchelf`
-in buildFHSEnv rec {
+buildFHSEnv rec {
   name = "quartus-prime-lite"; # wrapped
 
-  targetPkgs = pkgs: with pkgs; [
-    (runCommand "ld-lsb-compat" {} (''
-      mkdir -p "$out/lib"
-      ln -sr "${glibc}/lib/ld-linux-x86-64.so.2" "$out/lib/ld-lsb-x86-64.so.3"
-    '' + lib.optionalString withQuesta ''
-      ln -sr "${pkgsi686Linux.glibc}/lib/ld-linux.so.2" "$out/lib/ld-lsb.so.3"
-    ''))
-    # quartus requirements
-    glib
-    xorg.libICE
-    xorg.libSM
-    xorg.libXau
-    xorg.libXdmcp
-    libudev0-shim
-    bzip2
-    brotli
-    expat
-    dbus
-    # qsys requirements
-    xorg.libXtst
-    xorg.libXi
-    dejavu_fonts
-    gnumake
-  ];
+  targetPkgs =
+    pkgs: with pkgs; [
+      (runCommand "ld-lsb-compat" { } (
+        ''
+          mkdir -p "$out/lib"
+          ln -sr "${glibc}/lib/ld-linux-x86-64.so.2" "$out/lib/ld-lsb-x86-64.so.3"
+        ''
+        + lib.optionalString withQuesta ''
+          ln -sr "${pkgsi686Linux.glibc}/lib/ld-linux.so.2" "$out/lib/ld-lsb.so.3"
+        ''
+      ))
+      # quartus requirements
+      glib
+      xorg.libICE
+      xorg.libSM
+      xorg.libXau
+      xorg.libXdmcp
+      libudev0-shim
+      bzip2
+      brotli
+      expat
+      dbus
+      # qsys requirements
+      xorg.libXtst
+      xorg.libXi
+      dejavu_fonts
+      gnumake
+    ];
 
   # Also support 32-bit executables used by simulator.
   multiArch = withQuesta;
 
   # these libs are installed as 64 bit, plus as 32 bit when multiArch is true
-  multiPkgs = pkgs: with pkgs; let
-    # This seems ugly - can we override `libpng = libpng12` for all `pkgs`?
-    freetype = pkgs.freetype.override { libpng = libpng12; };
-    fontconfig = pkgs.fontconfig.override { inherit freetype; };
-    libXft = pkgs.xorg.libXft.override { inherit freetype fontconfig; };
-  in [
-    # questa requirements
-    libxml2
-    ncurses5
-    unixODBC
-    libXft
-    # common requirements
-    freetype
-    fontconfig
-    xorg.libX11
-    xorg.libXext
-    xorg.libXrender
-    libxcrypt-legacy
-  ];
+  multiPkgs =
+    pkgs:
+    with pkgs;
+    let
+      # This seems ugly - can we override `libpng = libpng12` for all `pkgs`?
+      freetype = pkgs.freetype.override { libpng = libpng12; };
+      fontconfig = pkgs.fontconfig.override { inherit freetype; };
+      libXft = pkgs.xorg.libXft.override { inherit freetype fontconfig; };
+    in
+    [
+      # questa requirements
+      libxml2
+      ncurses5
+      unixODBC
+      libXft
+      # common requirements
+      freetype
+      fontconfig
+      xorg.libX11
+      xorg.libXext
+      xorg.libXrender
+      libxcrypt-legacy
+    ];
 
   extraInstallCommands = ''
     mkdir -p $out/share/applications $out/share/icons/hicolor/64x64/apps
@@ -122,38 +146,37 @@ in buildFHSEnv rec {
   passthru = {
     inherit unwrapped;
     tests = {
-      buildSof = runCommand "quartus-prime-lite-test-build-sof"
-        { nativeBuildInputs = [ quartus-prime-lite ];
-        }
-        ''
-          cat >mydesign.vhd <<EOF
-          library ieee;
-          use ieee.std_logic_1164.all;
+      buildSof =
+        runCommand "quartus-prime-lite-test-build-sof" { nativeBuildInputs = [ quartus-prime-lite ]; }
+          ''
+            cat >mydesign.vhd <<EOF
+            library ieee;
+            use ieee.std_logic_1164.all;
 
-          entity mydesign is
-          port (
-              in_0: in std_logic;
-              in_1: in std_logic;
-              out_1: out std_logic
-          );
-          end mydesign;
+            entity mydesign is
+            port (
+                in_0: in std_logic;
+                in_1: in std_logic;
+                out_1: out std_logic
+            );
+            end mydesign;
 
-          architecture dataflow of mydesign is
-          begin
-              out_1 <= in_0 and in_1;
-          end dataflow;
-          EOF
+            architecture dataflow of mydesign is
+            begin
+                out_1 <= in_0 and in_1;
+            end dataflow;
+            EOF
 
-          quartus_sh --flow compile mydesign
+            quartus_sh --flow compile mydesign
 
-          if ! [ -f mydesign.sof ]; then
-              echo "error: failed to produce mydesign.sof" >&2
-              exit 1
-          fi
+            if ! [ -f mydesign.sof ]; then
+                echo "error: failed to produce mydesign.sof" >&2
+                exit 1
+            fi
 
-          touch "$out"
-        '';
-      questaEncryptedModel = runCommand "quartus-prime-lite-test-questa-encrypted-model" {} ''
+            touch "$out"
+          '';
+      questaEncryptedModel = runCommand "quartus-prime-lite-test-questa-encrypted-model" { } ''
         "${quartus-prime-lite}/bin/vlog" "${quartus-prime-lite.unwrapped}/questa_fse/intel/verilog/src/arriav_atoms_ncrypt.v"
         touch "$out"
       '';

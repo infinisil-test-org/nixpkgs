@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, fetchFromGitLab
-, zip
-, love
-, makeWrapper
-, makeDesktopItem
-, copyDesktopItems
-, strip-nondeterminism
+{
+  lib,
+  stdenv,
+  fetchFromGitLab,
+  zip,
+  love,
+  makeWrapper,
+  makeDesktopItem,
+  copyDesktopItems,
+  strip-nondeterminism,
 }:
 
 stdenv.mkDerivation rec {
@@ -61,5 +62,4 @@ stdenv.mkDerivation rec {
     downloadPage = "https://ldjam.com/events/ludum-dare/53/wireworld";
     maintainers = with lib.maintainers; [ janik ];
   };
-
 }

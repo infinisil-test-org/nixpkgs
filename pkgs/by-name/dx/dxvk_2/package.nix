@@ -1,18 +1,19 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, pkgsBuildHost
-, glslang
-, meson
-, ninja
-, windows
-, spirv-headers
-, vulkan-headers
-, SDL2
-, glfw
-, gitUpdater
-, sdl2Support ? true
-, glfwSupport ? false
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  pkgsBuildHost,
+  glslang,
+  meson,
+  ninja,
+  windows,
+  spirv-headers,
+  vulkan-headers,
+  SDL2,
+  glfw,
+  gitUpdater,
+  sdl2Support ? true,
+  glfwSupport ? false,
 }:
 
 # SDL2 and GLFW support are mutually exclusive.
@@ -21,7 +22,7 @@ assert !sdl2Support || !glfwSupport;
 let
   isWindows = stdenv.hostPlatform.uname.system == "Windows";
 in
-stdenv.mkDerivation (finalAttrs:  {
+stdenv.mkDerivation (finalAttrs: {
   pname = "dxvk";
   version = "2.3";
 
@@ -38,8 +39,16 @@ stdenv.mkDerivation (finalAttrs:  {
       --replace "/usr/bin/env python3" "${lib.getBin pkgsBuildHost.python3}/bin/python3"
   '';
 
-  nativeBuildInputs = [ glslang meson ninja ];
-  buildInputs = [ spirv-headers vulkan-headers ]
+  nativeBuildInputs = [
+    glslang
+    meson
+    ninja
+  ];
+  buildInputs =
+    [
+      spirv-headers
+      vulkan-headers
+    ]
     ++ lib.optionals (!isWindows && sdl2Support) [ SDL2 ]
     ++ lib.optionals (!isWindows && glfwSupport) [ glfw ]
     ++ lib.optionals isWindows [ windows.pthreads ];
@@ -51,8 +60,10 @@ stdenv.mkDerivation (finalAttrs:  {
   '';
 
   mesonFlags = [
-    "--buildtype" "release"
-    "--prefix" "${placeholder "out"}"
+    "--buildtype"
+    "release"
+    "--prefix"
+    "${placeholder "out"}"
   ] ++ lib.optional glfwSupport "-Ddxvk_native_wsi=glfw";
 
   doCheck = true;

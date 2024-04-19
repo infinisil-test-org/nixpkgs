@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -18,6 +23,5 @@ in
     system.fsPackages = [ package ];
 
     boot.initrd.kernelModules = mkIf inInitrd [ "vboxsf" ];
-
   };
 }

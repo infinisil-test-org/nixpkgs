@@ -1,31 +1,32 @@
-{ lib
-, buildPythonPackage
-, pythonAtLeast
-, pythonOlder
-, isPyPy
-, fetchFromGitHub
+{
+  lib,
+  buildPythonPackage,
+  pythonAtLeast,
+  pythonOlder,
+  isPyPy,
+  fetchFromGitHub,
 
-# build
-, cython_3
-, setuptools
+  # build
+  cython_3,
+  setuptools,
 
-# tests
-, aiofiles
-, cbor2
-, httpx
-, msgpack
-, mujson
-, orjson
-, pytest-asyncio
-, pytestCheckHook
-, pytest_7
-, pyyaml
-, rapidjson
-, requests
-, testtools
-, ujson
-, uvicorn
-, websockets
+  # tests
+  aiofiles,
+  cbor2,
+  httpx,
+  msgpack,
+  mujson,
+  orjson,
+  pytest-asyncio,
+  pytestCheckHook,
+  pytest_7,
+  pyyaml,
+  rapidjson,
+  requests,
+  testtools,
+  ujson,
+  uvicorn,
+  websockets,
 }:
 
 buildPythonPackage rec {
@@ -41,11 +42,7 @@ buildPythonPackage rec {
     hash = "sha256-7719gOM8WQVjODwOSo7HpH3HMFFeCGQQYBKktBAevig=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ] ++ lib.optionals (!isPyPy) [
-    cython_3
-  ];
+  nativeBuildInputs = [ setuptools ] ++ lib.optionals (!isPyPy) [ cython_3 ];
 
   __darwinAllowLocalNetworking = true;
 
@@ -79,21 +76,19 @@ buildPythonPackage rec {
     msgpack
     mujson
     ujson
-  ] ++ lib.optionals (pythonOlder "3.10") [
-    testtools
-  ];
+  ] ++ lib.optionals (pythonOlder "3.10") [ testtools ];
 
-  pytestFlagsArray = [
-    "tests"
-  ];
+  pytestFlagsArray = [ "tests" ];
 
-  disabledTestPaths = [
-    # needs a running server
-    "tests/asgi/test_asgi_servers.py"
-  ] ++ lib.optionals (pythonAtLeast "3.12") [
-    # ModuleNotFoundError: No module named 'distutils'
-    "tests/asgi/test_cythonized_asgi.py"
-  ];
+  disabledTestPaths =
+    [
+      # needs a running server
+      "tests/asgi/test_asgi_servers.py"
+    ]
+    ++ lib.optionals (pythonAtLeast "3.12") [
+      # ModuleNotFoundError: No module named 'distutils'
+      "tests/asgi/test_cythonized_asgi.py"
+    ];
 
   meta = with lib; {
     description = "An unladen web framework for building APIs and app backends";
@@ -101,5 +96,4 @@ buildPythonPackage rec {
     license = licenses.asl20;
     maintainers = with maintainers; [ desiderius ];
   };
-
 }

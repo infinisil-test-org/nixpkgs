@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -8,8 +13,7 @@ let
   ldmcfg = dmcfg.lightdm;
   cfg = ldmcfg.greeters.mini;
 
-  miniGreeterConf = pkgs.writeText "lightdm-mini-greeter.conf"
-    ''
+  miniGreeterConf = pkgs.writeText "lightdm-mini-greeter.conf" ''
     [greeter]
     user = ${cfg.user}
     show-password-label = true
@@ -44,8 +48,7 @@ let
     password-border-width = 2px
 
     ${cfg.extraConfig}
-    '';
-
+  '';
 in
 {
   options = {
@@ -80,9 +83,7 @@ in
           configuration file.
         '';
       };
-
     };
-
   };
 
   config = mkIf (ldmcfg.enable && cfg.enable) {
@@ -95,6 +96,5 @@ in
     };
 
     environment.etc."lightdm/lightdm-mini-greeter.conf".source = miniGreeterConf;
-
   };
 }

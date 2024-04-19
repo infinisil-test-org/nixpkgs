@@ -1,4 +1,8 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+}:
 
 buildGoModule rec {
   pname = "jumppad";
@@ -13,7 +17,9 @@ buildGoModule rec {
   vendorHash = "sha256-9DLDc6zI0BYd2AK9xwqFNJTFdKXagkdPwczLhCvud94=";
 
   ldflags = [
-    "-s" "-w" "-X main.version=${version}"
+    "-s"
+    "-w"
+    "-X main.version=${version}"
   ];
 
   # Tests require a large variety of tools and resources to run including

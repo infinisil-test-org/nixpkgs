@@ -1,17 +1,18 @@
-{ lib
-, authlib
-, buildPythonPackage
-, fetchFromGitHub
-, httpx
-, mashumaro
-, orjson
-, pytest-httpx
-, poetry-core
-, pytestCheckHook
-, pythonOlder
-, pythonRelaxDepsHook
-, pytz
-, respx
+{
+  lib,
+  authlib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  httpx,
+  mashumaro,
+  orjson,
+  pytest-httpx,
+  poetry-core,
+  pytestCheckHook,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  pytz,
+  respx,
 }:
 
 buildPythonPackage rec {
@@ -51,9 +52,7 @@ buildPythonPackage rec {
     respx
   ];
 
-  pythonImportsCheck = [
-    "pydiscovergy"
-  ];
+  pythonImportsCheck = [ "pydiscovergy" ];
 
   meta = with lib; {
     description = "Async Python 3 library for interacting with the Discovergy API";

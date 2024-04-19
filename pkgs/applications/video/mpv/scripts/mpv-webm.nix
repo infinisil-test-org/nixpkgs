@@ -1,8 +1,9 @@
-{ lib
-, buildLua
-, fetchFromGitHub
-, luaPackages
-, unstableGitUpdater
+{
+  lib,
+  buildLua,
+  fetchFromGitHub,
+  luaPackages,
+  unstableGitUpdater,
 }:
 
 buildLua {
@@ -15,7 +16,7 @@ buildLua {
     rev = "6b5863f68275b3dc91c2507284c039ec8a4cbd97";
     hash = "sha256-rJamBm6FyxWcJO7VXXOUTO9piWCkPfEVdqGKGeJ/h0c=";
   };
-  passthru.updateScript = unstableGitUpdater {};
+  passthru.updateScript = unstableGitUpdater { };
 
   dontBuild = false;
   nativeBuildInputs = [ luaPackages.moonscript ];

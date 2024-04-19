@@ -1,10 +1,11 @@
-{ lib
-, melpaBuild
-, fetchFromGitHub
-, acm
-, popon
-, writeText
-, unstableGitUpdater
+{
+  lib,
+  melpaBuild,
+  fetchFromGitHub,
+  acm,
+  popon,
+  writeText,
+  unstableGitUpdater,
 }:
 
 let

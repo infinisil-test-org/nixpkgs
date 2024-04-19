@@ -1,14 +1,15 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, nose
-, tox
-, six
-, python-dateutil
-, kitchen
-, pytestCheckHook
-, pytz
-, pkgs
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  nose,
+  tox,
+  six,
+  python-dateutil,
+  kitchen,
+  pytestCheckHook,
+  pytz,
+  pkgs,
 }:
 
 buildPythonPackage rec {
@@ -33,12 +34,17 @@ buildPythonPackage rec {
 
   buildInputs = [ pkgs.taskwarrior ];
 
-  propagatedBuildInputs = [ six python-dateutil kitchen pytz ];
+  propagatedBuildInputs = [
+    six
+    python-dateutil
+    kitchen
+    pytz
+  ];
 
   nativeCheckInputs = [ pytestCheckHook ];
 
   meta = with lib; {
-    homepage =  "https://github.com/ralphbean/taskw";
+    homepage = "https://github.com/ralphbean/taskw";
     description = "Python bindings for your taskwarrior database";
     license = licenses.gpl3Plus;
     maintainers = with maintainers; [ pierron ];

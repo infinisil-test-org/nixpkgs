@@ -1,21 +1,22 @@
-{ lib
-, buildNpmPackage
-, fetchFromGitHub
-, meson
-, ninja
-, pkg-config
-, gobject-introspection
-, gjs
-, glib-networking
-, gnome
-, gtk-layer-shell
-, libpulseaudio
-, libsoup_3
-, networkmanager
-, upower
-, typescript
-, wrapGAppsHook
-, linux-pam
+{
+  lib,
+  buildNpmPackage,
+  fetchFromGitHub,
+  meson,
+  ninja,
+  pkg-config,
+  gobject-introspection,
+  gjs,
+  glib-networking,
+  gnome,
+  gtk-layer-shell,
+  libpulseaudio,
+  libsoup_3,
+  networkmanager,
+  upower,
+  typescript,
+  wrapGAppsHook,
+  linux-pam,
 }:
 
 buildNpmPackage rec {
@@ -32,9 +33,7 @@ buildNpmPackage rec {
 
   npmDepsHash = "sha256-ucWdADdMqAdLXQYKGOXHNRNM9bhjKX4vkMcQ8q/GZ20=";
 
-  mesonFlags = [
-    (lib.mesonBool "build_types" true)
-  ];
+  mesonFlags = [ (lib.mesonBool "build_types" true) ];
 
   nativeBuildInputs = [
     meson

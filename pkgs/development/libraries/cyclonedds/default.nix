@@ -1,7 +1,8 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
 }:
 
 stdenv.mkDerivation rec {
@@ -15,9 +16,7 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-LSCfQPyd/QOsrnLNbKb0OlCvmHi/2aDDhi8VeXpYb1w=";
   };
 
-  patches = [
-    ./0001-Use-full-path-in-pkgconfig.patch
-  ];
+  patches = [ ./0001-Use-full-path-in-pkgconfig.patch ];
 
   nativeBuildInputs = [ cmake ];
 

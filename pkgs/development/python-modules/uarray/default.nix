@@ -1,15 +1,16 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, fetchpatch
-, setuptools
-, setuptools-scm
-, matchpy
-, numpy
-, astunparse
-, typing-extensions
-, pytestCheckHook
-, pytest-cov
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  fetchpatch,
+  setuptools,
+  setuptools-scm,
+  matchpy,
+  numpy,
+  astunparse,
+  typing-extensions,
+  pytestCheckHook,
+  pytest-cov,
 }:
 
 buildPythonPackage rec {
@@ -24,15 +25,31 @@ buildPythonPackage rec {
     hash = "sha256-wTKqOw64b+/kdZpSYLwCJATOuo807BWCtVHB4pH58fY=";
   };
 
-  nativeBuildInputs = [ setuptools setuptools-scm ];
-  nativeCheckInputs = [ pytestCheckHook pytest-cov ];
-  propagatedBuildInputs = [ matchpy numpy astunparse typing-extensions ];
+  nativeBuildInputs = [
+    setuptools
+    setuptools-scm
+  ];
+  nativeCheckInputs = [
+    pytestCheckHook
+    pytest-cov
+  ];
+  propagatedBuildInputs = [
+    matchpy
+    numpy
+    astunparse
+    typing-extensions
+  ];
 
   # Tests must be run from outside the source directory
   preCheck = ''
     cd $TMP
   '';
-  pytestFlagsArray = ["--pyargs" "uarray" "-W" "ignore::pytest.PytestRemovedIn8Warning" ];
+  pytestFlagsArray = [
+    "--pyargs"
+    "uarray"
+    "-W"
+    "ignore::pytest.PytestRemovedIn8Warning"
+  ];
   pythonImportsCheck = [ "uarray" ];
 
   meta = with lib; {

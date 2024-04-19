@@ -1,11 +1,12 @@
-{ lib
-, fetchFromGitHub
-, buildPythonPackage
-, text-unidecode
-, chardet
-, banal
-, pyicu
-, pytestCheckHook
+{
+  lib,
+  fetchFromGitHub,
+  buildPythonPackage,
+  text-unidecode,
+  chardet,
+  banal,
+  pyicu,
+  pytestCheckHook,
 }:
 buildPythonPackage rec {
   pname = "normality";
@@ -26,13 +27,9 @@ buildPythonPackage rec {
     pyicu
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "normality"
-  ];
+  pythonImportsCheck = [ "normality" ];
 
   meta = with lib; {
     description = "Micro-library to normalize text strings";

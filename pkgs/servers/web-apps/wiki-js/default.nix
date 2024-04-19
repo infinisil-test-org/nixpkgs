@@ -1,4 +1,11 @@
-{ stdenv, fetchurl, lib, nixosTests, jq, moreutils }:
+{
+  stdenv,
+  fetchurl,
+  lib,
+  nixosTests,
+  jq,
+  moreutils,
+}:
 
 stdenv.mkDerivation rec {
   pname = "wiki-js";
@@ -22,7 +29,9 @@ stdenv.mkDerivation rec {
   '';
 
   passthru = {
-    tests = { inherit (nixosTests) wiki-js; };
+    tests = {
+      inherit (nixosTests) wiki-js;
+    };
     updateScript = ./update.sh;
   };
 

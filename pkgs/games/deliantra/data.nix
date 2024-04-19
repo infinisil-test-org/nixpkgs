@@ -1,4 +1,12 @@
-{ stdenv, lib, fetchurl, deliantra-maps, deliantra-arch, deliantra-server, symlinkJoin }:
+{
+  stdenv,
+  lib,
+  fetchurl,
+  deliantra-maps,
+  deliantra-arch,
+  deliantra-server,
+  symlinkJoin,
+}:
 
 symlinkJoin rec {
   name = "deliantra-data-${version}";
@@ -13,9 +21,12 @@ symlinkJoin rec {
   meta = with lib; {
     description = "Combined game data (maps + archetypes) for the Deliantra free MMORPG";
     homepage = "http://www.deliantra.net/";
-    license = with licenses; [ gpl2Plus agpl3Plus ];
+    license = with licenses; [
+      gpl2Plus
+      agpl3Plus
+    ];
     platforms = platforms.linux;
     maintainers = with maintainers; [ ToxicFrog ];
-    hydraPlatforms = [];
+    hydraPlatforms = [ ];
   };
 }

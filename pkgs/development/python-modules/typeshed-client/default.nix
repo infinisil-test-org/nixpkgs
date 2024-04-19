@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, importlib-resources
-, pytestCheckHook
-, pythonOlder
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  importlib-resources,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -21,25 +22,15 @@ buildPythonPackage rec {
     hash = "sha256-lITreXYn/ZOc1fF2Sqcn8UDrZAjWYfjFSEaAxqTHb4s=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [
-    importlib-resources
-  ];
+  propagatedBuildInputs = [ importlib-resources ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "typeshed_client"
-  ];
+  pythonImportsCheck = [ "typeshed_client" ];
 
-  pytestFlagsArray = [
-    "tests/test.py"
-  ];
+  pytestFlagsArray = [ "tests/test.py" ];
 
   meta = with lib; {
     description = "Retrieve information from typeshed and other typing stubs";

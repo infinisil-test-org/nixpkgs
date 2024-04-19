@@ -1,22 +1,23 @@
-{ lib
-, stdenv
-, fetchurl
-, meson
-, ninja
-, pkg-config
-, libpng
-, glib /*just passthru*/
+{
+  lib,
+  stdenv,
+  fetchurl,
+  meson,
+  ninja,
+  pkg-config,
+  libpng,
+  glib, # just passthru
 
-# for passthru.tests
-, cairo
-, qemu
-, scribus
-, tigervnc
-, wlroots
-, xwayland
+  # for passthru.tests
+  cairo,
+  qemu,
+  scribus,
+  tigervnc,
+  wlroots,
+  xwayland,
 
-, gitUpdater
-, testers
+  gitUpdater,
+  testers,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -33,7 +34,11 @@ stdenv.mkDerivation (finalAttrs: {
 
   separateDebugInfo = !stdenv.hostPlatform.isStatic;
 
-  nativeBuildInputs = [ meson ninja pkg-config ];
+  nativeBuildInputs = [
+    meson
+    ninja
+    pkg-config
+  ];
 
   buildInputs = [ libpng ];
 
@@ -41,11 +46,10 @@ stdenv.mkDerivation (finalAttrs: {
   # architectures and requires used to disable them:
   #   https://gitlab.freedesktop.org/pixman/pixman/-/issues/88
   mesonAutoFeatures = "auto";
-  mesonFlags = [
-    "-Diwmmxt=disabled"
-  ]
-  # Disable until https://gitlab.freedesktop.org/pixman/pixman/-/issues/46 is resolved
-  ++ lib.optional (stdenv.isAarch64 && !stdenv.cc.isGNU) "-Da64-neon=disabled";
+  mesonFlags =
+    [ "-Diwmmxt=disabled" ]
+    # Disable until https://gitlab.freedesktop.org/pixman/pixman/-/issues/46 is resolved
+    ++ lib.optional (stdenv.isAarch64 && !stdenv.cc.isGNU) "-Da64-neon=disabled";
 
   preConfigure = ''
     # https://gitlab.freedesktop.org/pixman/pixman/-/issues/62
@@ -60,10 +64,15 @@ stdenv.mkDerivation (finalAttrs: {
 
   passthru = {
     tests = {
-      inherit cairo qemu scribus tigervnc wlroots xwayland;
-      pkg-config = testers.hasPkgConfigModules {
-        package = finalAttrs.finalPackage;
-      };
+      inherit
+        cairo
+        qemu
+        scribus
+        tigervnc
+        wlroots
+        xwayland
+        ;
+      pkg-config = testers.hasPkgConfigModules { package = finalAttrs.finalPackage; };
     };
     updateScript = gitUpdater {
       url = "https://gitlab.freedesktop.org/pixman/pixman.git";

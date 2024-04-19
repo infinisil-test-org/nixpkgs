@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, gensim
-, numpy
-, pandas
-, pyfume
-, scipy
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  gensim,
+  numpy,
+  pandas,
+  pyfume,
+  scipy,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -33,9 +34,7 @@ buildPythonPackage rec {
   # Module has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "FuzzyTM"
-  ];
+  pythonImportsCheck = [ "FuzzyTM" ];
 
   meta = with lib; {
     description = "Library for Fuzzy Topic Models";

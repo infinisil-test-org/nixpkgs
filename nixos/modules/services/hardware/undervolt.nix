@@ -1,19 +1,25 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 let
   cfg = config.services.undervolt;
 
-  mkPLimit = limit: window:
-    if (limit == null && window == null) then null
-    else assert asserts.assertMsg (limit != null && window != null) "Both power limit and window must be set";
+  mkPLimit =
+    limit: window:
+    if (limit == null && window == null) then
+      null
+    else
+      assert asserts.assertMsg (
+        limit != null && window != null
+      ) "Both power limit and window must be set";
       "${toString limit} ${toString window}";
-  cliArgs = lib.cli.toGNUCommandLine {} {
-    inherit (cfg)
-      verbose
-      temp
-      turbo
-      ;
+  cliArgs = lib.cli.toGNUCommandLine { } {
+    inherit (cfg) verbose temp turbo;
     # `core` and `cache` are both intentionally set to `cfg.coreOffset` as according to the undervolt docs:
     #
     #     Core or Cache offsets have no effect. It is not possible to set different offsets for
@@ -35,9 +41,9 @@ in
 {
   options.services.undervolt = {
     enable = mkEnableOption ''
-       Undervolting service for Intel CPUs.
+      Undervolting service for Intel CPUs.
 
-       Warning: This service is not endorsed by Intel and may permanently damage your hardware. Use at your own risk
+      Warning: This service is not endorsed by Intel and may permanently damage your hardware. Use at your own risk
     '';
 
     verbose = mkOption {
@@ -123,7 +129,12 @@ in
       '';
     };
     p1.window = mkOption {
-      type = with types; nullOr (oneOf [ float int ]);
+      type =
+        with types;
+        nullOr (oneOf [
+          float
+          int
+        ]);
       default = null;
       description = ''
         The P1 Time Window in seconds.
@@ -140,7 +151,12 @@ in
       '';
     };
     p2.window = mkOption {
-      type = with types; nullOr (oneOf [ float int ]);
+      type =
+        with types;
+        nullOr (oneOf [
+          float
+          int
+        ]);
       default = null;
       description = ''
         The P2 Time Window in seconds.
@@ -169,7 +185,10 @@ in
       description = "Intel Undervolting Service";
 
       # Apply undervolt on boot, nixos generation switch and resume
-      wantedBy = [ "multi-user.target" "post-resume.target" ];
+      wantedBy = [
+        "multi-user.target"
+        "post-resume.target"
+      ];
       after = [ "post-resume.target" ]; # Not sure why but it won't work without this
 
       serviceConfig = {

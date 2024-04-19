@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, setuptools
-, jupyter-server
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  setuptools,
+  jupyter-server,
 }:
 
 buildPythonPackage rec {
@@ -15,13 +16,9 @@ buildPythonPackage rec {
     hash = "sha256-XlADMUk0QGU0jmiGCPPG1lTvBtmFa2dlW9e2usnuLVk=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [
-    jupyter-server
-  ];
+  propagatedBuildInputs = [ jupyter-server ];
   # tests require network
   doCheck = false;
   pythonImportsCheck = [ "jupyter_lsp" ];
@@ -34,4 +31,3 @@ buildPythonPackage rec {
     maintainers = with maintainers; [ ];
   };
 }
-

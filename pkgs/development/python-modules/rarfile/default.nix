@@ -1,6 +1,15 @@
-{ lib, buildPythonPackage, fetchFromGitHub, pytestCheckHook, nose, libarchive, glibcLocales, isPy27
-# unrar is non-free software
-, useUnrar ? false, unrar
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pytestCheckHook,
+  nose,
+  libarchive,
+  glibcLocales,
+  isPy27,
+  # unrar is non-free software
+  useUnrar ? false,
+  unrar,
 }:
 
 assert useUnrar -> unrar != null;
@@ -19,17 +28,27 @@ buildPythonPackage rec {
     sha256 = "sha256-ZiwD2LG25fMd4Z+QWsh/x3ceG5QRBH4s/TZDwMnfpNI=";
   };
 
-  nativeCheckInputs = [ pytestCheckHook nose glibcLocales ];
+  nativeCheckInputs = [
+    pytestCheckHook
+    nose
+    glibcLocales
+  ];
 
-  prePatch = ''
-    substituteInPlace rarfile.py \
-  '' + (if useUnrar then
-        ''--replace 'UNRAR_TOOL = "unrar"' "UNRAR_TOOL = \"${unrar}/bin/unrar\""
+  prePatch =
+    ''
+      substituteInPlace rarfile.py \
+    ''
+    + (
+      if useUnrar then
         ''
-       else
-        ''--replace 'ALT_TOOL = "bsdtar"' "ALT_TOOL = \"${libarchive}/bin/bsdtar\""
-        '')
-     + "";
+          --replace 'UNRAR_TOOL = "unrar"' "UNRAR_TOOL = \"${unrar}/bin/unrar\""
+        ''
+      else
+        ''
+          --replace 'ALT_TOOL = "bsdtar"' "ALT_TOOL = \"${libarchive}/bin/bsdtar\""
+        ''
+    )
+    + "";
   # the tests only work with the standard unrar package
   doCheck = useUnrar;
   LC_ALL = "en_US.UTF-8";

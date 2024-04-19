@@ -1,19 +1,22 @@
-{ lib, stdenv
-, fetchFromGitHub
-, vala
-, gettext
-, libxml2
-, pkg-config
-, glib
-, gtk3
-, libgee
-, meson
-, ninja
-, gobject-introspection
-, gsettings-desktop-schemas
-, desktop-file-utils
-, pantheon
-, wrapGAppsHook }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  vala,
+  gettext,
+  libxml2,
+  pkg-config,
+  glib,
+  gtk3,
+  libgee,
+  meson,
+  ninja,
+  gobject-introspection,
+  gsettings-desktop-schemas,
+  desktop-file-utils,
+  pantheon,
+  wrapGAppsHook,
+}:
 
 stdenv.mkDerivation rec {
   pname = "regextester";

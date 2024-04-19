@@ -1,4 +1,13 @@
-{ lib, stdenv, fetchFromGitHub, zlib, flex, bison, readline, darwin }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  zlib,
+  flex,
+  bison,
+  readline,
+  darwin,
+}:
 
 stdenv.mkDerivation rec {
   pname = "foma";
@@ -13,17 +22,24 @@ stdenv.mkDerivation rec {
 
   sourceRoot = "${src.name}/foma";
 
-  nativeBuildInputs = [ flex bison ]
-    ++ lib.optional stdenv.isDarwin darwin.cctools;
-  buildInputs = [ zlib readline ];
-
-  makeFlags = [
-    "CC:=$(CC)"
-    "RANLIB:=$(RANLIB)"
-    "prefix=$(out)"
-  ] ++ lib.optionals (!stdenv.isDarwin) [
-    "AR:=$(AR)" # libtool is used for darwin
+  nativeBuildInputs = [
+    flex
+    bison
+  ] ++ lib.optional stdenv.isDarwin darwin.cctools;
+  buildInputs = [
+    zlib
+    readline
   ];
+
+  makeFlags =
+    [
+      "CC:=$(CC)"
+      "RANLIB:=$(RANLIB)"
+      "prefix=$(out)"
+    ]
+    ++ lib.optionals (!stdenv.isDarwin) [
+      "AR:=$(AR)" # libtool is used for darwin
+    ];
 
   patchPhase = ''
     substituteInPlace Makefile \

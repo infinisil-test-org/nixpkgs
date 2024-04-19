@@ -1,11 +1,12 @@
-{ lib
-, buildNpmPackage
-, fetchFromGitHub
-, makeWrapper
-, ffmpeg
-, yt-dlp
-, makeDesktopItem
-, electron
+{
+  lib,
+  buildNpmPackage,
+  fetchFromGitHub,
+  makeWrapper,
+  ffmpeg,
+  yt-dlp,
+  makeDesktopItem,
+  electron,
 }:
 
 buildNpmPackage rec {
@@ -22,7 +23,10 @@ buildNpmPackage rec {
   npmDepsHash = "sha256-lhFyiWy9dgnxxaElavzqA4YpRm7cVC23pvL5Kwve58E=";
 
   nativeBuildInputs = [ makeWrapper ];
-  buildInputs = [ ffmpeg yt-dlp ];
+  buildInputs = [
+    ffmpeg
+    yt-dlp
+  ];
 
   desktopItem = makeDesktopItem {
     name = "ytDownloader";

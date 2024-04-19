@@ -1,6 +1,7 @@
-{ lib
-, fetchFromGitHub
-, python3
+{
+  lib,
+  fetchFromGitHub,
+  python3,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -36,9 +37,7 @@ python3.pkgs.buildPythonApplication rec {
     termcolor
   ];
 
-  pythonImportsCheck = [
-    "forbidden"
-  ];
+  pythonImportsCheck = [ "forbidden" ];
 
   meta = with lib; {
     description = "Tool to bypass 4xx HTTP response status code";

@@ -1,4 +1,8 @@
-{ lib, mkDerivation, stdenv }:
+{
+  lib,
+  mkDerivation,
+  stdenv,
+}:
 
 mkDerivation rec {
   path = "usr.bin/rpcgen";

@@ -1,14 +1,15 @@
-{ stdenv
-, config
-, pkgs
-, lib
-, fetchFromGitHub
-, cmake
-, eigen
-, onnxruntime
-, opencv
-, cudaSupport ? config.cudaSupport
-, cudaPackages ? { }
+{
+  stdenv,
+  config,
+  pkgs,
+  lib,
+  fetchFromGitHub,
+  cmake,
+  eigen,
+  onnxruntime,
+  opencv,
+  cudaSupport ? config.cudaSupport,
+  cudaPackages ? { },
 }@inputs:
 
 let
@@ -30,34 +31,42 @@ effectiveStdenv.mkDerivation (finalAttrs: {
     hash = "sha256-BWO4lKZhwNG6mbkC70hPgMNjabTnEV5XMo0bLV/gvQs=";
   };
 
-  outputs = [ "out" "cmake" ];
+  outputs = [
+    "out"
+    "cmake"
+  ];
 
   nativeBuildInputs = [
     cmake
     eigen
-  ] ++ lib.optionals cudaSupport [
-    cudaPackages.cuda_nvcc
-  ];
+  ] ++ lib.optionals cudaSupport [ cudaPackages.cuda_nvcc ];
 
-  buildInputs = [
-    onnxruntime
-    opencv
-  ] ++ lib.optionals cudaSupport (with cudaPackages; [
-    cuda_cccl # cub/cub.cuh
-    libcublas # cublas_v2.h
-    libcurand # curand.h
-    libcusparse # cusparse.h
-    libcufft # cufft.h
-    cudnn # cudnn.h
-    cuda_cudart
-  ]);
+  buildInputs =
+    [
+      onnxruntime
+      opencv
+    ]
+    ++ lib.optionals cudaSupport (
+      with cudaPackages;
+      [
+        cuda_cccl # cub/cub.cuh
+        libcublas # cublas_v2.h
+        libcurand # curand.h
+        libcusparse # cusparse.h
+        libcufft # cufft.h
+        cudnn # cudnn.h
+        cuda_cudart
+      ]
+    );
 
-  cmakeFlags = [
-    (lib.cmakeFeature "CMAKE_BUILD_TYPE" "None")
-    (lib.cmakeBool "BUILD_SHARED_LIBS" true)
-  ] ++ lib.optionals cudaSupport [
-    (lib.cmakeFeature "CMAKE_CUDA_ARCHITECTURES" cudaArchitecturesString)
-  ];
+  cmakeFlags =
+    [
+      (lib.cmakeFeature "CMAKE_BUILD_TYPE" "None")
+      (lib.cmakeBool "BUILD_SHARED_LIBS" true)
+    ]
+    ++ lib.optionals cudaSupport [
+      (lib.cmakeFeature "CMAKE_CUDA_ARCHITECTURES" cudaArchitecturesString)
+    ];
 
   postInstall = ''
     mkdir $cmake

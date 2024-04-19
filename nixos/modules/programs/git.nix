@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -11,9 +16,7 @@ in
     programs.git = {
       enable = mkEnableOption "git, a distributed version control system";
 
-      package = mkPackageOption pkgs "git" {
-        example = "gitFull";
-      };
+      package = mkPackageOption pkgs "git" { example = "gitFull"; };
 
       config = mkOption {
         type =
@@ -21,27 +24,39 @@ in
           let
             gitini = attrsOf (attrsOf anything);
           in
-          either gitini (listOf gitini) // {
-            merge = loc: defs:
+          either gitini (listOf gitini)
+          // {
+            merge =
+              loc: defs:
               let
-                config = foldl'
-                  (acc: { value, ... }@x: acc // (if isList value then {
-                    ordered = acc.ordered ++ value;
-                  } else {
-                    unordered = acc.unordered ++ [ x ];
-                  }))
-                  {
-                    ordered = [ ];
-                    unordered = [ ];
-                  }
-                  defs;
+                config =
+                  foldl'
+                    (
+                      acc:
+                      { value, ... }@x:
+                      acc
+                      // (
+                        if isList value then
+                          { ordered = acc.ordered ++ value; }
+                        else
+                          { unordered = acc.unordered ++ [ x ]; }
+                      )
+                    )
+                    {
+                      ordered = [ ];
+                      unordered = [ ];
+                    }
+                    defs;
               in
               [ (gitini.merge loc config.unordered) ] ++ config.ordered;
           };
         default = [ ];
         example = {
           init.defaultBranch = "main";
-          url."https://github.com/".insteadOf = [ "gh:" "github:" ];
+          url."https://github.com/".insteadOf = [
+            "gh:"
+            "github:"
+          ];
         };
         description = ''
           Configuration to write to /etc/gitconfig. A list can also be

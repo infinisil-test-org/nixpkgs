@@ -1,7 +1,8 @@
-{ webcord
-, substituteAll
-, lib
-, vencord-web-extension
+{
+  webcord,
+  substituteAll,
+  lib,
+  vencord-web-extension,
 }:
 
 webcord.overrideAttrs (old: {
@@ -14,8 +15,14 @@ webcord.overrideAttrs (old: {
     })
   ];
 
-  meta = with lib; old.meta // {
-    description = "Webcord with Vencord web extension";
-    maintainers = with maintainers; [ FlafyDev NotAShelf ];
-  };
+  meta =
+    with lib;
+    old.meta
+    // {
+      description = "Webcord with Vencord web extension";
+      maintainers = with maintainers; [
+        FlafyDev
+        NotAShelf
+      ];
+    };
 })

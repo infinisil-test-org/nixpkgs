@@ -1,6 +1,7 @@
-{ lib
-, python3Packages
-, fetchFromGitHub
+{
+  lib,
+  python3Packages,
+  fetchFromGitHub,
 }:
 
 python3Packages.buildPythonApplication rec {
@@ -42,9 +43,7 @@ python3Packages.buildPythonApplication rec {
     pythonRelaxDepsHook
   ];
 
-  pythonImportsCheck = [
-    "oterm"
-  ];
+  pythonImportsCheck = [ "oterm" ];
 
   # Tests require a HTTP connection to ollama
   doCheck = false;

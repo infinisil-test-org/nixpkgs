@@ -1,22 +1,27 @@
-{ stdenv
-, lib
-, fetchFromGitLab
-, gi-docgen
-, gobject-introspection
-, meson
-, ninja
-, pkg-config
-, vala
-, glib
-, liburing
-, gnome
+{
+  stdenv,
+  lib,
+  fetchFromGitLab,
+  gi-docgen,
+  gobject-introspection,
+  meson,
+  ninja,
+  pkg-config,
+  vala,
+  glib,
+  liburing,
+  gnome,
 }:
 
 stdenv.mkDerivation rec {
   pname = "libdex";
   version = "0.4.3";
 
-  outputs = [ "out" "dev" "devdoc" ];
+  outputs = [
+    "out"
+    "dev"
+    "devdoc"
+  ];
 
   src = fetchFromGitLab {
     domain = "gitlab.gnome.org";
@@ -40,9 +45,7 @@ stdenv.mkDerivation rec {
     liburing
   ];
 
-  mesonFlags = [
-    "-Ddocs=true"
-  ];
+  mesonFlags = [ "-Ddocs=true" ];
 
   doCheck = true;
 

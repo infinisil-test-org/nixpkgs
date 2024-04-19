@@ -1,9 +1,20 @@
-{ stdenv, lib, fetchgit, darwin, writeText
-, ninja, python3
-, ...
+{
+  stdenv,
+  lib,
+  fetchgit,
+  darwin,
+  writeText,
+  ninja,
+  python3,
+  ...
 }:
 
-{ rev, revNum, version, sha256 }:
+{
+  rev,
+  revNum,
+  version,
+  sha256,
+}:
 
 let
   revShort = builtins.substring 0 7 rev;
@@ -16,8 +27,8 @@ let
 
     #endif  // OUT_LAST_COMMIT_POSITION_H_
   '';
-
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "gn-unstable";
   inherit version;
 
@@ -27,16 +38,23 @@ in stdenv.mkDerivation {
     inherit rev sha256;
   };
 
-  nativeBuildInputs = [ ninja python3 ];
-  buildInputs = lib.optionals stdenv.isDarwin (with darwin; with apple_sdk.frameworks; [
-    libobjc
-    cctools
+  nativeBuildInputs = [
+    ninja
+    python3
+  ];
+  buildInputs = lib.optionals stdenv.isDarwin (
+    with darwin;
+    with apple_sdk.frameworks;
+    [
+      libobjc
+      cctools
 
-    # frameworks
-    ApplicationServices
-    Foundation
-    AppKit
-  ]);
+      # frameworks
+      ApplicationServices
+      Foundation
+      AppKit
+    ]
+  );
 
   env.NIX_CFLAGS_COMPILE = "-Wno-error";
 
@@ -58,6 +76,10 @@ in stdenv.mkDerivation {
     homepage = "https://gn.googlesource.com/gn";
     license = licenses.bsd3;
     platforms = platforms.unix;
-    maintainers = with maintainers; [ stesie matthewbauer primeos ];
+    maintainers = with maintainers; [
+      stesie
+      matthewbauer
+      primeos
+    ];
   };
 }

@@ -1,11 +1,12 @@
-{ stdenv
-, lib
-, rustPlatform
-, nushell
-, IOKit
-, CoreFoundation
-, libclang
-, nix-update-script
+{
+  stdenv,
+  lib,
+  rustPlatform,
+  nushell,
+  IOKit,
+  CoreFoundation,
+  libclang,
+  nix-update-script,
 }:
 
 rustPlatform.buildRustPackage {
@@ -13,10 +14,11 @@ rustPlatform.buildRustPackage {
   inherit (nushell) version src;
   cargoHash = "sha256-takIDfMriDzZT/9JkqWPis10EaZhfwGpi7EkoOh4+vw=";
 
-  env = lib.optionalAttrs stdenv.cc.isClang {
-    LIBCLANG_PATH = "${libclang.lib}/lib";
-  };
-  buildInputs = lib.optionals stdenv.isDarwin [ IOKit CoreFoundation ];
+  env = lib.optionalAttrs stdenv.cc.isClang { LIBCLANG_PATH = "${libclang.lib}/lib"; };
+  buildInputs = lib.optionals stdenv.isDarwin [
+    IOKit
+    CoreFoundation
+  ];
   cargoBuildFlags = [ "--package nu_plugin_query" ];
 
   checkPhase = ''
@@ -33,7 +35,10 @@ rustPlatform.buildRustPackage {
     mainProgram = "nu_plugin_query";
     homepage = "https://github.com/nushell/nushell/tree/${version}/crates/nu_plugin_query";
     license = licenses.mpl20;
-    maintainers = with maintainers; [ happysalada aidalgol ];
+    maintainers = with maintainers; [
+      happysalada
+      aidalgol
+    ];
     platforms = with platforms; all;
   };
 }

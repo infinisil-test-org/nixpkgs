@@ -1,16 +1,17 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
 
-# propagates
-, importlib-metadata
+  # propagates
+  importlib-metadata,
 
-# tests
-, editables
-, git
-, pytestCheckHook
-, setuptools
+  # tests
+  editables,
+  git,
+  pytestCheckHook,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -27,13 +28,9 @@ buildPythonPackage rec {
 
   env.PDM_BUILD_SCM_VERSION = version;
 
-  propagatedBuildInputs = lib.optionals (pythonOlder "3.10") [
-    importlib-metadata
-  ];
+  propagatedBuildInputs = lib.optionals (pythonOlder "3.10") [ importlib-metadata ];
 
-  pythonImportsCheck = [
-    "pdm.backend"
-  ];
+  pythonImportsCheck = [ "pdm.backend" ];
 
   nativeCheckInputs = [
     editables

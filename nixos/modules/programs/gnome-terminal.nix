@@ -1,13 +1,17 @@
 # GNOME Terminal.
 
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
 let
 
   cfg = config.programs.gnome-terminal;
-
 in
 
 {
@@ -19,8 +23,18 @@ in
   # Added 2019-08-19
   imports = [
     (mkRenamedOptionModule
-      [ "services" "gnome3" "gnome-terminal-server" "enable" ]
-      [ "programs" "gnome-terminal" "enable" ])
+      [
+        "services"
+        "gnome3"
+        "gnome-terminal-server"
+        "enable"
+      ]
+      [
+        "programs"
+        "gnome-terminal"
+        "enable"
+      ]
+    )
   ];
 
   options = {

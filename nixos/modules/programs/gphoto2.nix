@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -25,6 +30,6 @@ with lib;
   config = mkIf config.programs.gphoto2.enable {
     services.udev.packages = [ pkgs.libgphoto2 ];
     environment.systemPackages = [ pkgs.gphoto2 ];
-    users.groups.camera = {};
+    users.groups.camera = { };
   };
 }

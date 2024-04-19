@@ -1,10 +1,18 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+}:
 
 buildGoModule rec {
   pname = "spire";
   version = "1.9.4";
 
-  outputs = [ "out" "agent" "server" ];
+  outputs = [
+    "out"
+    "agent"
+    "server"
+  ];
 
   src = fetchFromGitHub {
     owner = "spiffe";
@@ -15,7 +23,10 @@ buildGoModule rec {
 
   vendorHash = "sha256-XWfo6NbADVRaMuemTrDgF2LQSpIe037z8el2CVzOJHI=";
 
-  subPackages = [ "cmd/spire-agent" "cmd/spire-server" ];
+  subPackages = [
+    "cmd/spire-agent"
+    "cmd/spire-server"
+  ];
 
   # Usually either the agent or server is needed for a given use case, but not both
   postInstall = ''
@@ -32,6 +43,9 @@ buildGoModule rec {
     homepage = "https://github.com/spiffe/spire";
     changelog = "https://github.com/spiffe/spire/releases/tag/v${version}";
     license = licenses.asl20;
-    maintainers = with maintainers; [ jonringer fkautz ];
+    maintainers = with maintainers; [
+      jonringer
+      fkautz
+    ];
   };
 }

@@ -1,11 +1,12 @@
-{ lib
-, fetchurl
-, python3Packages
-, gobject-introspection
-, gsettings-desktop-schemas
-, gtk3
-, wrapGAppsHook
-, xrandr
+{
+  lib,
+  fetchurl,
+  python3Packages,
+  gobject-introspection,
+  gsettings-desktop-schemas,
+  gtk3,
+  wrapGAppsHook,
+  xrandr,
 }:
 
 let
@@ -27,9 +28,19 @@ buildPythonApplication rec {
   # no tests
   doCheck = false;
 
-  buildInputs = [ docutils gsettings-desktop-schemas gtk3 ];
-  nativeBuildInputs = [ gobject-introspection wrapGAppsHook ];
-  propagatedBuildInputs = [ xrandr pygobject3 ];
+  buildInputs = [
+    docutils
+    gsettings-desktop-schemas
+    gtk3
+  ];
+  nativeBuildInputs = [
+    gobject-introspection
+    wrapGAppsHook
+  ];
+  propagatedBuildInputs = [
+    xrandr
+    pygobject3
+  ];
 
   meta = with lib; {
     homepage = "https://christian.amsuess.com/tools/arandr/";

@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, msgpack
-, pythonOlder
-, redis
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  msgpack,
+  pythonOlder,
+  redis,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -21,25 +22,17 @@ buildPythonPackage rec {
     hash = "sha256-yvXDNJL8uxReaU81klVWudJwh1hmvg5GeeILcNpm/YA=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   passthru.optional-dependencies = {
-    redis = [
-      redis
-    ];
-    msgpack = [
-      msgpack
-    ];
+    redis = [ redis ];
+    msgpack = [ msgpack ];
   };
 
   # aiomcache would be required but last release was in 2017
   doCheck = false;
 
-  pythonImportsCheck = [
-    "aiocache"
-  ];
+  pythonImportsCheck = [ "aiocache" ];
 
   meta = with lib; {
     description = "Python API Rate Limit Decorator";

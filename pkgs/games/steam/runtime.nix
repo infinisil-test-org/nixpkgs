@@ -1,7 +1,12 @@
-{ lib, stdenv, fetchurl
+{
+  lib,
+  stdenv,
+  fetchurl,
 
-# for update script
-, writeShellScript, curl, nix-update
+  # for update script
+  writeShellScript,
+  curl,
+  nix-update,
 }:
 
 stdenv.mkDerivation rec {
@@ -32,6 +37,9 @@ stdenv.mkDerivation rec {
     description = "The official runtime used by Steam";
     homepage = "https://github.com/ValveSoftware/steam-runtime";
     license = licenses.unfreeRedistributable; # Includes NVIDIA CG toolkit
-    maintainers = with maintainers; [ hrdinka abbradar ];
+    maintainers = with maintainers; [
+      hrdinka
+      abbradar
+    ];
   };
 }

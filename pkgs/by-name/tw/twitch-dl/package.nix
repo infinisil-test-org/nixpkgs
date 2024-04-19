@@ -1,8 +1,9 @@
-{ lib
-, fetchFromGitHub
-, python3Packages
-, installShellFiles
-, scdoc
+{
+  lib,
+  fetchFromGitHub,
+  python3Packages,
+  installShellFiles,
+  scdoc,
 }:
 
 python3Packages.buildPythonApplication rec {
@@ -35,18 +36,14 @@ python3Packages.buildPythonApplication rec {
     m3u8
   ];
 
-  nativeCheckInputs = [
-    python3Packages.pytestCheckHook
-  ];
+  nativeCheckInputs = [ python3Packages.pytestCheckHook ];
 
   disabledTestPaths = [
     # Requires network access
     "tests/test_api.py"
   ];
 
-  pythonImportsCheck = [
-    "twitchdl"
-  ];
+  pythonImportsCheck = [ "twitchdl" ];
 
   postInstall = ''
     scdoc < twitch-dl.1.scd > twitch-dl.1

@@ -1,14 +1,15 @@
-{ lib
-, stdenv
-, rustPlatform
-, fetchFromGitHub
-, openssl
-, postgresql
-, libiconv
-, Security
-, protobuf
-, rustfmt
-, nixosTests
+{
+  lib,
+  stdenv,
+  rustPlatform,
+  fetchFromGitHub,
+  openssl,
+  postgresql,
+  libiconv,
+  Security,
+  protobuf,
+  rustfmt,
+  nixosTests,
 }:
 let
   pinData = lib.importJSON ./pin.json;
@@ -32,8 +33,12 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = pinData.serverCargoHash;
 
-  buildInputs = [ postgresql ]
-    ++ lib.optionals stdenv.isDarwin [ libiconv Security ];
+  buildInputs =
+    [ postgresql ]
+    ++ lib.optionals stdenv.isDarwin [
+      libiconv
+      Security
+    ];
 
   # Using OPENSSL_NO_VENDOR is not an option on darwin
   # As of version 0.10.35 rust-openssl looks for openssl on darwin
@@ -44,7 +49,10 @@ rustPlatform.buildRustPackage rec {
 
   PROTOC = "${protobuf}/bin/protoc";
   PROTOC_INCLUDE = "${protobuf}/include";
-  nativeBuildInputs = [ protobuf rustfmt ];
+  nativeBuildInputs = [
+    protobuf
+    rustfmt
+  ];
 
   checkFlags = [
     # test requires database access
@@ -58,7 +66,10 @@ rustPlatform.buildRustPackage rec {
     description = "🐀 Building a federated alternative to reddit in rust";
     homepage = "https://join-lemmy.org/";
     license = licenses.agpl3Only;
-    maintainers = with maintainers; [ happysalada billewanick ];
+    maintainers = with maintainers; [
+      happysalada
+      billewanick
+    ];
     mainProgram = "lemmy_server";
   };
 }

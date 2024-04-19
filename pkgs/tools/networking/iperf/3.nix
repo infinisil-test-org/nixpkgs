@@ -1,4 +1,11 @@
-{ lib, stdenv, fetchurl, openssl, fetchpatch, lksctp-tools }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  openssl,
+  fetchpatch,
+  lksctp-tools,
+}:
 
 stdenv.mkDerivation rec {
   pname = "iperf";
@@ -10,11 +17,12 @@ stdenv.mkDerivation rec {
   };
 
   buildInputs = [ openssl ] ++ lib.optionals stdenv.isLinux [ lksctp-tools ];
-  configureFlags = [
-    "--with-openssl=${openssl.dev}"
-  ];
+  configureFlags = [ "--with-openssl=${openssl.dev}" ];
 
-  outputs = [ "out" "man" ];
+  outputs = [
+    "out"
+    "man"
+  ];
 
   patches = lib.optionals stdenv.hostPlatform.isMusl [
     (fetchpatch {

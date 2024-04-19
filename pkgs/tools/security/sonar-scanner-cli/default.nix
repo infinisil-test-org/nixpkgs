@@ -1,4 +1,10 @@
-{ stdenv, lib, fetchurl, unzip, jre }:
+{
+  stdenv,
+  lib,
+  fetchurl,
+  unzip,
+  jre,
+}:
 
 let
 
@@ -14,12 +20,15 @@ let
       sha256 = "0f8km7wqkw09g01l03kcrjgvq7b6xclzpvb5r64ymsmrc39p0ylp";
     };
   };
-
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   inherit version;
   pname = "sonar-scanner-cli";
 
-  src = fetchurl sonarScannerArchPackage.${stdenv.hostPlatform.system} or (throw "unsupported system ${stdenv.hostPlatform.system}");
+  src =
+    fetchurl
+      sonarScannerArchPackage.${stdenv.hostPlatform.system}
+        or (throw "unsupported system ${stdenv.hostPlatform.system}");
 
   nativeBuildInputs = [ unzip ];
 

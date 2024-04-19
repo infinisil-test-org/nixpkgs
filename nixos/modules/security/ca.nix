@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -13,7 +18,6 @@ let
   };
   caBundleName = if cfg.useCompatibleBundle then "ca-no-trust-rules-bundle.crt" else "ca-bundle.crt";
   caBundle = "${cacertPackage}/etc/ssl/certs/${caBundleName}";
-
 in
 
 {
@@ -24,20 +28,21 @@ in
       internal = true;
     };
 
-    security.pki.useCompatibleBundle = mkEnableOption ''usage of a compatibility bundle.
+    security.pki.useCompatibleBundle = mkEnableOption ''
+      usage of a compatibility bundle.
 
-      Such a bundle consist exclusively of `BEGIN CERTIFICATE` and no `BEGIN TRUSTED CERTIFICATE`,
-      which is a OpenSSL specific PEM format.
+            Such a bundle consist exclusively of `BEGIN CERTIFICATE` and no `BEGIN TRUSTED CERTIFICATE`,
+            which is a OpenSSL specific PEM format.
 
-      It is known to be incompatible with certain software stacks.
+            It is known to be incompatible with certain software stacks.
 
-      Nevertheless, enabling this will strip all additional trust rules provided by the
-      certificates themselves, this can have security consequences depending on your usecases.
+            Nevertheless, enabling this will strip all additional trust rules provided by the
+            certificates themselves, this can have security consequences depending on your usecases.
     '';
 
     security.pki.certificateFiles = mkOption {
       type = types.listOf types.path;
-      default = [];
+      default = [ ];
       example = literalExpression ''[ "''${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt" ]'';
       description = ''
         A list of files containing trusted root certificates in PEM
@@ -50,7 +55,7 @@ in
 
     security.pki.certificates = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
       example = literalExpression ''
         [ '''
             NixOS.org
@@ -70,9 +75,10 @@ in
 
     security.pki.caCertificateBlacklist = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
       example = [
-        "WoSign" "WoSign China"
+        "WoSign"
+        "WoSign China"
         "CA WoSign ECC Root"
         "Certification Authority of WoSign G2"
       ];
@@ -83,7 +89,6 @@ in
         names from that file.
       '';
     };
-
   };
 
   config = mkIf cfg.installCACerts {
@@ -99,7 +104,5 @@ in
 
     # P11-Kit trust source.
     environment.etc."ssl/trust-source".source = "${cacertPackage.p11kit}/etc/ssl/trust-source";
-
   };
-
 }

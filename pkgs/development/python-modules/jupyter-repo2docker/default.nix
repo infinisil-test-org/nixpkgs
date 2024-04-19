@@ -1,21 +1,22 @@
-{ lib
-, buildPythonPackage
-, chardet
-, docker
-, entrypoints
-, escapism
-, fetchFromGitHub
-, iso8601
-, jinja2
-, pkgs-docker
-, python-json-logger
-, pythonOlder
-, requests
-, ruamel-yaml
-, semver
-, setuptools
-, toml
-, traitlets
+{
+  lib,
+  buildPythonPackage,
+  chardet,
+  docker,
+  entrypoints,
+  escapism,
+  fetchFromGitHub,
+  iso8601,
+  jinja2,
+  pkgs-docker,
+  python-json-logger,
+  pythonOlder,
+  requests,
+  ruamel-yaml,
+  semver,
+  setuptools,
+  toml,
+  traitlets,
 }:
 
 buildPythonPackage rec {
@@ -32,9 +33,7 @@ buildPythonPackage rec {
     hash = "sha256-U22A1OX83F2OMdS3w0elQpGg1z+ZgOeZLv8XjOK26mg=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     chardet

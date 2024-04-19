@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, numpy
-, pytestCheckHook
-, stdenv
-, darwin
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  numpy,
+  pytestCheckHook,
+  stdenv,
+  darwin,
 }:
 
 buildPythonPackage rec {
@@ -19,15 +20,19 @@ buildPythonPackage rec {
     sha256 = "0fhxikvlr010nbh02g455d5y8bq6j5yw180cdh4gsd0hb43y3z26";
   };
 
-  buildInputs = lib.optionals stdenv.isDarwin (with darwin.apple_sdk.frameworks; [ Accelerate AudioToolbox CoreVideo CoreGraphics ]);
+  buildInputs = lib.optionals stdenv.isDarwin (
+    with darwin.apple_sdk.frameworks;
+    [
+      Accelerate
+      AudioToolbox
+      CoreVideo
+      CoreGraphics
+    ]
+  );
 
-  propagatedBuildInputs = [
-    numpy
-  ];
+  propagatedBuildInputs = [ numpy ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   pythonImportsCheck = [ "aubio" ];
 

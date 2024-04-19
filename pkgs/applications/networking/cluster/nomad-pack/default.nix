@@ -1,12 +1,13 @@
-{ lib
-, fetchFromGitHub
-, buildGoModule
+{
+  lib,
+  fetchFromGitHub,
+  buildGoModule,
 }:
 
 buildGoModule rec {
   pname = "nomad-pack";
   version = "0.0.1-techpreview.3";
-  rev   = "3b4163b3b826c8408ae824238daaa45307d03380";
+  rev = "3b4163b3b826c8408ae824238daaa45307d03380";
 
   src = fetchFromGitHub {
     owner = "hashicorp";
@@ -34,5 +35,4 @@ buildGoModule rec {
     license = licenses.mpl20;
     maintainers = with maintainers; [ techknowlogick ];
   };
-
 }

@@ -1,13 +1,14 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, buildPythonPackage
-, setuptools
-, pkg-config
-, swig
-, pcsclite
-, PCSC
-, pytestCheckHook
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  buildPythonPackage,
+  setuptools,
+  pkg-config,
+  swig,
+  pcsclite,
+  PCSC,
+  pytestCheckHook,
 }:
 
 let
@@ -30,27 +31,26 @@ buildPythonPackage rec {
   nativeBuildInputs = [
     setuptools
     swig
-  ] ++ lib.optionals (!withApplePCSC) [
-    pkg-config
-  ];
+  ] ++ lib.optionals (!withApplePCSC) [ pkg-config ];
 
   buildInputs = if withApplePCSC then [ PCSC ] else [ pcsclite ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   postPatch =
-    if withApplePCSC then ''
-      substituteInPlace smartcard/scard/winscarddll.c \
-        --replace "/System/Library/Frameworks/PCSC.framework/PCSC" \
-                  "${PCSC}/Library/Frameworks/PCSC.framework/PCSC"
-    '' else ''
-      substituteInPlace setup.py --replace "pkg-config" "$PKG_CONFIG"
-      substituteInPlace smartcard/scard/winscarddll.c \
-        --replace "libpcsclite.so.1" \
-                  "${lib.getLib pcsclite}/lib/libpcsclite${stdenv.hostPlatform.extensions.sharedLibrary}"
-    '';
+    if withApplePCSC then
+      ''
+        substituteInPlace smartcard/scard/winscarddll.c \
+          --replace "/System/Library/Frameworks/PCSC.framework/PCSC" \
+                    "${PCSC}/Library/Frameworks/PCSC.framework/PCSC"
+      ''
+    else
+      ''
+        substituteInPlace setup.py --replace "pkg-config" "$PKG_CONFIG"
+        substituteInPlace smartcard/scard/winscarddll.c \
+          --replace "libpcsclite.so.1" \
+                    "${lib.getLib pcsclite}/lib/libpcsclite${stdenv.hostPlatform.extensions.sharedLibrary}"
+      '';
 
   preCheck = ''
     # remove src module, so tests use the installed module instead

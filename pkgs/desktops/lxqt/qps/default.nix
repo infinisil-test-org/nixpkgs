@@ -1,15 +1,16 @@
-{ lib
-, mkDerivation
-, fetchFromGitHub
-, cmake
-, kwindowsystem
-, liblxqt
-, libqtxdg
-, lxqt-build-tools
-, gitUpdater
-, qtbase
-, qttools
-, qtx11extras
+{
+  lib,
+  mkDerivation,
+  fetchFromGitHub,
+  cmake,
+  kwindowsystem,
+  liblxqt,
+  libqtxdg,
+  lxqt-build-tools,
+  gitUpdater,
+  qtbase,
+  qttools,
+  qtx11extras,
 }:
 
 mkDerivation rec {

@@ -1,4 +1,13 @@
-{ lib, stdenv, fetchFromGitHub, writeTextFile, cmake, alsa-lib, OpenAL, freepats }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  writeTextFile,
+  cmake,
+  alsa-lib,
+  OpenAL,
+  freepats,
+}:
 
 let
   defaultCfgPath = "${placeholder "out"}/etc/wildmidi/wildmidi.cfg";
@@ -16,11 +25,12 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ cmake ];
 
-  buildInputs = lib.optionals stdenv.buildPlatform.isLinux [
-    alsa-lib stdenv.cc.libc/*couldn't find libm*/
-  ] ++ lib.optionals stdenv.buildPlatform.isDarwin [
-    OpenAL
-  ];
+  buildInputs =
+    lib.optionals stdenv.buildPlatform.isLinux [
+      alsa-lib
+      stdenv.cc.libc # couldn't find libm
+    ]
+    ++ lib.optionals stdenv.buildPlatform.isDarwin [ OpenAL ];
 
   preConfigure = ''
     # https://github.com/Mindwerks/wildmidi/issues/236
@@ -29,22 +39,22 @@ stdenv.mkDerivation rec {
       --replace '$'{exec_prefix}/@CMAKE_INSTALL_INCLUDEDIR@ @CMAKE_INSTALL_FULL_INCLUDEDIR@
   '';
 
-  cmakeFlags = [
-    "-DWILDMIDI_CFG=${defaultCfgPath}"
-  ];
+  cmakeFlags = [ "-DWILDMIDI_CFG=${defaultCfgPath}" ];
 
-  postInstall = let
-    defaultCfg = writeTextFile {
-      name = "wildmidi.cfg";
-      text = ''
-        dir ${freepats}
-        source ${freepats}/freepats.cfg
-      '';
-    };
-  in ''
-    mkdir -p "$(dirname ${defaultCfgPath})"
-    ln -s ${defaultCfg} ${defaultCfgPath}
-  '';
+  postInstall =
+    let
+      defaultCfg = writeTextFile {
+        name = "wildmidi.cfg";
+        text = ''
+          dir ${freepats}
+          source ${freepats}/freepats.cfg
+        '';
+      };
+    in
+    ''
+      mkdir -p "$(dirname ${defaultCfgPath})"
+      ln -s ${defaultCfg} ${defaultCfgPath}
+    '';
 
   meta = with lib; {
     description = "Software MIDI player and library";

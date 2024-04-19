@@ -1,33 +1,34 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, hatchling
-, hatch-vcs
-, awkward
-, cachetools
-, cloudpickle
-, correctionlib
-, dask
-, dask-awkward
-, dask-histogram
-, fsspec-xrootd
-, hist
-, lz4
-, matplotlib
-, mplhep
-, numba
-, numpy
-, packaging
-, pandas
-, pyarrow
-, scipy
-, toml
-, tqdm
-, uproot
-, distributed
-, pyinstrument
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  hatchling,
+  hatch-vcs,
+  awkward,
+  cachetools,
+  cloudpickle,
+  correctionlib,
+  dask,
+  dask-awkward,
+  dask-histogram,
+  fsspec-xrootd,
+  hist,
+  lz4,
+  matplotlib,
+  mplhep,
+  numba,
+  numpy,
+  packaging,
+  pandas,
+  pyarrow,
+  scipy,
+  toml,
+  tqdm,
+  uproot,
+  distributed,
+  pyinstrument,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -84,9 +85,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "coffea"
-  ];
+  pythonImportsCheck = [ "coffea" ];
 
   meta = with lib; {
     description = "Basic tools and wrappers for enabling not-too-alien syntax when running columnar Collider HEP analysis";

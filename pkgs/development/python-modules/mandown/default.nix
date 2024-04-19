@@ -1,19 +1,20 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, poetry-core
-, pythonRelaxDepsHook
-, beautifulsoup4
-, comicon
-, feedparser
-, filetype
-, lxml
-, natsort
-, pillow
-, python-slugify
-, requests
-, typer
-, pyside6
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  poetry-core,
+  pythonRelaxDepsHook,
+  beautifulsoup4,
+  comicon,
+  feedparser,
+  filetype,
+  lxml,
+  natsort,
+  pillow,
+  python-slugify,
+  requests,
+  typer,
+  pyside6,
 }:
 
 buildPythonPackage rec {
@@ -52,9 +53,7 @@ buildPythonPackage rec {
   ];
 
   passthru.optional-dependencies = {
-    gui = [
-      pyside6
-    ];
+    gui = [ pyside6 ];
   };
 
   pythonImportsCheck = [ "mandown" ];

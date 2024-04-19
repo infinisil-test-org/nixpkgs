@@ -1,10 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.hardware.tuxedo-rs;
-
 in
 {
   options = {
@@ -40,9 +44,7 @@ in
 
       environment.systemPackages = [ pkgs.tuxedo-rs ];
     }
-    (mkIf cfg.tailor-gui.enable {
-      environment.systemPackages = [ pkgs.tailor-gui ];
-    })
+    (mkIf cfg.tailor-gui.enable { environment.systemPackages = [ pkgs.tailor-gui ]; })
   ]);
 
   meta.maintainers = with maintainers; [ mrcjkb ];

@@ -1,13 +1,25 @@
-{ stdenv, lib, fetchurl, fetchpatch, alsa-lib, AudioUnit, CoreServices }:
+{
+  stdenv,
+  lib,
+  fetchurl,
+  fetchpatch,
+  alsa-lib,
+  AudioUnit,
+  CoreServices,
+}:
 
 let
 
-  fetchDebianPatch = { name, debname, sha256 }:
+  fetchDebianPatch =
+    {
+      name,
+      debname,
+      sha256,
+    }:
     fetchpatch {
       inherit sha256 name;
       url = "https://salsa.debian.org/multimedia-team/audiofile/raw/debian/0.3.6-4/debian/patches/${debname}";
     };
-
 in
 
 stdenv.mkDerivation rec {
@@ -15,10 +27,10 @@ stdenv.mkDerivation rec {
   version = "0.3.6";
 
   buildInputs =
-    lib.optionals stdenv.isLinux [
-      alsa-lib
-    ] ++ lib.optionals stdenv.isDarwin [
-      CoreServices AudioUnit
+    lib.optionals stdenv.isLinux [ alsa-lib ]
+    ++ lib.optionals stdenv.isDarwin [
+      CoreServices
+      AudioUnit
     ];
 
   src = fetchurl {
@@ -26,7 +38,11 @@ stdenv.mkDerivation rec {
     sha256 = "0rb927zknk9kmhprd8rdr4azql4gn2dp75a36iazx2xhkbqhvind";
   };
 
-  outputs = [ "out" "dev" "man" ];
+  outputs = [
+    "out"
+    "dev"
+    "man"
+  ];
 
   # std::unary_function has been removed in c++17
   makeFlags = [ "CXXFLAGS=-std=c++11" ];
@@ -89,9 +105,9 @@ stdenv.mkDerivation rec {
 
   meta = with lib; {
     description = "Library for reading and writing audio files in various formats";
-    homepage    = "http://www.68k.org/~michael/audiofile/";
-    license     = licenses.lgpl21Plus;
+    homepage = "http://www.68k.org/~michael/audiofile/";
+    license = licenses.lgpl21Plus;
     maintainers = with maintainers; [ lovek323 ];
-    platforms   = platforms.unix;
+    platforms = platforms.unix;
   };
 }

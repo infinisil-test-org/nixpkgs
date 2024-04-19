@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, setuptools
-, requests
-, pyyaml
-, jsonlines
-, pythonOlder
-, pytestCheckHook
-, pytz
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  setuptools,
+  requests,
+  pyyaml,
+  jsonlines,
+  pythonOlder,
+  pytestCheckHook,
+  pytz,
 }:
 
 buildPythonPackage rec {
@@ -22,9 +23,7 @@ buildPythonPackage rec {
     hash = "sha256-ENS5ayrd7gffo2meChZ9930qjVq3+G5lkOqm6ofW3Bg=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     requests
@@ -35,9 +34,7 @@ buildPythonPackage rec {
   # tests require networking
   doCheck = false;
 
-  pythonImportsCheck = [
-    "CloudFlare"
-  ];
+  pythonImportsCheck = [ "CloudFlare" ];
 
   nativeCheckInputs = [
     pytestCheckHook

@@ -1,26 +1,27 @@
-{ lib
-, stdenv
-, fetchurl
-, fetchpatch
-, desktop-file-utils
-, gettext
-, glibcLocales
-, itstool
-, libxml2
-, meson
-, ninja
-, pkg-config
-, python3
-, wrapGAppsHook
-, cpio
-, glib
-, gnome
-, gtk3
-, libhandy
-, json-glib
-, libarchive
-, libportal-gtk3
-, nautilus
+{
+  lib,
+  stdenv,
+  fetchurl,
+  fetchpatch,
+  desktop-file-utils,
+  gettext,
+  glibcLocales,
+  itstool,
+  libxml2,
+  meson,
+  ninja,
+  pkg-config,
+  python3,
+  wrapGAppsHook,
+  cpio,
+  glib,
+  gnome,
+  gtk3,
+  libhandy,
+  json-glib,
+  libarchive,
+  libportal-gtk3,
+  nautilus,
 }:
 
 stdenv.mkDerivation (finalAttrs: {

@@ -1,14 +1,15 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, mkYarnPackage
-, fetchYarnDeps
-, pkg-config
-, libgit2
-, openssl
-, zlib
-, stdenv
-, darwin
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  mkYarnPackage,
+  fetchYarnDeps,
+  pkg-config,
+  libgit2,
+  openssl,
+  zlib,
+  stdenv,
+  darwin,
 }:
 
 let
@@ -70,7 +71,9 @@ let
       hash = "sha256-QFiyUky/0BdB5vS9KX5xBOvBCEtJ+zZG4f7ai5j6V4U=";
     };
 
-    packageResolutions = { inherit typst-dom; };
+    packageResolutions = {
+      inherit typst-dom;
+    };
 
     buildPhase = ''
       runHook preBuild
@@ -86,7 +89,6 @@ let
 
     doDist = false;
   };
-
 in
 rustPlatform.buildRustPackage {
   pname = "typst-preview";
@@ -94,20 +96,20 @@ rustPlatform.buildRustPackage {
 
   cargoHash = "sha256-xj8Xvbz0NUy0BFoVS8ONiYZZQWIJu1FZxJkBEuABDOw=";
 
-  nativeBuildInputs = [
-    pkg-config
-  ];
+  nativeBuildInputs = [ pkg-config ];
 
-  buildInputs = [
-    libgit2
-    openssl
-    zlib
-  ] ++ lib.optionals stdenv.isDarwin [
-    darwin.apple_sdk.frameworks.CoreFoundation
-    darwin.apple_sdk.frameworks.CoreServices
-    darwin.apple_sdk.frameworks.Security
-    darwin.apple_sdk.frameworks.SystemConfiguration
-  ];
+  buildInputs =
+    [
+      libgit2
+      openssl
+      zlib
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      darwin.apple_sdk.frameworks.CoreFoundation
+      darwin.apple_sdk.frameworks.CoreServices
+      darwin.apple_sdk.frameworks.Security
+      darwin.apple_sdk.frameworks.SystemConfiguration
+    ];
 
   prePatch = ''
     mkdir -p addons/vscode/out/frontend

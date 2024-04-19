@@ -1,13 +1,14 @@
-{ stdenv
-, lib
-, fetchurl
-, writeShellScript
-, SDL
-, SDL_mixer
-, makeDesktopItem
-, copyDesktopItems
-, runtimeShell
-, buildShareware ? false
+{
+  stdenv,
+  lib,
+  fetchurl,
+  writeShellScript,
+  SDL,
+  SDL_mixer,
+  makeDesktopItem,
+  copyDesktopItems,
+  runtimeShell,
+  buildShareware ? false,
 }:
 
 let
@@ -19,7 +20,6 @@ let
     cd $dir
     exec @out@/libexec/rott "$@"
   '';
-
 in
 stdenv.mkDerivation rec {
   pname = "rott";
@@ -32,19 +32,18 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ copyDesktopItems ];
 
-  buildInputs = [ SDL SDL_mixer ];
+  buildInputs = [
+    SDL
+    SDL_mixer
+  ];
 
   sourceRoot = "rott-${version}/rott";
 
-  makeFlags = [
-    "SHAREWARE=${if buildShareware then "1" else "0"}"
-  ];
+  makeFlags = [ "SHAREWARE=${if buildShareware then "1" else "0"}" ];
 
   # when using SDL_compat instead of SDL_classic, SDL_mixer isn't correctly
   # detected, but there is no harm just specifying it
-  env.NIX_CFLAGS_COMPILE = toString [
-    "-I${lib.getDev SDL_mixer}/include/SDL"
-  ];
+  env.NIX_CFLAGS_COMPILE = toString [ "-I${lib.getDev SDL_mixer}/include/SDL" ];
 
   installPhase = ''
     runHook preInstall

@@ -1,9 +1,10 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, pkg-config
-, wrapGAppsHook
-, keybinder3
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  pkg-config,
+  wrapGAppsHook,
+  keybinder3,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -26,7 +27,10 @@ rustPlatform.buildRustPackage rec {
       --replace-fail '/opt/findex/style.css' "$out/share/findex/style.css"
   '';
 
-  nativeBuildInputs = [ pkg-config wrapGAppsHook ];
+  nativeBuildInputs = [
+    pkg-config
+    wrapGAppsHook
+  ];
 
   buildInputs = [ keybinder3 ];
 

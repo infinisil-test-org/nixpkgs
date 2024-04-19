@@ -1,7 +1,8 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, types-html5lib
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  types-html5lib,
 }:
 
 buildPythonPackage rec {
@@ -14,16 +15,12 @@ buildPythonPackage rec {
     hash = "sha256-435M+hGwOwF3VzLlbSwBDLJO4Qd4Yne65rwPo+MFtoY=";
   };
 
-  propagatedBuildInputs = [
-    types-html5lib
-  ];
+  propagatedBuildInputs = [ types-html5lib ];
 
   # Module has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "bs4-stubs"
-  ];
+  pythonImportsCheck = [ "bs4-stubs" ];
 
   meta = with lib; {
     description = "Typing stubs for beautifulsoup4";

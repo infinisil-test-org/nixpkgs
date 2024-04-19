@@ -1,8 +1,9 @@
-{ lib
-, fetchFromGitHub
-, buildGoModule
-, testers
-, athens
+{
+  lib,
+  fetchFromGitHub,
+  buildGoModule,
+  testers,
+  athens,
 }:
 buildGoModule rec {
   pname = "athens";
@@ -18,7 +19,11 @@ buildGoModule rec {
   vendorHash = "sha256-hk0hmkmhRPRbh2Yqf1lYei6iiKUurMfc1Y3VPNStcBs=";
 
   CGO_ENABLED = "0";
-  ldflags = [ "-s" "-w" "-X github.com/gomods/athens/pkg/build.version=${version}" ];
+  ldflags = [
+    "-s"
+    "-w"
+    "-X github.com/gomods/athens/pkg/build.version=${version}"
+  ];
 
   subPackages = [ "cmd/proxy" ];
 
@@ -27,9 +32,7 @@ buildGoModule rec {
   '';
 
   passthru = {
-    tests.version = testers.testVersion {
-      package = athens;
-    };
+    tests.version = testers.testVersion { package = athens; };
   };
 
   meta = with lib; {
@@ -38,7 +41,10 @@ buildGoModule rec {
     changelog = "https://github.com/gomods/athens/releases/tag/v${version}";
     license = licenses.mit;
     mainProgram = "athens";
-    maintainers = with maintainers; [ katexochen malt3 ];
+    maintainers = with maintainers; [
+      katexochen
+      malt3
+    ];
     platforms = platforms.unix;
   };
 }

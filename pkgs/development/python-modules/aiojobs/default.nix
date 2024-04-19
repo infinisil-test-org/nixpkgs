@@ -1,12 +1,13 @@
-{ lib
-, aiohttp
-, async-timeout
-, buildPythonPackage
-, fetchFromGitHub
-, pytest-aiohttp
-, pytestCheckHook
-, pythonOlder
-, setuptools
+{
+  lib,
+  aiohttp,
+  async-timeout,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pytest-aiohttp,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -28,18 +29,12 @@ buildPythonPackage rec {
       --replace "--cov=aiojobs/ --cov=tests/ --cov-report term" ""
   '';
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = lib.optionals (pythonOlder "3.11") [
-    async-timeout
-  ];
+  propagatedBuildInputs = lib.optionals (pythonOlder "3.11") [ async-timeout ];
 
   passthru.optional-dependencies = {
-    aiohttp = [
-      aiohttp
-    ];
+    aiohttp = [ aiohttp ];
   };
 
   nativeCheckInputs = [
@@ -47,9 +42,7 @@ buildPythonPackage rec {
     pytest-aiohttp
   ] ++ lib.flatten (builtins.attrValues passthru.optional-dependencies);
 
-  pythonImportsCheck = [
-    "aiojobs"
-  ];
+  pythonImportsCheck = [ "aiojobs" ];
 
   disabledTests = [
     # RuntimeWarning: coroutine 'Scheduler._wait_failed' was never awaited

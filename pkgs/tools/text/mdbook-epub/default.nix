@@ -1,16 +1,18 @@
-{ lib
-, stdenv
-, rustPlatform
-, fetchFromGitHub
-, pkg-config
-, bzip2
-, CoreServices
+{
+  lib,
+  stdenv,
+  rustPlatform,
+  fetchFromGitHub,
+  pkg-config,
+  bzip2,
+  CoreServices,
 }:
 
 let
   pname = "mdbook-epub";
   version = "unstable-2022-12-25";
-in rustPlatform.buildRustPackage {
+in
+rustPlatform.buildRustPackage {
   inherit pname version;
 
   src = fetchFromGitHub {
@@ -22,15 +24,9 @@ in rustPlatform.buildRustPackage {
 
   cargoHash = "sha256-4oSpQUYJDK0srABZMwJ8x8jv6DOnLShXSnjLjf8c9Ac=";
 
-  nativeBuildInputs = [
-    pkg-config
-  ];
+  nativeBuildInputs = [ pkg-config ];
 
-  buildInputs = [
-    bzip2
-  ] ++ lib.optionals stdenv.isDarwin [
-    CoreServices
-  ];
+  buildInputs = [ bzip2 ] ++ lib.optionals stdenv.isDarwin [ CoreServices ];
 
   meta = with lib; {
     description = "mdbook backend for generating an e-book in the EPUB format";

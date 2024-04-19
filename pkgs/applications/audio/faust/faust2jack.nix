@@ -1,10 +1,11 @@
-{ faust
-, gtk2
-, jack2
-, alsa-lib
-, opencv
-, libsndfile
-, which
+{
+  faust,
+  gtk2,
+  jack2,
+  alsa-lib,
+  opencv,
+  libsndfile,
+  which,
 }:
 
 faust.wrapWithBuildEnv {
@@ -24,5 +25,4 @@ faust.wrapWithBuildEnv {
     libsndfile
     which
   ];
-
 }

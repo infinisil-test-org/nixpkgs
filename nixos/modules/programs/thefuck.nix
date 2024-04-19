@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
@@ -13,28 +18,28 @@ let
     ${pkgs.thefuck}/bin/thefuck --alias ${cfg.alias} | source
   '';
 in
-  {
-    options = {
-      programs.thefuck = {
-        enable = mkEnableOption "thefuck, an app which corrects your previous console command";
+{
+  options = {
+    programs.thefuck = {
+      enable = mkEnableOption "thefuck, an app which corrects your previous console command";
 
-        alias = mkOption {
-          default = "fuck";
-          type = types.str;
+      alias = mkOption {
+        default = "fuck";
+        type = types.str;
 
-          description = ''
-            `thefuck` needs an alias to be configured.
-            The default value is `fuck`, but you can use anything else as well.
-          '';
-        };
+        description = ''
+          `thefuck` needs an alias to be configured.
+          The default value is `fuck`, but you can use anything else as well.
+        '';
       };
     };
+  };
 
-    config = mkIf cfg.enable {
-      environment.systemPackages = with pkgs; [ thefuck ];
+  config = mkIf cfg.enable {
+    environment.systemPackages = with pkgs; [ thefuck ];
 
-      programs.bash.interactiveShellInit = bashAndZshInitScript;
-      programs.zsh.interactiveShellInit = mkIf prg.zsh.enable bashAndZshInitScript;
-      programs.fish.interactiveShellInit = mkIf prg.fish.enable fishInitScript;
-    };
-  }
+    programs.bash.interactiveShellInit = bashAndZshInitScript;
+    programs.zsh.interactiveShellInit = mkIf prg.zsh.enable bashAndZshInitScript;
+    programs.fish.interactiveShellInit = mkIf prg.fish.enable fishInitScript;
+  };
+}

@@ -1,16 +1,17 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, pdm-backend
-, huggingface-hub
-, pyyaml
-, safetensors
-, torch
-, torchvision
-, expecttest
-, pytestCheckHook
-, pytest-timeout
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  pdm-backend,
+  huggingface-hub,
+  pyyaml,
+  safetensors,
+  torch,
+  torchvision,
+  expecttest,
+  pytestCheckHook,
+  pytest-timeout,
 }:
 
 buildPythonPackage rec {
@@ -27,9 +28,7 @@ buildPythonPackage rec {
     hash = "sha256-IWEDKuI2565Z07q1MxTpzKS+CROPR6SyaD5fKcQ5eXk=";
   };
 
-  nativeBuildInputs = [
-    pdm-backend
-  ];
+  nativeBuildInputs = [ pdm-backend ];
 
   propagatedBuildInputs = [
     huggingface-hub
@@ -45,9 +44,7 @@ buildPythonPackage rec {
     pytest-timeout
   ];
 
-  pytestFlagsArray = [
-    "tests"
-  ];
+  pytestFlagsArray = [ "tests" ];
 
   disabledTestPaths = [
     # Takes too long and also tries to download models

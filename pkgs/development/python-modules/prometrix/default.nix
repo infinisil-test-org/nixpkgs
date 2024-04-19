@@ -1,16 +1,17 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, boto3
-, botocore
-, dateparser
-, matplotlib
-, numpy
-, pandas
-, poetry-core
-, prometheus-api-client
-, pydantic_1
-, requests
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  boto3,
+  botocore,
+  dateparser,
+  matplotlib,
+  numpy,
+  pandas,
+  poetry-core,
+  prometheus-api-client,
+  pydantic_1,
+  requests,
 }:
 
 buildPythonPackage rec {
@@ -42,13 +43,9 @@ buildPythonPackage rec {
     requests
   ];
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
-  pythonImportsCheck = [
-    "prometrix"
-  ];
+  pythonImportsCheck = [ "prometrix" ];
 
   meta = with lib; {
     description = "Unified Prometheus client";

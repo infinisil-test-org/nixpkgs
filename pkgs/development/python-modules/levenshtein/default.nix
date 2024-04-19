@@ -1,14 +1,15 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, cmake
-, cython_3
-, fetchFromGitHub
-, pytestCheckHook
-, pythonOlder
-, rapidfuzz
-, rapidfuzz-cpp
-, scikit-build
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  cmake,
+  cython_3,
+  fetchFromGitHub,
+  pytestCheckHook,
+  pythonOlder,
+  rapidfuzz,
+  rapidfuzz-cpp,
+  scikit-build,
 }:
 
 buildPythonPackage rec {
@@ -23,7 +24,7 @@ buildPythonPackage rec {
     repo = "Levenshtein";
     rev = "refs/tags/v${version}";
     hash = "sha256-MkzIwTZU8hqPDOlfN4qADCKjGJIQrNhhOmVRAnAfNK0=";
-    fetchSubmodules = true; ## for vendored `rapidfuzz-cpp`
+    fetchSubmodules = true; # # for vendored `rapidfuzz-cpp`
   };
 
   nativeBuildInputs = [
@@ -34,25 +35,19 @@ buildPythonPackage rec {
 
   dontUseCmakeConfigure = true;
 
-  buildInputs = [
-    rapidfuzz-cpp
-  ];
+  buildInputs = [ rapidfuzz-cpp ];
 
-  env.NIX_CFLAGS_COMPILE = toString (lib.optionals (stdenv.cc.isClang && stdenv.isDarwin) [
-    "-fno-lto"  # work around https://github.com/NixOS/nixpkgs/issues/19098
-  ]);
+  env.NIX_CFLAGS_COMPILE = toString (
+    lib.optionals (stdenv.cc.isClang && stdenv.isDarwin) [
+      "-fno-lto" # work around https://github.com/NixOS/nixpkgs/issues/19098
+    ]
+  );
 
-  propagatedBuildInputs = [
-    rapidfuzz
-  ];
+  propagatedBuildInputs = [ rapidfuzz ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "Levenshtein"
-  ];
+  pythonImportsCheck = [ "Levenshtein" ];
 
   meta = with lib; {
     description = "Functions for fast computation of Levenshtein distance and string similarity";

@@ -1,35 +1,42 @@
-{ stdenv
-, lib
-, crystal
-, pcre2
-, shards
-, git
-, pkg-config
-, which
-, linkFarm
-, fetchgit
-, fetchFromGitHub
-, installShellFiles
-, removeReferencesTo
+{
+  stdenv,
+  lib,
+  crystal,
+  pcre2,
+  shards,
+  git,
+  pkg-config,
+  which,
+  linkFarm,
+  fetchgit,
+  fetchFromGitHub,
+  installShellFiles,
+  removeReferencesTo,
 }:
 
 {
   # Some projects do not include a lock file, so you can pass one
-  lockFile ? null
+  lockFile ? null,
   # Generate shards.nix with `nix-shell -p crystal2nix --run crystal2nix` in the projects root
-, shardsFile ? null
+  shardsFile ? null,
   # We support different builders. To make things more straight forward, make it
   # user selectable instead of trying to autodetect
-, format ? "make"
-, installManPages ? true
+  format ? "make",
+  installManPages ? true,
   # Specify binaries to build in the form { foo.src = "src/foo.cr"; }
   # The default `crystal build` options can be overridden with { foo.options = [ "--optionname" ]; }
-, crystalBinaries ? { }
-, enableParallelBuilding ? true
-, ...
+  crystalBinaries ? { },
+  enableParallelBuilding ? true,
+  ...
 }@args:
 
-assert (builtins.elem format [ "make" "crystal" "shards" ]);
+assert (
+  builtins.elem format [
+    "make"
+    "crystal"
+    "shards"
+  ]
+);
 let
   mkDerivationArgs = builtins.removeAttrs args [
     "format"
@@ -39,126 +46,148 @@ let
     "crystalBinaries"
   ];
 
-  crystalLib = linkFarm "crystal-lib" (lib.mapAttrsToList
-    (name: value: {
+  crystalLib = linkFarm "crystal-lib" (
+    lib.mapAttrsToList (name: value: {
       inherit name;
-      path =
-        if (builtins.hasAttr "url" value)
-        then fetchgit value
-        else fetchFromGitHub value;
-    })
-    (import shardsFile));
+      path = if (builtins.hasAttr "url" value) then fetchgit value else fetchFromGitHub value;
+    }) (import shardsFile)
+  );
 
   # We no longer use --no-debug in accordance with upstream's recommendation
-  defaultOptions = [ "--release" "--progress" "--verbose" ];
+  defaultOptions = [
+    "--release"
+    "--progress"
+    "--verbose"
+  ];
 
   buildDirectly = shardsFile == null || crystalBinaries != { };
 
-  mkCrystalBuildArgs = bin: attrs:
-    lib.concatStringsSep " " ([
-      "crystal"
-      "build"
-    ] ++ lib.optionals enableParallelBuilding [
-      "--threads"
-      "$NIX_BUILD_CORES"
-    ] ++ [
-      "-o"
-      bin
-      (attrs.src or (throw "No source file for crystal binary ${bin} provided"))
-      (lib.concatStringsSep " " (attrs.options or defaultOptions))
-    ]);
-
-in
-stdenv.mkDerivation (mkDerivationArgs // {
-
-  configurePhase = args.configurePhase or (lib.concatStringsSep "\n" (
+  mkCrystalBuildArgs =
+    bin: attrs:
+    lib.concatStringsSep " " (
       [
-        "runHook preConfigure"
+        "crystal"
+        "build"
       ]
-      ++ lib.optional (lockFile != null) "cp ${lockFile} ./shard.lock"
-      ++ lib.optionals (shardsFile != null) [
-        "test -e lib || mkdir lib"
-        "for d in ${crystalLib}/*; do ln -s $d lib/; done"
-        "cp shard.lock lib/.shards.info"
+      ++ lib.optionals enableParallelBuilding [
+        "--threads"
+        "$NIX_BUILD_CORES"
       ]
-      ++ [ "runHook postConfigure" ]
-    ));
+      ++ [
+        "-o"
+        bin
+        (attrs.src or (throw "No source file for crystal binary ${bin} provided"))
+        (lib.concatStringsSep " " (attrs.options or defaultOptions))
+      ]
+    );
+in
+stdenv.mkDerivation (
+  mkDerivationArgs
+  // {
 
-  CRFLAGS = lib.concatStringsSep " " defaultOptions;
+    configurePhase =
+      args.configurePhase or (lib.concatStringsSep "\n" (
+        [ "runHook preConfigure" ]
+        ++ lib.optional (lockFile != null) "cp ${lockFile} ./shard.lock"
+        ++ lib.optionals (shardsFile != null) [
+          "test -e lib || mkdir lib"
+          "for d in ${crystalLib}/*; do ln -s $d lib/; done"
+          "cp shard.lock lib/.shards.info"
+        ]
+        ++ [ "runHook postConfigure" ]
+      ));
 
-  PREFIX = placeholder "out";
+    CRFLAGS = lib.concatStringsSep " " defaultOptions;
 
-  inherit enableParallelBuilding;
-  strictDeps = true;
-  buildInputs = args.buildInputs or [ ] ++ [ crystal ]
-    ++ lib.optional (lib.versionAtLeast crystal.version "1.8") pcre2;
+    PREFIX = placeholder "out";
 
-  nativeBuildInputs = args.nativeBuildInputs or [ ] ++ [
-    crystal
-    git
-    installShellFiles
-    removeReferencesTo
-    pkg-config
-    which
-  ] ++ lib.optional (format != "crystal") shards;
+    inherit enableParallelBuilding;
+    strictDeps = true;
+    buildInputs =
+      args.buildInputs or [ ]
+      ++ [ crystal ]
+      ++ lib.optional (lib.versionAtLeast crystal.version "1.8") pcre2;
 
-  buildPhase = args.buildPhase or (lib.concatStringsSep "\n" ([
-    "runHook preBuild"
-  ] ++ lib.optional (format == "make")
-    "make \${buildTargets:-build} $makeFlags"
-  ++ lib.optionals (format == "crystal") (lib.mapAttrsToList mkCrystalBuildArgs crystalBinaries)
-  ++ lib.optional (format == "shards")
-    "shards build --local --production ${lib.concatStringsSep " " (args.options or defaultOptions)}"
-  ++ [ "runHook postBuild" ]));
+    nativeBuildInputs =
+      args.nativeBuildInputs or [ ]
+      ++ [
+        crystal
+        git
+        installShellFiles
+        removeReferencesTo
+        pkg-config
+        which
+      ]
+      ++ lib.optional (format != "crystal") shards;
 
-  installPhase = args.installPhase or (lib.concatStringsSep "\n" ([
-    "runHook preInstall"
-  ] ++ lib.optional (format == "make")
-    "make \${installTargets:-install} $installFlags"
-  ++ lib.optionals (format == "crystal") (map
-    (bin: ''
-      install -Dm555 ${lib.escapeShellArgs [ bin "${placeholder "out"}/bin/${bin}" ]}
-    '')
-    (lib.attrNames crystalBinaries))
-  ++ lib.optional (format == "shards")
-    "install -Dm555 bin/* -t $out/bin"
-  ++ [
-    ''
-      for f in README* *.md LICENSE; do
-        test -f $f && install -Dm444 $f -t $out/share/doc/${args.pname}
-      done
-    ''
-  ] ++ (lib.optional installManPages ''
-    if [ -d man ]; then
-      installManPage man/*.?
-    fi
-  '') ++ [
-    "remove-references-to -t ${lib.getLib crystal} $out/bin/*"
-    "runHook postInstall"
-  ]));
+    buildPhase =
+      args.buildPhase or (lib.concatStringsSep "\n" (
+        [ "runHook preBuild" ]
+        ++ lib.optional (format == "make") "make \${buildTargets:-build} $makeFlags"
+        ++ lib.optionals (format == "crystal") (lib.mapAttrsToList mkCrystalBuildArgs crystalBinaries)
+        ++
+          lib.optional (format == "shards")
+            "shards build --local --production ${lib.concatStringsSep " " (args.options or defaultOptions)}"
+        ++ [ "runHook postBuild" ]
+      ));
 
-  doCheck = args.doCheck or true;
+    installPhase =
+      args.installPhase or (lib.concatStringsSep "\n" (
+        [ "runHook preInstall" ]
+        ++ lib.optional (format == "make") "make \${installTargets:-install} $installFlags"
+        ++ lib.optionals (format == "crystal") (
+          map (bin: ''
+            install -Dm555 ${
+              lib.escapeShellArgs [
+                bin
+                "${placeholder "out"}/bin/${bin}"
+              ]
+            }
+          '') (lib.attrNames crystalBinaries)
+        )
+        ++ lib.optional (format == "shards") "install -Dm555 bin/* -t $out/bin"
+        ++ [
+          ''
+            for f in README* *.md LICENSE; do
+              test -f $f && install -Dm444 $f -t $out/share/doc/${args.pname}
+            done
+          ''
+        ]
+        ++ (lib.optional installManPages ''
+          if [ -d man ]; then
+            installManPage man/*.?
+          fi
+        '')
+        ++ [
+          "remove-references-to -t ${lib.getLib crystal} $out/bin/*"
+          "runHook postInstall"
+        ]
+      ));
 
-  checkPhase = args.checkPhase or (lib.concatStringsSep "\n" ([
-    "runHook preCheck"
-  ] ++ lib.optional (format == "make")
-    "make \${checkTarget:-test} $checkFlags"
-  ++ lib.optional (format != "make")
-    "crystal \${checkTarget:-spec} $checkFlags"
-  ++ [ "runHook postCheck" ]));
+    doCheck = args.doCheck or true;
 
-  doInstallCheck = args.doInstallCheck or true;
+    checkPhase =
+      args.checkPhase or (lib.concatStringsSep "\n" (
+        [ "runHook preCheck" ]
+        ++ lib.optional (format == "make") "make \${checkTarget:-test} $checkFlags"
+        ++ lib.optional (format != "make") "crystal \${checkTarget:-spec} $checkFlags"
+        ++ [ "runHook postCheck" ]
+      ));
 
-  installCheckPhase = args.installCheckPhase or ''
-    for f in $out/bin/*; do
-      if [ $f == $out/bin/*.dwarf ]; then
-        continue
-      fi
-      $f --help > /dev/null
-    done
-  '';
+    doInstallCheck = args.doInstallCheck or true;
 
-  meta = args.meta or { } // {
-    platforms = args.meta.platforms or crystal.meta.platforms;
-  };
-})
+    installCheckPhase =
+      args.installCheckPhase or ''
+        for f in $out/bin/*; do
+          if [ $f == $out/bin/*.dwarf ]; then
+            continue
+          fi
+          $f --help > /dev/null
+        done
+      '';
+
+    meta = args.meta or { } // {
+      platforms = args.meta.platforms or crystal.meta.platforms;
+    };
+  }
+)

@@ -1,22 +1,23 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, h5py
-, numpy
-, pandas
-, pytestCheckHook
-, pytest-mock
-, pytest-remotedata
-, pytest-rerunfailures
-, pytest-timeout
-, pythonOlder
-, pytz
-, requests
-, requests-mock
-, scipy
-, setuptools
-, setuptools-scm
-, wheel
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  h5py,
+  numpy,
+  pandas,
+  pytestCheckHook,
+  pytest-mock,
+  pytest-remotedata,
+  pytest-rerunfailures,
+  pytest-timeout,
+  pythonOlder,
+  pytz,
+  requests,
+  requests-mock,
+  scipy,
+  setuptools,
+  setuptools-scm,
+  wheel,
 }:
 
 buildPythonPackage rec {
@@ -26,7 +27,7 @@ buildPythonPackage rec {
 
   disabled = pythonOlder "3.7";
 
-  src = fetchPypi{
+  src = fetchPypi {
     inherit pname version;
     hash = "sha256-DF+ov+ixSjmjC/7+WmzwFksuvYKikSbbPZBqhNk5+HI=";
   };
@@ -55,9 +56,7 @@ buildPythonPackage rec {
     requests-mock
   ];
 
-  pythonImportsCheck = [
-    "pvlib"
-  ];
+  pythonImportsCheck = [ "pvlib" ];
 
   meta = with lib; {
     homepage = "https://pvlib-python.readthedocs.io";

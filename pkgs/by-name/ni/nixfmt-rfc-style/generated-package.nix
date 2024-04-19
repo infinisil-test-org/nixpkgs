@@ -1,8 +1,21 @@
 # This file has been autogenerate with cabal2nix.
 # Update via ./update.sh
-{ mkDerivation, base, cmdargs, directory, fetchzip, filepath, lib
-, megaparsec, mtl, parser-combinators, safe-exceptions, scientific
-, text, transformers, unix
+{
+  mkDerivation,
+  base,
+  cmdargs,
+  directory,
+  fetchzip,
+  filepath,
+  lib,
+  megaparsec,
+  mtl,
+  parser-combinators,
+  safe-exceptions,
+  scientific,
+  text,
+  transformers,
+  unix,
 }:
 mkDerivation {
   pname = "nixfmt";
@@ -14,10 +27,22 @@ mkDerivation {
   isLibrary = true;
   isExecutable = true;
   libraryHaskellDepends = [
-    base megaparsec mtl parser-combinators scientific text transformers
+    base
+    megaparsec
+    mtl
+    parser-combinators
+    scientific
+    text
+    transformers
   ];
   executableHaskellDepends = [
-    base cmdargs directory filepath safe-exceptions text unix
+    base
+    cmdargs
+    directory
+    filepath
+    safe-exceptions
+    text
+    unix
   ];
   jailbreak = true;
   homepage = "https://github.com/serokell/nixfmt";

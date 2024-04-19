@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -15,8 +20,7 @@ let
   icons = cfg.iconTheme.package;
   cursors = cfg.cursorTheme.package;
 
-  gtkGreeterConf = writeText "lightdm-gtk-greeter.conf"
-    ''
+  gtkGreeterConf = writeText "lightdm-gtk-greeter.conf" ''
     [greeter]
     theme-name = ${cfg.theme.name}
     icon-theme-name = ${cfg.iconTheme.name}
@@ -27,8 +31,7 @@ let
     ${optionalString (cfg.indicators != null) "indicators = ${concatStringsSep ";" cfg.indicators}"}
     ${optionalString (xcfg.dpi != null) "xft-dpi=${toString xcfg.dpi}"}
     ${cfg.extraConfig}
-    '';
-
+  '';
 in
 {
   options = {
@@ -61,7 +64,6 @@ in
             Name of the theme to use for the lightdm-gtk-greeter.
           '';
         };
-
       };
 
       iconTheme = {
@@ -82,7 +84,6 @@ in
             Name of the icon theme to use for the lightdm-gtk-greeter.
           '';
         };
-
       };
 
       cursorTheme = {
@@ -128,7 +129,16 @@ in
       indicators = mkOption {
         type = types.nullOr (types.listOf types.str);
         default = null;
-        example = [ "~host" "~spacer" "~clock" "~spacer" "~session" "~language" "~a11y" "~power" ];
+        example = [
+          "~host"
+          "~spacer"
+          "~clock"
+          "~spacer"
+          "~session"
+          "~language"
+          "~a11y"
+          "~power"
+        ];
         description = ''
           List of allowed indicator modules to use for the lightdm gtk
           greeter panel.
@@ -150,9 +160,7 @@ in
           configuration file.
         '';
       };
-
     };
-
   };
 
   config = mkIf (ldmcfg.enable && cfg.enable) {
@@ -169,6 +177,5 @@ in
     ];
 
     environment.etc."lightdm/lightdm-gtk-greeter.conf".source = gtkGreeterConf;
-
   };
 }

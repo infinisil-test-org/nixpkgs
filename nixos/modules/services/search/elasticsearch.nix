@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -37,7 +42,6 @@ let
     paths = cfg.plugins;
     postBuild = "${pkgs.coreutils}/bin/mkdir -p $out/plugins";
   };
-
 in
 {
 
@@ -138,7 +142,7 @@ in
       example = lib.literalExpression "[ pkgs.elasticsearchPlugins.discovery-ec2 ]";
     };
 
-    restartIfChanged  = mkOption {
+    restartIfChanged = mkOption {
       type = types.bool;
       description = ''
         Automatically restart the service on config change.
@@ -148,7 +152,6 @@ in
       '';
       default = true;
     };
-
   };
 
   ###### implementation

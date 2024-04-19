@@ -1,5 +1,17 @@
-{ stdenv, lib, fetchurl, doxygen, graphviz, perl, pkg-config
-, bzip2, lz4, lzo, xz, zlib, zstd
+{
+  stdenv,
+  lib,
+  fetchurl,
+  doxygen,
+  graphviz,
+  perl,
+  pkg-config,
+  bzip2,
+  lz4,
+  lzo,
+  xz,
+  zlib,
+  zstd,
 }:
 
 stdenv.mkDerivation rec {
@@ -11,8 +23,20 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-X5HfXrTUrmtvYT6bfNNG2vRTc6GwZcbBsIkahqvhPo8=";
   };
 
-  nativeBuildInputs = [ doxygen graphviz pkg-config perl ];
-  buildInputs = [ bzip2 zlib xz lz4 lzo zstd ];
+  nativeBuildInputs = [
+    doxygen
+    graphviz
+    pkg-config
+    perl
+  ];
+  buildInputs = [
+    bzip2
+    zlib
+    xz
+    lz4
+    lzo
+    zstd
+  ];
 
   enableParallelBuilding = true;
 

@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, unstableGitUpdater
-, poetry-core
-, hetzner
-, nixops
-, nixos-modules-contrib
-, typing-extensions
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  unstableGitUpdater,
+  poetry-core,
+  hetzner,
+  nixops,
+  nixos-modules-contrib,
+  typing-extensions,
 }:
 
 buildPythonPackage {
@@ -27,13 +28,9 @@ buildPythonPackage {
     --replace "poetry>=" "poetry-core>="
   '';
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
-  buildInputs = [
-    nixops
-  ];
+  buildInputs = [ nixops ];
 
   propagatedBuildInputs = [
     hetzner
@@ -43,7 +40,7 @@ buildPythonPackage {
 
   pythonImportsCheck = [ "nixops_hetzner" ];
 
-  passthru.updateScript = unstableGitUpdater {};
+  passthru.updateScript = unstableGitUpdater { };
 
   meta = with lib; {
     description = "Hetzner bare metal NixOps plugin";

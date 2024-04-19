@@ -1,6 +1,7 @@
-{ lib
-, fetchFromGitHub
-, buildGoModule
+{
+  lib,
+  fetchFromGitHub,
+  buildGoModule,
 }:
 
 buildGoModule rec {
@@ -30,4 +31,3 @@ buildGoModule rec {
     mainProgram = "gh-eco";
   };
 }
-

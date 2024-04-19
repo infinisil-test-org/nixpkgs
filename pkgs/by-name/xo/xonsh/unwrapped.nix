@@ -1,10 +1,11 @@
-{ lib
-, coreutils
-, fetchFromGitHub
-, git
-, gitUpdater
-, glibcLocales
-, python3
+{
+  lib,
+  coreutils,
+  fetchFromGitHub,
+  git,
+  gitUpdater,
+  glibcLocales,
+  python3,
 }:
 
 let
@@ -75,16 +76,18 @@ python3.pkgs.buildPythonApplication {
     "tests/completers/test_bash_completer.py"
   ];
 
-  nativeCheckInputs = [
-    git
-    glibcLocales
-  ] ++ (with python3.pkgs; [
-    pip
-    pyte
-    pytest-mock
-    pytest-subprocess
-    pytestCheckHook
-  ]);
+  nativeCheckInputs =
+    [
+      git
+      glibcLocales
+    ]
+    ++ (with python3.pkgs; [
+      pip
+      pyte
+      pytest-mock
+      pytest-subprocess
+      pytestCheckHook
+    ]);
 
   preCheck = ''
     export HOME=$TMPDIR
@@ -96,7 +99,7 @@ python3.pkgs.buildPythonApplication {
     updateScript = gitUpdater { };
   };
 
-  meta =  {
+  meta = {
     homepage = "https://xon.sh/";
     description = "A Python-ish, BASHwards-compatible shell";
     changelog = "https://github.com/xonsh/xonsh/raw/${version}/CHANGELOG.rst";

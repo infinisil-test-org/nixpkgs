@@ -1,13 +1,14 @@
-{ stdenv
-, lib
-, fetchurl
-, dpkg
-, autoPatchelfHook
-, makeWrapper
-, copyDesktopItems
-, makeDesktopItem
-, dbus
-, nftables
+{
+  stdenv,
+  lib,
+  fetchurl,
+  dpkg,
+  autoPatchelfHook,
+  makeWrapper,
+  copyDesktopItems,
+  makeDesktopItem,
+  dbus,
+  nftables,
 }:
 
 stdenv.mkDerivation rec {
@@ -35,7 +36,11 @@ stdenv.mkDerivation rec {
     (makeDesktopItem {
       name = "com.cloudflare.WarpCli";
       desktopName = "Cloudflare Zero Trust Team Enrollment";
-      categories = [ "Utility" "Security" "ConsoleOnly" ];
+      categories = [
+        "Utility"
+        "Security"
+        "ConsoleOnly"
+      ];
       noDisplay = true;
       mimeTypes = [ "x-scheme-handler/com.cloudflare.warp" ];
       exec = "warp-cli teams-enroll-token %u";

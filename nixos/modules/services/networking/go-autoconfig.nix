@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -7,8 +12,8 @@ let
   cfg = config.services.go-autoconfig;
   format = pkgs.formats.yaml { };
   configFile = format.generate "config.yml" cfg.settings;
-
-in {
+in
+{
   options = {
     services.go-autoconfig = {
 
@@ -21,9 +26,7 @@ in {
           <https://github.com/L11R/go-autoconfig/blob/master/config.yml>
           for more information.
         '';
-        type = types.submodule {
-          freeformType = format.type;
-        };
+        type = types.submodule { freeformType = format.type; };
         example = literalExpression ''
           {
             service_addr = ":1323";
@@ -39,7 +42,6 @@ in {
           }
         '';
       };
-
     };
   };
 
@@ -58,9 +60,7 @@ in {
         };
       };
     };
-
   };
 
   meta.maintainers = with lib.maintainers; [ onny ];
-
 }

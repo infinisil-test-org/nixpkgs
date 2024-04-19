@@ -1,4 +1,12 @@
-{ lib, stdenv, fetchCrate, rustPlatform, pkg-config, openssl, Security }:
+{
+  lib,
+  stdenv,
+  fetchCrate,
+  rustPlatform,
+  pkg-config,
+  openssl,
+  Security,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "cargo-pgx";
@@ -13,8 +21,7 @@ rustPlatform.buildRustPackage rec {
 
   nativeBuildInputs = [ pkg-config ];
 
-  buildInputs = [ openssl ]
-    ++ lib.optionals stdenv.isDarwin [ Security ];
+  buildInputs = [ openssl ] ++ lib.optionals stdenv.isDarwin [ Security ];
 
   meta = with lib; {
     description = "Cargo subcommand for ‘pgx’ to make Postgres extension development easy";

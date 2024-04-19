@@ -1,9 +1,13 @@
-{ lib, buildPythonPackage, fetchPypi
-, pytestCheckHook
-, pytest-forked
-, py
-, python
-, six }:
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pytestCheckHook,
+  pytest-forked,
+  py,
+  python,
+  six,
+}:
 
 buildPythonPackage rec {
   pname = "lazy-import";
@@ -22,18 +26,14 @@ buildPythonPackage rec {
     py
   ];
 
-  propagatedBuildInputs = [
-    six
-  ];
+  propagatedBuildInputs = [ six ];
 
   preCheck = ''
     # avoid AttributeError: module 'py' has no attribute 'process'
     export PYTHONPATH=${py}/${python.sitePackages}:$PYTHONPATH
   '';
 
-  pytestFlagsArray = [
-    "--forked"
-  ];
+  pytestFlagsArray = [ "--forked" ];
 
   meta = with lib; {
     description = "A set of functions that load modules, and related attributes, in a lazy fashion";

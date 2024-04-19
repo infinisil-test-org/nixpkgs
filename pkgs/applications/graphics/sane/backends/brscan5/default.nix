@@ -1,42 +1,67 @@
-{ stdenv, lib, fetchurl, callPackage, patchelf, makeWrapper, libusb1, avahi-compat, glib, libredirect, nixosTests }:
+{
+  stdenv,
+  lib,
+  fetchurl,
+  callPackage,
+  patchelf,
+  makeWrapper,
+  libusb1,
+  avahi-compat,
+  glib,
+  libredirect,
+  nixosTests,
+}:
 let
-  myPatchElf = file: with lib; ''
-    patchelf --set-interpreter \
-      ${stdenv.cc.libc}/lib/ld-linux${optionalString stdenv.is64bit "-x86-64"}.so.2 \
-      ${file}
-  '';
+  myPatchElf =
+    file: with lib; ''
+      patchelf --set-interpreter \
+        ${stdenv.cc.libc}/lib/ld-linux${optionalString stdenv.is64bit "-x86-64"}.so.2 \
+        ${file}
+    '';
   system = stdenv.hostPlatform.system;
-
 in
 stdenv.mkDerivation rec {
   pname = "brscan5";
   version = "1.3.0-0";
-  src = {
-    "i686-linux" = fetchurl {
-      url = "https://download.brother.com/welcome/dlf104034/${pname}-${version}.i386.deb";
-      sha256 = "sha256-LpbPUo8iD5CcwUoIOa1UYHQXMrZZJ7PjZpcuyXhXjzk=";
-    };
-    "x86_64-linux" = fetchurl {
-      url = "https://download.brother.com/welcome/dlf104033/${pname}-${version}.amd64.deb";
-      sha256 = "sha256-ntVe/e6/cdz3+LSpGilMFZecxfv74pd7ksh85SzEdKc=";
-    };
-  }."${system}" or (throw "Unsupported system: ${system}");
+  src =
+    {
+      "i686-linux" = fetchurl {
+        url = "https://download.brother.com/welcome/dlf104034/${pname}-${version}.i386.deb";
+        sha256 = "sha256-LpbPUo8iD5CcwUoIOa1UYHQXMrZZJ7PjZpcuyXhXjzk=";
+      };
+      "x86_64-linux" = fetchurl {
+        url = "https://download.brother.com/welcome/dlf104033/${pname}-${version}.amd64.deb";
+        sha256 = "sha256-ntVe/e6/cdz3+LSpGilMFZecxfv74pd7ksh85SzEdKc=";
+      };
+    }
+    ."${system}" or (throw "Unsupported system: ${system}");
 
   unpackPhase = ''
     ar x $src
     tar xfv data.tar.xz
   '';
 
-  nativeBuildInputs = [ makeWrapper patchelf ];
-  buildInputs = [ libusb1 avahi-compat stdenv.cc.cc glib ];
+  nativeBuildInputs = [
+    makeWrapper
+    patchelf
+  ];
+  buildInputs = [
+    libusb1
+    avahi-compat
+    stdenv.cc.cc
+    glib
+  ];
   dontBuild = true;
 
   postPatch =
     let
       patchOffsetBytes =
-        if system == "x86_64-linux" then 86528
-        else if system == "i686-linux" then 79140
-        else throw "Unsupported system: ${system}";
+        if system == "x86_64-linux" then
+          86528
+        else if system == "i686-linux" then
+          79140
+        else
+          throw "Unsupported system: ${system}";
     in
     ''
       ${myPatchElf "opt/brother/scanner/brscan5/brsaneconfig5"}
@@ -96,12 +121,17 @@ stdenv.mkDerivation rec {
 
   dontPatchELF = true;
 
-  passthru.tests = { inherit (nixosTests) brscan5; };
+  passthru.tests = {
+    inherit (nixosTests) brscan5;
+  };
 
   meta = {
     description = "Brother brscan5 sane backend driver";
     homepage = "https://www.brother.com";
-    platforms = [ "i686-linux" "x86_64-linux" ];
+    platforms = [
+      "i686-linux"
+      "x86_64-linux"
+    ];
     sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
     license = lib.licenses.unfree;
     maintainers = with lib.maintainers; [ mattchrist ];

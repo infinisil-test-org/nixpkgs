@@ -1,57 +1,58 @@
-{ lib
-, writeScript
-, stdenv
-, fetchurl
-, alsa-lib
-, at-spi2-atk
-, at-spi2-core
-, atk
-, cairo
-, cups
-, dbus
-, expat
-, fontconfig
-, freetype
-, gdk-pixbuf
-, glib
-, gtk3
-, harfbuzz
-, libdrm
-, libgcrypt
-, libglvnd
-, libkrb5
-, libpulseaudio
-, libsecret
-, udev
-, libxcb
-, libxkbcommon
-, libxcrypt-legacy
-, lshw
-, mesa
-, nspr
-, nss
-, pango
-, zlib
-, libX11
-, libXcomposite
-, libXcursor
-, libXdamage
-, libXext
-, libXfixes
-, libXi
-, libXrandr
-, libXrender
-, libXtst
-, libxshmfence
-, xcbutil
-, xcbutilimage
-, xcbutilkeysyms
-, xcbutilrenderutil
-, xcbutilwm
-, p7zip
-, tbb
-, wayland
-, libXScrnSaver
+{
+  lib,
+  writeScript,
+  stdenv,
+  fetchurl,
+  alsa-lib,
+  at-spi2-atk,
+  at-spi2-core,
+  atk,
+  cairo,
+  cups,
+  dbus,
+  expat,
+  fontconfig,
+  freetype,
+  gdk-pixbuf,
+  glib,
+  gtk3,
+  harfbuzz,
+  libdrm,
+  libgcrypt,
+  libglvnd,
+  libkrb5,
+  libpulseaudio,
+  libsecret,
+  udev,
+  libxcb,
+  libxkbcommon,
+  libxcrypt-legacy,
+  lshw,
+  mesa,
+  nspr,
+  nss,
+  pango,
+  zlib,
+  libX11,
+  libXcomposite,
+  libXcursor,
+  libXdamage,
+  libXext,
+  libXfixes,
+  libXi,
+  libXrandr,
+  libXrender,
+  libXtst,
+  libxshmfence,
+  xcbutil,
+  xcbutilimage,
+  xcbutilkeysyms,
+  xcbutilrenderutil,
+  xcbutilwm,
+  p7zip,
+  tbb,
+  wayland,
+  libXScrnSaver,
 }:
 
 stdenv.mkDerivation rec {
@@ -63,9 +64,7 @@ stdenv.mkDerivation rec {
     sha256 = "f84669a2cd974435c6c0f8a6dc5a62c4ef01a3848e36ffcc8077f718be4a3b86";
   };
 
-  nativeBuildInputs = [
-    p7zip
-  ];
+  nativeBuildInputs = [ p7zip ];
 
   buildInputs = [
     alsa-lib

@@ -1,27 +1,28 @@
-{ lib
-, stdenv
-, anytree
-, buildPythonPackage
-, cached-property
-, cgen
-, click
-, codepy
-, distributed
-, fetchFromGitHub
-, gcc
-, llvmPackages
-, matplotlib
-, multidict
-, nbval
-, psutil
-, py-cpuinfo
-, pyrevolve
-, pytest-xdist
-, pytestCheckHook
-, pythonOlder
-, pythonRelaxDepsHook
-, scipy
-, sympy
+{
+  lib,
+  stdenv,
+  anytree,
+  buildPythonPackage,
+  cached-property,
+  cgen,
+  click,
+  codepy,
+  distributed,
+  fetchFromGitHub,
+  gcc,
+  llvmPackages,
+  matplotlib,
+  multidict,
+  nbval,
+  psutil,
+  py-cpuinfo,
+  pyrevolve,
+  pytest-xdist,
+  pytestCheckHook,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  scipy,
+  sympy,
 }:
 
 buildPythonPackage rec {
@@ -47,9 +48,7 @@ buildPythonPackage rec {
 
   pythonRelaxDeps = true;
 
-  nativeBuildInputs = [
-    pythonRelaxDepsHook
-  ];
+  nativeBuildInputs = [ pythonRelaxDepsHook ];
 
   propagatedBuildInputs = [
     anytree
@@ -65,9 +64,7 @@ buildPythonPackage rec {
     pyrevolve
     scipy
     sympy
-  ] ++ lib.optionals stdenv.cc.isClang [
-    llvmPackages.openmp
-  ];
+  ] ++ lib.optionals stdenv.cc.isClang [ llvmPackages.openmp ];
 
   nativeCheckInputs = [
     gcc
@@ -111,9 +108,7 @@ buildPythonPackage rec {
     "tests/test_gradient.py"
   ];
 
-  pythonImportsCheck = [
-    "devito"
-  ];
+  pythonImportsCheck = [ "devito" ];
 
   meta = with lib; {
     description = "Code generation framework for automated finite difference computation";

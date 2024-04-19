@@ -1,4 +1,4 @@
-{ lib } :
+{ lib }:
 
 with lib;
 {
@@ -45,6 +45,5 @@ with lib;
         by colon.
       '';
     };
-
   };
 }

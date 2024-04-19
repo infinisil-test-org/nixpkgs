@@ -1,11 +1,15 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
 
   cfg = config.services.safeeyes;
-
 in
 
 {
@@ -17,9 +21,7 @@ in
     services.safeeyes = {
 
       enable = mkEnableOption "the safeeyes OSGi service";
-
     };
-
   };
 
   ###### implementation
@@ -32,7 +34,7 @@ in
       description = "Safeeyes";
 
       wantedBy = [ "graphical-session.target" ];
-      partOf   = [ "graphical-session.target" ];
+      partOf = [ "graphical-session.target" ];
 
       startLimitIntervalSec = 350;
       startLimitBurst = 10;
@@ -44,6 +46,5 @@ in
         RestartSec = 3;
       };
     };
-
   };
 }

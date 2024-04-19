@@ -1,4 +1,16 @@
-{ stdenv, stdenvNoCC, gccStdenv, lib, recurseIntoAttrs, libsForQt5, newScope, texliveBasic, perlPackages, jdk8, jre8 }:
+{
+  stdenv,
+  stdenvNoCC,
+  gccStdenv,
+  lib,
+  recurseIntoAttrs,
+  libsForQt5,
+  newScope,
+  texliveBasic,
+  perlPackages,
+  jdk8,
+  jre8,
+}:
 
 # To whomever it may concern:
 #
@@ -52,17 +64,19 @@ let
   latestVersion = "50.12";
 
   # Converts a version to a package name.
-  versionToName = version: "dwarf-fortress_${replaceStrings ["."] ["_"] version}";
+  versionToName = version: "dwarf-fortress_${replaceStrings [ "." ] [ "_" ] version}";
 
   # A map of names to each Dwarf Fortress package we know about.
-  df-games = listToAttrs (map
-    (dfVersion: {
+  df-games = listToAttrs (
+    map (dfVersion: {
       name = versionToName dfVersion;
       value =
         let
           isAtLeast50 = versionAtLeast dfVersion "50.0";
 
-          dwarf-fortress-unfuck = optionalAttrs (!isAtLeast50) (callPackage ./unfuck.nix { inherit dfVersion; });
+          dwarf-fortress-unfuck = optionalAttrs (!isAtLeast50) (
+            callPackage ./unfuck.nix { inherit dfVersion; }
+          );
 
           dwarf-fortress = callPackage ./game.nix {
             inherit dfVersion;
@@ -79,23 +93,42 @@ let
 
           dwarf-therapist = libsForQt5.callPackage ./dwarf-therapist/wrapper.nix {
             inherit dwarf-fortress;
-            dwarf-therapist = (libsForQt5.callPackage ./dwarf-therapist {
-              texlive = texliveBasic.withPackages (ps: with ps; [ float caption wrapfig adjmulticol sidecap preprint enumitem ]);
-            }).override (optionalAttrs (!isAtLeast50) {
-              # 41.2.5 is the last version to support Dwarf Fortress 0.47.
-              version = "41.2.5";
-              hash = "sha256-xfYBtnO1n6OcliVt07GsQ9alDJIfWdVhtuyWwuvXSZs=";
-            });
+            dwarf-therapist =
+              (libsForQt5.callPackage ./dwarf-therapist {
+                texlive = texliveBasic.withPackages (
+                  ps: with ps; [
+                    float
+                    caption
+                    wrapfig
+                    adjmulticol
+                    sidecap
+                    preprint
+                    enumitem
+                  ]
+                );
+              }).override
+                (
+                  optionalAttrs (!isAtLeast50) {
+                    # 41.2.5 is the last version to support Dwarf Fortress 0.47.
+                    version = "41.2.5";
+                    hash = "sha256-xfYBtnO1n6OcliVt07GsQ9alDJIfWdVhtuyWwuvXSZs=";
+                  }
+                );
           };
         in
         callPackage ./wrapper {
           inherit (self) themes;
-          inherit dwarf-fortress twbt dfhack dwarf-therapist;
+          inherit
+            dwarf-fortress
+            twbt
+            dfhack
+            dwarf-therapist
+            ;
 
           jdk = jdk8; # TODO: remove override https://github.com/NixOS/nixpkgs/pull/89731
         };
-    })
-    (attrNames self.df-hashes));
+    }) (attrNames self.df-hashes)
+  );
 
   self = rec {
     df-hashes = importJSON ./game.json;
@@ -105,9 +138,7 @@ let
     dwarf-therapist = dwarf-fortress.dwarf-therapist;
     dwarf-fortress-original = dwarf-fortress.dwarf-fortress;
 
-    dwarf-fortress-full = callPackage ./lazy-pack.nix {
-      inherit df-games versionToName latestVersion;
-    };
+    dwarf-fortress-full = callPackage ./lazy-pack.nix { inherit df-games versionToName latestVersion; };
 
     soundSense = callPackage ./soundsense.nix { };
 
@@ -115,14 +146,11 @@ let
       jre = jre8; # TODO: remove override https://github.com/NixOS/nixpkgs/pull/89731
     };
 
-    themes = recurseIntoAttrs (callPackage ./themes {
-      stdenv = stdenvNoCC;
-    });
+    themes = recurseIntoAttrs (callPackage ./themes { stdenv = stdenvNoCC; });
 
     # Theme aliases
     phoebus-theme = themes.phoebus;
     cla-theme = themes.cla;
   };
-
 in
 self // df-games

@@ -1,9 +1,10 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, minizip
-, python3
-, zlib
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  minizip,
+  python3,
+  zlib,
 }:
 
 stdenv.mkDerivation rec {
@@ -17,9 +18,7 @@ stdenv.mkDerivation rec {
     hash = "sha256-fC03LwZIUkEsAs9TN0n2z0iSOGPAtVCeuW5rxC7Ek7Q=";
   };
 
-  nativeBuildInputs = [
-    python3.pkgs.pytest
-  ];
+  nativeBuildInputs = [ python3.pkgs.pytest ];
 
   buildInputs = [
     minizip

@@ -1,10 +1,11 @@
-{ lib
-, pkgs
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, redis
-, unittestCheckHook
+{
+  lib,
+  pkgs,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  redis,
+  unittestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -21,13 +22,9 @@ buildPythonPackage rec {
     hash = "sha256-jinYMGSBAY8HTg92qU/iU5vGIrrDr5SeQG0XjsBVfcc=";
   };
 
-  propagatedBuildInputs = [
-    redis
-  ];
+  propagatedBuildInputs = [ redis ];
 
-  nativeCheckInputs = [
-    unittestCheckHook
-  ];
+  nativeCheckInputs = [ unittestCheckHook ];
 
   preCheck = ''
     ${pkgs.redis}/bin/redis-server &
@@ -38,9 +35,7 @@ buildPythonPackage rec {
     kill $REDIS_PID
   '';
 
-  pythonImportsCheck = [
-    "walrus"
-  ];
+  pythonImportsCheck = [ "walrus" ];
 
   meta = with lib; {
     description = "Lightweight Python utilities for working with Redis";

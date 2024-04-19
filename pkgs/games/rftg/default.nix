@@ -1,4 +1,10 @@
-{ lib, stdenv, fetchurl, gtk2, pkg-config }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  gtk2,
+  pkg-config,
+}:
 
 stdenv.mkDerivation rec {
 
@@ -19,5 +25,4 @@ stdenv.mkDerivation rec {
     license = lib.licenses.gpl2;
     maintainers = [ lib.maintainers.falsifian ];
   };
-
 }

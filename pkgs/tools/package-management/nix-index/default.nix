@@ -1,5 +1,13 @@
-{ lib, stdenv, rustPlatform, fetchFromGitHub, pkg-config, openssl, curl, sqlite
-, Security
+{
+  lib,
+  stdenv,
+  rustPlatform,
+  fetchFromGitHub,
+  pkg-config,
+  openssl,
+  curl,
+  sqlite,
+  Security,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -16,8 +24,11 @@ rustPlatform.buildRustPackage rec {
   cargoHash = "sha256-zZhQ3pOid7BCGzcyCrl6sDm0q6IEVKF7K+d6nVs9flk=";
 
   nativeBuildInputs = [ pkg-config ];
-  buildInputs = [ openssl curl sqlite ]
-    ++ lib.optional stdenv.isDarwin Security;
+  buildInputs = [
+    openssl
+    curl
+    sqlite
+  ] ++ lib.optional stdenv.isDarwin Security;
 
   postInstall = ''
     substituteInPlace command-not-found.sh \
@@ -30,6 +41,10 @@ rustPlatform.buildRustPackage rec {
     homepage = "https://github.com/nix-community/nix-index";
     changelog = "https://github.com/nix-community/nix-index/blob/${src.rev}/CHANGELOG.md";
     license = with licenses; [ bsd3 ];
-    maintainers = with maintainers; [ bennofs figsoda ncfavier ];
+    maintainers = with maintainers; [
+      bennofs
+      figsoda
+      ncfavier
+    ];
   };
 }

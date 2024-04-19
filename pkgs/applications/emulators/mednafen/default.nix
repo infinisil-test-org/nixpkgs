@@ -1,21 +1,22 @@
-{ lib
-, stdenv
-, fetchurl
-, SDL2
-, SDL2_net
-, alsa-lib
-, flac
-, freeglut
-, libGL
-, libGLU
-, libX11
-, libcdio
-, libjack2
-, libsamplerate
-, libsndfile
-, pkg-config
-, zlib
-, libiconv
+{
+  lib,
+  stdenv,
+  fetchurl,
+  SDL2,
+  SDL2_net,
+  alsa-lib,
+  flac,
+  freeglut,
+  libGL,
+  libGLU,
+  libX11,
+  libcdio,
+  libjack2,
+  libsamplerate,
+  libsndfile,
+  pkg-config,
+  zlib,
+  libiconv,
 }:
 
 stdenv.mkDerivation rec {
@@ -29,26 +30,30 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ pkg-config ];
 
-  buildInputs = [
-    SDL2
-    SDL2_net
-    flac
-    freeglut
-    libcdio
-    libjack2
-    libsamplerate
-    libsndfile
-    zlib
-  ] ++ lib.optionals stdenv.hostPlatform.isLinux [
-    alsa-lib
-    libGL
-    libGLU
-    libX11
-  ] ++ lib.optionals stdenv.hostPlatform.isDarwin [
-    libiconv
-  ];
+  buildInputs =
+    [
+      SDL2
+      SDL2_net
+      flac
+      freeglut
+      libcdio
+      libjack2
+      libsamplerate
+      libsndfile
+      zlib
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isLinux [
+      alsa-lib
+      libGL
+      libGLU
+      libX11
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isDarwin [ libiconv ];
 
-  hardeningDisable = [ "pic" "format" ];
+  hardeningDisable = [
+    "pic"
+    "format"
+  ];
 
   enableParallelBuilding = true;
 

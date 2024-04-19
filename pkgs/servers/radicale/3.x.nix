@@ -1,7 +1,8 @@
-{ lib
-, python3
-, fetchFromGitHub
-, nixosTests
+{
+  lib,
+  python3,
+  fetchFromGitHub,
+  nixosTests,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -20,17 +21,18 @@ python3.pkgs.buildPythonApplication rec {
     sed -i '/addopts/d' setup.cfg
   '';
 
-  nativeBuildInputs = with python3.pkgs; [
-    setuptools
-  ];
+  nativeBuildInputs = with python3.pkgs; [ setuptools ];
 
-  propagatedBuildInputs = with python3.pkgs; [
-    defusedxml
-    passlib
-    vobject
-    python-dateutil
-    pytz # https://github.com/Kozea/Radicale/issues/816
-  ] ++ passlib.optional-dependencies.bcrypt;
+  propagatedBuildInputs =
+    with python3.pkgs;
+    [
+      defusedxml
+      passlib
+      vobject
+      python-dateutil
+      pytz # https://github.com/Kozea/Radicale/issues/816
+    ]
+    ++ passlib.optional-dependencies.bcrypt;
 
   __darwinAllowLocalNetworking = true;
 
@@ -41,7 +43,8 @@ python3.pkgs.buildPythonApplication rec {
 
   pytestFlagsArray = [
     # pytest.PytestRemovedIn8Warning: Support for nose tests is deprecated and will be removed in a future release.
-    "-W" "ignore::pytest.PytestRemovedIn8Warning"
+    "-W"
+    "ignore::pytest.PytestRemovedIn8Warning"
   ];
 
   passthru.tests = {
@@ -53,6 +56,9 @@ python3.pkgs.buildPythonApplication rec {
     changelog = "https://github.com/Kozea/Radicale/blob/${src.rev}/CHANGELOG.md";
     description = "CalDAV and CardDAV server";
     license = licenses.gpl3Plus;
-    maintainers = with maintainers; [ dotlambda erictapen ];
+    maintainers = with maintainers; [
+      dotlambda
+      erictapen
+    ];
   };
 }

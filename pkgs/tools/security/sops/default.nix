@@ -1,4 +1,8 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+}:
 
 buildGoModule rec {
   pname = "sops";
@@ -15,7 +19,11 @@ buildGoModule rec {
 
   subPackages = [ "cmd/sops" ];
 
-  ldflags = [ "-s" "-w" "-X github.com/getsops/sops/v3/version.Version=${version}" ];
+  ldflags = [
+    "-s"
+    "-w"
+    "-X github.com/getsops/sops/v3/version.Version=${version}"
+  ];
 
   meta = with lib; {
     homepage = "https://github.com/getsops/sops";

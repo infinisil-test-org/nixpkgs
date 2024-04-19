@@ -1,6 +1,18 @@
-{ lib, runCommand, makeWrapper, parallel, perlPackages
-, extraPerlPackages ? with perlPackages; [ DBI DBDPg DBDSQLite DBDCSV TextCSV ]
-, willCite ? false }:
+{
+  lib,
+  runCommand,
+  makeWrapper,
+  parallel,
+  perlPackages,
+  extraPerlPackages ? with perlPackages; [
+    DBI
+    DBDPg
+    DBDSQLite
+    DBDCSV
+    TextCSV
+  ],
+  willCite ? false,
+}:
 
 runCommand "parallel-full" { nativeBuildInputs = [ makeWrapper ]; } ''
   mkdir -p $out/bin

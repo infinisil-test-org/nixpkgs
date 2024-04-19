@@ -1,19 +1,21 @@
-{ version
-, hash
-, patches
+{
+  version,
+  hash,
+  patches,
 }:
 
-{ lib
-, stdenv
-, fetchurl
-, which
-, python3
-, gfortran
-, cmake
-, perl
-, gnum4
-, openssl
-, libxml2
+{
+  lib,
+  stdenv,
+  fetchurl,
+  which,
+  python3,
+  gfortran,
+  cmake,
+  perl,
+  gnum4,
+  openssl,
+  libxml2,
 }:
 
 stdenv.mkDerivation rec {
@@ -38,9 +40,7 @@ stdenv.mkDerivation rec {
     openssl
   ];
 
-  buildInputs = [
-    libxml2
-  ];
+  buildInputs = [ libxml2 ];
 
   dontUseCmakeConfigure = true;
 
@@ -48,15 +48,18 @@ stdenv.mkDerivation rec {
     patchShebangs .
   '';
 
-  makeFlags = [
-    "prefix=$(out)"
-    "USE_BINARYBUILDER=0"
-  ] ++ lib.optionals stdenv.isx86_64 [
-    # https://github.com/JuliaCI/julia-buildbot/blob/master/master/inventory.py
-    "JULIA_CPU_TARGET=generic;sandybridge,-xsaveopt,clone_all;haswell,-rdrnd,base(1)"
-  ] ++ lib.optionals stdenv.isAarch64 [
-    "JULIA_CPU_TARGET=generic;cortex-a57;thunderx2t99;armv8.2-a,crypto,fullfp16,lse,rdm"
-  ];
+  makeFlags =
+    [
+      "prefix=$(out)"
+      "USE_BINARYBUILDER=0"
+    ]
+    ++ lib.optionals stdenv.isx86_64 [
+      # https://github.com/JuliaCI/julia-buildbot/blob/master/master/inventory.py
+      "JULIA_CPU_TARGET=generic;sandybridge,-xsaveopt,clone_all;haswell,-rdrnd,base(1)"
+    ]
+    ++ lib.optionals stdenv.isAarch64 [
+      "JULIA_CPU_TARGET=generic;cortex-a57;thunderx2t99;armv8.2-a,crypto,fullfp16,lse,rdm"
+    ];
 
   # remove forbidden reference to $TMPDIR
   preFixup = ''
@@ -86,7 +89,14 @@ stdenv.mkDerivation rec {
     mainProgram = "julia";
     homepage = "https://julialang.org/";
     license = licenses.mit;
-    maintainers = with maintainers; [ nickcao joshniemela thomasjm ];
-    platforms = [ "x86_64-linux" "aarch64-linux" ];
+    maintainers = with maintainers; [
+      nickcao
+      joshniemela
+      thomasjm
+    ];
+    platforms = [
+      "x86_64-linux"
+      "aarch64-linux"
+    ];
   };
 }

@@ -1,47 +1,48 @@
-{ stdenv
-, fetchurl
-, alsa-lib
-, audacious
-, curl
-, faad2
-, ffmpeg
-, flac
-, fluidsynth
-, gdk-pixbuf
-, gettext
-, lame
-, libbs2b
-, libcddb
-, libcdio
-, libcdio-paranoia
-, libcue
-, libjack2
-, libmad
-, libmms
-, libmodplug
-, libmowgli
-, libnotify
-, libogg
-, libopenmpt
-, libpulseaudio
-, libsamplerate
-, libsidplayfp
-, libsndfile
-, libvorbis
-, libxml2
-, lirc
-, meson
-, mpg123
-, neon
-, ninja
-, pkg-config
-, opusfile
-, pipewire
-, qtbase
-, qtmultimedia
-, qtx11extras
-, soxr
-, wavpack
+{
+  stdenv,
+  fetchurl,
+  alsa-lib,
+  audacious,
+  curl,
+  faad2,
+  ffmpeg,
+  flac,
+  fluidsynth,
+  gdk-pixbuf,
+  gettext,
+  lame,
+  libbs2b,
+  libcddb,
+  libcdio,
+  libcdio-paranoia,
+  libcue,
+  libjack2,
+  libmad,
+  libmms,
+  libmodplug,
+  libmowgli,
+  libnotify,
+  libogg,
+  libopenmpt,
+  libpulseaudio,
+  libsamplerate,
+  libsidplayfp,
+  libsndfile,
+  libvorbis,
+  libxml2,
+  lirc,
+  meson,
+  mpg123,
+  neon,
+  ninja,
+  pkg-config,
+  opusfile,
+  pipewire,
+  qtbase,
+  qtmultimedia,
+  qtx11extras,
+  soxr,
+  wavpack,
 }:
 
 stdenv.mkDerivation rec {
@@ -103,9 +104,7 @@ stdenv.mkDerivation rec {
     libopenmpt
   ];
 
-  mesonFlags = [
-    "-Dgtk=false"
-  ];
+  mesonFlags = [ "-Dgtk=false" ];
 
   dontWrapQtApps = true;
 

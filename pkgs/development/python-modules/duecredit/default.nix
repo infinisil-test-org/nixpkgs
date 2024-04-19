@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, setuptools
-, pytestCheckHook
-, vcrpy
-, citeproc-py
-, requests
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  setuptools,
+  pytestCheckHook,
+  vcrpy,
+  citeproc-py,
+  requests,
 }:
 
 buildPythonPackage rec {
@@ -22,10 +23,16 @@ buildPythonPackage rec {
   };
 
   nativeBuildInputs = [ setuptools ];
-  propagatedBuildInputs = [ citeproc-py requests ];
+  propagatedBuildInputs = [
+    citeproc-py
+    requests
+  ];
 
-  nativeCheckInputs = [ pytestCheckHook vcrpy ];
-  disabledTests = [ "test_import_doi" ];  # tries to access network
+  nativeCheckInputs = [
+    pytestCheckHook
+    vcrpy
+  ];
+  disabledTests = [ "test_import_doi" ]; # tries to access network
 
   preCheck = ''
     export HOME=$(mktemp -d)

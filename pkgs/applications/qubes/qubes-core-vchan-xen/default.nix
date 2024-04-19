@@ -1,6 +1,8 @@
-{ lib, stdenv
-, fetchFromGitHub
-, xen
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  xen,
 }:
 
 stdenv.mkDerivation rec {
@@ -31,5 +33,4 @@ stdenv.mkDerivation rec {
     maintainers = with maintainers; [ _0x4A6F ];
     platforms = platforms.linux;
   };
-
 }

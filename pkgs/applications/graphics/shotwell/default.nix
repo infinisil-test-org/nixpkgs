@@ -1,38 +1,39 @@
-{ lib
-, stdenv
-, fetchurl
-, meson
-, ninja
-, gtk3
-, libexif
-, libgphoto2
-, libwebp
-, libsoup_3
-, libxml2
-, vala
-, sqlite
-, pkg-config
-, gnome
-, gst_all_1
-, libgudev
-, libraw
-, glib
-, glib-networking
-, json-glib
-, gcr
-, libgee
-, gexiv2
-, librest
-, gettext
-, desktop-file-utils
-, gdk-pixbuf
-, librsvg
-, wrapGAppsHook
-, gobject-introspection
-, itstool
-, libsecret
-, libportal-gtk3
-, gsettings-desktop-schemas
+{
+  lib,
+  stdenv,
+  fetchurl,
+  meson,
+  ninja,
+  gtk3,
+  libexif,
+  libgphoto2,
+  libwebp,
+  libsoup_3,
+  libxml2,
+  vala,
+  sqlite,
+  pkg-config,
+  gnome,
+  gst_all_1,
+  libgudev,
+  libraw,
+  glib,
+  glib-networking,
+  json-glib,
+  gcr,
+  libgee,
+  gexiv2,
+  librest,
+  gettext,
+  desktop-file-utils,
+  gdk-pixbuf,
+  librsvg,
+  wrapGAppsHook,
+  gobject-introspection,
+  itstool,
+  libsecret,
+  libportal-gtk3,
+  gsettings-desktop-schemas,
 }:
 
 # for dependencies see https://wiki.gnome.org/Apps/Shotwell/BuildingAndInstalling
@@ -99,7 +100,7 @@ stdenv.mkDerivation (finalAttrs: {
     mainProgram = "shotwell";
     homepage = "https://wiki.gnome.org/Apps/Shotwell";
     license = licenses.lgpl21Plus;
-    maintainers = with maintainers; [];
+    maintainers = with maintainers; [ ];
     platforms = platforms.linux;
   };
 })

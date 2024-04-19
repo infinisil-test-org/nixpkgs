@@ -1,36 +1,37 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, pkg-config
-, wrapGAppsHook
-, atk
-, bzip2
-, cairo
-, dbus
-, gdk-pixbuf
-, glib
-, gst_all_1
-, gtk3
-, libayatana-appindicator
-, libgit2
-, libpulseaudio
-, libsodium
-, libXtst
-, libvpx
-, libyuv
-, libopus
-, libaom
-, libxkbcommon
-, libsciter
-, xdotool
-, pam
-, pango
-, zlib
-, zstd
-, stdenv
-, darwin
-, alsa-lib
-, makeDesktopItem
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  pkg-config,
+  wrapGAppsHook,
+  atk,
+  bzip2,
+  cairo,
+  dbus,
+  gdk-pixbuf,
+  glib,
+  gst_all_1,
+  gtk3,
+  libayatana-appindicator,
+  libgit2,
+  libpulseaudio,
+  libsodium,
+  libXtst,
+  libvpx,
+  libyuv,
+  libopus,
+  libaom,
+  libxkbcommon,
+  libsciter,
+  xdotool,
+  pam,
+  pango,
+  zlib,
+  zstd,
+  stdenv,
+  darwin,
+  alsa-lib,
+  makeDesktopItem,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -93,42 +94,43 @@ rustPlatform.buildRustPackage rec {
   # Checks require an active X server
   doCheck = false;
 
-  buildInputs = [
-    atk
-    bzip2
-    cairo
-    dbus
-    gdk-pixbuf
-    glib
-    gst_all_1.gst-plugins-base
-    gst_all_1.gstreamer
-    gtk3
-    libgit2
-    libpulseaudio
-    libsodium
-    libXtst
-    libvpx
-    libyuv
-    libopus
-    libaom
-    libxkbcommon
-    xdotool
-    pam
-    pango
-    zlib
-    zstd
-  ] ++ lib.optionals stdenv.isDarwin [
-    darwin.apple_sdk.frameworks.AppKit
-    darwin.apple_sdk.frameworks.CoreAudio
-    darwin.apple_sdk.frameworks.CoreFoundation
-    darwin.apple_sdk.frameworks.CoreGraphics
-    darwin.apple_sdk.frameworks.Foundation
-    darwin.apple_sdk.frameworks.IOKit
-    darwin.apple_sdk.frameworks.Security
-    darwin.apple_sdk.frameworks.SystemConfiguration
-  ] ++ lib.optionals stdenv.isLinux [
-    alsa-lib
-  ];
+  buildInputs =
+    [
+      atk
+      bzip2
+      cairo
+      dbus
+      gdk-pixbuf
+      glib
+      gst_all_1.gst-plugins-base
+      gst_all_1.gstreamer
+      gtk3
+      libgit2
+      libpulseaudio
+      libsodium
+      libXtst
+      libvpx
+      libyuv
+      libopus
+      libaom
+      libxkbcommon
+      xdotool
+      pam
+      pango
+      zlib
+      zstd
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      darwin.apple_sdk.frameworks.AppKit
+      darwin.apple_sdk.frameworks.CoreAudio
+      darwin.apple_sdk.frameworks.CoreFoundation
+      darwin.apple_sdk.frameworks.CoreGraphics
+      darwin.apple_sdk.frameworks.Foundation
+      darwin.apple_sdk.frameworks.IOKit
+      darwin.apple_sdk.frameworks.Security
+      darwin.apple_sdk.frameworks.SystemConfiguration
+    ]
+    ++ lib.optionals stdenv.isLinux [ alsa-lib ];
 
   # Add static ui resources and libsciter to same folder as binary so that it
   # can find them.
@@ -160,7 +162,10 @@ rustPlatform.buildRustPackage rec {
     description = "Virtual / remote desktop infrastructure for everyone! Open source TeamViewer / Citrix alternative";
     homepage = "https://rustdesk.com";
     license = licenses.agpl3Only;
-    maintainers = with maintainers; [ ocfox leixb ];
+    maintainers = with maintainers; [
+      ocfox
+      leixb
+    ];
     mainProgram = "rustdesk";
   };
 }

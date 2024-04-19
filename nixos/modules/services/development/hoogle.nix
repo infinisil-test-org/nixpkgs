@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -10,8 +15,8 @@ let
     name = "hoogle";
     paths = [ (cfg.haskellPackages.ghcWithHoogle cfg.packages) ];
   };
-
-in {
+in
+{
 
   options.services.hoogle = {
     enable = mkEnableOption "Haskell documentation server";
@@ -26,7 +31,7 @@ in {
 
     packages = mkOption {
       type = types.functionTo (types.listOf types.package);
-      default = hp: [];
+      default = hp: [ ];
       defaultText = literalExpression "hp: []";
       example = literalExpression "hp: with hp; [ text lens ]";
       description = ''
@@ -59,7 +64,7 @@ in {
 
     extraOptions = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
       example = [ "--no-security-headers" ];
       description = ''
         Additional command-line arguments to pass to
@@ -90,5 +95,4 @@ in {
       };
     };
   };
-
 }

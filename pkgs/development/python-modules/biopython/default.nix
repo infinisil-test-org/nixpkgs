@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, setuptools
-, numpy
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  setuptools,
+  numpy,
 }:
 
 buildPythonPackage rec {
@@ -18,15 +19,11 @@ buildPythonPackage rec {
     hash = "sha256-eOa/t43mMDQDev01/nfLbgqeW2Jwa+z3in2SKxbtg/c=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [ numpy ];
 
-  pythonImportsCheck = [
-    "Bio"
-  ];
+  pythonImportsCheck = [ "Bio" ];
 
   checkPhase = ''
     runHook preCheck

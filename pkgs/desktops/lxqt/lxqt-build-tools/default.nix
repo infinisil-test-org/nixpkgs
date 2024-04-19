@@ -1,13 +1,14 @@
-{ lib
-, mkDerivation
-, fetchFromGitHub
-, cmake
-, pkg-config
-, pcre
-, qtbase
-, glib
-, perl
-, gitUpdater
+{
+  lib,
+  mkDerivation,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  pcre,
+  qtbase,
+  glib,
+  perl,
+  gitUpdater,
 }:
 
 mkDerivation rec {

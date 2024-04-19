@@ -1,47 +1,51 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchzip
-, installShellFiles
-, testers
-, writeShellScript
-, common-updater-scripts
-, curl
-, jq
-, xcodebuild
-, xxd
-, yabai
-, Carbon
-, Cocoa
-, ScriptingBridge
-, SkyLight
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchzip,
+  installShellFiles,
+  testers,
+  writeShellScript,
+  common-updater-scripts,
+  curl,
+  jq,
+  xcodebuild,
+  xxd,
+  yabai,
+  Carbon,
+  Cocoa,
+  ScriptingBridge,
+  SkyLight,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "yabai";
   version = "7.1.0";
 
-  src = finalAttrs.passthru.sources.${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
+  src =
+    finalAttrs.passthru.sources.${stdenv.hostPlatform.system}
+      or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
 
   env = {
     # silence service.h error
     NIX_CFLAGS_COMPILE = "-Wno-implicit-function-declaration";
   };
 
-  nativeBuildInputs = [
-    installShellFiles
-  ]
-  ++ lib.optionals stdenv.isx86_64 [
-    xcodebuild
-    xxd
-  ];
+  nativeBuildInputs =
+    [ installShellFiles ]
+    ++ lib.optionals stdenv.isx86_64 [
+      xcodebuild
+      xxd
+    ];
 
-  buildInputs = [ ] ++ lib.optionals stdenv.isx86_64 [
-    Carbon
-    Cocoa
-    ScriptingBridge
-    SkyLight
-  ];
+  buildInputs =
+    [ ]
+    ++ lib.optionals stdenv.isx86_64 [
+      Carbon
+      Cocoa
+      ScriptingBridge
+      SkyLight
+    ];
 
   dontConfigure = true;
   dontBuild = stdenv.isAarch64;
@@ -59,20 +63,22 @@ stdenv.mkDerivation (finalAttrs: {
     runHook postInstall
   '';
 
-  postPatch = lib.optionalString stdenv.isx86_64 /* bash */ ''
-    # aarch64 code is compiled on all targets, which causes our Apple SDK headers to error out.
-    # Since multilib doesnt work on darwin i dont know of a better way of handling this.
-    substituteInPlace makefile \
-    --replace "-arch arm64e" "" \
-    --replace "-arch arm64" "" \
-    --replace "clang" "${stdenv.cc.targetPrefix}clang"
+  postPatch =
+    lib.optionalString stdenv.isx86_64 # bash
+      ''
+        # aarch64 code is compiled on all targets, which causes our Apple SDK headers to error out.
+        # Since multilib doesnt work on darwin i dont know of a better way of handling this.
+        substituteInPlace makefile \
+        --replace "-arch arm64e" "" \
+        --replace "-arch arm64" "" \
+        --replace "clang" "${stdenv.cc.targetPrefix}clang"
 
-    # `NSScreen::safeAreaInsets` is only available on macOS 12.0 and above, which frameworks arent packaged.
-    # When a lower OS version is detected upstream just returns 0, so we can hardcode that at compiletime.
-    # https://github.com/koekeishiya/yabai/blob/v4.0.2/src/workspace.m#L109
-    substituteInPlace src/workspace.m \
-    --replace 'return screen.safeAreaInsets.top;' 'return 0;'
-  '';
+        # `NSScreen::safeAreaInsets` is only available on macOS 12.0 and above, which frameworks arent packaged.
+        # When a lower OS version is detected upstream just returns 0, so we can hardcode that at compiletime.
+        # https://github.com/koekeishiya/yabai/blob/v4.0.2/src/workspace.m#L109
+        substituteInPlace src/workspace.m \
+        --replace 'return screen.safeAreaInsets.top;' 'return 0;'
+      '';
 
   passthru = {
     tests.version = testers.testVersion {
@@ -87,18 +93,23 @@ stdenv.mkDerivation (finalAttrs: {
         url = "https://github.com/koekeishiya/yabai/releases/download/v${finalAttrs.version}/yabai-v${finalAttrs.version}.tar.gz";
         hash = "sha256-88Sh2nizAQ0a0cnlnrkhb5x3VjHa372HhjHlmNjGdQ4=";
       };
-      "x86_64-darwin" = fetchFromGitHub
-        {
-          owner = "koekeishiya";
-          repo = "yabai";
-          rev = "v${finalAttrs.version}";
-          hash = "sha256-5iC1U6tyUYFLjOfnIxCrjCjj2deUZ/rvsJN4jlrr2Tc=";
-        };
+      "x86_64-darwin" = fetchFromGitHub {
+        owner = "koekeishiya";
+        repo = "yabai";
+        rev = "v${finalAttrs.version}";
+        hash = "sha256-5iC1U6tyUYFLjOfnIxCrjCjj2deUZ/rvsJN4jlrr2Tc=";
+      };
     };
 
     updateScript = writeShellScript "update-yabai" ''
       set -o errexit
-      export PATH="${lib.makeBinPath [ curl jq common-updater-scripts ]}"
+      export PATH="${
+        lib.makeBinPath [
+          curl
+          jq
+          common-updater-scripts
+        ]
+      }"
       NEW_VERSION=$(curl --silent https://api.github.com/repos/koekeishiya/yabai/releases/latest | jq '.tag_name | ltrimstr("v")' --raw-output)
       if [[ "${finalAttrs.version}" = "$NEW_VERSION" ]]; then
           echo "The new version same as the old version."
@@ -130,12 +141,10 @@ stdenv.mkDerivation (finalAttrs: {
       ivar
       khaneliman
     ];
-    sourceProvenance = with lib.sourceTypes; [ ]
-      ++ lib.optionals stdenv.isx86_64 [
-      fromSource
-    ] ++ lib.optionals stdenv.isAarch64 [
-      binaryNativeCode
-    ];
+    sourceProvenance =
+      with lib.sourceTypes;
+      [ ]
+      ++ lib.optionals stdenv.isx86_64 [ fromSource ]
+      ++ lib.optionals stdenv.isAarch64 [ binaryNativeCode ];
   };
 })
-

@@ -1,15 +1,16 @@
-{ stdenv
-, fetchFromGitHub
-, lib
-, gradle_7
-, perl
-, makeWrapper
-, openjdk17
-, unzip
-, makeDesktopItem
-, icoutils
-, xcbuild
-, protobuf
+{
+  stdenv,
+  fetchFromGitHub,
+  lib,
+  gradle_7,
+  perl,
+  makeWrapper,
+  openjdk17,
+  unzip,
+  makeDesktopItem,
+  icoutils,
+  xcbuild,
+  protobuf,
 }:
 
 let
@@ -38,26 +39,26 @@ let
   # postPatch scripts.
   # Adds a gradle step that downloads all the dependencies to the gradle cache.
   addResolveStep = ''
-    cat >>build.gradle <<HERE
-task resolveDependencies {
-  doLast {
-    project.rootProject.allprojects.each { subProject ->
-      subProject.buildscript.configurations.each { configuration ->
-        resolveConfiguration(subProject, configuration, "buildscript config \''${configuration.name}")
-      }
-      subProject.configurations.each { configuration ->
-        resolveConfiguration(subProject, configuration, "config \''${configuration.name}")
+        cat >>build.gradle <<HERE
+    task resolveDependencies {
+      doLast {
+        project.rootProject.allprojects.each { subProject ->
+          subProject.buildscript.configurations.each { configuration ->
+            resolveConfiguration(subProject, configuration, "buildscript config \''${configuration.name}")
+          }
+          subProject.configurations.each { configuration ->
+            resolveConfiguration(subProject, configuration, "config \''${configuration.name}")
+          }
+        }
       }
     }
-  }
-}
-void resolveConfiguration(subProject, configuration, name) {
-  if (configuration.canBeResolved) {
-    logger.info("Resolving project {} {}", subProject.name, name)
-    configuration.resolve()
-  }
-}
-HERE
+    void resolveConfiguration(subProject, configuration, name) {
+      if (configuration.canBeResolved) {
+        logger.info("Resolving project {} {}", subProject.name, name)
+        configuration.resolve()
+      }
+    }
+    HERE
   '';
 
   # fake build to pre-download deps into fixed-output derivation
@@ -69,7 +70,10 @@ HERE
     patches = [ ./0001-Use-protobuf-gradle-plugin.patch ];
     postPatch = addResolveStep;
 
-    nativeBuildInputs = [ gradle perl ] ++ lib.optional stdenv.isDarwin xcbuild;
+    nativeBuildInputs = [
+      gradle
+      perl
+    ] ++ lib.optional stdenv.isDarwin xcbuild;
     buildPhase = ''
       export HOME="$NIX_BUILD_TOP/home"
       mkdir -p "$HOME"
@@ -93,19 +97,21 @@ HERE
     outputHashMode = "recursive";
     outputHash = "sha256-nKfJiGoZlDEpbCmYVKNZXz2PYIosCd4nPFdy3MfprHc=";
   };
-
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   inherit pname version src;
 
   nativeBuildInputs = [
-    gradle unzip makeWrapper icoutils protobuf
+    gradle
+    unzip
+    makeWrapper
+    icoutils
+    protobuf
   ] ++ lib.optional stdenv.isDarwin xcbuild;
 
   dontStrip = true;
 
-  patches = [
-    ./0001-Use-protobuf-gradle-plugin.patch
-  ];
+  patches = [ ./0001-Use-protobuf-gradle-plugin.patch ];
 
   buildPhase = ''
     export HOME="$NIX_BUILD_TOP/home"
@@ -151,14 +157,18 @@ in stdenv.mkDerivation {
     description = "A software reverse engineering (SRE) suite of tools developed by NSA's Research Directorate in support of the Cybersecurity mission";
     mainProgram = "ghidra";
     homepage = "https://ghidra-sre.org/";
-    platforms = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
+    platforms = [
+      "x86_64-linux"
+      "aarch64-linux"
+      "x86_64-darwin"
+      "aarch64-darwin"
+    ];
     sourceProvenance = with sourceTypes; [
       fromSource
-      binaryBytecode  # deps
+      binaryBytecode # deps
     ];
     license = licenses.asl20;
     maintainers = with maintainers; [ roblabla ];
     broken = stdenv.isDarwin && stdenv.isx86_64;
   };
-
 }

@@ -1,17 +1,18 @@
-{ lib
-, stdenv
-, python27
-, callPackage
-, fetchFromGitHub
-, makeWrapper
-, # py-yajl deps
-  git
-, # oil deps
-  pkgsBuildBuild
-, re2c
-, file
-, six
-, typing
+{
+  lib,
+  stdenv,
+  python27,
+  callPackage,
+  fetchFromGitHub,
+  makeWrapper,
+  # py-yajl deps
+  git,
+  # oil deps
+  pkgsBuildBuild,
+  re2c,
+  file,
+  six,
+  typing,
 }:
 
 rec {
@@ -82,15 +83,20 @@ rec {
       "${patchSrc}/0013-fix-pyverify.patch"
     ];
 
-    configureFlags = [
-      "--without-readline"
-    ];
+    configureFlags = [ "--without-readline" ];
 
     depsBuildBuild = [ re2c ];
 
-    nativeBuildInputs = [ file makeWrapper ];
+    nativeBuildInputs = [
+      file
+      makeWrapper
+    ];
 
-    propagatedBuildInputs = [ six typing py-yajl ];
+    propagatedBuildInputs = [
+      six
+      typing
+      py-yajl
+    ];
 
     doCheck = true;
 
@@ -110,7 +116,9 @@ rec {
     '';
 
     # See earlier note on glibcLocales TODO: verify needed?
-    LOCALE_ARCHIVE = lib.optionalString (stdenv.buildPlatform.libc == "glibc") "${pkgsBuildBuild.glibcLocales}/lib/locale/locale-archive";
+    LOCALE_ARCHIVE = lib.optionalString (
+      stdenv.buildPlatform.libc == "glibc"
+    ) "${pkgsBuildBuild.glibcLocales}/lib/locale/locale-archive";
 
     # not exhaustive; sample what resholve uses as a sanity check
     pythonImportsCheck = [

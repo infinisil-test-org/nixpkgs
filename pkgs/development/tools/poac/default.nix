@@ -1,21 +1,22 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, cpm-cmake
-, git
-, git2-cpp
-, cacert
-, boost179
-, icu
-, libarchive
-, libgit2
-, lz4
-, mitama-cpp-result
-, ninja
-, openssl_3
-, package-project-cmake
-, spdlog
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  cpm-cmake,
+  git,
+  git2-cpp,
+  cacert,
+  boost179,
+  icu,
+  libarchive,
+  libgit2,
+  lz4,
+  mitama-cpp-result,
+  ninja,
+  openssl_3,
+  package-project-cmake,
+  spdlog,
 }:
 
 let
@@ -68,7 +69,11 @@ stdenv.mkDerivation rec {
     "-DFETCHCONTENT_SOURCE_DIR_TOML11=${toml11}"
   ];
 
-  nativeBuildInputs = [ cmake git cacert ];
+  nativeBuildInputs = [
+    cmake
+    git
+    cacert
+  ];
   buildInputs = [
     (boost179.override {
       enableShared = stdenv.isDarwin;
@@ -96,8 +101,9 @@ stdenv.mkDerivation rec {
     maintainers = with maintainers; [ ];
     platforms = platforms.unix;
     # https://github.com/NixOS/nixpkgs/pull/189712#issuecomment-1237791234
-    broken = (stdenv.isLinux && stdenv.isAarch64)
-    # error: excess elements in scalar initializer on std::aligned_alloc
-          || (stdenv.isDarwin && stdenv.isx86_64);
+    broken =
+      (stdenv.isLinux && stdenv.isAarch64)
+      # error: excess elements in scalar initializer on std::aligned_alloc
+      || (stdenv.isDarwin && stdenv.isx86_64);
   };
 }

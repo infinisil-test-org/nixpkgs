@@ -1,9 +1,10 @@
-{ lib
-, python3
-, fetchPypi
-, nix-update-script
-, testers
-, aws-encryption-sdk-cli
+{
+  lib,
+  python3,
+  fetchPypi,
+  nix-update-script,
+  testers,
+  aws-encryption-sdk-cli,
 }:
 
 let
@@ -54,7 +55,10 @@ localPython.pkgs.buildPythonApplication rec {
   ];
 
   # Upstream did not adapt to pytest 8 yet.
-  pytestFlagsArray = [ "-W" "ignore::pytest.PytestRemovedIn8Warning" ];
+  pytestFlagsArray = [
+    "-W"
+    "ignore::pytest.PytestRemovedIn8Warning"
+  ];
 
   passthru = {
     updateScript = nix-update-script { };

@@ -1,24 +1,25 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchFromGitHub
-, fetchpatch
-, llvmPackages
-, zlib
-, cython
-, oldest-supported-numpy
-, setuptools
-, wheel
-, astunparse
-, numpy
-, pyparsing
-, scipy
-, gsd
-, networkx
-, pandas
-, pytest-xdist
-, pytestCheckHook
-, tables
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchFromGitHub,
+  fetchpatch,
+  llvmPackages,
+  zlib,
+  cython,
+  oldest-supported-numpy,
+  setuptools,
+  wheel,
+  astunparse,
+  numpy,
+  pyparsing,
+  scipy,
+  gsd,
+  networkx,
+  pandas,
+  pytest-xdist,
+  pytestCheckHook,
+  tables,
 }:
 
 buildPythonPackage rec {
@@ -48,11 +49,7 @@ buildPythonPackage rec {
     wheel
   ];
 
-  buildInputs = [
-    zlib
-  ] ++ lib.optionals stdenv.cc.isClang [
-    llvmPackages.openmp
-  ];
+  buildInputs = [ zlib ] ++ lib.optionals stdenv.cc.isClang [ llvmPackages.openmp ];
 
   propagatedBuildInputs = [
     astunparse

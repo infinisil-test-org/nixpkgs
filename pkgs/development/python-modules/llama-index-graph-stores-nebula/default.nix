@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, llama-index-core
-, nebula3-python
-, poetry-core
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  llama-index-core,
+  nebula3-python,
+  poetry-core,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -20,18 +21,14 @@ buildPythonPackage rec {
     hash = "sha256-Xb/0ogj2NlGV4MGC9Be54d/JfalT40jtAe6LOPO1u/8=";
   };
 
-  build-system = [
-    poetry-core
-  ];
+  build-system = [ poetry-core ];
 
   dependencies = [
     llama-index-core
     nebula3-python
   ];
 
-  pythonImportsCheck = [
-    "llama_index.graph_stores.nebula"
-  ];
+  pythonImportsCheck = [ "llama_index.graph_stores.nebula" ];
 
   meta = with lib; {
     description = "LlamaIndex Graph Store Integration for Nebula";

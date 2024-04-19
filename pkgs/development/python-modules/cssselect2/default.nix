@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, flit-core
-, pythonOlder
-, fetchPypi
-, tinycss2
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  flit-core,
+  pythonOlder,
+  fetchPypi,
+  tinycss2,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -22,9 +23,7 @@ buildPythonPackage rec {
     sed -i '/^addopts/d' pyproject.toml
   '';
 
-  nativeBuildInputs = [
-    flit-core
-  ];
+  nativeBuildInputs = [ flit-core ];
 
   propagatedBuildInputs = [ tinycss2 ];
 

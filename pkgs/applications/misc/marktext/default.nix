@@ -1,4 +1,8 @@
-{ appimageTools, fetchurl, lib }:
+{
+  appimageTools,
+  fetchurl,
+  lib,
+}:
 
 let
   pname = "marktext";
@@ -9,9 +13,7 @@ let
     sha256 = "2e2555113e37df830ba3958efcccce7020907b12fd4162368cfd906aeda630b7";
   };
 
-  appimageContents = appimageTools.extractType2 {
-    inherit pname version src;
-  };
+  appimageContents = appimageTools.extractType2 { inherit pname version src; };
 in
 appimageTools.wrapType2 rec {
   inherit pname version src;
@@ -21,10 +23,13 @@ appimageTools.wrapType2 rec {
   '';
 
   multiArch = false; # no 32bit needed
-  extraPkgs = p: (appimageTools.defaultFhsEnvArgs.multiPkgs p) ++ [
-    p.libsecret
-    p.xorg.libxkbfile
-  ];
+  extraPkgs =
+    p:
+    (appimageTools.defaultFhsEnvArgs.multiPkgs p)
+    ++ [
+      p.libsecret
+      p.xorg.libxkbfile
+    ];
 
   extraInstallCommands = ''
     # Strip version from binary name.
@@ -41,7 +46,10 @@ appimageTools.wrapType2 rec {
     description = "A simple and elegant markdown editor, available for Linux, macOS and Windows";
     homepage = "https://marktext.app";
     license = licenses.mit;
-    maintainers = with maintainers; [ nh2 eduarrrd ];
+    maintainers = with maintainers; [
+      nh2
+      eduarrrd
+    ];
     platforms = [ "x86_64-linux" ];
     mainProgram = "marktext";
   };

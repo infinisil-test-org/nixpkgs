@@ -1,21 +1,22 @@
-{ lib
-, stdenv
-, fetchurl
-, perl
-, libiconv
-, zlib
-, popt
-, enableACLs ? lib.meta.availableOn stdenv.hostPlatform acl
-, acl
-, enableLZ4 ? true
-, lz4
-, enableOpenSSL ? true
-, openssl
-, enableXXHash ? true
-, xxHash
-, enableZstd ? true
-, zstd
-, nixosTests
+{
+  lib,
+  stdenv,
+  fetchurl,
+  perl,
+  libiconv,
+  zlib,
+  popt,
+  enableACLs ? lib.meta.availableOn stdenv.hostPlatform acl,
+  acl,
+  enableLZ4 ? true,
+  lz4,
+  enableOpenSSL ? true,
+  openssl,
+  enableXXHash ? true,
+  xxHash,
+  enableZstd ? true,
+  zstd,
+  nixosTests,
 }:
 
 stdenv.mkDerivation rec {
@@ -38,34 +39,47 @@ stdenv.mkDerivation rec {
     ./configure.ac-fix-failing-IPv6-check.patch
   ];
 
-  buildInputs = [ libiconv zlib popt ]
+  buildInputs =
+    [
+      libiconv
+      zlib
+      popt
+    ]
     ++ lib.optional enableACLs acl
     ++ lib.optional enableZstd zstd
     ++ lib.optional enableLZ4 lz4
     ++ lib.optional enableOpenSSL openssl
     ++ lib.optional enableXXHash xxHash;
 
-  configureFlags = [
-    "--with-nobody-group=nogroup"
+  configureFlags =
+    [
+      "--with-nobody-group=nogroup"
 
-    # disable the included zlib explicitly as it otherwise still compiles and
-    # links them even.
-    "--with-included-zlib=no"
-  ] ++ lib.optionals (stdenv.hostPlatform.isMusl && stdenv.hostPlatform.isx86_64) [
-    # fix `multiversioning needs 'ifunc' which is not supported on this target` error
-    "--disable-roll-simd"
-  ];
+      # disable the included zlib explicitly as it otherwise still compiles and
+      # links them even.
+      "--with-included-zlib=no"
+    ]
+    ++ lib.optionals (stdenv.hostPlatform.isMusl && stdenv.hostPlatform.isx86_64) [
+      # fix `multiversioning needs 'ifunc' which is not supported on this target` error
+      "--disable-roll-simd"
+    ];
 
   enableParallelBuilding = true;
 
-  passthru.tests = { inherit (nixosTests) rsyncd; };
+  passthru.tests = {
+    inherit (nixosTests) rsyncd;
+  };
 
   meta = with lib; {
     description = "Fast incremental file transfer utility";
     homepage = "https://rsync.samba.org/";
     license = licenses.gpl3Plus;
     mainProgram = "rsync";
-    maintainers = with lib.maintainers; [ ehmry kampfschlaefer ivan ];
+    maintainers = with lib.maintainers; [
+      ehmry
+      kampfschlaefer
+      ivan
+    ];
     platforms = platforms.unix;
   };
 }

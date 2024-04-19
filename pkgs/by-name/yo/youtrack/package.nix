@@ -1,4 +1,12 @@
-{ lib, stdenvNoCC, fetchzip, makeBinaryWrapper, jdk17_headless, gawk, statePath ? "/var/lib/youtrack" }:
+{
+  lib,
+  stdenvNoCC,
+  fetchzip,
+  makeBinaryWrapper,
+  jdk17_headless,
+  gawk,
+  statePath ? "/var/lib/youtrack",
+}:
 
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "youtrack";

@@ -1,11 +1,15 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
 
   cfg = config.services.gpm;
-
 in
 
 {
@@ -30,28 +34,23 @@ in
         default = "ps/2";
         description = "Mouse protocol to use.";
       };
-
     };
-
   };
-
 
   ###### implementation
 
   config = mkIf cfg.enable {
 
-    systemd.services.gpm =
-      { description = "Console Mouse Daemon";
+    systemd.services.gpm = {
+      description = "Console Mouse Daemon";
 
-        wantedBy = [ "multi-user.target" ];
-        requires = [ "dev-input-mice.device" ];
-        after = [ "dev-input-mice.device" ];
+      wantedBy = [ "multi-user.target" ];
+      requires = [ "dev-input-mice.device" ];
+      after = [ "dev-input-mice.device" ];
 
-        serviceConfig.ExecStart = "@${pkgs.gpm}/sbin/gpm gpm -m /dev/input/mice -t ${cfg.protocol}";
-        serviceConfig.Type = "forking";
-        serviceConfig.PIDFile = "/run/gpm.pid";
-      };
-
+      serviceConfig.ExecStart = "@${pkgs.gpm}/sbin/gpm gpm -m /dev/input/mice -t ${cfg.protocol}";
+      serviceConfig.Type = "forking";
+      serviceConfig.PIDFile = "/run/gpm.pid";
+    };
   };
-
 }

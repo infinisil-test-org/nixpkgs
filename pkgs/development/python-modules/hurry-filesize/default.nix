@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
 
-, pythonOlder
+  pythonOlder,
 
-, setuptools
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -24,9 +25,7 @@ buildPythonPackage rec {
   # fix implicit namespaces (PEP 420) warning
   patches = [ ./use-pep-420-implicit-namespace-package.patch ];
 
-  build-system = [
-    setuptools
-  ];
+  build-system = [ setuptools ];
 
   pythonImportsCheck = [ "hurry.filesize" ];
 

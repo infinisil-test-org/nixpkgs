@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, marshmallow
-, pytestCheckHook
-, isPy27
-, enum34
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  marshmallow,
+  pytestCheckHook,
+  isPy27,
+  enum34,
 }:
 
 buildPythonPackage rec {
@@ -23,17 +24,14 @@ buildPythonPackage rec {
     sed -i '/addopts/d' tox.ini
   '';
 
-  propagatedBuildInputs = [
-    marshmallow
-  ] ++ lib.optionals isPy27 [ enum34 ];
+  propagatedBuildInputs = [ marshmallow ] ++ lib.optionals isPy27 [ enum34 ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   pytestFlagsArray = [
     # pytest.PytestRemovedIn8Warning: Support for nose tests is deprecated and will be removed in a future release.
-    "-W" "ignore::pytest.PytestRemovedIn8Warning"
+    "-W"
+    "ignore::pytest.PytestRemovedIn8Warning"
   ];
 
   disabledTests = [

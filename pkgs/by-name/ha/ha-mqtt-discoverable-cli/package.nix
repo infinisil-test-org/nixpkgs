@@ -1,6 +1,7 @@
-{ lib
-, python3
-, fetchFromGitHub
+{
+  lib,
+  python3,
+  fetchFromGitHub,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -15,20 +16,14 @@ python3.pkgs.buildPythonApplication rec {
     hash = "sha256-miFlrBmxVuIJjpsyYnbQt+QAGSrS4sHlJpCmxouM2Wc=";
   };
 
-  nativeBuildInputs = with python3.pkgs; [
-    poetry-core
-  ];
+  nativeBuildInputs = with python3.pkgs; [ poetry-core ];
 
-  propagatedBuildInputs = with python3.pkgs; [
-    ha-mqtt-discoverable
-  ];
+  propagatedBuildInputs = with python3.pkgs; [ ha-mqtt-discoverable ];
 
   # Project has no real tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "ha_mqtt_discoverable_cli"
-  ];
+  pythonImportsCheck = [ "ha_mqtt_discoverable_cli" ];
 
   meta = with lib; {
     description = "CLI for creating Home Assistant compatible MQTT entities that will be automatically discovered";

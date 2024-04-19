@@ -1,11 +1,12 @@
-{ lib
-, aiofiles
-, buildPythonPackage
-, cryptography
-, fetchFromGitHub
-, protobuf
-, pythonOlder
-, setuptools
+{
+  lib,
+  aiofiles,
+  buildPythonPackage,
+  cryptography,
+  fetchFromGitHub,
+  protobuf,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -22,9 +23,7 @@ buildPythonPackage rec {
     hash = "sha256-m53TlNrrCjA4CqvR02Yph7Gr5Dt17VJFBX6MC3arWOI=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     aiofiles
@@ -32,9 +31,7 @@ buildPythonPackage rec {
     protobuf
   ];
 
-  pythonImportsCheck = [
-    "androidtvremote2"
-  ];
+  pythonImportsCheck = [ "androidtvremote2" ];
 
   # Module only has a dummy test
   doCheck = false;

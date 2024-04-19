@@ -1,4 +1,13 @@
-{ stdenv, lib, python3Packages, fetchFromGitHub, gtk3, gobject-introspection, ffmpeg, wrapGAppsHook }:
+{
+  stdenv,
+  lib,
+  python3Packages,
+  fetchFromGitHub,
+  gtk3,
+  gobject-introspection,
+  ffmpeg,
+  wrapGAppsHook,
+}:
 
 with python3Packages;
 buildPythonApplication rec {

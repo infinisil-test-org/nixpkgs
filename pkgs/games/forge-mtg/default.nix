@@ -1,10 +1,11 @@
-{ coreutils
-, fetchFromGitHub
-, gnused
-, lib
-, maven
-, makeWrapper
-, openjdk
+{
+  coreutils,
+  fetchFromGitHub,
+  gnused,
+  lib,
+  maven,
+  makeWrapper,
+  openjdk,
 }:
 
 let
@@ -19,7 +20,6 @@ let
 
   # launch4j downloads and runs a native binary during the package phase.
   patches = [ ./no-launch4j.patch ];
-
 in
 maven.buildMavenPackage {
   pname = "forge-mtg";
@@ -50,7 +50,13 @@ maven.buildMavenPackage {
     for commandToInstall in forge forge-adventure forge-adventure-editor; do
       chmod 555 $out/share/forge/$commandToInstall.sh
       makeWrapper $out/share/forge/$commandToInstall.sh $out/bin/$commandToInstall \
-        --prefix PATH : ${lib.makeBinPath [ coreutils openjdk gnused ]} \
+        --prefix PATH : ${
+          lib.makeBinPath [
+            coreutils
+            openjdk
+            gnused
+          ]
+        } \
         --set JAVA_HOME ${openjdk}/lib/openjdk \
         --set SENTRY_DSN ""
     done

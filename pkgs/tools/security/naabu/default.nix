@@ -1,7 +1,8 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
-, libpcap
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  libpcap,
 }:
 
 buildGoModule rec {
@@ -17,15 +18,11 @@ buildGoModule rec {
 
   vendorHash = "sha256-QHVB8ovAWECb4n6CKTK4tnGgTrJSFxIV0KZk4PEYInE=";
 
-  buildInputs = [
-    libpcap
-  ];
+  buildInputs = [ libpcap ];
 
   modRoot = "./v2";
 
-  subPackages = [
-    "cmd/naabu/"
-  ];
+  subPackages = [ "cmd/naabu/" ];
 
   ldflags = [
     "-w"

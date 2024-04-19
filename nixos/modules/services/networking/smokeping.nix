@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
@@ -7,8 +12,7 @@ let
   smokepingHome = "/var/lib/smokeping";
   smokepingPidDir = "/run";
   configFile =
-    if cfg.config == null
-    then
+    if cfg.config == null then
       ''
         *** General ***
         cgiurl   = ${cfg.cgiUrl}
@@ -112,9 +116,10 @@ in
               MAX  0.5 144   7200
               MIN  0.5 144   7200
         '';
-        description = ''Configure the ping frequency and retention of the rrd files.
-          Once set, changing the interval will require deletion or migration of all
-          the collected data.'';
+        description = ''
+          Configure the ping frequency and retention of the rrd files.
+                    Once set, changing the interval will require deletion or migration of all
+                    the collected data.'';
       };
       extraConfig = mkOption {
         type = types.lines;
@@ -141,7 +146,11 @@ in
         '';
       };
       linkStyle = mkOption {
-        type = types.enum [ "original" "absolute" "relative" ];
+        type = types.enum [
+          "original"
+          "absolute"
+          "relative"
+        ];
         default = "relative";
         example = "absolute";
         description = "DNS name for the urls generated in the cgi.";
@@ -284,7 +293,6 @@ in
         description = "Enable a smokeping web interface";
       };
     };
-
   };
 
   config = mkIf cfg.enable {
@@ -295,13 +303,12 @@ in
       }
     ];
     security.wrappers = {
-      fping =
-        {
-          setuid = true;
-          owner = "root";
-          group = "root";
-          source = "${pkgs.fping}/bin/fping";
-        };
+      fping = {
+        setuid = true;
+        owner = "root";
+        group = "root";
+        source = "${pkgs.fping}/bin/fping";
+      };
     };
     environment.etc."smokeping.conf".source = configPath;
     environment.systemPackages = [ pkgs.fping ];
@@ -345,18 +352,25 @@ in
     systemd.services.thttpd = mkIf cfg.webService {
       requiredBy = [ "multi-user.target" ];
       requires = [ "smokeping.service" ];
-      path = with pkgs; [ bash rrdtool smokeping thttpd ];
+      path = with pkgs; [
+        bash
+        rrdtool
+        smokeping
+        thttpd
+      ];
       serviceConfig = {
         Restart = "always";
-        ExecStart = lib.concatStringsSep " " (lib.concatLists [
-          [ "${pkgs.thttpd}/bin/thttpd" ]
-          [ "-u ${cfg.user}" ]
-          [ ''-c "**.fcgi"'' ]
-          [ "-d ${smokepingHome}" ]
-          (lib.optional (cfg.host != null) "-h ${cfg.host}")
-          [ "-p ${builtins.toString cfg.port}" ]
-          [ "-D -nos" ]
-        ]);
+        ExecStart = lib.concatStringsSep " " (
+          lib.concatLists [
+            [ "${pkgs.thttpd}/bin/thttpd" ]
+            [ "-u ${cfg.user}" ]
+            [ ''-c "**.fcgi"'' ]
+            [ "-d ${smokepingHome}" ]
+            (lib.optional (cfg.host != null) "-h ${cfg.host}")
+            [ "-p ${builtins.toString cfg.port}" ]
+            [ "-D -nos" ]
+          ]
+        );
       };
     };
   };
@@ -366,4 +380,3 @@ in
     nh2
   ];
 }
-

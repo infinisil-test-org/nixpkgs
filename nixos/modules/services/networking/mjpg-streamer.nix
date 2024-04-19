@@ -1,12 +1,17 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
 
   cfg = config.services.mjpg-streamer;
-
-in {
+in
+{
 
   options = {
 
@@ -42,9 +47,7 @@ in {
         default = "video";
         description = "mjpg-streamer group name.";
       };
-
     };
-
   };
 
   config = mkIf cfg.enable {
@@ -74,7 +77,5 @@ in {
         exec ${pkgs.mjpg-streamer}/bin/mjpg_streamer -i "$IPLUGIN" -o "$OPLUGIN"
       '';
     };
-
   };
-
 }

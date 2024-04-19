@@ -1,15 +1,21 @@
-{ lib, stdenv, makeWrapper, haskellPackages, packages ? (pkgs: [])
+{
+  lib,
+  stdenv,
+  makeWrapper,
+  haskellPackages,
+  packages ? (pkgs: [ ]),
 }:
 
-let defaultPkgs = pkgs: [ pkgs.show
-                          pkgs.simple-reflect
-                          pkgs.QuickCheck
-                          pkgs.mtl
-                        ];
-    env = haskellPackages.ghcWithPackages
-           (pkgs: defaultPkgs pkgs ++ packages pkgs);
-
-in stdenv.mkDerivation {
+let
+  defaultPkgs = pkgs: [
+    pkgs.show
+    pkgs.simple-reflect
+    pkgs.QuickCheck
+    pkgs.mtl
+  ];
+  env = haskellPackages.ghcWithPackages (pkgs: defaultPkgs pkgs ++ packages pkgs);
+in
+stdenv.mkDerivation {
   name = "mueval-env";
 
   inherit (haskellPackages) mueval;
@@ -35,6 +41,8 @@ in stdenv.mkDerivation {
     [[ $($out/bin/mueval -e 42) == 42 ]]
   '';
 
-  passthru = { inherit defaultPkgs; };
+  passthru = {
+    inherit defaultPkgs;
+  };
   meta.mainProgram = "mueval";
 }

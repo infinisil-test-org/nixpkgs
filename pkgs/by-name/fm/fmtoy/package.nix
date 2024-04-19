@@ -1,12 +1,13 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, unstableGitUpdater
-, alsa-lib
-, libfmvoice
-, libjack2
-, pkg-config
-, zlib
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  unstableGitUpdater,
+  alsa-lib,
+  libfmvoice,
+  libjack2,
+  pkg-config,
+  zlib,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -30,9 +31,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   strictDeps = true;
 
-  nativeBuildInputs = [
-    pkg-config
-  ];
+  nativeBuildInputs = [ pkg-config ];
 
   buildInputs = [
     alsa-lib

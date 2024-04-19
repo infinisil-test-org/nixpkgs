@@ -1,11 +1,15 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
 
   inInitrd = config.boot.initrd.supportedFilesystems.apfs or false;
-
 in
 
 {

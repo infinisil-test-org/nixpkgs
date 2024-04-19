@@ -1,11 +1,15 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
 
   cfg = config.services.logmein-hamachi;
-
 in
 
 {
@@ -18,13 +22,11 @@ in
       type = types.bool;
       default = false;
       description = ''
-          Whether to enable LogMeIn Hamachi, a proprietary
-          (closed source) commercial VPN software.
-        '';
+        Whether to enable LogMeIn Hamachi, a proprietary
+        (closed source) commercial VPN software.
+      '';
     };
-
   };
-
 
   ###### implementation
 
@@ -43,7 +45,5 @@ in
     };
 
     environment.systemPackages = [ pkgs.logmein-hamachi ];
-
   };
-
 }

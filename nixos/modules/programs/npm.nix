@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -13,9 +18,10 @@ in
     programs.npm = {
       enable = mkEnableOption "{command}`npm` global config";
 
-      package = mkPackageOption pkgs [ "nodePackages" "npm" ] {
-        example = "nodePackages_13_x.npm";
-      };
+      package = mkPackageOption pkgs [
+        "nodePackages"
+        "npm"
+      ] { example = "nodePackages_13_x.npm"; };
 
       npmrc = mkOption {
         type = lib.types.lines;
@@ -46,5 +52,4 @@ in
 
     environment.systemPackages = [ cfg.package ];
   };
-
 }

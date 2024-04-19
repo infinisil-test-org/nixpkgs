@@ -1,5 +1,12 @@
-{ lib, fetchurl, buildDunePackage, yaml, dune-configurator, ppx_sexp_conv, sexplib
-, junit_alcotest
+{
+  lib,
+  fetchurl,
+  buildDunePackage,
+  yaml,
+  dune-configurator,
+  ppx_sexp_conv,
+  sexplib,
+  junit_alcotest,
 }:
 
 buildDunePackage rec {
@@ -7,7 +14,11 @@ buildDunePackage rec {
 
   inherit (yaml) version src;
 
-  propagatedBuildInputs = [ yaml ppx_sexp_conv sexplib ];
+  propagatedBuildInputs = [
+    yaml
+    ppx_sexp_conv
+    sexplib
+  ];
 
   doCheck = true;
   checkInputs = [ junit_alcotest ];

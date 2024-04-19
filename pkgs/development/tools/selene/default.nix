@@ -1,11 +1,12 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, robloxSupport ? true
-, pkg-config
-, openssl
-, stdenv
-, darwin
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  robloxSupport ? true,
+  pkg-config,
+  openssl,
+  stdenv,
+  darwin,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -21,15 +22,11 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-Lm3agCnxDxcj7op17uiokK8Y790oMxwHJStvP/9DsI0=";
 
-  nativeBuildInputs = lib.optionals robloxSupport [
-    pkg-config
-  ];
+  nativeBuildInputs = lib.optionals robloxSupport [ pkg-config ];
 
-  buildInputs = lib.optionals robloxSupport [
-    openssl
-  ] ++ lib.optionals (robloxSupport && stdenv.isDarwin) [
-    darwin.apple_sdk.frameworks.Security
-  ];
+  buildInputs =
+    lib.optionals robloxSupport [ openssl ]
+    ++ lib.optionals (robloxSupport && stdenv.isDarwin) [ darwin.apple_sdk.frameworks.Security ];
 
   buildNoDefaultFeatures = !robloxSupport;
 

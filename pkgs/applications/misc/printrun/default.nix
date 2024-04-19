@@ -1,4 +1,10 @@
-{ lib, python3Packages, fetchFromGitHub, glib, wrapGAppsHook }:
+{
+  lib,
+  python3Packages,
+  fetchFromGitHub,
+  glib,
+  wrapGAppsHook,
+}:
 
 python3Packages.buildPythonApplication rec {
   pname = "printrun";
@@ -18,16 +24,31 @@ python3Packages.buildPythonApplication rec {
     sed -i -r "s|/usr(/local)?/share/|$out/share/|g" printrun/utils.py
   '';
 
-  nativeBuildInputs = [ glib wrapGAppsHook ];
+  nativeBuildInputs = [
+    glib
+    wrapGAppsHook
+  ];
 
   propagatedBuildInputs = with python3Packages; [
-    appdirs cython dbus-python numpy six wxpython psutil pyglet pyopengl pyserial cffi cairosvg lxml
+    appdirs
+    cython
+    dbus-python
+    numpy
+    six
+    wxpython
+    psutil
+    pyglet
+    pyopengl
+    pyserial
+    cffi
+    cairosvg
+    lxml
   ];
 
   # pyglet.canvas.xlib.NoSuchDisplayException: Cannot connect to "None"
   doCheck = false;
 
-  setupPyBuildFlags = ["-i"];
+  setupPyBuildFlags = [ "-i" ];
 
   postInstall = ''
     for f in $out/share/applications/*.desktop; do

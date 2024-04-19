@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, urllib3
-, pyopenssl
-, cryptography
-, idna
-, certifi
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  urllib3,
+  pyopenssl,
+  cryptography,
+  idna,
+  certifi,
 }:
 
 buildPythonPackage rec {

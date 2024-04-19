@@ -1,13 +1,15 @@
-{ lib
-, home-assistant
-, makeSetupHook
+{
+  lib,
+  home-assistant,
+  makeSetupHook,
 }:
 
-{ owner
-, domain
-, version
-, format ? "other"
-, ...
+{
+  owner,
+  domain,
+  version,
+  format ? "other",
+  ...
 }@args:
 
 let
@@ -30,11 +32,14 @@ home-assistant.python.pkgs.buildPythonPackage (
       runHook postInstall
     '';
 
-    nativeCheckInputs = with home-assistant.python.pkgs; [
-      importlib-metadata
-      manifestRequirementsCheckHook
-      packaging
-    ] ++ (args.nativeCheckInputs or []);
-
-  } // builtins.removeAttrs args [ "nativeCheckInputs" ]
+    nativeCheckInputs =
+      with home-assistant.python.pkgs;
+      [
+        importlib-metadata
+        manifestRequirementsCheckHook
+        packaging
+      ]
+      ++ (args.nativeCheckInputs or [ ]);
+  }
+  // builtins.removeAttrs args [ "nativeCheckInputs" ]
 )

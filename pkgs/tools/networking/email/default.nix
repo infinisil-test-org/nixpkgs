@@ -1,4 +1,10 @@
-{ stdenv, lib, fetchFromGitHub, fetchpatch, openssl }:
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  fetchpatch,
+  openssl,
+}:
 
 let
   eMailSrc = fetchFromGitHub {
@@ -16,7 +22,6 @@ let
     rev = "f62f29e918748b7cea476220f7492672be81c9de";
     sha256 = "0h34cikch98sb7nsqjnb9wl384c8ndln3m6yb1172l4y89qjg9rr";
   };
-
 in
 
 stdenv.mkDerivation {

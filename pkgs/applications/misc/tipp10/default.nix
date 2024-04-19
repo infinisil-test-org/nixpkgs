@@ -1,5 +1,12 @@
-{ cmake, lib, mkDerivation, fetchFromGitLab,
-  qtmultimedia, qttools, ... }:
+{
+  cmake,
+  lib,
+  mkDerivation,
+  fetchFromGitLab,
+  qtmultimedia,
+  qttools,
+  ...
+}:
 
 mkDerivation rec {
   pname = "tipp10";
@@ -12,7 +19,10 @@ mkDerivation rec {
     sha256 = "4cxN2AnvYhZAMuA/qfmdLVICJNk6VCpRnfelbxYRvPg=";
   };
 
-  nativeBuildInputs = [ cmake qttools ];
+  nativeBuildInputs = [
+    cmake
+    qttools
+  ];
   buildInputs = [ qtmultimedia ];
 
   meta = with lib; {

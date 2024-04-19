@@ -1,22 +1,23 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cargo
-, cmake
-, deltachat-desktop
-, deltachat-repl
-, openssl
-, perl
-, pkg-config
-, python3
-, rustPlatform
-, sqlcipher
-, sqlite
-, fixDarwinDylibNames
-, CoreFoundation
-, Security
-, SystemConfiguration
-, libiconv
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cargo,
+  cmake,
+  deltachat-desktop,
+  deltachat-repl,
+  openssl,
+  perl,
+  pkg-config,
+  python3,
+  rustPlatform,
+  sqlcipher,
+  sqlite,
+  fixDarwinDylibNames,
+  CoreFoundation,
+  Security,
+  SystemConfiguration,
+  libiconv,
 }:
 
 let
@@ -28,7 +29,8 @@ let
       "lettre-0.9.2" = "sha256-+hU1cFacyyeC9UGVBpS14BWlJjHy90i/3ynMkKAzclk=";
     };
   };
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "libdeltachat";
   version = "1.136.3";
 
@@ -39,9 +41,7 @@ in stdenv.mkDerivation rec {
     hash = "sha256-/ZWpPpxnOCLGswrfbEPvfUn1LpdBQeR5LecRAB0PEhI=";
   };
 
-  patches = [
-    ./no-static-lib.patch
-  ];
+  patches = [ ./no-static-lib.patch ];
 
   cargoDeps = rustPlatform.importCargoLock cargoLock;
 
@@ -51,24 +51,22 @@ in stdenv.mkDerivation rec {
     pkg-config
     rustPlatform.cargoSetupHook
     cargo
-  ] ++ lib.optionals stdenv.isDarwin [
-    fixDarwinDylibNames
-  ];
+  ] ++ lib.optionals stdenv.isDarwin [ fixDarwinDylibNames ];
 
-  buildInputs = [
-    openssl
-    sqlcipher
-    sqlite
-  ] ++ lib.optionals stdenv.isDarwin [
-    CoreFoundation
-    Security
-    SystemConfiguration
-    libiconv
-  ];
+  buildInputs =
+    [
+      openssl
+      sqlcipher
+      sqlite
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      CoreFoundation
+      Security
+      SystemConfiguration
+      libiconv
+    ];
 
-  nativeCheckInputs = with rustPlatform; [
-    cargoCheckHook
-  ];
+  nativeCheckInputs = with rustPlatform; [ cargoCheckHook ];
 
   # Sometimes -fmacro-prefix-map= can redirect __FILE__ to non-existent
   # paths. This breaks packages like `python3.pkgs.deltachat`. We embed

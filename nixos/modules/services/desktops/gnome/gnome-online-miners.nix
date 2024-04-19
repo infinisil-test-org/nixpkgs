@@ -1,6 +1,11 @@
 # GNOME Online Miners daemon.
 
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
@@ -13,8 +18,18 @@ with lib;
   # Added 2021-05-07
   imports = [
     (mkRenamedOptionModule
-      [ "services" "gnome3" "gnome-online-miners" "enable" ]
-      [ "services" "gnome" "gnome-online-miners" "enable" ]
+      [
+        "services"
+        "gnome3"
+        "gnome-online-miners"
+        "enable"
+      ]
+      [
+        "services"
+        "gnome"
+        "gnome-online-miners"
+        "enable"
+      ]
     )
   ];
 
@@ -32,11 +47,8 @@ with lib;
           crawls through your online content.
         '';
       };
-
     };
-
   };
-
 
   ###### implementation
 
@@ -45,7 +57,5 @@ with lib;
     environment.systemPackages = [ pkgs.gnome.gnome-online-miners ];
 
     services.dbus.packages = [ pkgs.gnome.gnome-online-miners ];
-
   };
-
 }

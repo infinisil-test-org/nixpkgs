@@ -1,10 +1,11 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchPypi
-, python-dateutil
-, poetry-core
-, requests
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchPypi,
+  python-dateutil,
+  poetry-core,
+  requests,
 }:
 
 buildPythonPackage rec {
@@ -17,9 +18,7 @@ buildPythonPackage rec {
     hash = "sha256-QzrIWQ7cWpPAu3+/zqAqX9eDWOF8F3Xj8Rt5D8I6h9M=";
   };
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
   propagatedBuildInputs = [
     requests
@@ -28,9 +27,7 @@ buildPythonPackage rec {
 
   doCheck = false; # tests require internet access
 
-  pythonImportsCheck = [
-    "tidalapi"
-  ];
+  pythonImportsCheck = [ "tidalapi" ];
 
   meta = with lib; {
     changelog = "https://github.com/tamland/python-tidal/releases/tag/v${version}";

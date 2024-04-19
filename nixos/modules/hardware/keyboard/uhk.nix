@@ -1,9 +1,13 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.hardware.keyboard.uhk;
   inherit (lib) mkEnableOption mkIf;
-
 in
 {
   options.hardware.keyboard.uhk = {
@@ -13,10 +17,7 @@ in
       Access to the keyboard is granted to users in the "input" group.
       You may want to install the uhk-agent package
     '';
-
   };
 
-  config = mkIf cfg.enable {
-    services.udev.packages = [ pkgs.uhk-udev-rules ];
-  };
+  config = mkIf cfg.enable { services.udev.packages = [ pkgs.uhk-udev-rules ]; };
 }

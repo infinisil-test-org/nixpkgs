@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, camel-converter
-, fetchFromGitHub
-, pythonOlder
-, setuptools
-, requests
+{
+  lib,
+  buildPythonPackage,
+  camel-converter,
+  fetchFromGitHub,
+  pythonOlder,
+  setuptools,
+  requests,
 }:
 
 buildPythonPackage rec {
@@ -21,18 +22,14 @@ buildPythonPackage rec {
     hash = "sha256-mgslzRd2hvDI0SbQR3eY2vzvaaOVI6mUihdNPKe4jcg=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     camel-converter
     requests
   ] ++ camel-converter.optional-dependencies.pydantic;
 
-  pythonImportsCheck = [
-    "meilisearch"
-  ];
+  pythonImportsCheck = [ "meilisearch" ];
 
   # Tests spin up a local server and are not mocking the requests
   doCheck = false;

@@ -1,11 +1,12 @@
-{ lib
-, fetchFromGitHub
-, rustPlatform
-, installShellFiles
-, pkg-config
-, libpulseaudio
-, dbus
-, speechd
+{
+  lib,
+  fetchFromGitHub,
+  rustPlatform,
+  installShellFiles,
+  pkg-config,
+  libpulseaudio,
+  dbus,
+  speechd,
 }:
 
 rustPlatform.buildRustPackage rec {

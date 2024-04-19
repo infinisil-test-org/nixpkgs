@@ -1,18 +1,19 @@
-{ lib
-, mkDerivation
-, fetchFromGitHub
-, cmake
-, pkg-config
-, lxqt-build-tools
-, lxqt-menu-data
-, pcre
-, libexif
-, xorg
-, libfm
-, menu-cache
-, qtx11extras
-, qttools
-, gitUpdater
+{
+  lib,
+  mkDerivation,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  lxqt-build-tools,
+  lxqt-menu-data,
+  pcre,
+  libexif,
+  xorg,
+  libfm,
+  menu-cache,
+  qtx11extras,
+  qttools,
+  gitUpdater,
 }:
 
 mkDerivation rec {

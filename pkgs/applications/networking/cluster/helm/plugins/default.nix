@@ -13,5 +13,4 @@
   helm-secrets = callPackage ./helm-secrets.nix { };
 
   helm-unittest = callPackage ./helm-unittest.nix { };
-
 }

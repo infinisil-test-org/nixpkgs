@@ -24,41 +24,43 @@ in
 
   meta.maintainers = with lib.maintainers; [ nikstur ];
 
-  nodes.machine = { config, pkgs, ... }: {
-    boot.initrd.systemd.enable = true;
-    boot.initrd.availableKernelModules = [ "overlay" ];
+  nodes.machine =
+    { config, pkgs, ... }:
+    {
+      boot.initrd.systemd.enable = true;
+      boot.initrd.availableKernelModules = [ "overlay" ];
 
-    virtualisation.fileSystems = {
-      "/initrd-overlay" = {
-        overlay = {
-          lowerdir = [ initrdLowerdir ];
-          upperdir = "/.rw-initrd-overlay/upper";
-          workdir = "/.rw-initrd-overlay/work";
+      virtualisation.fileSystems = {
+        "/initrd-overlay" = {
+          overlay = {
+            lowerdir = [ initrdLowerdir ];
+            upperdir = "/.rw-initrd-overlay/upper";
+            workdir = "/.rw-initrd-overlay/work";
+          };
+          neededForBoot = true;
         };
-        neededForBoot = true;
-      };
-      "/userspace-overlay" = {
-        overlay = {
-          lowerdir = [ userspaceLowerdir ];
-          upperdir = "/.rw-userspace-overlay/upper";
-          workdir = "/.rw-userspace-overlay/work";
+        "/userspace-overlay" = {
+          overlay = {
+            lowerdir = [ userspaceLowerdir ];
+            upperdir = "/.rw-userspace-overlay/upper";
+            workdir = "/.rw-userspace-overlay/work";
+          };
         };
-      };
-      "/ro-initrd-overlay" = {
-        overlay.lowerdir = [
-          initrdLowerdir
-          initrdLowerdir2
-        ];
-        neededForBoot = true;
-      };
-      "/ro-userspace-overlay" = {
-        overlay.lowerdir = [
-          userspaceLowerdir
-          userspaceLowerdir2
-        ];
+        "/ro-initrd-overlay" = {
+          overlay.lowerdir = [
+            initrdLowerdir
+            initrdLowerdir2
+          ];
+          neededForBoot = true;
+        };
+        "/ro-userspace-overlay" = {
+          overlay.lowerdir = [
+            userspaceLowerdir
+            userspaceLowerdir2
+          ];
+        };
       };
     };
-  };
 
   testScript = ''
     machine.wait_for_unit("default.target")
@@ -85,5 +87,4 @@ in
       machine.fail("touch /ro-userspace-overlay/not-writable.txt")
       machine.succeed("findmnt --kernel --types overlay /ro-userspace-overlay")
   '';
-
 }

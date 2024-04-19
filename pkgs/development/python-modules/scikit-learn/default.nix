@@ -1,25 +1,26 @@
-{ stdenv
-, lib
-, buildPythonPackage
-, fetchPypi
+{
+  stdenv,
+  lib,
+  buildPythonPackage,
+  fetchPypi,
 
-# build-system
-, cython_3
-, gfortran
-, numpy
-, scipy
-, setuptools
-, wheel
+  # build-system
+  cython_3,
+  gfortran,
+  numpy,
+  scipy,
+  setuptools,
+  wheel,
 
-# native dependencies
-, glibcLocales
-, llvmPackages
-, pytestCheckHook
-, pytest-xdist
-, pillow
-, joblib
-, threadpoolctl
-, pythonOlder
+  # native dependencies
+  glibcLocales,
+  llvmPackages,
+  pytestCheckHook,
+  pytest-xdist,
+  pillow,
+  joblib,
+  threadpoolctl,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -37,13 +38,9 @@ buildPythonPackage rec {
   buildInputs = [
     pillow
     glibcLocales
-  ] ++ lib.optionals stdenv.cc.isClang [
-    llvmPackages.openmp
-  ];
+  ] ++ lib.optionals stdenv.cc.isClang [ llvmPackages.openmp ];
 
-  nativeBuildInputs = [
-    gfortran
-  ];
+  nativeBuildInputs = [ gfortran ];
 
   build-system = [
     cython_3
@@ -53,9 +50,7 @@ buildPythonPackage rec {
     wheel
   ];
 
-  propagatedBuildInputs = [
-    numpy.blas
-  ];
+  propagatedBuildInputs = [ numpy.blas ];
 
   dependencies = [
     joblib
@@ -69,7 +64,7 @@ buildPythonPackage rec {
     pytest-xdist
   ];
 
-  env.LC_ALL="en_US.UTF-8";
+  env.LC_ALL = "en_US.UTF-8";
 
   preBuild = ''
     export SKLEARN_BUILD_PARALLEL=$NIX_BUILD_CORES
@@ -86,14 +81,16 @@ buildPythonPackage rec {
   pytestFlagsArray = [
     # verbose build outputs needed to debug hard-to-reproduce hydra failures
     "-v"
-    "--pyargs" "sklearn"
+    "--pyargs"
+    "sklearn"
 
     # NuSVC memmap tests causes segmentation faults in certain environments
     # (e.g. Hydra Darwin machines) related to a long-standing joblib issue
     # (https://github.com/joblib/joblib/issues/563). See also:
     # https://github.com/scikit-learn/scikit-learn/issues/17582
     # Since we are overriding '-k' we need to include the 'disabledTests' from above manually.
-    "-k" "'not (NuSVC and memmap) ${toString (lib.forEach disabledTests (t: "and not ${t}"))}'"
+    "-k"
+    "'not (NuSVC and memmap) ${toString (lib.forEach disabledTests (t: "and not ${t}"))}'"
   ];
 
   preCheck = ''
@@ -106,11 +103,12 @@ buildPythonPackage rec {
 
   meta = with lib; {
     description = "A set of python modules for machine learning and data mining";
-    changelog = let
-      major = versions.major version;
-      minor = versions.minor version;
-      dashVer = replaceStrings ["."] ["-"] version;
-    in
+    changelog =
+      let
+        major = versions.major version;
+        minor = versions.minor version;
+        dashVer = replaceStrings [ "." ] [ "-" ] version;
+      in
       "https://scikit-learn.org/stable/whats_new/v${major}.${minor}.html#version-${dashVer}";
     homepage = "https://scikit-learn.org";
     license = licenses.bsd3;

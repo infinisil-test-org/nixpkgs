@@ -1,4 +1,10 @@
-{ lib, buildGoModule, fetchFromGitHub, testers, dnscontrol }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  testers,
+  dnscontrol,
+}:
 
 buildGoModule rec {
   pname = "dnscontrol";
@@ -15,7 +21,11 @@ buildGoModule rec {
 
   subPackages = [ "." ];
 
-  ldflags = [ "-s" "-w" "-X=main.version=${version}" ];
+  ldflags = [
+    "-s"
+    "-w"
+    "-X=main.version=${version}"
+  ];
 
   preCheck = ''
     # requires network

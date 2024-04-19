@@ -1,18 +1,45 @@
-{ config, lib, options, pkgs, ... }:
+{
+  config,
+  lib,
+  options,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.system.nixos;
   opt = options.system.nixos;
 
   inherit (lib)
-    concatStringsSep mapAttrsToList toLower optionalString
-    literalExpression mkRenamedOptionModule mkDefault mkOption trivial types;
+    concatStringsSep
+    mapAttrsToList
+    toLower
+    optionalString
+    literalExpression
+    mkRenamedOptionModule
+    mkDefault
+    mkOption
+    trivial
+    types
+    ;
 
   needsEscaping = s: null != builtins.match "[a-zA-Z0-9]+" s;
-  escapeIfNecessary = s: if needsEscaping s then s else ''"${lib.escape [ "\$" "\"" "\\" "\`" ] s}"'';
-  attrsToText = attrs:
-    concatStringsSep "\n"
-      (mapAttrsToList (n: v: ''${n}=${escapeIfNecessary (toString v)}'') attrs)
+  escapeIfNecessary =
+    s:
+    if needsEscaping s then
+      s
+    else
+      ''"${
+        lib.escape [
+          "\$"
+          "\""
+          "\\"
+          "\`"
+        ] s
+      }"'';
+  attrsToText =
+    attrs:
+    concatStringsSep "\n" (mapAttrsToList (n: v: ''${n}=${escapeIfNecessary (toString v)}'') attrs)
     + "\n";
 
   osReleaseContents =
@@ -35,23 +62,61 @@ let
       ANSI_COLOR = optionalString isNixos "1;34";
       IMAGE_ID = optionalString (config.system.image.id != null) config.system.image.id;
       IMAGE_VERSION = optionalString (config.system.image.version != null) config.system.image.version;
-    } // lib.optionalAttrs (cfg.variant_id != null) {
-      VARIANT_ID = cfg.variant_id;
-    };
+    }
+    // lib.optionalAttrs (cfg.variant_id != null) { VARIANT_ID = cfg.variant_id; };
 
   initrdReleaseContents = (removeAttrs osReleaseContents [ "BUILD_ID" ]) // {
     PRETTY_NAME = "${osReleaseContents.PRETTY_NAME} (Initrd)";
   };
   initrdRelease = pkgs.writeText "initrd-release" (attrsToText initrdReleaseContents);
-
 in
 {
   imports = [
     ./label.nix
-    (mkRenamedOptionModule [ "system" "nixosVersion" ] [ "system" "nixos" "version" ])
-    (mkRenamedOptionModule [ "system" "nixosVersionSuffix" ] [ "system" "nixos" "versionSuffix" ])
-    (mkRenamedOptionModule [ "system" "nixosRevision" ] [ "system" "nixos" "revision" ])
-    (mkRenamedOptionModule [ "system" "nixosLabel" ] [ "system" "nixos" "label" ])
+    (mkRenamedOptionModule
+      [
+        "system"
+        "nixosVersion"
+      ]
+      [
+        "system"
+        "nixos"
+        "version"
+      ]
+    )
+    (mkRenamedOptionModule
+      [
+        "system"
+        "nixosVersionSuffix"
+      ]
+      [
+        "system"
+        "nixos"
+        "versionSuffix"
+      ]
+    )
+    (mkRenamedOptionModule
+      [
+        "system"
+        "nixosRevision"
+      ]
+      [
+        "system"
+        "nixos"
+        "revision"
+      ]
+    )
+    (mkRenamedOptionModule
+      [
+        "system"
+        "nixosLabel"
+      ]
+      [
+        "system"
+        "nixos"
+        "label"
+      ]
+    )
   ];
 
   options.boot.initrd.osRelease = mkOption {
@@ -147,14 +212,14 @@ in
           You would only want to set this option if you're build NixOS appliance images.
         '';
       };
-
     };
 
     stateVersion = mkOption {
       type = types.str;
       # TODO Remove this and drop the default of the option so people are forced to set it.
       # Doing this also means fixing the comment in nixos/modules/testing/test-instrumentation.nix
-      apply = v:
+      apply =
+        v:
         lib.warnIf (options.system.stateVersion.highestPrio == (lib.mkOptionDefault { }).priority)
           "system.stateVersion is not set, defaulting to ${v}. Read why this matters on https://nixos.org/manual/nixos/stable/options.html#opt-system.stateVersion."
           v;
@@ -195,7 +260,6 @@ in
       default = null;
       description = "The Git revision of the top-level flake from which this configuration was built.";
     };
-
   };
 
   config = {
@@ -220,7 +284,6 @@ in
 
       "os-release".text = attrsToText osReleaseContents;
     };
-
   };
 
   # uses version info nixpkgs, which requires a full nixpkgs path

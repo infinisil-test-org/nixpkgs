@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, meson
-, ninja
-, pkg-config
-, wayland
-, wayland-protocols
-, wayland-scanner
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  meson,
+  ninja,
+  pkg-config,
+  wayland,
+  wayland-protocols,
+  wayland-scanner,
 }:
 
 stdenv.mkDerivation rec {
@@ -21,12 +22,18 @@ stdenv.mkDerivation rec {
   };
 
   strictDeps = true;
-  nativeBuildInputs = [ meson ninja pkg-config wayland-scanner ];
-  buildInputs = [ wayland wayland-protocols ];
-
-  mesonFlags = [
-    "-Dfishcompletiondir=share/fish/vendor_completions.d"
+  nativeBuildInputs = [
+    meson
+    ninja
+    pkg-config
+    wayland-scanner
   ];
+  buildInputs = [
+    wayland
+    wayland-protocols
+  ];
+
+  mesonFlags = [ "-Dfishcompletiondir=share/fish/vendor_completions.d" ];
 
   meta = with lib; {
     homepage = "https://github.com/bugaevc/wl-clipboard";

@@ -1,4 +1,16 @@
-{ lib, stdenv, fetchFromGitHub, fetchpatch, pkg-config, glib, zlib, libpng, cmake, libxml2, python3 }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  pkg-config,
+  glib,
+  zlib,
+  libpng,
+  cmake,
+  libxml2,
+  python3,
+}:
 
 let
   version = "0.3.3";
@@ -12,7 +24,6 @@ let
     rev = "ec9412d27d5fa8f377848a59c768b12c243cb80d";
     sha256 = "sha256-/u/3oQzac/dQrgFaiYvzT5uQ108XarkXnA2DByA5sic=";
   };
-
 in
 stdenv.mkDerivation {
   inherit pname version;
@@ -45,11 +56,17 @@ stdenv.mkDerivation {
   '';
 
   nativeBuildInputs = [
-    cmake pkg-config
-    python3 python3.pkgs.lxml # For the db converison
+    cmake
+    pkg-config
+    python3
+    python3.pkgs.lxml # For the db converison
   ];
 
-  buildInputs = [ glib zlib libpng ];
+  buildInputs = [
+    glib
+    zlib
+    libpng
+  ];
 
   cmakeFlags = [ "-DINSTALL_HELPER_SCRIPTS=OFF" ];
 

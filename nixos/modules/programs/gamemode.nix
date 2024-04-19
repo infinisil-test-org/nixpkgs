@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -77,12 +82,14 @@ in
         #
         # This uses a link farm to make sure other wrapped executables
         # aren't included in PATH.
-        environment.PATH = mkForce (pkgs.linkFarm "pkexec" [
-          {
-            name = "pkexec";
-            path = "${config.security.wrapperDir}/pkexec";
-          }
-        ]);
+        environment.PATH = mkForce (
+          pkgs.linkFarm "pkexec" [
+            {
+              name = "pkexec";
+              path = "${config.security.wrapperDir}/pkexec";
+            }
+          ]
+        );
 
         serviceConfig.ExecStart = mkIf cfg.enableRenice [
           "" # Tell systemd to clear the existing ExecStart list, to prevent appending to it.

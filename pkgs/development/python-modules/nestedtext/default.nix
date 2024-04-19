@@ -1,15 +1,16 @@
-{ lib
-, buildPythonPackage
-, docopt
-, fetchFromGitHub
-, flit-core
-, hypothesis
-, inform
-, nestedtext
-, pytestCheckHook
-, pythonOlder
-, quantiphy
-, voluptuous
+{
+  lib,
+  buildPythonPackage,
+  docopt,
+  fetchFromGitHub,
+  flit-core,
+  hypothesis,
+  inform,
+  nestedtext,
+  pytestCheckHook,
+  pythonOlder,
+  quantiphy,
+  voluptuous,
 }:
 
 buildPythonPackage rec {
@@ -26,13 +27,9 @@ buildPythonPackage rec {
     hash = "sha256-SHY/MTmYbNh3azkyvwEtuvT+V7YzfLi2B3FvBzv6Omo=";
   };
 
-  nativeBuildInputs = [
-    flit-core
-  ];
+  nativeBuildInputs = [ flit-core ];
 
-  propagatedBuildInputs = [
-    inform
-  ];
+  propagatedBuildInputs = [ inform ];
 
   nativeCheckInputs = [
     docopt
@@ -57,12 +54,12 @@ buildPythonPackage rec {
   ];
 
   passthru.tests = {
-    runTests = nestedtext.overrideAttrs (_: { doCheck = true; });
+    runTests = nestedtext.overrideAttrs (_: {
+      doCheck = true;
+    });
   };
 
-  pythonImportsCheck = [
-    "nestedtext"
-  ];
+  pythonImportsCheck = [ "nestedtext" ];
 
   meta = with lib; {
     description = "A human friendly data format";

@@ -1,30 +1,31 @@
-{ stdenv
-, lib
-, substituteAll
-, fetchFromGitHub
-, buildPythonPackage
-, pythonOlder
+{
+  stdenv,
+  lib,
+  substituteAll,
+  fetchFromGitHub,
+  buildPythonPackage,
+  pythonOlder,
 
-# build-system
-, cython_3
-, setuptools
-, pkg-config
+  # build-system
+  cython_3,
+  setuptools,
+  pkg-config,
 
-# native dependencies
-, AppKit
-, fontconfig
-, freetype
-, libjpeg
-, libpng
-, libX11
-, portmidi
-, SDL2
-, SDL2_image
-, SDL2_mixer
-, SDL2_ttf
+  # native dependencies
+  AppKit,
+  fontconfig,
+  freetype,
+  libjpeg,
+  libpng,
+  libX11,
+  portmidi,
+  SDL2,
+  SDL2_image,
+  SDL2_mixer,
+  SDL2_ttf,
 
-# tests
-, python
+  # tests
+  python,
 }:
 
 buildPythonPackage rec {
@@ -49,15 +50,19 @@ buildPythonPackage rec {
     # Patch pygame's dependency resolution to let it find build inputs
     (substituteAll {
       src = ./fix-dependency-finding.patch;
-      buildinputs_include = builtins.toJSON (builtins.concatMap (dep: [
-        "${lib.getDev dep}/"
-        "${lib.getDev dep}/include"
-        "${lib.getDev dep}/include/SDL2"
-      ]) buildInputs);
-      buildinputs_lib = builtins.toJSON (builtins.concatMap (dep: [
-        "${lib.getLib dep}/"
-        "${lib.getLib dep}/lib"
-      ]) buildInputs);
+      buildinputs_include = builtins.toJSON (
+        builtins.concatMap (dep: [
+          "${lib.getDev dep}/"
+          "${lib.getDev dep}/include"
+          "${lib.getDev dep}/include/SDL2"
+        ]) buildInputs
+      );
+      buildinputs_lib = builtins.toJSON (
+        builtins.concatMap (dep: [
+          "${lib.getLib dep}/"
+          "${lib.getLib dep}/lib"
+        ]) buildInputs
+      );
     })
     # Skip tests that should be disabled without video driver
     ./skip-surface-tests.patch
@@ -86,9 +91,7 @@ buildPythonPackage rec {
     SDL2_image
     SDL2_mixer
     SDL2_ttf
-  ] ++ lib.optionals stdenv.isDarwin [
-    AppKit
-  ];
+  ] ++ lib.optionals stdenv.isDarwin [ AppKit ];
 
   preConfigure = ''
     ${python.pythonOnBuildForHost.interpreter} buildconfig/config.py

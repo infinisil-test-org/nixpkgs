@@ -1,7 +1,8 @@
-{ lib
-, fetchurl
-, appimageTools
-, libsecret
+{
+  lib,
+  fetchurl,
+  appimageTools,
+  libsecret,
 }:
 
 let
@@ -13,15 +14,12 @@ let
     hash = "sha256-b/I34f8fGgPr4+fZJ+2cb+Xi/AvotxNHYg7IaLTByPk=";
   };
 
-  appimageContents = appimageTools.extractType2 {
-    inherit pname version src;
-  };
-in appimageTools.wrapType2 rec {
+  appimageContents = appimageTools.extractType2 { inherit pname version src; };
+in
+appimageTools.wrapType2 rec {
   inherit pname version src;
 
-  extraPkgs = pkgs: with pkgs; [
-    libsecret
-  ];
+  extraPkgs = pkgs: with pkgs; [ libsecret ];
 
   extraInstallCommands = ''
     mv $out/bin/{${pname}-${version},${pname}}

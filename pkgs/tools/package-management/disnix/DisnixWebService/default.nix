@@ -1,4 +1,13 @@
-{lib, stdenv, fetchFromGitHub, fetchpatch, apacheAnt, jdk, axis2, dbus_java }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  apacheAnt,
+  jdk,
+  axis2,
+  dbus_java,
+}:
 
 stdenv.mkDerivation rec {
   pname = "DisnixWebService";
@@ -20,7 +29,10 @@ stdenv.mkDerivation rec {
     })
   ];
 
-  buildInputs = [ apacheAnt jdk ];
+  buildInputs = [
+    apacheAnt
+    jdk
+  ];
   PREFIX = "\${env.out}";
   AXIS2_LIB = "${axis2}/lib";
   AXIS2_WEBAPP = "${axis2}/webapps/axis2";

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -6,7 +11,6 @@ let
 
   xcfg = config.services.xserver;
   cfg = xcfg.desktopManager.lumina;
-
 in
 
 {
@@ -21,19 +25,13 @@ in
       default = false;
       description = "Enable the Lumina desktop manager";
     };
-
   };
-
 
   config = mkIf cfg.enable {
 
-    services.displayManager.sessionPackages = [
-      pkgs.lumina.lumina
-    ];
+    services.displayManager.sessionPackages = [ pkgs.lumina.lumina ];
 
-    environment.systemPackages =
-      pkgs.lumina.preRequisitePackages ++
-      pkgs.lumina.corePackages;
+    environment.systemPackages = pkgs.lumina.preRequisitePackages ++ pkgs.lumina.corePackages;
 
     # Link some extra directories in /run/current-system/software/share
     environment.pathsToLink = [
@@ -41,6 +39,5 @@ in
       # FIXME: modules should link subdirs of `/share` rather than relying on this
       "/share"
     ];
-
   };
 }

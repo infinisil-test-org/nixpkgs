@@ -1,16 +1,17 @@
-{ lib
-, buildPythonPackage
-, docstring-to-markdown
-, fetchFromGitHub
-, jedi
-, lsprotocol
-, poetry-core
-, pygls
-, pydantic
-, pyhamcrest
-, pytestCheckHook
-, python-lsp-jsonrpc
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  docstring-to-markdown,
+  fetchFromGitHub,
+  jedi,
+  lsprotocol,
+  poetry-core,
+  pygls,
+  pydantic,
+  pyhamcrest,
+  pytestCheckHook,
+  python-lsp-jsonrpc,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -27,9 +28,7 @@ buildPythonPackage rec {
     hash = "sha256-+k4WOoEbVe7mlPyPj0ttBM+kmjq8V739yHi36BDYK2U=";
   };
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
   propagatedBuildInputs = [
     docstring-to-markdown
@@ -49,9 +48,7 @@ buildPythonPackage rec {
     HOME="$(mktemp -d)"
   '';
 
-  pythonImportsCheck = [
-    "jedi_language_server"
-  ];
+  pythonImportsCheck = [ "jedi_language_server" ];
 
   meta = with lib; {
     description = "A Language Server for the latest version(s) of Jedi";

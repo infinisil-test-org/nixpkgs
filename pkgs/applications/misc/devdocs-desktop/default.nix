@@ -1,4 +1,8 @@
-{ lib, appimageTools, fetchurl }:
+{
+  lib,
+  appimageTools,
+  fetchurl,
+}:
 
 let
   version = "0.7.2";
@@ -10,11 +14,9 @@ let
     sha256 = "sha256-4ugpzh0Dweae6tKb6uqRhEW9HT+iVIo8MQRbVKTdRFw=";
   };
 
-  appimageContents = appimageTools.extractType2 {
-    inherit name src;
-  };
-
-in appimageTools.wrapType2 rec {
+  appimageContents = appimageTools.extractType2 { inherit name src; };
+in
+appimageTools.wrapType2 rec {
   inherit name src;
 
   extraInstallCommands = ''

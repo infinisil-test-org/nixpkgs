@@ -1,4 +1,8 @@
-{ lib, fetchFromGitHub, buildGoModule }:
+{
+  lib,
+  fetchFromGitHub,
+  buildGoModule,
+}:
 
 buildGoModule rec {
   pname = "juju";
@@ -16,9 +20,7 @@ buildGoModule rec {
   # Disable tests because it attempts to use a mongodb instance
   doCheck = false;
 
-  subPackages = [
-    "cmd/juju"
-  ];
+  subPackages = [ "cmd/juju" ];
 
   meta = with lib; {
     description = "Open source modelling tool for operating software in the cloud";

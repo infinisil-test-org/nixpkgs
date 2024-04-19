@@ -1,10 +1,14 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.services.prowlarr;
-
 in
 {
   options = {
@@ -36,8 +40,6 @@ in
       };
     };
 
-    networking.firewall = mkIf cfg.openFirewall {
-      allowedTCPPorts = [ 9696 ];
-    };
+    networking.firewall = mkIf cfg.openFirewall { allowedTCPPorts = [ 9696 ]; };
   };
 }

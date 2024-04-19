@@ -1,7 +1,17 @@
-{ buildGo121Module, fetchFromGitHub, lib }:
+{
+  buildGo121Module,
+  fetchFromGitHub,
+  lib,
+}:
 
 let
-  generic = { subPackages, pname, postInstall ? "", mainProgram }:
+  generic =
+    {
+      subPackages,
+      pname,
+      postInstall ? "",
+      mainProgram,
+    }:
     buildGo121Module rec {
       inherit pname;
       version = "6.11.0";
@@ -27,12 +37,14 @@ let
 
       doCheck = false;
 
-      ldflags = let
-        versionPkg = "github.com/sensu/sensu-go/version";
-      in [
-        "-X ${versionPkg}.Version=${version}"
-        "-X ${versionPkg}.BuildSHA=${shortRev}"
-      ];
+      ldflags =
+        let
+          versionPkg = "github.com/sensu/sensu-go/version";
+        in
+        [
+          "-X ${versionPkg}.Version=${version}"
+          "-X ${versionPkg}.BuildSHA=${shortRev}"
+        ];
 
       meta = {
         inherit mainProgram;

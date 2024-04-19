@@ -1,10 +1,19 @@
-{ config, options, lib, ... }:
+{
+  config,
+  options,
+  lib,
+  ...
+}:
 let
-  path = [ "deployment" "autoLuks" ];
-  hasAutoLuksConfig = lib.hasAttrByPath path config && (lib.attrByPath path {} config) != {};
+  path = [
+    "deployment"
+    "autoLuks"
+  ];
+  hasAutoLuksConfig = lib.hasAttrByPath path config && (lib.attrByPath path { } config) != { };
 
   inherit (config.nixops) enableDeprecatedAutoLuks;
-in {
+in
+{
   options.nixops.enableDeprecatedAutoLuks = lib.mkEnableOption "the deprecated NixOps AutoLuks module";
 
   config = {
@@ -39,5 +48,4 @@ in {
       }
     ];
   };
-
 }

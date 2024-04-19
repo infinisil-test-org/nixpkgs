@@ -10,7 +10,8 @@ let
     fetchFromGitHub
     fetchurl
     fetchpatch
-    nixosTests;
+    nixosTests
+    ;
 
   since = version: lib.versionAtLeast nodejs.version version;
   before = version: lib.versionOlder nodejs.version version;
@@ -52,14 +53,21 @@ final: prev: {
     nativeBuildInputs = [ pkgs.buildPackages.makeWrapper ];
     postInstall = ''
       for prog in bower2nix fetch-bower; do
-        wrapProgram "$out/bin/$prog" --prefix PATH : ${lib.makeBinPath [ pkgs.git pkgs.nix ]}
+        wrapProgram "$out/bin/$prog" --prefix PATH : ${
+          lib.makeBinPath [
+            pkgs.git
+            pkgs.nix
+          ]
+        }
       done
     '';
   };
 
   expo-cli = prev."expo-cli".override (oldAttrs: {
     # The traveling-fastlane-darwin optional dependency aborts build on Linux.
-    dependencies = builtins.filter (d: d.packageName != "@expo/traveling-fastlane-${if stdenv.isLinux then "darwin" else "linux"}") oldAttrs.dependencies;
+    dependencies = builtins.filter (
+      d: d.packageName != "@expo/traveling-fastlane-${if stdenv.isLinux then "darwin" else "linux"}"
+    ) oldAttrs.dependencies;
   });
 
   fast-cli = prev.fast-cli.override {
@@ -96,44 +104,50 @@ final: prev: {
     '';
   };
 
-
   ijavascript = prev.ijavascript.override (oldAttrs: {
     preRebuild = ''
       export npm_config_zmq_external=true
     '';
-    buildInputs = oldAttrs.buildInputs ++ [ final.node-gyp-build pkgs.zeromq ];
+    buildInputs = oldAttrs.buildInputs ++ [
+      final.node-gyp-build
+      pkgs.zeromq
+    ];
   });
 
   insect = prev.insect.override (oldAttrs: {
-    nativeBuildInputs = oldAttrs.nativeBuildInputs or [] ++ [ pkgs.psc-package final.pulp ];
+    nativeBuildInputs = oldAttrs.nativeBuildInputs or [ ] ++ [
+      pkgs.psc-package
+      final.pulp
+    ];
   });
 
   intelephense = prev.intelephense.override (oldAttrs: {
-    meta = oldAttrs.meta // { license = lib.licenses.unfree; };
+    meta = oldAttrs.meta // {
+      license = lib.licenses.unfree;
+    };
   });
 
-  joplin = prev.joplin.override (oldAttrs:{
-    nativeBuildInputs = [
-      pkgs.pkg-config
-    ] ++ lib.optionals stdenv.isDarwin [
-      pkgs.xcbuild
-    ];
-    buildInputs = with pkgs; [
-      # required by sharp
-      # https://sharp.pixelplumbing.com/install
-      vips
+  joplin = prev.joplin.override (oldAttrs: {
+    nativeBuildInputs = [ pkgs.pkg-config ] ++ lib.optionals stdenv.isDarwin [ pkgs.xcbuild ];
+    buildInputs =
+      with pkgs;
+      [
+        # required by sharp
+        # https://sharp.pixelplumbing.com/install
+        vips
 
-      libsecret
-      final.node-gyp-build
-      final.node-pre-gyp
+        libsecret
+        final.node-gyp-build
+        final.node-pre-gyp
 
-      pixman
-      cairo
-      pango
-    ] ++ lib.optionals stdenv.isDarwin [
-      darwin.apple_sdk.frameworks.AppKit
-      darwin.apple_sdk.frameworks.Security
-    ];
+        pixman
+        cairo
+        pango
+      ]
+      ++ lib.optionals stdenv.isDarwin [
+        darwin.apple_sdk.frameworks.AppKit
+        darwin.apple_sdk.frameworks.Security
+      ];
 
     # add newer node-addon-api to build sharp
     # https://github.com/lovell/sharp/issues/3920
@@ -165,16 +179,17 @@ final: prev: {
 
   keyoxide = prev.keyoxide.override {
     nativeBuildInputs = [ pkgs.pkg-config ];
-    buildInputs = with pkgs; [
-      pixman
-      cairo
-      pango
-    ] ++ lib.optionals stdenv.isDarwin [
-      darwin.apple_sdk.frameworks.CoreText
-    ];
+    buildInputs =
+      with pkgs;
+      [
+        pixman
+        cairo
+        pango
+      ]
+      ++ lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.CoreText ];
   };
 
-  makam =  prev.makam.override {
+  makam = prev.makam.override {
     nativeBuildInputs = [ pkgs.buildPackages.makeWrapper ];
     postFixup = ''
       wrapProgram "$out/bin/makam" --prefix PATH : ${lib.makeBinPath [ nodejs ]}
@@ -192,9 +207,7 @@ final: prev: {
     '';
   };
 
-  node-red = prev.node-red.override {
-    buildInputs = [ final.node-pre-gyp ];
-  };
+  node-red = prev.node-red.override { buildInputs = [ final.node-pre-gyp ]; };
 
   node2nix = prev.node2nix.override {
     # Get latest commit for misc fixes
@@ -205,24 +218,28 @@ final: prev: {
       sha256 = "sha256-8OxTOkwBPcnjyhXhxQEDd8tiaQoHt91zUJX5Ka+IXco=";
     };
     nativeBuildInputs = [ pkgs.buildPackages.makeWrapper ];
-    postInstall = let
-      patches = [
-        # Needed to fix packages with DOS line-endings after above patch - PR svanderburg/node2nix#314
-        (fetchpatch {
-          name = "convert-crlf-for-script-bin-files.patch";
-          url = "https://github.com/svanderburg/node2nix/commit/91aa511fe7107938b0409a02ab8c457a6de2d8ca.patch";
-          hash = "sha256-ISiKYkur/o8enKDzJ8mQndkkSC4yrTNlheqyH+LiXlU=";
-        })
-        # fix nodejs attr names
-        (fetchpatch {
-          url = "https://github.com/svanderburg/node2nix/commit/3b63e735458947ef39aca247923f8775633363e5.patch";
-          hash = "sha256-pe8Xm4mjPh9oKXugoMY6pRl8YYgtdw0sRXN+TienalU=";
-        })
-      ];
-    in ''
-      ${lib.concatStringsSep "\n" (map (patch: "patch -d $out/lib/node_modules/node2nix -p1 < ${patch}") patches)}
-      wrapProgram "$out/bin/node2nix" --prefix PATH : ${lib.makeBinPath [ pkgs.nix ]}
-    '';
+    postInstall =
+      let
+        patches = [
+          # Needed to fix packages with DOS line-endings after above patch - PR svanderburg/node2nix#314
+          (fetchpatch {
+            name = "convert-crlf-for-script-bin-files.patch";
+            url = "https://github.com/svanderburg/node2nix/commit/91aa511fe7107938b0409a02ab8c457a6de2d8ca.patch";
+            hash = "sha256-ISiKYkur/o8enKDzJ8mQndkkSC4yrTNlheqyH+LiXlU=";
+          })
+          # fix nodejs attr names
+          (fetchpatch {
+            url = "https://github.com/svanderburg/node2nix/commit/3b63e735458947ef39aca247923f8775633363e5.patch";
+            hash = "sha256-pe8Xm4mjPh9oKXugoMY6pRl8YYgtdw0sRXN+TienalU=";
+          })
+        ];
+      in
+      ''
+        ${lib.concatStringsSep "\n" (
+          map (patch: "patch -d $out/lib/node_modules/node2nix -p1 < ${patch}") patches
+        )}
+        wrapProgram "$out/bin/node2nix" --prefix PATH : ${lib.makeBinPath [ pkgs.nix ]}
+      '';
   };
 
   pnpm = prev.pnpm.override {
@@ -232,16 +249,18 @@ final: prev: {
       sed 's/"link:/"file:/g' --in-place package.json
     '';
 
-    postInstall = let
-      pnpmLibPath = lib.makeBinPath [
-        nodejs.passthru.python
-        nodejs
-      ];
-    in ''
-      for prog in $out/bin/*; do
-        wrapProgram "$prog" --prefix PATH : ${pnpmLibPath}
-      done
-    '';
+    postInstall =
+      let
+        pnpmLibPath = lib.makeBinPath [
+          nodejs.passthru.python
+          nodejs
+        ];
+      in
+      ''
+        for prog in $out/bin/*; do
+          wrapProgram "$prog" --prefix PATH : ${pnpmLibPath}
+        done
+      '';
   };
 
   postcss-cli = prev.postcss-cli.override (oldAttrs: {
@@ -253,9 +272,7 @@ final: prev: {
       ln -s '${final.postcss}/lib/node_modules/postcss' "$out/lib/node_modules/postcss"
     '';
     passthru.tests = {
-      simple-execution = callPackage ./package-tests/postcss-cli.nix {
-        inherit (final) postcss-cli;
-      };
+      simple-execution = callPackage ./package-tests/postcss-cli.nix { inherit (final) postcss-cli; };
     };
     meta = oldAttrs.meta // {
       maintainers = with lib.maintainers; [ Luflosi ];
@@ -284,9 +301,7 @@ final: prev: {
     '';
 
     passthru.tests = {
-      simple-execution = pkgs.callPackage ./package-tests/prisma.nix {
-        inherit (final) prisma;
-      };
+      simple-execution = pkgs.callPackage ./package-tests/prisma.nix { inherit (final) prisma; };
     };
   };
 
@@ -295,16 +310,12 @@ final: prev: {
     npmFlags = builtins.toString [ "--ignore-scripts" ];
 
     nativeBuildInputs = [ pkgs.buildPackages.makeWrapper ];
-    postInstall =  ''
-      wrapProgram "$out/bin/pulp" --suffix PATH : ${lib.makeBinPath [
-        pkgs.purescript
-      ]}
+    postInstall = ''
+      wrapProgram "$out/bin/pulp" --suffix PATH : ${lib.makeBinPath [ pkgs.purescript ]}
     '';
   };
 
-  rush = prev."@microsoft/rush".override {
-    name = "rush";
-  };
+  rush = prev."@microsoft/rush".override { name = "rush"; };
 
   tailwindcss = prev.tailwindcss.override {
     plugins = [ ];
@@ -321,17 +332,20 @@ final: prev: {
       unset nodePath
     '';
     passthru.tests = {
-      simple-execution = callPackage ./package-tests/tailwindcss.nix {
-        inherit (final) tailwindcss;
-      };
+      simple-execution = callPackage ./package-tests/tailwindcss.nix { inherit (final) tailwindcss; };
     };
   };
 
-  teck-programmer = prev.teck-programmer.override ({ meta, ... }: {
-    nativeBuildInputs = [ final.node-gyp-build ];
-    buildInputs = [ pkgs.libusb1 ];
-    meta = meta // { license = lib.licenses.gpl3Plus; };
-  });
+  teck-programmer = prev.teck-programmer.override (
+    { meta, ... }:
+    {
+      nativeBuildInputs = [ final.node-gyp-build ];
+      buildInputs = [ pkgs.libusb1 ];
+      meta = meta // {
+        license = lib.licenses.gpl3Plus;
+      };
+    }
+  );
 
   thelounge-plugin-closepms = prev.thelounge-plugin-closepms.override {
     nativeBuildInputs = [ final.node-pre-gyp ];
@@ -380,63 +394,68 @@ final: prev: {
     '';
   };
 
-  uppy-companion = prev."@uppy/companion".override {
-    name = "uppy-companion";
-  };
+  uppy-companion = prev."@uppy/companion".override { name = "uppy-companion"; };
 
   vega-cli = prev.vega-cli.override {
     nativeBuildInputs = [ pkgs.pkg-config ];
-    buildInputs = with pkgs; [
-      final.node-pre-gyp
-      pixman
-      cairo
-      pango
-      libjpeg
-    ] ++ lib.optionals stdenv.isDarwin [
-      darwin.apple_sdk.frameworks.CoreText
-    ];
+    buildInputs =
+      with pkgs;
+      [
+        final.node-pre-gyp
+        pixman
+        cairo
+        pango
+        libjpeg
+      ]
+      ++ lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.CoreText ];
   };
 
   vega-lite = prev.vega-lite.override {
-      postInstall = ''
-        cd node_modules
-        for dep in ${final.vega-cli}/lib/node_modules/vega-cli/node_modules/*; do
-          if [[ ! -d ''${dep##*/} ]]; then
-            ln -s "${final.vega-cli}/lib/node_modules/vega-cli/node_modules/''${dep##*/}"
-          fi
-        done
-      '';
-      passthru.tests = {
-        simple-execution = callPackage ./package-tests/vega-lite.nix {
-          inherit (final) vega-lite;
-        };
-      };
+    postInstall = ''
+      cd node_modules
+      for dep in ${final.vega-cli}/lib/node_modules/vega-cli/node_modules/*; do
+        if [[ ! -d ''${dep##*/} ]]; then
+          ln -s "${final.vega-cli}/lib/node_modules/vega-cli/node_modules/''${dep##*/}"
+        fi
+      done
+    '';
+    passthru.tests = {
+      simple-execution = callPackage ./package-tests/vega-lite.nix { inherit (final) vega-lite; };
+    };
   };
 
-  volar = final."@volar/vue-language-server".override ({ meta, ... }: {
-    name = "volar";
-    meta = meta // { mainProgram = "vue-language-server"; };
-  });
+  volar = final."@volar/vue-language-server".override (
+    { meta, ... }:
+    {
+      name = "volar";
+      meta = meta // {
+        mainProgram = "vue-language-server";
+      };
+    }
+  );
 
   wavedrom-cli = prev.wavedrom-cli.override {
-    nativeBuildInputs = [ pkgs.pkg-config final.node-pre-gyp ];
+    nativeBuildInputs = [
+      pkgs.pkg-config
+      final.node-pre-gyp
+    ];
     # These dependencies are required by
     # https://github.com/Automattic/node-canvas.
-    buildInputs = with pkgs; [
-      giflib
-      pixman
-      cairo
-      pango
-    ] ++ lib.optionals stdenv.isDarwin [
-      darwin.apple_sdk.frameworks.CoreText
-    ];
+    buildInputs =
+      with pkgs;
+      [
+        giflib
+        pixman
+        cairo
+        pango
+      ]
+      ++ lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.CoreText ];
   };
 
-  webtorrent-cli = prev.webtorrent-cli.override {
-    buildInputs = [ final.node-gyp-build ];
-  };
+  webtorrent-cli = prev.webtorrent-cli.override { buildInputs = [ final.node-gyp-build ]; };
 
-  wrangler = prev.wrangler.override (oldAttrs:
+  wrangler = prev.wrangler.override (
+    oldAttrs:
     let
       workerdVersion = (lib.findFirst (dep: dep.name == "workerd") null oldAttrs.dependencies).version;
       linuxWorkerd = {
@@ -479,19 +498,25 @@ final: prev: {
           sha512 = "IXGOxHsPdRYfAzcY6IroI1PDvx3hhXf18qFCloHp8Iw5bzLgq/PTjcp10Z/2xedZ2hVlfpHy1eEptsTmi9YeNw==";
         };
       };
-
     in
     {
-      meta = oldAttrs.meta // { broken = before "16.13"; };
-      buildInputs = [ pkgs.llvmPackages.libcxx pkgs.llvmPackages.libunwind ] ++ lib.optional stdenv.isLinux pkgs.autoPatchelfHook;
+      meta = oldAttrs.meta // {
+        broken = before "16.13";
+      };
+      buildInputs = [
+        pkgs.llvmPackages.libcxx
+        pkgs.llvmPackages.libunwind
+      ] ++ lib.optional stdenv.isLinux pkgs.autoPatchelfHook;
       preFixup = ''
         # patch elf is trying to patch binary for sunos
         rm -r $out/lib/node_modules/wrangler/node_modules/@esbuild/sunos-x64
       '';
-      dependencies = oldAttrs.dependencies
+      dependencies =
+        oldAttrs.dependencies
         ++ lib.optional (stdenv.isLinux && stdenv.isx86_64) linuxWorkerd
         ++ lib.optional (stdenv.isLinux && stdenv.isAarch64) linuxWorkerdArm
         ++ lib.optional (stdenv.isDarwin && stdenv.isx86_64) darwinWorkerd
         ++ lib.optional (stdenv.isDarwin && stdenv.isAarch64) darwinWorkerdArm;
-    });
+    }
+  );
 }

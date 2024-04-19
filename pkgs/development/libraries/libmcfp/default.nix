@@ -1,7 +1,8 @@
-{ lib
-, stdenv
-, cmake
-, fetchFromGitHub
+{
+  lib,
+  stdenv,
+  cmake,
+  fetchFromGitHub,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -15,9 +16,7 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-Xz7M3TmUHGqiYZbFGSDxsVvg4VhgoVvr9TW03UxdFBw=";
   };
 
-  nativeBuildInputs = [
-    cmake
-  ];
+  nativeBuildInputs = [ cmake ];
 
   meta = with lib; {
     description = "Header only library that can collect configuration options from command line arguments";

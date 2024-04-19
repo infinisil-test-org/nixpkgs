@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, setuptools
-, cython
-, zstd
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  setuptools,
+  cython,
+  zstd,
 }:
 
 buildPythonPackage rec {
@@ -19,7 +20,10 @@ buildPythonPackage rec {
     hash = "sha256-icCerrv6ihBjSTS4Fsw7qhoA5ha8yegfMVRiIOhTvvY=";
   };
 
-  nativeBuildInputs = [ cython setuptools ];
+  nativeBuildInputs = [
+    cython
+    setuptools
+  ];
 
   buildInputs = [ zstd.dev ];
 

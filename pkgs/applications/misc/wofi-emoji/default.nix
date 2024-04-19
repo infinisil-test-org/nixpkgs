@@ -1,8 +1,19 @@
-{ stdenv, lib, fetchurl, fetchFromGitHub, jq, wofi, wtype, wl-clipboard }:
+{
+  stdenv,
+  lib,
+  fetchurl,
+  fetchFromGitHub,
+  jq,
+  wofi,
+  wtype,
+  wl-clipboard,
+}:
 
-let emojiJSON = fetchurl {
-  url = "https://raw.githubusercontent.com/muan/emojilib/v3.0.10/dist/emoji-en-US.json";
-  hash = "sha256-UhAB5hVp5vV2d1FjIb2TBd2FJ6OPBbiP31HGAEDQFnA=";};
+let
+  emojiJSON = fetchurl {
+    url = "https://raw.githubusercontent.com/muan/emojilib/v3.0.10/dist/emoji-en-US.json";
+    hash = "sha256-UhAB5hVp5vV2d1FjIb2TBd2FJ6OPBbiP31HGAEDQFnA=";
+  };
 in
 stdenv.mkDerivation rec {
   pname = "wofi-emoji";
@@ -16,7 +27,11 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ jq ];
-  buildInputs = [ wofi wtype wl-clipboard ];
+  buildInputs = [
+    wofi
+    wtype
+    wl-clipboard
+  ];
 
   postPatch = ''
     substituteInPlace build.sh \

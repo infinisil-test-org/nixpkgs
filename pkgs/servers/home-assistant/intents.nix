@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
 
-# build-system
-, setuptools
+  # build-system
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -22,16 +23,12 @@ buildPythonPackage rec {
     hash = "sha256-GraYVtioKIoKlPRBhhhzlbBfI6heXAaA1MQpUqAgEDQ=";
   };
 
-  build-system = [
-    setuptools
-  ];
+  build-system = [ setuptools ];
 
   # sdist/wheel do not ship tests
   doCheck = false;
 
-  pytestFlagsArray = [
-    "intents/tests"
-  ];
+  pytestFlagsArray = [ "intents/tests" ];
 
   meta = with lib; {
     description = "Intents to be used with Home Assistant";

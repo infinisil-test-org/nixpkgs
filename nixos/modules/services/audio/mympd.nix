@@ -1,15 +1,21 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 
 let
   cfg = config.services.mympd;
-in {
+in
+{
   options = {
 
     services.mympd = {
 
       enable = lib.mkEnableOption "MyMPD server";
 
-      package = lib.mkPackageOption pkgs "mympd" {};
+      package = lib.mkPackageOption pkgs "mympd" { };
 
       openFirewall = lib.mkOption {
         type = lib.types.bool;
@@ -30,7 +36,15 @@ in {
 
       settings = lib.mkOption {
         type = lib.types.submodule {
-          freeformType = with lib.types; attrsOf (nullOr (oneOf [ str bool int ]));
+          freeformType =
+            with lib.types;
+            attrsOf (
+              nullOr (oneOf [
+                str
+                bool
+                int
+              ])
+            );
           options = {
             http_port = lib.mkOption {
               type = lib.types.port;
@@ -63,7 +77,6 @@ in {
         '';
       };
     };
-
   };
 
   config = lib.mkIf cfg.enable {
@@ -76,9 +89,11 @@ in {
         mkdir -p "$config_dir"
 
         ${pipe cfg.settings [
-          (mapAttrsToList (name: value: ''
-            echo -n "${if isBool value then boolToString value else toString value}" > "$config_dir/${name}"
-            ''))
+          (mapAttrsToList (
+            name: value: ''
+              echo -n "${if isBool value then boolToString value else toString value}" > "$config_dir/${name}"
+            ''
+          ))
           (concatStringsSep "\n")
         ]}
       '';
@@ -114,16 +129,12 @@ in {
     };
 
     networking.firewall = lib.mkMerge [
-      (lib.mkIf cfg.openFirewall {
-        allowedTCPPorts = [ cfg.settings.http_port ];
-      })
+      (lib.mkIf cfg.openFirewall { allowedTCPPorts = [ cfg.settings.http_port ]; })
       (lib.mkIf (cfg.openFirewall && cfg.settings.ssl && cfg.settings.ssl_port != null) {
         allowedTCPPorts = [ cfg.settings.ssl_port ];
       })
     ];
-
   };
 
   meta.maintainers = [ lib.maintainers.eliandoran ];
-
 }

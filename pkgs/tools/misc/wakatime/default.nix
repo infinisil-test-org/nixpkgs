@@ -1,4 +1,10 @@
-{ lib, buildGoModule, fetchFromGitHub, testers, wakatime }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  testers,
+  wakatime,
+}:
 
 buildGoModule rec {
   pname = "wakatime";

@@ -1,10 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.services.lldpd;
-
 in
 
 {
@@ -13,8 +17,12 @@ in
 
     extraArgs = mkOption {
       type = types.listOf types.str;
-      default = [];
-      example = [ "-c" "-k" "-I eth0" ];
+      default = [ ];
+      example = [
+        "-c"
+        "-k"
+        "-I eth0"
+      ];
       description = "List of command line parameters for lldpd";
     };
   };
@@ -26,7 +34,7 @@ in
       home = "/run/lldpd";
       isSystemUser = true;
     };
-    users.groups._lldpd = {};
+    users.groups._lldpd = { };
 
     environment.systemPackages = [ pkgs.lldpd ];
     systemd.packages = [ pkgs.lldpd ];

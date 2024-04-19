@@ -1,10 +1,11 @@
-{ lib
-, mkDerivation
-, fetchFromGitHub
-, cmake
-, qtbase
-, qttools
-, gitUpdater
+{
+  lib,
+  mkDerivation,
+  fetchFromGitHub,
+  cmake,
+  qtbase,
+  qttools,
+  gitUpdater,
 }:
 
 mkDerivation rec {
@@ -23,9 +24,7 @@ mkDerivation rec {
     qttools
   ];
 
-  buildInputs = [
-    qtbase
-  ];
+  buildInputs = [ qtbase ];
 
   passthru.updateScript = gitUpdater { };
 

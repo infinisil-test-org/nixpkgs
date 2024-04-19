@@ -1,12 +1,13 @@
-{ stdenv
-, fetchFromGitHub
-, fetchurl
-, lib
-, openssl
-, perl
-, sgx-sdk
-, which
-, debug ? false
+{
+  stdenv,
+  fetchFromGitHub,
+  fetchurl,
+  lib,
+  openssl,
+  perl,
+  sgx-sdk,
+  which,
+  debug ? false,
 }:
 let
   sgxVersion = sgx-sdk.versionTag;
@@ -50,15 +51,9 @@ stdenv.mkDerivation {
     which
   ];
 
-  makeFlags = [
-    "-C Linux"
-  ] ++ lib.optionals debug [
-    "DEBUG=1"
-  ];
+  makeFlags = [ "-C Linux" ] ++ lib.optionals debug [ "DEBUG=1" ];
 
-  installFlags = [
-    "DESTDIR=$(out)"
-  ];
+  installFlags = [ "DESTDIR=$(out)" ];
 
   # Build the test app
   doInstallCheck = true;
@@ -67,15 +62,19 @@ stdenv.mkDerivation {
     "SGX_MODE=SIM"
     "-j 1" # Makefile doesn't support multiple jobs
   ];
-  nativeInstallCheckInputs = [
-    openssl
-  ];
+  nativeInstallCheckInputs = [ openssl ];
 
   meta = with lib; {
     description = "Cryptographic library for Intel SGX enclave applications based on OpenSSL";
     homepage = "https://github.com/intel/intel-sgx-ssl";
-    maintainers = with maintainers; [ trundle veehaitch ];
+    maintainers = with maintainers; [
+      trundle
+      veehaitch
+    ];
     platforms = [ "x86_64-linux" ];
-    license = [ licenses.bsd3 licenses.openssl ];
+    license = [
+      licenses.bsd3
+      licenses.openssl
+    ];
   };
 }

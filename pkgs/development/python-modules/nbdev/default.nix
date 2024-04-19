@@ -1,16 +1,17 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, fastprogress
-, fastcore
-, asttokens
-, astunparse
-, watchdog
-, execnb
-, ghapi
-, pyyaml
-, quarto
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  fastprogress,
+  fastcore,
+  asttokens,
+  astunparse,
+  watchdog,
+  execnb,
+  ghapi,
+  pyyaml,
+  quarto,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -40,9 +41,7 @@ buildPythonPackage rec {
   # no real tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "nbdev"
-  ];
+  pythonImportsCheck = [ "nbdev" ];
 
   meta = with lib; {
     homepage = "https://github.com/fastai/nbdev";

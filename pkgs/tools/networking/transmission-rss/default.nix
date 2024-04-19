@@ -1,4 +1,10 @@
-{ lib, rustPlatform, fetchFromGitHub, pkg-config, openssl }:
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  pkg-config,
+  openssl,
+}:
 
 rustPlatform.buildRustPackage rec {
   version = "0.3.1";
@@ -15,8 +21,8 @@ rustPlatform.buildRustPackage rec {
 
   cargoSha256 = "sha256-QNMdqoxxY8ao2O44hJxZNgLrPwzu9+ieweTPc7pfFY4=";
 
-  nativeBuildInputs = [pkg-config];
-  buildInputs = [openssl];
+  nativeBuildInputs = [ pkg-config ];
+  buildInputs = [ openssl ];
 
   OPENSSL_NO_VENDOR = 1;
 

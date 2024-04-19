@@ -1,8 +1,9 @@
-{ lib
-, mkDerivationWith
-, python3Packages
-, fetchFromGitHub
-, wrapQtAppsHook
+{
+  lib,
+  mkDerivationWith,
+  python3Packages,
+  fetchFromGitHub,
+  wrapQtAppsHook,
 }:
 
 mkDerivationWith python3Packages.buildPythonApplication rec {
@@ -16,9 +17,7 @@ mkDerivationWith python3Packages.buildPythonApplication rec {
     sha256 = "1970izjaa60r5cg9i35rzz9lk5c5d8q1vw1rh2skvfbf63z1hnzv";
   };
 
-  patches = [
-    ./spyder4.patch
-  ];
+  patches = [ ./spyder4.patch ];
 
   propagatedBuildInputs = with python3Packages; [
     cadquery
@@ -57,7 +56,9 @@ mkDerivationWith python3Packages.buildPythonApplication rec {
     description = "CadQuery GUI editor based on PyQT";
     homepage = "https://github.com/CadQuery/CQ-editor";
     license = licenses.asl20;
-    maintainers = with maintainers; [ costrouc marcus7070 ];
+    maintainers = with maintainers; [
+      costrouc
+      marcus7070
+    ];
   };
-
 }

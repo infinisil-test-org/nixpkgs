@@ -1,19 +1,20 @@
-{ lib
-, blueprint-compiler
-, cargo
-, darwin
-, desktop-file-utils
-, fetchFromGitHub
-, glib
-, gtk4
-, libadwaita
-, meson
-, ninja
-, pkg-config
-, rustPlatform
-, rustc
-, stdenv
-, wrapGAppsHook4
+{
+  lib,
+  blueprint-compiler,
+  cargo,
+  darwin,
+  desktop-file-utils,
+  fetchFromGitHub,
+  glib,
+  gtk4,
+  libadwaita,
+  meson,
+  ninja,
+  pkg-config,
+  rustPlatform,
+  rustc,
+  stdenv,
+  wrapGAppsHook4,
 }:
 
 stdenv.mkDerivation rec {
@@ -49,13 +50,11 @@ stdenv.mkDerivation rec {
     glib
     gtk4
     libadwaita
-  ] ++ lib.optionals stdenv.isDarwin [
-    darwin.apple_sdk.frameworks.Foundation
-  ];
+  ] ++ lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.Foundation ];
 
-  env.NIX_CFLAGS_COMPILE = toString (lib.optionals stdenv.cc.isClang [
-    "-Wno-error=incompatible-function-pointer-types"
-  ]);
+  env.NIX_CFLAGS_COMPILE = toString (
+    lib.optionals stdenv.cc.isClang [ "-Wno-error=incompatible-function-pointer-types" ]
+  );
 
   meta = with lib; {
     description = "Look up guitar chords";

@@ -1,7 +1,8 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
 }:
 
 buildPythonPackage rec {
@@ -35,6 +36,9 @@ buildPythonPackage rec {
       for interacting with the simulated 6502-based system.
     '';
     license = lib.licenses.bsd3;
-    maintainers = with lib.maintainers; [ AndersonTorres tomasajt ];
+    maintainers = with lib.maintainers; [
+      AndersonTorres
+      tomasajt
+    ];
   };
 }

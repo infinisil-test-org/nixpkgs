@@ -1,12 +1,17 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.services.corerad;
-  settingsFormat = pkgs.formats.toml {};
-
-in {
+  settingsFormat = pkgs.formats.toml { };
+in
+{
   meta.maintainers = with maintainers; [ mdlayher ];
 
   options.services.corerad = {

@@ -1,27 +1,26 @@
-{ haskell
-, lib
+{
+  haskell,
+  lib,
 
-# The following are only needed for the passthru.tests:
-, cacert
-, git
-, nodejs
-, purescript
-, runCommand
+  # The following are only needed for the passthru.tests:
+  cacert,
+  git,
+  nodejs,
+  purescript,
+  runCommand,
 }:
 
 let
-  spago =
-    lib.pipe
-      haskell.packages.ghc90.spago
-      [ haskell.lib.compose.justStaticExecutables
-        (haskell.lib.compose.overrideCabal (oldAttrs: {
-          changelog = "https://github.com/purescript/spago/releases/tag/${oldAttrs.version}";
-        }))
-      ];
+  spago = lib.pipe haskell.packages.ghc90.spago [
+    haskell.lib.compose.justStaticExecutables
+    (haskell.lib.compose.overrideCabal (oldAttrs: {
+      changelog = "https://github.com/purescript/spago/releases/tag/${oldAttrs.version}";
+    }))
+  ];
 in
 
 spago.overrideAttrs (oldAttrs: {
-  passthru = (oldAttrs.passthru or {}) // {
+  passthru = (oldAttrs.passthru or { }) // {
     updateScript = ./update.sh;
 
     # These tests can be run with the following command.  The tests access the
@@ -31,8 +30,7 @@ spago.overrideAttrs (oldAttrs: {
     # $ sudo nix-build -A spago.passthru.tests --option sandbox relaxed
     #
     tests =
-      runCommand
-        "spago-tests"
+      runCommand "spago-tests"
         {
           __noChroot = true;
           nativeBuildInputs = [
@@ -55,7 +53,7 @@ spago.overrideAttrs (oldAttrs: {
           touch $out
         '';
   };
-  meta = (oldAttrs.meta or {}) // {
+  meta = (oldAttrs.meta or { }) // {
     mainProgram = "spago";
   };
 })

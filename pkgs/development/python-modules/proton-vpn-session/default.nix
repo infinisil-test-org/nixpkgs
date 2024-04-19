@@ -1,17 +1,18 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, setuptools
-, cryptography
-, distro
-, proton-core
-, proton-vpn-logger
-, pynacl
-, aiohttp
-, pyopenssl
-, pytest-asyncio
-, requests
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  setuptools,
+  cryptography,
+  distro,
+  proton-core,
+  proton-vpn-logger,
+  pynacl,
+  aiohttp,
+  pyopenssl,
+  pytest-asyncio,
+  requests,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -26,9 +27,7 @@ buildPythonPackage rec {
     hash = "sha256-1oyCxBO9YqMopbw88UJF8k4BJFP4+m23NwSrqTYqcg8=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     cryptography

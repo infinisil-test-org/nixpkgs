@@ -1,16 +1,17 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, aenum
-, aiohttp
-, importlib-metadata
-, isodate
-, nest-asyncio
-, pytestCheckHook
-, pythonOlder
-, mock
-, pyhamcrest
-, radish-bdd
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  aenum,
+  aiohttp,
+  importlib-metadata,
+  isodate,
+  nest-asyncio,
+  pytestCheckHook,
+  pythonOlder,
+  mock,
+  pyhamcrest,
+  radish-bdd,
 }:
 
 buildPythonPackage rec {
@@ -38,9 +39,7 @@ buildPythonPackage rec {
   '';
 
   # setup-requires requirements
-  nativeBuildInputs = [
-    importlib-metadata
-  ];
+  nativeBuildInputs = [ importlib-metadata ];
 
   propagatedBuildInputs = [
     aenum

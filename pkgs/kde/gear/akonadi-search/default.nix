@@ -30,5 +30,5 @@ mkKdeDerivation rec {
     rustc
   ];
 
-  extraBuildInputs = [xapian];
+  extraBuildInputs = [ xapian ];
 }

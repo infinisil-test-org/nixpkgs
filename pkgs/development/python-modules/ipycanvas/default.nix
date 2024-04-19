@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, jupyter-packaging
-, ipywidgets
-, numpy
-, pillow
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  jupyter-packaging,
+  ipywidgets,
+  numpy,
+  pillow,
 }:
 
 buildPythonPackage rec {
@@ -32,9 +33,13 @@ buildPythonPackage rec {
 
   nativeBuildInputs = [ jupyter-packaging ];
 
-  propagatedBuildInputs = [ ipywidgets numpy pillow ];
+  propagatedBuildInputs = [
+    ipywidgets
+    numpy
+    pillow
+  ];
 
-  doCheck = false;  # tests are in Typescript and require `npx` and `chromium`
+  doCheck = false; # tests are in Typescript and require `npx` and `chromium`
   pythonImportsCheck = [ "ipycanvas" ];
 
   meta = with lib; {

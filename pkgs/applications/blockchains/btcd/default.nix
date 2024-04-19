@@ -1,4 +1,8 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+}:
 
 buildGoModule rec {
   pname = "btcd";
@@ -13,7 +17,10 @@ buildGoModule rec {
 
   vendorHash = "sha256-quJEpSDltXhJcgI9H707p3HeLj1uuLzaMplT+YXzh/4=";
 
-  subPackages = [ "." "cmd/*" ];
+  subPackages = [
+    "."
+    "cmd/*"
+  ];
 
   preCheck = ''
     DIR="github.com/btcsuite/btcd/"

@@ -1,14 +1,15 @@
-{ stdenv
-, lib
-, mkDerivation
-, fetchFromGitHub
-, cmake
-, pkg-config
-, qtbase
-, qttools
-, lxqt
-, libconfig
-, gitUpdater
+{
+  stdenv,
+  lib,
+  mkDerivation,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  qtbase,
+  qttools,
+  lxqt,
+  libconfig,
+  gitUpdater,
 }:
 
 mkDerivation rec {

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -6,8 +11,10 @@ let
   cfg = config.services.brltty;
 
   targets = [
-    "default.target" "multi-user.target"
-    "rescue.target" "emergency.target"
+    "default.target"
+    "multi-user.target"
+    "rescue.target"
+    "emergency.target"
   ];
 
   genApiKey = pkgs.writers.writeDash "generate-brlapi-key" ''
@@ -17,8 +24,8 @@ let
       echo done
     fi
   '';
-
-in {
+in
+{
 
   options = {
 
@@ -27,7 +34,6 @@ in {
       default = false;
       description = "Whether to enable the BRLTTY daemon.";
     };
-
   };
 
   config = mkIf cfg.enable {
@@ -41,8 +47,9 @@ in {
       brlapi = { };
     };
 
-    systemd.services."brltty@".serviceConfig =
-      { ExecStartPre = "!${genApiKey}"; };
+    systemd.services."brltty@".serviceConfig = {
+      ExecStartPre = "!${genApiKey}";
+    };
 
     # Install all upstream-provided files
     systemd.packages = [ pkgs.brltty ];
@@ -54,5 +61,4 @@ in {
     systemd.paths.brltty.wantedBy = targets;
     systemd.paths."brltty@".wantedBy = targets;
   };
-
 }

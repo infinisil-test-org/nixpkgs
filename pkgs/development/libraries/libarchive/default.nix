@@ -1,28 +1,30 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchpatch
-, acl
-, attr
-, autoreconfHook
-, bzip2
-, e2fsprogs
-, lzo
-, openssl
-, pkg-config
-, sharutils
-, xz
-, zlib
-, zstd
-# Optional but increases closure only negligibly. Also, while libxml2 builds
-# fine on windows, libarchive has trouble linking windows things it depends on
-# for some reason.
-, xarSupport ? stdenv.hostPlatform.isUnix, libxml2
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  acl,
+  attr,
+  autoreconfHook,
+  bzip2,
+  e2fsprogs,
+  lzo,
+  openssl,
+  pkg-config,
+  sharutils,
+  xz,
+  zlib,
+  zstd,
+  # Optional but increases closure only negligibly. Also, while libxml2 builds
+  # fine on windows, libarchive has trouble linking windows things it depends on
+  # for some reason.
+  xarSupport ? stdenv.hostPlatform.isUnix,
+  libxml2,
 
-# for passthru.tests
-, cmake
-, nix
-, samba
+  # for passthru.tests
+  cmake,
+  nix,
+  samba,
 }:
 
 assert xarSupport -> libxml2 != null;
@@ -46,48 +48,63 @@ stdenv.mkDerivation (finalAttrs: {
     })
   ];
 
-  outputs = [ "out" "lib" "dev" ];
+  outputs = [
+    "out"
+    "lib"
+    "dev"
+  ];
 
-  postPatch = let
-    skipTestPaths = [
-      # test won't work in nix sandbox
-      "libarchive/test/test_write_disk_perms.c"
-      # the filesystem does not necessarily have sparse capabilities
-      "libarchive/test/test_sparse_basic.c"
-      # the filesystem does not necessarily have hardlink capabilities
-      "libarchive/test/test_write_disk_hardlink.c"
-      # access-time-related tests flakey on some systems
-      "cpio/test/test_option_a.c"
-      "cpio/test/test_option_t.c"
-    ];
-    removeTest = testPath: ''
-      substituteInPlace Makefile.am --replace "${testPath}" ""
-      rm "${testPath}"
+  postPatch =
+    let
+      skipTestPaths = [
+        # test won't work in nix sandbox
+        "libarchive/test/test_write_disk_perms.c"
+        # the filesystem does not necessarily have sparse capabilities
+        "libarchive/test/test_sparse_basic.c"
+        # the filesystem does not necessarily have hardlink capabilities
+        "libarchive/test/test_write_disk_hardlink.c"
+        # access-time-related tests flakey on some systems
+        "cpio/test/test_option_a.c"
+        "cpio/test/test_option_t.c"
+      ];
+      removeTest = testPath: ''
+        substituteInPlace Makefile.am --replace "${testPath}" ""
+        rm "${testPath}"
+      '';
+    in
+    ''
+      substituteInPlace Makefile.am --replace '/bin/pwd' "$(type -P pwd)"
+
+      ${lib.concatStringsSep "\n" (map removeTest skipTestPaths)}
     '';
-  in ''
-    substituteInPlace Makefile.am --replace '/bin/pwd' "$(type -P pwd)"
-
-    ${lib.concatStringsSep "\n" (map removeTest skipTestPaths)}
-  '';
 
   nativeBuildInputs = [
     autoreconfHook
     pkg-config
   ];
 
-  buildInputs =  [
-    bzip2
-    lzo
-    openssl
-    xz
-    zlib
-    zstd
-  ] ++ lib.optional stdenv.hostPlatform.isUnix sharutils
-    ++ lib.optionals stdenv.isLinux [ acl attr e2fsprogs ]
+  buildInputs =
+    [
+      bzip2
+      lzo
+      openssl
+      xz
+      zlib
+      zstd
+    ]
+    ++ lib.optional stdenv.hostPlatform.isUnix sharutils
+    ++ lib.optionals stdenv.isLinux [
+      acl
+      attr
+      e2fsprogs
+    ]
     ++ lib.optional xarSupport libxml2;
 
   # Without this, pkg-config-based dependencies are unhappy
-  propagatedBuildInputs = lib.optionals stdenv.isLinux [ attr acl ];
+  propagatedBuildInputs = lib.optionals stdenv.isLinux [
+    attr
+    acl
+  ];
 
   configureFlags = lib.optional (!xarSupport) "--without-xml2";
 
@@ -117,7 +134,10 @@ stdenv.mkDerivation (finalAttrs: {
     '';
     changelog = "https://github.com/libarchive/libarchive/releases/tag/v${finalAttrs.version}";
     license = licenses.bsd3;
-    maintainers = with maintainers; [ jcumming AndersonTorres ];
+    maintainers = with maintainers; [
+      jcumming
+      AndersonTorres
+    ];
     platforms = platforms.all;
   };
 

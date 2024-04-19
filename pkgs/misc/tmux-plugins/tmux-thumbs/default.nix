@@ -1,4 +1,8 @@
-{ mkTmuxPlugin, thumbs, substituteAll }:
+{
+  mkTmuxPlugin,
+  thumbs,
+  substituteAll,
+}:
 
 mkTmuxPlugin {
 
@@ -13,5 +17,4 @@ mkTmuxPlugin {
       tmuxThumbsDir = "${thumbs}/bin";
     })
   ];
-
 }

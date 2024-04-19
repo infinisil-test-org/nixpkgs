@@ -1,11 +1,15 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.hardware.fancontrol;
   configFile = pkgs.writeText "fancontrol.conf" cfg.config;
-
 in
 {
   options.hardware.fancontrol = {
@@ -48,7 +52,6 @@ in
     powerManagement.resumeCommands = ''
       systemctl restart fancontrol.service
     '';
-
   };
 
   meta.maintainers = [ maintainers.evils ];

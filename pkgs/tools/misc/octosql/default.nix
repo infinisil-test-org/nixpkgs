@@ -1,6 +1,7 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
 }:
 
 buildGoModule rec {
@@ -8,15 +9,19 @@ buildGoModule rec {
   version = "0.12.2";
 
   src = fetchFromGitHub {
-    owner  = "cube2222";
-    repo   = pname;
-    rev    = "v${version}";
+    owner = "cube2222";
+    repo = pname;
+    rev = "v${version}";
     sha256 = "sha256-jf40w5QkSTAgGu0JA4NeqsasN2TUf9vnKVw5zlZr8Mw=";
   };
 
   vendorHash = "sha256-p/2UsvxxywQKtk/9wDa5fjS0z6xLLzDONuQ5AtnUonk=";
 
-  ldflags = [ "-s" "-w" "-X github.com/cube2222/octosql/cmd.VERSION=${version}" ];
+  ldflags = [
+    "-s"
+    "-w"
+    "-X github.com/cube2222/octosql/cmd.VERSION=${version}"
+  ];
 
   postInstall = ''
     rm -v $out/bin/tester

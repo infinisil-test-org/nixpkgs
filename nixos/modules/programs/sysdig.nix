@@ -1,10 +1,16 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.programs.sysdig;
-in {
+in
+{
   options.programs.sysdig.enable = mkEnableOption "sysdig, a tracing tool";
 
   config = mkIf cfg.enable {

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -33,15 +38,22 @@ in
     };
 
     algorithm = mkOption {
-      type = types.enum [ "CH" "CoreCH" "MLD" ];
+      type = types.enum [
+        "CH"
+        "CoreCH"
+        "MLD"
+      ];
       default = "MLD";
       description = "Algorithm to use for the data. Must be one of CH, CoreCH, MLD";
     };
 
     extraFlags = mkOption {
       type = types.listOf types.str;
-      default = [];
-      example = [ "--max-table-size 1000" "--max-matching-size 1000" ];
+      default = [ ];
+      example = [
+        "--max-table-size 1000"
+        "--max-matching-size 1000"
+      ];
       description = "Extra command line arguments passed to osrm-routed";
     };
 
@@ -50,7 +62,6 @@ in
       example = "/var/lib/osrm/berlin-latest.osrm";
       description = "Data file location";
     };
-
   };
 
   config = mkIf cfg.enable {

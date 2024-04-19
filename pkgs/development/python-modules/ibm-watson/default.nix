@@ -1,15 +1,16 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, ibm-cloud-sdk-core
-, pytest-rerunfailures
-, pytestCheckHook
-, python-dateutil
-, python-dotenv
-, pythonOlder
-, requests
-, responses
-, websocket-client
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  ibm-cloud-sdk-core,
+  pytest-rerunfailures,
+  pytestCheckHook,
+  python-dateutil,
+  python-dotenv,
+  pythonOlder,
+  requests,
+  responses,
+  websocket-client,
 }:
 
 buildPythonPackage rec {
@@ -40,9 +41,7 @@ buildPythonPackage rec {
     responses
   ];
 
-  pythonImportsCheck = [
-    "ibm_watson"
-  ];
+  pythonImportsCheck = [ "ibm_watson" ];
 
   meta = with lib; {
     description = "Client library to use the IBM Watson Services";

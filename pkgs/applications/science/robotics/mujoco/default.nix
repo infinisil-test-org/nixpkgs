@@ -1,12 +1,13 @@
-{ cereal_1_3_2
-, cmake
-, fetchFromGitHub
-, fetchFromGitLab
-, glfw
-, glm
-, lib
-, spdlog
-, stdenv
+{
+  cereal_1_3_2,
+  cmake,
+  fetchFromGitHub,
+  fetchFromGitLab,
+  glfw,
+  glm,
+  lib,
+  spdlog,
+  stdenv,
 }:
 
 let
@@ -124,10 +125,9 @@ let
         cereal_1_3_2
       ];
     };
-
   };
-
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "mujoco";
   version = "3.1.4";
 
@@ -175,14 +175,19 @@ in stdenv.mkDerivation rec {
     ln -s ${pin.marchingcubecpp} build/_deps/marchingcubecpp-src
   '';
 
-  passthru.pin = { inherit (pin) lodepng eigen3 abseil-cpp; };
+  passthru.pin = {
+    inherit (pin) lodepng eigen3 abseil-cpp;
+  };
 
   meta = with lib; {
     description = "Multi-Joint dynamics with Contact. A general purpose physics simulator.";
     homepage = "https://mujoco.org/";
     changelog = "https://github.com/google-deepmind/mujoco/releases/tag/${version}";
     license = licenses.asl20;
-    maintainers = with maintainers; [ samuela tmplt ];
+    maintainers = with maintainers; [
+      samuela
+      tmplt
+    ];
     broken = stdenv.isDarwin;
   };
 }

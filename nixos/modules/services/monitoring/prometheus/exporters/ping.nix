@@ -1,11 +1,17 @@
-{ config, lib, pkgs, options, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  options,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.services.prometheus.exporters.ping;
 
-  settingsFormat = pkgs.formats.yaml {};
+  settingsFormat = pkgs.formats.yaml { };
   configFile = settingsFormat.generate "config.yml" cfg.settings;
 in
 {
@@ -21,7 +27,7 @@ in
 
     settings = mkOption {
       type = settingsFormat.type;
-      default = {};
+      default = { };
 
       description = ''
         Configuration for ping_exporter, see

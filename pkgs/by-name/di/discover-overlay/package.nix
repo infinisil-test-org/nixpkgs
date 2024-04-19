@@ -1,4 +1,12 @@
-{ lib, python3, fetchFromGitHub, gtk3, gobject-introspection, gtk-layer-shell, wrapGAppsHook }:
+{
+  lib,
+  python3,
+  fetchFromGitHub,
+  gtk3,
+  gobject-introspection,
+  gtk-layer-shell,
+  wrapGAppsHook,
+}:
 python3.pkgs.buildPythonApplication rec {
   pname = "discover-overlay";
   version = "0.7.0";
@@ -23,7 +31,10 @@ python3.pkgs.buildPythonApplication rec {
 
   dontWrapGApps = true;
 
-  makeWrapperArgs = [ "\${gappsWrapperArgs[@]}" "--set DISPLAY ':0.0'" ];
+  makeWrapperArgs = [
+    "\${gappsWrapperArgs[@]}"
+    "--set DISPLAY ':0.0'"
+  ];
 
   propagatedBuildInputs = with python3.pkgs; [
     pycairo

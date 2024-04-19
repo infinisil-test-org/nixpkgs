@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, rustPlatform
-, xorg
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  rustPlatform,
+  xorg,
 }:
 
 rustPlatform.buildRustPackage {

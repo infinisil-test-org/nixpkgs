@@ -1,9 +1,10 @@
-{ stdenv
-, lib
-, fetchurl
-, fetchFromGitHub
-, buildGoModule
-, nixosTests
+{
+  stdenv,
+  lib,
+  fetchurl,
+  fetchFromGitHub,
+  buildGoModule,
+  nixosTests,
 }:
 let
   owner = "superseriousbusiness";
@@ -69,7 +70,10 @@ buildGoModule rec {
       advertised to! A light-weight alternative to Mastodon
       and Pleroma, with support for clients!
     '';
-    maintainers = with maintainers; [ misuzu blakesmith ];
+    maintainers = with maintainers; [
+      misuzu
+      blakesmith
+    ];
     license = licenses.agpl3Only;
   };
 }

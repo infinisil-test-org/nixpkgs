@@ -1,13 +1,14 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, cmake
-, libuv
-, libmicrohttpd
-, openssl
-, hwloc
-, donateLevel ? 0
-, darwin
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  cmake,
+  libuv,
+  libmicrohttpd,
+  openssl,
+  hwloc,
+  donateLevel ? 0,
+  darwin,
 }:
 
 let
@@ -24,9 +25,7 @@ stdenv.mkDerivation rec {
     hash = "sha256-0ej2+g+B9K50JIs0wi1SfLBsaYTsk+0/cImLLZLNtmc=";
   };
 
-  patches = [
-    ./donate-level.patch
-  ];
+  patches = [ ./donate-level.patch ];
 
   postPatch = ''
     substituteAllInPlace src/donate.h
@@ -34,20 +33,20 @@ stdenv.mkDerivation rec {
       --replace "set(OPENSSL_USE_STATIC_LIBS TRUE)" "set(OPENSSL_USE_STATIC_LIBS FALSE)"
   '';
 
-  nativeBuildInputs = [
-    cmake
-  ];
+  nativeBuildInputs = [ cmake ];
 
-  buildInputs = [
-    libuv
-    libmicrohttpd
-    openssl
-    hwloc
-  ] ++ lib.optionals stdenv.isDarwin [
-    Carbon
-    CoreServices
-    OpenCL
-  ];
+  buildInputs =
+    [
+      libuv
+      libmicrohttpd
+      openssl
+      hwloc
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      Carbon
+      CoreServices
+      OpenCL
+    ];
 
   inherit donateLevel;
 

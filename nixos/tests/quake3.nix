@@ -1,53 +1,62 @@
-import ./make-test-python.nix ({ pkgs, lib, ...} :
+import ./make-test-python.nix (
+  { pkgs, lib, ... }:
 
-let
+  let
 
-  # Build Quake with coverage instrumentation.
-  overrides = pkgs:
-    {
+    # Build Quake with coverage instrumentation.
+    overrides = pkgs: {
       quake3game = pkgs.quake3game.override (args: {
         stdenv = pkgs.stdenvAdapters.addCoverageInstrumentation args.stdenv;
       });
     };
 
-  # Only allow the demo data to be used (only if it's unfreeRedistributable).
-  unfreePredicate = pkg: let
-    allowPackageNames = [ "quake3-demodata" "quake3-pointrelease" ];
-    allowLicenses = [ lib.licenses.unfreeRedistributable ];
-  in lib.elem pkg.pname allowPackageNames &&
-     lib.elem (pkg.meta.license or null) allowLicenses;
+    # Only allow the demo data to be used (only if it's unfreeRedistributable).
+    unfreePredicate =
+      pkg:
+      let
+        allowPackageNames = [
+          "quake3-demodata"
+          "quake3-pointrelease"
+        ];
+        allowLicenses = [ lib.licenses.unfreeRedistributable ];
+      in
+      lib.elem pkg.pname allowPackageNames && lib.elem (pkg.meta.license or null) allowLicenses;
 
-  client =
-    { pkgs, ... }:
+    client =
+      { pkgs, ... }:
 
-    { imports = [ ./common/x11.nix ];
-      hardware.opengl.driSupport = true;
-      environment.systemPackages = [ pkgs.quake3demo ];
-      nixpkgs.config.packageOverrides = overrides;
-      nixpkgs.config.allowUnfreePredicate = unfreePredicate;
+      {
+        imports = [ ./common/x11.nix ];
+        hardware.opengl.driSupport = true;
+        environment.systemPackages = [ pkgs.quake3demo ];
+        nixpkgs.config.packageOverrides = overrides;
+        nixpkgs.config.allowUnfreePredicate = unfreePredicate;
+      };
+  in
+
+  rec {
+    name = "quake3";
+    meta = with lib.maintainers; {
+      maintainers = [
+        domenkozar
+        eelco
+      ];
     };
 
-in
+    # TODO: lcov doesn't work atm
+    #makeCoverageReport = true;
 
-rec {
-  name = "quake3";
-  meta = with lib.maintainers; {
-    maintainers = [ domenkozar eelco ];
-  };
-
-  # TODO: lcov doesn't work atm
-  #makeCoverageReport = true;
-
-  nodes =
-    { server =
+    nodes = {
+      server =
         { pkgs, ... }:
 
-        { systemd.services.quake3-server =
-            { wantedBy = [ "multi-user.target" ];
-              script =
-                "${pkgs.quake3demo}/bin/quake3-server +set g_gametype 0 " +
-                "+map q3dm7 +addbot grunt +addbot daemia 2> /tmp/log";
-            };
+        {
+          systemd.services.quake3-server = {
+            wantedBy = [ "multi-user.target" ];
+            script =
+              "${pkgs.quake3demo}/bin/quake3-server +set g_gametype 0 "
+              + "+map q3dm7 +addbot grunt +addbot daemia 2> /tmp/log";
+          };
           nixpkgs.config.packageOverrides = overrides;
           nixpkgs.config.allowUnfreePredicate = unfreePredicate;
           networking.firewall.allowedUDPPorts = [ 27960 ];
@@ -57,8 +66,7 @@ rec {
       client2 = client;
     };
 
-  testScript =
-    ''
+    testScript = ''
       start_all()
 
       server.wait_for_unit("quake3-server")
@@ -91,5 +99,5 @@ rec {
       client2.shutdown()
       server.stop_job("quake3-server")
     '';
-
-})
+  }
+)

@@ -1,12 +1,23 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
-let cfg = config.services.espanso;
-in {
-  meta = { maintainers = with lib.maintainers; [ numkem ]; };
+let
+  cfg = config.services.espanso;
+in
+{
+  meta = {
+    maintainers = with lib.maintainers; [ numkem ];
+  };
 
   options = {
-    services.espanso = { enable = options.mkEnableOption "Espanso"; };
+    services.espanso = {
+      enable = options.mkEnableOption "Espanso";
+    };
   };
 
   config = mkIf cfg.enable {

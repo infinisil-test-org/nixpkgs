@@ -1,21 +1,22 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, buildPythonPackage
-, pythonOlder
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  buildPythonPackage,
+  pythonOlder,
 
-# build-system
-, hatchling
+  # build-system
+  hatchling,
 
-# dependencies
-, click
-, redis
+  # dependencies
+  click,
+  redis,
 
-# tests
-, psutil
-, pytestCheckHook
-, redis-server
-, sentry-sdk
+  # tests
+  psutil,
+  pytestCheckHook,
+  redis-server,
+  sentry-sdk,
 }:
 
 buildPythonPackage rec {
@@ -32,9 +33,7 @@ buildPythonPackage rec {
     hash = "sha256-1E7jPTSQCjuKZVFL4uZqL1WZHnxWSLTNcnpyvfHz7oY=";
   };
 
-  build-system = [
-    hatchling
-  ];
+  build-system = [ hatchling ];
 
   dependencies = [
     click
@@ -57,9 +56,7 @@ buildPythonPackage rec {
     kill $REDIS_PID
   '';
 
-  pythonImportsCheck = [
-    "rq"
-  ];
+  pythonImportsCheck = [ "rq" ];
 
   meta = with lib; {
     description = "Library for creating background jobs and processing them";
@@ -69,4 +66,3 @@ buildPythonPackage rec {
     maintainers = with maintainers; [ mrmebelman ];
   };
 }
-

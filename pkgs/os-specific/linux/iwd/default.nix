@@ -1,14 +1,16 @@
-{ lib, stdenv
-, fetchgit
-, autoreconfHook
-, pkg-config
-, ell
-, coreutils
-, docutils
-, readline
-, openssl
-, python3Packages
-, gitUpdater
+{
+  lib,
+  stdenv,
+  fetchgit,
+  autoreconfHook,
+  pkg-config,
+  ell,
+  coreutils,
+  docutils,
+  readline,
+  openssl,
+  python3Packages,
+  gitUpdater,
 }:
 
 stdenv.mkDerivation rec {
@@ -21,8 +23,11 @@ stdenv.mkDerivation rec {
     hash = "sha256-YWtiI2HkGyIdUeBXerQtN5UvgaMaUs9eoG88ZUQRrDg=";
   };
 
-  outputs = [ "out" "man" "doc" ]
-    ++ lib.optional (stdenv.hostPlatform == stdenv.buildPlatform) "test";
+  outputs = [
+    "out"
+    "man"
+    "doc"
+  ] ++ lib.optional (stdenv.hostPlatform == stdenv.buildPlatform) "test";
 
   nativeBuildInputs = [
     autoreconfHook
@@ -66,14 +71,16 @@ stdenv.mkDerivation rec {
 
   doCheck = true;
 
-  postInstall = ''
-    mkdir -p $doc/share/doc
-    cp -a doc $doc/share/doc/iwd
-    cp -a README AUTHORS TODO $doc/share/doc/iwd
-  '' + lib.optionalString (stdenv.hostPlatform == stdenv.buildPlatform) ''
-    mkdir -p $test/bin
-    cp -a test/* $test/bin/
-  '';
+  postInstall =
+    ''
+      mkdir -p $doc/share/doc
+      cp -a doc $doc/share/doc/iwd
+      cp -a README AUTHORS TODO $doc/share/doc/iwd
+    ''
+    + lib.optionalString (stdenv.hostPlatform == stdenv.buildPlatform) ''
+      mkdir -p $test/bin
+      cp -a test/* $test/bin/
+    '';
 
   preFixup = ''
     wrapPythonPrograms
@@ -98,6 +105,10 @@ stdenv.mkDerivation rec {
     description = "Wireless daemon for Linux";
     license = licenses.lgpl21Plus;
     platforms = platforms.linux;
-    maintainers = with maintainers; [ dtzWill fpletz amaxine ];
+    maintainers = with maintainers; [
+      dtzWill
+      fpletz
+      amaxine
+    ];
   };
 }

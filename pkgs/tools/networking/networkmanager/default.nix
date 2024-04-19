@@ -1,56 +1,57 @@
-{ lib
-, stdenv
-, fetchurl
-, substituteAll
-, gettext
-, pkg-config
-, dbus
-, gnome
-, systemd
-, libuuid
-, polkit
-, gnutls
-, ppp
-, dhcpcd
-, iptables
-, nftables
-, python3
-, vala
-, libgcrypt
-, dnsmasq
-, bluez5
-, readline
-, libselinux
-, audit
-, gobject-introspection
-, perl
-, modemmanager
-, openresolv
-, libndp
-, newt
-, libsoup
-, ethtool
-, gnused
-, iputils
-, kmod
-, jansson
-, elfutils
-, gtk-doc
-, libxslt
-, docbook_xsl
-, docbook_xml_dtd_412
-, docbook_xml_dtd_42
-, docbook_xml_dtd_43
-, openconnect
-, curl
-, meson
-, mesonEmulatorHook
-, ninja
-, libpsl
-, mobile-broadband-provider-info
-, runtimeShell
-, buildPackages
-, nixosTests
+{
+  lib,
+  stdenv,
+  fetchurl,
+  substituteAll,
+  gettext,
+  pkg-config,
+  dbus,
+  gnome,
+  systemd,
+  libuuid,
+  polkit,
+  gnutls,
+  ppp,
+  dhcpcd,
+  iptables,
+  nftables,
+  python3,
+  vala,
+  libgcrypt,
+  dnsmasq,
+  bluez5,
+  readline,
+  libselinux,
+  audit,
+  gobject-introspection,
+  perl,
+  modemmanager,
+  openresolv,
+  libndp,
+  newt,
+  libsoup,
+  ethtool,
+  gnused,
+  iputils,
+  kmod,
+  jansson,
+  elfutils,
+  gtk-doc,
+  libxslt,
+  docbook_xsl,
+  docbook_xml_dtd_412,
+  docbook_xml_dtd_42,
+  docbook_xml_dtd_43,
+  openconnect,
+  curl,
+  meson,
+  mesonEmulatorHook,
+  ninja,
+  libpsl,
+  mobile-broadband-provider-info,
+  runtimeShell,
+  buildPackages,
+  nixosTests,
 }:
 
 let
@@ -65,7 +66,13 @@ stdenv.mkDerivation rec {
     hash = "sha256-ciZJ4lNiaTszQ3FHOAKnKbDsnuKDN1CWkF+GiAjnQGg=";
   };
 
-  outputs = [ "out" "dev" "devdoc" "man" "doc" ];
+  outputs = [
+    "out"
+    "dev"
+    "devdoc"
+    "man"
+    "doc"
+  ];
 
   # Right now we hardcode quite a few paths at build time. Probably we should
   # patch networkmanager to allow passing these path in config file. This will
@@ -120,7 +127,13 @@ stdenv.mkDerivation rec {
   patches = [
     (substituteAll {
       src = ./fix-paths.patch;
-      inherit iputils openconnect ethtool gnused systemd;
+      inherit
+        iputils
+        openconnect
+        ethtool
+        gnused
+        systemd
+        ;
       inherit runtimeShell;
     })
 
@@ -150,7 +163,10 @@ stdenv.mkDerivation rec {
     dbus # used to get directory paths with pkg-config during configuration
   ];
 
-  propagatedBuildInputs = [ gnutls libgcrypt ];
+  propagatedBuildInputs = [
+    gnutls
+    libgcrypt
+  ];
 
   nativeBuildInputs = [
     meson
@@ -169,9 +185,7 @@ stdenv.mkDerivation rec {
     docbook_xml_dtd_42
     docbook_xml_dtd_43
     pythonForDocs
-  ] ++ lib.optionals (!stdenv.buildPlatform.canExecute stdenv.hostPlatform) [
-    mesonEmulatorHook
-  ];
+  ] ++ lib.optionals (!stdenv.buildPlatform.canExecute stdenv.hostPlatform) [ mesonEmulatorHook ];
 
   doCheck = false; # requires /sys, the net
 
@@ -214,7 +228,13 @@ stdenv.mkDerivation rec {
     description = "Network configuration and management tool";
     license = licenses.gpl2Plus;
     changelog = "https://gitlab.freedesktop.org/NetworkManager/NetworkManager/-/raw/${version}/NEWS";
-    maintainers = teams.freedesktop.members ++ (with maintainers; [ domenkozar obadz amaxine ]);
+    maintainers =
+      teams.freedesktop.members
+      ++ (with maintainers; [
+        domenkozar
+        obadz
+        amaxine
+      ]);
     platforms = platforms.linux;
   };
 }

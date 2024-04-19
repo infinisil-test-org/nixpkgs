@@ -1,6 +1,7 @@
-{ lib
-, fetchFromGitHub
-, python3
+{
+  lib,
+  fetchFromGitHub,
+  python3,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -16,9 +17,7 @@ python3.pkgs.buildPythonApplication rec {
     hash = "sha256-BmHChLWWnrtg0p4WH8bANwpo+p4RTwjYbXfyPnz6mp8=";
   };
 
-  nativeBuildInputs = with python3.pkgs; [
-    pythonRelaxDepsHook
-  ];
+  nativeBuildInputs = with python3.pkgs; [ pythonRelaxDepsHook ];
 
   pythonRelaxDeps = true;
 

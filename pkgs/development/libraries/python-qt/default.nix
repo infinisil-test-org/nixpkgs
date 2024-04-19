@@ -1,6 +1,15 @@
-{ lib, stdenv, fetchFromGitHub, fetchpatch, python, qmake,
-  qtwebengine, qtxmlpatterns,
-  qttools, unzip }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  python,
+  qmake,
+  qtwebengine,
+  qtxmlpatterns,
+  qttools,
+  unzip,
+}:
 
 stdenv.mkDerivation rec {
   pname = "python-qt";
@@ -21,7 +30,13 @@ stdenv.mkDerivation rec {
 
   hardeningDisable = [ "all" ];
 
-  nativeBuildInputs = [ qmake qtwebengine qtxmlpatterns qttools unzip ];
+  nativeBuildInputs = [
+    qmake
+    qtwebengine
+    qtxmlpatterns
+    qttools
+    unzip
+  ];
 
   buildInputs = [ python ];
 

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -17,9 +22,7 @@ with lib;
         name of the user associated with a TCP connection.
       '';
     };
-
   };
-
 
   ###### implementation
 
@@ -38,7 +41,5 @@ with lib;
     };
 
     users.groups.oidentd.gid = config.ids.gids.oidentd;
-
   };
-
 }

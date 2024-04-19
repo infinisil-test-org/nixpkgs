@@ -1,20 +1,35 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.services.hardware.openrgb;
-in {
+in
+{
   options.services.hardware.openrgb = {
     enable = mkEnableOption "OpenRGB server, for RGB lighting control";
 
     package = mkPackageOption pkgs "openrgb" { };
 
     motherboard = mkOption {
-      type = types.nullOr (types.enum [ "amd" "intel" ]);
-      default = if config.hardware.cpu.intel.updateMicrocode then "intel"
-        else if config.hardware.cpu.amd.updateMicrocode then "amd"
-        else null;
+      type = types.nullOr (
+        types.enum [
+          "amd"
+          "intel"
+        ]
+      );
+      default =
+        if config.hardware.cpu.intel.updateMicrocode then
+          "intel"
+        else if config.hardware.cpu.amd.updateMicrocode then
+          "amd"
+        else
+          null;
       defaultText = literalMD ''
         if config.hardware.cpu.intel.updateMicrocode then "intel"
         else if config.hardware.cpu.amd.updateMicrocode then "amd"
@@ -28,16 +43,16 @@ in {
       default = 6742;
       description = "Set server port of openrgb.";
     };
-
   };
 
   config = mkIf cfg.enable {
     environment.systemPackages = [ cfg.package ];
     services.udev.packages = [ cfg.package ];
 
-    boot.kernelModules = [ "i2c-dev" ]
-     ++ lib.optionals (cfg.motherboard == "amd") [ "i2c-piix4" ]
-     ++ lib.optionals (cfg.motherboard == "intel") [ "i2c-i801" ];
+    boot.kernelModules =
+      [ "i2c-dev" ]
+      ++ lib.optionals (cfg.motherboard == "amd") [ "i2c-piix4" ]
+      ++ lib.optionals (cfg.motherboard == "intel") [ "i2c-i801" ];
 
     systemd.services.openrgb = {
       description = "OpenRGB server daemon";

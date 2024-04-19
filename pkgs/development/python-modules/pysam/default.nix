@@ -1,21 +1,22 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, bzip2
-, bcftools
-, curl
-, cython_3
-, htslib
-, libdeflate
-, xz
-, pytestCheckHook
-, setuptools
-, samtools
-, zlib
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  bzip2,
+  bcftools,
+  curl,
+  cython_3,
+  htslib,
+  libdeflate,
+  xz,
+  pytestCheckHook,
+  setuptools,
+  samtools,
+  zlib,
 }:
 
 buildPythonPackage rec {
-  pname   = "pysam";
+  pname = "pysam";
   version = "0.22.0";
   pyproject = true;
 

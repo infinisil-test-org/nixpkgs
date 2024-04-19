@@ -1,6 +1,11 @@
 # Malcontent daemon.
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -13,11 +18,8 @@ with lib;
     services.malcontent = {
 
       enable = mkEnableOption "Malcontent, parental control support for applications";
-
     };
-
   };
-
 
   ###### implementation
 
@@ -34,7 +36,5 @@ with lib;
     ];
 
     services.accounts-daemon.enable = true;
-
   };
-
 }

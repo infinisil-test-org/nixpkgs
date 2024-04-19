@@ -1,35 +1,36 @@
-{ lib
-, pkg-config
-, fetchurl
-, buildPythonApplication
-, autoreconfHook
-, wrapGAppsHook
-, gobject-introspection
-, gettext
-, yelp-tools
-, itstool
-, python
-, pygobject3
-, gtk3
-, gnome
-, substituteAll
-, at-spi2-atk
-, at-spi2-core
-, pyatspi
-, dbus
-, dbus-python
-, pyxdg
-, xkbcomp
-, procps
-, lsof
-, coreutils
-, gsettings-desktop-schemas
-, speechd
-, brltty
-, liblouis
-, setproctitle
-, gst_all_1
-, gst-python
+{
+  lib,
+  pkg-config,
+  fetchurl,
+  buildPythonApplication,
+  autoreconfHook,
+  wrapGAppsHook,
+  gobject-introspection,
+  gettext,
+  yelp-tools,
+  itstool,
+  python,
+  pygobject3,
+  gtk3,
+  gnome,
+  substituteAll,
+  at-spi2-atk,
+  at-spi2-core,
+  pyatspi,
+  dbus,
+  dbus-python,
+  pyxdg,
+  xkbcomp,
+  procps,
+  lsof,
+  coreutils,
+  gsettings-desktop-schemas,
+  speechd,
+  brltty,
+  liblouis,
+  setproctitle,
+  gst_all_1,
+  gst-python,
 }:
 
 buildPythonApplication rec {
@@ -90,9 +91,7 @@ buildPythonApplication rec {
   ];
 
   passthru = {
-    updateScript = gnome.updateScript {
-      packageName = pname;
-    };
+    updateScript = gnome.updateScript { packageName = pname; };
   };
 
   meta = with lib; {

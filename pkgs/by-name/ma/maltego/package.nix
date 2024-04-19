@@ -1,13 +1,14 @@
-{ lib
-, stdenv
-, fetchzip
-, jre
-, giflib
-, gawk
-, makeBinaryWrapper
-, icoutils
-, copyDesktopItems
-, makeDesktopItem
+{
+  lib,
+  stdenv,
+  fetchzip,
+  jre,
+  giflib,
+  gawk,
+  makeBinaryWrapper,
+  icoutils,
+  copyDesktopItems,
+  makeDesktopItem,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -20,18 +21,21 @@ stdenv.mkDerivation (finalAttrs: {
   };
 
   postPatch = ''
-      substituteInPlace bin/maltego \
-            --replace /usr/bin/awk ${lib.getExe gawk}
+    substituteInPlace bin/maltego \
+          --replace /usr/bin/awk ${lib.getExe gawk}
   '';
 
-    desktopItems = [
+  desktopItems = [
     (makeDesktopItem {
       name = finalAttrs.pname;
       desktopName = "Maltego";
       exec = finalAttrs.meta.mainProgram;
       icon = finalAttrs.pname;
       comment = "An open source intelligence and forensics application";
-      categories = [ "Network" "Security" ];
+      categories = [
+        "Network"
+        "Security"
+      ];
       startupNotify = false;
     })
   ];
@@ -42,7 +46,10 @@ stdenv.mkDerivation (finalAttrs: {
     copyDesktopItems
   ];
 
-  buildInputs = [ jre giflib ];
+  buildInputs = [
+    jre
+    giflib
+  ];
 
   installPhase = ''
     runHook preInstall
@@ -73,7 +80,10 @@ stdenv.mkDerivation (finalAttrs: {
     homepage = "https://www.maltego.com";
     description = "An open source intelligence and forensics application, enabling to easily gather information about DNS, domains, IP addresses, websites, persons, and so on";
     mainProgram = "maltego";
-    maintainers = with maintainers; [ emilytrau d3vil0p3r ];
+    maintainers = with maintainers; [
+      emilytrau
+      d3vil0p3r
+    ];
     platforms = with platforms; linux ++ darwin;
     sourceProvenance = with sourceTypes; [ binaryBytecode ];
     license = licenses.unfree;

@@ -1,6 +1,7 @@
-{ lib
-, fetchFromGitHub
-, php
+{
+  lib,
+  fetchFromGitHub,
+  php,
 }:
 
 php.buildComposerProject (finalAttrs: {
@@ -22,6 +23,9 @@ php.buildComposerProject (finalAttrs: {
     homepage = "https://phpunit.de";
     license = lib.licenses.bsd3;
     mainProgram = "phpunit";
-    maintainers = [ lib.maintainers.onny lib.maintainers.patka ] ++ lib.teams.php.members;
+    maintainers = [
+      lib.maintainers.onny
+      lib.maintainers.patka
+    ] ++ lib.teams.php.members;
   };
 })

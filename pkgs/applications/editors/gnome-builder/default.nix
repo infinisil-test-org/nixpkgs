@@ -1,51 +1,55 @@
-{ stdenv
-, lib
-, ctags
-, cmark
-, desktop-file-utils
-, editorconfig-core-c
-, fetchurl
-, fetchpatch
-, flatpak
-, gnome
-, libgit2-glib
-, gi-docgen
-, gobject-introspection
-, enchant
-, icu
-, gtk4
-, gtksourceview5
-, json-glib
-, jsonrpc-glib
-, libadwaita
-, libdex
-, libpanel
-, libpeas2
-, libportal-gtk4
-, libsysprof-capture
-, libxml2
-, meson
-, ninja
-, ostree
-, d-spy
-, pcre2
-, pkg-config
-, python3
-, sysprof
-, template-glib
-, vala
-, vte-gtk4
-, webkitgtk_6_0
-, wrapGAppsHook4
-, dbus
-, xvfb-run
+{
+  stdenv,
+  lib,
+  ctags,
+  cmark,
+  desktop-file-utils,
+  editorconfig-core-c,
+  fetchurl,
+  fetchpatch,
+  flatpak,
+  gnome,
+  libgit2-glib,
+  gi-docgen,
+  gobject-introspection,
+  enchant,
+  icu,
+  gtk4,
+  gtksourceview5,
+  json-glib,
+  jsonrpc-glib,
+  libadwaita,
+  libdex,
+  libpanel,
+  libpeas2,
+  libportal-gtk4,
+  libsysprof-capture,
+  libxml2,
+  meson,
+  ninja,
+  ostree,
+  d-spy,
+  pcre2,
+  pkg-config,
+  python3,
+  sysprof,
+  template-glib,
+  vala,
+  vte-gtk4,
+  webkitgtk_6_0,
+  wrapGAppsHook4,
+  dbus,
+  xvfb-run,
 }:
 
 stdenv.mkDerivation rec {
   pname = "gnome-builder";
   version = "45.0";
 
-  outputs = [ "out" "devdoc" ];
+  outputs = [
+    "out"
+    "devdoc"
+  ];
 
   src = fetchurl {
     url = "mirror://gnome/sources/${pname}/${lib.versions.major version}/${pname}-${version}.tar.xz";
@@ -160,9 +164,7 @@ stdenv.mkDerivation rec {
     moveToOutput share/doc/libide "$devdoc"
   '';
 
-  passthru.updateScript = gnome.updateScript {
-    packageName = pname;
-  };
+  passthru.updateScript = gnome.updateScript { packageName = pname; };
 
   meta = with lib; {
     description = "An IDE for writing GNOME-based software";

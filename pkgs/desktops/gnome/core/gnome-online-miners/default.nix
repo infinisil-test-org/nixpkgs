@@ -1,27 +1,29 @@
-{ lib, stdenv
-, fetchurl
-, fetchpatch
-, autoconf-archive
-, autoreconfHook
-, pkg-config
-, glib
-, gnome
-, libxml2
-, libgdata
-, grilo
-, libzapojit
-, grilo-plugins
-, gnome-online-accounts
-, libmediaart
-, tracker
-, gfbgraph
-, librest
-, libsoup
-, json-glib
-, gmp
-, openssl
-, dleyna-server
-, wrapGAppsHook
+{
+  lib,
+  stdenv,
+  fetchurl,
+  fetchpatch,
+  autoconf-archive,
+  autoreconfHook,
+  pkg-config,
+  glib,
+  gnome,
+  libxml2,
+  libgdata,
+  grilo,
+  libzapojit,
+  grilo-plugins,
+  gnome-online-accounts,
+  libmediaart,
+  tracker,
+  gfbgraph,
+  librest,
+  libsoup,
+  json-glib,
+  gmp,
+  openssl,
+  dleyna-server,
+  wrapGAppsHook,
 }:
 
 stdenv.mkDerivation rec {

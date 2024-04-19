@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, aiohttp
-, prometheus-client
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  aiohttp,
+  prometheus-client,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -26,9 +27,7 @@ buildPythonPackage rec {
   # no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "aiohttp_openmetrics"
-  ];
+  pythonImportsCheck = [ "aiohttp_openmetrics" ];
 
   meta = with lib; {
     description = "OpenMetrics provider for aiohttp";

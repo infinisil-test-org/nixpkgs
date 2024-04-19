@@ -1,7 +1,8 @@
-{ appimageTools
-, fetchurl
-, lib
-, makeWrapper
+{
+  appimageTools,
+  fetchurl,
+  lib,
+  makeWrapper,
 }:
 
 appimageTools.wrapType2 rec {
@@ -14,8 +15,10 @@ appimageTools.wrapType2 rec {
   };
 
   extraInstallCommands =
-    let contents = appimageTools.extract { inherit pname version src; };
-    in ''
+    let
+      contents = appimageTools.extract { inherit pname version src; };
+    in
+    ''
       mv $out/bin/{lunar-client-*,lunar-client}
       source "${makeWrapper}/nix-support/setup-hook"
       wrapProgram $out/bin/lunar-client \
@@ -34,7 +37,11 @@ appimageTools.wrapType2 rec {
     homepage = "https://www.lunarclient.com/";
     license = with licenses; [ unfree ];
     mainProgram = "lunar-client";
-    maintainers = with maintainers; [ zyansheep Technical27 surfaceflinger ];
+    maintainers = with maintainers; [
+      zyansheep
+      Technical27
+      surfaceflinger
+    ];
     platforms = [ "x86_64-linux" ];
   };
 }

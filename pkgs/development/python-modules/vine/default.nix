@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, case
-, fetchPypi
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  case,
+  fetchPypi,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -25,12 +26,11 @@ buildPythonPackage rec {
 
   pytestFlagsArray = [
     # pytest.PytestRemovedIn8Warning: Support for nose tests is deprecated and will be removed in a future release.
-    "-W" "ignore::pytest.PytestRemovedIn8Warning"
+    "-W"
+    "ignore::pytest.PytestRemovedIn8Warning"
   ];
 
-  pythonImportsCheck = [
-    "vine"
-  ];
+  pythonImportsCheck = [ "vine" ];
 
   meta = with lib; {
     description = "Python promises";

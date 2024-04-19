@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.services.self-deploy;
@@ -9,17 +14,19 @@ let
 
   gitWithRepo = "git -C ${repositoryDirectory}";
 
-  renderNixArgs = args:
+  renderNixArgs =
+    args:
     let
-      toArg = key: value:
-        if builtins.isString value
-        then " --argstr ${lib.escapeShellArg key} ${lib.escapeShellArg value}"
-        else " --arg ${lib.escapeShellArg key} ${lib.escapeShellArg (toString value)}";
+      toArg =
+        key: value:
+        if builtins.isString value then
+          " --argstr ${lib.escapeShellArg key} ${lib.escapeShellArg value}"
+        else
+          " --arg ${lib.escapeShellArg key} ${lib.escapeShellArg (toString value)}";
     in
     lib.concatStrings (lib.mapAttrsToList toArg args);
 
   isPathType = x: lib.types.path.check x;
-
 in
 {
   options.services.self-deploy = {
@@ -58,7 +65,12 @@ in
     };
 
     switchCommand = lib.mkOption {
-      type = lib.types.enum [ "boot" "switch" "dry-activate" "test" ];
+      type = lib.types.enum [
+        "boot"
+        "switch"
+        "dry-activate"
+        "test"
+      ];
 
       default = "switch";
 
@@ -68,7 +80,12 @@ in
     };
 
     repository = lib.mkOption {
-      type = with lib.types; oneOf [ path str ];
+      type =
+        with lib.types;
+        oneOf [
+          path
+          str
+        ];
 
       description = ''
         The repository to fetch from. Must be properly formatted for git.
@@ -134,17 +151,21 @@ in
 
       after = requires;
 
-      environment.GIT_SSH_COMMAND = lib.mkIf (cfg.sshKeyFile != null)
-        "${pkgs.openssh}/bin/ssh -i ${lib.escapeShellArg cfg.sshKeyFile}";
+      environment.GIT_SSH_COMMAND = lib.mkIf (
+        cfg.sshKeyFile != null
+      ) "${pkgs.openssh}/bin/ssh -i ${lib.escapeShellArg cfg.sshKeyFile}";
 
       restartIfChanged = false;
 
-      path = with pkgs; [
-        git
-        gnutar
-        gzip
-        nix
-      ] ++ lib.optionals (cfg.switchCommand == "boot") [ systemd ];
+      path =
+        with pkgs;
+        [
+          git
+          gnutar
+          gzip
+          nix
+        ]
+        ++ lib.optionals (cfg.switchCommand == "boot") [ systemd ];
 
       script = ''
         if [ ! -e ${repositoryDirectory} ]; then
@@ -156,13 +177,16 @@ in
 
         ${gitWithRepo} checkout FETCH_HEAD
 
-        nix-build${renderNixArgs cfg.nixArgs} ${lib.cli.toGNUCommandLineShell { } {
-          attr = cfg.nixAttribute;
-          out-link = outPath;
-        }} ${lib.escapeShellArg "${repositoryDirectory}${cfg.nixFile}"}
+        nix-build${renderNixArgs cfg.nixArgs} ${
+          lib.cli.toGNUCommandLineShell { } {
+            attr = cfg.nixAttribute;
+            out-link = outPath;
+          }
+        } ${lib.escapeShellArg "${repositoryDirectory}${cfg.nixFile}"}
 
-        ${lib.optionalString (cfg.switchCommand != "test")
-          "nix-env --profile /nix/var/nix/profiles/system --set ${outPath}"}
+        ${lib.optionalString (
+          cfg.switchCommand != "test"
+        ) "nix-env --profile /nix/var/nix/profiles/system --set ${outPath}"}
 
         ${outPath}/bin/switch-to-configuration ${cfg.switchCommand}
 

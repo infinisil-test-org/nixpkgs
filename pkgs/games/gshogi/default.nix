@@ -1,9 +1,10 @@
-{ lib
-, fetchFromGitHub
-, gobject-introspection
-, gtk3
-, python3
-, wrapGAppsHook
+{
+  lib,
+  fetchFromGitHub,
+  gobject-introspection,
+  gtk3,
+  python3,
+  wrapGAppsHook,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -17,13 +18,14 @@ python3.pkgs.buildPythonApplication rec {
     hash = "sha256-EPOIYPSFAhilxuZeYfuZ4Cd29ReJs/E4KNF5/lyzbxs=";
   };
 
-  doCheck = false;  # no tests available
+  doCheck = false; # no tests available
 
-  buildInputs = [
-    gtk3
+  buildInputs = [ gtk3 ];
+
+  nativeBuildInputs = [
+    wrapGAppsHook
+    gobject-introspection
   ];
-
-  nativeBuildInputs = [ wrapGAppsHook gobject-introspection ];
 
   propagatedBuildInputs = with python3.pkgs; [
     pygobject3

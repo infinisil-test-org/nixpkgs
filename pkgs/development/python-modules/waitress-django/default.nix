@@ -1,4 +1,9 @@
-{ lib, buildPythonPackage, django, waitress }:
+{
+  lib,
+  buildPythonPackage,
+  django,
+  waitress,
+}:
 
 buildPythonPackage {
   pname = "waitress-django";
@@ -6,7 +11,10 @@ buildPythonPackage {
   format = "setuptools";
 
   src = ./.;
-  pythonPath = [ django waitress ];
+  pythonPath = [
+    django
+    waitress
+  ];
   doCheck = false;
 
   meta = with lib; {

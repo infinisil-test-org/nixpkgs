@@ -1,4 +1,10 @@
-{ lib, fetchFromGitHub, buildPythonPackage, pythonOlder, flake8 }:
+{
+  lib,
+  fetchFromGitHub,
+  buildPythonPackage,
+  pythonOlder,
+  flake8,
+}:
 
 buildPythonPackage rec {
   pname = "pure-cdb";

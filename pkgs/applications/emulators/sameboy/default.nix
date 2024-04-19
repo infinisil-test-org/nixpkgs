@@ -1,4 +1,13 @@
-{ lib, stdenv, fetchFromGitHub, gtk3, rgbds, SDL2, wrapGAppsHook, glib }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  gtk3,
+  rgbds,
+  SDL2,
+  wrapGAppsHook,
+  glib,
+}:
 
 stdenv.mkDerivation rec {
   pname = "sameboy";
@@ -13,7 +22,11 @@ stdenv.mkDerivation rec {
 
   enableParallelBuilding = true;
   # glib and wrapGAppsHook are needed to make the Open ROM menu work.
-  nativeBuildInputs = [ rgbds glib wrapGAppsHook ];
+  nativeBuildInputs = [
+    rgbds
+    glib
+    wrapGAppsHook
+  ];
   buildInputs = [ SDL2 ];
 
   makeFlags = [

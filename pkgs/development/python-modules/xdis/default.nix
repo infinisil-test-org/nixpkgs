@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, click
-, fetchFromGitHub
-, fetchpatch
-, pytestCheckHook
-, pythonAtLeast
-, pythonOlder
-, six
+{
+  lib,
+  buildPythonPackage,
+  click,
+  fetchFromGitHub,
+  fetchpatch,
+  pytestCheckHook,
+  pythonAtLeast,
+  pythonOlder,
+  six,
 }:
 
 buildPythonPackage rec {
@@ -35,22 +36,16 @@ buildPythonPackage rec {
     six
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "xdis"
-  ];
+  pythonImportsCheck = [ "xdis" ];
 
   # import file mismatch:
   # imported module 'test_disasm' has this __file__ attribute:
   #   /build/source/pytest/test_disasm.py
   # which is not the same as the test file we want to collect:
   #   /build/source/test_unit/test_disasm.py
-  disabledTestPaths = [
-    "test_unit/test_disasm.py"
-  ];
+  disabledTestPaths = [ "test_unit/test_disasm.py" ];
 
   disabledTests = [
     # AssertionError: events did not match expectation

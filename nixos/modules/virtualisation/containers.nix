@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.virtualisation.containers;
 
@@ -13,14 +18,13 @@ in
 
   options.virtualisation.containers = {
 
-    enable =
-      mkOption {
-        type = types.bool;
-        default = false;
-        description = ''
-          This option enables the common /etc/containers configuration module.
-        '';
-      };
+    enable = mkOption {
+      type = types.bool;
+      default = false;
+      description = ''
+        This option enables the common /etc/containers configuration module.
+      '';
+    };
 
     ociSeccompBpfHook.enable = mkOption {
       type = types.bool;
@@ -47,19 +51,19 @@ in
         '';
         example = {
           some-vendor = builtins.fromJSON ''
-              {
-                "cdiVersion": "0.5.0",
-                "kind": "some-vendor.com/foo",
-                "devices": [],
-                "containerEdits": []
-              }
-            '';
+            {
+              "cdiVersion": "0.5.0",
+              "kind": "some-vendor.com/foo",
+              "devices": [],
+              "containerEdits": []
+            }
+          '';
 
           some-other-vendor = {
             cdiVersion = "0.5.0";
             kind = "some-other-vendor.com/bar";
-            devices = [];
-            containerEdits = [];
+            devices = [ ];
+            containerEdits = [ ];
           };
         };
       };
@@ -103,7 +107,10 @@ in
     registries = {
       search = mkOption {
         type = types.listOf types.str;
-        default = [ "docker.io" "quay.io" ];
+        default = [
+          "docker.io"
+          "quay.io"
+        ];
         description = ''
           List of repositories to search.
         '';
@@ -145,7 +152,6 @@ in
         `skopeo` will be used.
       '';
     };
-
   };
 
   config = lib.mkIf cfg.enable {
@@ -156,35 +162,38 @@ in
 
     virtualisation.containers.containersConf.settings = {
       network.cni_plugin_dirs = map (p: "${lib.getBin p}/bin") cfg.containersConf.cniPlugins;
-      engine = {
-        init_path = "${pkgs.catatonit}/bin/catatonit";
-      } // lib.optionalAttrs cfg.ociSeccompBpfHook.enable {
-        hooks_dir = [ config.boot.kernelPackages.oci-seccomp-bpf-hook ];
-      };
+      engine =
+        {
+          init_path = "${pkgs.catatonit}/bin/catatonit";
+        }
+        // lib.optionalAttrs cfg.ociSeccompBpfHook.enable {
+          hooks_dir = [ config.boot.kernelPackages.oci-seccomp-bpf-hook ];
+        };
     };
 
-    environment.etc = let
-      cdiStaticConfigurationFiles = (lib.attrsets.mapAttrs'
-        (name: value:
-          lib.attrsets.nameValuePair "cdi/${name}.json"
-            { text = builtins.toJSON value; })
-        cfg.cdi.static);
-    in {
-      "containers/containers.conf".source =
-        toml.generate "containers.conf" cfg.containersConf.settings;
+    environment.etc =
+      let
+        cdiStaticConfigurationFiles = (
+          lib.attrsets.mapAttrs' (
+            name: value: lib.attrsets.nameValuePair "cdi/${name}.json" { text = builtins.toJSON value; }
+          ) cfg.cdi.static
+        );
+      in
+      {
+        "containers/containers.conf".source = toml.generate "containers.conf" cfg.containersConf.settings;
 
-      "containers/storage.conf".source =
-        toml.generate "storage.conf" cfg.storage.settings;
+        "containers/storage.conf".source = toml.generate "storage.conf" cfg.storage.settings;
 
-      "containers/registries.conf".source = toml.generate "registries.conf" {
-        registries = lib.mapAttrs (n: v: { registries = v; }) cfg.registries;
-      };
+        "containers/registries.conf".source = toml.generate "registries.conf" {
+          registries = lib.mapAttrs (n: v: { registries = v; }) cfg.registries;
+        };
 
-      "containers/policy.json".source =
-        if cfg.policy != { } then pkgs.writeText "policy.json" (builtins.toJSON cfg.policy)
-        else "${pkgs.skopeo.policy}/default-policy.json";
-    } // cdiStaticConfigurationFiles;
-
+        "containers/policy.json".source =
+          if cfg.policy != { } then
+            pkgs.writeText "policy.json" (builtins.toJSON cfg.policy)
+          else
+            "${pkgs.skopeo.policy}/default-policy.json";
+      }
+      // cdiStaticConfigurationFiles;
   };
-
 }

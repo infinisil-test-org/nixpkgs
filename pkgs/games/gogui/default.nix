@@ -1,18 +1,20 @@
-{ ant
-, docbook-xsl-ns
-, docbook_xml_dtd_42
-, fetchFromGitHub
-, imagemagick
-, lib
-, libxslt
-, makeWrapper
-, openjdk
-, stdenv
+{
+  ant,
+  docbook-xsl-ns,
+  docbook_xml_dtd_42,
+  fetchFromGitHub,
+  imagemagick,
+  lib,
+  libxslt,
+  makeWrapper,
+  openjdk,
+  stdenv,
 }:
 
 let
   version = "1.5.4a";
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "gogui";
   inherit version;
 
@@ -86,7 +88,10 @@ in stdenv.mkDerivation {
   '';
 
   meta = {
-    maintainers = [ lib.maintainers.cleverca22 lib.maintainers.omnipotententity];
+    maintainers = [
+      lib.maintainers.cleverca22
+      lib.maintainers.omnipotententity
+    ];
     description = "A graphical user interface to programs that play the board game Go and support the Go Text Protocol such as GNU Go";
     homepage = "https://github.com/Remi-Coulom/gogui";
     platforms = lib.platforms.unix;

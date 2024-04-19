@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, stdenv
-, packaging
-, setuptools
-, dbus-next
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  stdenv,
+  packaging,
+  setuptools,
+  dbus-next,
 }:
 
 buildPythonPackage rec {
@@ -22,22 +23,14 @@ buildPythonPackage rec {
     hash = "sha256-txUWRCWLQ6jWrdEJ/D5+CsflNad5Onr/wLycENri1z8=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [
-    packaging
-  ] ++ lib.optionals stdenv.isLinux [
-    dbus-next
-  ];
+  propagatedBuildInputs = [ packaging ] ++ lib.optionals stdenv.isLinux [ dbus-next ];
 
   # no tests available, do the imports check instead
   doCheck = false;
 
-  pythonImportsCheck = [
-    "desktop_notifier"
-  ];
+  pythonImportsCheck = [ "desktop_notifier" ];
 
   meta = with lib; {
     description = "Python library for cross-platform desktop notifications";

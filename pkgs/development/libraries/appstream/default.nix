@@ -1,44 +1,49 @@
-{ lib
-, stdenv
-, substituteAll
-, fetchFromGitHub
-, meson
-, mesonEmulatorHook
-, ninja
-, pkg-config
-, cmake
-, gettext
-, xmlto
-, docbook-xsl-nons
-, docbook_xml_dtd_45
-, libxslt
-, libstemmer
-, glib
-, xapian
-, libxml2
-, libxmlb
-, libyaml
-, gobject-introspection
-, pcre
-, itstool
-, gperf
-, vala
-, curl
-, cairo
-, gdk-pixbuf
-, pango
-, librsvg
-, systemd
-, nixosTests
-, testers
-, withSystemd ? lib.meta.availableOn stdenv.hostPlatform systemd
+{
+  lib,
+  stdenv,
+  substituteAll,
+  fetchFromGitHub,
+  meson,
+  mesonEmulatorHook,
+  ninja,
+  pkg-config,
+  cmake,
+  gettext,
+  xmlto,
+  docbook-xsl-nons,
+  docbook_xml_dtd_45,
+  libxslt,
+  libstemmer,
+  glib,
+  xapian,
+  libxml2,
+  libxmlb,
+  libyaml,
+  gobject-introspection,
+  pcre,
+  itstool,
+  gperf,
+  vala,
+  curl,
+  cairo,
+  gdk-pixbuf,
+  pango,
+  librsvg,
+  systemd,
+  nixosTests,
+  testers,
+  withSystemd ? lib.meta.availableOn stdenv.hostPlatform systemd,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "appstream";
   version = "1.0.2";
 
-  outputs = [ "out" "dev" "installedTests" ];
+  outputs = [
+    "out"
+    "dev"
+    "installedTests"
+  ];
 
   src = fetchFromGitHub {
     owner = "ximion";
@@ -60,9 +65,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   strictDeps = true;
 
-  depsBuildBuild = [
-    pkg-config
-  ];
+  depsBuildBuild = [ pkg-config ];
 
   nativeBuildInputs = [
     meson
@@ -78,9 +81,7 @@ stdenv.mkDerivation (finalAttrs: {
     itstool
     vala
     gperf
-  ] ++ lib.optionals (!stdenv.buildPlatform.canExecute stdenv.hostPlatform) [
-    mesonEmulatorHook
-  ];
+  ] ++ lib.optionals (!stdenv.buildPlatform.canExecute stdenv.hostPlatform) [ mesonEmulatorHook ];
 
   buildInputs = [
     libstemmer
@@ -95,9 +96,7 @@ stdenv.mkDerivation (finalAttrs: {
     gdk-pixbuf
     pango
     librsvg
-  ] ++ lib.optionals withSystemd [
-    systemd
-  ];
+  ] ++ lib.optionals withSystemd [ systemd ];
 
   mesonFlags = [
     "-Dapidocs=false"
@@ -105,15 +104,11 @@ stdenv.mkDerivation (finalAttrs: {
     "-Dvapi=true"
     "-Dinstalled_test_prefix=${placeholder "installedTests"}"
     "-Dcompose=true"
-  ] ++ lib.optionals (!withSystemd) [
-    "-Dsystemd=false"
-  ];
+  ] ++ lib.optionals (!withSystemd) [ "-Dsystemd=false" ];
 
   passthru.tests = {
     installed-tests = nixosTests.installed-tests.appstream;
-    pkg-config = testers.hasPkgConfigModules {
-      package = finalAttrs.finalPackage;
-    };
+    pkg-config = testers.hasPkgConfigModules { package = finalAttrs.finalPackage; };
   };
 
   meta = with lib; {

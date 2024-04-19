@@ -1,4 +1,9 @@
-{ lib, buildDunePackage, fetchFromGitHub, ocaml_pcre }:
+{
+  lib,
+  buildDunePackage,
+  fetchFromGitHub,
+  ocaml_pcre,
+}:
 
 buildDunePackage rec {
   pname = "duppy";

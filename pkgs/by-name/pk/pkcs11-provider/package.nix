@@ -1,7 +1,16 @@
-{ lib, stdenv, fetchFromGitHub
-, openssl, nss, p11-kit
-, opensc, gnutls, expect
-, autoreconfHook, autoconf-archive, pkg-config
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  openssl,
+  nss,
+  p11-kit,
+  opensc,
+  gnutls,
+  expect,
+  autoreconfHook,
+  autoconf-archive,
+  pkg-config,
 }:
 
 stdenv.mkDerivation rec {
@@ -15,11 +24,26 @@ stdenv.mkDerivation rec {
     hash = "sha256-jEQYsINRZ7bi2UqOXUUmGpm+1h+1qBNe18KvfAw2JzU=";
   };
 
-  buildInputs = [ openssl nss p11-kit ];
-  nativeBuildInputs = [ autoreconfHook pkg-config autoconf-archive ];
+  buildInputs = [
+    openssl
+    nss
+    p11-kit
+  ];
+  nativeBuildInputs = [
+    autoreconfHook
+    pkg-config
+    autoconf-archive
+  ];
 
   # don't add SoftHSM to here: https://github.com/openssl/openssl/issues/22508
-  nativeCheckInputs = [ p11-kit.bin opensc nss.tools gnutls openssl.bin expect ];
+  nativeCheckInputs = [
+    p11-kit.bin
+    opensc
+    nss.tools
+    gnutls
+    openssl.bin
+    expect
+  ];
 
   postPatch = ''
     patchShebangs --build .

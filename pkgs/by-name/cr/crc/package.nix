@@ -1,9 +1,10 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
-, testers
-, crc
-, coreutils
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  testers,
+  crc,
+  coreutils,
 }:
 
 let
@@ -33,9 +34,7 @@ buildGoModule rec {
       --replace "/bin/echo" "${coreutils}/bin/echo"
   '';
 
-  subPackages = [
-    "cmd/crc"
-  ];
+  subPackages = [ "cmd/crc" ];
 
   tags = [ "containers_image_openpgp" ];
 
@@ -68,6 +67,10 @@ buildGoModule rec {
     changelog = "https://github.com/crc-org/crc/releases/tag/v${version}";
     license = licenses.asl20;
     mainProgram = "crc";
-    maintainers = with maintainers; [ matthewpi shikanime tricktron ];
+    maintainers = with maintainers; [
+      matthewpi
+      shikanime
+      tricktron
+    ];
   };
 }

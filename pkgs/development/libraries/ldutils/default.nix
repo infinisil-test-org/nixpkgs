@@ -1,9 +1,10 @@
-{ mkDerivation
-, lib
-, fetchFromGitLab
-, qtcharts
-, qtsvg
-, qmake
+{
+  mkDerivation,
+  lib,
+  fetchFromGitLab,
+  qtcharts,
+  qtsvg,
+  qmake,
 }:
 
 mkDerivation rec {
@@ -22,14 +23,12 @@ mkDerivation rec {
     qtsvg
   ];
 
-  nativeBuildInputs = [
-    qmake
-  ];
+  nativeBuildInputs = [ qmake ];
 
   qmakeFlags = [ "ldutils.pro" ];
 
-  LDUTILS_LIB=placeholder "out";
-  LDUTILS_INCLUDE=placeholder "out";
+  LDUTILS_LIB = placeholder "out";
+  LDUTILS_INCLUDE = placeholder "out";
 
   meta = with lib; {
     description = "Headers and link library for other ldutils projects";

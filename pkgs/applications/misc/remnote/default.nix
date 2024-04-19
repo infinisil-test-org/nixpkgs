@@ -1,58 +1,77 @@
-{ lib, stdenv, fetchurl, appimageTools, makeDesktopItem }:
-
-stdenv.mkDerivation (finalAttrs: let
-  inherit (finalAttrs) pname version src appexec icon desktopItem;
-
-in
 {
-  pname = "remnote";
-  version = "1.15.4";
+  lib,
+  stdenv,
+  fetchurl,
+  appimageTools,
+  makeDesktopItem,
+}:
 
-  src = fetchurl {
-    url = "https://download.remnote.io/remnote-desktop/RemNote-${version}.AppImage";
-    hash = "sha256-6WBdTOj/seinx1wJGb/4if3PzCPmtzHyNAFmQwmsrvE=";
-  };
+stdenv.mkDerivation (
+  finalAttrs:
+  let
+    inherit (finalAttrs)
+      pname
+      version
+      src
+      appexec
+      icon
+      desktopItem
+      ;
+  in
+  {
+    pname = "remnote";
+    version = "1.15.4";
 
-  appexec = appimageTools.wrapType2 {
-    inherit pname version src;
-  };
+    src = fetchurl {
+      url = "https://download.remnote.io/remnote-desktop/RemNote-${version}.AppImage";
+      hash = "sha256-6WBdTOj/seinx1wJGb/4if3PzCPmtzHyNAFmQwmsrvE=";
+    };
 
-  icon = fetchurl {
-    url = "https://www.remnote.io/icon.png";
-    hash = "sha256-r5D7fNefKPdjtmV7f/88Gn3tqeEG8LGuD4nHI/sCk94=";
-  };
+    appexec = appimageTools.wrapType2 { inherit pname version src; };
 
-  desktopItem = makeDesktopItem {
-    type = "Application";
-    name = "remnote";
-    desktopName = "RemNote";
-    comment = "Spaced Repetition";
-    icon = "remnote";
-    exec = "remnote %u";
-    categories = [ "Office" ];
-    mimeTypes = [ "x-scheme-handler/remnote" "x-scheme-handler/rn" ];
-  };
+    icon = fetchurl {
+      url = "https://www.remnote.io/icon.png";
+      hash = "sha256-r5D7fNefKPdjtmV7f/88Gn3tqeEG8LGuD4nHI/sCk94=";
+    };
 
-  dontUnpack = true;
-  dontConfigure = true;
-  dontBuild = true;
+    desktopItem = makeDesktopItem {
+      type = "Application";
+      name = "remnote";
+      desktopName = "RemNote";
+      comment = "Spaced Repetition";
+      icon = "remnote";
+      exec = "remnote %u";
+      categories = [ "Office" ];
+      mimeTypes = [
+        "x-scheme-handler/remnote"
+        "x-scheme-handler/rn"
+      ];
+    };
 
-  installPhase = ''
-    runHook preInstall
+    dontUnpack = true;
+    dontConfigure = true;
+    dontBuild = true;
 
-    install -Dm755 ${appexec}/bin/remnote-${version} $out/bin/remnote
-    install -Dm444 "${desktopItem}/share/applications/"* -t $out/share/applications/
-    install -Dm444 ${icon} $out/share/pixmaps/remnote.png
+    installPhase = ''
+      runHook preInstall
 
-    runHook postInstall
-  '';
+      install -Dm755 ${appexec}/bin/remnote-${version} $out/bin/remnote
+      install -Dm444 "${desktopItem}/share/applications/"* -t $out/share/applications/
+      install -Dm444 ${icon} $out/share/pixmaps/remnote.png
 
-  meta = with lib; {
-    description = "A note-taking application focused on learning and productivity";
-    homepage = "https://remnote.com/";
-    maintainers = with maintainers; [ max-niederman chewblacka ];
-    license = licenses.unfree;
-    platforms = [ "x86_64-linux" ];
-    mainProgram = "remnote";
-  };
-})
+      runHook postInstall
+    '';
+
+    meta = with lib; {
+      description = "A note-taking application focused on learning and productivity";
+      homepage = "https://remnote.com/";
+      maintainers = with maintainers; [
+        max-niederman
+        chewblacka
+      ];
+      license = licenses.unfree;
+      platforms = [ "x86_64-linux" ];
+      mainProgram = "remnote";
+    };
+  }
+)

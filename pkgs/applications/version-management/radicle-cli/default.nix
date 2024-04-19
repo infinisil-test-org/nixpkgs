@@ -1,19 +1,20 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, rustPlatform
-, pkg-config
-, cmake
-, installShellFiles
-, asciidoctor
-, DarwinTools
-, openssl
-, libusb1
-, AppKit
-, git
-, openssh
-, testers
-, radicle-cli
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  rustPlatform,
+  pkg-config,
+  cmake,
+  installShellFiles,
+  asciidoctor,
+  DarwinTools,
+  openssl,
+  libusb1,
+  AppKit,
+  git,
+  openssh,
+  testers,
+  radicle-cli,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -46,16 +47,14 @@ rustPlatform.buildRustPackage rec {
     cmake
     installShellFiles
     asciidoctor
-  ] ++ lib.optionals stdenv.hostPlatform.isDarwin [
-    DarwinTools
-  ];
+  ] ++ lib.optionals stdenv.hostPlatform.isDarwin [ DarwinTools ];
 
-  buildInputs = [
-    openssl
-  ] ++ lib.optionals stdenv.hostPlatform.isDarwin [
-    libusb1
-    AppKit
-  ];
+  buildInputs =
+    [ openssl ]
+    ++ lib.optionals stdenv.hostPlatform.isDarwin [
+      libusb1
+      AppKit
+    ];
 
   postInstall = ''
     for f in $(find . -name '*.adoc'); do

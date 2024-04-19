@@ -1,17 +1,18 @@
-{ lib
-, buildPythonPackage
-, click
-, fetchPypi
-, magika
-, numpy
-, onnxruntime
-, poetry-core
-, python-dotenv
-, pythonOlder
-, stdenv
-, tabulate
-, testers
-, tqdm
+{
+  lib,
+  buildPythonPackage,
+  click,
+  fetchPypi,
+  magika,
+  numpy,
+  onnxruntime,
+  poetry-core,
+  python-dotenv,
+  pythonOlder,
+  stdenv,
+  tabulate,
+  testers,
+  tqdm,
 }:
 
 buildPythonPackage rec {
@@ -25,9 +26,7 @@ buildPythonPackage rec {
     hash = "sha256-r6C7iDCG/o3JEvweQGb4upr+LuHvmNtkwtduZGehCsc=";
   };
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
   propagatedBuildInputs = [
     click

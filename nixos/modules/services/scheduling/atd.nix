@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -7,7 +12,6 @@ let
   cfg = config.services.atd;
 
   inherit (pkgs) at;
-
 in
 
 {
@@ -32,11 +36,9 @@ in
         writeable by everyone (and sticky).  This is normally not
         needed since the {command}`at` commands are
         setuid/setgid `atd`.
-     '';
+      '';
     };
-
   };
-
 
   ###### implementation
 
@@ -45,25 +47,34 @@ in
     # Not wrapping "batch" because it's a shell script (kernel drops perms
     # anyway) and it's patched to invoke the "at" setuid wrapper.
     security.wrappers = builtins.listToAttrs (
-      map (program: { name = "${program}"; value = {
-      source = "${at}/bin/${program}";
-      owner = "atd";
-      group = "atd";
-      setuid = true;
-      setgid = true;
-    };}) [ "at" "atq" "atrm" ]);
+      map
+        (program: {
+          name = "${program}";
+          value = {
+            source = "${at}/bin/${program}";
+            owner = "atd";
+            group = "atd";
+            setuid = true;
+            setgid = true;
+          };
+        })
+        [
+          "at"
+          "atq"
+          "atrm"
+        ]
+    );
 
     environment.systemPackages = [ at ];
 
-    security.pam.services.atd = {};
+    security.pam.services.atd = { };
 
-    users.users.atd =
-      {
-        uid = config.ids.uids.atd;
-        group = "atd";
-        description = "atd user";
-        home = "/var/empty";
-      };
+    users.users.atd = {
+      uid = config.ids.uids.atd;
+      group = "atd";
+      description = "atd user";
+      home = "/var/empty";
+    };
 
     users.groups.atd.gid = config.ids.gids.atd;
 

@@ -1,9 +1,10 @@
-{ lib
-, cmake
-, fetchFromGitHub
-, ninja
-, stdenv
-, tbb
+{
+  lib,
+  cmake,
+  fetchFromGitHub,
+  ninja,
+  stdenv,
+  tbb,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -22,9 +23,7 @@ stdenv.mkDerivation (finalAttrs: {
     ninja
   ];
 
-  buildInputs = [
-    tbb
-  ];
+  buildInputs = [ tbb ];
 
   cmakeFlags = [
     "-DOPENPGL_BUILD_STATIC=OFF"

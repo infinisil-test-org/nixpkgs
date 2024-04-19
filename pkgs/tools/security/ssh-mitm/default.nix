@@ -1,6 +1,7 @@
-{ lib
-, fetchFromGitHub
-, python3
+{
+  lib,
+  fetchFromGitHub,
+  python3,
 }:
 
 let
@@ -47,9 +48,7 @@ buildPythonApplication rec {
   # Module has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "sshmitm"
-  ];
+  pythonImportsCheck = [ "sshmitm" ];
 
   meta = with lib; {
     description = "Tool for SSH security audits";

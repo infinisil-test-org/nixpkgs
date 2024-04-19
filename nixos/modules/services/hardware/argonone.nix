@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.services.hardware.argonone;
@@ -54,5 +59,4 @@ in
   };
 
   meta.maintainers = with lib.maintainers; [ misterio77 ];
-
 }

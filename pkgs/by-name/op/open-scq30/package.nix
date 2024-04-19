@@ -1,19 +1,20 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, pkg-config
-, protobuf
-, wrapGAppsHook4
-, cairo
-, dbus
-, gdk-pixbuf
-, glib
-, gtk4
-, libadwaita
-, pango
-, stdenv
-, darwin
-, cargo-make
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  pkg-config,
+  protobuf,
+  wrapGAppsHook4,
+  cairo,
+  dbus,
+  gdk-pixbuf,
+  glib,
+  gtk4,
+  libadwaita,
+  pango,
+  stdenv,
+  darwin,
+  cargo-make,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -34,19 +35,21 @@ rustPlatform.buildRustPackage rec {
     cargo-make
   ];
 
-  buildInputs = [
-    cairo
-    dbus
-    gdk-pixbuf
-    glib
-    gtk4
-    libadwaita
-    pango
-  ] ++ lib.optionals stdenv.isDarwin [
-    darwin.apple_sdk.frameworks.AppKit
-    darwin.apple_sdk.frameworks.CoreGraphics
-    darwin.apple_sdk.frameworks.Foundation
-  ];
+  buildInputs =
+    [
+      cairo
+      dbus
+      gdk-pixbuf
+      glib
+      gtk4
+      libadwaita
+      pango
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      darwin.apple_sdk.frameworks.AppKit
+      darwin.apple_sdk.frameworks.CoreGraphics
+      darwin.apple_sdk.frameworks.Foundation
+    ];
 
   cargoHash = "sha256-VxweKzXNWOrBrzLzId8D6O0tZG8bI7HjhD+GJ3vRyhk=";
 

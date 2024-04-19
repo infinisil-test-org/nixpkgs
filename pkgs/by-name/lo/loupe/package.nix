@@ -1,22 +1,23 @@
-{ stdenv
-, lib
-, fetchurl
-, cargo
-, desktop-file-utils
-, itstool
-, meson
-, ninja
-, pkg-config
-, jq
-, moreutils
-, rustc
-, wrapGAppsHook4
-, gtk4
-, lcms2
-, libadwaita
-, libgweather
-, glycin-loaders
-, gnome
+{
+  stdenv,
+  lib,
+  fetchurl,
+  cargo,
+  desktop-file-utils,
+  itstool,
+  meson,
+  ninja,
+  pkg-config,
+  jq,
+  moreutils,
+  rustc,
+  wrapGAppsHook4,
+  gtk4,
+  lcms2,
+  libadwaita,
+  libgweather,
+  glycin-loaders,
+  gnome,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -70,9 +71,7 @@ stdenv.mkDerivation (finalAttrs: {
     )
   '';
 
-  passthru.updateScript = gnome.updateScript {
-    packageName = "loupe";
-  };
+  passthru.updateScript = gnome.updateScript { packageName = "loupe"; };
 
   meta = with lib; {
     homepage = "https://gitlab.gnome.org/GNOME/loupe";

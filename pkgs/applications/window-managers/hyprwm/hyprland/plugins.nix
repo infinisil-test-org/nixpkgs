@@ -1,27 +1,36 @@
-{ lib
-, callPackage
-, pkg-config
-, stdenv
-, hyprland
+{
+  lib,
+  callPackage,
+  pkg-config,
+  stdenv,
+  hyprland,
 }:
 let
-  mkHyprlandPlugin = hyprland:
+  mkHyprlandPlugin =
+    hyprland:
     args@{ pluginName, ... }:
-    stdenv.mkDerivation (args // {
-      pname = "${pluginName}";
-      nativeBuildInputs = [ pkg-config ] ++ args.nativeBuildInputs or [ ];
-      buildInputs = [ hyprland ]
-        ++ hyprland.buildInputs
-        ++ (args.buildInputs or [ ]);
-      meta = args.meta // {
-        description = args.meta.description or "";
-        longDescription = (args.meta.longDescription or "") +
-          "\n\nPlugins can be installed via a plugin entry in the Hyprland NixOS or Home Manager options.";
-      };
-    });
+    stdenv.mkDerivation (
+      args
+      // {
+        pname = "${pluginName}";
+        nativeBuildInputs = [ pkg-config ] ++ args.nativeBuildInputs or [ ];
+        buildInputs = [ hyprland ] ++ hyprland.buildInputs ++ (args.buildInputs or [ ]);
+        meta = args.meta // {
+          description = args.meta.description or "";
+          longDescription =
+            (args.meta.longDescription or "")
+            + "\n\nPlugins can be installed via a plugin entry in the Hyprland NixOS or Home Manager options.";
+        };
+      }
+    );
 
   plugins = {
-    hy3 = { fetchFromGitHub, cmake, hyprland }:
+    hy3 =
+      {
+        fetchFromGitHub,
+        cmake,
+        hyprland,
+      }:
       mkHyprlandPlugin hyprland {
         pluginName = "hy3";
         version = "0.38.0";

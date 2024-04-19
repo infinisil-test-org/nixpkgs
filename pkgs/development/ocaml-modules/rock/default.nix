@@ -1,9 +1,12 @@
-{ lib, fetchurl, buildDunePackage
-, bigstringaf
-, hmap
-, httpaf
-, lwt
-, sexplib0
+{
+  lib,
+  fetchurl,
+  buildDunePackage,
+  bigstringaf,
+  hmap,
+  httpaf,
+  lwt,
+  sexplib0,
 }:
 
 buildDunePackage rec {
@@ -31,5 +34,4 @@ buildDunePackage rec {
     license = lib.licenses.mit;
     maintainers = [ lib.maintainers.vbgl ];
   };
-
 }

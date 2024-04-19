@@ -1,14 +1,15 @@
-{ lib
-, buildPythonPackage
-, cryptography
-, fetchFromGitHub
-, gssapi
-, hatchling
-, ldap3
-, pyasn1
-, pytestCheckHook
-, pythonOlder
-, winacl
+{
+  lib,
+  buildPythonPackage,
+  cryptography,
+  fetchFromGitHub,
+  gssapi,
+  hatchling,
+  ldap3,
+  pyasn1,
+  pytestCheckHook,
+  pythonOlder,
+  winacl,
 }:
 
 buildPythonPackage rec {
@@ -25,9 +26,7 @@ buildPythonPackage rec {
     hash = "sha256-wnq+HTAPnC7pSGI2iytSyHmdqtUq2pUnNwZnsGX8CL4=";
   };
 
-  nativeBuildInputs = [
-    hatchling
-  ];
+  nativeBuildInputs = [ hatchling ];
 
   propagatedBuildInputs = [
     cryptography
@@ -37,13 +36,9 @@ buildPythonPackage rec {
     winacl
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "bloodyAD"
-  ];
+  pythonImportsCheck = [ "bloodyAD" ];
 
   disabledTests = [
     # Tests require network access

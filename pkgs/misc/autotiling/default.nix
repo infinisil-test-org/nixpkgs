@@ -1,4 +1,10 @@
-{ lib, buildPythonApplication, fetchFromGitHub, i3ipc, importlib-metadata }:
+{
+  lib,
+  buildPythonApplication,
+  fetchFromGitHub,
+  i3ipc,
+  importlib-metadata,
+}:
 
 buildPythonApplication rec {
   pname = "autotiling";
@@ -11,7 +17,10 @@ buildPythonApplication rec {
     hash = "sha256-PTMF9w4PMkKuhjLAP7856lOOiuyj5YZOoax0K9bgGgQ=";
   };
 
-  propagatedBuildInputs = [ i3ipc importlib-metadata ];
+  propagatedBuildInputs = [
+    i3ipc
+    importlib-metadata
+  ];
   doCheck = false;
 
   meta = with lib; {
@@ -23,4 +32,3 @@ buildPythonApplication rec {
     mainProgram = "autotiling";
   };
 }
-

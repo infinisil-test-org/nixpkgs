@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, mock
-, psutil
-, pyopenssl
-, pysendfile
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  mock,
+  psutil,
+  pyopenssl,
+  pysendfile,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -20,14 +21,10 @@ buildPythonPackage rec {
     hash = "sha256-Mj1MQvFAau203xj69oD2TzLAgP9m9sJgkLpZL1v8Sg8=";
   };
 
-  propagatedBuildInputs = [
-    pysendfile
-  ];
+  propagatedBuildInputs = [ pysendfile ];
 
   passthru.optional-dependencies = {
-    ssl = [
-      pyopenssl
-    ];
+    ssl = [ pyopenssl ];
   };
 
   nativeCheckInputs = [
@@ -39,9 +36,7 @@ buildPythonPackage rec {
   # on Hydra: https://hydra.nixos.org/build/84374861
   doCheck = false;
 
-  pythonImportsCheck = [
-    "pyftpdlib"
-  ];
+  pythonImportsCheck = [ "pyftpdlib" ];
 
   meta = with lib; {
     description = "Asynchronous FTP server library";

@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pytestCheckHook
-, lxml
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pytestCheckHook,
+  lxml,
 }:
 
 buildPythonPackage rec {
@@ -17,13 +18,9 @@ buildPythonPackage rec {
     hash = "sha256-WNxDoM5666tEHS9pMl5dOoig4S7dSYaCLZq71tehWqw=";
   };
 
-  propagatedBuildInputs = [
-    lxml
-  ];
+  propagatedBuildInputs = [ lxml ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   # patch out coverage report
   postPatch = ''

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.services.podgrab;
 in
@@ -36,12 +41,13 @@ in
       };
       serviceConfig = {
         DynamicUser = true;
-        EnvironmentFile = lib.optionals (cfg.passwordFile != null) [
-          cfg.passwordFile
-        ];
+        EnvironmentFile = lib.optionals (cfg.passwordFile != null) [ cfg.passwordFile ];
         ExecStart = "${pkgs.podgrab}/bin/podgrab";
         WorkingDirectory = "${pkgs.podgrab}/share";
-        StateDirectory = [ "podgrab/config" "podgrab/data" ];
+        StateDirectory = [
+          "podgrab/config"
+          "podgrab/data"
+        ];
       };
     };
   };

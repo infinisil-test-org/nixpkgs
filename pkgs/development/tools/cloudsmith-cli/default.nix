@@ -1,6 +1,7 @@
-{ lib
-, python3
-, fetchPypi
+{
+  lib,
+  python3,
+  fetchPypi,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -33,9 +34,7 @@ python3.pkgs.buildPythonApplication rec {
   # Wheels have no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "cloudsmith_cli"
-  ];
+  pythonImportsCheck = [ "cloudsmith_cli" ];
 
   meta = with lib; {
     homepage = "https://help.cloudsmith.io/docs/cli/";

@@ -1,20 +1,23 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchpatch
-, libX11
-, libGL
-, mesa
-, nvidia_x11 ? null
-, libglvnd
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  libX11,
+  libGL,
+  mesa,
+  nvidia_x11 ? null,
+  libglvnd,
 }:
 
 let
   aPackage =
-    if nvidia_x11 == null then libGL
-    else if nvidia_x11.useGLVND then libglvnd
-    else nvidia_x11;
-
+    if nvidia_x11 == null then
+      libGL
+    else if nvidia_x11.useGLVND then
+      libglvnd
+    else
+      nvidia_x11;
 in
 stdenv.mkDerivation {
   pname = "primus-lib";
@@ -35,7 +38,10 @@ stdenv.mkDerivation {
     })
   ];
 
-  buildInputs = [ libX11 libGL ];
+  buildInputs = [
+    libX11
+    libGL
+  ];
 
   makeFlags = [
     "LIBDIR=$(out)/lib"
@@ -53,7 +59,10 @@ stdenv.mkDerivation {
   meta = with lib; {
     description = "Low-overhead client-side GPU offloading";
     homepage = "https://github.com/amonakov/primus";
-    platforms = [ "i686-linux" "x86_64-linux" ];
+    platforms = [
+      "i686-linux"
+      "x86_64-linux"
+    ];
     license = licenses.bsd2;
     maintainers = with maintainers; [ abbradar ];
   };

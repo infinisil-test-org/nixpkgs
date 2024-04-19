@@ -1,4 +1,10 @@
-{ lib, stdenv, fetchFromGitHub, cmake, testers }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  testers,
+}:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "llhttp";
@@ -11,19 +17,16 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-DX/CuTyvc2OfAVWvlJr6wVHwSuqWmqQt34vM1FEazwE=";
   };
 
-  outputs = [ "out" "dev" ];
-
-  nativeBuildInputs = [
-    cmake
+  outputs = [
+    "out"
+    "dev"
   ];
 
-  cmakeFlags = [
-    "-DBUILD_STATIC_LIBS=ON"
-  ];
+  nativeBuildInputs = [ cmake ];
 
-  passthru.tests.pkg-config = testers.hasPkgConfigModules {
-    package = finalAttrs.finalPackage;
-  };
+  cmakeFlags = [ "-DBUILD_STATIC_LIBS=ON" ];
+
+  passthru.tests.pkg-config = testers.hasPkgConfigModules { package = finalAttrs.finalPackage; };
 
   meta = with lib; {
     description = "Port of http_parser to llparse";

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -29,7 +34,6 @@ let
       failed="$failed ${db}"
     fi
   '';
-
 in
 
 {
@@ -56,7 +60,7 @@ in
       };
 
       databases = mkOption {
-        default = [];
+        default = [ ];
         type = types.listOf types.str;
         description = ''
           List of database names to dump.
@@ -79,7 +83,6 @@ in
         '';
       };
     };
-
   };
 
   config = mkIf cfg.enable {
@@ -92,15 +95,18 @@ in
       };
     };
 
-    services.mysql.ensureUsers = [{
-      name = cfg.user;
-      ensurePermissions = with lib;
-        let
-          privs = "SELECT, SHOW VIEW, TRIGGER, LOCK TABLES";
-          grant = db: nameValuePair "${db}.*" privs;
-        in
+    services.mysql.ensureUsers = [
+      {
+        name = cfg.user;
+        ensurePermissions =
+          with lib;
+          let
+            privs = "SELECT, SHOW VIEW, TRIGGER, LOCK TABLES";
+            grant = db: nameValuePair "${db}.*" privs;
+          in
           listToAttrs (map grant cfg.databases);
-    }];
+      }
+    ];
 
     systemd = {
       timers.mysql-backup = {
@@ -121,10 +127,7 @@ in
         };
         script = backupScript;
       };
-      tmpfiles.rules = [
-        "d ${cfg.location} 0700 ${cfg.user} - - -"
-      ];
+      tmpfiles.rules = [ "d ${cfg.location} 0700 ${cfg.user} - - -" ];
     };
   };
-
 }

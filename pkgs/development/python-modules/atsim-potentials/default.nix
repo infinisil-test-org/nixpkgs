@@ -1,16 +1,17 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, configparser
-, pyparsing
-, pytestCheckHook
-, future
-, openpyxl
-, wrapt
-, scipy
-, cexprtk
-, deepdiff
-, sympy
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  configparser,
+  pyparsing,
+  pytestCheckHook,
+  future,
+  openpyxl,
+  wrapt,
+  scipy,
+  cexprtk,
+  deepdiff,
+  sympy,
 }:
 
 buildPythonPackage rec {

@@ -1,10 +1,11 @@
-{ lib
-, python3Packages
-, fetchFromGitHub
-, gettext
-, gdk-pixbuf
-, gobject-introspection
-, wrapGAppsHook
+{
+  lib,
+  python3Packages,
+  fetchFromGitHub,
+  gettext,
+  gdk-pixbuf,
+  gobject-introspection,
+  wrapGAppsHook,
 }:
 
 python3Packages.buildPythonApplication rec {
@@ -24,9 +25,7 @@ python3Packages.buildPythonApplication rec {
     pygobject3
   ];
 
-  buildInputs = [
-    gdk-pixbuf
-  ];
+  buildInputs = [ gdk-pixbuf ];
 
   nativeBuildInputs = [
     gettext

@@ -1,12 +1,13 @@
-{ mkDerivation
-, lib
-, fetchFromGitLab
-, qmake
-, qtcharts
-, qtsvg
-, marble
-, qtwebengine
-, ldutils
+{
+  mkDerivation,
+  lib,
+  fetchFromGitLab,
+  qmake,
+  qtcharts,
+  qtsvg,
+  marble,
+  qtwebengine,
+  ldutils,
 }:
 
 mkDerivation rec {
@@ -28,9 +29,7 @@ mkDerivation rec {
     qtwebengine
   ];
 
-  nativeBuildInputs = [
-    qmake
-  ];
+  nativeBuildInputs = [ qmake ];
 
   prePatch = ''
     substituteInPlace ztgps.pro --replace "../libldutils" "libldutils"
@@ -62,6 +61,6 @@ mkDerivation rec {
     license = licenses.gpl3Plus;
     maintainers = with maintainers; [ sohalt ];
     platforms = platforms.linux;
-    broken = true;  # doesn't build with latest Marble
+    broken = true; # doesn't build with latest Marble
   };
 }

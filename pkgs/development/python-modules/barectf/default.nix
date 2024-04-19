@@ -1,14 +1,15 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, poetry-core
-, pytestCheckHook
-, pythonRelaxDepsHook
-, setuptools
-, jsonschema
-, pyyaml
-, jinja2
-, termcolor
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  poetry-core,
+  pytestCheckHook,
+  pythonRelaxDepsHook,
+  setuptools,
+  jsonschema,
+  pyyaml,
+  jinja2,
+  termcolor,
 }:
 
 buildPythonPackage rec {
@@ -42,16 +43,13 @@ buildPythonPackage rec {
     termcolor
   ];
 
-  pythonImportsCheck = [
-    "barectf"
-  ];
+  pythonImportsCheck = [ "barectf" ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   pytestFlagsArray = [
-    "-W" "ignore::pytest.PytestRemovedIn8Warning"
+    "-W"
+    "ignore::pytest.PytestRemovedIn8Warning"
   ];
 
   meta = with lib; {

@@ -1,11 +1,11 @@
 {
-  lib
-, stdenvNoCC
-, fetchFromGitHub
-, gtk3
-, plasma5Packages
-, gnome-icon-theme
-, hicolor-icon-theme
+  lib,
+  stdenvNoCC,
+  fetchFromGitHub,
+  gtk3,
+  plasma5Packages,
+  gnome-icon-theme,
+  hicolor-icon-theme,
 }:
 
 stdenvNoCC.mkDerivation {
@@ -21,7 +21,11 @@ stdenvNoCC.mkDerivation {
 
   nativeBuildInputs = [ gtk3 ];
 
-  propagatedBuildInputs = [ plasma5Packages.breeze-icons gnome-icon-theme hicolor-icon-theme ];
+  propagatedBuildInputs = [
+    plasma5Packages.breeze-icons
+    gnome-icon-theme
+    hicolor-icon-theme
+  ];
 
   installPhase = ''
     runHook preInstall
@@ -42,6 +46,9 @@ stdenvNoCC.mkDerivation {
     homepage = "https://github.com/SylEleuth/gruvbox-plus-icon-pack";
     license = licenses.gpl3Only;
     platforms = platforms.linux;
-    maintainers = with maintainers; [ eureka-cpu RGBCube ];
+    maintainers = with maintainers; [
+      eureka-cpu
+      RGBCube
+    ];
   };
 }

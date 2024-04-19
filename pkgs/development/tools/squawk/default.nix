@@ -1,12 +1,13 @@
-{ darwin
-, fetchFromGitHub
-, lib
-, libiconv
-, libpg_query
-, openssl
-, pkg-config
-, rustPlatform
-, stdenv
+{
+  darwin,
+  fetchFromGitHub,
+  lib,
+  libiconv,
+  libpg_query,
+  openssl,
+  pkg-config,
+  rustPlatform,
+  stdenv,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -27,13 +28,18 @@ rustPlatform.buildRustPackage rec {
     rustPlatform.bindgenHook
   ];
 
-  buildInputs = lib.optionals (!stdenv.isDarwin) [
-    libiconv
-    openssl
-  ] ++ lib.optionals stdenv.isDarwin (with darwin.apple_sdk.frameworks; [
-    CoreFoundation
-    Security
-  ]);
+  buildInputs =
+    lib.optionals (!stdenv.isDarwin) [
+      libiconv
+      openssl
+    ]
+    ++ lib.optionals stdenv.isDarwin (
+      with darwin.apple_sdk.frameworks;
+      [
+        CoreFoundation
+        Security
+      ]
+    );
 
   OPENSSL_NO_VENDOR = 1;
 
@@ -49,6 +55,9 @@ rustPlatform.buildRustPackage rec {
     homepage = "https://squawkhq.com/";
     changelog = "https://github.com/sbdchd/squawk/blob/v${version}/CHANGELOG.md";
     license = licenses.gpl3Only;
-    maintainers = with lib.maintainers; [ andrewsmith marsam ];
+    maintainers = with lib.maintainers; [
+      andrewsmith
+      marsam
+    ];
   };
 }

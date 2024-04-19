@@ -1,14 +1,15 @@
-{ lib
-, buildPythonPackage
-, dask
-, fetchPypi
-, numba
-, numpy
-, pytestCheckHook
-, pythonOlder
-, setuptools
-, setuptools-scm
-, scipy
+{
+  lib,
+  buildPythonPackage,
+  dask,
+  fetchPypi,
+  numba,
+  numpy,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
+  setuptools-scm,
+  scipy,
 }:
 
 buildPythonPackage rec {
@@ -44,9 +45,7 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "sparse"
-  ];
+  pythonImportsCheck = [ "sparse" ];
 
   pytestFlagsArray = [
     "-W"

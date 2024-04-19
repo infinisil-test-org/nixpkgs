@@ -1,6 +1,14 @@
-{ lib, stdenv, fetchurl, pkg-config
-, glib, gtk3, gnome, gsettings-desktop-schemas, wrapGAppsHook
-, xorg
+{
+  lib,
+  stdenv,
+  fetchurl,
+  pkg-config,
+  glib,
+  gtk3,
+  gnome,
+  gsettings-desktop-schemas,
+  wrapGAppsHook,
+  xorg,
 }:
 
 stdenv.mkDerivation rec {
@@ -8,21 +16,27 @@ stdenv.mkDerivation rec {
   version = "3.32.0";
 
   src = fetchurl {
-   url = "mirror://gnome/sources/${pname}/${lib.versions.majorMinor version}/${pname}-${version}.tar.xz";
-   sha256 = "005fhmvb45sa9mq17dpa23n1xnspiissx5rnpiy7hiqmy3g5rg8f";
+    url = "mirror://gnome/sources/${pname}/${lib.versions.majorMinor version}/${pname}-${version}.tar.xz";
+    sha256 = "005fhmvb45sa9mq17dpa23n1xnspiissx5rnpiy7hiqmy3g5rg8f";
   };
 
-  nativeBuildInputs = [ pkg-config wrapGAppsHook ];
+  nativeBuildInputs = [
+    pkg-config
+    wrapGAppsHook
+  ];
 
   buildInputs = [
-    glib gtk3 gsettings-desktop-schemas
-    xorg.libX11 xorg.libXtst xorg.libXfixes xorg.libXcursor
+    glib
+    gtk3
+    gsettings-desktop-schemas
+    xorg.libX11
+    xorg.libXtst
+    xorg.libXfixes
+    xorg.libXcursor
   ];
 
   passthru = {
-    updateScript = gnome.updateScript {
-      packageName = pname;
-    };
+    updateScript = gnome.updateScript { packageName = pname; };
   };
 
   meta = with lib; {

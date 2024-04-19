@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, pythonOlder
-, fetchFromGitHub
-, setuptools
-, pytestCheckHook
-, nbval
+{
+  lib,
+  buildPythonPackage,
+  pythonOlder,
+  fetchFromGitHub,
+  setuptools,
+  pytestCheckHook,
+  nbval,
 }:
 
 buildPythonPackage rec {
@@ -22,16 +23,14 @@ buildPythonPackage rec {
     hash = "sha256-DQEVWYOgiGSP3WlmZzEweyRa0UY7fxjjpbued+5EH5I=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   nativeCheckInputs = [
     pytestCheckHook
     nbval
   ];
 
-  preCheck = "rm test/manyfonts.ipynb";  # Tries to download fonts
+  preCheck = "rm test/manyfonts.ipynb"; # Tries to download fonts
 
   pytestFlagsArray = [ "--nbval-lax" ];
 

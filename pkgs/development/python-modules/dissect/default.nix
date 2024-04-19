@@ -1,36 +1,37 @@
-{ lib
-, buildPythonPackage
-, dissect-btrfs
-, dissect-cim
-, dissect-clfs
-, dissect-cobaltstrike
-, dissect-cstruct
-, dissect-esedb
-, dissect-etl
-, dissect-eventlog
-, dissect-evidence
-, dissect-executable
-, dissect-extfs
-, dissect-fat
-, dissect-ffs
-, dissect-hypervisor
-, dissect-jffs
-, dissect-ntfs
-, dissect-ole
-, dissect-regf
-, dissect-shellitem
-, dissect-sql
-, dissect-squashfs
-, dissect-target
-, dissect-util
-, dissect-vmfs
-, dissect-volume
-, dissect-xfs
-, fetchFromGitHub
-, pythonOlder
-, pythonRelaxDepsHook
-, setuptools
-, setuptools-scm
+{
+  lib,
+  buildPythonPackage,
+  dissect-btrfs,
+  dissect-cim,
+  dissect-clfs,
+  dissect-cobaltstrike,
+  dissect-cstruct,
+  dissect-esedb,
+  dissect-etl,
+  dissect-eventlog,
+  dissect-evidence,
+  dissect-executable,
+  dissect-extfs,
+  dissect-fat,
+  dissect-ffs,
+  dissect-hypervisor,
+  dissect-jffs,
+  dissect-ntfs,
+  dissect-ole,
+  dissect-regf,
+  dissect-shellitem,
+  dissect-sql,
+  dissect-squashfs,
+  dissect-target,
+  dissect-util,
+  dissect-vmfs,
+  dissect-volume,
+  dissect-xfs,
+  fetchFromGitHub,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  setuptools,
+  setuptools-scm,
 }:
 
 buildPythonPackage rec {
@@ -87,9 +88,7 @@ buildPythonPackage rec {
   # Module has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "dissect"
-  ];
+  pythonImportsCheck = [ "dissect" ];
 
   meta = with lib; {
     description = "Dissect meta module";

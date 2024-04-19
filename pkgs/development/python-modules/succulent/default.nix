@@ -1,14 +1,15 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, flask
-, pandas
-, pyyaml
-, poetry-core
-, pytestCheckHook
-, pythonRelaxDepsHook
-, pythonOlder
-, toml-adapt
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  flask,
+  pandas,
+  pyyaml,
+  poetry-core,
+  pytestCheckHook,
+  pythonRelaxDepsHook,
+  pythonOlder,
+  toml-adapt,
 }:
 
 buildPythonPackage rec {
@@ -41,13 +42,9 @@ buildPythonPackage rec {
     pyyaml
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "succulent"
-  ];
+  pythonImportsCheck = [ "succulent" ];
 
   meta = with lib; {
     description = "Collect POST requests";

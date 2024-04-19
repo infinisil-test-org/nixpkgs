@@ -1,9 +1,17 @@
-{ lib, stdenv, fetchurl, fetchzip, perl, ncurses
+{
+  lib,
+  stdenv,
+  fetchurl,
+  fetchzip,
+  perl,
+  ncurses,
 
   # for tests
-, aspell, glibc, runCommand
+  aspell,
+  glibc,
+  runCommand,
 
-, searchNixProfiles ? true
+  searchNixProfiles ? true,
 }:
 
 let
@@ -15,7 +23,6 @@ let
     url = "https://ftp.gnu.org/gnu/aspell/dict/mr/aspell6-mr-0.10-0.tar.bz2";
     sha256 = "1v8cdl8x2j1d4vbvsq1xrqys69bbccd6mi03fywrhkrrljviyri1";
   };
-
 in
 
 stdenv.mkDerivation rec {
@@ -34,7 +41,10 @@ stdenv.mkDerivation rec {
   '';
 
   nativeBuildInputs = [ perl ];
-  buildInputs = [ ncurses perl ];
+  buildInputs = [
+    ncurses
+    perl
+  ];
 
   doCheck = true;
 
@@ -53,9 +63,7 @@ stdenv.mkDerivation rec {
   '';
 
   passthru.tests = {
-    uses-curses = runCommand "${pname}-curses" {
-      buildInputs = [ glibc ];
-    } ''
+    uses-curses = runCommand "${pname}-curses" { buildInputs = [ glibc ]; } ''
       if ! ldd ${aspell}/bin/aspell | grep -q ${ncurses}
       then
         echo "Test failure: It does not look like aspell picked up the curses dependency."

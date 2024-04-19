@@ -1,16 +1,17 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, setuptools
-, wheel
-, matplotlib
-, numpy
-, pandas
-, scipy
-, seaborn
-, statsmodels
-, pytestCheckHook
-, seaborn-data
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  setuptools,
+  wheel,
+  matplotlib,
+  numpy,
+  pandas,
+  scipy,
+  seaborn,
+  statsmodels,
+  pytestCheckHook,
+  seaborn-data,
 }:
 
 buildPythonPackage rec {
@@ -50,9 +51,7 @@ buildPythonPackage rec {
     # tests require to write to home directory
     export SEABORN_DATA=${seaborn-data.exercise}
   '';
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
   pythonImportsCheck = [ "scikit_posthocs" ];
 
   meta = with lib; {

@@ -1,13 +1,17 @@
 # Upower daemon.
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
 
   cfg = config.services.upower;
-
 in
 
 {
@@ -184,7 +188,11 @@ in
       };
 
       criticalPowerAction = mkOption {
-        type = types.enum [ "PowerOff" "Hibernate" "HybridSleep" ];
+        type = types.enum [
+          "PowerOff"
+          "Hibernate"
+          "HybridSleep"
+        ];
         default = "HybridSleep";
         description = ''
           The action to take when `timeAction` or
@@ -192,11 +200,8 @@ in
           (UPS or laptop batteries) supplying the computer
         '';
       };
-
     };
-
   };
-
 
   ###### implementation
 
@@ -210,7 +215,7 @@ in
 
     systemd.packages = [ cfg.package ];
 
-    environment.etc."UPower/UPower.conf".text = generators.toINI {} {
+    environment.etc."UPower/UPower.conf".text = generators.toINI { } {
       UPower = {
         EnableWattsUpPro = cfg.enableWattsUpPro;
         NoPollBatteries = cfg.noPollBatteries;
@@ -226,5 +231,4 @@ in
       };
     };
   };
-
 }

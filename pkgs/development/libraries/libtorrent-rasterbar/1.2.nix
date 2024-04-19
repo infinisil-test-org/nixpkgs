@@ -1,5 +1,18 @@
-{ lib, stdenv, fetchFromGitHub, pkg-config, automake, autoconf
-, zlib, boost, openssl, libtool, python, libiconv, ncurses, SystemConfiguration
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  pkg-config,
+  automake,
+  autoconf,
+  zlib,
+  boost,
+  openssl,
+  libtool,
+  python,
+  libiconv,
+  ncurses,
+  SystemConfiguration,
 }:
 
 let
@@ -7,9 +20,12 @@ let
 
   # Make sure we override python, so the correct version is chosen
   # for the bindings, if overridden
-  boostPython = boost.override { enablePython = true; inherit python; };
-
-in stdenv.mkDerivation {
+  boostPython = boost.override {
+    enablePython = true;
+    inherit python;
+  };
+in
+stdenv.mkDerivation {
   pname = "libtorrent-rasterbar";
   inherit version;
 
@@ -22,10 +38,21 @@ in stdenv.mkDerivation {
 
   enableParallelBuilding = true;
 
-  nativeBuildInputs = [ automake autoconf libtool pkg-config ];
+  nativeBuildInputs = [
+    automake
+    autoconf
+    libtool
+    pkg-config
+  ];
 
-  buildInputs = [ boostPython openssl zlib python libiconv ncurses ]
-    ++ lib.optionals stdenv.isDarwin [ SystemConfiguration ];
+  buildInputs = [
+    boostPython
+    openssl
+    zlib
+    python
+    libiconv
+    ncurses
+  ] ++ lib.optionals stdenv.isDarwin [ SystemConfiguration ];
 
   preConfigure = "./autotool.sh";
 
@@ -34,7 +61,11 @@ in stdenv.mkDerivation {
     moveToOutput "lib/${python.libPrefix}" "$python"
   '';
 
-  outputs = [ "out" "dev" "python" ];
+  outputs = [
+    "out"
+    "dev"
+    "python"
+  ];
 
   configureFlags = [
     "--enable-python-binding"

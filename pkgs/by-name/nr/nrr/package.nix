@@ -1,10 +1,11 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, rustPlatform
-, darwin
-, pkg-config
-, libiconv
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  rustPlatform,
+  darwin,
+  pkg-config,
+  libiconv,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -27,9 +28,7 @@ rustPlatform.buildRustPackage rec {
     libiconv
   ];
 
-  nativeBuildInputs = [
-    pkg-config
-  ];
+  nativeBuildInputs = [ pkg-config ];
 
   meta = with lib; {
     description = "Minimal, blazing fast Node.js script runner";

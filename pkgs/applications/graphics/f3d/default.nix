@@ -1,22 +1,26 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, help2man
-, gzip
-, vtk_9
-, autoPatchelfHook
-, libX11
-, libGL
-, Cocoa
-, OpenGL
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  help2man,
+  gzip,
+  vtk_9,
+  autoPatchelfHook,
+  libX11,
+  libGL,
+  Cocoa,
+  OpenGL,
 }:
 
 stdenv.mkDerivation rec {
   pname = "f3d";
   version = "2.4.0";
 
-  outputs = [ "out" "man" ];
+  outputs = [
+    "out"
+    "man"
+  ];
 
   src = fetchFromGitHub {
     owner = "f3d-app";
@@ -33,7 +37,12 @@ stdenv.mkDerivation rec {
     autoPatchelfHook
   ];
 
-  buildInputs = [ vtk_9 ] ++ lib.optionals stdenv.isDarwin [ Cocoa OpenGL ];
+  buildInputs =
+    [ vtk_9 ]
+    ++ lib.optionals stdenv.isDarwin [
+      Cocoa
+      OpenGL
+    ];
 
   cmakeFlags = [
     # conflict between VTK and Nixpkgs;
@@ -50,7 +59,10 @@ stdenv.mkDerivation rec {
     homepage = "https://f3d-app.github.io/f3d";
     changelog = "https://github.com/f3d-app/f3d/releases/tag/v${version}";
     license = licenses.bsd3;
-    maintainers = with maintainers; [ bcdarwin pbsds ];
+    maintainers = with maintainers; [
+      bcdarwin
+      pbsds
+    ];
     platforms = with platforms; unix;
     mainProgram = "f3d";
   };

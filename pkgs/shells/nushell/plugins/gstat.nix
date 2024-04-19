@@ -1,12 +1,13 @@
-{ stdenv
-, lib
-, rustPlatform
-, openssl
-, nushell
-, pkg-config
-, Security
-, libclang
-, nix-update-script
+{
+  stdenv,
+  lib,
+  rustPlatform,
+  openssl,
+  nushell,
+  pkg-config,
+  Security,
+  libclang,
+  nix-update-script,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -14,9 +15,7 @@ rustPlatform.buildRustPackage rec {
   inherit (nushell) version src;
   cargoHash = "sha256-1HfuMtjtUzwsIxkYV8azttnjEyAnC7X1aMIdw2N0yxQ=";
 
-  env = lib.optionalAttrs stdenv.cc.isClang {
-    LIBCLANG_PATH = "${libclang.lib}/lib";
-  };
+  env = lib.optionalAttrs stdenv.cc.isClang { LIBCLANG_PATH = "${libclang.lib}/lib"; };
   nativeBuildInputs = [ pkg-config ];
   buildInputs = [ openssl ] ++ lib.optionals stdenv.isDarwin [ Security ];
   cargoBuildFlags = [ "--package nu_plugin_gstat" ];
@@ -35,7 +34,10 @@ rustPlatform.buildRustPackage rec {
     mainProgram = "nu_plugin_gstat";
     homepage = "https://github.com/nushell/nushell/tree/${version}/crates/nu_plugin_gstat";
     license = licenses.mpl20;
-    maintainers = with maintainers; [ mrkkrp aidalgol ];
+    maintainers = with maintainers; [
+      mrkkrp
+      aidalgol
+    ];
     platforms = with platforms; all;
   };
 }

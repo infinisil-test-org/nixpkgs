@@ -39,7 +39,10 @@ bundlerApp {
     changelog = "https://github.com/puppetlabs/bolt/blob/main/CHANGELOG.md";
     license = lib.licenses.asl20;
     mainProgram = "bolt";
-    maintainers = with lib.maintainers; [ uvnikita anthonyroussel ];
+    maintainers = with lib.maintainers; [
+      uvnikita
+      anthonyroussel
+    ];
     platforms = lib.platforms.unix;
   };
 }

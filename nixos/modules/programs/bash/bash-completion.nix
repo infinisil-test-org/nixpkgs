@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -7,9 +12,11 @@ let
 in
 {
   options = {
-    programs.bash.enableCompletion = mkEnableOption "Bash completion for all interactive bash shells" // {
-      default = true;
-    };
+    programs.bash.enableCompletion =
+      mkEnableOption "Bash completion for all interactive bash shells"
+      // {
+        default = true;
+      };
   };
 
   config = mkIf enable {

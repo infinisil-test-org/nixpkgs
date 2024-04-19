@@ -1,16 +1,17 @@
-{ lib
-, buildPythonPackage
-, fastapi
-, fetchFromGitHub
-, flask
-, httpx
-, pytestCheckHook
-, pythonOlder
-, quart
-, requests
-, sanic
-, uvicorn
-, wheel
+{
+  lib,
+  buildPythonPackage,
+  fastapi,
+  fetchFromGitHub,
+  flask,
+  httpx,
+  pytestCheckHook,
+  pythonOlder,
+  quart,
+  requests,
+  sanic,
+  uvicorn,
+  wheel,
 }:
 
 buildPythonPackage rec {
@@ -39,13 +40,9 @@ buildPythonPackage rec {
     wheel
   ];
 
-  pythonImportsCheck = [
-    "json_logging"
-  ];
+  pythonImportsCheck = [ "json_logging" ];
 
-  disabledTests = [
-    "quart"
-  ];
+  disabledTests = [ "quart" ];
 
   disabledTestPaths = [
     # Smoke tests don't always work

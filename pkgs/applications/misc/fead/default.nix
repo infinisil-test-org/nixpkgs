@@ -1,4 +1,10 @@
-{ lib, stdenv, fetchFromSourcehut, python3, help2man }:
+{
+  lib,
+  stdenv,
+  fetchFromSourcehut,
+  python3,
+  help2man,
+}:
 
 stdenv.mkDerivation rec {
   pname = "fead";

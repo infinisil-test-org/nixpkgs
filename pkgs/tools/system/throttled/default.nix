@@ -1,4 +1,10 @@
-{ lib, stdenv, fetchFromGitHub, python3Packages, pciutils }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  python3Packages,
+  pciutils,
+}:
 
 stdenv.mkDerivation rec {
   pname = "throttled";

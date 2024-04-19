@@ -1,10 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.services.do-agent;
-
 in
 {
   options.services.do-agent = {
@@ -17,7 +21,10 @@ in
     systemd.services.do-agent = {
       wantedBy = [ "multi-user.target" ];
       serviceConfig = {
-        ExecStart = [ "" "${pkgs.do-agent}/bin/do-agent --syslog" ];
+        ExecStart = [
+          ""
+          "${pkgs.do-agent}/bin/do-agent --syslog"
+        ];
         DynamicUser = true;
       };
     };

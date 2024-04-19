@@ -1,14 +1,15 @@
-{ stdenv
-, fetchFromGitHub
-, cmake
-, wrapGAppsHook
-, boost
-, pkg-config
-, gtk3
-, ragel
-, lua
-, fetchpatch
-, lib
+{
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  wrapGAppsHook,
+  boost,
+  pkg-config,
+  gtk3,
+  ragel,
+  lua,
+  fetchpatch,
+  lib,
 }:
 
 stdenv.mkDerivation rec {
@@ -32,8 +33,17 @@ stdenv.mkDerivation rec {
     })
   ];
 
-  nativeBuildInputs = [ cmake pkg-config wrapGAppsHook ];
-  buildInputs = [ boost gtk3 ragel lua ];
+  nativeBuildInputs = [
+    cmake
+    pkg-config
+    wrapGAppsHook
+  ];
+  buildInputs = [
+    boost
+    gtk3
+    ragel
+    lua
+  ];
 
   meta = with lib; {
     description = "Advanced color picker written in C++ using GTK+ toolkit";

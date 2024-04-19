@@ -1,15 +1,16 @@
-{ lib
-, writeScript
-, fetchFromGitHub
-, substituteAll
-, inkscape
-, pdflatex
-, lualatex
-, python3
-, wrapGAppsHook
-, gobject-introspection
-, gtk3
-, gtksourceview3
+{
+  lib,
+  writeScript,
+  fetchFromGitHub,
+  substituteAll,
+  inkscape,
+  pdflatex,
+  lualatex,
+  python3,
+  wrapGAppsHook,
+  gobject-introspection,
+  gtk3,
+  gtksourceview3,
 }:
 
 let

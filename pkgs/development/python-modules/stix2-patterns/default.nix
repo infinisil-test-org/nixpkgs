@@ -1,12 +1,13 @@
-{ lib
-, antlr4-python3-runtime
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, setuptools
-, pytestCheckHook
-, wheel
-, six
+{
+  lib,
+  antlr4-python3-runtime,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  setuptools,
+  pytestCheckHook,
+  wheel,
+  six,
 }:
 
 buildPythonPackage rec {
@@ -38,13 +39,9 @@ buildPythonPackage rec {
     six
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "stix2patterns"
-  ];
+  pythonImportsCheck = [ "stix2patterns" ];
 
   disabledTestPaths = [
     # Exception: Could not deserialize ATN with version  (expected 4)

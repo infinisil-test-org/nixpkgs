@@ -1,7 +1,8 @@
-{ lib
-, writeText
-, flutter
-, fetchFromGitHub
+{
+  lib,
+  writeText,
+  flutter,
+  fetchFromGitHub,
 }:
 
 flutter.buildFlutterApplication rec {
@@ -23,15 +24,19 @@ flutter.buildFlutterApplication rec {
 
   postPatch = ''
     rm -f pubspec.lock
-    ln -s "${writeText "${pname}-overrides.yaml" (builtins.toJSON {
-      dependency_overrides = {
-        yaru = "^1.1.0";
-        yaru_icons = "^2.2.1";
-        yaru_widgets = "^3.1.0";
-        mockito = "^5.4.2";
-        test_api = "^0.6.1";
-      };
-    })}" pubspec_overrides.yaml
+    ln -s "${
+      writeText "${pname}-overrides.yaml" (
+        builtins.toJSON {
+          dependency_overrides = {
+            yaru = "^1.1.0";
+            yaru_icons = "^2.2.1";
+            yaru_widgets = "^3.1.0";
+            mockito = "^5.4.2";
+            test_api = "^0.6.1";
+          };
+        }
+      )
+    }" pubspec_overrides.yaml
   '';
 
   meta = with lib; {

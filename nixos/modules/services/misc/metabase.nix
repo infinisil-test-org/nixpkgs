@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.services.metabase;
@@ -7,8 +12,8 @@ let
   inherit (lib) optional optionalAttrs types;
 
   dataDir = "/var/lib/metabase";
-
-in {
+in
+{
 
   options = {
 
@@ -58,7 +63,6 @@ in {
             [Java KeyStore](https://www.digitalocean.com/community/tutorials/java-keytool-essentials-working-with-java-keystores) file containing the certificates.
           '';
         };
-
       };
 
       openFirewall = mkOption {
@@ -69,7 +73,6 @@ in {
         '';
       };
     };
-
   };
 
   config = mkIf cfg.enable {
@@ -79,16 +82,18 @@ in {
       wantedBy = [ "multi-user.target" ];
       wants = [ "network-online.target" ];
       after = [ "network-online.target" ];
-      environment = {
-        MB_PLUGINS_DIR = "${dataDir}/plugins";
-        MB_DB_FILE = "${dataDir}/metabase.db";
-        MB_JETTY_HOST = cfg.listen.ip;
-        MB_JETTY_PORT = toString cfg.listen.port;
-      } // optionalAttrs (cfg.ssl.enable) {
-        MB_JETTY_SSL = true;
-        MB_JETTY_SSL_PORT = toString cfg.ssl.port;
-        MB_JETTY_SSL_KEYSTORE = cfg.ssl.keystore;
-      };
+      environment =
+        {
+          MB_PLUGINS_DIR = "${dataDir}/plugins";
+          MB_DB_FILE = "${dataDir}/metabase.db";
+          MB_JETTY_HOST = cfg.listen.ip;
+          MB_JETTY_PORT = toString cfg.listen.port;
+        }
+        // optionalAttrs (cfg.ssl.enable) {
+          MB_JETTY_SSL = true;
+          MB_JETTY_SSL_PORT = toString cfg.ssl.port;
+          MB_JETTY_SSL_KEYSTORE = cfg.ssl.keystore;
+        };
       serviceConfig = {
         DynamicUser = true;
         StateDirectory = baseNameOf dataDir;
@@ -99,6 +104,5 @@ in {
     networking.firewall = mkIf cfg.openFirewall {
       allowedTCPPorts = [ cfg.listen.port ] ++ optional cfg.ssl.enable cfg.ssl.port;
     };
-
   };
 }

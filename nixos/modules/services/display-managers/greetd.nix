@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 
 let
@@ -10,7 +15,10 @@ in
   options.services.greetd = {
     enable = mkEnableOption "greetd, a minimal and flexible login manager daemon";
 
-    package = mkPackageOption pkgs [ "greetd" "greetd" ] { };
+    package = mkPackageOption pkgs [
+      "greetd"
+      "greetd"
+    ] { };
 
     settings = mkOption {
       type = settingsFormat.type;
@@ -67,17 +75,13 @@ in
       aliases = [ "display-manager.service" ];
 
       unitConfig = {
-        Wants = [
-          "systemd-user-sessions.service"
-        ];
+        Wants = [ "systemd-user-sessions.service" ];
         After = [
           "systemd-user-sessions.service"
           "plymouth-quit-wait.service"
           "getty@${tty}.service"
         ];
-        Conflicts = [
-          "getty@${tty}.service"
-        ];
+        Conflicts = [ "getty@${tty}.service" ];
       };
 
       serviceConfig = {
@@ -104,9 +108,7 @@ in
 
     # Create directories potentially required by supported greeters
     # See https://github.com/NixOS/nixpkgs/issues/248323
-    systemd.tmpfiles.rules = [
-      "d '/var/cache/tuigreet' - greeter greeter - -"
-    ];
+    systemd.tmpfiles.rules = [ "d '/var/cache/tuigreet' - greeter greeter - -" ];
 
     users.users.greeter = {
       isSystemUser = true;

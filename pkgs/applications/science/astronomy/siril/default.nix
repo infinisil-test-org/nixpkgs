@@ -1,7 +1,33 @@
-{ lib, stdenv, fetchFromGitLab, fetchpatch, pkg-config, meson, ninja, cmake
-, git, criterion, gtk3, libconfig, gnuplot, opencv, json-glib
-, fftwFloat, cfitsio, gsl, exiv2, librtprocess, wcslib, ffmpeg
-, libraw, libtiff, libpng, libjpeg, libheif, ffms, wrapGAppsHook
+{
+  lib,
+  stdenv,
+  fetchFromGitLab,
+  fetchpatch,
+  pkg-config,
+  meson,
+  ninja,
+  cmake,
+  git,
+  criterion,
+  gtk3,
+  libconfig,
+  gnuplot,
+  opencv,
+  json-glib,
+  fftwFloat,
+  cfitsio,
+  gsl,
+  exiv2,
+  librtprocess,
+  wcslib,
+  ffmpeg,
+  libraw,
+  libtiff,
+  libpng,
+  libjpeg,
+  libheif,
+  ffms,
+  wrapGAppsHook,
 }:
 
 stdenv.mkDerivation rec {
@@ -24,12 +50,34 @@ stdenv.mkDerivation rec {
   ];
 
   nativeBuildInputs = [
-    meson ninja cmake pkg-config git criterion wrapGAppsHook
+    meson
+    ninja
+    cmake
+    pkg-config
+    git
+    criterion
+    wrapGAppsHook
   ];
 
   buildInputs = [
-    gtk3 cfitsio gsl exiv2 gnuplot opencv fftwFloat librtprocess wcslib
-    libconfig libraw libtiff libpng libjpeg libheif ffms ffmpeg json-glib
+    gtk3
+    cfitsio
+    gsl
+    exiv2
+    gnuplot
+    opencv
+    fftwFloat
+    librtprocess
+    wcslib
+    libconfig
+    libraw
+    libtiff
+    libpng
+    libjpeg
+    libheif
+    ffms
+    ffmpeg
+    json-glib
   ];
 
   # Necessary because project uses default build dir for flatpaks/snaps

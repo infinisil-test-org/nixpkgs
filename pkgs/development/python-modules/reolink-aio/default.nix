@@ -1,12 +1,13 @@
-{ lib
-, aiohttp
-, aiortsp
-, buildPythonPackage
-, fetchFromGitHub
-, orjson
-, pythonOlder
-, setuptools
-, typing-extensions
+{
+  lib,
+  aiohttp,
+  aiortsp,
+  buildPythonPackage,
+  fetchFromGitHub,
+  orjson,
+  pythonOlder,
+  setuptools,
+  typing-extensions,
 }:
 
 buildPythonPackage rec {
@@ -23,9 +24,7 @@ buildPythonPackage rec {
     hash = "sha256-MUhB8A51dj+FA3+lvBrFyAWizKq5CpYwo38E1euJsHs=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     aiohttp
@@ -34,9 +33,7 @@ buildPythonPackage rec {
     typing-extensions
   ];
 
-  pythonImportsCheck = [
-    "reolink_aio"
-  ];
+  pythonImportsCheck = [ "reolink_aio" ];
 
   # All tests require a network device
   doCheck = false;

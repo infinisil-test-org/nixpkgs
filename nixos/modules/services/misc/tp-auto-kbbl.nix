@@ -1,10 +1,16 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
-let cfg = config.services.tp-auto-kbbl;
-
-in {
+let
+  cfg = config.services.tp-auto-kbbl;
+in
+{
   meta.maintainers = with maintainers; [ sebtm ];
 
   options = {
@@ -26,7 +32,6 @@ in {
         default = "/dev/input/event0";
         description = "Device watched for activities.";
       };
-
     };
   };
 
@@ -35,8 +40,13 @@ in {
 
     systemd.services.tp-auto-kbbl = {
       serviceConfig = {
-        ExecStart = concatStringsSep " "
-          ([ "${cfg.package}/bin/tp-auto-kbbl" "--device ${cfg.device}" ] ++ cfg.arguments);
+        ExecStart = concatStringsSep " " (
+          [
+            "${cfg.package}/bin/tp-auto-kbbl"
+            "--device ${cfg.device}"
+          ]
+          ++ cfg.arguments
+        );
         Restart = "always";
         Type = "simple";
       };

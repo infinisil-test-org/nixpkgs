@@ -1,67 +1,69 @@
-{ stdenv
-, stdenvNoCC
-, callPackage
-, lib
-, writeShellScript
-, pkgsBuildHost
-, mkNugetDeps
-, nix
-, cacert
-, nuget-to-nix
-, dotnetCorePackages
-, xmlstarlet
+{
+  stdenv,
+  stdenvNoCC,
+  callPackage,
+  lib,
+  writeShellScript,
+  pkgsBuildHost,
+  mkNugetDeps,
+  nix,
+  cacert,
+  nuget-to-nix,
+  dotnetCorePackages,
+  xmlstarlet,
 
-, releaseManifestFile
-, tarballHash
-, depsFile
-, bootstrapSdk
+  releaseManifestFile,
+  tarballHash,
+  depsFile,
+  bootstrapSdk,
 }:
 
 let
   mkPackages = callPackage ./packages.nix;
   mkVMR = callPackage ./vmr.nix;
 
-  dotnetSdk = pkgsBuildHost.callPackage bootstrapSdk {};
+  dotnetSdk = pkgsBuildHost.callPackage bootstrapSdk { };
 
-  patchNupkgs = pkgsBuildHost.callPackage ./patch-nupkgs.nix {};
+  patchNupkgs = pkgsBuildHost.callPackage ./patch-nupkgs.nix { };
 
-  signAppHost = callPackage ./sign-apphost.nix {};
+  signAppHost = callPackage ./sign-apphost.nix { };
 
   deps = mkNugetDeps {
     name = "dotnet-vmr-deps";
     sourceFile = depsFile;
   };
 
-  vmr = (mkVMR {
-    inherit releaseManifestFile tarballHash dotnetSdk;
-  }).overrideAttrs (old: rec {
+  vmr = (mkVMR { inherit releaseManifestFile tarballHash dotnetSdk; }).overrideAttrs (old: rec {
     prebuiltPackages = mkNugetDeps {
       name = "dotnet-vmr-deps";
       sourceFile = depsFile;
     };
 
     nativeBuildInputs =
-      old.nativeBuildInputs or []
-      ++ [ xmlstarlet ]
-      ++ lib.optional stdenv.isLinux patchNupkgs;
+      old.nativeBuildInputs or [ ] ++ [ xmlstarlet ] ++ lib.optional stdenv.isLinux patchNupkgs;
 
-    postPatch = old.postPatch or "" + lib.optionalString stdenv.isLinux ''
-      xmlstarlet ed \
-        --inplace \
-        -s //Project -t elem -n Import \
-        -i \$prev -t attr -n Project -v "${./patch-restored-packages.proj}" \
-        src/*/Directory.Build.targets
-    '' + lib.optionalString stdenv.isDarwin ''
-      xmlstarlet ed \
-        --inplace \
-        -s //Project -t elem -n Import \
-        -i \$prev -t attr -n Project -v "${signAppHost}" \
-        src/runtime/Directory.Build.targets
-    '';
+    postPatch =
+      old.postPatch or ""
+      + lib.optionalString stdenv.isLinux ''
+        xmlstarlet ed \
+          --inplace \
+          -s //Project -t elem -n Import \
+          -i \$prev -t attr -n Project -v "${./patch-restored-packages.proj}" \
+          src/*/Directory.Build.targets
+      ''
+      + lib.optionalString stdenv.isDarwin ''
+        xmlstarlet ed \
+          --inplace \
+          -s //Project -t elem -n Import \
+          -i \$prev -t attr -n Project -v "${signAppHost}" \
+          src/runtime/Directory.Build.targets
+      '';
 
-    postConfigure = old.postConfigure or "" + ''
-      [[ ! -v prebuiltPackages ]] || ln -sf "$prebuiltPackages"/* prereqs/packages/prebuilt/
-    '';
+    postConfigure =
+      old.postConfigure or ""
+      + ''
+        [[ ! -v prebuiltPackages ]] || ln -sf "$prebuiltPackages"/* prereqs/packages/prebuilt/
+      '';
 
     buildFlags =
       old.buildFlags
@@ -72,41 +74,43 @@ let
         "-p:SkipErrorOnPrebuilts=true"
       ];
 
-    passthru = old.passthru or {} // { fetch-deps =
-      let
-        inherit (vmr) targetRid updateScript;
-        otherRids =
-          lib.remove targetRid (
-            map (system: dotnetCorePackages.systemToDotnetRid system)
-              vmr.meta.platforms);
+    passthru = old.passthru or { } // {
+      fetch-deps =
+        let
+          inherit (vmr) targetRid updateScript;
+          otherRids = lib.remove targetRid (
+            map (system: dotnetCorePackages.systemToDotnetRid system) vmr.meta.platforms
+          );
 
-        pkg = vmr.overrideAttrs (old: {
-          nativeBuildInputs = old.nativeBuildInputs ++ [
-            nix
-            cacert
-            (nuget-to-nix.override { dotnet-sdk = dotnetSdk; })
-          ];
-          postPatch = old.postPatch or "" + ''
-            xmlstarlet ed \
-              --inplace \
-              -s //Project -t elem -n Import \
-              -i \$prev -t attr -n Project -v "${./record-downloaded-packages.proj}" \
-              repo-projects/Directory.Build.targets
-            # make nuget-client use the standard arcade package-cache dir, which
-            # is where we scan for dependencies
-            xmlstarlet ed \
-              --inplace \
-              -s //Project -t elem -n ItemGroup \
-              -s \$prev -t elem -n EnvironmentVariables \
-              -i \$prev -t attr -n Include -v 'NUGET_PACKAGES=$(ProjectDirectory)artifacts/sb/package-cache/' \
-              repo-projects/nuget-client.proj
-          '';
-          buildFlags = [ "--online" ] ++ old.buildFlags;
-          prebuiltPackages = null;
-        });
+          pkg = vmr.overrideAttrs (old: {
+            nativeBuildInputs = old.nativeBuildInputs ++ [
+              nix
+              cacert
+              (nuget-to-nix.override { dotnet-sdk = dotnetSdk; })
+            ];
+            postPatch =
+              old.postPatch or ""
+              + ''
+                xmlstarlet ed \
+                  --inplace \
+                  -s //Project -t elem -n Import \
+                  -i \$prev -t attr -n Project -v "${./record-downloaded-packages.proj}" \
+                  repo-projects/Directory.Build.targets
+                # make nuget-client use the standard arcade package-cache dir, which
+                # is where we scan for dependencies
+                xmlstarlet ed \
+                  --inplace \
+                  -s //Project -t elem -n ItemGroup \
+                  -s \$prev -t elem -n EnvironmentVariables \
+                  -i \$prev -t attr -n Include -v 'NUGET_PACKAGES=$(ProjectDirectory)artifacts/sb/package-cache/' \
+                  repo-projects/nuget-client.proj
+              '';
+            buildFlags = [ "--online" ] ++ old.buildFlags;
+            prebuiltPackages = null;
+          });
 
-        drv = builtins.unsafeDiscardOutputDependency pkg.drvPath;
-      in
+          drv = builtins.unsafeDiscardOutputDependency pkg.drvPath;
+        in
         writeShellScript "fetch-dotnet-sdk-deps" ''
           ${nix}/bin/nix-shell --pure --run 'source /dev/stdin' "${drv}" << 'EOF'
           set -e
@@ -132,4 +136,5 @@ let
         '';
     };
   });
-in mkPackages { inherit vmr; }
+in
+mkPackages { inherit vmr; }

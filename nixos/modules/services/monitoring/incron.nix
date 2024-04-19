@@ -1,12 +1,15 @@
-
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
 
   cfg = config.services.incron;
-
 in
 
 {
@@ -55,24 +58,23 @@ in
 
       extraPackages = mkOption {
         type = types.listOf types.package;
-        default = [];
+        default = [ ];
         example = literalExpression "[ pkgs.rsync ]";
         description = "Extra packages available to the system incrontab.";
       };
-
     };
-
   };
 
   config = mkIf cfg.enable {
 
-    warnings = optional (cfg.allow != null && cfg.deny != null)
-      "If `services.incron.allow` is set then `services.incron.deny` will be ignored.";
+    warnings = optional (
+      cfg.allow != null && cfg.deny != null
+    ) "If `services.incron.allow` is set then `services.incron.deny` will be ignored.";
 
     environment.systemPackages = [ pkgs.incron ];
 
-    security.wrappers.incrontab =
-    { setuid = true;
+    security.wrappers.incrontab = {
+      setuid = true;
       owner = "root";
       group = "root";
       source = "${pkgs.incron}/bin/incrontab";
@@ -86,9 +88,7 @@ in
     environment.etc."incron.allow" = mkIf (cfg.allow != null) {
       text = concatStringsSep "\n" cfg.allow;
     };
-    environment.etc."incron.deny" = mkIf (cfg.deny != null) {
-      text = concatStringsSep "\n" cfg.deny;
-    };
+    environment.etc."incron.deny" = mkIf (cfg.deny != null) { text = concatStringsSep "\n" cfg.deny; };
 
     systemd.services.incron = {
       description = "File System Events Scheduler";
@@ -99,5 +99,4 @@ in
       serviceConfig.ExecStart = "${pkgs.incron}/bin/incrond --foreground";
     };
   };
-
 }

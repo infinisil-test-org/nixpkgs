@@ -1,5 +1,5 @@
 { callPackage }:
 {
-  calculator = callPackage ./calculator {};
-  file-manager = callPackage ./file-manager {};
+  calculator = callPackage ./calculator { };
+  file-manager = callPackage ./file-manager { };
 }

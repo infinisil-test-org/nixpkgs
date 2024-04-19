@@ -1,12 +1,17 @@
-{ lib, callPackage, tree-sitter, neovim, neovimUtils, runCommand }:
+{
+  lib,
+  callPackage,
+  tree-sitter,
+  neovim,
+  neovimUtils,
+  runCommand,
+}:
 
 self: super:
 
 let
   inherit (neovimUtils) grammarToPlugin;
-  generatedGrammars = callPackage ./generated.nix {
-    inherit (tree-sitter) buildGrammar;
-  };
+  generatedGrammars = callPackage ./generated.nix { inherit (tree-sitter) buildGrammar; };
 
   generatedDerivations = lib.filterAttrs (_: lib.isDerivation) generatedGrammars;
 
@@ -15,18 +20,21 @@ let
   #   ocaml-interface
   #   tree-sitter-ocaml-interface
   #   tree-sitter-ocaml_interface
-  builtGrammars = generatedGrammars // lib.concatMapAttrs
-    (k: v:
+  builtGrammars =
+    generatedGrammars
+    // lib.concatMapAttrs (
+      k: v:
       let
         replaced = lib.replaceStrings [ "_" ] [ "-" ] k;
       in
       {
         "tree-sitter-${k}" = v;
-      } // lib.optionalAttrs (k != replaced) {
+      }
+      // lib.optionalAttrs (k != replaced) {
         ${replaced} = v;
         "tree-sitter-${replaced}" = v;
-      })
-    generatedDerivations;
+      }
+    ) generatedDerivations;
 
   allGrammars = lib.attrValues generatedDerivations;
 
@@ -35,9 +43,9 @@ let
   # or for all grammars:
   # pkgs.vimPlugins.nvim-treesitter.withAllGrammars
   withPlugins =
-    f: self.nvim-treesitter.overrideAttrs {
-      passthru.dependencies = map grammarToPlugin
-        (f (tree-sitter.builtGrammars // builtGrammars));
+    f:
+    self.nvim-treesitter.overrideAttrs {
+      passthru.dependencies = map grammarToPlugin (f (tree-sitter.builtGrammars // builtGrammars));
     };
 
   withAllGrammars = withPlugins (_: allGrammars);
@@ -49,15 +57,19 @@ in
   '';
 
   passthru = (super.nvim-treesitter.passthru or { }) // {
-    inherit builtGrammars allGrammars grammarToPlugin withPlugins withAllGrammars;
+    inherit
+      builtGrammars
+      allGrammars
+      grammarToPlugin
+      withPlugins
+      withAllGrammars
+      ;
 
     grammarPlugins = lib.mapAttrs (_: grammarToPlugin) generatedDerivations;
 
     tests.check-queries =
       let
-        nvimWithAllGrammars = neovim.override {
-          configure.packages.all.start = [ withAllGrammars ];
-        };
+        nvimWithAllGrammars = neovim.override { configure.packages.all.start = [ withAllGrammars ]; };
       in
       runCommand "nvim-treesitter-check-queries"
         {
@@ -78,8 +90,11 @@ in
         '';
   };
 
-  meta = with lib; (super.nvim-treesitter.meta or { }) // {
-    license = licenses.asl20;
-    maintainers = with maintainers; [ figsoda ];
-  };
+  meta =
+    with lib;
+    (super.nvim-treesitter.meta or { })
+    // {
+      license = licenses.asl20;
+      maintainers = with maintainers; [ figsoda ];
+    };
 }

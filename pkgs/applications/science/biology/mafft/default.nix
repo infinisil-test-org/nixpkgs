@@ -1,4 +1,8 @@
-{ lib, stdenv, fetchFromGitLab }:
+{
+  lib,
+  stdenv,
+  fetchFromGitLab,
+}:
 
 stdenv.mkDerivation rec {
   pname = "mafft";
@@ -16,14 +20,16 @@ stdenv.mkDerivation rec {
     make clean
   '';
 
-  makeFlags = [ "CC=${stdenv.cc.targetPrefix}cc" "PREFIX=$(out)" ];
+  makeFlags = [
+    "CC=${stdenv.cc.targetPrefix}cc"
+    "PREFIX=$(out)"
+  ];
 
-  meta = with lib;
-    {
-      description = "Multiple alignment program for amino acid or nucleotide sequences";
-      homepage = "https://mafft.cbrc.jp/alignment/software/";
-      license = licenses.bsd3;
-      maintainers = with maintainers; [ natsukium ];
-      platforms = platforms.unix;
-    };
+  meta = with lib; {
+    description = "Multiple alignment program for amino acid or nucleotide sequences";
+    homepage = "https://mafft.cbrc.jp/alignment/software/";
+    license = licenses.bsd3;
+    maintainers = with maintainers; [ natsukium ];
+    platforms = platforms.unix;
+  };
 }

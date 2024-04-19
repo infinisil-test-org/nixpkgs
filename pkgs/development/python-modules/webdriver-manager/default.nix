@@ -1,14 +1,15 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, packaging
-, pybrowsers
-, pytestCheckHook
-, python-dotenv
-, pythonOlder
-, requests
-, selenium
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  packaging,
+  pybrowsers,
+  pytestCheckHook,
+  python-dotenv,
+  pythonOlder,
+  requests,
+  selenium,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -25,9 +26,7 @@ buildPythonPackage rec {
     hash = "sha256-PdUlloJ4DncnktKQHofn/OLVrgSVyWhaeEEhl3Hgjek=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     packaging
@@ -41,9 +40,7 @@ buildPythonPackage rec {
     selenium
   ];
 
-  pythonImportsCheck = [
-    "webdriver_manager"
-  ];
+  pythonImportsCheck = [ "webdriver_manager" ];
 
   disabledTestPaths = [
     # Tests require network access and browsers available

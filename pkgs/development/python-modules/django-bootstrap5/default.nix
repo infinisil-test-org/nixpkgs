@@ -1,15 +1,16 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
 
-# build-system
-, hatchling
+  # build-system
+  hatchling,
 
-# dependencies
-, beautifulsoup4
-, pillow
-, django
+  # dependencies
+  beautifulsoup4,
+  pillow,
+  django,
 }:
 
 buildPythonPackage rec {
@@ -25,9 +26,7 @@ buildPythonPackage rec {
     hash = "sha256-FIwDyZ5I/FSaEiQKRfanzAGij86u8y85Wal0B4TrI7c=";
   };
 
-  nativeBuildInputs = [
-    hatchling
-  ];
+  nativeBuildInputs = [ hatchling ];
 
   propagatedBuildInputs = [
     django
@@ -35,9 +34,7 @@ buildPythonPackage rec {
     pillow
   ];
 
-  pythonImportsCheck = [
-    "django_bootstrap5"
-  ];
+  pythonImportsCheck = [ "django_bootstrap5" ];
 
   meta = with lib; {
     description = "Bootstrap 5 integration with Django";

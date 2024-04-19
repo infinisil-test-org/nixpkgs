@@ -1,4 +1,10 @@
-{ config, lib, pkgs, options, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  options,
+  ...
+}:
 
 with lib;
 
@@ -66,7 +72,10 @@ in
     scopes = mkOption {
       type = types.listOf types.str;
       default = [ "user" ];
-      example = [ "user" "global" ];
+      example = [
+        "user"
+        "global"
+      ];
       description = ''
         Stats scopes to query.
       '';

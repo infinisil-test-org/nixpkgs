@@ -1,13 +1,14 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchurl
-, flex
-, bison
-, bc
-, elfutils
-, python3
-, sevVariant ? false
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchurl,
+  flex,
+  bison,
+  bc,
+  elfutils,
+  python3,
+  sevVariant ? false,
 }:
 
 stdenv.mkDerivation rec {
@@ -39,22 +40,19 @@ stdenv.mkDerivation rec {
     python3.pkgs.pyelftools
   ];
 
-  buildInputs = [
-    elfutils
-  ];
+  buildInputs = [ elfutils ];
 
-  makeFlags = [
-    "PREFIX=${placeholder "out"}"
-  ] ++ lib.optionals sevVariant [
-    "SEV=1"
-  ];
+  makeFlags = [ "PREFIX=${placeholder "out"}" ] ++ lib.optionals sevVariant [ "SEV=1" ];
 
   enableParallelBuilding = true;
 
   meta = with lib; {
     description = "A dynamic library bundling the guest payload consumed by libkrun";
     homepage = "https://github.com/containers/libkrunfw";
-    license = with licenses; [ lgpl2Only lgpl21Only ];
+    license = with licenses; [
+      lgpl2Only
+      lgpl21Only
+    ];
     maintainers = with maintainers; [ nickcao ];
     platforms = [ "x86_64-linux" ];
   };

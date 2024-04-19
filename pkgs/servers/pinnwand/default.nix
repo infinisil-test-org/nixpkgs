@@ -1,10 +1,12 @@
-{ lib
-, python3
-, fetchFromGitHub
-, nixosTests
+{
+  lib,
+  python3,
+  fetchFromGitHub,
+  nixosTests,
 }:
 
-with python3.pkgs; buildPythonApplication rec {
+with python3.pkgs;
+buildPythonApplication rec {
   pname = "pinnwand";
   version = "1.4.0";
   format = "pyproject";
@@ -37,9 +39,7 @@ with python3.pkgs; buildPythonApplication rec {
     tornado
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   __darwinAllowLocalNetworking = true;
 
@@ -54,4 +54,3 @@ with python3.pkgs; buildPythonApplication rec {
     mainProgram = "pinnwand";
   };
 }
-

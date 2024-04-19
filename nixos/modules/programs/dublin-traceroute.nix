@@ -1,17 +1,22 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.programs.dublin-traceroute;
-
-in {
+in
+{
   meta.maintainers = pkgs.dublin-traceroute.meta.maintainers;
 
   options = {
     programs.dublin-traceroute = {
       enable = mkEnableOption ''
-      dublin-traceroute, add it to the global environment and configure a setcap wrapper for it.
+        dublin-traceroute, add it to the global environment and configure a setcap wrapper for it.
       '';
 
       package = mkPackageOption pkgs "dublin-traceroute" { };

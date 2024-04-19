@@ -1,6 +1,7 @@
-{ lib
-, python3Packages
-, fetchPypi
+{
+  lib,
+  python3Packages,
+  fetchPypi,
 }:
 
 python3Packages.buildPythonApplication rec {
@@ -29,9 +30,7 @@ python3Packages.buildPythonApplication rec {
 
   pythonImportsCheck = [ "litecli" ];
 
-  disabledTests = [
-    "test_auto_escaped_col_names"
-  ];
+  disabledTests = [ "test_auto_escaped_col_names" ];
 
   meta = with lib; {
     description = "Command-line interface for SQLite";

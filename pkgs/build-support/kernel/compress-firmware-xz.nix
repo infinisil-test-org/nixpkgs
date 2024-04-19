@@ -4,7 +4,7 @@ firmware:
 
 let
   args = {
-    allowedRequisites = [];
+    allowedRequisites = [ ];
   } // lib.optionalAttrs (firmware ? meta) { inherit (firmware) meta; };
 in
 

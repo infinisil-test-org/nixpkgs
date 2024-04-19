@@ -1,20 +1,21 @@
-{ lib
-, stdenv
-, buildDotnetModule
-, fetchFromGitHub
-, dotnetCorePackages
-, wrapGAppsHook
+{
+  lib,
+  stdenv,
+  buildDotnetModule,
+  fetchFromGitHub,
+  dotnetCorePackages,
+  wrapGAppsHook,
 
-, libX11
-, libICE
-, libSM
-, libXi
-, libXcursor
-, libXext
-, libXrandr
-, fontconfig
-, glew
-, gtk3
+  libX11,
+  libICE,
+  libSM,
+  libXi,
+  libXcursor,
+  libXext,
+  libXrandr,
+  fontconfig,
+  glew,
+  gtk3,
 }:
 
 buildDotnetModule rec {

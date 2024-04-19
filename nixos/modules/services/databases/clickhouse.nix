@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.services.clickhouse;
 in
@@ -14,11 +19,8 @@ with lib;
       enable = mkEnableOption "ClickHouse database server";
 
       package = mkPackageOption pkgs "clickhouse" { };
-
     };
-
   };
-
 
   ###### implementation
 
@@ -72,7 +74,5 @@ with lib;
 
     # startup requires a `/etc/localtime` which only if exists if `time.timeZone != null`
     time.timeZone = mkDefault "UTC";
-
   };
-
 }

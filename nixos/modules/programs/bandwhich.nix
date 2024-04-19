@@ -1,9 +1,16 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
-let cfg = config.programs.bandwhich;
-in {
+let
+  cfg = config.programs.bandwhich;
+in
+{
   meta.maintainers = with maintainers; [ Br1ght0ne ];
 
   options = {

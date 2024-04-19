@@ -1,40 +1,43 @@
-{ stdenv
-, lib
-, fetchurl
-, fetchpatch
-, gettext
-, pkg-config
-, meson
-, ninja
-, gnome
-, glib
-, gtk3
-, gtk4
-, gtkVersion ? "3"
-, gobject-introspection
-, vala
-, python3
-, gi-docgen
-, libxml2
-, gnutls
-, gperf
-, pango
-, pcre2
-, cairo
-, fribidi
-, zlib
-, icu
-, systemd
-, systemdSupport ? lib.meta.availableOn stdenv.hostPlatform systemd
-, nixosTests
+{
+  stdenv,
+  lib,
+  fetchurl,
+  fetchpatch,
+  gettext,
+  pkg-config,
+  meson,
+  ninja,
+  gnome,
+  glib,
+  gtk3,
+  gtk4,
+  gtkVersion ? "3",
+  gobject-introspection,
+  vala,
+  python3,
+  gi-docgen,
+  libxml2,
+  gnutls,
+  gperf,
+  pango,
+  pcre2,
+  cairo,
+  fribidi,
+  zlib,
+  icu,
+  systemd,
+  systemdSupport ? lib.meta.availableOn stdenv.hostPlatform systemd,
+  nixosTests,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "vte";
   version = "0.74.2";
 
-  outputs = [ "out" "dev" ]
-    ++ lib.optional (gtkVersion != null) "devdoc";
+  outputs = [
+    "out"
+    "dev"
+  ] ++ lib.optional (gtkVersion != null) "devdoc";
 
   src = fetchurl {
     url = "mirror://gnome/sources/vte/${lib.versions.majorMinor finalAttrs.version}/vte-${finalAttrs.version}.tar.xz";
@@ -73,28 +76,29 @@ stdenv.mkDerivation (finalAttrs: {
     pcre2
     zlib
     icu
-  ] ++ lib.optionals systemdSupport [
-    systemd
-  ];
+  ] ++ lib.optionals systemdSupport [ systemd ];
 
   # Required by vte-2.91.pc.
   propagatedBuildInputs = lib.optionals (gtkVersion != null) [
-    (assert (gtkVersion == "3" || gtkVersion == "4");
-    if gtkVersion == "3" then gtk3 else gtk4)
+    (
+      assert (gtkVersion == "3" || gtkVersion == "4");
+      if gtkVersion == "3" then gtk3 else gtk4
+    )
     glib
     pango
   ];
 
-  mesonFlags = [
-    "-Ddocs=true"
-    (lib.mesonBool "gtk3" (gtkVersion == "3"))
-    (lib.mesonBool "gtk4" (gtkVersion == "4"))
-  ] ++ lib.optionals (!systemdSupport) [
-    "-D_systemd=false"
-  ] ++ lib.optionals stdenv.isDarwin [
-    # -Bsymbolic-functions is not supported on darwin
-    "-D_b_symbolic_functions=false"
-  ];
+  mesonFlags =
+    [
+      "-Ddocs=true"
+      (lib.mesonBool "gtk3" (gtkVersion == "3"))
+      (lib.mesonBool "gtk4" (gtkVersion == "4"))
+    ]
+    ++ lib.optionals (!systemdSupport) [ "-D_systemd=false" ]
+    ++ lib.optionals stdenv.isDarwin [
+      # -Bsymbolic-functions is not supported on darwin
+      "-D_b_symbolic_functions=false"
+    ];
 
   # error: argument unused during compilation: '-pie' [-Werror,-Wunused-command-line-argument]
   env.NIX_CFLAGS_COMPILE = lib.optionalString stdenv.hostPlatform.isMusl "-Wno-unused-command-line-argument";
@@ -117,7 +121,17 @@ stdenv.mkDerivation (finalAttrs: {
       versionPolicy = "odd-unstable";
     };
     tests = {
-      inherit (nixosTests.terminal-emulators) gnome-terminal lxterminal mlterm roxterm sakura stupidterm terminator termite xfce4-terminal;
+      inherit (nixosTests.terminal-emulators)
+        gnome-terminal
+        lxterminal
+        mlterm
+        roxterm
+        sakura
+        stupidterm
+        terminator
+        termite
+        xfce4-terminal
+        ;
     };
   };
 
@@ -133,7 +147,13 @@ stdenv.mkDerivation (finalAttrs: {
       the system's terminfo database.
     '';
     license = licenses.lgpl3Plus;
-    maintainers = with maintainers; [ astsmtl antono ] ++ teams.gnome.members;
+    maintainers =
+      with maintainers;
+      [
+        astsmtl
+        antono
+      ]
+      ++ teams.gnome.members;
     platforms = platforms.unix;
   };
 })

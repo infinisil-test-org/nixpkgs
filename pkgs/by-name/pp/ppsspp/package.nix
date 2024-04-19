@@ -1,25 +1,26 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, SDL2
-, cmake
-, copyDesktopItems
-, ffmpeg_4
-, glew
-, libffi
-, libsForQt5
-, libzip
-, makeDesktopItem
-, makeWrapper
-, pkg-config
-, python3
-, snappy
-, vulkan-loader
-, wayland
-, zlib
-, enableQt ? false
-, enableVulkan ? true
-, forceWayland ? false
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  SDL2,
+  cmake,
+  copyDesktopItems,
+  ffmpeg_4,
+  glew,
+  libffi,
+  libsForQt5,
+  libzip,
+  makeDesktopItem,
+  makeWrapper,
+  pkg-config,
+  python3,
+  snappy,
+  vulkan-loader,
+  wayland,
+  zlib,
+  enableQt ? false,
+  enableVulkan ? true,
+  forceWayland ? false,
 }:
 
 let
@@ -30,10 +31,11 @@ in
 # Only SDL frontend needs to specify whether to use Wayland
 assert forceWayland -> !enableQt;
 stdenv.mkDerivation (finalAttrs: {
-  pname = "ppsspp"
-          + lib.optionalString enableQt "-qt"
-          + lib.optionalString (!enableQt) "-sdl"
-          + lib.optionalString forceWayland "-wayland";
+  pname =
+    "ppsspp"
+    + lib.optionalString enableQt "-qt"
+    + lib.optionalString (!enableQt) "-sdl"
+    + lib.optionalString forceWayland "-wayland";
   version = "1.17.1";
 
   src = fetchFromGitHub {
@@ -57,18 +59,24 @@ stdenv.mkDerivation (finalAttrs: {
     python3
   ] ++ lib.optionals enableQt [ wrapQtAppsHook ];
 
-  buildInputs = [
-    SDL2
-    ffmpeg_4
-    (glew.override { enableEGL = forceWayland; })
-    libzip
-    snappy
-    zlib
-  ] ++ lib.optionals enableQt [
-    qtbase
-    qtmultimedia
-  ] ++ lib.optionals enableVulkan [ vulkan-loader ]
-  ++ lib.optionals vulkanWayland [ wayland libffi ];
+  buildInputs =
+    [
+      SDL2
+      ffmpeg_4
+      (glew.override { enableEGL = forceWayland; })
+      libzip
+      snappy
+      zlib
+    ]
+    ++ lib.optionals enableQt [
+      qtbase
+      qtmultimedia
+    ]
+    ++ lib.optionals enableVulkan [ vulkan-loader ]
+    ++ lib.optionals vulkanWayland [
+      wayland
+      libffi
+    ];
 
   cmakeFlags = [
     (lib.cmakeBool "HEADLESS" (!enableQt))
@@ -87,29 +95,38 @@ stdenv.mkDerivation (finalAttrs: {
       exec = "ppsspp";
       icon = "ppsspp";
       comment = "Play PSP games on your computer";
-      categories = [ "Game" "Emulator" ];
+      categories = [
+        "Game"
+        "Emulator"
+      ];
     })
   ];
 
-  installPhase = let
-    vulkanPath = lib.makeLibraryPath [ vulkan-loader ];
-  in
+  installPhase =
+    let
+      vulkanPath = lib.makeLibraryPath [ vulkan-loader ];
+    in
     ''
       runHook preInstall
 
       mkdir -p $out/share/{applications,ppsspp,icons}
     ''
-    + (if enableQt then ''
-      install -Dm555 PPSSPPQt $out/bin/ppsspp
-      wrapProgram $out/bin/ppsspp \
-    '' else ''
-      install -Dm555 PPSSPPHeadless $out/bin/ppsspp-headless
-      install -Dm555 PPSSPPSDL $out/share/ppsspp/
-      makeWrapper $out/share/ppsspp/PPSSPPSDL $out/bin/ppsspp \
-        --set SDL_VIDEODRIVER ${if forceWayland then "wayland" else "x11"} \
-    '')
+    + (
+      if enableQt then
+        ''
+          install -Dm555 PPSSPPQt $out/bin/ppsspp
+          wrapProgram $out/bin/ppsspp \
+        ''
+      else
+        ''
+          install -Dm555 PPSSPPHeadless $out/bin/ppsspp-headless
+          install -Dm555 PPSSPPSDL $out/share/ppsspp/
+          makeWrapper $out/share/ppsspp/PPSSPPSDL $out/bin/ppsspp \
+            --set SDL_VIDEODRIVER ${if forceWayland then "wayland" else "x11"} \
+        ''
+    )
     + lib.optionalString enableVulkan ''
-        --prefix LD_LIBRARY_PATH : ${vulkanPath} \
+      --prefix LD_LIBRARY_PATH : ${vulkanPath} \
     ''
     + ''
 
@@ -121,8 +138,10 @@ stdenv.mkDerivation (finalAttrs: {
 
   meta = {
     homepage = "https://www.ppsspp.org/";
-    description = "A HLE Playstation Portable emulator, written in C++ ("
-                  + (if enableQt then "Qt" else "SDL + headless") + ")";
+    description =
+      "A HLE Playstation Portable emulator, written in C++ ("
+      + (if enableQt then "Qt" else "SDL + headless")
+      + ")";
     longDescription = ''
       PPSSPP is a PSP emulator, which means that it can run games and other
       software that was originally made for the Sony PSP.

@@ -1,4 +1,8 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+}:
 
 buildGoModule rec {
   pname = "upbound";
@@ -13,7 +17,10 @@ buildGoModule rec {
 
   vendorHash = "sha256-hNEM8U+3T4biEqGoN2ClKLSgKlfT/eoUkQQGiTrR2vM=";
 
-  subPackages = [ "cmd/docker-credential-up" "cmd/up" ];
+  subPackages = [
+    "cmd/docker-credential-up"
+    "cmd/up"
+  ];
 
   ldflags = [
     "-s"
@@ -22,8 +29,7 @@ buildGoModule rec {
   ];
 
   meta = with lib; {
-    description =
-      "CLI for interacting with Upbound Cloud, Upbound Enterprise, and Universal Crossplane (UXP)";
+    description = "CLI for interacting with Upbound Cloud, Upbound Enterprise, and Universal Crossplane (UXP)";
     homepage = "https://upbound.io";
     license = licenses.asl20;
     maintainers = with maintainers; [ lucperkins ];

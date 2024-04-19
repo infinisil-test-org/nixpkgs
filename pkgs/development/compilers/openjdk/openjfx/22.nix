@@ -1,26 +1,27 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, fetchpatch
-, writeText
-, openjdk21_headless
-, gradle
-, pkg-config
-, perl
-, cmake
-, gperf
-, gtk2
-, gtk3
-, libXtst
-, libXxf86vm
-, glib
-, alsa-lib
-, ffmpeg_4
-, python3
-, ruby
-, icu68
-, withMedia ? true
-, withWebKit ? false
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  fetchpatch,
+  writeText,
+  openjdk21_headless,
+  gradle,
+  pkg-config,
+  perl,
+  cmake,
+  gperf,
+  gtk2,
+  gtk3,
+  libXtst,
+  libXxf86vm,
+  glib,
+  alsa-lib,
+  ffmpeg_4,
+  python3,
+  ruby,
+  icu68,
+  withMedia ? true,
+  withWebKit ? false,
 }:
 
 let
@@ -29,38 +30,63 @@ let
   build = "+30";
   repover = "${major}${update}${build}";
 
-  makePackage = args: stdenv.mkDerivation ({
-    version = "${major}${update}${build}";
+  makePackage =
+    args:
+    stdenv.mkDerivation (
+      {
+        version = "${major}${update}${build}";
 
-    src = fetchFromGitHub {
-      owner = "openjdk";
-      repo = "jfx";
-      rev = repover;
-      hash = "sha256-sZF7ZPC0kgTTxWgtkxmGtOlfroGPGVZcMw0/wSTJUxQ=";
-    };
+        src = fetchFromGitHub {
+          owner = "openjdk";
+          repo = "jfx";
+          rev = repover;
+          hash = "sha256-sZF7ZPC0kgTTxWgtkxmGtOlfroGPGVZcMw0/wSTJUxQ=";
+        };
 
-    buildInputs = [ gtk2 gtk3 libXtst libXxf86vm glib alsa-lib ffmpeg_4 icu68 ];
-    nativeBuildInputs = [ gradle perl pkg-config cmake gperf python3 ruby ];
+        buildInputs = [
+          gtk2
+          gtk3
+          libXtst
+          libXxf86vm
+          glib
+          alsa-lib
+          ffmpeg_4
+          icu68
+        ];
+        nativeBuildInputs = [
+          gradle
+          perl
+          pkg-config
+          cmake
+          gperf
+          python3
+          ruby
+        ];
 
-    dontUseCmakeConfigure = true;
+        dontUseCmakeConfigure = true;
 
-    config = writeText "gradle.properties" (''
-      CONF = Release
-      JDK_HOME = ${openjdk21_headless.home}
-    '' + args.gradleProperties or "");
+        config = writeText "gradle.properties" (
+          ''
+            CONF = Release
+            JDK_HOME = ${openjdk21_headless.home}
+          ''
+          + args.gradleProperties or ""
+        );
 
-    buildPhase = ''
-      runHook preBuild
+        buildPhase = ''
+          runHook preBuild
 
-      export NUMBER_OF_PROCESSORS=$NIX_BUILD_CORES
-      export GRADLE_USER_HOME=$(mktemp -d)
-      ln -s $config gradle.properties
-      export NIX_CFLAGS_COMPILE="$(pkg-config --cflags glib-2.0) $NIX_CFLAGS_COMPILE"
-      gradle --no-daemon $gradleFlags sdk
+          export NUMBER_OF_PROCESSORS=$NIX_BUILD_CORES
+          export GRADLE_USER_HOME=$(mktemp -d)
+          ln -s $config gradle.properties
+          export NIX_CFLAGS_COMPILE="$(pkg-config --cflags glib-2.0) $NIX_CFLAGS_COMPILE"
+          gradle --no-daemon $gradleFlags sdk
 
-      runHook postBuild
-    '';
-  } // args);
+          runHook postBuild
+        '';
+      }
+      // args
+    );
 
   # Fake build to pre-download deps into fixed-output derivation.
   # We run nearly full build because I see no other way to download everything that's needed.
@@ -80,7 +106,6 @@ let
     outputHashMode = "recursive";
     outputHash = "sha256-2I7LvYcudlB4DKJ/wEiTjY6nICUxUY52euosUqOA+Bs=";
   };
-
 in
 makePackage {
   pname = "openjfx-modular-sdk";
@@ -112,7 +137,10 @@ makePackage {
     done
   '';
 
-  disallowedReferences = [ openjdk21_headless openjdk21_headless ];
+  disallowedReferences = [
+    openjdk21_headless
+    openjdk21_headless
+  ];
 
   passthru.deps = deps;
 

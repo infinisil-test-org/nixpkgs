@@ -1,17 +1,18 @@
-{ lib
-, buildPythonPackage
-, cython
-, fetchPypi
-, numpy
-, oldest-supported-numpy
-, packaging
-, pandas
-, patsy
-, pythonAtLeast
-, pythonOlder
-, scipy
-, setuptools
-, setuptools-scm
+{
+  lib,
+  buildPythonPackage,
+  cython,
+  fetchPypi,
+  numpy,
+  oldest-supported-numpy,
+  packaging,
+  pandas,
+  patsy,
+  pythonAtLeast,
+  pythonOlder,
+  scipy,
+  setuptools,
+  setuptools-scm,
 }:
 
 buildPythonPackage rec {
@@ -32,9 +33,7 @@ buildPythonPackage rec {
     scipy
     setuptools
     setuptools-scm
-  ] ++ lib.optionals (pythonAtLeast "3.12") [
-    numpy
-  ];
+  ] ++ lib.optionals (pythonAtLeast "3.12") [ numpy ];
 
   dependencies = [
     numpy
@@ -47,9 +46,7 @@ buildPythonPackage rec {
   # Huge test suites with several test failures
   doCheck = false;
 
-  pythonImportsCheck = [
-    "statsmodels"
-  ];
+  pythonImportsCheck = [ "statsmodels" ];
 
   meta = with lib; {
     description = "Statistical computations and models for use with SciPy";

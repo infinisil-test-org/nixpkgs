@@ -1,38 +1,39 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
 
-, manim
-, ffmpeg
+  manim,
+  ffmpeg,
 
-, av
-, click
-, click-default-group
-, jinja2
-, lxml
-, numpy
-, opencv4
-, pillow
-, pydantic
-, pydantic-extra-types
-, python-pptx
-, qtpy
-, requests
-, rich
-, rtoml
-, tqdm
-, pyqt6
+  av,
+  click,
+  click-default-group,
+  jinja2,
+  lxml,
+  numpy,
+  opencv4,
+  pillow,
+  pydantic,
+  pydantic-extra-types,
+  python-pptx,
+  qtpy,
+  requests,
+  rich,
+  rtoml,
+  tqdm,
+  pyqt6,
 
   # Optional dependencies
-, ipython
+  ipython,
 
   # Hooks
-, pdm-backend
-, pythonRelaxDepsHook
+  pdm-backend,
+  pythonRelaxDepsHook,
 
   # As Module or application?
-, withGui ? false
+  withGui ? false,
 }:
 buildPythonPackage rec {
   pname = "manim-slides";
@@ -48,40 +49,47 @@ buildPythonPackage rec {
     hash = "sha256-WZR95swapT2Fbu6mbuHLjMu3Okq/wKFabzN7xpZw0/g=";
   };
 
-  nativeBuildInputs = [ pdm-backend pythonRelaxDepsHook ];
+  nativeBuildInputs = [
+    pdm-backend
+    pythonRelaxDepsHook
+  ];
 
   pythonRemoveDeps = [ "opencv-python" ];
 
-  pythonRelaxDeps = [ "rtoml" "qtpy" ];
+  pythonRelaxDeps = [
+    "rtoml"
+    "qtpy"
+  ];
 
-  propagatedBuildInputs = [
-    av
-    click
-    click-default-group
-    jinja2
-    lxml
-    numpy
-    opencv4
-    pillow
-    pydantic
-    pydantic-extra-types
-    python-pptx
-    qtpy
-    requests
-    rich
-    rtoml
-    tqdm
+  propagatedBuildInputs =
+    [
+      av
+      click
+      click-default-group
+      jinja2
+      lxml
+      numpy
+      opencv4
+      pillow
+      pydantic
+      pydantic-extra-types
+      python-pptx
+      qtpy
+      requests
+      rich
+      rtoml
+      tqdm
 
-    # avconv is a potential alternative
-    ffmpeg
-    # This could also be manimgl, but that is not (yet) packaged
-    manim
-  ]
-  ++ lib.lists.optional (!withGui)
-    ipython
-  ++ lib.lists.optional withGui
-    # dependency of qtpy (could also be pyqt5)
-    pyqt6;
+      # avconv is a potential alternative
+      ffmpeg
+      # This could also be manimgl, but that is not (yet) packaged
+      manim
+    ]
+    ++ lib.lists.optional (!withGui) ipython
+    ++
+      lib.lists.optional withGui
+        # dependency of qtpy (could also be pyqt5)
+        pyqt6;
 
   pythonImportsCheck = [ "manim_slides" ];
 

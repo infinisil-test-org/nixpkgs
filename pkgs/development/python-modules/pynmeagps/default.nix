@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pytestCheckHook
-, setuptools
-, pytest-cov
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pytestCheckHook,
+  setuptools,
+  pytest-cov,
 }:
 
 buildPythonPackage rec {
@@ -25,9 +26,7 @@ buildPythonPackage rec {
     pytest-cov
   ];
 
-  pythonImportsCheck = [
-    "pynmeagps"
-  ];
+  pythonImportsCheck = [ "pynmeagps" ];
 
   meta = {
     homepage = "https://github.com/semuconsulting/pynmeagps";

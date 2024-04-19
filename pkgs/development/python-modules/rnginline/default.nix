@@ -1,15 +1,16 @@
-{ lib
-, fetchPypi
-, buildPythonPackage
-, poetry-core
-, pythonRelaxDepsHook
-, lxml
-, docopt-ng
-, typing-extensions
-, importlib-metadata
-, importlib-resources
-, pytestCheckHook
-, mock
+{
+  lib,
+  fetchPypi,
+  buildPythonPackage,
+  poetry-core,
+  pythonRelaxDepsHook,
+  lxml,
+  docopt-ng,
+  typing-extensions,
+  importlib-metadata,
+  importlib-resources,
+  pytestCheckHook,
+  mock,
 }:
 
 buildPythonPackage rec {
@@ -27,9 +28,7 @@ buildPythonPackage rec {
     pythonRelaxDepsHook
   ];
 
-  pythonRelaxDeps = [
-    "docopt-ng"
-  ];
+  pythonRelaxDeps = [ "docopt-ng" ];
 
   propagatedBuildInputs = [
     docopt-ng

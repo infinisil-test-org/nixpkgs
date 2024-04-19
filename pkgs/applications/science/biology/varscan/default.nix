@@ -1,4 +1,10 @@
-{lib, stdenv, fetchurl, jre, makeWrapper}:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  jre,
+  makeWrapper,
+}:
 
 stdenv.mkDerivation rec {
   pname = "varscan";
@@ -34,5 +40,4 @@ stdenv.mkDerivation rec {
     maintainers = with maintainers; [ jbedo ];
     platforms = platforms.all;
   };
-
 }

@@ -1,11 +1,12 @@
-{ lib
-, beautifulsoup4
-, buildPythonPackage
-, fetchPypi
-, pytestCheckHook
-, pythonOlder
-, requests
-, requests-mock
+{
+  lib,
+  beautifulsoup4,
+  buildPythonPackage,
+  fetchPypi,
+  pytestCheckHook,
+  pythonOlder,
+  requests,
+  requests-mock,
 }:
 
 buildPythonPackage rec {
@@ -35,12 +36,11 @@ buildPythonPackage rec {
   ];
 
   pytestFlagsArray = [
-    "-W" "ignore::pytest.PytestRemovedIn8Warning"
+    "-W"
+    "ignore::pytest.PytestRemovedIn8Warning"
   ];
 
-  pythonImportsCheck = [
-    "favicon"
-  ];
+  pythonImportsCheck = [ "favicon" ];
 
   meta = with lib; {
     description = "Find a website's favicon";

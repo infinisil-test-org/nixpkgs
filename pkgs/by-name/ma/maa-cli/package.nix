@@ -1,14 +1,15 @@
-{ lib
-, stdenv
-, rustPlatform
-, fetchFromGitHub
-, installShellFiles
-, makeWrapper
-, pkg-config
-, openssl
-, maa-assistant-arknights
-, android-tools
-, git
+{
+  lib,
+  stdenv,
+  rustPlatform,
+  fetchFromGitHub,
+  installShellFiles,
+  makeWrapper,
+  pkg-config,
+  openssl,
+  maa-assistant-arknights,
+  android-tools,
+  git,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -28,13 +29,14 @@ rustPlatform.buildRustPackage rec {
     pkg-config
   ];
 
-  buildInputs = [
-    openssl
-  ];
+  buildInputs = [ openssl ];
 
   # https://github.com/MaaAssistantArknights/maa-cli/pull/126
   buildNoDefaultFeatures = true;
-  buildFeatures = [ "git2" "core_installer" ];
+  buildFeatures = [
+    "git2"
+    "core_installer"
+  ];
 
   cargoHash = "sha256-tkUJH7oFY5eZ5A7J+qzeyHlqOUnTipf6o+leZz7KOiQ=";
 
@@ -47,9 +49,12 @@ rustPlatform.buildRustPackage rec {
     mv $out/bin/maa $out/share/maa-assistant-arknights/
 
     makeWrapper $out/share/maa-assistant-arknights/maa $out/bin/maa \
-      --prefix PATH : "${lib.makeBinPath [
-        android-tools git
-      ]}"
+      --prefix PATH : "${
+        lib.makeBinPath [
+          android-tools
+          git
+        ]
+      }"
 
     installShellCompletion --cmd maa \
       --bash <($out/bin/maa complete bash) \

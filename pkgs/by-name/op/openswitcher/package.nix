@@ -1,15 +1,16 @@
-{ lib
-, python3Packages
-, fetchFromSourcehut
-, desktop-file-utils
-, gobject-introspection
-, gtk3
-, libhandy
-, meson
-, ninja
-, pkg-config
-, scdoc
-, wrapGAppsHook
+{
+  lib,
+  python3Packages,
+  fetchFromSourcehut,
+  desktop-file-utils,
+  gobject-introspection,
+  gtk3,
+  libhandy,
+  meson,
+  ninja,
+  pkg-config,
+  scdoc,
+  wrapGAppsHook,
 }:
 
 python3Packages.buildPythonApplication rec {
@@ -29,9 +30,7 @@ python3Packages.buildPythonApplication rec {
     "man"
   ];
 
-  depsBuildBuild = [
-    pkg-config
-  ];
+  depsBuildBuild = [ pkg-config ];
 
   nativeBuildInputs = [
     desktop-file-utils

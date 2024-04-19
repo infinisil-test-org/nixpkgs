@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -7,38 +12,39 @@ let
 
   package = pkgs.ebusd;
 
-  arguments = [
-    "${package}/bin/ebusd"
-    "--foreground"
-    "--updatecheck=off"
-    "--device=${cfg.device}"
-    "--port=${toString cfg.port}"
-    "--configpath=${cfg.configpath}"
-    "--scanconfig=${cfg.scanconfig}"
-    "--log=all:${cfg.logs.all}"
-    "--log=main:${cfg.logs.main}"
-    "--log=network:${cfg.logs.network}"
-    "--log=bus:${cfg.logs.bus}"
-    "--log=update:${cfg.logs.update}"
-    "--log=other:${cfg.logs.other}"
-  ] ++ lib.optionals cfg.readonly [
-    "--readonly"
-  ] ++ lib.optionals cfg.mqtt.enable [
-    "--mqtthost=${cfg.mqtt.host}"
-    "--mqttport=${toString cfg.mqtt.port}"
-    "--mqttuser=${cfg.mqtt.user}"
-    "--mqttpass=${cfg.mqtt.password}"
-  ] ++ lib.optionals cfg.mqtt.home-assistant [
-    "--mqttint=${package}/etc/ebusd/mqtt-hassio.cfg"
-    "--mqttjson"
-  ] ++ lib.optionals cfg.mqtt.retain [
-    "--mqttretain"
-  ] ++ cfg.extraArguments;
+  arguments =
+    [
+      "${package}/bin/ebusd"
+      "--foreground"
+      "--updatecheck=off"
+      "--device=${cfg.device}"
+      "--port=${toString cfg.port}"
+      "--configpath=${cfg.configpath}"
+      "--scanconfig=${cfg.scanconfig}"
+      "--log=all:${cfg.logs.all}"
+      "--log=main:${cfg.logs.main}"
+      "--log=network:${cfg.logs.network}"
+      "--log=bus:${cfg.logs.bus}"
+      "--log=update:${cfg.logs.update}"
+      "--log=other:${cfg.logs.other}"
+    ]
+    ++ lib.optionals cfg.readonly [ "--readonly" ]
+    ++ lib.optionals cfg.mqtt.enable [
+      "--mqtthost=${cfg.mqtt.host}"
+      "--mqttport=${toString cfg.mqtt.port}"
+      "--mqttuser=${cfg.mqtt.user}"
+      "--mqttpass=${cfg.mqtt.password}"
+    ]
+    ++ lib.optionals cfg.mqtt.home-assistant [
+      "--mqttint=${package}/etc/ebusd/mqtt-hassio.cfg"
+      "--mqttjson"
+    ]
+    ++ lib.optionals cfg.mqtt.retain [ "--mqttretain" ]
+    ++ cfg.extraArguments;
 
   usesDev = hasPrefix "/" cfg.device;
 
   command = concatStringsSep " " arguments;
-
 in
 {
   meta.maintainers = with maintainers; [ nathan-gs ];
@@ -73,7 +79,7 @@ in
       type = types.bool;
       default = false;
       description = ''
-         Only read from device, never write to it
+        Only read from device, never write to it
       '';
     };
 
@@ -97,7 +103,12 @@ in
 
     logs = {
       main = mkOption {
-        type = types.enum [ "error" "notice" "info" "debug"];
+        type = types.enum [
+          "error"
+          "notice"
+          "info"
+          "debug"
+        ];
         default = "info";
         description = ''
           Only write log for matching AREAs (main|network|bus|update|other|all) below or equal to LEVEL (error|notice|info|debug) [all:notice].
@@ -105,7 +116,12 @@ in
       };
 
       network = mkOption {
-        type = types.enum [ "error" "notice" "info" "debug"];
+        type = types.enum [
+          "error"
+          "notice"
+          "info"
+          "debug"
+        ];
         default = "info";
         description = ''
           Only write log for matching AREAs (main|network|bus|update|other|all) below or equal to LEVEL (error|notice|info|debug) [all:notice].
@@ -113,7 +129,12 @@ in
       };
 
       bus = mkOption {
-        type = types.enum [ "error" "notice" "info" "debug"];
+        type = types.enum [
+          "error"
+          "notice"
+          "info"
+          "debug"
+        ];
         default = "info";
         description = ''
           Only write log for matching AREAs (main|network|bus|update|other|all) below or equal to LEVEL (error|notice|info|debug) [all:notice].
@@ -121,7 +142,12 @@ in
       };
 
       update = mkOption {
-        type = types.enum [ "error" "notice" "info" "debug"];
+        type = types.enum [
+          "error"
+          "notice"
+          "info"
+          "debug"
+        ];
         default = "info";
         description = ''
           Only write log for matching AREAs (main|network|bus|update|other|all) below or equal to LEVEL (error|notice|info|debug) [all:notice].
@@ -129,7 +155,12 @@ in
       };
 
       other = mkOption {
-        type = types.enum [ "error" "notice" "info" "debug"];
+        type = types.enum [
+          "error"
+          "notice"
+          "info"
+          "debug"
+        ];
         default = "info";
         description = ''
           Only write log for matching AREAs (main|network|bus|update|other|all) below or equal to LEVEL (error|notice|info|debug) [all:notice].
@@ -137,7 +168,12 @@ in
       };
 
       all = mkOption {
-        type = types.enum [ "error" "notice" "info" "debug"];
+        type = types.enum [
+          "error"
+          "notice"
+          "info"
+          "debug"
+        ];
         default = "info";
         description = ''
           Only write log for matching AREAs (main|network|bus|update|other|all) below or equal to LEVEL (error|notice|info|debug) [all:notice].
@@ -200,17 +236,15 @@ in
           The MQTT password.
         '';
       };
-
     };
 
     extraArguments = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
       description = ''
         Extra arguments to the ebus daemon
       '';
     };
-
   };
 
   config = mkIf (cfg.enable) {
@@ -226,9 +260,7 @@ in
 
         # Hardening
         CapabilityBoundingSet = "";
-        DeviceAllow = lib.optionals usesDev [
-          cfg.device
-        ] ;
+        DeviceAllow = lib.optionals usesDev [ cfg.device ];
         DevicePolicy = "closed";
         LockPersonality = true;
         MemoryDenyWriteExecute = false;
@@ -254,9 +286,7 @@ in
         RestrictNamespaces = true;
         RestrictRealtime = true;
         RestrictSUIDSGID = true;
-        SupplementaryGroups = [
-          "dialout"
-        ];
+        SupplementaryGroups = [ "dialout" ];
         SystemCallArchitectures = "native";
         SystemCallFilter = [
           "@system-service @pkey"
@@ -265,6 +295,5 @@ in
         UMask = "0077";
       };
     };
-
   };
 }

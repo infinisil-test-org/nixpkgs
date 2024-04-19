@@ -1,9 +1,20 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.services.vdr;
 
   inherit (lib)
-    mkEnableOption mkPackageOption mkOption types mkIf optional;
+    mkEnableOption
+    mkPackageOption
+    mkOption
+    types
+    mkIf
+    optional
+    ;
 in
 {
   options = {
@@ -45,7 +56,6 @@ in
         '';
       };
     };
-
   };
 
   config = mkIf cfg.enable {
@@ -59,16 +69,13 @@ in
       description = "VDR";
       wantedBy = [ "multi-user.target" ];
       wants = optional cfg.enableLirc "lircd.service";
-      after = [ "network.target" ]
-        ++ optional cfg.enableLirc "lircd.service";
+      after = [ "network.target" ] ++ optional cfg.enableLirc "lircd.service";
       serviceConfig = {
         ExecStart =
           let
             args = [
               "--video=${cfg.videoDir}"
-            ]
-            ++ optional cfg.enableLirc "--lirc=${config.passthru.lirc.socket}"
-            ++ cfg.extraArguments;
+            ] ++ optional cfg.enableLirc "--lirc=${config.passthru.lirc.socket}" ++ cfg.extraArguments;
           in
           "${cfg.package}/bin/vdr ${lib.escapeShellArgs args}";
         User = cfg.user;
@@ -90,12 +97,10 @@ in
         extraGroups = [
           "video"
           "audio"
-        ]
-        ++ optional cfg.enableLirc "lirc";
+        ] ++ optional cfg.enableLirc "lirc";
       };
     };
 
     users.groups = mkIf (cfg.group == "vdr") { vdr = { }; };
-
   };
 }

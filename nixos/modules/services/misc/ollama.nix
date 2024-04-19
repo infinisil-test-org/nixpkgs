@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   inherit (lib) types;
 
@@ -40,7 +45,13 @@ in
         '';
       };
       acceleration = lib.mkOption {
-        type = types.nullOr (types.enum [ false "rocm" "cuda" ]);
+        type = types.nullOr (
+          types.enum [
+            false
+            "rocm"
+            "cuda"
+          ]
+        );
         default = null;
         example = "rocm";
         description = ''
@@ -94,5 +105,8 @@ in
     environment.systemPackages = [ ollamaPackage ];
   };
 
-  meta.maintainers = with lib.maintainers; [ abysssol onny ];
+  meta.maintainers = with lib.maintainers; [
+    abysssol
+    onny
+  ];
 }

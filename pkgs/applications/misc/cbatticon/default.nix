@@ -1,4 +1,14 @@
-{ lib, stdenv, fetchFromGitHub, pkg-config, gettext, glib, gtk3, libnotify, wrapGAppsHook }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  pkg-config,
+  gettext,
+  glib,
+  gtk3,
+  libnotify,
+  wrapGAppsHook,
+}:
 
 stdenv.mkDerivation rec {
   pname = "cbatticon";
@@ -11,9 +21,17 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-VQjJujF9lnVvQxV+0YqodLgnI9F90JKDAGBu5nM/Q/c=";
   };
 
-  nativeBuildInputs = [ pkg-config gettext wrapGAppsHook ];
+  nativeBuildInputs = [
+    pkg-config
+    gettext
+    wrapGAppsHook
+  ];
 
-  buildInputs =  [ glib gtk3 libnotify ];
+  buildInputs = [
+    glib
+    gtk3
+    libnotify
+  ];
 
   patchPhase = ''
     sed -i -e 's/ -Wno-format//g' Makefile

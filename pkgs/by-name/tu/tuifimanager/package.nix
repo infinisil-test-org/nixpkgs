@@ -1,6 +1,7 @@
-{ lib
-, python3
-, fetchFromGitHub
+{
+  lib,
+  python3,
+  fetchFromGitHub,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -41,7 +42,10 @@ python3.pkgs.buildPythonApplication rec {
     homepage = "https://github.com/GiorgosXou/TUIFIManager";
     changelog = "https://github.com/GiorgosXou/TUIFIManager/blob/${src.rev}/CHANGELOG.md";
     license = licenses.gpl3Only;
-    maintainers = with maintainers; [ michaelBelsanti sigmanificient ];
+    maintainers = with maintainers; [
+      michaelBelsanti
+      sigmanificient
+    ];
     mainProgram = "tuifi";
   };
 }

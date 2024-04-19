@@ -1,16 +1,17 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, setuptools
-, wheel
-, pyannote-core
-, pyannote-database
-, pyyaml
-, optuna
-, tqdm
-, docopt
-, filelock
-, scikit-learn
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  setuptools,
+  wheel,
+  pyannote-core,
+  pyannote-database,
+  pyyaml,
+  optuna,
+  tqdm,
+  docopt,
+  filelock,
+  scikit-learn,
 }:
 
 buildPythonPackage rec {

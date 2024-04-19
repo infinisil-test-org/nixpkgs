@@ -1,4 +1,8 @@
-{ lib, stdenvNoCC, fetchurl }:
+{
+  lib,
+  stdenvNoCC,
+  fetchurl,
+}:
 
 {
   tai-ahom = stdenvNoCC.mkDerivation rec {
@@ -30,5 +34,4 @@
   };
 
   # TODO: package others (Khamti Shan, Tai Aiton, Tai Phake, and/or Assam Tai)
-
 }

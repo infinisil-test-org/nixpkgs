@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, fetchpatch
-, poetry-core
-, pythonOlder
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  fetchpatch,
+  poetry-core,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -20,9 +21,7 @@ buildPythonPackage rec {
     sha256 = "1j7skyxldir3mphvnsyhjxmf3cimv4h7n5v58jl2gff4yd0hdw7g";
   };
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
   patches = [
     # Switch to poetry-core, https://github.com/Gr1N/nats-python/pull/19
@@ -33,9 +32,7 @@ buildPythonPackage rec {
     })
   ];
 
-  propagatedBuildInputs = [
-    setuptools
-  ];
+  propagatedBuildInputs = [ setuptools ];
 
   # Tests require a running NATS server
   doCheck = false;

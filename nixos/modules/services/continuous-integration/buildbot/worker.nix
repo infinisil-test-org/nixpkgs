@@ -1,6 +1,12 @@
 # NixOS module for Buildbot Worker.
 
-{ config, lib, options, pkgs, ... }:
+{
+  config,
+  lib,
+  options,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -42,8 +48,8 @@ let
                numcpus=numcpus, allow_shutdown=allow_shutdown)
     s.setServiceParent(application)
   '';
-
-in {
+in
+{
   options = {
     services.buildbot-worker = {
 
@@ -67,7 +73,7 @@ in {
 
       extraGroups = mkOption {
         type = types.listOf types.str;
-        default = [];
+        default = [ ];
         description = "List of extra groups that the Buildbot Worker user should be a part of.";
       };
 
@@ -140,11 +146,11 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.buildbot-worker.workerPassFile = mkDefault (pkgs.writeText "buildbot-worker-password" cfg.workerPass);
+    services.buildbot-worker.workerPassFile = mkDefault (
+      pkgs.writeText "buildbot-worker-password" cfg.workerPass
+    );
 
-    users.groups = optionalAttrs (cfg.group == "bbworker") {
-      bbworker = { };
-    };
+    users.groups = optionalAttrs (cfg.group == "bbworker") { bbworker = { }; };
 
     users.users = optionalAttrs (cfg.user == "bbworker") {
       bbworker = {
@@ -160,7 +166,10 @@ in {
 
     systemd.services.buildbot-worker = {
       description = "Buildbot Worker.";
-      after = [ "network.target" "buildbot-master.service" ];
+      after = [
+        "network.target"
+        "buildbot-master.service"
+      ];
       wantedBy = [ "multi-user.target" ];
       path = cfg.packages;
       environment.PYTHONPATH = "${python.withPackages (p: [ package ])}/${python.sitePackages}";
@@ -184,10 +193,8 @@ in {
         # NOTE: call twistd directly with stdout logging for systemd
         ExecStart = "${python.pkgs.twisted}/bin/twistd --nodaemon --pidfile= --logfile - --python ${tacFile}";
       };
-
     };
   };
 
   meta.maintainers = lib.teams.buildbot.members;
-
 }

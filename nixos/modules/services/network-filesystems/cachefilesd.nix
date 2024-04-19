@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
@@ -10,7 +15,6 @@ let
     dir ${cfg.cacheDir}
     ${cfg.extraConfig}
   '';
-
 in
 
 {
@@ -35,7 +39,6 @@ in
         example = "brun 10%";
         description = "Additional configuration file entries. See cachefilesd.conf(5) for more information.";
       };
-
     };
   };
 

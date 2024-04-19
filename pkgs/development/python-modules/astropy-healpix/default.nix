@@ -1,15 +1,16 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchPypi
-, numpy
-, astropy
-, astropy-extension-helpers
-, setuptools
-, setuptools-scm
-, pytestCheckHook
-, pytest-doctestplus
-, hypothesis
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchPypi,
+  numpy,
+  astropy,
+  astropy-extension-helpers,
+  setuptools,
+  setuptools-scm,
+  pytestCheckHook,
+  pytest-doctestplus,
+  hypothesis,
 }:
 
 buildPythonPackage rec {
@@ -19,7 +20,7 @@ buildPythonPackage rec {
 
   src = fetchPypi {
     inherit version;
-    pname = lib.replaceStrings ["-"] ["_"] pname;
+    pname = lib.replaceStrings [ "-" ] [ "_" ] pname;
     hash = "sha256-BW+m7ZOWvtx3HTdNh3zeg9lGCj9ip4/gXb+boDlAMjo=";
   };
 

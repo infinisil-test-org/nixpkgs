@@ -1,13 +1,22 @@
-{ config, lib, pkgs, options, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  options,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.services.prometheus.exporters.junos-czerwonk;
 
-  configFile = if cfg.configuration != null then configurationFile else (escapeShellArg cfg.configurationFile);
+  configFile =
+    if cfg.configuration != null then configurationFile else (escapeShellArg cfg.configurationFile);
 
-  configurationFile = pkgs.writeText "prometheus-junos-czerwonk-exporter.conf" (builtins.toJSON (cfg.configuration));
+  configurationFile = pkgs.writeText "prometheus-junos-czerwonk-exporter.conf" (
+    builtins.toJSON (cfg.configuration)
+  );
 in
 {
   port = 9326;

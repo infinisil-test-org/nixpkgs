@@ -1,11 +1,12 @@
-{ buildPythonPackage
-, einops
-, fetchFromGitHub
-, jax
-, jaxlib
-, lib
-, pythonOlder
-, setuptools
+{
+  buildPythonPackage,
+  einops,
+  fetchFromGitHub,
+  jax,
+  jaxlib,
+  lib,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -22,11 +23,12 @@ buildPythonPackage rec {
     hash = "sha256-hDNNoE7KVaH3jrXZA4A8f0UoQJPl6KHA3XwMc3Ccohk=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [ einops jax ];
+  propagatedBuildInputs = [
+    einops
+    jax
+  ];
 
   # augmax does not have any tests at the time of writing (2022-02-19), but
   # jaxlib is necessary for the pythonImportsCheckPhase.

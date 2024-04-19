@@ -1,34 +1,35 @@
-{ lib
-, fetchFromGitHub
-, fetchpatch
-, stdenv
-, cmake
-, pkg-config
-, protobuf
-, python3
-, ffmpeg_6
-, libopus
-, wrapQtAppsHook
-, qtbase
-, qtmultimedia
-, qtsvg
-, qtwayland
-, qtdeclarative
-, qtwebengine
-, SDL2
-, libevdev
-, udev
-, hidapi
-, fftw
-, speexdsp
-, libplacebo
-, vulkan-loader
-, vulkan-headers
-, libunwind
-, shaderc
-, lcms2
-, libdovi
-, xxHash
+{
+  lib,
+  fetchFromGitHub,
+  fetchpatch,
+  stdenv,
+  cmake,
+  pkg-config,
+  protobuf,
+  python3,
+  ffmpeg_6,
+  libopus,
+  wrapQtAppsHook,
+  qtbase,
+  qtmultimedia,
+  qtsvg,
+  qtwayland,
+  qtdeclarative,
+  qtwebengine,
+  SDL2,
+  libevdev,
+  udev,
+  hidapi,
+  fftw,
+  speexdsp,
+  libplacebo,
+  vulkan-loader,
+  vulkan-headers,
+  libunwind,
+  shaderc,
+  lcms2,
+  libdovi,
+  xxHash,
 }:
 
 stdenv.mkDerivation rec {
@@ -79,17 +80,11 @@ stdenv.mkDerivation rec {
     xxHash
   ];
 
-  cmakeFlags = [
-    "-Wno-dev"
-  ];
+  cmakeFlags = [ "-Wno-dev" ];
 
-  qtWrapperArgs = [
-    "--prefix LD_LIBRARY_PATH : ${vulkan-loader}/lib"
-  ];
+  qtWrapperArgs = [ "--prefix LD_LIBRARY_PATH : ${vulkan-loader}/lib" ];
 
-  pythonPath = [
-    python3.pkgs.requests
-  ];
+  pythonPath = [ python3.pkgs.requests ];
 
   postInstall = ''
     install -Dm755 $src/scripts/psn-account-id.py $out/bin/psn-account-id

@@ -1,20 +1,21 @@
-{ lib
-, babel
-, buildPythonPackage
-, click
-, cryptography
-, fetchPypi
-, gntp
-, installShellFiles
-, markdown
-, paho-mqtt
-, pytest-mock
-, pytest-xdist
-, pytestCheckHook
-, pythonOlder
-, pyyaml
-, requests
-, requests-oauthlib
+{
+  lib,
+  babel,
+  buildPythonPackage,
+  click,
+  cryptography,
+  fetchPypi,
+  gntp,
+  installShellFiles,
+  markdown,
+  paho-mqtt,
+  pytest-mock,
+  pytest-xdist,
+  pytestCheckHook,
+  pythonOlder,
+  pyyaml,
+  requests,
+  requests-oauthlib,
 }:
 
 buildPythonPackage rec {
@@ -29,9 +30,7 @@ buildPythonPackage rec {
     hash = "sha256-B38JMJzIpskGPb1hSzQ4B9Un1UZpO3/o/FpEM1Av6mw=";
   };
 
-  nativeBuildInputs = [
-    installShellFiles
-  ];
+  nativeBuildInputs = [ installShellFiles ];
 
   propagatedBuildInputs = [
     click
@@ -65,9 +64,7 @@ buildPythonPackage rec {
     installManPage packaging/man/apprise.1
   '';
 
-  pythonImportsCheck = [
-    "apprise"
-  ];
+  pythonImportsCheck = [ "apprise" ];
 
   meta = with lib; {
     description = "Push Notifications that work with just about every platform";

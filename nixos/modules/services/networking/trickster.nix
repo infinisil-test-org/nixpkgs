@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -7,7 +12,18 @@ let
 in
 {
   imports = [
-    (mkRenamedOptionModule [ "services" "trickster" "origin" ] [ "services" "trickster" "origin-url" ])
+    (mkRenamedOptionModule
+      [
+        "services"
+        "trickster"
+        "origin"
+      ]
+      [
+        "services"
+        "trickster"
+        "origin-url"
+      ]
+    )
   ];
 
   options = {
@@ -55,7 +71,10 @@ in
       };
 
       origin-type = mkOption {
-        type = types.enum [ "prometheus" "influxdb" ];
+        type = types.enum [
+          "prometheus"
+          "influxdb"
+        ];
         default = "prometheus";
         description = ''
           Type of origin (prometheus, influxdb)
@@ -85,7 +104,6 @@ in
           Port that the Proxy server will listen on.
         '';
       };
-
     };
   };
 
@@ -114,5 +132,4 @@ in
   };
 
   meta.maintainers = with maintainers; [ _1000101 ];
-
 }

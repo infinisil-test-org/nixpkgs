@@ -1,4 +1,10 @@
-{ lib, fetchurl, buildDunePackage, cppo, seq }:
+{
+  lib,
+  fetchurl,
+  buildDunePackage,
+  cppo,
+  seq,
+}:
 
 buildDunePackage rec {
   pname = "yojson";

@@ -1,20 +1,21 @@
-{ lib
-, buildPythonPackage
-, datalad
-, dcm2niix
-, dcmstack
-, etelemetry
-, fetchPypi
-, filelock
-, git
-, nibabel
-, nipype
-, pydicom
-, pytestCheckHook
-, pythonOlder
-, setuptools
-, versioningit
-, wheel
+{
+  lib,
+  buildPythonPackage,
+  datalad,
+  dcm2niix,
+  dcmstack,
+  etelemetry,
+  fetchPypi,
+  filelock,
+  git,
+  nibabel,
+  nipype,
+  pydicom,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
+  versioningit,
+  wheel,
 }:
 
 buildPythonPackage rec {
@@ -60,9 +61,7 @@ buildPythonPackage rec {
     export HOME=$(mktemp -d)
   '';
 
-  pythonImportsCheck = [
-    "heudiconv"
-  ];
+  pythonImportsCheck = [ "heudiconv" ];
 
   meta = with lib; {
     homepage = "https://heudiconv.readthedocs.io";

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -6,7 +11,6 @@ let
   crashdump = config.boot.crashDump;
 
   kernelParams = concatStringsSep " " crashdump.kernelParams;
-
 in
 ###### interface
 {
@@ -35,7 +39,10 @@ in
         };
         kernelParams = mkOption {
           type = types.listOf types.str;
-          default = [ "1" "boot.shell_on_fail" ];
+          default = [
+            "1"
+            "boot.shell_on_fail"
+          ];
           description = ''
             Parameters that will be passed to the kernel kexec-ed on crash.
           '';
@@ -44,7 +51,7 @@ in
     };
   };
 
-###### implementation
+  ###### implementation
 
   config = mkIf crashdump.enable {
     boot = {
@@ -56,21 +63,23 @@ in
         --command-line="init=$(readlink -f /run/current-system/init) irqpoll maxcpus=1 reset_devices ${kernelParams}"
       '';
       kernelParams = [
-       "crashkernel=${crashdump.reservedMemory}"
-       "nmi_watchdog=panic"
-       "softlockup_panic=1"
+        "crashkernel=${crashdump.reservedMemory}"
+        "nmi_watchdog=panic"
+        "softlockup_panic=1"
       ];
-      kernelPatches = [ {
-        name = "crashdump-config";
-        patch = null;
-        extraConfig = ''
-                CRASH_DUMP y
-                DEBUG_INFO y
-                PROC_VMCORE y
-                LOCKUP_DETECTOR y
-                HARDLOCKUP_DETECTOR y
-              '';
-        } ];
+      kernelPatches = [
+        {
+          name = "crashdump-config";
+          patch = null;
+          extraConfig = ''
+            CRASH_DUMP y
+            DEBUG_INFO y
+            PROC_VMCORE y
+            LOCKUP_DETECTOR y
+            HARDLOCKUP_DETECTOR y
+          '';
+        }
+      ];
     };
   };
 }

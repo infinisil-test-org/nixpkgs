@@ -1,19 +1,20 @@
-{ lib
-, fetchgit
-, rustPlatform
-, pkg-config
-, openssl
-, fuse3
-, libuuid
-, acl
-, libxcrypt
-, git
-, installShellFiles
-, sphinx
-, stdenv
-, fetchpatch
-, testers
-, proxmox-backup-client
+{
+  lib,
+  fetchgit,
+  rustPlatform,
+  pkg-config,
+  openssl,
+  fuse3,
+  libuuid,
+  acl,
+  libxcrypt,
+  git,
+  installShellFiles,
+  sphinx,
+  stdenv,
+  fetchpatch,
+  testers,
+  proxmox-backup-client,
 }:
 
 let
@@ -56,7 +57,6 @@ let
     name = "pathpatterns";
     hash = "sha256-717XSlvQdvP0Q516fEx04rsrLCk3QI8frTD5NMmkSr4=";
   };
-
 in
 
 rustPlatform.buildRustPackage {
@@ -135,8 +135,20 @@ rustPlatform.buildRustPackage {
 
   doCheck = false;
 
-  nativeBuildInputs = [ git pkg-config rustPlatform.bindgenHook installShellFiles sphinx ];
-  buildInputs = [ openssl fuse3 libuuid acl libxcrypt ];
+  nativeBuildInputs = [
+    git
+    pkg-config
+    rustPlatform.bindgenHook
+    installShellFiles
+    sphinx
+  ];
+  buildInputs = [
+    openssl
+    fuse3
+    libuuid
+    acl
+    libxcrypt
+  ];
 
   passthru.tests.version = testers.testVersion {
     package = proxmox-backup-client;
@@ -148,7 +160,10 @@ rustPlatform.buildRustPackage {
     homepage = "https://pbs.proxmox.com/docs/backup-client.html";
     changelog = "https://git.proxmox.com/?p=proxmox-backup.git;a=blob;f=debian/changelog;hb=refs/tags/v${version}";
     license = licenses.agpl3Only;
-    maintainers = with maintainers; [ cofob christoph-heiss ];
+    maintainers = with maintainers; [
+      cofob
+      christoph-heiss
+    ];
     platforms = platforms.linux;
     mainProgram = "proxmox-backup-client";
   };

@@ -1,9 +1,10 @@
-{ lib
-, stdenv
-, fetchzip
-, python3
-, config
-, acceptLicense ? config.input-fonts.acceptLicense or false
+{
+  lib,
+  stdenv,
+  fetchzip,
+  python3,
+  config,
+  acceptLicense ? config.input-fonts.acceptLicense or false,
 }:
 
 let
@@ -28,7 +29,6 @@ let
   '';
 
   releaseDate = "2015-06-24";
-
 in
 
 stdenv.mkDerivation rec {

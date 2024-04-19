@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -19,14 +24,28 @@ let
     name = "opengl-drivers-32bit";
     paths = [ cfg.package32 ] ++ cfg.extraPackages32;
   };
-
 in
 
 {
 
   imports = [
-    (mkRenamedOptionModule [ "services" "xserver" "vaapiDrivers" ] [ "hardware" "opengl" "extraPackages" ])
-    (mkRemovedOptionModule [ "hardware" "opengl" "s3tcSupport" ] "S3TC support is now always enabled in Mesa.")
+    (mkRenamedOptionModule
+      [
+        "services"
+        "xserver"
+        "vaapiDrivers"
+      ]
+      [
+        "hardware"
+        "opengl"
+        "extraPackages"
+      ]
+    )
+    (mkRemovedOptionModule [
+      "hardware"
+      "opengl"
+      "s3tcSupport"
+    ] "S3TC support is now always enabled in Mesa.")
   ];
 
   options = {
@@ -86,7 +105,7 @@ in
 
       extraPackages = mkOption {
         type = types.listOf types.package;
-        default = [];
+        default = [ ];
         example = literalExpression "with pkgs; [ intel-media-driver intel-ocl intel-vaapi-driver ]";
         description = ''
           Additional packages to add to OpenGL drivers.
@@ -100,7 +119,7 @@ in
 
       extraPackages32 = mkOption {
         type = types.listOf types.package;
-        default = [];
+        default = [ ];
         example = literalExpression "with pkgs.pkgsi686Linux; [ intel-media-driver intel-vaapi-driver ]";
         description = ''
           Additional packages to add to 32-bit OpenGL drivers on 64-bit systems.
@@ -125,15 +144,17 @@ in
         '';
       };
     };
-
   };
 
   config = mkIf cfg.enable {
     assertions = [
-      { assertion = cfg.driSupport32Bit -> pkgs.stdenv.isx86_64;
+      {
+        assertion = cfg.driSupport32Bit -> pkgs.stdenv.isx86_64;
         message = "Option driSupport32Bit only makes sense on a 64-bit system.";
       }
-      { assertion = cfg.driSupport32Bit -> (config.boot.kernelPackages.kernel.features.ia32Emulation or false);
+      {
+        assertion =
+          cfg.driSupport32Bit -> (config.boot.kernelPackages.kernel.features.ia32Emulation or false);
         message = "Option driSupport32Bit requires a kernel that supports 32bit emulation";
       }
     ];
@@ -150,8 +171,9 @@ in
       )
     ];
 
-    environment.sessionVariables.LD_LIBRARY_PATH = mkIf cfg.setLdLibraryPath
-      ([ "/run/opengl-driver/lib" ] ++ optional cfg.driSupport32Bit "/run/opengl-driver-32/lib");
+    environment.sessionVariables.LD_LIBRARY_PATH = mkIf cfg.setLdLibraryPath (
+      [ "/run/opengl-driver/lib" ] ++ optional cfg.driSupport32Bit "/run/opengl-driver-32/lib"
+    );
 
     hardware.opengl.package = mkDefault pkgs.mesa.drivers;
     hardware.opengl.package32 = mkDefault pkgs.pkgsi686Linux.mesa.drivers;

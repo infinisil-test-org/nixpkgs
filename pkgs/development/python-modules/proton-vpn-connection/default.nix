@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, setuptools
-, proton-core
-, proton-vpn-killswitch
-, proton-vpn-logger
-, jinja2
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  setuptools,
+  proton-core,
+  proton-vpn-killswitch,
+  proton-vpn-logger,
+  jinja2,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -21,9 +22,7 @@ buildPythonPackage rec {
     hash = "sha256-RuLnc/olI8S09WFG126N2xZgW4gf+DDpRstcelqMhs4=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     jinja2
@@ -39,9 +38,7 @@ buildPythonPackage rec {
 
   pythonImportsCheck = [ "proton.vpn.connection" ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   disabledTests = [
     # Permission denied: '/run'

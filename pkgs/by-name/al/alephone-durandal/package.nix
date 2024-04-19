@@ -7,8 +7,7 @@ alephone.makeWrapper rec {
   icon = alephone.icons + "/marathon2.png";
 
   zip = fetchurl {
-    url =
-      "https://github.com/Aleph-One-Marathon/alephone/releases/download/release-${version}/Marathon2-${version}-Data.zip";
+    url = "https://github.com/Aleph-One-Marathon/alephone/releases/download/release-${version}/Marathon2-${version}-Data.zip";
     sha256 = "sha256-Vbfk5wLgvNEZW2BohMY5mPXaRbNlHxJdWLYTsE8CSwI=";
   };
 
@@ -21,5 +20,4 @@ alephone.makeWrapper rec {
     '';
     homepage = "https://alephone.lhowon.org/games/marathon2.html";
   };
-
 }

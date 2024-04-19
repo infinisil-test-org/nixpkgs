@@ -1,6 +1,20 @@
-{ lib, mkDerivation, fetchFromGitHub, fetchpatch, qmake, pkg-config, udev
-, qtmultimedia, qtscript, qtserialport, alsa-lib, ola, libftdi1, libusb-compat-0_1
-, libsndfile, libmad
+{
+  lib,
+  mkDerivation,
+  fetchFromGitHub,
+  fetchpatch,
+  qmake,
+  pkg-config,
+  udev,
+  qtmultimedia,
+  qtscript,
+  qtserialport,
+  alsa-lib,
+  ola,
+  libftdi1,
+  libusb-compat-0_1,
+  libsndfile,
+  libmad,
 }:
 
 mkDerivation rec {
@@ -14,9 +28,21 @@ mkDerivation rec {
     sha256 = "11av9hg6l0pb1lmlw35v1v2q9mmqz65yfaq01454y5qlmsbxpgkp";
   };
 
-  nativeBuildInputs = [ qmake pkg-config ];
+  nativeBuildInputs = [
+    qmake
+    pkg-config
+  ];
   buildInputs = [
-    udev qtmultimedia qtscript qtserialport alsa-lib ola libftdi1 libusb-compat-0_1 libsndfile libmad
+    udev
+    qtmultimedia
+    qtscript
+    qtserialport
+    alsa-lib
+    ola
+    libftdi1
+    libusb-compat-0_1
+    libsndfile
+    libmad
   ];
 
   qmakeFlags = [ "INSTALLROOT=$(out)" ];

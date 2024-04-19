@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, langcodes
-, pytestCheckHook
-, tld
-, urllib3
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  langcodes,
+  pytestCheckHook,
+  tld,
+  urllib3,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -26,14 +27,10 @@ buildPythonPackage rec {
     urllib3
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   # disable tests that require an internet connection
-  disabledTests = [
-    "test_urlcheck"
-  ];
+  disabledTests = [ "test_urlcheck" ];
 
   # tests try to write to /tmp directly. use $TMPDIR instead.
   postPatch = ''

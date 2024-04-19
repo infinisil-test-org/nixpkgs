@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pytestCheckHook
-, pythonOlder
-, teamcity-messages
-, testtools
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pytestCheckHook,
+  pythonOlder,
+  teamcity-messages,
+  testtools,
 }:
 
 buildPythonPackage rec {
@@ -25,13 +26,9 @@ buildPythonPackage rec {
     testtools
   ];
 
-  disabledTests = [
-    "test_failed_test_case"
-  ];
+  disabledTests = [ "test_failed_test_case" ];
 
-  pythonImportsCheck = [
-    "flexmock"
-  ];
+  pythonImportsCheck = [ "flexmock" ];
 
   meta = with lib; {
     description = "Testing library that makes it easy to create mocks,stubs and fakes";

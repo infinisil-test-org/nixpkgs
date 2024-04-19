@@ -1,11 +1,12 @@
-{ lib
-, stdenv
-, boost
-, cmake
-, fetchFromGitHub
-, fetchpatch
-, eigen
-, zlib
+{
+  lib,
+  stdenv,
+  boost,
+  cmake,
+  fetchFromGitHub,
+  fetchpatch,
+  eigen,
+  zlib,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -19,9 +20,7 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-YRK648gJ2UlgeG5GHMjTid1At0lYt7Zqu4/+O5WG/OM=";
   };
 
-  nativeBuildInputs = [
-    cmake
-  ];
+  nativeBuildInputs = [ cmake ];
 
   cmakeFlags = [
     # disable network access

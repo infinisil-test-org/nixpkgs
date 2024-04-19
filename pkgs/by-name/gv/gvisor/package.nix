@@ -1,11 +1,12 @@
-{ lib
-, nixosTests
-, buildGoModule
-, fetchFromGitHub
-, iproute2
-, iptables
-, makeWrapper
-, procps
+{
+  lib,
+  nixosTests,
+  buildGoModule,
+  fetchFromGitHub,
+  iproute2,
+  iptables,
+  makeWrapper,
+  procps,
 }:
 
 buildGoModule {
@@ -29,24 +30,41 @@ buildGoModule {
 
   CGO_ENABLED = 0;
 
-  ldflags = [ "-s" "-w" ];
+  ldflags = [
+    "-s"
+    "-w"
+  ];
 
-  subPackages = [ "runsc" "shim" ];
+  subPackages = [
+    "runsc"
+    "shim"
+  ];
 
   postInstall = ''
     # Needed for the 'runsc do' subcommand
     wrapProgram $out/bin/runsc \
-      --prefix PATH : ${lib.makeBinPath [ iproute2 iptables procps ]}
+      --prefix PATH : ${
+        lib.makeBinPath [
+          iproute2
+          iptables
+          procps
+        ]
+      }
     mv $out/bin/shim $out/bin/containerd-shim-runsc-v1
   '';
 
-  passthru.tests = { inherit (nixosTests) gvisor; };
+  passthru.tests = {
+    inherit (nixosTests) gvisor;
+  };
 
   meta = with lib; {
     description = "Application Kernel for Containers";
     homepage = "https://github.com/google/gvisor";
     license = licenses.asl20;
-    maintainers = with maintainers; [ andrew-d gpl ];
+    maintainers = with maintainers; [
+      andrew-d
+      gpl
+    ];
     platforms = [ "x86_64-linux" ];
   };
 }

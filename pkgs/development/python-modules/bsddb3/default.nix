@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pkgs
-, python
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pkgs,
+  python,
 }:
 
 buildPythonPackage rec {
@@ -35,5 +36,4 @@ buildPythonPackage rec {
     license = with licenses; [ agpl3Only ]; # License changed from bsd3 to agpl3 since 6.x
     maintainers = [ ];
   };
-
 }

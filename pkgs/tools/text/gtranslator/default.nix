@@ -1,23 +1,24 @@
-{ stdenv
-, lib
-, fetchurl
-, meson
-, ninja
-, pkg-config
-, itstool
-, gettext
-, wrapGAppsHook4
-, libxml2
-, libadwaita
-, libgda6
-, libsoup_3
-, libspelling
-, json-glib
-, glib
-, gtk4
-, gtksourceview5
-, gnome
-, gsettings-desktop-schemas
+{
+  stdenv,
+  lib,
+  fetchurl,
+  meson,
+  ninja,
+  pkg-config,
+  itstool,
+  gettext,
+  wrapGAppsHook4,
+  libxml2,
+  libadwaita,
+  libgda6,
+  libsoup_3,
+  libspelling,
+  json-glib,
+  glib,
+  gtk4,
+  gtksourceview5,
+  gnome,
+  gsettings-desktop-schemas,
 }:
 
 stdenv.mkDerivation rec {
@@ -53,9 +54,7 @@ stdenv.mkDerivation rec {
   ];
 
   passthru = {
-    updateScript = gnome.updateScript {
-      packageName = pname;
-    };
+    updateScript = gnome.updateScript { packageName = pname; };
   };
 
   meta = with lib; {

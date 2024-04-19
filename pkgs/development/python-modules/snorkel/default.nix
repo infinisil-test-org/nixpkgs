@@ -1,22 +1,23 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, tensorboard
-, scipy
-, tqdm
-, scikit-learn
-, munkres
-, networkx
-, torch
-, pandas
-# test dependencies
-, pytestCheckHook
-, spacy
-, pyspark
-, dill
-, dask
-, spacy_models
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  tensorboard,
+  scipy,
+  tqdm,
+  scikit-learn,
+  munkres,
+  networkx,
+  torch,
+  pandas,
+  # test dependencies
+  pytestCheckHook,
+  spacy,
+  pyspark,
+  dill,
+  dask,
+  spacy_models,
 }:
 let
   pname = "snorkel";

@@ -1,6 +1,7 @@
-{ lib
-, fetchurl
-, appimageTools
+{
+  lib,
+  fetchurl,
+  appimageTools,
 }:
 
 let
@@ -13,16 +14,12 @@ let
     name = "${pname}-${version}.AppImage";
   };
 
-  appimageContents = appimageTools.extractType2 {
-    inherit pname version src;
-  };
-
-in appimageTools.wrapType2 {
+  appimageContents = appimageTools.extractType2 { inherit pname version src; };
+in
+appimageTools.wrapType2 {
   inherit pname version src;
 
-  extraPkgs = pkgs: with pkgs; [
-    segger-jlink
-  ];
+  extraPkgs = pkgs: with pkgs; [ segger-jlink ];
 
   extraInstallCommands = ''
     mv $out/bin/nrfconnect-* $out/bin/nrfconnect

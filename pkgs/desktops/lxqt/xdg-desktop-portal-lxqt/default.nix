@@ -1,15 +1,16 @@
-{ lib
-, mkDerivation
-, fetchFromGitHub
-, cmake
-, kwindowsystem
-, libexif
-, libfm-qt
-, lxqt-qtplugin
-, menu-cache
-, qtx11extras
-, gitUpdater
-, extraQtStyles ? []
+{
+  lib,
+  mkDerivation,
+  fetchFromGitHub,
+  cmake,
+  kwindowsystem,
+  libexif,
+  libfm-qt,
+  lxqt-qtplugin,
+  menu-cache,
+  qtx11extras,
+  gitUpdater,
+  extraQtStyles ? [ ],
 }:
 
 mkDerivation rec {
@@ -23,9 +24,7 @@ mkDerivation rec {
     hash = "sha256-6yfLjDK8g8cpeeyuFUEjERTLLn6h3meKjD2Eb7Cj9qY=";
   };
 
-  nativeBuildInputs = [
-    cmake
-  ];
+  nativeBuildInputs = [ cmake ];
 
   buildInputs = [
     kwindowsystem
@@ -34,8 +33,7 @@ mkDerivation rec {
     lxqt-qtplugin
     menu-cache
     qtx11extras
-  ]
-  ++ extraQtStyles;
+  ] ++ extraQtStyles;
 
   passthru.updateScript = gitUpdater { };
 

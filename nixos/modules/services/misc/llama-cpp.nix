@@ -1,8 +1,15 @@
-{ config, lib, pkgs, utils, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  utils,
+  ...
+}:
 
 let
   cfg = config.services.llama-cpp;
-in {
+in
+{
 
   options = {
 
@@ -20,8 +27,15 @@ in {
       extraFlags = lib.mkOption {
         type = lib.types.listOf lib.types.str;
         description = "Extra flags passed to llama-cpp-server.";
-        example = ["-c" "4096" "-ngl" "32" "--numa" "numactl"];
-        default = [];
+        example = [
+          "-c"
+          "4096"
+          "-ngl"
+          "32"
+          "--numa"
+          "numactl"
+        ];
+        default = [ ];
       };
 
       host = lib.mkOption {
@@ -43,15 +57,14 @@ in {
         description = "Open ports in the firewall for LLaMA C++ server.";
       };
     };
-
   };
 
   config = lib.mkIf cfg.enable {
 
     systemd.services.llama-cpp = {
       description = "LLaMA C++ server";
-      after = ["network.target"];
-      wantedBy = ["multi-user.target"];
+      after = [ "network.target" ];
+      wantedBy = [ "multi-user.target" ];
 
       serviceConfig = {
         Type = "idle";
@@ -101,10 +114,7 @@ in {
       };
     };
 
-    networking.firewall = lib.mkIf cfg.openFirewall {
-      allowedTCPPorts = [ cfg.port ];
-    };
-
+    networking.firewall = lib.mkIf cfg.openFirewall { allowedTCPPorts = [ cfg.port ]; };
   };
 
   meta.maintainers = with lib.maintainers; [ newam ];

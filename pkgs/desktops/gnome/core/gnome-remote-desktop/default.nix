@@ -1,28 +1,30 @@
-{ lib, stdenv
-, fetchurl
-, cairo
-, meson
-, ninja
-, pkg-config
-, python3
-, asciidoc
-, wrapGAppsHook
-, glib
-, libei
-, libepoxy
-, libdrm
-, nv-codec-headers-11
-, pipewire
-, systemd
-, libsecret
-, libnotify
-, libxkbcommon
-, gdk-pixbuf
-, freerdp
-, fdk_aac
-, tpm2-tss
-, fuse3
-, gnome
+{
+  lib,
+  stdenv,
+  fetchurl,
+  cairo,
+  meson,
+  ninja,
+  pkg-config,
+  python3,
+  asciidoc,
+  wrapGAppsHook,
+  glib,
+  libei,
+  libepoxy,
+  libdrm,
+  nv-codec-headers-11,
+  pipewire,
+  systemd,
+  libsecret,
+  libnotify,
+  libxkbcommon,
+  gdk-pixbuf,
+  freerdp,
+  fdk_aac,
+  tpm2-tss,
+  fuse3,
+  gnome,
 }:
 
 stdenv.mkDerivation rec {

@@ -1,4 +1,10 @@
-{ lib, stdenvNoCC, fetchFromGitHub, unstableGitUpdater, gtk-engine-murrine }:
+{
+  lib,
+  stdenvNoCC,
+  fetchFromGitHub,
+  unstableGitUpdater,
+  gtk-engine-murrine,
+}:
 
 let
   themeName = "Dracula";
@@ -15,9 +21,7 @@ stdenvNoCC.mkDerivation {
     hash = "sha256-uhcRV7E7GDjWjetUHcz/E/g36m/yYTg3c9WJo6gYTJA=";
   };
 
-  propagatedUserEnvPkgs = [
-    gtk-engine-murrine
-  ];
+  propagatedUserEnvPkgs = [ gtk-engine-murrine ];
 
   installPhase = ''
     runHook preInstall
@@ -45,6 +49,9 @@ stdenvNoCC.mkDerivation {
     homepage = "https://github.com/dracula/gtk";
     license = licenses.gpl3;
     platforms = platforms.all;
-    maintainers = with maintainers; [ alexarice msfjarvis ];
+    maintainers = with maintainers; [
+      alexarice
+      msfjarvis
+    ];
   };
 }

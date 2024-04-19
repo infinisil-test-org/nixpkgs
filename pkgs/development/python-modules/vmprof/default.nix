@@ -1,13 +1,14 @@
-{ stdenv
-, lib
-, buildPythonPackage
-, fetchpatch
-, fetchPypi
-, colorama
-, libunwind
-, pytz
-, requests
-, six
+{
+  stdenv,
+  lib,
+  buildPythonPackage,
+  fetchpatch,
+  fetchPypi,
+  colorama,
+  libunwind,
+  pytz,
+  requests,
+  six,
 }:
 
 buildPythonPackage rec {
@@ -21,7 +22,12 @@ buildPythonPackage rec {
   };
 
   buildInputs = [ libunwind ];
-  propagatedBuildInputs = [ colorama requests six pytz ];
+  propagatedBuildInputs = [
+    colorama
+    requests
+    six
+    pytz
+  ];
 
   patches = [
     (fetchpatch {

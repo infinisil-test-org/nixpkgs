@@ -1,10 +1,16 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.programs.xastir;
-in {
+in
+{
   meta.maintainers = with maintainers; [ melling ];
 
   options.programs.xastir = {

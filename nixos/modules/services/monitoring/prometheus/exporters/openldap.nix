@@ -1,10 +1,16 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.services.prometheus.exporters.openldap;
-in {
+in
+{
   port = 9330;
   extraOpts = {
     ldapCredentialFile = mkOption {

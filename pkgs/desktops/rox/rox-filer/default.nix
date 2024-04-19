@@ -1,13 +1,14 @@
-{ lib
-, stdenv
-, fetchurl
-, fetchpatch
-, pkg-config
-, wrapGAppsHook
-, libxml2
-, gtk
-, libSM
-, shared-mime-info
+{
+  lib,
+  stdenv,
+  fetchurl,
+  fetchpatch,
+  pkg-config,
+  wrapGAppsHook,
+  libxml2,
+  gtk,
+  libSM,
+  shared-mime-info,
 }:
 
 stdenv.mkDerivation rec {
@@ -23,7 +24,12 @@ stdenv.mkDerivation rec {
     pkg-config
     wrapGAppsHook
   ];
-  buildInputs = [ libxml2 gtk shared-mime-info libSM ];
+  buildInputs = [
+    libxml2
+    gtk
+    shared-mime-info
+    libSM
+  ];
   NIX_LDFLAGS = "-lm";
 
   patches = [
@@ -91,7 +97,10 @@ stdenv.mkDerivation rec {
     description = "Fast, lightweight, gtk2 file manager";
     mainProgram = "rox";
     homepage = "http://rox.sourceforge.net/desktop";
-    license = with licenses; [ gpl2 lgpl2 ];
+    license = with licenses; [
+      gpl2
+      lgpl2
+    ];
     platforms = platforms.linux;
     maintainers = [ maintainers.eleanor ];
   };

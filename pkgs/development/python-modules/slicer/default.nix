@@ -1,13 +1,14 @@
-{ lib
-, buildPythonPackage
-, dos2unix
-, fetchpatch
-, fetchPypi
-, pytestCheckHook
-, pythonOlder
-, pandas
-, torch
-, scipy
+{
+  lib,
+  buildPythonPackage,
+  dos2unix,
+  fetchpatch,
+  fetchPypi,
+  pytestCheckHook,
+  pythonOlder,
+  pandas,
+  torch,
+  scipy,
 }:
 
 buildPythonPackage rec {
@@ -41,11 +42,14 @@ buildPythonPackage rec {
     })
   ];
 
-  nativeBuildInputs = [
-    dos2unix
-  ];
+  nativeBuildInputs = [ dos2unix ];
 
-  nativeCheckInputs = [ pytestCheckHook pandas torch scipy ];
+  nativeCheckInputs = [
+    pytestCheckHook
+    pandas
+    torch
+    scipy
+  ];
 
   disabledTests = [
     # IndexError: too many indices for array

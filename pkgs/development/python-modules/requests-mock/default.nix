@@ -1,14 +1,15 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, fixtures
-, purl
-, pytestCheckHook
-, python
-, requests
-, requests-futures
-, six
-, testtools
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  fixtures,
+  purl,
+  pytestCheckHook,
+  python,
+  requests,
+  requests-futures,
+  six,
+  testtools,
 }:
 
 buildPythonPackage rec {
@@ -21,7 +22,10 @@ buildPythonPackage rec {
     hash = "sha256-7xC1crSJpfKOCbcIaXIIxKOyuJ74Cp8BWENA6jV+w8Q=";
   };
 
-  propagatedBuildInputs = [ requests six ];
+  propagatedBuildInputs = [
+    requests
+    six
+  ];
 
   nativeCheckInputs = [
     fixtures

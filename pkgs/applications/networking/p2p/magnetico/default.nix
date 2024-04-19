@@ -1,7 +1,8 @@
-{ lib
-, fetchFromGitHub
-, nixosTests
-, buildGoModule
+{
+  lib,
+  fetchFromGitHub,
+  nixosTests,
+  buildGoModule,
 }:
 
 buildGoModule rec {
@@ -9,9 +10,9 @@ buildGoModule rec {
   version = "unstable-2022-08-10";
 
   src = fetchFromGitHub {
-    owner  = "ireun";
-    repo   = "magnetico";
-    rev    = "828e230d3b3c0759d3274e27f5a7b70400f4d6ea";
+    owner = "ireun";
+    repo = "magnetico";
+    rev = "828e230d3b3c0759d3274e27f5a7b70400f4d6ea";
     sha256 = "sha256-V1pBzillWTk9iuHAhFztxYaq4uLL3U3HYvedGk6ffbk=";
   };
 
@@ -33,15 +34,17 @@ buildGoModule rec {
     runHook postBuild
   '';
 
-  passthru.tests = { inherit (nixosTests) magnetico; };
+  passthru.tests = {
+    inherit (nixosTests) magnetico;
+  };
 
   meta = with lib; {
     # Build fails with Go >=1.21, couldn't be fixed by updating module dependencies.
     broken = true;
-    description  = "Autonomous (self-hosted) BitTorrent DHT search engine suite";
-    homepage     = "https://github.com/ireun/magnetico";
-    license      = licenses.agpl3Only;
+    description = "Autonomous (self-hosted) BitTorrent DHT search engine suite";
+    homepage = "https://github.com/ireun/magnetico";
+    license = licenses.agpl3Only;
     badPlatforms = platforms.darwin;
-    maintainers  = with maintainers; [ rnhmjoj ];
+    maintainers = with maintainers; [ rnhmjoj ];
   };
 }

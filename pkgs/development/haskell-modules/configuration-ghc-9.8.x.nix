@@ -42,7 +42,11 @@ self: super: {
   system-cxx-std-lib = null;
   template-haskell = null;
   # GHC only builds terminfo if it is a native compiler
-  terminfo = if pkgs.stdenv.hostPlatform == pkgs.stdenv.buildPlatform then null else doDistribute self.terminfo_0_4_1_6;
+  terminfo =
+    if pkgs.stdenv.hostPlatform == pkgs.stdenv.buildPlatform then
+      null
+    else
+      doDistribute self.terminfo_0_4_1_6;
   text = null;
   time = null;
   transformers = null;
@@ -89,8 +93,8 @@ self: super: {
   blaze-svg = doJailbreak super.blaze-svg; # base <4.19
   commutative-semigroups = doJailbreak super.commutative-semigroups; # base < 4.19
   diagrams-lib = doJailbreak super.diagrams-lib; # base <4.19, text <2.1
-  diagrams-postscript = doJailbreak super.diagrams-postscript;  # base <4.19, bytestring <0.12
-  diagrams-svg = doJailbreak super.diagrams-svg;  # base <4.19, text <2.1
+  diagrams-postscript = doJailbreak super.diagrams-postscript; # base <4.19, bytestring <0.12
+  diagrams-svg = doJailbreak super.diagrams-svg; # base <4.19, text <2.1
   ghc-trace-events = doJailbreak super.ghc-trace-events; # text < 2.1, bytestring < 0.12, base < 4.19
   primitive-unlifted = doJailbreak super.primitive-unlifted; # bytestring < 0.12
   statestack = doJailbreak super.statestack; # base < 4.19
@@ -125,10 +129,8 @@ self: super: {
   hip = appendConfigureFlag "--ghc-options=-fsimpl-tick-factor=200" super.hip;
 
   # Fix build with text-2.x.
-  libmpd = appendPatch (pkgs.fetchpatch
-      { url = "https://github.com/vimus/libmpd-haskell/pull/138.patch";
-        sha256 = "Q4fA2J/Tq+WernBo+UIMdj604ILOMlIYkG4Pr046DfM=";
-      })
-    super.libmpd;
-
+  libmpd = appendPatch (pkgs.fetchpatch {
+    url = "https://github.com/vimus/libmpd-haskell/pull/138.patch";
+    sha256 = "Q4fA2J/Tq+WernBo+UIMdj604ILOMlIYkG4Pr046DfM=";
+  }) super.libmpd;
 }

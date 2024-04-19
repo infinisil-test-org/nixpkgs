@@ -1,12 +1,13 @@
-{ lib
-, fetchPypi
-, buildPythonPackage
-, astropy
-, dask
-, numpy
-, oldest-supported-numpy
-, setuptools-scm
-, wheel
+{
+  lib,
+  fetchPypi,
+  buildPythonPackage,
+  astropy,
+  dask,
+  numpy,
+  oldest-supported-numpy,
+  setuptools-scm,
+  wheel,
 }:
 
 buildPythonPackage rec {
@@ -25,7 +26,11 @@ buildPythonPackage rec {
     wheel
   ];
 
-  propagatedBuildInputs = [ astropy dask numpy ];
+  propagatedBuildInputs = [
+    astropy
+    dask
+    numpy
+  ];
 
   # Tests require a large (800 Mb) dataset
   doCheck = false;

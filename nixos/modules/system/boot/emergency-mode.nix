@@ -20,18 +20,15 @@ with lib;
         as possible.
       '';
     };
-
   };
 
   ###### implementation
 
   config = {
 
-    systemd.additionalUpstreamSystemUnits = optionals
-      config.systemd.enableEmergencyMode [
-        "emergency.target" "emergency.service"
-      ];
-
+    systemd.additionalUpstreamSystemUnits = optionals config.systemd.enableEmergencyMode [
+      "emergency.target"
+      "emergency.service"
+    ];
   };
-
 }

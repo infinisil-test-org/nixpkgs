@@ -1,4 +1,8 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+}:
 
 buildGoModule rec {
   pname = "writefreely";
@@ -13,7 +17,11 @@ buildGoModule rec {
 
   vendorHash = "sha256-xTo/zbz9pSjvNntr5dnytiJ7oRAdtEuyiu4mJZgwHTc=";
 
-  ldflags = [ "-s" "-w" "-X github.com/writefreely/writefreely.softwareVer=${version}" ];
+  ldflags = [
+    "-s"
+    "-w"
+    "-X github.com/writefreely/writefreely.softwareVer=${version}"
+  ];
 
   tags = [ "sqlite" ];
 

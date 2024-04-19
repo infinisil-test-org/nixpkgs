@@ -1,16 +1,17 @@
-{ lib
-, mkDerivation
-, fetchFromGitHub
-, cmake
-, pkg-config
-, pcre
-, qtbase
-, qttools
-, qtx11extras
-, xorg
-, lxqt-build-tools
-, openbox
-, gitUpdater
+{
+  lib,
+  mkDerivation,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  pcre,
+  qtbase,
+  qttools,
+  qtx11extras,
+  xorg,
+  lxqt-build-tools,
+  openbox,
+  gitUpdater,
 }:
 
 mkDerivation rec {

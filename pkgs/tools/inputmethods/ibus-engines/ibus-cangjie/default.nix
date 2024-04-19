@@ -1,16 +1,17 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, gettext
-, pkg-config
-, wrapGAppsHook
-, ibus
-, glib
-, gobject-introspection
-, gtk3
-, python3
-, autoreconfHook
-, intltool
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  gettext,
+  pkg-config,
+  wrapGAppsHook,
+  ibus,
+  glib,
+  gobject-introspection,
+  gtk3,
+  python3,
+  autoreconfHook,
+  intltool,
 }:
 
 let
@@ -24,7 +25,6 @@ let
   # autotools build, making it awkward to rely on Nixpkgs Python builders.
   # Hence we manually set up PYTHONPATH.
   pythonPath = "$out/${python3.sitePackages}" + ":" + python3.pkgs.makePythonPath pythonModules;
-
 in
 stdenv.mkDerivation {
   pname = "ibus-cangjie";

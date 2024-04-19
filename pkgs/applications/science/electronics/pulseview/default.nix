@@ -1,7 +1,25 @@
-{ lib, stdenv, fetchgit, pkg-config, cmake, glib, boost, libsigrok
-, libsigrokdecode, libserialport, libzip, libftdi1, hidapi, glibmm
-, pcre, python3, qtsvg, qttools, bluez
-, wrapQtAppsHook, desktopToDarwinBundle
+{
+  lib,
+  stdenv,
+  fetchgit,
+  pkg-config,
+  cmake,
+  glib,
+  boost,
+  libsigrok,
+  libsigrokdecode,
+  libserialport,
+  libzip,
+  libftdi1,
+  hidapi,
+  glibmm,
+  pcre,
+  python3,
+  qtsvg,
+  qttools,
+  bluez,
+  wrapQtAppsHook,
+  desktopToDarwinBundle,
 }:
 
 stdenv.mkDerivation rec {
@@ -14,12 +32,25 @@ stdenv.mkDerivation rec {
     hash = "sha256-UEJunADzc1WRRfchO/n8qqxnyrSo4id1p7gLkD3CKaM=";
   };
 
-  nativeBuildInputs = [ cmake pkg-config qttools wrapQtAppsHook ]
-    ++ lib.optional stdenv.isDarwin desktopToDarwinBundle;
+  nativeBuildInputs = [
+    cmake
+    pkg-config
+    qttools
+    wrapQtAppsHook
+  ] ++ lib.optional stdenv.isDarwin desktopToDarwinBundle;
 
   buildInputs = [
-    glib boost libsigrok libsigrokdecode libserialport libzip libftdi1 hidapi glibmm
-    pcre python3
+    glib
+    boost
+    libsigrok
+    libsigrokdecode
+    libserialport
+    libzip
+    libftdi1
+    hidapi
+    glibmm
+    pcre
+    python3
     qtsvg
   ] ++ lib.optionals stdenv.isLinux [ bluez ];
 
@@ -28,7 +59,10 @@ stdenv.mkDerivation rec {
     mainProgram = "pulseview";
     homepage = "https://sigrok.org/";
     license = licenses.gpl3Plus;
-    maintainers = with maintainers; [ bjornfor vifino ];
+    maintainers = with maintainers; [
+      bjornfor
+      vifino
+    ];
     platforms = platforms.unix;
   };
 }

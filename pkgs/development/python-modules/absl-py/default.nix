@@ -1,10 +1,11 @@
-{ buildPythonPackage
-, lib
-, pythonOlder
-, fetchPypi
-, setuptools
-, six
-, enum34
+{
+  buildPythonPackage,
+  lib,
+  pythonOlder,
+  fetchPypi,
+  setuptools,
+  six,
+  enum34,
 }:
 
 buildPythonPackage rec {
@@ -17,15 +18,9 @@ buildPythonPackage rec {
     hash = "sha256-eCB5DvuzFnOc3otOGTVyQ/w2CKFSAkKIUT3ZaNfZWf8=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  propagatedBuildInputs = [
-    six
-  ] ++ lib.optionals (pythonOlder "3.4") [
-    enum34
-  ];
+  propagatedBuildInputs = [ six ] ++ lib.optionals (pythonOlder "3.4") [ enum34 ];
 
   # checks use bazel; should be revisited
   doCheck = false;

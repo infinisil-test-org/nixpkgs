@@ -1,10 +1,11 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, systemd
-, runtimeShell
-, python3
-, nixosTests
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  systemd,
+  runtimeShell,
+  python3,
+  nixosTests,
 }:
 
 let
@@ -39,7 +40,6 @@ let
 
     meta.mainProgram = "keyd-application-mapper";
   };
-
 in
 stdenv.mkDerivation {
   pname = "keyd";

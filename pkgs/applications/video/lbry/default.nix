@@ -1,9 +1,14 @@
-{ lib, fetchurl, appimageTools}:
+{
+  lib,
+  fetchurl,
+  appimageTools,
+}:
 
 let
   pname = "lbry-desktop";
   version = "0.53.9";
-in appimageTools.wrapAppImage rec {
+in
+appimageTools.wrapAppImage rec {
   name = "${pname}-${version}";
 
   # Fetch from GitHub Releases and extract
@@ -17,9 +22,7 @@ in appimageTools.wrapAppImage rec {
   };
 
   # At runtime, Lbry likes to have access to Ffmpeg
-  extraPkgs = pkgs: with pkgs; [
-    ffmpeg
-  ];
+  extraPkgs = pkgs: with pkgs; [ ffmpeg ];
 
   # General fixup
   extraInstallCommands = ''

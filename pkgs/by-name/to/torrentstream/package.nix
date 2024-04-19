@@ -1,8 +1,9 @@
-{ lib
-, buildDotnetModule
-, fetchFromGitHub
-, dotnetCorePackages
-, fetchpatch
+{
+  lib,
+  buildDotnetModule,
+  fetchFromGitHub,
+  dotnetCorePackages,
+  fetchpatch,
 }:
 
 buildDotnetModule rec {
@@ -26,12 +27,12 @@ buildDotnetModule rec {
 
   patches = [
     (fetchpatch {
-       name = "allow-setting-listen-address.patch";
-       url = "https://github.com/trueromanus/TorrentStream/compare/1.0.1.6..6900b6f33f2b4b94888a8a1355029a81767e66a4.patch";
-       hash = "sha256-jOUs5SO2BnNnkz3wJ710Z4stVlhZ8nKqpmHr4BNlGs0=";
-       stripLen = 1;
-       excludes = [ "README.md" ];
-     })
+      name = "allow-setting-listen-address.patch";
+      url = "https://github.com/trueromanus/TorrentStream/compare/1.0.1.6..6900b6f33f2b4b94888a8a1355029a81767e66a4.patch";
+      hash = "sha256-jOUs5SO2BnNnkz3wJ710Z4stVlhZ8nKqpmHr4BNlGs0=";
+      stripLen = 1;
+      excludes = [ "README.md" ];
+    })
     ./0001-display-the-message-of-caught-exceptions.patch
   ];
 

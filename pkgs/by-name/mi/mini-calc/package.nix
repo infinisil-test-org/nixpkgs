@@ -1,4 +1,9 @@
-{ lib, rustPlatform, fetchpatch, fetchFromGitHub }:
+{
+  lib,
+  rustPlatform,
+  fetchpatch,
+  fetchFromGitHub,
+}:
 rustPlatform.buildRustPackage rec {
   pname = "mini-calc";
   version = "2.12.3";

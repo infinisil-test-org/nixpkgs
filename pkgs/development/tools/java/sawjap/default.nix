@@ -1,6 +1,8 @@
 { stdenv, ocamlPackages }:
 
-let inherit (ocamlPackages) ocaml findlib sawja; in
+let
+  inherit (ocamlPackages) ocaml findlib sawja;
+in
 
 stdenv.mkDerivation {
 
@@ -12,7 +14,10 @@ stdenv.mkDerivation {
 
   strictDeps = true;
 
-  nativeBuildInputs = [ ocaml findlib ];
+  nativeBuildInputs = [
+    ocaml
+    findlib
+  ];
   buildInputs = [ sawja ];
 
   buildPhase = ''
@@ -28,5 +33,4 @@ stdenv.mkDerivation {
     description = "Pretty-print .class files";
     mainProgram = "sawjap";
   };
-
 }

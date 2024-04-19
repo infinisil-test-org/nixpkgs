@@ -1,10 +1,15 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   inherit (config.security) wrapperDir;
   cfg = config.services.kbfs;
-
-in {
+in
+{
 
   ###### interface
 
@@ -37,7 +42,7 @@ in {
 
       extraFlags = mkOption {
         type = types.listOf types.str;
-        default = [];
+        default = [ ];
         example = [
           "-label kbfs"
           "-mount-type normal"
@@ -46,7 +51,6 @@ in {
           Additional flags to pass to the Keybase filesystem on launch.
         '';
       };
-
     };
   };
 

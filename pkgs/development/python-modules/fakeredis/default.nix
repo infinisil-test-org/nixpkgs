@@ -1,18 +1,19 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, hypothesis
-, jsonpath-ng
-, lupa
-, poetry-core
-, pybloom-live
-, pyprobables
-, pytest-asyncio
-, pytest-mock
-, pytestCheckHook
-, pythonOlder
-, redis
-, sortedcontainers
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  hypothesis,
+  jsonpath-ng,
+  lupa,
+  poetry-core,
+  pybloom-live,
+  pyprobables,
+  pytest-asyncio,
+  pytest-mock,
+  pytestCheckHook,
+  pythonOlder,
+  redis,
+  sortedcontainers,
 }:
 
 buildPythonPackage rec {
@@ -29,9 +30,7 @@ buildPythonPackage rec {
     hash = "sha256-GIg+a8G5S0dmbvMKqS/Vn+wzNM6iNIs3bKPqhecsQt4=";
   };
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
   propagatedBuildInputs = [
     redis
@@ -46,26 +45,14 @@ buildPythonPackage rec {
   ];
 
   passthru.optional-dependencies = {
-    lua = [
-      lupa
-    ];
-    json = [
-      jsonpath-ng
-    ];
-    bf = [
-      pyprobables
-    ];
-    cf = [
-      pyprobables
-    ];
-    probabilistic = [
-      pyprobables
-    ];
+    lua = [ lupa ];
+    json = [ jsonpath-ng ];
+    bf = [ pyprobables ];
+    cf = [ pyprobables ];
+    probabilistic = [ pyprobables ];
   };
 
-  pythonImportsCheck = [
-    "fakeredis"
-  ];
+  pythonImportsCheck = [ "fakeredis" ];
 
   meta = with lib; {
     description = "Fake implementation of Redis API";

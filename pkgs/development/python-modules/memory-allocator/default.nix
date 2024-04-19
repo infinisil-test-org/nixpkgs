@@ -1,7 +1,8 @@
-{ lib
-, fetchPypi
-, buildPythonPackage
-, cython_3
+{
+  lib,
+  fetchPypi,
+  buildPythonPackage,
+  cython_3,
 }:
 
 buildPythonPackage rec {

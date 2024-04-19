@@ -1,40 +1,41 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, writeText
-, setuptools
-, wheel
-, filelock
-, huggingface-hub
-, importlib-metadata
-, numpy
-, pillow
-, regex
-, requests
-, safetensors
-# optional dependencies
-, accelerate
-, datasets
-, flax
-, jax
-, jaxlib
-, jinja2
-, peft
-, protobuf
-, tensorboard
-, torch
-# test dependencies
-, parameterized
-, pytest-timeout
-, pytest-xdist
-, pytestCheckHook
-, requests-mock
-, scipy
-, sentencepiece
-, torchsde
-, transformers
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  writeText,
+  setuptools,
+  wheel,
+  filelock,
+  huggingface-hub,
+  importlib-metadata,
+  numpy,
+  pillow,
+  regex,
+  requests,
+  safetensors,
+  # optional dependencies
+  accelerate,
+  datasets,
+  flax,
+  jax,
+  jaxlib,
+  jinja2,
+  peft,
+  protobuf,
+  tensorboard,
+  torch,
+  # test dependencies
+  parameterized,
+  pytest-timeout,
+  pytest-xdist,
+  pytestCheckHook,
+  requests-mock,
+  scipy,
+  sentencepiece,
+  torchsde,
+  transformers,
 }:
 
 buildPythonPackage rec {
@@ -87,9 +88,7 @@ buildPythonPackage rec {
     ];
   };
 
-  pythonImportsCheck = [
-    "diffusers"
-  ];
+  pythonImportsCheck = [ "diffusers" ];
 
   # tests crash due to torch segmentation fault
   doCheck = !(stdenv.isLinux && stdenv.isAarch64);
@@ -106,35 +105,35 @@ buildPythonPackage rec {
     transformers
   ] ++ passthru.optional-dependencies.torch;
 
-  preCheck = let
-    # This pytest hook mocks and catches attempts at accessing the network
-    # tests that try to access the network will raise, get caught, be marked as skipped and tagged as xfailed.
-    # cf. python3Packages.shap
-    conftestSkipNetworkErrors = writeText "conftest.py" ''
-      from _pytest.runner import pytest_runtest_makereport as orig_pytest_runtest_makereport
-      import urllib3
+  preCheck =
+    let
+      # This pytest hook mocks and catches attempts at accessing the network
+      # tests that try to access the network will raise, get caught, be marked as skipped and tagged as xfailed.
+      # cf. python3Packages.shap
+      conftestSkipNetworkErrors = writeText "conftest.py" ''
+        from _pytest.runner import pytest_runtest_makereport as orig_pytest_runtest_makereport
+        import urllib3
 
-      class NetworkAccessDeniedError(RuntimeError): pass
-      def deny_network_access(*a, **kw):
-        raise NetworkAccessDeniedError
+        class NetworkAccessDeniedError(RuntimeError): pass
+        def deny_network_access(*a, **kw):
+          raise NetworkAccessDeniedError
 
-      urllib3.connection.HTTPSConnection._new_conn = deny_network_access
+        urllib3.connection.HTTPSConnection._new_conn = deny_network_access
 
-      def pytest_runtest_makereport(item, call):
-        tr = orig_pytest_runtest_makereport(item, call)
-        if call.excinfo is not None and call.excinfo.type is NetworkAccessDeniedError:
-            tr.outcome = 'skipped'
-            tr.wasxfail = "reason: Requires network access."
-        return tr
+        def pytest_runtest_makereport(item, call):
+          tr = orig_pytest_runtest_makereport(item, call)
+          if call.excinfo is not None and call.excinfo.type is NetworkAccessDeniedError:
+              tr.outcome = 'skipped'
+              tr.wasxfail = "reason: Requires network access."
+          return tr
+      '';
+    in
+    ''
+      export HOME=$TMPDIR
+      cat ${conftestSkipNetworkErrors} >> tests/conftest.py
     '';
-  in ''
-    export HOME=$TMPDIR
-    cat ${conftestSkipNetworkErrors} >> tests/conftest.py
-  '';
 
-  pytestFlagsArray = [
-    "tests/"
-  ];
+  pytestFlagsArray = [ "tests/" ];
 
   disabledTests = [
     # depends on current working directory

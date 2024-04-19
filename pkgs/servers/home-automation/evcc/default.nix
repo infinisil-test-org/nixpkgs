@@ -1,17 +1,18 @@
-{ lib
-, buildGo122Module
-, fetchFromGitHub
-, fetchNpmDeps
-, cacert
-, go_1_22
-, git
-, enumer
-, mockgen
-, nodejs
-, npmHooks
-, nix-update-script
-, nixosTests
-, stdenv
+{
+  lib,
+  buildGo122Module,
+  fetchFromGitHub,
+  fetchNpmDeps,
+  cacert,
+  go_1_22,
+  git,
+  enumer,
+  mockgen,
+  nodejs,
+  npmHooks,
+  nix-update-script,
+  nixosTests,
+  stdenv,
 }:
 
 let

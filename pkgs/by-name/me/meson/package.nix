@@ -1,20 +1,27 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, installShellFiles
-, coreutils
-, darwin
-, libxcrypt
-, openldap
-, ninja
-, pkg-config
-, python3
-, substituteAll
-, zlib
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  installShellFiles,
+  coreutils,
+  darwin,
+  libxcrypt,
+  openldap,
+  ninja,
+  pkg-config,
+  python3,
+  substituteAll,
+  zlib,
 }:
 
 let
-  inherit (darwin.apple_sdk.frameworks) AppKit Cocoa Foundation LDAP OpenGL;
+  inherit (darwin.apple_sdk.frameworks)
+    AppKit
+    Cocoa
+    Foundation
+    LDAP
+    OpenGL
+    ;
 in
 python3.pkgs.buildPythonApplication rec {
   pname = "meson";
@@ -67,9 +74,7 @@ python3.pkgs.buildPythonApplication rec {
     ./006-disable-bitcode.patch
   ];
 
-  buildInputs = lib.optionals (python3.pythonOlder "3.9") [
-    libxcrypt
-  ];
+  buildInputs = lib.optionals (python3.pythonOlder "3.9") [ libxcrypt ];
 
   nativeBuildInputs = [ installShellFiles ];
 
@@ -78,43 +83,44 @@ python3.pkgs.buildPythonApplication rec {
     pkg-config
   ];
 
-  checkInputs = [
-    zlib
-  ]
-  ++ lib.optionals stdenv.isDarwin [
-    AppKit
-    Cocoa
-    Foundation
-    LDAP
-    OpenGL
-    openldap
-  ];
+  checkInputs =
+    [ zlib ]
+    ++ lib.optionals stdenv.isDarwin [
+      AppKit
+      Cocoa
+      Foundation
+      LDAP
+      OpenGL
+      openldap
+    ];
 
-  checkPhase = lib.concatStringsSep "\n" ([
-    "runHook preCheck"
-    ''
-      patchShebangs 'test cases'
-      substituteInPlace \
-        'test cases/native/8 external program shebang parsing/script.int.in' \
-          --replace /usr/bin/env ${coreutils}/bin/env
-    ''
-  ]
-  # Remove problematic tests
-  ++ (builtins.map (f: ''rm -vr "${f}";'') [
-    # requires git, creating cyclic dependency
-    ''test cases/common/66 vcstag''
-    # requires glib, creating cyclic dependency
-    ''test cases/linuxlike/6 subdir include order''
-    ''test cases/linuxlike/9 compiler checks with dependencies''
-    # requires static zlib, see #66461
-    ''test cases/linuxlike/14 static dynamic linkage''
-    # Nixpkgs cctools does not have bitcode support.
-    ''test cases/osx/7 bitcode''
-  ])
-  ++ [
-    ''HOME="$TMPDIR" python ./run_project_tests.py''
-    "runHook postCheck"
-  ]);
+  checkPhase = lib.concatStringsSep "\n" (
+    [
+      "runHook preCheck"
+      ''
+        patchShebangs 'test cases'
+        substituteInPlace \
+          'test cases/native/8 external program shebang parsing/script.int.in' \
+            --replace /usr/bin/env ${coreutils}/bin/env
+      ''
+    ]
+    # Remove problematic tests
+    ++ (builtins.map (f: ''rm -vr "${f}";'') [
+      # requires git, creating cyclic dependency
+      ''test cases/common/66 vcstag''
+      # requires glib, creating cyclic dependency
+      ''test cases/linuxlike/6 subdir include order''
+      ''test cases/linuxlike/9 compiler checks with dependencies''
+      # requires static zlib, see #66461
+      ''test cases/linuxlike/14 static dynamic linkage''
+      # Nixpkgs cctools does not have bitcode support.
+      ''test cases/osx/7 bitcode''
+    ])
+    ++ [
+      ''HOME="$TMPDIR" python ./run_project_tests.py''
+      "runHook postCheck"
+    ]
+  );
 
   postInstall = ''
     installShellCompletion --zsh data/shell-completions/zsh/_meson

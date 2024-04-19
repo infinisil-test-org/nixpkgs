@@ -1,11 +1,12 @@
-{ buildPythonPackage
-, fetchFromGitHub
-, fetchpatch
-, lib
-, poetry-core
-, netaddr
-, six
-, unittestCheckHook
+{
+  buildPythonPackage,
+  fetchFromGitHub,
+  fetchpatch,
+  lib,
+  poetry-core,
+  netaddr,
+  six,
+  unittestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -28,9 +29,7 @@ buildPythonPackage rec {
     })
   ];
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
   propagatedBuildInputs = [
     netaddr
@@ -43,13 +42,9 @@ buildPythonPackage rec {
       --replace "def testBindv6(self):" "def dontTestBindv6(self):"
   '';
 
-  nativeCheckInputs = [
-    unittestCheckHook
-  ];
+  nativeCheckInputs = [ unittestCheckHook ];
 
-  pythonImportsCheck = [
-    "pyrad"
-  ];
+  pythonImportsCheck = [ "pyrad" ];
 
   meta = with lib; {
     description = "Python RADIUS Implementation";

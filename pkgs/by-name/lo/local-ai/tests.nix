@@ -1,12 +1,13 @@
-{ self
-, lib
-, testers
-, fetchzip
-, fetchurl
-, writers
-, symlinkJoin
-, linkFarmFromDrvs
-, jq
+{
+  self,
+  lib,
+  testers,
+  fetchzip,
+  fetchurl,
+  writers,
+  symlinkJoin,
+  linkFarmFromDrvs,
+  jq,
 }:
 {
   version = testers.testVersion {
@@ -40,9 +41,7 @@
         url = "https://huggingface.co/TheBloke/Luna-AI-Llama2-Uncensored-GGUF/resolve/main/luna-ai-llama2-uncensored.Q4_K_M.gguf";
         sha256 = "6a9dc401c84f0d48996eaa405174999c3a33bf12c2bfd8ea4a1e98f376de1f15";
       };
-      models = linkFarmFromDrvs "models" [
-        gguf
-      ];
+      models = linkFarmFromDrvs "models" [ gguf ];
     in
     testers.runNixOSTest {
       name = self.name + "-llama";
@@ -65,7 +64,12 @@
           # https://localai.io/features/text-generation/#chat-completions
           request-chat-completions = {
             model = gguf.name;
-            messages = [{ role = "user"; content = "Say this is a test!"; }];
+            messages = [
+              {
+                role = "user";
+                content = "Say this is a test!";
+              }
+            ];
             temperature = 0.7;
           };
           # https://localai.io/features/text-generation/#edit-completions
@@ -95,8 +99,8 @@
           machine.succeed("${jq}/bin/jq --exit-status 'debug | .object ==\"text_completion\"' completions.json")
         '';
     };
-
-} // lib.optionalAttrs self.features.with_tts {
+}
+// lib.optionalAttrs self.features.with_tts {
   # https://localai.io/features/text-to-audio/#piper
   tts =
     let

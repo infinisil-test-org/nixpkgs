@@ -1,11 +1,12 @@
-{ lib
-, buildDotnetModule
-, fetchFromGitHub
-, dotnetCorePackages
-, libkrb5
-, zlib
-, openssl
-, callPackage
+{
+  lib,
+  buildDotnetModule,
+  fetchFromGitHub,
+  dotnetCorePackages,
+  libkrb5,
+  zlib,
+  openssl,
+  callPackage,
 }:
 
 buildDotnetModule rec {
@@ -31,12 +32,14 @@ buildDotnetModule rec {
     "-p:PublishSingleFile=true"
     "-p:PublishTrimmed=true"
   ];
-  dotnetInstallFlags = [
-    "--framework=net8.0"
-  ];
+  dotnetInstallFlags = [ "--framework=net8.0" ];
   selfContainedBuild = true;
 
-  runtimeDeps = [ libkrb5 zlib openssl ];
+  runtimeDeps = [
+    libkrb5
+    zlib
+    openssl
+  ];
 
   doCheck = true;
 

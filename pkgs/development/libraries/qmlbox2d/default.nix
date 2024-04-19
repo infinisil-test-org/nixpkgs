@@ -1,4 +1,13 @@
-{ lib, stdenv, qtbase, qtdeclarative, fetchFromGitHub, cmake, pkg-config, box2d }:
+{
+  lib,
+  stdenv,
+  qtbase,
+  qtdeclarative,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  box2d,
+}:
 
 let
   inherit (lib) cmakeBool;
@@ -19,7 +28,6 @@ let
       (cmakeBool "BOX2D_BUILD_EXAMPLES" false)
     ];
   });
-
 in
 stdenv.mkDerivation {
   pname = "qml-box2d";
@@ -34,13 +42,18 @@ stdenv.mkDerivation {
 
   dontWrapQtApps = true;
 
-  nativeBuildInputs = [ cmake pkg-config ];
-
-  buildInputs = [ box2d' qtbase qtdeclarative ];
-
-  cmakeFlags = [
-    (cmakeBool "USE_SYSTEM_BOX2D" true)
+  nativeBuildInputs = [
+    cmake
+    pkg-config
   ];
+
+  buildInputs = [
+    box2d'
+    qtbase
+    qtdeclarative
+  ];
+
+  cmakeFlags = [ (cmakeBool "USE_SYSTEM_BOX2D" true) ];
 
   meta = with lib; {
     description = "A QML plugin for Box2D engine";

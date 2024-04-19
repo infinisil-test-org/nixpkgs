@@ -1,6 +1,7 @@
-{ lib
-, fetchFromGitHub
-, python3
+{
+  lib,
+  fetchFromGitHub,
+  python3,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -29,29 +30,32 @@ python3.pkgs.buildPythonApplication rec {
     wheel
   ];
 
-  propagatedBuildInputs = with python3.pkgs; [
-    aiocache
-    aiohttp
-    aiosqlite
-    arsenic
-    beautifulsoup4
-    browser-cookie3
-    dnspython
-    h11
-    httpcore
-    httpx
-    httpx-ntlm
-    loguru
-    mako
-    markupsafe
-    mitmproxy
-    pyasn1
-    six
-    sqlalchemy
-    tld
-    yaswfp
-  ] ++ httpx.optional-dependencies.brotli
-  ++ httpx.optional-dependencies.socks;
+  propagatedBuildInputs =
+    with python3.pkgs;
+    [
+      aiocache
+      aiohttp
+      aiosqlite
+      arsenic
+      beautifulsoup4
+      browser-cookie3
+      dnspython
+      h11
+      httpcore
+      httpx
+      httpx-ntlm
+      loguru
+      mako
+      markupsafe
+      mitmproxy
+      pyasn1
+      six
+      sqlalchemy
+      tld
+      yaswfp
+    ]
+    ++ httpx.optional-dependencies.brotli
+    ++ httpx.optional-dependencies.socks;
 
   __darwinAllowLocalNetworking = true;
 
@@ -138,9 +142,7 @@ python3.pkgs.buildPythonApplication rec {
     "tests/attack/test_mod_ssl.py"
   ];
 
-  pythonImportsCheck = [
-    "wapitiCore"
-  ];
+  pythonImportsCheck = [ "wapitiCore" ];
 
   meta = with lib; {
     description = "Web application vulnerability scanner";

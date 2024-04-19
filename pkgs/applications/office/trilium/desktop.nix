@@ -1,8 +1,19 @@
-{ stdenv, lib, unzip, autoPatchelfHook
-, fetchurl, makeWrapper
-, alsa-lib, mesa, nss, nspr, systemd
-, makeDesktopItem, copyDesktopItems, wrapGAppsHook
-, metaCommon
+{
+  stdenv,
+  lib,
+  unzip,
+  autoPatchelfHook,
+  fetchurl,
+  makeWrapper,
+  alsa-lib,
+  mesa,
+  nss,
+  nspr,
+  systemd,
+  makeDesktopItem,
+  copyDesktopItems,
+  wrapGAppsHook,
+  metaCommon,
 }:
 
 let
@@ -17,7 +28,10 @@ let
 
   meta = metaCommon // {
     mainProgram = "trilium";
-    platforms = [ "x86_64-linux" "x86_64-darwin" ];
+    platforms = [
+      "x86_64-linux"
+      "x86_64-darwin"
+    ];
   };
 
   linux = stdenv.mkDerivation rec {
@@ -94,6 +108,5 @@ let
       cp -r *.app $out/Applications
     '';
   };
-
 in
-  if stdenv.isDarwin then darwin else linux
+if stdenv.isDarwin then darwin else linux

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -17,7 +22,7 @@ in
       '';
     };
 
-     users = mkOption {
+    users = mkOption {
       type = listOf str;
       default = [ ];
       description = ''
@@ -30,7 +35,10 @@ in
   };
   config = mkIf cfg.enable {
     networking.firewall = mkIf cfg.openFirewall {
-      allowedTCPPorts = [ 1701 9001 ];
+      allowedTCPPorts = [
+        1701
+        9001
+      ];
     };
 
     hardware.uinput.enable = true;

@@ -1,12 +1,13 @@
-{ lib
-, ninja
-, meson
-, fetchFromGitLab
-, systemd
-, libgudev
-, pkg-config
-, glib
-, python3Packages
+{
+  lib,
+  ninja,
+  meson,
+  fetchFromGitLab,
+  systemd,
+  libgudev,
+  pkg-config,
+  glib,
+  python3Packages,
 }:
 
 python3Packages.buildPythonApplication rec {
@@ -35,9 +36,7 @@ python3Packages.buildPythonApplication rec {
     glib
   ];
 
-  propagatedBuildInputs = [
-    python3Packages.pygobject3
-  ];
+  propagatedBuildInputs = [ python3Packages.pygobject3 ];
 
   mesonFlags = [
     "-Dsystemdsystemunitdir=${placeholder "out"}/etc/systemd/system"

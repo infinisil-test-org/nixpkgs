@@ -1,13 +1,17 @@
 # NixOS module for atftpd TFTP server
 
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
 let
 
   cfg = config.services.atftpd;
-
 in
 
 {
@@ -26,7 +30,7 @@ in
       };
 
       extraOptions = mkOption {
-        default = [];
+        default = [ ];
         type = types.listOf types.str;
         example = literalExpression ''
           [ "--bind-address 192.168.9.1"
@@ -45,9 +49,7 @@ in
           Document root directory for the atftpd.
         '';
       };
-
     };
-
   };
 
   config = mkIf cfg.enable {
@@ -59,7 +61,5 @@ in
       # runs as nobody
       serviceConfig.ExecStart = "${pkgs.atftp}/sbin/atftpd --daemon --no-fork ${lib.concatStringsSep " " cfg.extraOptions} ${cfg.root}";
     };
-
   };
-
 }

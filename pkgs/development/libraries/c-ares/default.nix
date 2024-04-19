@@ -1,9 +1,14 @@
-{ lib, stdenv, fetchurl, writeTextDir
-, withCMake ? true, cmake
+{
+  lib,
+  stdenv,
+  fetchurl,
+  writeTextDir,
+  withCMake ? true,
+  cmake,
 
-# sensitive downstream packages
-, curl
-, grpc # consumes cmake config
+  # sensitive downstream packages
+  curl,
+  grpc, # consumes cmake config
 }:
 
 # Note: this package is used for bootstrapping fetchurl, and thus
@@ -20,14 +25,20 @@ stdenv.mkDerivation rec {
     hash = "sha256-CnK+ZpWZVcQ+KvL70DQY6Cor1UZGBOyaYhR+N6zrQgs=";
   };
 
-  outputs = [ "out" "dev" "man" ];
+  outputs = [
+    "out"
+    "dev"
+    "man"
+  ];
 
   nativeBuildInputs = lib.optionals withCMake [ cmake ];
 
-  cmakeFlags = [] ++ lib.optionals stdenv.hostPlatform.isStatic [
-    "-DCARES_SHARED=OFF"
-    "-DCARES_STATIC=ON"
-  ];
+  cmakeFlags =
+    [ ]
+    ++ lib.optionals stdenv.hostPlatform.isStatic [
+      "-DCARES_SHARED=OFF"
+      "-DCARES_STATIC=ON"
+    ];
 
   enableParallelBuilding = true;
 

@@ -1,14 +1,19 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
 
-cfg = config.services.canto-daemon;
+  cfg = config.services.canto-daemon;
+in
+{
 
-in {
-
-##### interface
+  ##### interface
 
   options = {
 
@@ -19,10 +24,9 @@ in {
         description = "Whether to enable the canto RSS daemon.";
       };
     };
-
   };
 
-##### implementation
+  ##### implementation
 
   config = mkIf cfg.enable {
 
@@ -33,5 +37,4 @@ in {
       serviceConfig.ExecStart = "${pkgs.canto-daemon}/bin/canto-daemon";
     };
   };
-
 }

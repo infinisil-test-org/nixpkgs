@@ -1,22 +1,23 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, fetchpatch
-, pkg-config
-, cmake
-, zlib
-, dbus
-, networkmanager
-, enableJavaScript ? stdenv.isDarwin || lib.meta.availableOn stdenv.hostPlatform duktape
-, duktape
-, pcre
-, gsettings-desktop-schemas
-, glib
-, makeWrapper
-, python3
-, SystemConfiguration
-, CoreFoundation
-, JavaScriptCore
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  fetchpatch,
+  pkg-config,
+  cmake,
+  zlib,
+  dbus,
+  networkmanager,
+  enableJavaScript ? stdenv.isDarwin || lib.meta.availableOn stdenv.hostPlatform duktape,
+  duktape,
+  pcre,
+  gsettings-desktop-schemas,
+  glib,
+  makeWrapper,
+  python3,
+  SystemConfiguration,
+  CoreFoundation,
+  JavaScriptCore,
 }:
 
 stdenv.mkDerivation rec {
@@ -38,7 +39,11 @@ stdenv.mkDerivation rec {
     })
   ];
 
-  outputs = [ "out" "dev" "py3" ];
+  outputs = [
+    "out"
+    "dev"
+    "py3"
+  ];
 
   nativeBuildInputs = [
     pkg-config
@@ -46,20 +51,28 @@ stdenv.mkDerivation rec {
     makeWrapper
   ];
 
-  buildInputs = [
-    pcre
-    python3
-    zlib
-  ] ++ lib.optionals enableJavaScript [
-    (if stdenv.hostPlatform.isDarwin then JavaScriptCore else duktape)
-  ] ++ (if stdenv.hostPlatform.isDarwin then [
-    SystemConfiguration
-    CoreFoundation
-  ] else [
-    glib
-    dbus
-    networkmanager
-  ]);
+  buildInputs =
+    [
+      pcre
+      python3
+      zlib
+    ]
+    ++ lib.optionals enableJavaScript [
+      (if stdenv.hostPlatform.isDarwin then JavaScriptCore else duktape)
+    ]
+    ++ (
+      if stdenv.hostPlatform.isDarwin then
+        [
+          SystemConfiguration
+          CoreFoundation
+        ]
+      else
+        [
+          glib
+          dbus
+          networkmanager
+        ]
+    );
 
   cmakeFlags = [
     "-DWITH_PYTHON2=OFF"

@@ -1,4 +1,10 @@
-{ config, lib, pkgs, options, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  options,
+  ...
+}:
 
 with lib;
 
@@ -60,12 +66,17 @@ in
           --addr ${cfg.listenAddress}:${toString cfg.port} \
           --timeout ${cfg.timeout} \
           --server ${cfg.url} \
-          ${if cfg.passwordFile != null then ''
-            --username ${cfg.username} \
-            --password ${escapeShellArg "@${cfg.passwordFile}"} \
-          '' else ''
-            --auth-token ${escapeShellArg "@${cfg.tokenFile}"} \
-          ''} \
+          ${
+            if cfg.passwordFile != null then
+              ''
+                --username ${cfg.username} \
+                --password ${escapeShellArg "@${cfg.passwordFile}"} \
+              ''
+            else
+              ''
+                --auth-token ${escapeShellArg "@${cfg.tokenFile}"} \
+              ''
+          } \
           ${concatStringsSep " \\\n  " cfg.extraFlags}'';
     };
   };

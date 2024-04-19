@@ -1,4 +1,10 @@
-{ config, lib, pkgs, options, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  options,
+  ...
+}:
 
 with lib;
 
@@ -76,7 +82,12 @@ in
     };
 
     logLevel = mkOption {
-      type = types.enum ["debug" "info" "warn" "error" ];
+      type = types.enum [
+        "debug"
+        "info"
+        "warn"
+        "error"
+      ];
       default = "info";
       description = ''
         Only log messages with the given severity or above.
@@ -84,7 +95,10 @@ in
     };
 
     logFormat = mkOption {
-      type = types.enum ["logfmt" "json"];
+      type = types.enum [
+        "logfmt"
+        "json"
+      ];
       default = "logfmt";
       description = ''
         Output format of log messages. One of: [logfmt, json]
@@ -106,37 +120,35 @@ in
         Extra commandline options when launching Prometheus.
       '';
     };
-
   };
 
   serviceOpts = {
     after = [ "pgbouncer.service" ];
-      serviceConfig = let
-      startScript = pkgs.writeShellScriptBin "pgbouncer-start" "${concatStringsSep " " ([
+    serviceConfig =
+      let
+        startScript = pkgs.writeShellScriptBin "pgbouncer-start" "${concatStringsSep " " (
+          [
             "${pkgs.prometheus-pgbouncer-exporter}/bin/pgbouncer_exporter"
             "--web.listen-address ${cfg.listenAddress}:${toString cfg.port}"
-            "--pgBouncer.connectionString ${if cfg.connectionStringFile != null then
-            "$(head -n1 ${cfg.connectionStringFile})" else "${escapeShellArg cfg.connectionString}"}"
+            "--pgBouncer.connectionString ${
+              if cfg.connectionStringFile != null then
+                "$(head -n1 ${cfg.connectionStringFile})"
+              else
+                "${escapeShellArg cfg.connectionString}"
+            }"
           ]
-            ++ optionals (cfg.telemetryPath != null) [
+          ++ optionals (cfg.telemetryPath != null) [
             "--web.telemetry-path ${escapeShellArg cfg.telemetryPath}"
           ]
-            ++ optionals (cfg.pidFile != null) [
-            "--pgBouncer.pid-file= ${escapeShellArg cfg.pidFile}"
-          ]
-            ++ optionals (cfg.logLevel != null) [
-            "--log.level ${escapeShellArg cfg.logLevel}"
-          ]
-            ++ optionals (cfg.logFormat != null) [
-            "--log.format ${escapeShellArg cfg.logFormat}"
-          ]
-            ++ optionals (cfg.webSystemdSocket != false) [
+          ++ optionals (cfg.pidFile != null) [ "--pgBouncer.pid-file= ${escapeShellArg cfg.pidFile}" ]
+          ++ optionals (cfg.logLevel != null) [ "--log.level ${escapeShellArg cfg.logLevel}" ]
+          ++ optionals (cfg.logFormat != null) [ "--log.format ${escapeShellArg cfg.logFormat}" ]
+          ++ optionals (cfg.webSystemdSocket != false) [
             "--web.systemd-socket ${escapeShellArg cfg.webSystemdSocket}"
           ]
-            ++ optionals (cfg.webConfigFile != null) [
-            "--web.config.file ${escapeShellArg cfg.webConfigFile}"
-          ]
-            ++ cfg.extraFlags)}";
+          ++ optionals (cfg.webConfigFile != null) [ "--web.config.file ${escapeShellArg cfg.webConfigFile}" ]
+          ++ cfg.extraFlags
+        )}";
       in
       {
         ExecStart = "${startScript}/bin/pgbouncer-start";

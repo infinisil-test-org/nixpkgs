@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchFromGitHub, autoreconfHook }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  autoreconfHook,
+}:
 
 stdenv.mkDerivation rec {
   pname = "bgpq4";
@@ -11,9 +16,7 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-Irv91M5g21id0QfsnpDA7n5IhP8Qe9QHMh/KizD74qw=";
   };
 
-  nativeBuildInputs = [
-    autoreconfHook
-  ];
+  nativeBuildInputs = [ autoreconfHook ];
 
   meta = with lib; {
     description = "BGP filtering automation tool";

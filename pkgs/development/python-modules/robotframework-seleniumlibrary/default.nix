@@ -1,14 +1,15 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, setuptools
-, robotframework
-, robotframework-pythonlibcore
-, selenium
-, approvaltests
-, pytest-mockito
-, pytestCheckHook
-, robotstatuschecker
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  setuptools,
+  robotframework,
+  robotframework-pythonlibcore,
+  selenium,
+  approvaltests,
+  pytest-mockito,
+  pytestCheckHook,
+  robotstatuschecker,
 }:
 
 buildPythonPackage rec {
@@ -24,9 +25,7 @@ buildPythonPackage rec {
     sha256 = "sha256-lvtu6z/PD2Ckj70SgDF69BwrhaoA36SDrAvj0XJsmCc=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     robotframework

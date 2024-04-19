@@ -1,16 +1,17 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, wrapGAppsHook
-, pam
-, scdoc
-, gtk3
-, pkg-config
-, gtk-layer-shell
-, glib
-, librsvg
-, wayland
-, wayland-scanner
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  wrapGAppsHook,
+  pam,
+  scdoc,
+  gtk3,
+  pkg-config,
+  gtk-layer-shell,
+  glib,
+  librsvg,
+  wayland,
+  wayland-scanner,
 }:
 
 stdenv.mkDerivation rec {

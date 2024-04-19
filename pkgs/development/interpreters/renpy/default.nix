@@ -1,6 +1,19 @@
-{ lib, stdenv, fetchFromGitHub, python3, pkg-config, SDL2
-, libpng, ffmpeg, freetype, glew, libGL, libGLU, fribidi, zlib
-, makeWrapper
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  python3,
+  pkg-config,
+  SDL2,
+  libpng,
+  ffmpeg,
+  freetype,
+  glew,
+  libGL,
+  libGLU,
+  fribidi,
+  zlib,
+  makeWrapper,
 }:
 
 let
@@ -10,7 +23,8 @@ let
   # version corresponds to the tag on GitHub
   base_version = "8.1.3";
   vc_version = "23091805";
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "renpy";
 
   version = "${base_version}.${vc_version}";
@@ -29,21 +43,47 @@ in stdenv.mkDerivation rec {
     python3.pkgs.setuptools
   ];
 
-  buildInputs = [
-    SDL2 libpng ffmpeg freetype glew libGLU libGL fribidi zlib
-  ] ++ (with python3.pkgs; [
-    python pygame-sdl2 tkinter future six pefile requests ecdsa
-  ]);
+  buildInputs =
+    [
+      SDL2
+      libpng
+      ffmpeg
+      freetype
+      glew
+      libGLU
+      libGL
+      fribidi
+      zlib
+    ]
+    ++ (with python3.pkgs; [
+      python
+      pygame-sdl2
+      tkinter
+      future
+      six
+      pefile
+      requests
+      ecdsa
+    ]);
 
-  RENPY_DEPS_INSTALL = lib.concatStringsSep "::" (map (path: path) [
-    SDL2 SDL2.dev libpng ffmpeg.lib freetype glew.dev libGLU libGL fribidi zlib
-  ]);
+  RENPY_DEPS_INSTALL = lib.concatStringsSep "::" (
+    map (path: path) [
+      SDL2
+      SDL2.dev
+      libpng
+      ffmpeg.lib
+      freetype
+      glew.dev
+      libGLU
+      libGL
+      fribidi
+      zlib
+    ]
+  );
 
   enableParallelBuilding = true;
 
-  patches = [
-    ./shutup-erofs-errors.patch
-  ];
+  patches = [ ./shutup-erofs-errors.patch ];
 
   postPatch = ''
     cp tutorial/game/tutorial_director.rpy{m,}
@@ -89,5 +129,7 @@ in stdenv.mkDerivation rec {
     maintainers = with maintainers; [ shadowrz ];
   };
 
-  passthru = { inherit base_version vc_version; };
+  passthru = {
+    inherit base_version vc_version;
+  };
 }

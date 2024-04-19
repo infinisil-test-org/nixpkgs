@@ -1,4 +1,14 @@
-{ lib, stdenv, fetchgit, ant, jdk, makeWrapper, jre, coreutils, which }:
+{
+  lib,
+  stdenv,
+  fetchgit,
+  ant,
+  jdk,
+  makeWrapper,
+  jre,
+  coreutils,
+  which,
+}:
 
 stdenv.mkDerivation rec {
   pname = "projectlibre";
@@ -11,7 +21,10 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ makeWrapper ];
-  buildInputs = [ ant jdk ];
+  buildInputs = [
+    ant
+    jdk
+  ];
   buildPhase = ''
     export ANT_OPTS=-Dbuild.sysclasspath=ignore
     ${ant}/bin/ant -f openproj_build/build.xml

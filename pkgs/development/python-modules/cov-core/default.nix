@@ -1,4 +1,9 @@
-{ lib, buildPythonPackage, fetchPypi, coverage }:
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  coverage,
+}:
 
 buildPythonPackage rec {
   pname = "cov-core";

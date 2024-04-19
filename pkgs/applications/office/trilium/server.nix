@@ -1,11 +1,17 @@
-{ stdenv, autoPatchelfHook, fetchurl, nixosTests
-, metaCommon }:
+{
+  stdenv,
+  autoPatchelfHook,
+  fetchurl,
+  nixosTests,
+  metaCommon,
+}:
 
 let
   serverSource.url = "https://github.com/zadam/trilium/releases/download/v${version}/trilium-linux-x64-server-${version}.tar.xz";
   serverSource.sha256 = "02kd7gm93nmxsxy1bx5kac7jizslik9nlfcnq8kn6mprfcv8anfn";
   version = "0.63.5";
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "trilium-server";
   inherit version;
   meta = metaCommon // {
@@ -14,13 +20,9 @@ in stdenv.mkDerivation {
 
   src = fetchurl serverSource;
 
-  nativeBuildInputs = [
-    autoPatchelfHook
-  ];
+  nativeBuildInputs = [ autoPatchelfHook ];
 
-  buildInputs = [
-    stdenv.cc.cc.lib
-  ];
+  buildInputs = [ stdenv.cc.cc.lib ];
 
   patches = [
     # patch logger to use console instead of rolling files

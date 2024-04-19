@@ -1,22 +1,23 @@
-{ buildPythonPackage
-, SDL2
-, cmake
-, fetchFromGitHub
-, fetchpatch
-, gym
-, importlib-metadata
-, importlib-resources
-, lib
-, ninja
-, numpy
-, pybind11
-, pytestCheckHook
-, pythonOlder
-, setuptools
-, stdenv
-, typing-extensions
-, wheel
-, zlib
+{
+  buildPythonPackage,
+  SDL2,
+  cmake,
+  fetchFromGitHub,
+  fetchpatch,
+  gym,
+  importlib-metadata,
+  importlib-resources,
+  lib,
+  ninja,
+  numpy,
+  pybind11,
+  pytestCheckHook,
+  pythonOlder,
+  setuptools,
+  stdenv,
+  typing-extensions,
+  wheel,
+  zlib,
 }:
 
 buildPythonPackage rec {
@@ -67,9 +68,7 @@ buildPythonPackage rec {
     typing-extensions
     importlib-resources
     numpy
-  ] ++ lib.optionals (pythonOlder "3.10") [
-    importlib-metadata
-  ];
+  ] ++ lib.optionals (pythonOlder "3.10") [ importlib-metadata ];
 
   nativeCheckInputs = [
     pytestCheckHook

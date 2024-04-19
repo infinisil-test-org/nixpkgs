@@ -1,4 +1,11 @@
-{ jre, lib, stdenv, fetchurl, makeWrapper, makeDesktopItem }:
+{
+  jre,
+  lib,
+  stdenv,
+  fetchurl,
+  makeWrapper,
+  makeDesktopItem,
+}:
 
 let
 
@@ -10,7 +17,6 @@ let
     desktopName = "NetLogo";
     categories = [ "Science" ];
   };
-
 in
 
 stdenv.mkDerivation rec {

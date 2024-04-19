@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -10,12 +15,11 @@ in
     enable = mkEnableOption "the openvpn3 client";
     package = mkOption {
       type = types.package;
-      default = pkgs.openvpn3.override {
-        enableSystemdResolved = config.services.resolved.enable;
-      };
-      defaultText = literalExpression ''pkgs.openvpn3.override {
-        enableSystemdResolved = config.services.resolved.enable;
-      }'';
+      default = pkgs.openvpn3.override { enableSystemdResolved = config.services.resolved.enable; };
+      defaultText = literalExpression ''
+        pkgs.openvpn3.override {
+                enableSystemdResolved = config.services.resolved.enable;
+              }'';
       description = ''
         Which package to use for `openvpn3`.
       '';
@@ -23,9 +27,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    services.dbus.packages = [
-      cfg.package
-    ];
+    services.dbus.packages = [ cfg.package ];
 
     users.users.openvpn = {
       isSystemUser = true;
@@ -37,9 +39,6 @@ in
       gid = config.ids.gids.openvpn;
     };
 
-    environment.systemPackages = [
-      cfg.package
-    ];
+    environment.systemPackages = [ cfg.package ];
   };
-
 }

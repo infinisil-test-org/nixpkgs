@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.services.mstpd;
 in
@@ -13,7 +18,6 @@ with lib;
         Whether to enable the multiple spanning tree protocol daemon.
       '';
     };
-
   };
 
   config = mkIf cfg.enable {

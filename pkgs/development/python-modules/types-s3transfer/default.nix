@@ -1,7 +1,8 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, poetry-core
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  poetry-core,
 }:
 
 buildPythonPackage rec {
@@ -15,16 +16,12 @@ buildPythonPackage rec {
     hash = "sha256-NeSZjCXff4mFrWne3I5IYOivO0O3YV6UDVPADUE73Gk=";
   };
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
   # Module has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "s3transfer-stubs"
-  ];
+  pythonImportsCheck = [ "s3transfer-stubs" ];
 
   meta = with lib; {
     description = "Type annotations and code completion for s3transfer";

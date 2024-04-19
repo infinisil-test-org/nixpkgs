@@ -1,18 +1,20 @@
-{ lib, stdenv
-, fetchFromGitHub
-, nix-update-script
-, vala
-, pkg-config
-, python3
-, glib
-, gtk3
-, meson
-, ninja
-, libgee
-, pantheon
-, desktop-file-utils
-, xorg
-, wrapGAppsHook
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  nix-update-script,
+  vala,
+  pkg-config,
+  python3,
+  glib,
+  gtk3,
+  meson,
+  ninja,
+  libgee,
+  pantheon,
+  desktop-file-utils,
+  xorg,
+  wrapGAppsHook,
 }:
 
 stdenv.mkDerivation rec {
@@ -62,5 +64,4 @@ stdenv.mkDerivation rec {
     platforms = platforms.linux;
     mainProgram = "com.github.cassidyjames.ideogram";
   };
-
 }

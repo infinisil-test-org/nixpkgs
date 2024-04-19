@@ -1,10 +1,11 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, meson
-, ninja
-, pkg-config
-, ncurses
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  meson,
+  ninja,
+  pkg-config,
+  ncurses,
 }:
 
 stdenv.mkDerivation rec {
@@ -25,9 +26,7 @@ stdenv.mkDerivation rec {
     ninja
   ];
 
-  buildInputs = [
-    ncurses
-  ];
+  buildInputs = [ ncurses ];
 
   meta = with lib; {
     description = "Trashcan/ recycle bin utility for the command line";

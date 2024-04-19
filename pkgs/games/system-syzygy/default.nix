@@ -1,4 +1,13 @@
-{ stdenv, lib, rustPlatform, fetchFromGitHub, fetchurl, SDL2, makeWrapper, makeDesktopItem}:
+{
+  stdenv,
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  fetchurl,
+  SDL2,
+  makeWrapper,
+  makeDesktopItem,
+}:
 
 let
   desktopFile = makeDesktopItem {
@@ -40,7 +49,6 @@ rustPlatform.buildRustPackage rec {
     mkdir -p $out/share/applications
     substituteAll ${desktopFile}/share/applications/system-syzygy.desktop $out/share/applications/system-syzygy.desktop
   '';
-
 
   meta = with lib; {
     broken = stdenv.isDarwin;

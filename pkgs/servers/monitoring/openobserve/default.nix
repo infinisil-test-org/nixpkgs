@@ -1,17 +1,18 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, pkg-config
-, protobuf
-, bzip2
-, oniguruma
-, sqlite
-, xz
-, zlib
-, zstd
-, stdenv
-, apple_sdk
-, buildNpmPackage
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  pkg-config,
+  protobuf,
+  bzip2,
+  oniguruma,
+  sqlite,
+  xz,
+  zlib,
+  zstd,
+  stdenv,
+  apple_sdk,
+  buildNpmPackage,
 }:
 
 let
@@ -74,20 +75,25 @@ rustPlatform.buildRustPackage {
     protobuf
   ];
 
-  buildInputs = [
-    bzip2
-    oniguruma
-    sqlite
-    xz
-    zlib
-    zstd
-  ] ++ lib.optionals stdenv.isDarwin (with apple_sdk.frameworks; [
-    CoreFoundation
-    CoreServices
-    IOKit
-    Security
-    SystemConfiguration
-  ]);
+  buildInputs =
+    [
+      bzip2
+      oniguruma
+      sqlite
+      xz
+      zlib
+      zstd
+    ]
+    ++ lib.optionals stdenv.isDarwin (
+      with apple_sdk.frameworks;
+      [
+        CoreFoundation
+        CoreServices
+        IOKit
+        Security
+        SystemConfiguration
+      ]
+    );
 
   env = {
     RUSTONIG_SYSTEM_LIBONIG = true;

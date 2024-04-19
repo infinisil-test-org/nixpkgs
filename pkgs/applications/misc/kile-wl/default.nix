@@ -1,4 +1,9 @@
-{ lib, fetchFromGitLab, unstableGitUpdater, rustPlatform }:
+{
+  lib,
+  fetchFromGitLab,
+  unstableGitUpdater,
+  rustPlatform,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "kile-wl";
@@ -11,9 +16,7 @@ rustPlatform.buildRustPackage rec {
     sha256 = "sha256-4iclNVd7nm6LkgvsHwWaWyi1bZL/A+bbT5OSXn70bLs=";
   };
 
-  passthru.updateScript = unstableGitUpdater {
-    url = "https://gitlab.com/snakedye/kile.git";
-  };
+  passthru.updateScript = unstableGitUpdater { url = "https://gitlab.com/snakedye/kile.git"; };
 
   cargoLock = {
     lockFile = ./Cargo.lock;

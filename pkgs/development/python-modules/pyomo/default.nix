@@ -1,10 +1,11 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, parameterized
-, ply
-, pytestCheckHook
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  parameterized,
+  ply,
+  pytestCheckHook,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -21,18 +22,14 @@ buildPythonPackage rec {
     hash = "sha256-eTItw+wYo5lCla4oKSF97N4TFajjFtCMMq4DU9ahi1U=";
   };
 
-  propagatedBuildInputs = [
-    ply
-  ];
+  propagatedBuildInputs = [ ply ];
 
   nativeCheckInputs = [
     parameterized
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "pyomo"
-  ];
+  pythonImportsCheck = [ "pyomo" ];
 
   preCheck = ''
     export HOME=$(mktemp -d);

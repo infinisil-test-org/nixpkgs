@@ -1,11 +1,12 @@
-{ lib
-, node_webkit
-, pkgs
-, copyDesktopItems
-, makeDesktopItem
-, stdenv
-, writeShellScript
-, wrapGAppsHook
+{
+  lib,
+  node_webkit,
+  pkgs,
+  copyDesktopItems,
+  makeDesktopItem,
+  stdenv,
+  writeShellScript,
+  wrapGAppsHook,
 }:
 
 let
@@ -53,7 +54,10 @@ stdenv.mkDerivation {
   pname = "${onlykey.packageName}";
   inherit (onlykey) version;
   dontUnpack = true;
-  nativeBuildInputs = [ wrapGAppsHook copyDesktopItems ];
+  nativeBuildInputs = [
+    wrapGAppsHook
+    copyDesktopItems
+  ];
   desktopItems = [
     (makeDesktopItem {
       name = onlykey.packageName;

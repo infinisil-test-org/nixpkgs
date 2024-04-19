@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, python
-, fetchpatch
-, fetchPypi
-, pari
-, gmp
-, cython_3
-, cysignals
+{
+  lib,
+  buildPythonPackage,
+  python,
+  fetchpatch,
+  fetchPypi,
+  pari,
+  gmp,
+  cython_3,
+  cysignals,
 }:
 
 buildPythonPackage rec {
@@ -35,13 +36,9 @@ buildPythonPackage rec {
     ${python.pythonOnBuildForHost.interpreter} setup.py build_ext --inplace
   '';
 
-  nativeBuildInputs = [
-    pari
-  ];
+  nativeBuildInputs = [ pari ];
 
-  buildInputs = [
-    gmp
-  ];
+  buildInputs = [ gmp ];
 
   propagatedBuildInputs = [
     cysignals

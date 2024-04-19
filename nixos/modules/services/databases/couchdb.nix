@@ -1,4 +1,10 @@
-{ config, options, lib, pkgs, ... }:
+{
+  config,
+  options,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -11,22 +17,27 @@ let
       database_dir = ${cfg.databaseDir}
       uri_file = ${cfg.uriFile}
       view_index_dir = ${cfg.viewIndexDir}
-    '' + (optionalString (cfg.adminPass != null) ''
-      [admins]
-      ${cfg.adminUser} = ${cfg.adminPass}
-    '' + ''
-      [chttpd]
-    '') +
     ''
+    + (
+      optionalString (cfg.adminPass != null) ''
+        [admins]
+        ${cfg.adminUser} = ${cfg.adminPass}
+      ''
+      + ''
+        [chttpd]
+      ''
+    )
+    + ''
       port = ${toString cfg.port}
       bind_address = ${cfg.bindAddress}
 
       [log]
       file = ${cfg.logFile}
-    '');
+    ''
+  );
   executable = "${cfg.package}/bin/couchdb";
-
-in {
+in
+{
 
   ###### interface
 
@@ -154,9 +165,7 @@ in {
           needs to be readable and writable from couchdb user/group.
         '';
       };
-
     };
-
   };
 
   ###### implementation
@@ -193,10 +202,10 @@ in {
         # 2. the module configuration
         # 3. the extraConfig from the module options
         # 4. the locally writable config file, which couchdb itself writes to
-        ERL_FLAGS= ''-couch_ini ${cfg.package}/etc/default.ini ${configFile} ${pkgs.writeText "couchdb-extra.ini" cfg.extraConfig} ${cfg.configFile}'';
+        ERL_FLAGS = ''-couch_ini ${cfg.package}/etc/default.ini ${configFile} ${pkgs.writeText "couchdb-extra.ini" cfg.extraConfig} ${cfg.configFile}'';
         # 5. the vm.args file
-        COUCHDB_ARGS_FILE=''${cfg.argsFile}'';
-        HOME =''${cfg.databaseDir}'';
+        COUCHDB_ARGS_FILE = ''${cfg.argsFile}'';
+        HOME = ''${cfg.databaseDir}'';
       };
 
       serviceConfig = {
@@ -213,6 +222,5 @@ in {
     };
 
     users.groups.couchdb.gid = config.ids.gids.couchdb;
-
   };
 }

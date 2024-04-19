@@ -1,15 +1,16 @@
-{ lib
-, stdenv
-, fetchurl
-, dpkg
-, wrapGAppsHook
-, autoPatchelfHook
-, clash-meta
-, openssl
-, webkitgtk
-, udev
-, libayatana-appindicator
-, nix-update-script
+{
+  lib,
+  stdenv,
+  fetchurl,
+  dpkg,
+  wrapGAppsHook,
+  autoPatchelfHook,
+  clash-meta,
+  openssl,
+  webkitgtk,
+  udev,
+  libayatana-appindicator,
+  nix-update-script,
 }:
 
 stdenv.mkDerivation rec {

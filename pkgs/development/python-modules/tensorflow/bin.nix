@@ -1,37 +1,41 @@
-{ stdenv
-, lib
-, fetchurl
-, buildPythonPackage
-, isPy3k, pythonOlder, pythonAtLeast, astor
-, gast
-, google-pasta
-, wrapt
-, numpy
-, six
-, termcolor
-, packaging
-, protobuf
-, absl-py
-, grpcio
-, mock
-, scipy
-, wheel
-, jax
-, opt-einsum
-, tensorflow-estimator-bin
-, tensorboard
-, config
-, cudaSupport ? config.cudaSupport
-, cudaPackagesGoogle
-, zlib
-, python
-, keras-applications
-, keras-preprocessing
-, addOpenGLRunpath
-, astunparse
-, flatbuffers
-, h5py
-, typing-extensions
+{
+  stdenv,
+  lib,
+  fetchurl,
+  buildPythonPackage,
+  isPy3k,
+  pythonOlder,
+  pythonAtLeast,
+  astor,
+  gast,
+  google-pasta,
+  wrapt,
+  numpy,
+  six,
+  termcolor,
+  packaging,
+  protobuf,
+  absl-py,
+  grpcio,
+  mock,
+  scipy,
+  wheel,
+  jax,
+  opt-einsum,
+  tensorflow-estimator-bin,
+  tensorboard,
+  config,
+  cudaSupport ? config.cudaSupport,
+  cudaPackagesGoogle,
+  zlib,
+  python,
+  keras-applications,
+  keras-preprocessing,
+  addOpenGLRunpath,
+  astunparse,
+  flatbuffers,
+  h5py,
+  typing-extensions,
 }:
 
 # We keep this binary build for two reasons:
@@ -39,22 +43,25 @@
 # - the source build is currently brittle and not easy to maintain
 
 # unsupported combination
-assert ! (stdenv.isDarwin && cudaSupport);
+assert !(stdenv.isDarwin && cudaSupport);
 
 let
   packages = import ./binary-hashes.nix;
   inherit (cudaPackagesGoogle) cudatoolkit cudnn;
-in buildPythonPackage {
+in
+buildPythonPackage {
   pname = "tensorflow" + lib.optionalString cudaSupport "-gpu";
   inherit (packages) version;
   format = "wheel";
 
-  src = let
-    pyVerNoDot = lib.strings.stringAsChars (x: lib.optionalString (x != ".") x) python.pythonVersion;
-    platform = if stdenv.isDarwin then "mac" else "linux";
-    unit = if cudaSupport then "gpu" else "cpu";
-    key = "${platform}_py_${pyVerNoDot}_${unit}";
-  in fetchurl (packages.${key} or {});
+  src =
+    let
+      pyVerNoDot = lib.strings.stringAsChars (x: lib.optionalString (x != ".") x) python.pythonVersion;
+      platform = if stdenv.isDarwin then "mac" else "linux";
+      unit = if cudaSupport then "gpu" else "cpu";
+      key = "${platform}_py_${pyVerNoDot}_${unit}";
+    in
+    fetchurl (packages.${key} or { });
 
   propagatedBuildInputs = [
     astunparse
@@ -208,7 +215,13 @@ in buildPythonPackage {
     homepage = "http://tensorflow.org";
     sourceProvenance = with sourceTypes; [ binaryNativeCode ];
     license = licenses.asl20;
-    maintainers = with maintainers; [ jyp abbradar ];
-    platforms = [ "x86_64-linux" "x86_64-darwin" ];
+    maintainers = with maintainers; [
+      jyp
+      abbradar
+    ];
+    platforms = [
+      "x86_64-linux"
+      "x86_64-darwin"
+    ];
   };
 }

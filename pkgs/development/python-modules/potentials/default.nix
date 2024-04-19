@@ -1,22 +1,23 @@
-{ lib
-, bibtexparser
-, buildPythonPackage
-, cdcs
-, datamodeldict
-, fetchPypi
-, habanero
-, ipywidgets
-, lxml
-, matplotlib
-, numpy
-, pandas
-, pytestCheckHook
-, pythonOlder
-, requests
-, scipy
-, unidecode
-, xmltodict
-, yabadaba
+{
+  lib,
+  bibtexparser,
+  buildPythonPackage,
+  cdcs,
+  datamodeldict,
+  fetchPypi,
+  habanero,
+  ipywidgets,
+  lxml,
+  matplotlib,
+  numpy,
+  pandas,
+  pytestCheckHook,
+  pythonOlder,
+  requests,
+  scipy,
+  unidecode,
+  xmltodict,
+  yabadaba,
 }:
 
 buildPythonPackage rec {
@@ -51,9 +52,7 @@ buildPythonPackage rec {
   # Project has no tests
   doCheck = false;
 
-  pythonImportsCheck = [
-    "potentials"
-  ];
+  pythonImportsCheck = [ "potentials" ];
 
   meta = with lib; {
     description = "Python API database tools for accessing the NIST Interatomic Potentials Repository";

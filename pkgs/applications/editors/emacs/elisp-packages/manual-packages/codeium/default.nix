@@ -1,4 +1,11 @@
-{ fetchFromGitHub, melpaBuild, pkgs, lib, substituteAll, writeText }:
+{
+  fetchFromGitHub,
+  melpaBuild,
+  pkgs,
+  lib,
+  substituteAll,
+  writeText,
+}:
 
 melpaBuild {
   pname = "codeium";
@@ -33,5 +40,4 @@ melpaBuild {
     platforms = pkgs.codeium.meta.platforms;
     sourceProvenance = [ lib.sourceTypes.fromSource ];
   };
-
 }

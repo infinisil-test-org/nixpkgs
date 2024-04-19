@@ -1,8 +1,9 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, setuptools
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
@@ -17,13 +18,9 @@ buildPythonPackage rec {
     hash = "sha256-bTkaluWbIxMKXPp01v1/OI274mzI8e3zn93fCNnWZ2w=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
-  pythonImportsCheck = [
-    "pyasn1"
-  ];
+  pythonImportsCheck = [ "pyasn1" ];
 
   meta = with lib; {
     description = "Generic ASN.1 library for Python";

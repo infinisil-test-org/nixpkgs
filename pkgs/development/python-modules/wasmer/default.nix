@@ -1,26 +1,29 @@
-{ stdenv
-, lib
-, rustPlatform
-, rustc
-, callPackage
-, fetchFromGitHub
-, buildPythonPackage
-, libiconv
-, libffi
-, libxml2
-, llvm_14
-, ncurses
-, zlib
+{
+  stdenv,
+  lib,
+  rustPlatform,
+  rustc,
+  callPackage,
+  fetchFromGitHub,
+  buildPythonPackage,
+  libiconv,
+  libffi,
+  libxml2,
+  llvm_14,
+  ncurses,
+  zlib,
 }:
 
 let
   common =
-    { pname
-    , buildAndTestSubdir
-    , cargoHash
-    , extraNativeBuildInputs ? [ ]
-    , extraBuildInputs ? [ ]
-    }: buildPythonPackage rec {
+    {
+      pname,
+      buildAndTestSubdir,
+      cargoHash,
+      extraNativeBuildInputs ? [ ],
+      extraBuildInputs ? [ ],
+    }:
+    buildPythonPackage rec {
       inherit pname;
       version = "1.1.0";
       format = "pyproject";
@@ -40,7 +43,11 @@ let
         sha256 = cargoHash;
       };
 
-      nativeBuildInputs = (with rustPlatform; [ cargoSetupHook maturinBuildHook ])
+      nativeBuildInputs =
+        (with rustPlatform; [
+          cargoSetupHook
+          maturinBuildHook
+        ])
         ++ extraNativeBuildInputs;
 
       postPatch = ''
@@ -49,8 +56,7 @@ let
           --replace "package.metadata.maturin" "broken"
       '';
 
-      buildInputs = lib.optionals stdenv.isDarwin [ libiconv ]
-        ++ extraBuildInputs;
+      buildInputs = lib.optionals stdenv.isDarwin [ libiconv ] ++ extraBuildInputs;
 
       inherit buildAndTestSubdir;
 
@@ -62,11 +68,9 @@ let
       # check in passthru.tests.pytest because all packages are required to run the tests
       doCheck = false;
 
-      passthru.tests = lib.optionalAttrs (pname == "wasmer") {
-        pytest = callPackage ./tests.nix { };
-      };
+      passthru.tests = lib.optionalAttrs (pname == "wasmer") { pytest = callPackage ./tests.nix { }; };
 
-      pythonImportsCheck = [ "${lib.replaceStrings ["-"] ["_"] pname}" ];
+      pythonImportsCheck = [ "${lib.replaceStrings [ "-" ] [ "_" ] pname}" ];
 
       meta = with lib; {
         description = "Python extension to run WebAssembly binaries";
@@ -95,7 +99,12 @@ in
     buildAndTestSubdir = "packages/compiler-llvm";
     cargoHash = "sha256-xawbf5gXXV+7I2F2fDSaMvjtFvGDBtqX7wL3c28TSbA=";
     extraNativeBuildInputs = [ llvm_14 ];
-    extraBuildInputs = [ libffi libxml2.out ncurses zlib ];
+    extraBuildInputs = [
+      libffi
+      libxml2.out
+      ncurses
+      zlib
+    ];
   };
 
   wasmer-compiler-singlepass = common {

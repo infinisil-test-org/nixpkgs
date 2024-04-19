@@ -1,39 +1,40 @@
-{ lib
-, stdenv
-, fetchurl
-, autoPatchelfHook
-, dpkg
-, makeBinaryWrapper
-, wrapGAppsHook
-, alsa-lib
-, at-spi2-atk
-, at-spi2-core
-, atk
-, cairo
-, cups
-, dbus
-, expat
-, ffmpeg
-, fontconfig
-, freetype
-, gdk-pixbuf
-, glib
-, gtk3
-, libappindicator-gtk3
-, libdrm
-, libnotify
-, libpulseaudio
-, libsecret
-, libuuid
-, libxkbcommon
-, mesa
-, nss
-, pango
-, systemd
-, xdg-utils
-, xorg
-, wayland
-, pipewire
+{
+  lib,
+  stdenv,
+  fetchurl,
+  autoPatchelfHook,
+  dpkg,
+  makeBinaryWrapper,
+  wrapGAppsHook,
+  alsa-lib,
+  at-spi2-atk,
+  at-spi2-core,
+  atk,
+  cairo,
+  cups,
+  dbus,
+  expat,
+  ffmpeg,
+  fontconfig,
+  freetype,
+  gdk-pixbuf,
+  glib,
+  gtk3,
+  libappindicator-gtk3,
+  libdrm,
+  libnotify,
+  libpulseaudio,
+  libsecret,
+  libuuid,
+  libxkbcommon,
+  mesa,
+  nss,
+  pango,
+  systemd,
+  xdg-utils,
+  xorg,
+  wayland,
+  pipewire,
 }:
 
 stdenv.mkDerivation rec {
@@ -44,18 +45,24 @@ stdenv.mkDerivation rec {
     let
       base = "https://github.com/ArmCord/ArmCord/releases/download";
     in
-      {
-        x86_64-linux = fetchurl {
-          url = "${base}/v${version}/ArmCord_${version}_amd64.deb";
-          hash = "sha256-9AcxqCxhLAjYclaw6lri06R0PgQQeRHTbLJLEdhDCWU=";
-        };
-        aarch64-linux = fetchurl {
-          url = "${base}/v${version}/ArmCord_${version}_arm64.deb";
-          hash = "sha256-/uk2slpNF1sSTW6z319Yg9yx/s45fJPvJQJpY11ULVw=";
-        };
-      }.${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
+    {
+      x86_64-linux = fetchurl {
+        url = "${base}/v${version}/ArmCord_${version}_amd64.deb";
+        hash = "sha256-9AcxqCxhLAjYclaw6lri06R0PgQQeRHTbLJLEdhDCWU=";
+      };
+      aarch64-linux = fetchurl {
+        url = "${base}/v${version}/ArmCord_${version}_arm64.deb";
+        hash = "sha256-/uk2slpNF1sSTW6z319Yg9yx/s45fJPvJQJpY11ULVw=";
+      };
+    }
+    .${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
 
-  nativeBuildInputs = [ autoPatchelfHook dpkg makeBinaryWrapper wrapGAppsHook ];
+  nativeBuildInputs = [
+    autoPatchelfHook
+    dpkg
+    makeBinaryWrapper
+    wrapGAppsHook
+  ];
 
   dontWrapGApps = true;
 
@@ -135,7 +142,10 @@ stdenv.mkDerivation rec {
     sourceProvenance = with sourceTypes; [ binaryNativeCode ];
     license = licenses.osl3;
     maintainers = with maintainers; [ wrmilling ];
-    platforms = [ "x86_64-linux" "aarch64-linux" ];
+    platforms = [
+      "x86_64-linux"
+      "aarch64-linux"
+    ];
     mainProgram = "armcord";
   };
 }

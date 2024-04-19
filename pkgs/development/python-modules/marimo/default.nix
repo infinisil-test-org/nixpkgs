@@ -1,20 +1,21 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, pythonOlder
-, setuptools
-, click
-, jedi
-, markdown
-, pymdown-extensions
-, pygments
-, tomlkit
-, uvicorn
-, starlette
-, websockets
-, docutils
-, black
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  pythonOlder,
+  setuptools,
+  click,
+  jedi,
+  markdown,
+  pymdown-extensions,
+  pygments,
+  tomlkit,
+  uvicorn,
+  starlette,
+  websockets,
+  docutils,
+  black,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -29,9 +30,7 @@ buildPythonPackage rec {
     hash = "sha256-IiM7iJs3CIl6WjstgvtJzIylVL49jRG246GU5G5GEG0=";
   };
 
-  build-system = [
-    setuptools
-  ];
+  build-system = [ setuptools ];
 
   dependencies = [
     click
@@ -47,13 +46,9 @@ buildPythonPackage rec {
     black
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "marimo"
-  ];
+  pythonImportsCheck = [ "marimo" ];
 
   meta = with lib; {
     description = "A reactive Python notebook that's reproducible, git-friendly, and deployable as scripts or apps";
@@ -61,6 +56,9 @@ buildPythonPackage rec {
     changelog = "https://github.com/marimo-team/marimo/releases/tag/${version}";
     license = licenses.asl20;
     mainProgram = "marimo";
-    maintainers = with maintainers; [ akshayka dmadisetti ];
+    maintainers = with maintainers; [
+      akshayka
+      dmadisetti
+    ];
   };
 }

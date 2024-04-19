@@ -1,7 +1,8 @@
-{ lib
-, fetchFromGitHub
-, python3
-, mopidy
+{
+  lib,
+  fetchFromGitHub,
+  python3,
+  mopidy,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -16,16 +17,17 @@ python3.pkgs.buildPythonApplication rec {
     hash = "sha256-iFt7r8Ljymc+grNJiOClTHkZOeo7AcYpcNc8tLMPROk=";
   };
 
-  propagatedBuildInputs = with python3.pkgs; [
-    beautifulsoup4
-    cachetools
-    pykka
-    requests
-    youtube-dl
-    ytmusicapi
-  ] ++ [
-    mopidy
-  ];
+  propagatedBuildInputs =
+    with python3.pkgs;
+    [
+      beautifulsoup4
+      cachetools
+      pykka
+      requests
+      youtube-dl
+      ytmusicapi
+    ]
+    ++ [ mopidy ];
 
   nativeCheckInputs = with python3.pkgs; [
     vcrpy
@@ -44,9 +46,7 @@ python3.pkgs.buildPythonApplication rec {
     "tests/test_youtube.py"
   ];
 
-  pythonImportsCheck = [
-    "mopidy_youtube"
-  ];
+  pythonImportsCheck = [ "mopidy_youtube" ];
 
   meta = with lib; {
     description = "Mopidy extension for playing music from YouTube";

@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, fetchurl
-, autoPatchelfHook
-, nixosTests
+{
+  lib,
+  stdenv,
+  fetchurl,
+  autoPatchelfHook,
+  nixosTests,
 }:
 let
   inherit (stdenv.hostPlatform) system;
@@ -21,9 +22,7 @@ stdenv.mkDerivation {
     inherit hash;
   };
 
-  nativeBuildInputs = [
-    autoPatchelfHook
-  ];
+  nativeBuildInputs = [ autoPatchelfHook ];
 
   # The tar.gz contains no subdirectory
   sourceRoot = ".";
@@ -34,7 +33,9 @@ stdenv.mkDerivation {
   '';
 
   passthru = {
-    tests = { inherit (nixosTests) typesense; };
+    tests = {
+      inherit (nixosTests) typesense;
+    };
     updateScript = ./update.sh;
   };
 
@@ -59,7 +60,11 @@ stdenv.mkDerivation {
     #     This is where I stopped trying for now.
     # XXX: retry once typesense has officially released their bazel based build.
     sourceProvenance = with sourceTypes; [ binaryNativeCode ];
-    platforms = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" ];
+    platforms = [
+      "x86_64-linux"
+      "aarch64-linux"
+      "x86_64-darwin"
+    ];
     maintainers = with maintainers; [ oddlama ];
   };
 }

@@ -1,6 +1,11 @@
 # GLib Networking
 
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
@@ -13,8 +18,18 @@ with lib;
   # Added 2021-05-07
   imports = [
     (mkRenamedOptionModule
-      [ "services" "gnome3" "glib-networking" "enable" ]
-      [ "services" "gnome" "glib-networking" "enable" ]
+      [
+        "services"
+        "gnome3"
+        "glib-networking"
+        "enable"
+      ]
+      [
+        "services"
+        "gnome"
+        "glib-networking"
+        "enable"
+      ]
     )
   ];
 
@@ -25,9 +40,7 @@ with lib;
     services.gnome.glib-networking = {
 
       enable = mkEnableOption "network extensions for GLib";
-
     };
-
   };
 
   ###### implementation
@@ -39,7 +52,5 @@ with lib;
     systemd.packages = [ pkgs.glib-networking ];
 
     environment.sessionVariables.GIO_EXTRA_MODULES = [ "${pkgs.glib-networking.out}/lib/gio/modules" ];
-
   };
-
 }

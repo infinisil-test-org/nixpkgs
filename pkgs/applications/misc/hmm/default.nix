@@ -1,7 +1,8 @@
-{ lib
-, rustPlatform
-, fetchCrate
-, perl
+{
+  lib,
+  rustPlatform,
+  fetchCrate,
+  perl,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -16,9 +17,7 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-9Z49aPfcIdMfYCFAXsxFxcfhaLjtPod+nMFHDmvgDY0=";
 
-  nativeCheckInputs = [
-    perl
-  ];
+  nativeCheckInputs = [ perl ];
 
   preCheck = ''
     export HOME=$(mktemp -d)

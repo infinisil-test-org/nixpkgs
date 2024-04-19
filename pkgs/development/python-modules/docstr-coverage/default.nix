@@ -1,11 +1,12 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, click
-, pyyaml
-, tqdm
-, pytestCheckHook
-, pytest-mock
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  click,
+  pyyaml,
+  tqdm,
+  pytestCheckHook,
+  pytest-mock,
 }:
 let
   version = "2.3.1";
@@ -21,9 +22,16 @@ buildPythonPackage {
     hash = "sha256-QmQE6KZ2NdXKQun+uletxYPktWvfkrj6NPAVl/mmpAY=";
   };
 
-  propagatedBuildInputs = [ click pyyaml tqdm ];
+  propagatedBuildInputs = [
+    click
+    pyyaml
+    tqdm
+  ];
 
-  nativeCheckInputs = [ pytestCheckHook pytest-mock ];
+  nativeCheckInputs = [
+    pytestCheckHook
+    pytest-mock
+  ];
 
   disabledTests = [
     # AssertionError: assert 'docstr_coverage' in '/build/source/tests'

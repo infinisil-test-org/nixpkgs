@@ -1,4 +1,8 @@
-{ lib, stdenv, fetchFromGitHub }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+}:
 
 stdenv.mkDerivation {
 
@@ -27,5 +31,4 @@ stdenv.mkDerivation {
     license = licenses.gpl2;
     platforms = platforms.linux;
   };
-
 }

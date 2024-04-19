@@ -1,10 +1,11 @@
-{ autoPatchelfHook
-, electron
-, fetchurl
-, lib
-, makeWrapper
-, squashfsTools
-, stdenv
+{
+  autoPatchelfHook,
+  electron,
+  fetchurl,
+  lib,
+  makeWrapper,
+  squashfsTools,
+  stdenv,
 }:
 
 stdenv.mkDerivation rec {
@@ -18,7 +19,11 @@ stdenv.mkDerivation rec {
     hash = "sha256-a5z6Lwdgody88f7has/f2AMg9m9fGWsJSexZM6KUGOY=";
   };
 
-  nativeBuildInputs = [ autoPatchelfHook makeWrapper squashfsTools ];
+  nativeBuildInputs = [
+    autoPatchelfHook
+    makeWrapper
+    squashfsTools
+  ];
 
   unpackPhase = ''
     runHook preUnpack

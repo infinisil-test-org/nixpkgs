@@ -1,22 +1,23 @@
-{ lib
-, mkDerivation
-, fetchFromGitHub
-, cmake
-, pkg-config
-, glib
-, lxqt-build-tools
-, lxqt-menu-data
-, qtbase
-, qtx11extras
-, qttools
-, qtsvg
-, kwindowsystem
-, libkscreen
-, liblxqt
-, libqtxdg
-, xkeyboard_config
-, xorg
-, gitUpdater
+{
+  lib,
+  mkDerivation,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  glib,
+  lxqt-build-tools,
+  lxqt-menu-data,
+  qtbase,
+  qtx11extras,
+  qttools,
+  qtsvg,
+  kwindowsystem,
+  libkscreen,
+  liblxqt,
+  libqtxdg,
+  xkeyboard_config,
+  xorg,
+  gitUpdater,
 }:
 
 mkDerivation rec {
@@ -75,5 +76,4 @@ mkDerivation rec {
     platforms = platforms.linux;
     maintainers = teams.lxqt.members;
   };
-
 }

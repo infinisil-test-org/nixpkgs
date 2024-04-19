@@ -1,16 +1,24 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.services.adguardhome;
 
-  args = concatStringsSep " " ([
-    "--no-check-update"
-    "--pidfile /run/AdGuardHome/AdGuardHome.pid"
-    "--work-dir /var/lib/AdGuardHome/"
-    "--config /var/lib/AdGuardHome/AdGuardHome.yaml"
-  ] ++ cfg.extraArgs);
+  args = concatStringsSep " " (
+    [
+      "--no-check-update"
+      "--pidfile /run/AdGuardHome/AdGuardHome.pid"
+      "--work-dir /var/lib/AdGuardHome/"
+      "--config /var/lib/AdGuardHome/AdGuardHome.yaml"
+    ]
+    ++ cfg.extraArgs
+  );
 
   configFile = pkgs.writeTextFile {
     name = "AdGuardHome.yaml";
@@ -18,16 +26,33 @@ let
     checkPhase = "${pkgs.adguardhome}/bin/adguardhome -c $out --check-config";
   };
   defaultBindPort = 3000;
-
 in
 {
 
   imports =
-    let cfgPath = [ "services" "adguardhome" ];
+    let
+      cfgPath = [
+        "services"
+        "adguardhome"
+      ];
     in
     [
-      (mkRenamedOptionModuleWith { sinceRelease = 2211; from = cfgPath ++ [ "host" ]; to = cfgPath ++ [ "settings" "bind_host" ]; })
-      (mkRenamedOptionModuleWith { sinceRelease = 2211; from = cfgPath ++ [ "port" ]; to = cfgPath ++ [ "settings" "bind_port" ]; })
+      (mkRenamedOptionModuleWith {
+        sinceRelease = 2211;
+        from = cfgPath ++ [ "host" ];
+        to = cfgPath ++ [
+          "settings"
+          "bind_host"
+        ];
+      })
+      (mkRenamedOptionModuleWith {
+        sinceRelease = 2211;
+        from = cfgPath ++ [ "port" ];
+        to = cfgPath ++ [
+          "settings"
+          "bind_port"
+        ];
+      })
     ];
 
   options.services.adguardhome = with types; {
@@ -124,17 +149,30 @@ in
   config = mkIf cfg.enable {
     assertions = [
       {
-        assertion = cfg.settings != null -> cfg.mutableSettings
-          || (hasAttrByPath [ "dns" "bind_host" ] cfg.settings)
-          || (hasAttrByPath [ "dns" "bind_hosts" ] cfg.settings);
-        message =
-          "AdGuard setting dns.bind_host or dns.bind_hosts needs to be configured for a minimal working configuration";
+        assertion =
+          cfg.settings != null
+          ->
+            cfg.mutableSettings
+            || (hasAttrByPath [
+              "dns"
+              "bind_host"
+            ] cfg.settings)
+            || (hasAttrByPath [
+              "dns"
+              "bind_hosts"
+            ] cfg.settings);
+        message = "AdGuard setting dns.bind_host or dns.bind_hosts needs to be configured for a minimal working configuration";
       }
       {
-        assertion = cfg.settings != null -> cfg.mutableSettings
-          || hasAttrByPath [ "dns" "bootstrap_dns" ] cfg.settings;
-        message =
-          "AdGuard setting dns.bootstrap_dns needs to be configured for a minimal working configuration";
+        assertion =
+          cfg.settings != null
+          ->
+            cfg.mutableSettings
+            || hasAttrByPath [
+              "dns"
+              "bootstrap_dns"
+            ] cfg.settings;
+        message = "AdGuard setting dns.bootstrap_dns needs to be configured for a minimal working configuration";
       }
     ];
 
@@ -170,6 +208,8 @@ in
       };
     };
 
-    networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall [ cfg.settings.bind_port or defaultBindPort ];
+    networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall [
+      cfg.settings.bind_port or defaultBindPort
+    ];
   };
 }

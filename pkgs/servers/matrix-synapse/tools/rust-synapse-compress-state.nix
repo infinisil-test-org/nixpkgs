@@ -1,4 +1,12 @@
-{ lib, stdenv, rustPlatform, python3, fetchFromGitHub, pkg-config, openssl }:
+{
+  lib,
+  stdenv,
+  rustPlatform,
+  python3,
+  fetchFromGitHub,
+  pkg-config,
+  openssl,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "rust-synapse-compress-state";
@@ -13,11 +21,12 @@ rustPlatform.buildRustPackage rec {
 
   cargoSha256 = "sha256-PG+UeovhJMsIlm5dOYdtMxbUxZjwG3V59kAcB9aFP5c=";
 
-  cargoBuildFlags = [
-    "--all"
-  ];
+  cargoBuildFlags = [ "--all" ];
 
-  nativeBuildInputs = [ python3 pkg-config ];
+  nativeBuildInputs = [
+    python3
+    pkg-config
+  ];
 
   buildInputs = [ openssl ];
 
@@ -26,6 +35,9 @@ rustPlatform.buildRustPackage rec {
     description = "A tool to compress some state in a Synapse instance's database";
     homepage = "https://github.com/matrix-org/rust-synapse-compress-state";
     license = licenses.asl20;
-    maintainers = with maintainers; [ hexa maralorn ];
+    maintainers = with maintainers; [
+      hexa
+      maralorn
+    ];
   };
 }

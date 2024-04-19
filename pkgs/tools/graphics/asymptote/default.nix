@@ -1,18 +1,52 @@
-{ lib, stdenv, fetchurl, fetchpatch
-, autoreconfHook, bison, glm, flex, wrapQtAppsHook, cmake, pkg-config
-, freeglut, ghostscriptX, imagemagick, fftw, eigen, libtirpc
-, boehmgc, libGLU, libGL, mesa, ncurses, readline, gsl, libsigsegv
-, python3, qtbase, qtsvg, boost
-, zlib, perl, curl
-, texliveSmall, texinfo
-, darwin
+{
+  lib,
+  stdenv,
+  fetchurl,
+  fetchpatch,
+  autoreconfHook,
+  bison,
+  glm,
+  flex,
+  wrapQtAppsHook,
+  cmake,
+  pkg-config,
+  freeglut,
+  ghostscriptX,
+  imagemagick,
+  fftw,
+  eigen,
+  libtirpc,
+  boehmgc,
+  libGLU,
+  libGL,
+  mesa,
+  ncurses,
+  readline,
+  gsl,
+  libsigsegv,
+  python3,
+  qtbase,
+  qtsvg,
+  boost,
+  zlib,
+  perl,
+  curl,
+  texliveSmall,
+  texinfo,
+  darwin,
 }:
 
 stdenv.mkDerivation rec {
   version = "2.88";
   pname = "asymptote";
 
-  outputs = [ "out" "man" "info" "doc" "tex" ];
+  outputs = [
+    "out"
+    "man"
+    "info"
+    "doc"
+    "tex"
+  ];
 
   src = fetchurl {
     url = "mirror://sourceforge/asymptote/${version}/asymptote-${version}.src.tgz";
@@ -40,20 +74,56 @@ stdenv.mkDerivation rec {
   ];
 
   buildInputs = [
-    ghostscriptX imagemagick fftw eigen
-    boehmgc ncurses readline gsl libsigsegv
-    zlib perl curl qtbase qtsvg boost
-    (texliveSmall.withPackages (ps: with ps; [ epsf cm-super ps.texinfo media9 ocgx2 collection-latexextra ]))
-    (python3.withPackages (ps: with ps; [ cson numpy pyqt5 ]))
+    ghostscriptX
+    imagemagick
+    fftw
+    eigen
+    boehmgc
+    ncurses
+    readline
+    gsl
+    libsigsegv
+    zlib
+    perl
+    curl
+    qtbase
+    qtsvg
+    boost
+    (texliveSmall.withPackages (
+      ps: with ps; [
+        epsf
+        cm-super
+        ps.texinfo
+        media9
+        ocgx2
+        collection-latexextra
+      ]
+    ))
+    (python3.withPackages (
+      ps: with ps; [
+        cson
+        numpy
+        pyqt5
+      ]
+    ))
   ] ++ lib.optionals stdenv.isLinux [ libtirpc ];
 
-  propagatedBuildInputs = [
-    glm
-  ] ++ lib.optionals stdenv.isLinux [
-    freeglut libGLU libGL mesa.osmesa
-  ] ++ lib.optionals stdenv.isDarwin (with darwin.apple_sdk.frameworks; [
-    OpenGL GLUT Cocoa
-  ]);
+  propagatedBuildInputs =
+    [ glm ]
+    ++ lib.optionals stdenv.isLinux [
+      freeglut
+      libGLU
+      libGL
+      mesa.osmesa
+    ]
+    ++ lib.optionals stdenv.isDarwin (
+      with darwin.apple_sdk.frameworks;
+      [
+        OpenGL
+        GLUT
+        Cocoa
+      ]
+    );
 
   dontWrapQtApps = true;
 
@@ -66,7 +136,8 @@ stdenv.mkDerivation rec {
   '';
 
   # do not use bundled libgc.so
-  configureFlags = [ "--enable-gc=system" ]
+  configureFlags =
+    [ "--enable-gc=system" ]
     # TODO add open_memstream to enable XDR/V3D on Darwin (requires memstream or >=10.13 Apple SDK)
     ++ lib.optional stdenv.isDarwin "--enable-xdr=no";
 
@@ -93,7 +164,7 @@ stdenv.mkDerivation rec {
   enableParallelInstalling = false;
 
   meta = with lib; {
-    description =  "A tool for programming graphics intended to replace Metapost";
+    description = "A tool for programming graphics intended to replace Metapost";
     license = licenses.gpl3Plus;
     maintainers = [ maintainers.raskin ];
     platforms = platforms.linux ++ platforms.darwin;

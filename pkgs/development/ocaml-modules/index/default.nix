@@ -1,7 +1,21 @@
-{ lib, fetchurl, buildDunePackage
-, repr, ppx_repr, fmt, logs, mtime, stdlib-shims
-, cmdliner, progress, semaphore-compat, optint
-, alcotest, crowbar, re, lru
+{
+  lib,
+  fetchurl,
+  buildDunePackage,
+  repr,
+  ppx_repr,
+  fmt,
+  logs,
+  mtime,
+  stdlib-shims,
+  cmdliner,
+  progress,
+  semaphore-compat,
+  optint,
+  alcotest,
+  crowbar,
+  re,
+  lru,
 }:
 
 buildDunePackage rec {
@@ -16,9 +30,7 @@ buildDunePackage rec {
   minimalOCamlVersion = "4.08";
   duneVersion = "3";
 
-  buildInputs = [
-    stdlib-shims
-  ];
+  buildInputs = [ stdlib-shims ];
   propagatedBuildInputs = [
     cmdliner
     fmt

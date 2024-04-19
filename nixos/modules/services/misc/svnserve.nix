@@ -1,12 +1,16 @@
 # SVN server
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
 
   cfg = config.services.svnserve;
-
 in
 
 {
@@ -29,9 +33,7 @@ in
         description = "Base directory from which Subversion repositories are accessed.";
       };
     };
-
   };
-
 
   ###### implementation
 

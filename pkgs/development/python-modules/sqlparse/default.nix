@@ -1,16 +1,17 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, flit-core
-, installShellFiles
-, pytestCheckHook
-, isPy3k
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  flit-core,
+  installShellFiles,
+  pytestCheckHook,
+  isPy3k,
 
-# for passthru.tests
-, django
-, django_4
-, django-silk
-, pgadmin4
+  # for passthru.tests
+  django,
+  django_4,
+  django-silk,
+  pgadmin4,
 }:
 
 buildPythonPackage rec {
@@ -26,7 +27,10 @@ buildPythonPackage rec {
 
   format = "pyproject";
 
-  nativeBuildInputs = [ flit-core installShellFiles ];
+  nativeBuildInputs = [
+    flit-core
+    installShellFiles
+  ];
 
   nativeCheckInputs = [ pytestCheckHook ];
 
@@ -35,7 +39,12 @@ buildPythonPackage rec {
   '';
 
   passthru.tests = {
-    inherit django django_4 django-silk pgadmin4;
+    inherit
+      django
+      django_4
+      django-silk
+      pgadmin4
+      ;
   };
 
   meta = with lib; {

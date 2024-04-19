@@ -7,7 +7,10 @@
 mkKdeDerivation {
   pname = "kguiaddons";
 
-  extraNativeBuildInputs = [pkg-config];
-  extraBuildInputs = [qtwayland wayland];
+  extraNativeBuildInputs = [ pkg-config ];
+  extraBuildInputs = [
+    qtwayland
+    wayland
+  ];
   meta.mainProgram = "kde-geo-uri-handler";
 }

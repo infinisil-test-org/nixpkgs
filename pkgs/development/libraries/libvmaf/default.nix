@@ -1,13 +1,14 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, ffmpeg-full
-, libaom
-, meson
-, nasm
-, ninja
-, testers
-, xxd
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  ffmpeg-full,
+  libaom,
+  meson,
+  nasm,
+  ninja,
+  testers,
+  xxd,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -23,18 +24,24 @@ stdenv.mkDerivation (finalAttrs: {
 
   sourceRoot = "${finalAttrs.src.name}/libvmaf";
 
-  nativeBuildInputs = [ meson ninja nasm xxd ];
+  nativeBuildInputs = [
+    meson
+    ninja
+    nasm
+    xxd
+  ];
 
   mesonFlags = [ "-Denable_avx512=true" ];
 
-  outputs = [ "out" "dev" ];
+  outputs = [
+    "out"
+    "dev"
+  ];
   doCheck = false;
 
   passthru.tests = {
     inherit libaom ffmpeg-full;
-    version = testers.testVersion {
-      package = finalAttrs.finalPackage;
-    };
+    version = testers.testVersion { package = finalAttrs.finalPackage; };
     pkg-config = testers.hasPkgConfigModules {
       package = finalAttrs.finalPackage;
       moduleNames = [ "libvmaf" ];
@@ -46,7 +53,10 @@ stdenv.mkDerivation (finalAttrs: {
     homepage = "https://github.com/Netflix/vmaf";
     changelog = "https://github.com/Netflix/vmaf/blob/v${finalAttrs.version}/CHANGELOG.md";
     license = licenses.bsd2Patent;
-    maintainers = [ maintainers.cfsmp3 maintainers.marsam ];
+    maintainers = [
+      maintainers.cfsmp3
+      maintainers.marsam
+    ];
     mainProgram = "vmaf";
     platforms = platforms.unix;
   };

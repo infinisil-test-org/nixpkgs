@@ -1,7 +1,8 @@
-{ lib
-, buildPythonPackage
-, fetchPypi
-, ipykernel
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  ipykernel,
 }:
 
 buildPythonPackage rec {
@@ -14,9 +15,7 @@ buildPythonPackage rec {
     hash = "sha256-Riu915VmJIdtxOqB+nkoRas4cOREyh9res2uo32Mnr8=";
   };
 
-  propagatedBuildInputs = [
-    ipykernel
-  ];
+  propagatedBuildInputs = [ ipykernel ];
 
   pythonImportsCheck = [ "ipynbname" ];
 

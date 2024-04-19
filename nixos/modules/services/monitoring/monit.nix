@@ -1,4 +1,9 @@
-{config, pkgs, lib, ...}:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
@@ -16,7 +21,6 @@ in
       default = "";
       description = "monitrc content";
     };
-
   };
 
   config = mkIf cfg.enable {
@@ -41,7 +45,6 @@ in
       };
       restartTriggers = [ config.environment.etc.monitrc.source ];
     };
-
   };
 
   meta.maintainers = with maintainers; [ ryantm ];

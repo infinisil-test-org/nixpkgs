@@ -1,26 +1,27 @@
-{ lib
-, callPackage
-, clangStdenv
-, cmake
-, fetchFromGitHub
-, gcc
-, git
-, llvmPackages_13
-# Libraries
-, argparse
-, cling
-, cppzmq
-, libuuid
-, ncurses
-, openssl
-, pugixml
-, xeus
-, xeus-zmq
-, xtl
-, zeromq
-, zlib
-# Settings
-, debug ? false
+{
+  lib,
+  callPackage,
+  clangStdenv,
+  cmake,
+  fetchFromGitHub,
+  gcc,
+  git,
+  llvmPackages_13,
+  # Libraries
+  argparse,
+  cling,
+  cppzmq,
+  libuuid,
+  ncurses,
+  openssl,
+  pugixml,
+  xeus,
+  xeus-zmq,
+  xtl,
+  zeromq,
+  zlib,
+  # Settings
+  debug ? false,
 }:
 
 let
@@ -35,7 +36,6 @@ let
       sha256 = "sha256-vbf4kePi5gfg9ub4aP1cCK1jtiA65bUS9+5Ghgvxt/E=";
     };
   });
-
 in
 
 clangStdenv.mkDerivation rec {
@@ -71,9 +71,7 @@ clangStdenv.mkDerivation rec {
     zlib
   ];
 
-  cmakeFlags = lib.optionals debug [
-    "-DCMAKE_BUILD_TYPE=Debug"
-  ];
+  cmakeFlags = lib.optionals debug [ "-DCMAKE_BUILD_TYPE=Debug" ];
 
   postPatch = ''
     substituteInPlace src/xmagics/executable.cpp \

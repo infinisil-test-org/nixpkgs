@@ -1,5 +1,14 @@
-{ lib, stdenv, fetchFromGitHub, rustPlatform, pkg-config, openssl, Security
-, testers, mdbook-linkcheck }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  rustPlatform,
+  pkg-config,
+  openssl,
+  Security,
+  testers,
+  mdbook-linkcheck,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "mdbook-linkcheck";

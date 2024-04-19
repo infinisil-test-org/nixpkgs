@@ -1,11 +1,12 @@
-{ lib
-, adal
-, buildPythonPackage
-, fetchPypi
-, pyjwt
-, pythonOlder
-, setuptools
-, sqlalchemy
+{
+  lib,
+  adal,
+  buildPythonPackage,
+  fetchPypi,
+  pyjwt,
+  pythonOlder,
+  setuptools,
+  sqlalchemy,
 }:
 
 buildPythonPackage rec {
@@ -20,9 +21,7 @@ buildPythonPackage rec {
     hash = "sha256-0hDiuF0dBRyR2B9dp4c7/jsC6li8uOduQBbhs6fFLfU=";
   };
 
-  nativeBuildInputs = [
-    setuptools
-  ];
+  nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
     adal
@@ -33,9 +32,7 @@ buildPythonPackage rec {
   # Module has no test
   doCheck = false;
 
-  pythonImportsCheck = [
-    "roadtools.roadlib"
-  ];
+  pythonImportsCheck = [ "roadtools.roadlib" ];
 
   meta = with lib; {
     description = "ROADtools common components library";

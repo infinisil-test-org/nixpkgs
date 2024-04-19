@@ -5,32 +5,32 @@ with self;
 let
   # Removing recurseForDerivation prevents derivations of aliased attribute
   # set to appear while listing all the packages available.
-  removeRecurseForDerivations = alias: with lib;
-      if alias.recurseForDerivations or false then
-            removeAttrs alias ["recurseForDerivations"]
-                else alias;
+  removeRecurseForDerivations =
+    alias:
+    with lib;
+    if alias.recurseForDerivations or false then
+      removeAttrs alias [ "recurseForDerivations" ]
+    else
+      alias;
 
   # Disabling distribution prevents top-level aliases for non-recursed package
   # sets from building on Hydra.
-  removeDistribute = alias: with lib;
-    if isDerivation alias then
-      dontDistribute alias
-    else alias;
+  removeDistribute = alias: with lib; if isDerivation alias then dontDistribute alias else alias;
 
   # Make sure that we are not shadowing something from
   # python-packages.nix.
-  checkInPkgs = n: alias: if builtins.hasAttr n super
-                          then throw "Alias ${n} is still in python-packages.nix"
-                          else alias;
+  checkInPkgs =
+    n: alias:
+    if builtins.hasAttr n super then throw "Alias ${n} is still in python-packages.nix" else alias;
 
-  mapAliases = aliases:
-    lib.mapAttrs (n: alias: removeDistribute
-                             (removeRecurseForDerivations
-                              (checkInPkgs n alias)))
-                     aliases;
+  mapAliases =
+    aliases:
+    lib.mapAttrs (
+      n: alias: removeDistribute (removeRecurseForDerivations (checkInPkgs n alias))
+    ) aliases;
 in
 
-  ### Deprecated aliases - for backward compatibility
+### Deprecated aliases - for backward compatibility
 
 mapAliases ({
   abodepy = jaraco-abode; # added 2023-02-01
@@ -218,7 +218,7 @@ mapAliases ({
   imdbpy = throw "imdbpy has been renamed to cinemagoer"; # added 2022-08-08
   image-match = throw "image-match has been removed because it is no longer maintained"; # added 2023-06-10
   imgaug = throw "imgaug has been removed as it is no longer maintained"; # added 2023-07-10
-  intreehook =  throw "intreehooks has been removed because it is obsolete as a backend-path key was added to PEP 517"; # added 2023-04-11
+  intreehook = throw "intreehooks has been removed because it is obsolete as a backend-path key was added to PEP 517"; # added 2023-04-11
   ipaddress = throw "ipaddress has been removed because it is no longer required since python 2.7."; # added 2022-05-30
   ipython_genutils = ipython-genutils; # added 2023-10-12
   influxgraph = throw "influxgraph has been removed because it is no longer maintained"; # added 2022-07-10
@@ -291,7 +291,7 @@ mapAliases ({
   nghttp2 = throw "in 1.52.0 removed deprecated python bindings."; # added 2023-06-08
   ninja-python = ninja; # add 2022-08-03
   nose-cover3 = throw "nose-cover3 has been removed, it was using setuptools 2to3 translation feature, which has been removed in setuptools 58"; # added 2022-02-16
-  nose_progressive = throw "nose_progressive has been removed, it was using setuptools 2to3 translation feature, which has been removed in setuptools 58"; #added 2023-02-21
+  nose_progressive = throw "nose_progressive has been removed, it was using setuptools 2to3 translation feature, which has been removed in setuptools 58"; # added 2023-02-21
   nose_warnings_filters = nose-warnings-filters; # added 2024-01-07
   notifymuch = throw "notifymuch has been promoted to a top-level attribute name: `pkgs.notifymuch`"; # added 2022-10-02
   Nuitka = nuitka; # added 2023-02-19
@@ -321,7 +321,7 @@ mapAliases ({
   protonup = protonup-ng; # Added 2022-11-06
   proxy_tools = proxy-tools; # added 2023-11-05
   pur = throw "pur has been renamed to pkgs.pur"; # added 2021-11-08
-  pushbullet = pushbullet-py;  # Added 2022-10-15
+  pushbullet = pushbullet-py; # Added 2022-10-15
   Pweave = pweave; # added 2023-02-19
   py-radix = throw "py-radix has been removed, since it abandoned"; # added 2023-07-07
   py_stringmatching = py-stringmatching; # added 2023-11-12

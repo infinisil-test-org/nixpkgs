@@ -1,17 +1,18 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, typing-extensions
-, wsproto
-, toml
-, h2
-, priority
-, mock
-, poetry-core
-, pytest-asyncio
-, pytest-trio
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  typing-extensions,
+  wsproto,
+  toml,
+  h2,
+  priority,
+  mock,
+  poetry-core,
+  pytest-asyncio,
+  pytest-trio,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -31,12 +32,14 @@ buildPythonPackage rec {
     sed -i "/^addopts/d" pyproject.toml
   '';
 
-  nativeBuildInputs = [
-    poetry-core
-  ];
+  nativeBuildInputs = [ poetry-core ];
 
-  propagatedBuildInputs = [ wsproto toml h2 priority ]
-    ++ lib.optionals (pythonOlder "3.8") [ typing-extensions ];
+  propagatedBuildInputs = [
+    wsproto
+    toml
+    h2
+    priority
+  ] ++ lib.optionals (pythonOlder "3.8") [ typing-extensions ];
 
   nativeCheckInputs = [
     pytest-asyncio

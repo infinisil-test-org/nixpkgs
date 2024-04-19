@@ -1,4 +1,10 @@
-{ lib, stdenv, fetchFromGitHub, autoreconfHook, openssl }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  autoreconfHook,
+  openssl,
+}:
 
 stdenv.mkDerivation rec {
   pname = "httperf";
@@ -34,5 +40,4 @@ stdenv.mkDerivation rec {
     platforms = platforms.all;
     mainProgram = "httperf";
   };
-
 }

@@ -1,11 +1,16 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.programs.ecryptfs;
-
-in {
+in
+{
   options.programs.ecryptfs = {
     enable = mkEnableOption "ecryptfs setuid mount wrappers";
   };
@@ -25,7 +30,6 @@ in {
         group = "root";
         source = "${lib.getBin pkgs.ecryptfs}/bin/umount.ecryptfs_private";
       };
-
     };
   };
 }

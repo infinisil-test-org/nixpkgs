@@ -1,19 +1,20 @@
-{ stdenv
-, lib
-, fetchurl
-, substituteAll
-, bubblewrap
-, cargo
-, git
-, meson
-, ninja
-, pkg-config
-, rustc
-, gtk4
-, cairo
-, libheif
-, libxml2
-, gnome
+{
+  stdenv,
+  lib,
+  fetchurl,
+  substituteAll,
+  bubblewrap,
+  cargo,
+  git,
+  meson,
+  ninja,
+  pkg-config,
+  rustc,
+  gtk4,
+  cairo,
+  libheif,
+  libxml2,
+  gnome,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -50,9 +51,7 @@ stdenv.mkDerivation (finalAttrs: {
   ];
 
   passthru = {
-    updateScript = gnome.updateScript {
-      packageName = "glycin-loaders";
-    };
+    updateScript = gnome.updateScript { packageName = "glycin-loaders"; };
 
     glycinPathsPatch = substituteAll {
       src = ./fix-glycin-paths.patch;
@@ -64,7 +63,10 @@ stdenv.mkDerivation (finalAttrs: {
     description = "Glycin loaders for several formats";
     homepage = "https://gitlab.gnome.org/sophie-h/glycin";
     maintainers = teams.gnome.members;
-    license = with licenses; [ mpl20 /* or */ lgpl21Plus ];
+    license = with licenses; [
+      mpl20 # or
+      lgpl21Plus
+    ];
     platforms = platforms.linux;
   };
 })

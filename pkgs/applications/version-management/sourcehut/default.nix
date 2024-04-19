@@ -1,11 +1,12 @@
-{ lib
-, stdenv
-, python3
-, callPackage
-, recurseIntoAttrs
-, nixosTests
-, config
-, fetchPypi
+{
+  lib,
+  stdenv,
+  python3,
+  callPackage,
+  recurseIntoAttrs,
+  nixosTests,
+  config,
+  fetchPypi,
 }:
 
 # To expose the *srht modules, they have to be a python module so we use `buildPythonModule`
@@ -74,37 +75,43 @@ let
           inherit version;
           hash = "sha256-+vSNYIoXNfDQo8nL9TbWT5EytUfa57pFLE2Zp56Eo3A=";
         };
-        nativeCheckInputs = (with super; [
-          django
-          mongoengine
-          pytestCheckHook
-        ]) ++ (with self; [
-          sqlalchemy
-          flask
-          flask-sqlalchemy
-        ]);
+        nativeCheckInputs =
+          (with super; [
+            django
+            mongoengine
+            pytestCheckHook
+          ])
+          ++ (with self; [
+            sqlalchemy
+            flask
+            flask-sqlalchemy
+          ]);
         postPatch = "";
       });
     };
   };
 in
-with python.pkgs; recurseIntoAttrs ({
-  inherit python;
-  coresrht = toPythonApplication srht;
-  buildsrht = toPythonApplication buildsrht;
-  gitsrht = toPythonApplication gitsrht;
-  hgsrht = toPythonApplication hgsrht;
-  hubsrht = toPythonApplication hubsrht;
-  listssrht = toPythonApplication listssrht;
-  mansrht = toPythonApplication mansrht;
-  metasrht = toPythonApplication metasrht;
-  pagessrht = callPackage ./pages.nix { };
-  pastesrht = toPythonApplication pastesrht;
-  todosrht = toPythonApplication todosrht;
-  passthru.tests = {
-    nixos-sourcehut = nixosTests.sourcehut;
-  };
-} // lib.optionalAttrs config.allowAliases {
-  # Added 2022-10-29
-  dispatchsrht = throw "dispatch is deprecated. See https://sourcehut.org/blog/2022-08-01-dispatch-deprecation-plans/ for more information.";
-})
+with python.pkgs;
+recurseIntoAttrs (
+  {
+    inherit python;
+    coresrht = toPythonApplication srht;
+    buildsrht = toPythonApplication buildsrht;
+    gitsrht = toPythonApplication gitsrht;
+    hgsrht = toPythonApplication hgsrht;
+    hubsrht = toPythonApplication hubsrht;
+    listssrht = toPythonApplication listssrht;
+    mansrht = toPythonApplication mansrht;
+    metasrht = toPythonApplication metasrht;
+    pagessrht = callPackage ./pages.nix { };
+    pastesrht = toPythonApplication pastesrht;
+    todosrht = toPythonApplication todosrht;
+    passthru.tests = {
+      nixos-sourcehut = nixosTests.sourcehut;
+    };
+  }
+  // lib.optionalAttrs config.allowAliases {
+    # Added 2022-10-29
+    dispatchsrht = throw "dispatch is deprecated. See https://sourcehut.org/blog/2022-08-01-dispatch-deprecation-plans/ for more information.";
+  }
+)

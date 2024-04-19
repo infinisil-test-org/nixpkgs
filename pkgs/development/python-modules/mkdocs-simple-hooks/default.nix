@@ -1,9 +1,10 @@
-{ lib
-, buildPythonPackage
-, isPy3k
-, fetchFromGitHub
-, mkdocs
-, pytestCheckHook
+{
+  lib,
+  buildPythonPackage,
+  isPy3k,
+  fetchFromGitHub,
+  mkdocs,
+  pytestCheckHook,
 }:
 
 buildPythonPackage rec {
@@ -20,9 +21,7 @@ buildPythonPackage rec {
     hash = "sha256-N6xZjCREjJlhR6f8m65WJswUQv/TTdTbk670+C46UWQ=";
   };
 
-  propagatedBuildInputs = [
-    mkdocs
-  ];
+  propagatedBuildInputs = [ mkdocs ];
 
   nativeCheckInputs = [ pytestCheckHook ];
 

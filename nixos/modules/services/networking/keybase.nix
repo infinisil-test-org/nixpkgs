@@ -1,9 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   cfg = config.services.keybase;
-
-in {
+in
+{
 
   ###### interface
 
@@ -16,7 +21,6 @@ in {
         default = false;
         description = "Whether to start the Keybase service.";
       };
-
     };
   };
 

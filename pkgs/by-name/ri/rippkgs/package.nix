@@ -1,8 +1,9 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, pkg-config
-, sqlite
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  pkg-config,
+  sqlite,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -18,13 +19,9 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-hGSHgJ2HVCNqTBsTQIZlSE89FKqdMifuJyAGl3utF2I=";
 
-  nativeBuildInputs = [
-    pkg-config
-  ];
+  nativeBuildInputs = [ pkg-config ];
 
-  buildInputs = [
-    sqlite
-  ];
+  buildInputs = [ sqlite ];
 
   meta = {
     description = "A CLI for indexing and searching packages in Nix expressions";

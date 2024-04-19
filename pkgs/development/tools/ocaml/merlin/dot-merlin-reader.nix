@@ -1,4 +1,14 @@
-{ lib, fetchurl, yojson, csexp, findlib, buildDunePackage, merlin-lib, merlin, result }:
+{
+  lib,
+  fetchurl,
+  yojson,
+  csexp,
+  findlib,
+  buildDunePackage,
+  merlin-lib,
+  merlin,
+  result,
+}:
 
 buildDunePackage rec {
   pname = "dot-merlin-reader";
@@ -9,10 +19,18 @@ buildDunePackage rec {
 
   minimalOCamlVersion = "4.06";
 
-  buildInputs = [ findlib ]
-  ++ (if lib.versionAtLeast version "4.7-414"
-  then [ merlin-lib ]
-  else [ yojson csexp result ]);
+  buildInputs =
+    [ findlib ]
+    ++ (
+      if lib.versionAtLeast version "4.7-414" then
+        [ merlin-lib ]
+      else
+        [
+          yojson
+          csexp
+          result
+        ]
+    );
 
   meta = with lib; {
     description = "Reads config files for merlin";

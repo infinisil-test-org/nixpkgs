@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
@@ -36,6 +41,5 @@ in
       inherit (cfg) diskSize contents;
       inherit config lib pkgs;
     };
-
   };
 }

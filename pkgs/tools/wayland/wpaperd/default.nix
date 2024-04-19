@@ -1,4 +1,10 @@
-{ lib, rustPlatform, fetchFromGitHub, pkg-config, libxkbcommon }:
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  pkg-config,
+  libxkbcommon,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "wpaperd";
@@ -11,12 +17,8 @@ rustPlatform.buildRustPackage rec {
     sha256 = "cgjHCSBrkX3aoz42qBS/1JUGhc7sZKarKByntp7ubaQ=";
   };
 
-  nativeBuildInputs = [
-    pkg-config
-  ];
-  buildInputs = [
-    libxkbcommon
-  ];
+  nativeBuildInputs = [ pkg-config ];
+  buildInputs = [ libxkbcommon ];
 
   cargoLock = {
     lockFile = ./Cargo.lock;

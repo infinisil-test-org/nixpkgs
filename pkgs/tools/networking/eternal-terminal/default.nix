@@ -1,13 +1,14 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, gflags
-, libsodium
-, openssl
-, protobuf
-, zlib
-, catch2
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  gflags,
+  libsodium,
+  openssl,
+  protobuf,
+  zlib,
+  catch2,
 }:
 
 stdenv.mkDerivation rec {
@@ -21,9 +22,7 @@ stdenv.mkDerivation rec {
     hash = "sha256-9W9Pz0VrFU+HNpf98I3CLrn8+kpjjNLOUK8gGcDJcI8=";
   };
 
-  nativeBuildInputs = [
-    cmake
-  ];
+  nativeBuildInputs = [ cmake ];
 
   buildInputs = [
     gflags
@@ -43,9 +42,7 @@ stdenv.mkDerivation rec {
     "-DDISABLE_CRASH_LOG=TRUE"
   ];
 
-  CXXFLAGS = lib.optionals stdenv.cc.isClang [
-    "-std=c++17"
-  ];
+  CXXFLAGS = lib.optionals stdenv.cc.isClang [ "-std=c++17" ];
 
   doCheck = true;
 

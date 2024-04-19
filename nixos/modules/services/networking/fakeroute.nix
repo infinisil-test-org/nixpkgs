@@ -1,9 +1,13 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.services.fakeroute;
   routeConf = pkgs.writeText "route.conf" (lib.concatStringsSep "\n" cfg.route);
-
 in
 
 {
@@ -18,7 +22,7 @@ in
 
       route = lib.mkOption {
         type = with lib.types; listOf str;
-        default = [];
+        default = [ ];
         example = [
           "216.102.187.130"
           "4.0.1.122"
@@ -26,15 +30,12 @@ in
           "63.199.8.242"
         ];
         description = ''
-         Fake route that will appear after the real
-         one to any host running a traceroute.
+          Fake route that will appear after the real
+          one to any host running a traceroute.
         '';
       };
-
     };
-
   };
-
 
   ###### implementation
 
@@ -51,9 +52,7 @@ in
         ExecStart = "${pkgs.fakeroute}/bin/fakeroute -f ${routeConf}";
       };
     };
-
   };
 
   meta.maintainers = with lib.maintainers; [ rnhmjoj ];
-
 }
