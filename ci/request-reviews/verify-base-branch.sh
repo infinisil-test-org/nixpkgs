@@ -1,5 +1,4 @@
-#!/usr/bin/env nix-shell
-#!nix-shell -i bash --pure -p gitMinimal cacert
+#!/usr/bin/env bash
 
 # This script Checks that a PR doesn't include commits that are already in other development branches
 # This commonly happens when users pick the wrong base branch for a PR

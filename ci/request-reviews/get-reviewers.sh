@@ -1,5 +1,4 @@
-#!/usr/bin/env nix-shell
-#!nix-shell --pure -i bash -p codeowners jq gitMinimal cacert
+#!/usr/bin/env bash
 
 # This script gets the list of codeowning users and teams based on a codeowners file
 # from a base commit and all files that have been changed since then.
