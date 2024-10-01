@@ -50,15 +50,17 @@ for branch in "${developmentBranches[@]}"; do
     echo "Checking for extra commits from branch $branch" >&2
 
     # The first ancestor of the PR head that already exists in the other branch
-    mergeBase=$(git -C "$localRepo" merge-base "$headRef" "$branch")
+    alreadyMerged=$(git -C "$localRepo" merge-base "$headRef" "$branch")
 
     # The number of commits that are reachable from the PR head, not reachable from the PRs base branch
     # (up to here this would be the number of commits in the PR itself),
     # but that are _also_ in the development branch we're testing against.
     # So, in other words, the number of commits that the PR includes from other development branches
-    count=$(git -C "$localRepo" rev-list --count "$mergeBase" ^"$baseBranch")
+    count=$(git -C "$localRepo" rev-list --count "$alreadyMerged" ^"$baseBranch")
 
     if (( count != 0 )); then
+        mergeBase=$(git -C "$localRepo" merge-base "$headRef" "$baseBranch")
+
         echo -en "\e[31m"
         echo "This PR's base branch is set to $baseBranch, but $count already-merged commits are included from the $branch branch."
         echo "To remedy this, first make sure you know the target branch for your changes: https://github.com/NixOS/nixpkgs/blob/master/CONTRIBUTING.md#branch-conventions"
