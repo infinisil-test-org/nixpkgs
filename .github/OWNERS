@@ -1,0 +1,4 @@
+# Like CODEOWNERS, but manually implemented with .github/workflows/codeowners.yml
+# Allows requesting reviews from people without write access.
+# And prevents mass pings when the base branch is wrong.
+# CODEOWNERS is intended to be migrated to this file soon.
