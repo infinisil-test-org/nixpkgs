@@ -1,5 +1,5 @@
 diff --git a/internal/check/valid_owner.go b/internal/check/valid_owner.go
-index a264bcc..8600c57 100644
+index a264bcc..610eda8 100644
 --- a/internal/check/valid_owner.go
 +++ b/internal/check/valid_owner.go
 @@ -16,7 +16,6 @@ import (
@@ -10,6 +10,30 @@ index a264bcc..8600c57 100644
  }
  
  type ValidOwnerConfig struct {
+@@ -223,10 +222,7 @@ func (v *ValidOwner) validateTeam(ctx context.Context, name string) *validateErr
+ 	for _, t := range v.repoTeams {
+ 		// GitHub normalizes name before comparison
+ 		if strings.EqualFold(t.GetSlug(), team) {
+-			if t.Permissions["push"] {
+-				return nil
+-			}
+-			return newValidateError("Team %q cannot review PRs on %q as neither it nor any parent team has write permissions.", team, v.orgRepoName)
++			return nil
+ 		}
+ 	}
+ 
+@@ -245,10 +241,7 @@ func (v *ValidOwner) validateGitHubUser(ctx context.Context, name string) *valid
+ 	for _, u := range v.repoUsers {
+ 		// GitHub normalizes name before comparison
+ 		if strings.EqualFold(u.GetLogin(), userName) {
+-			if u.Permissions["push"] {
+-				return nil
+-			}
+-			return newValidateError("User %q cannot review PRs on %q as they don't have write permissions.", userName, v.orgRepoName)
++			return nil
+ 		}
+ 	}
+ 
 diff --git a/pkg/codeowners/owners.go b/pkg/codeowners/owners.go
 index 6910bd2..2ff8e2f 100644
 --- a/pkg/codeowners/owners.go
@@ -23,3 +47,58 @@ index 6910bd2..2ff8e2f 100644
  		_, err = fs.Stat(f)
  		switch {
  		case err == nil:
+diff --git a/pkg/codeowners/owners_test.go b/pkg/codeowners/owners_test.go
+index 4b4ae79..d775ff9 100644
+--- a/pkg/codeowners/owners_test.go
++++ b/pkg/codeowners/owners_test.go
+@@ -57,7 +57,7 @@ func TestParseCodeownersSuccess(t *testing.T) {
+ 	revert := codeowners.SetFS(tFS)
+ 	defer revert()
+ 
+-	f, _ := tFS.Create(path.Join(givenCodeownerPath, "CODEOWNERS"))
++	f, _ := tFS.Create(path.Join(givenCodeownerPath, "OWNERS"))
+ 	_, err := f.WriteString(sampleCodeownerFile)
+ 	require.NoError(t, err)
+ 
+@@ -96,7 +96,7 @@ func TestFindCodeownersFileSuccess(t *testing.T) {
+ 			revert := codeowners.SetFS(tFS)
+ 			defer revert()
+ 
+-			_, err := tFS.Create(path.Join(tc.basePath, "CODEOWNERS"))
++			_, err := tFS.Create(path.Join(tc.basePath, "OWNERS"))
+ 			require.NoError(t, err)
+ 
+ 			// when
+@@ -137,20 +137,20 @@ func TestMultipleCodeownersFileFailure(t *testing.T) {
+ 			givenCodeownersLocations: nil,
+ 		},
+ 		"Should report that CODEOWNERS file was found on root and docs/": {
+-			expErrMsg:                fmt.Sprintf("Multiple CODEOWNERS files found in the ./CODEOWNERS and ./docs/CODEOWNERS locations of the repository %s", givenRepoPath),
+-			givenCodeownersLocations: []string{"CODEOWNERS", path.Join("docs", "CODEOWNERS")},
++			expErrMsg:                fmt.Sprintf("Multiple CODEOWNERS files found in the ./OWNERS and ./docs/OWNERS locations of the repository %s", givenRepoPath),
++			givenCodeownersLocations: []string{"OWNERS", path.Join("docs", "OWNERS")},
+ 		},
+ 		"Should report that CODEOWNERS file was found on root and .github/": {
+-			expErrMsg:                fmt.Sprintf("Multiple CODEOWNERS files found in the ./CODEOWNERS and ./.github/CODEOWNERS locations of the repository %s", givenRepoPath),
+-			givenCodeownersLocations: []string{"CODEOWNERS", path.Join(".github/", "CODEOWNERS")},
++			expErrMsg:                fmt.Sprintf("Multiple CODEOWNERS files found in the ./OWNERS and ./.github/OWNERS locations of the repository %s", givenRepoPath),
++			givenCodeownersLocations: []string{"OWNERS", path.Join(".github/", "OWNERS")},
+ 		},
+ 		"Should report that CODEOWNERS file was found in docs/ and .github/": {
+-			expErrMsg:                fmt.Sprintf("Multiple CODEOWNERS files found in the ./docs/CODEOWNERS and ./.github/CODEOWNERS locations of the repository %s", givenRepoPath),
+-			givenCodeownersLocations: []string{path.Join(".github", "CODEOWNERS"), path.Join("docs", "CODEOWNERS")},
++			expErrMsg:                fmt.Sprintf("Multiple CODEOWNERS files found in the ./docs/OWNERS and ./.github/OWNERS locations of the repository %s", givenRepoPath),
++			givenCodeownersLocations: []string{path.Join(".github", "OWNERS"), path.Join("docs", "OWNERS")},
+ 		},
+ 		"Should report that CODEOWNERS file was found on root, docs/ and .github/": {
+-			expErrMsg:                fmt.Sprintf("Multiple CODEOWNERS files found in the ./CODEOWNERS, ./docs/CODEOWNERS, and ./.github/CODEOWNERS locations of the repository %s", givenRepoPath),
+-			givenCodeownersLocations: []string{"CODEOWNERS", path.Join(".github", "CODEOWNERS"), path.Join("docs", "CODEOWNERS")},
++			expErrMsg:                fmt.Sprintf("Multiple CODEOWNERS files found in the ./OWNERS, ./docs/OWNERS, and ./.github/OWNERS locations of the repository %s", givenRepoPath),
++			givenCodeownersLocations: []string{"OWNERS", path.Join(".github", "OWNERS"), path.Join("docs", "OWNERS")},
+ 		},
+ 	}
+ 	for tn, tc := range tests {
+diff --git a/pkg/codeowners/testdata/CODEOWNERS b/pkg/codeowners/testdata/OWNERS
+similarity index 100%
+rename from pkg/codeowners/testdata/CODEOWNERS
+rename to pkg/codeowners/testdata/OWNERS

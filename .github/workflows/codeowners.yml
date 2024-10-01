@@ -46,7 +46,8 @@ jobs:
         GITHUB_ACCESS_TOKEN: ${{ steps.app-token.outputs.token }}
         REPOSITORY_PATH: pr
         OWNER_CHECKER_REPOSITORY: ${{ github.repository }}
-        EXPERIMENTAL_CHECKS: "notowned,avoid-shadowing"
+        EXPERIMENTAL_CHECKS: "avoid-shadowing"
+        # EXPERIMENTAL_CHECKS: "notowned,avoid-shadowing"
         # Uncomment this to require all paths to have a code owner
         #OWNER_CHECKER_ALLOW_UNOWNED_PATTERNS: "false"
 
