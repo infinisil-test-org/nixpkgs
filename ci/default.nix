@@ -19,4 +19,5 @@ in
 {
   inherit pkgs;
   requestReviews = pkgs.callPackage ./request-reviews { };
+  codeownersValidator = pkgs.callPackage ./codeowners-validator { };
 }
