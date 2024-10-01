@@ -45,4 +45,5 @@ if ! response=$(curl -LsS --fail-with-body \
   https://api.github.com/repos/"$baseRepo"/pulls/"$prNumber"/requested_reviewers \
   -d "$reviewersJSON"); then
   echo "Failed to request reviews: $response"
+  exit 1
 fi

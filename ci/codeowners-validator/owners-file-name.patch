@@ -1,0 +1,51 @@
+diff --git a/internal/check/valid_owner.go b/internal/check/valid_owner.go
+index a264bcc..8600c57 100644
+--- a/internal/check/valid_owner.go
++++ b/internal/check/valid_owner.go
+@@ -16,7 +16,6 @@ import (
+ const scopeHeader = "X-OAuth-Scopes"
+ 
+ var reqScopes = map[github.Scope]struct{}{
+-	github.ScopeReadOrg: {},
+ }
+ 
+ type ValidOwnerConfig struct {
+diff --git a/pkg/codeowners/owners.go b/pkg/codeowners/owners.go
+index 6910bd2..8e27098 100644
+--- a/pkg/codeowners/owners.go
++++ b/pkg/codeowners/owners.go
+@@ -51,17 +51,26 @@ func openCodeownersFile(dir string) (io.Reader, error) {
+ 			continue
+ 		}
+ 
+-		f := path.Join(pth, "CODEOWNERS")
+-		_, err = fs.Stat(f)
+-		switch {
+-		case err == nil:
+-		case os.IsNotExist(err):
++		var f *string = nil
++		for _, n := range []string{"OWNERS", "CODEOWNERS"} {
++			full := path.Join(pth, n)
++			_, err = fs.Stat(full)
++			switch {
++			case err == nil:
++				f = &full
++				break
++			case os.IsNotExist(err):
++				continue
++			default:
++				return nil, err
++			}
++		}
++
++		if f == nil {
+ 			continue
+-		default:
+-			return nil, err
+ 		}
+ 
+-		detectedFiles = append(detectedFiles, f)
++		detectedFiles = append(detectedFiles, *f)
+ 	}
+ 
+ 	switch l := len(detectedFiles); l {
