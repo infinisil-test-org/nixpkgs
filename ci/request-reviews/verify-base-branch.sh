@@ -67,7 +67,7 @@ for branch in "${developmentBranches[@]}"; do
         echo "- If the changes should go to the $branch branch instead, change the base branch accordingly:"
         echo "  https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/changing-the-base-branch-of-a-pull-request"
         echo "- If the changes should really go to the $baseBranch branch, rebase your PR on top of the merge base with the $branch branch:"
-        echo "  git rebase --onto $mergeBase && git push --force-with-lease"
+        echo "  git rebase --onto $mergeBase $alreadyMerged && git push --force-with-lease"
         echo -en "\e[0m"
         exit 1
     fi
