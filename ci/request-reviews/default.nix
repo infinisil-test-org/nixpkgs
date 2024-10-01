@@ -1,4 +1,14 @@
-{ lib, stdenv, makeWrapper, coreutils, codeowners, jq, curl, github-cli, gitMinimal }:
+{
+  lib,
+  stdenv,
+  makeWrapper,
+  coreutils,
+  codeowners,
+  jq,
+  curl,
+  github-cli,
+  gitMinimal,
+}:
 stdenv.mkDerivation {
   name = "request-reviews";
   src = lib.fileset.toSource {
@@ -16,8 +26,16 @@ stdenv.mkDerivation {
     for bin in *.sh; do
       mv "$bin" "$out/bin"
       wrapProgram "$out/bin/$bin" \
-        --set PATH ${lib.makeBinPath [ coreutils codeowners jq curl github-cli gitMinimal ]}
+        --set PATH ${
+          lib.makeBinPath [
+            coreutils
+            codeowners
+            jq
+            curl
+            github-cli
+            gitMinimal
+          ]
+        }
     done
   '';
 }
-
