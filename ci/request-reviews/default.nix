@@ -1,5 +1,5 @@
-{ lib, stdenv, makeWrapper, coreutils, codeowners, jq, curl, github-cli, gitMinimal }:
-stdenv.mkDerivation {
+{ lib, stdenvNoCC, makeWrapper, coreutils, codeowners, jq, curl, github-cli, gitMinimal }:
+stdenvNoCC.mkDerivation {
   name = "request-reviews";
   src = lib.fileset.toSource {
     root = ./.;
