@@ -1,6 +1,6 @@
 {
   lib,
-  stdenv,
+  stdenvNoCC,
   makeWrapper,
   coreutils,
   codeowners,
@@ -9,7 +9,7 @@
   github-cli,
   gitMinimal,
 }:
-stdenv.mkDerivation {
+stdenvNoCC.mkDerivation {
   name = "request-reviews";
   src = lib.fileset.toSource {
     root = ./.;
