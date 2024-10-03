@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 
-# This script Checks that a PR doesn't include commits that are already in other development branches
-# This commonly happens when users pick the wrong base branch for a PR
+# Check that a PR doesn't include commits from other development branches.
+# Fails with next steps if it does
 
 set -euo pipefail
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' exit
+
+log() {
+    echo "$@" >&2
+}
 
 # Small helper to check whether an element is in a list
 # Usage: `elementIn foo "${list[@]}"`
@@ -18,8 +24,8 @@ elementIn() {
     return 1
 }
 
-if (( $# < 5 )); then
-    echo "Usage: $0 LOCAL_REPO PR_HEAD_REF BASE_REPO BASE_BRANCH PR_REPO PR_BRANCH"
+if (( $# < 6 )); then
+    log "Usage: $0 LOCAL_REPO HEAD_REF BASE_REPO BASE_BRANCH PR_REPO PR_BRANCH"
     exit 1
 fi
 localRepo=$1
@@ -29,48 +35,62 @@ baseBranch=$4
 prRepo=$5
 prBranch=$6
 
-readarray -t developmentBranches < <(git -C "$localRepo" branch --list --format "%(refname:short)" {master,staging{,-next}} 'release-*' 'staging-*' 'staging-next-*')
+# All development branches
+readarray -t devBranches < \
+    <(git -C "$localRepo" branch --list --format "%(refname:short)" \
+      {master,staging{,-next}} \
+      'release-*' 'staging-*' 'staging-next-*')
 
-if ! elementIn "$baseBranch" "${developmentBranches[@]}"; then
-    echo "PR does not go to any base branch among (${developmentBranches[*]}), no commit check necessary" >&2
+if [[ "$baseRepo" == "$prRepo" ]] && elementIn "$prBranch" "${devBranches[@]}"; then
+    log "This PR merges $prBranch into $baseBranch, no commit check necessary"
     exit 0
 fi
 
-if [[ "$baseRepo" == "$prRepo" ]] && elementIn "$prBranch" "${developmentBranches[@]}"; then
-    echo "This is a merge of $prBranch into $baseBranch, no commit check necessary" >&2
-    exit 0
-fi
+# The current merge base of the PR
+prMergeBase=$(git -C "$localRepo" merge-base "$baseBranch" "$headRef")
+log "The PR's merge base with the base branch $baseBranch is $prMergeBase"
 
-for branch in "${developmentBranches[@]}"; do
+# This is purely for debugging
+git -C "$localRepo" rev-list --reverse "$baseBranch".."$headRef" > "$tmp/pr-commits"
+log "The PR includes these $(wc -l < "$tmp/pr-commits") commits:"
+cat <"$tmp/pr-commits" >&2
 
-    if [[ -z "$(git -C "$localRepo" rev-list -1 --since="1 year ago" "$branch")" ]]; then
-        # Skip branches that haven't been active for a year
+for testBranch in "${devBranches[@]}"; do
+
+    if [[ -z "$(git -C "$localRepo" rev-list -1 --since="1 month ago" "$testBranch")" ]]; then
+        log "Not checking $testBranch, was inactive for the last month"
         continue
     fi
-    echo "Checking for extra commits from branch $branch" >&2
+    log "Checking if commits from $testBranch are included in the PR"
 
-    # The first ancestor of the PR head that already exists in the other branch
-    alreadyMerged=$(git -C "$localRepo" merge-base "$headRef" "$branch")
+    # We need to check for any commits that are in the PR which are also in the test branch.
+    # We could check each commit from the PR individually, but that's unnecessarily slow.
+    #
+    # This does _almost_ what we want: `git rev-list --count headRef testBranch ^baseBranch`,
+    # except that it includes commits that are reachable from _either_ headRef or testBranch,
+    # instead of restricting it to ones reachable by both
 
-    # The number of commits that are reachable from the PR head, not reachable from the PRs base branch
-    # (up to here this would be the number of commits in the PR itself),
-    # but that are _also_ in the development branch we're testing against.
-    # So, in other words, the number of commits that the PR includes from other development branches
-    count=$(git -C "$localRepo" rev-list --count "$alreadyMerged" ^"$baseBranch")
+    # Easily fixable though, because we can use `git merge-base testBranch headRef`
+    # to get the least common ancestor (aka merge base) commit reachable by both.
+    # If the branch being tested is indeed the right base branch,
+    # this is then also the commit from that branch that the PR is based on top of.
+    testMergeBase=$(git -C "$localRepo" merge-base "$testBranch" "$headRef")
 
-    if (( count != 0 )); then
-        mergeBase=$(git -C "$localRepo" merge-base "$headRef" "$baseBranch")
+    # And then use the `git rev-list --count`, but replacing the non-working
+    # `headRef testBranch` with the merge base of the two.
+    extraCommits=$(git -C "$localRepo" rev-list --count "$testMergeBase" ^"$baseBranch")
 
-        echo -en "\e[31m"
-        echo "This PR's base branch is set to $baseBranch, but $count already-merged commits are included from the $branch branch."
-        echo "To remedy this, first make sure you know the target branch for your changes: https://github.com/NixOS/nixpkgs/blob/master/CONTRIBUTING.md#branch-conventions"
-        echo "- If the changes should go to the $branch branch instead, change the base branch accordingly:"
-        echo "  https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/changing-the-base-branch-of-a-pull-request"
-        echo "- If the changes should really go to the $baseBranch branch, rebase your PR on top of the merge base with the $branch branch:"
-        echo "  git rebase --onto $mergeBase $alreadyMerged && git push --force-with-lease"
-        echo -en "\e[0m"
+    if (( extraCommits != 0 )); then
+        log -en "\e[31m"
+        log "The PR's base branch is set to $baseBranch, but $extraCommits commits from the $testBranch branch are included."
+        log "Make sure you know the right base branch for your changes: https://github.com/NixOS/nixpkgs/blob/master/CONTRIBUTING.md#branch-conventions, then:"
+        log "- If the changes should go to the $testBranch branch instead, change the base branch accordingly:"
+        log "  https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/changing-the-base-branch-of-a-pull-request"
+        log "- If the changes should go to the $baseBranch branch, rebase your PR onto merge base with the $testBranch branch:"
+        log "  git rebase --onto $prMergeBase $testMergeBase && git push --force-with-lease"
+        log -en "\e[0m"
         exit 1
     fi
 done
 
-echo "All good, no extra commits from any development branch"
+log "Base branch is correct, no commits from development branches are included"

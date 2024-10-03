@@ -1,50 +1,50 @@
 #!/usr/bin/env bash
 
-# This script gets the list of codeowning users and teams based on a codeowners file
-# from a base commit and all files that have been changed since then.
-# The result is suitable as input to the GitHub REST API call to request reviewers for a PR.
-# This can be used to simulate the automatic codeowner review requests
+# Get the code owners of the files changed by a PR,
+# suitable to be consumed by the API endpoint to request reviews:
+# https://docs.github.com/en/rest/pulls/review-requests?apiVersion=2022-11-28#request-reviewers-for-a-pull-request
 
 set -euo pipefail
 
-tmp=$(mktemp -d)
-trap 'rm -rf "$tmp"' exit
+log() {
+    echo "$@" >&2
+}
 
-if (( "$#" < 3 )); then
-    echo "Usage: $0 LOCAL_REPO BASE_REF HEAD_REF OWNERS_FILE" >&2
+if (( "$#" < 5 )); then
+    log "Usage: $0 GIT_REPO BASE_REF HEAD_REF OWNERS_FILE PR_AUTHOR"
     exit 1
 fi
-localRepo=$1
+
+gitRepo=$1
 baseRef=$2
 headRef=$3
 ownersFile=$4
 prAuthor=$5
 
-readarray -d '' -t touchedFiles < \
-    <(
-      # The names of all files, null-delimited, starting from HEAD, stopping before the base
-      git -C "$localRepo" diff --name-only -z --merge-base "$baseRef" "$headRef" |
-      # Remove duplicates
-      sort -z --unique
-    )
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' exit
 
-#echo "These files were touched: ${touchedFiles[*]}" >&2
+readarray -t touchedFiles < \
+    <(git -C "$gitRepo" diff --name-only --merge-base "$baseRef" "$headRef")
+
+log "This PR touches ${#touchedFiles[@]} files"
 
 # Get the owners file from the base, because we don't want to allow PRs to
 # remove code owners to avoid pinging them
-git -C "$localRepo" show "$baseRef":"$ownersFile" > "$tmp"/codeowners
+git -C "$gitRepo" show "$baseRef":"$ownersFile" > "$tmp"/codeowners
 
-# Associative array, where the key is the team/user, while the value is "1"
-# This makes it very easy to get deduplication
+# Associative arrays with the team/user as the key for easy deduplication
 declare -A teams users
 
 for file in "${touchedFiles[@]}"; do
-    read -r file owners <<< "$(codeowners --file "$tmp"/codeowners "$file")"
+    result=$(codeowners --file "$tmp"/codeowners "$file")
+
+    read -r file owners <<< "$result"
     if [[ "$owners" == "(unowned)" ]]; then
-        #echo "File $file doesn't have an owner" >&2
+        log "File $file is unowned"
         continue
     fi
-    #echo "Owner of $file is $owners" >&2
+    log "File $file is owned by $owners"
 
     # Split up multiple owners, separated by arbitrary amounts of spaces
     IFS=" " read -r -a entries <<< "$owners"
@@ -53,7 +53,7 @@ for file in "${touchedFiles[@]}"; do
         # GitHub technically also supports Emails as code owners,
         # but we can't easily support that, so let's not
         if [[ ! "$entry" =~ @(.*) ]]; then
-            echo -e "\e[33mCodeowner \"$entry\" for file $file is not valid: Must start with \"@\"\e[0m" >&2
+            warn -e "\e[33mCodeowner \"$entry\" for file $file is not valid: Must start with \"@\"\e[0m" >&2
             # Don't fail, because the PR for which this script runs can't fix it,
             # it has to be fixed in the base branch
             continue
@@ -61,18 +61,22 @@ for file in "${touchedFiles[@]}"; do
         # The first regex match is everything after the @
         entry=${BASH_REMATCH[1]}
         if [[ "$entry" =~ .*/(.*) ]]; then
-            # Only teams have a /
-            teams[${BASH_REMATCH[1]}]=1
+            # Teams look like $org/$team, where we only need $team for the API
+            # call to request reviews from teams
+            teams[${BASH_REMATCH[1]}]=
         else
             # Everything else is a user
-            # But cannot request a review from the author
-            if [[ "$entry" != "$prAuthor" ]]; then
-                users[$entry]=1
-            fi
+            users[$entry]=
         fi
     done
 
 done
+
+# Cannot request a review from the author
+if [[ -v users[$prAuthor] ]]; then
+    log "One or more files are owned by the PR author, ignoring"
+    unset 'users[$prAuthor]'
+fi
 
 # Turn it into a JSON for the GitHub API call to request PR reviewers
 jq -n \
