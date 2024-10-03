@@ -5,6 +5,7 @@
 # it would create another copy of the entire ~500MB tree in the store.
 # See https://github.com/NixOS/nix/pull/6530 for the future
 #
+
 # Note: We use a pinned Nixpkgs so that the tools are readily available even
 # when making changes that would otherwise require a new build of those tools.
 # If you'd like to test out changes to the tools themselves, you can pass
