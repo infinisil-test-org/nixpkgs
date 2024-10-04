@@ -13,13 +13,7 @@ on:
     types: [opened, ready_for_review, synchronize, reopened, edited]
 
 env:
-  # TODO: Once confirmed that this works by seeing that the action would request
-  # reviews from the same people (or refuse for wrong base branches),
-  # move all entries from CODEOWNERS to OWNERS and change this value here
-  # OWNERS_FILE: .github/OWNERS
-  OWNERS_FILE: .github/CODEOWNERS
-  # Also remove this
-  DRY_MODE: 1
+  OWNERS_FILE: .github/OWNERS
 
 jobs:
   # Check that code owners is valid

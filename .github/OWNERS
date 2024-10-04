@@ -1,8 +1,3 @@
-#
-# Currently unused! Use CODEOWNERS for now, see workflows/codeowners.yml
-#
-####################
-#
 # This file is used to describe who owns what in this repository.
 # Users/teams will get review requests for PRs that change their files.
 #
@@ -17,3 +12,10 @@
 # - No reviews will be requested for PRs that target the wrong base branch.
 #
 # Processing of this file is implemented in workflows/codeowners.yml
+
+/infinisil @infinisil
+/infinisil-github-test @infinisil-github-test
+/noteam @Infinisil-s-Test-Organization/noteam
+/infinixbot @infinixbot
+
+/multiple @infinisil @infinisil-github-test @infinixbot @Infinisil-s-Test-Organization/noteam
