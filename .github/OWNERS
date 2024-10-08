@@ -13,7 +13,7 @@
 #
 # Processing of this file is implemented in workflows/codeowners.yml
 
-/infinisil @infinisil
+/infinisil @infinisil @r-ryantm
 /infinisil-github-test @infinisil-github-test
 /noteam @Infinisil-s-Test-Organization/noteam
 /infinixbot @infinixbot
