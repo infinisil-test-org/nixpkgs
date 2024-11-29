@@ -38,6 +38,7 @@ The sources of all official Nix-related projects are in the [NixOS
 organization on GitHub](https://github.com/NixOS/). Here are some of
 the main ones:
 
+
 * [Nix](https://github.com/NixOS/nix) - the purely functional package manager
 * [NixOps](https://github.com/NixOS/nixops) - the tool to remotely deploy NixOS machines
 * [nixos-hardware](https://github.com/NixOS/nixos-hardware) - NixOS profiles to optimize settings for different hardware
