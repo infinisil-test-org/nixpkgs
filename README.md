@@ -28,6 +28,7 @@
 
 # Community
 
+
 * [Discourse Forum](https://discourse.nixos.org/)
 * [Matrix Chat](https://matrix.to/#/#community:nixos.org)
 * [NixOS Weekly](https://weekly.nixos.org/)
