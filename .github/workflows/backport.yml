@@ -13,7 +13,7 @@ permissions: {}
 jobs:
   backport:
     name: Backport Pull Request
-    if: github.repository_owner == 'NixOS' && github.event.pull_request.merged == true && (github.event_name != 'labeled' || startsWith('backport', github.event.label.name))
+    if: github.event.pull_request.merged == true && (github.event_name != 'labeled' || startsWith('backport', github.event.label.name))
     runs-on: ubuntu-latest
     steps:
       # Use a GitHub App to create the PR so that CI gets triggered
