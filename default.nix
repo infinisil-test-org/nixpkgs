@@ -1,6 +1,6 @@
 let
   requiredVersion = import ./lib/minver.nix;
-in
+in 
 
 if !builtins ? nixVersion || builtins.compareVersions requiredVersion builtins.nixVersion == 1 then
 
