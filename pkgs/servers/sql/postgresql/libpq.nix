@@ -39,7 +39,7 @@
 }:
 
 stdenv.mkDerivation (finalAttrs: {
-  pname = "libpq";
+  pname = "libpq-modified";
   version = "18.0";
 
   src = fetchFromGitHub {
