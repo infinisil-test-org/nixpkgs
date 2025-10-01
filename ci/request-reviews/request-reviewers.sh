@@ -44,21 +44,64 @@ if [[ -v users[${prAuthor,,}] ]]; then
     unset 'users[${prAuthor,,}]'
 fi
 
+# A graphql query to get all reviewers of a PR, including both users and teams
+# on behalf of which a review was done
+all_reviewers_query='
+query($owner: String!, $repo: String!, $pr: Int!, $endCursor: String) {
+  repository(owner: $owner, name: $repo) {
+    pullRequest(number: $pr) {
+      reviews(first: 100, after: $endCursor) {
+        nodes {
+          author {
+            login
+          }
+          onBehalfOf(first: 100) {
+            nodes {
+              combinedSlug
+            }
+          }
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+      }
+    }
+  }
+}
+'
+# A jq script to extract individuals and teams from the response to above query,
+# and combine them into a uniform list. The way to tell them apart is that teams
+# will have a slash in the name.
+combine_reviewers='
+.data.repository.pullRequest.reviews.nodes
+  | map([ .author.login ] + (.onBehalf.nodes | map(.combinedSlug)))
+  | flatten
+  | .[]
+'
+
 gh api \
     -H "Accept: application/vnd.github+json" \
-    -H "X-GitHub-Api-Version: 2022-11-28" \
-    "/repos/$baseRepo/pulls/$prNumber/reviews" \
-    --jq '.[].user.login' > "$tmp/already-reviewed-by"
+    graphql \
+    --paginate \
+    -f query="$graphql_all_reviewers" \
+    -F owner="${baseRepo%/*}" \
+    -F repo="${baseRepo#*/}" \
+    -F pr=$prNumber \
+    | jq -r "$combine_reviewers" \
+    > "$tmp/already-reviewed-by"
 
-# And we don't want to rerequest reviews from people who already reviewed
+# And we don't want to rerequest reviews from people or teams who already reviewed
 while read -r user; do
     if [[ -v users[${user,,}] ]]; then
-        log "User $user is a potential reviewer, but has already left a review, ignoring"
+        log "User or team $user is a potential reviewer, but has already left a review, ignoring"
         unset 'users[${user,,}]'
     fi
 done < "$tmp/already-reviewed-by"
 
 for user in "${!users[@]}"; do
+    # Teams can not be collaborators
+    if [[ "$user" =~ "/" ]]; then continue; fi
     if ! gh api \
         -H "Accept: application/vnd.github+json" \
         -H "X-GitHub-Api-Version: 2022-11-28" \
@@ -76,7 +119,14 @@ fi
 for user in "${!users[@]}"; do
     log "Requesting review from: $user"
 
-    if ! response=$(jq -n --arg user "$user" '{ reviewers: [ $user ] }' | \
+    # Teams have / in their names
+    if [[ "$user" =~ "/" ]]; then
+        request='{ team_reviewers: [ $user ]}'
+    else
+        request='{ reviewers: [ $user ]}'
+    fi
+
+    if ! response=$(jq -n --arg user "$user" "$request" | \
         effect gh api \
             --method POST \
             -H "Accept: application/vnd.github+json" \
