@@ -63,7 +63,18 @@ let
       customisation = callLibs ./customisation.nix;
       derivations = callLibs ./derivations.nix;
       maintainers = import ../maintainers/maintainer-list.nix;
-      teams = callLibs ../maintainers/team-list.nix;
+      teams = lib.mapAttrs (
+        team: attrs:
+        assert lib.assertMsg (!attrs ? githubTeams) ''
+          lib.teams.${team}: Specifying .githubTeams is not supported anymore, use singular .github instead
+        '';
+        attrs
+        // lib.optionalAttrs (attrs ? github) {
+          githubTeams = lib.warnIf (lib.oldestSupportedReleaseIsAtLeast 2511) ''
+            lib.teams.*.githubTeams is deprecated in favor of the singular lib.teams.*.github
+          '' [ attrs.github ];
+        }
+      ) (callLibs ../maintainers/team-list.nix);
       meta = callLibs ./meta.nix;
       versions = callLibs ./versions.nix;
 

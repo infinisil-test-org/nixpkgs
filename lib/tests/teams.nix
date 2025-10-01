@@ -27,9 +27,14 @@ let
           type = types.listOf (types.submodule (import ./maintainer-module.nix { inherit lib; }));
           default = [ ];
         };
+        # TODO: Remove this after fully deprecated
         githubTeams = lib.mkOption {
           type = types.listOf types.str;
           default = [ ];
+        };
+        github = lib.mkOption {
+          type = types.str;
+          default = "";
         };
       };
     };
