@@ -75,18 +75,20 @@ query($owner: String!, $repo: String!, $pr: Int!, $endCursor: String) {
 # will have a slash in the name.
 combine_reviewers='
 .data.repository.pullRequest.reviews.nodes
-  | map([ .author.login ] + (.onBehalf.nodes | map(.combinedSlug)))
+  | map([ .author.login ] + (.onBehalfOf.nodes | map(.combinedSlug)))
   | flatten
   | .[]
 '
 
-gh api \
+owner="${baseRepo%/*}"
+repo="${baseRepo#*/}"
+
+gh api graphql \
     -H "Accept: application/vnd.github+json" \
-    graphql \
     --paginate \
-    -f query="$graphql_all_reviewers" \
-    -F owner="${baseRepo%/*}" \
-    -F repo="${baseRepo#*/}" \
+    -f query="$all_reviewers_query" \
+    -F owner="$owner" \
+    -F repo="$repo" \
     -F pr=$prNumber \
     | jq -r "$combine_reviewers" \
     > "$tmp/already-reviewed-by"
@@ -100,14 +102,19 @@ while read -r user; do
 done < "$tmp/already-reviewed-by"
 
 for user in "${!users[@]}"; do
-    # Teams can not be collaborators
-    if [[ "$user" =~ "/" ]]; then continue; fi
-    if ! gh api \
-        -H "Accept: application/vnd.github+json" \
-        -H "X-GitHub-Api-Version: 2022-11-28" \
-        "/repos/$baseRepo/collaborators/$user" >&2; then
-        log "User $user is not a repository collaborator, probably missed the automated invite to the maintainers team (see <https://github.com/NixOS/nixpkgs/issues/234293>), ignoring"
-        unset 'users[$user]'
+    if [[ "$user" =~ "/" ]]; then
+        if ! [[ "$user" =~ "$owner/" ]]; then
+            log "Team $user is not part of the $owner org, skipping"
+            unset 'users[$user]'
+        fi
+    else
+        if ! gh api \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "/repos/$baseRepo/collaborators/$user" >&2; then
+            log "User $user is not a repository collaborator, probably missed the automated invite to the maintainers team (see <https://github.com/NixOS/nixpkgs/issues/234293>), ignoring"
+            unset 'users[$user]'
+        fi
     fi
 done
 
@@ -117,22 +124,21 @@ if [[ "${#users[@]}" -gt 10 ]]; then
 fi
 
 for user in "${!users[@]}"; do
-    log "Requesting review from: $user"
-
-    # Teams have / in their names
     if [[ "$user" =~ "/" ]]; then
-        request='{ team_reviewers: [ $user ]}'
+        team="${user#*/}"
+        log "Requesting review from team $team (full slug: $user)"
+        field="team_reviewers[]=$team"
     else
-        request='{ reviewers: [ $user ]}'
+        log "Requesting review from user $user"
+        field="reviewers[]=$user"
     fi
 
-    if ! response=$(jq -n --arg user "$user" "$request" | \
-        effect gh api \
+    if ! response=$(effect gh api \
             --method POST \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             "/repos/$baseRepo/pulls/$prNumber/requested_reviewers" \
-            --input -); then
+            -f "$field"); then
         log "Failed to request review from $user: $response"
     fi
 done
