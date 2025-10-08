@@ -147,6 +147,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           REPOSITORY: ${{ github.repository }}
+          ORG: ${{ github.repository_owner }}
           NUMBER: ${{ github.event.number }}
           AUTHOR: ${{ github.event.pull_request.user.login }}
           # Don't request reviewers on draft PRs
@@ -157,7 +158,8 @@ jobs:
           jq -r 'keys[]' comparison/maintainers.json \
             | while read -r id; do gh api /user/"$id" --jq .login; done \
             > reviewers
-          jq -r 'keys[]' comparison/teams.json >> reviewers
+          # Prefix teams with the organisation to distinguish from users for the request-reviewers.sh script
+          jq --arg org "$ORG" -r 'keys[] | "\($org)/\(.)"' comparison/teams.json >> reviewers
 
           <reviewers GH_TOKEN=${{ steps.app-token.outputs.token }} result/bin/request-reviewers.sh "$REPOSITORY" "$NUMBER" "$AUTHOR"
 

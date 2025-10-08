@@ -35,7 +35,7 @@ let
         # `meta.maintainers` would contain also individual team members.
         # We don't want to ping people individually when added via the team though,
         # to allow use of GitHub's more advanced team review features
-        maintainers = package.meta.individualMaintainers or [ ];
+        maintainers = package.meta.nonTeamMaintainers or [ ];
         teams = package.meta.teams or [ ];
       }
     ))
