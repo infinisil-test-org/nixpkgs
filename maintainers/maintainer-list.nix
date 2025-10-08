@@ -11034,6 +11034,12 @@
     name = "Silvan Mosberger";
     keys = [ { fingerprint = "6C2B 55D4 4E04 8266 6B7D  DA1A 422E 9EDA E015 7170"; } ];
   };
+  infinixbot = {
+    email = "contact@infinisil.com";
+    github = "infinixbot";
+    githubId = 171456159;
+    name = "Silvan Mosberger";
+  };
   ingenieroariel = {
     email = "ariel@nunez.co";
     github = "ingenieroariel";

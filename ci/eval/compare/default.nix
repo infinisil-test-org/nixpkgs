@@ -183,7 +183,7 @@ runCommand "compare"
     ];
     maintainers = builtins.toJSON maintainers.users;
     teams = builtins.toJSON maintainers.teams;
-    passAsFile = [ "maintainers" ];
+    passAsFile = [ "maintainers" "teams" ];
   }
   ''
     mkdir $out

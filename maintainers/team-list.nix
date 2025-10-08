@@ -1246,6 +1246,14 @@ with lib.maintainers;
     enableFeatureFreezePing = true;
   };
 
+  test-team = {
+    # GitHub team only has infinixbot
+    members = [ infinixbot ];
+    scope = "Test";
+    shortName = "Test";
+    github = "test-team";
+  };
+
   tests = {
     members = [ tfc ];
     scope = "Maintain the NixOS VM test runner.";
