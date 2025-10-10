@@ -1,3 +1,11 @@
+- Needs permission to:
+  - Repository:
+    - Administration: read-only (for getting teams for a repo)
+    - Contents: read-write (for creating a PR branch)
+    - PR: read-write (for creating a PR)
+  - Organisation:
+    - Members: read-only
+
 - Daily sync from all GitHub teams to Nixpkgs
   - Only sync the teams that have permissions for Nixpkgs (aka the ones that can be requested for review!)
   - gh api /repos/NixOS/nixpkgs/teams

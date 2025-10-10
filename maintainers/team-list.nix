@@ -237,7 +237,6 @@ with lib.maintainers;
     members = [ floriansanderscc ];
     scope = "Maintain Clever Cloud related packages.";
     shortName = "CleverCloud";
-    github = "CleverCloud";
   };
 
   cloudposse = {
@@ -366,7 +365,6 @@ with lib.maintainers;
   };
 
   docs = {
-    members = [ ];
     github = "documentation-team";
     scope = "Maintain nixpkgs/NixOS documentation and tools for building it.";
     shortName = "Docs";
@@ -408,7 +406,6 @@ with lib.maintainers;
 
   # Dummy group for the "everyone else" section
   feature-freeze-everyone-else = {
-    members = [ ];
     github = "nixpkgs-committers";
     scope = "Dummy team for the #everyone else' section during feture freezes, not to be used as package maintainers!";
     shortName = "Everyone else";
@@ -566,6 +563,7 @@ with lib.maintainers;
       maralorn
       sternenseemann
       wolfgangwalther
+      peti
     ];
     github = "haskell";
     scope = "Maintain Haskell packages and infrastructure.";
@@ -631,6 +629,7 @@ with lib.maintainers;
       fliegendewurst
       infinidoge
       tomodachi94
+      msgilligan
     ];
     shortName = "Java";
     scope = "Maintainers of the Nixpkgs Java ecosystem (JDK, JVM, Java, Gradle, Maven, Ant, and adjacent projects)";
@@ -982,7 +981,11 @@ with lib.maintainers;
   };
 
   ocaml = {
-    members = [ alizter ];
+    members = [
+      alizter
+      romildo
+      ulrikstrid
+    ];
     github = "ocaml";
     scope = "Maintain the OCaml compiler and package set.";
     shortName = "OCaml";
@@ -1044,6 +1047,7 @@ with lib.maintainers;
       ma27
       piotrkwiecinski
       talyz
+      globin
     ];
     github = "php";
     scope = "Maintain PHP related packages and extensions.";
@@ -1091,6 +1095,11 @@ with lib.maintainers;
       nickcao
       SuperSandro2000
       ttuegel
+      fridh
+      shamilton
+      bkchr
+      peterhoeg
+      nyanloutre
     ];
     github = "qt-kde";
     scope = "Maintain the Qt framework, KDE application suite, Plasma desktop environment and related projects.";
@@ -1121,7 +1130,6 @@ with lib.maintainers;
   };
 
   release = {
-    members = [ ];
     github = "nixos-release-managers";
     scope = "Manage the current nixpkgs/NixOS release.";
     shortName = "Release";
@@ -1178,7 +1186,7 @@ with lib.maintainers;
       marcin-serwin
       pbsds
     ];
-    github = "SDL";
+    github = "sdl";
     scope = "Maintain core SDL libraries.";
     shortName = "SDL";
     enableFeatureFreezePing = true;
