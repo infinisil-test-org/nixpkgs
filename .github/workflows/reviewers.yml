@@ -147,16 +147,23 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           REPOSITORY: ${{ github.repository }}
+          ORG: ${{ github.repository_owner }}
+          ORG_ID: ${{ github.repository_owner_id }}
           NUMBER: ${{ github.event.number }}
           AUTHOR: ${{ github.event.pull_request.user.login }}
           # Don't request reviewers on draft PRs
           DRY_MODE: ${{ github.event.pull_request.draft && '1' || '' }}
         run: |
-          # maintainers.json contains GitHub IDs. Look up handles to request reviews from.
-          # There appears to be no API to request reviews based on GitHub IDs
+          # maintainers.json/teams.json contains GitHub IDs. Look up handles to request reviews from.
+          # There appears to be no API to request reviews based on IDs
           jq -r 'keys[]' comparison/maintainers.json \
             | while read -r id; do gh api /user/"$id" --jq .login; done \
-            | GH_TOKEN=${{ steps.app-token.outputs.token }} result/bin/request-reviewers.sh "$REPOSITORY" "$NUMBER" "$AUTHOR"
+            > reviewers
+          jq -r 'keys[]' comparison/teams.json \
+            | while read -r id; do echo "$ORG/$(gh api /organizations/"$ORG_ID"/team/"$id" --jq .slug)"; done \
+            >> reviewers
+
+          <reviewers GH_TOKEN=${{ steps.app-token.outputs.token }} result/bin/request-reviewers.sh "$REPOSITORY" "$NUMBER" "$AUTHOR"
 
       - name: Log current API rate limits (app-token)
         if: ${{ steps.app-token.outputs.token }}
