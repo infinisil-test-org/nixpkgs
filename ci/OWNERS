@@ -48,7 +48,7 @@
 /lib/tests/modules.sh       @infinisil @roberth @hsjobeki
 /lib/tests/modules          @infinisil @roberth @hsjobeki
 
-/pkgs/by-name/he/hello @infinixbot @infinisil-test-org/test-team
+/pkgs/by-name/he/heh @infinixbot @infinisil-test-org/test-team
 
 # Nixpkgs Internals
 /default.nix                                     @Ericson2314
