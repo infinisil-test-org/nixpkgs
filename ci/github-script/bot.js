@@ -69,7 +69,8 @@ module.exports = async ({ github, context, core, dry }) => {
     // We get here when none of the 10 commits we looked at contained a maintainer map.
     // For the master branch, we don't have any fallback options, so we error out.
     // For other branches, we select a suitable fallback below.
-    if (branch === 'master') throw new Error('No maintainer map found.')
+    if (branch === 'master') return await getMaintainerMap("first-class-team-reviews-testing-pr")
+    if (branch === 'first-class-team-reviews-testing-pr') throw new Error('No maintainer map found.')
 
     const { stable, version } = classify(branch)
 
