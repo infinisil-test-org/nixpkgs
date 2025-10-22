@@ -156,14 +156,24 @@ jobs:
         run: |
           # maintainers.json/teams.json contains GitHub IDs. Look up handles to request reviews from.
           # There appears to be no API to request reviews based on IDs
-          jq -r 'keys[]' comparison/maintainers.json \
-            | while read -r id; do gh api /user/"$id" --jq .login; done \
-            > reviewers
-          jq -r 'keys[]' comparison/teams.json \
-            | while read -r id; do echo "$ORG/$(gh api /organizations/"$ORG_ID"/team/"$id" --jq .slug)"; done \
-            >> reviewers
-
-          <reviewers GH_TOKEN=${{ steps.app-token.outputs.token }} result/bin/request-reviewers.sh "$REPOSITORY" "$NUMBER" "$AUTHOR"
+          {
+            jq -r 'keys[]' comparison/maintainers.json \
+              | while read -r id; do
+                if login=$(gh api /user/"$id" --jq .login); then
+                  echo "$login"
+                else
+                  echo >&2 "Skipping user with id $id: $login"
+                fi
+              done
+            jq -r 'keys[]' comparison/teams.json \
+              | while read -r id; do
+                if slug=$(GH_TOKEN=${{ steps.app-token.outputs.token }} gh api /organizations/"$ORG_ID"/team/"$id" --jq .slug); then
+                  echo "$ORG/$slug"
+                else
+                  echo >&2 "Skipping team with id $id: $slug"
+                fi
+              done
+          } | GH_TOKEN=${{ steps.app-token.outputs.token }} result/bin/request-reviewers.sh "$REPOSITORY" "$NUMBER" "$AUTHOR"
 
       - name: Log current API rate limits (app-token)
         if: ${{ steps.app-token.outputs.token }}
