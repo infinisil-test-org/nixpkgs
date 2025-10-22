@@ -1,4 +1,13 @@
 {
+  "test-team": {
+    "description": "",
+    "id": 14493206,
+    "maintainers": {},
+    "members": {
+      "infinixbot": 164272208
+    },
+    "name": "test-team"
+  },
   "acme": {
     "description": "Maintain ACME-related packages and modules.",
     "id": 3806126,
