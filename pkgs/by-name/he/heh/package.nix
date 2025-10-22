@@ -6,7 +6,7 @@
 }:
 
 rustPlatform.buildRustPackage rec {
-  pname = "heh";
+  pname = "heh2";
   version = "0.6.1";
 
   src = fetchFromGitHub {
