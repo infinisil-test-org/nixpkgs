@@ -176,7 +176,7 @@ runCommand "compare"
       cmp-stats
     ];
     maintainers = builtins.toJSON maintainers;
-    packages = builtins.toJSON maintainers;
+    packages = builtins.toJSON packages;
     passAsFile = [
       "maintainers"
       "packages"
