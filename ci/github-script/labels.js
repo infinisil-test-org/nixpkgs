@@ -6,6 +6,72 @@ module.exports = async ({ github, context, core, dry }) => {
 
   const artifactClient = new DefaultArtifactClient()
 
+  async function downloadMaintainerMap(branch) {
+    let run
+    const commits = (await github.rest.repos.listCommits({
+        ...context.repo,
+        sha: branch,
+        per_page: 10,
+      },
+    )).data
+    for (const commit of commits) {
+      const run = (
+        await github.rest.actions.listWorkflowRuns({
+          ...context.repo,
+          workflow_id: 'merge-group.yml',
+          status: 'success',
+          exclude_pull_requests: true,
+          per_page: 1,
+          head_sha: commit.sha,
+        })
+      ).data.workflow_runs[0]
+      if (!run) continue
+
+      const artifact = (
+        await github.rest.actions.listWorkflowRunArtifacts({
+          ...context.repo,
+          run_id: run.id,
+          name: 'maintainers',
+        })
+      ).data.artifacts[0]
+      if (!artifact) continue
+
+      await artifactClient.downloadArtifact(artifact.id, {
+        findBy: {
+          repositoryName: context.repo.repo,
+          repositoryOwner: context.repo.owner,
+          token: core.getInput('github-token'),
+        },
+        path: path.resolve(path.join('branches', branch)),
+        expectedHash: artifact.digest,
+      })
+
+      return JSON.parse(
+        await readFile(
+          path.resolve(path.join('branches', branch, 'maintainers.json')),
+          'utf-8',
+        ),
+      )
+    }
+    // We get here when none of the 10 commits we looked at contained
+    // a maintainer map.
+    if (branch === 'master') throw new Error('No maintainer map found.')
+    // If we're not on master, yet, we can fallback to it as a sane default.
+    // TODO: Be smarter an use release-XX.YY branch when targeting stable staging.
+    return await getMaintainerMap('master')
+  }
+
+  // Simple cache for maintainer maps to avoid downloading the same artifacts
+  // over and over again. Ultimately returns a promise, so the result must be
+  // awaited for.
+  const maintainerMaps = {}
+  function getMaintainerMap(branch) {
+    if (!maintainerMaps[branch]) {
+      maintainerMaps[branch] = downloadMaintainerMap(branch)
+    }
+    return maintainerMaps[branch]
+  }
+
   async function handlePullRequest({ item, stats }) {
     const log = (k, v) => core.info(`PR #${item.number} - ${k}: ${v}`)
 
@@ -177,21 +243,38 @@ module.exports = async ({ github, context, core, dry }) => {
         expectedHash: artifact.digest,
       })
 
-      const maintainers = new Set(
-        Object.keys(
-          JSON.parse(
-            await readFile(`${pull_number}/maintainers.json`, 'utf-8'),
-          ),
-        ).map((m) => Number.parseInt(m, 10)),
-      )
-
       const evalLabels = JSON.parse(
         await readFile(`${pull_number}/changed-paths.json`, 'utf-8'),
       ).labels
 
+      // TODO: Get "changed packages" information from list of changed by-name files
+      // in addition to just the Eval results, to make this work for these packages
+      // when Eval results have expired as well.
+      let packages
+      try {
+        packages = JSON.parse(
+          await readFile(`${pull_number}/packages.json`, 'utf-8'),
+        )
+      } catch (e) {
+        if (e.code !== 'ENOENT') throw e
+        // TODO: Remove this fallback code once all old artifacts without packages.json
+        // have expired. This should be the case in ~ February 2026.
+        packages = Array.from(new Set(Object.values(JSON.parse(
+          await readFile(`${pull_number}/maintainers.json`, 'utf-8'),
+        )).flat(1)))
+      }
+
+      const maintainers = await getMaintainerMap(pull_request.base.ref)
+
       Object.assign(prLabels, evalLabels, {
-        '12.approved-by: package-maintainer':
-          maintainers.intersection(approvals).size > 0,
+        '11.by: package-maintainer':
+          packages.length &&
+          packages.every((pkg) =>
+            maintainers[pkg].includes(pull_request.user.id),
+          ),
+        '12.approved-by: package-maintainer': packages.some((pkg) =>
+          maintainers[pkg].some((m) => approvals.has(m)),
+        ),
       })
     }
 
