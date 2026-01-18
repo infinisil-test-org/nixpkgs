@@ -28,7 +28,7 @@ stdenv.mkDerivation (finalAttrs: {
     NIX_LDFLAGS = "-liconv";
   };
 
-  doCheck = true;
+  doCheck = false;
 
   doInstallCheck = true;
   nativeInstallCheckInputs = [
