@@ -968,6 +968,15 @@
     },
     "name": "systemd"
   },
+  "test-team": {
+    "description": "",
+    "id": 14493206,
+    "maintainers": {},
+    "members": {
+      "infinixbot": 164272208
+    },
+    "name": "test-team"
+  },
   "xen-project": {
     "description": "Maintain the Xen Project Hypervisor and the related tooling ecosystem. Members listed as \"Maintainers\" are recipients of Xen Security Advisories sent to xsa@nixos.org.",
     "id": 11127725,
