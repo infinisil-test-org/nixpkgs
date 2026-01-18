@@ -34,9 +34,6 @@
 { lib }:
 with lib.maintainers;
 {
-
-  test-team.github = "test-team";
-
   # keep-sorted start case=no numeric=no block=yes newline_separated=yes
   acme = {
     members = [

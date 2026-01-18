@@ -55,10 +55,7 @@ stdenv.mkDerivation (finalAttrs: {
     homepage = "https://www.gnu.org/software/hello/manual/";
     changelog = "https://git.savannah.gnu.org/cgit/hello.git/plain/NEWS?h=v${finalAttrs.version}";
     license = lib.licenses.gpl3Plus;
-    # Before, it would request a review from infinisil-github-test and infinixbot
-    # But after, it should only request a review from the team test-team and infinisil-github-test separately
-    maintainers = with lib.maintainers; [ infinisil-test-user ];
-    teams = with lib.teams; [ test-team ];
+    maintainers = with lib.maintainers; [ stv0g ];
     mainProgram = "hello";
     platforms = lib.platforms.all;
     identifiers.cpeParts.vendor = "gnu";
